@@ -1,1 +1,1 @@
-# Sysadmin repository for the various part of the Open Food Facts infrastructure.
+# Sysadmin repository for the various parts of the Open Food Facts infrastructure.
