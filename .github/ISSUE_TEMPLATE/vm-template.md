@@ -2,7 +2,7 @@
 name: VM template
 about: Ask for a VM on OFF infra.
 title: ''
-labels: ''
+labels: 'container'
 assignees: ''
 
 ---
