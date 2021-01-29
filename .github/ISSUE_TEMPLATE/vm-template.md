@@ -13,7 +13,7 @@ assignees: 'cquest'
 [What OS do you want? Default to Debian last Stable.]
 
 ### Local disk space
-[Explain if > 32 Gb Tb.]
+[Explain if > 32 Gb.]
 
 ### Shared disk space
 [Explain if > 1 Tb.]
@@ -35,5 +35,5 @@ assignees: 'cquest'
 
 ### Machine administrators
 [Default: you. Please indicate your github account name to retrieve your SSH key. Prefer your SSH key published on Github, eg. https://github.com/CharlesNepote.keys 
-There should be a main administrator and a backup one.]
+There should be a main administrator and a co-administrator.]
 
