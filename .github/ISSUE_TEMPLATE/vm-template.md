@@ -3,20 +3,20 @@ name: VM template
 about: Ask for a VM on OFF infra.
 title: ''
 labels: 'container'
-assignees: ''
+assignees: 'cquest'
 
 ---
 
-[All the following information can be changed later.]
+[All the following limits (RAM, CPU, storage) can be dynamically adjusted later.]
 
 ### OS
 [What OS do you want? Default to Debian last Stable.]
 
-### OS disk space
+### Local disk space
 [Explain if > 32 Gb Tb.]
 
-### Data disk space
-[Explain if > 2 Tb.]
+### Shared disk space
+[Explain if > 1 Tb.]
 
 ### RAM
 [Explain if > 4 Gb.]
@@ -34,6 +34,6 @@ assignees: ''
 [One or two lines.]
 
 ### Machine administrators
-[Default: you. Please indicate your SSH key. Prefer you SSH key published on Github, eg. https://github.com/CharlesNepote.keys 
+[Default: you. Please indicate your github account name to retrieve your SSH key. Prefer your SSH key published on Github, eg. https://github.com/CharlesNepote.keys 
 There should be a main administrator and a backup one.]
 
