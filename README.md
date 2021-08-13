@@ -1,9 +1,11 @@
-# Sysadmin repository for the various parts of the Open Food Facts infrastructure.
+# OpenFoodFacts Infrastructure
+Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 
-## Virtual Machines
-To request a VM, please [file an issue](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/new?assignees=cquest&labels=container&template=vm-template.md&title=).
+## Requests
 
-Current deployments:
-* `ovh1.opendfoodfacts.org`:
-  * `CT 110` [[request](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/41)]
-  * `CT 115` [[request](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/40)]
+### Virtual Machines
+
+<!-- VM table -->
+<!-- VM table -->
+
+<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/new?assignees=cquest&labels=container&template=vm-template.md&title="><img src="./scripts/add.png" style="background: transparent; vertical-align: middle" width="30"/>&nbsp;&nbsp;Request a VM</img></a>
