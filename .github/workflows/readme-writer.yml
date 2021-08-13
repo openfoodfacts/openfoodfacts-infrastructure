@@ -17,11 +17,13 @@ jobs:
         pip install -r scripts/readme-writer/requirements.txt
         python scripts/readme-writer/readme_writer.py
         cat README.md
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     # - name: Commit README.md
     #   uses: stefanzweifel/git-auto-commit-action@v4
     #   with:
     #     branch: master
     #     repository: .
     #     file_pattern: README.md
-    #     commit_message: Re-generate readme
+    #     commit_message: Regenerate readme
     #     commit_options: '--no-verify --signoff'
