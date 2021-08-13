@@ -1,0 +1,25 @@
+on:
+  issues:
+  issue_comment:
+
+jobs:
+  readme-writer:
+    name: Write README.md
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - run: |
+        pip install -r scripts/readme-writer/requirements.txt
+        python scripts/readme-writer/readme_writer.py
+    - name: Commit README.md
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: main
+        repository: .
+        file_pattern: README.md
+        commit_message: Re-generate readme
+        commit_options: '--no-verify --signoff'
