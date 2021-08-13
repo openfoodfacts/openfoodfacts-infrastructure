@@ -13,22 +13,53 @@ def fmt_labels(labels):
     return ','.join([f'`{i.name}`' for i in labels])
 
 
-def generate_issues_markdown():
-    vm_issues = REPOSITORY.get_issues(labels=['container'])
-    vm_issues_data = [[
-        f'<a href={issue.url}>{issue.title} [#{issue.number}]</a>',
-        fmt_labels(issue.labels), issue.state
-    ] for issue in vm_issues]
+TITLE_MAP = {
+    'OS disk space': 'SSD (Local)',
+    'Data disk space': 'HDD (Remote)',
+    'Local disk space': 'SSD (Local)',
+    'Shared disk space': 'HDD (Remote)',
+    'Nb of CPU': 'CPU #',
+    'Main software bricks': 'Services'
+}
+HEADERS = [
+    'Title', 'State', 'OS', 'CPU #', 'RAM', 'SSD (Local)', 'HDD (Remote)',
+    'Services'
+]
 
-    writer = ptw.MarkdownTableWriter(
-        headers=["Title", "Labels", "Status"],
-        value_matrix=vm_issues_data,
-        column_styles=[
-            Style(),
-            Style(),
-            Style(),
-        ],  # specify styles for each column
-    )
+
+def extract_request(body):
+    regex = f'(?<=###).+?(?=###)'
+    matches = re.findall(regex, body, re.DOTALL)
+    map = {}
+    for match in matches:
+        title, content = tuple([m.strip() for m in match.splitlines() if m][:2])
+        if title in TITLE_MAP:
+            title = TITLE_MAP[title]
+        map[title] = content
+    return map
+
+
+def generate_issues_markdown():
+    open_issues = REPOSITORY.get_issues(labels=['container'], state='open')
+    closed_issues = REPOSITORY.get_issues(labels=['container'], state='closed')
+    vm_issues = list(open_issues) + list(closed_issues)
+    rows = []
+    reqs = []
+    for issue in vm_issues:
+        req = extract_request(issue.body)
+        # pprint.pprint(req)
+        reqs.append(req)
+        row = {
+            'Title':
+                f'<a href={issue.html_url}>{issue.title} [#{issue.number}]</a>',
+            'State':
+                issue.state,
+            # 'Labels':
+            # fmt_labels(issue.labels),
+        }
+        row.update(req)
+        rows.append(list(row.values()))
+    writer = ptw.MarkdownTableWriter(headers=HEADERS, value_matrix=rows)
     return writer.dumps()
 
 
