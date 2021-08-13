@@ -25,5 +25,5 @@ jobs:
         branch: master
         repository: .
         file_pattern: README.md
-        commit_message: Regenerate readme
+        commit_message: Update README.md
         commit_options: '--no-verify --signoff'
