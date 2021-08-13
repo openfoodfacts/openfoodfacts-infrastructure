@@ -1,6 +1,7 @@
 on:
   issues:
   issue_comment:
+  pull_request:
 
 jobs:
   readme-writer:
