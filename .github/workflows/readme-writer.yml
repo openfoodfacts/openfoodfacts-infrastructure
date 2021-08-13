@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      ref: master
+      with:
+        ref: master
     - name: Set up python
       uses: actions/setup-python@v2
       with:
