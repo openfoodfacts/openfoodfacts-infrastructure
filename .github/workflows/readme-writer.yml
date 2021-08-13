@@ -1,7 +1,8 @@
 on:
   issues:
   issue_comment:
-
+  push:
+    branches: [master]
 jobs:
   readme-writer:
     name: Write README.md
