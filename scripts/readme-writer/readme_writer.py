@@ -15,6 +15,7 @@ def fmt_labels(labels):
 
 TITLE_MAP = {
     'OS disk space': 'SSD (Local)',
+    'Disk space': 'SSD (Local)',
     'Data disk space': 'HDD (Remote)',
     'Local disk space': 'SSD (Local)',
     'Shared disk space': 'HDD (Remote)',
@@ -46,6 +47,9 @@ def generate_issues_markdown():
     rows = []
     reqs = []
     for issue in vm_issues:
+        labels = [_.name for _ in issue.labels]
+        if 'obsolete' in labels:
+            continue
         req = extract_request(issue.body)
         # pprint.pprint(req)
         reqs.append(req)
@@ -58,7 +62,7 @@ def generate_issues_markdown():
             # fmt_labels(issue.labels),
         }
         row.update(req)
-        rows.append(list(row.values()))
+        rows.append([row.get(key, '') for key in HEADERS])
     writer = ptw.MarkdownTableWriter(headers=HEADERS, value_matrix=rows)
     return writer.dumps()
 
