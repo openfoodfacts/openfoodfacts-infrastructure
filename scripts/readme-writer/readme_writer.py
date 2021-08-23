@@ -33,7 +33,13 @@ def extract_request(body):
     matches = re.findall(regex, body, re.DOTALL)
     map = {}
     for match in matches:
-        title, content = tuple([m.strip() for m in match.splitlines() if m][:2])
+        stripped = [m.strip() for m in match.splitlines() if m]
+        if len(stripped) == 1:
+            title = stripped[0]
+            content = ""
+        else:
+            title, content = tuple([m.strip() for m in match.splitlines() if m
+                                   ][:2])
         if title in TITLE_MAP:
             title = TITLE_MAP[title]
         map[title] = content
