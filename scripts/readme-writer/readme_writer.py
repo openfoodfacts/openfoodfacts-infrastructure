@@ -61,7 +61,7 @@ def generate_issues_markdown():
         reqs.append(req)
         row = {
             'Title':
-                f'<a href={issue.html_url}>{issue.title} [#{issue.number}]</a>',
+                f'<a href={issue.html_url}>{issue.title.replace('Container for', '')} [#{issue.number}]</a>',
             'State':
                 issue.state,
             # 'Labels':
