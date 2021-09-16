@@ -59,9 +59,10 @@ def generate_issues_markdown():
         req = extract_request(issue.body)
         # pprint.pprint(req)
         reqs.append(req)
+        title = issue.title.replace('Container for', '')
         row = {
             'Title':
-                f'<a href={issue.html_url}>{issue.title.replace('Container for', '')} [#{issue.number}]</a>',
+                f'<a href={issue.html_url}>{title} [#{issue.number}]</a>',
             'State':
                 issue.state,
             # 'Labels':
