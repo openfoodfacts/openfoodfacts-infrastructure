@@ -15,7 +15,7 @@ chmod +x fuse-overlayfs-x86_64
 sudo mv fuse-overlayfs-x86_64 /usr/local/bin/fuse-overlayfs
 
 # Add user to Docker group if supplied as input
-[ -z "$1" ] && sudo usermod -g docker $1
+[ -n "$1" ] && sudo usermod -g docker $1
 
 # Restart Docker host
 sudo systemctl restart docker
