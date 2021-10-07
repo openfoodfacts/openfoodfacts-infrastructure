@@ -1,0 +1,20 @@
+#! /bin/bash
+
+read -p 'which container ID (100..): ' CT
+
+MUNIN_CT=100
+PROXY_CT=101
+
+pct exec $CT apt update
+pct exec $CT apt install sudo curl etckeeper htop fail2ban molly-guard lsb-release
+pct exec $CT apt install munin-node
+pct exec $CT apt dist-upgrade
+
+# no password for sudo group users
+lxc-attach -n $CT -- sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
+
+# add CT in global munin config
+lxc-attach -n $MUNIN_CT -- bash -c "echo -e '\n[off$CT.ct.openfoodfacts.org]\n    address 10.1.0.$CT' >> /etc/munin/munin.conf"
+
+# add CT in reverse-proxy config
+lxc-attach -n $PROXY_CT -- bash -c ""

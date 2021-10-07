@@ -1,0 +1,34 @@
+#! /bin/bash
+
+# Script de création de compte avec clé SSH github
+
+read -p 'desired username in container/VM: ' U
+read -p 'github username (to get public SSH key): ' GU
+
+useradd $U -m -s /usr/sbin/nologin
+mkdir -p /home/$U/.ssh
+curl -sL "https://github.com/$GU.keys" > /home/$U/.ssh/authorized_keys
+chown $U:$U -R /home/$U/.ssh
+chmod 400 /home/$U/.ssh/authorized_keys
+
+
+read -p 'which container/VM ID (100.., 200..): ' CT
+
+if [ "$CT" -lt "200" ]
+then
+lxc-attach -n $CT -- useradd $U -m -s /bin/bash
+lxc-attach -n $CT -- mkdir -p /home/$U/.ssh
+lxc-attach -n $CT -- wget -q "https://github.com/$GU.keys"
+lxc-attach -n $CT -- mv $GU.keys /home/$U/.ssh/authorized_keys
+lxc-attach -n $CT -- chown $U:$U -R /home/$U/.ssh
+lxc-attach -n $CT -- chmod 400 /home/$U/.ssh/authorized_keys
+lxc-attach -n $CT -- usermod -a -G sudo $U
+else
+ssh root@10.1.0.$CT useradd $U -m -s /bin/bash
+ssh root@10.1.0.$CT mkdir -p /home/$U/.ssh
+ssh root@10.1.0.$CT wget -q "https://github.com/$U.keys"
+ssh root@10.1.0.$CT mv $U.keys /home/$U/.ssh/authorized_keys
+ssh root@10.1.0.$CT chown $U:$U -R /home/$U/.ssh
+ssh root@10.1.0.$CT chmod 400 /home/$U/.ssh/authorized_keys
+ssh root@10.1.0.$CT usermod -a -G sudo $U
+fi
