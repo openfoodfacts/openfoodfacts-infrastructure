@@ -27,7 +27,7 @@ else
 ssh root@10.1.0.$CT useradd $U -m -s /bin/bash
 ssh root@10.1.0.$CT mkdir -p /home/$U/.ssh
 ssh root@10.1.0.$CT wget -q "https://github.com/$GU.keys"
-ssh root@10.1.0.$CT mv $U.keys /home/$U/.ssh/authorized_keys
+ssh root@10.1.0.$CT mv $GU.keys /home/$U/.ssh/authorized_keys
 ssh root@10.1.0.$CT chown $U:$U -R /home/$U/.ssh
 ssh root@10.1.0.$CT chmod 400 /home/$U/.ssh/authorized_keys
 ssh root@10.1.0.$CT usermod -a -G sudo $U
