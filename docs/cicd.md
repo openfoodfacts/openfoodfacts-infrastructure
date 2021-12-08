@@ -118,6 +118,7 @@ The following diagram represents the same process, but seen from a persona persp
 *Notes:*
 * deployment process to pre-prod `.net` and production `.org` environments is identical (`container-deploy.yml`), as pre-production should be as close as possible to the production environment to avoid any pitfalls when pushing a release to production.
 * the special branches (`deploy-*` and `release-v*.*.*`) MUST be **[protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)**.
+* deploying to production `.org` can also be done manually by pushing a tag to the repository that follows semantic versioning: `git tag v1.1.0tc1 && git push --tags` although this is not recommended as it contradicts with the automated deployment workflow.
 
 ### Rollbacks
 
@@ -152,3 +153,35 @@ The current status of the automation of the deployment and testing processes acr
 | [impactestimator](https://github.com/openfoodfacts/impactestimator)                   | Weak                 | Good                  | Automated                 | Automated                                      | Automated          |
 | [openfoodfacts-monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring) | None                 | Good                  | Automated                 | Automated                                      | Automated          |
 | [smooth-app](https://github.com/openfoodfacts/smooth-app)                             | Weak (lint, flutter) | Good                  | None                      | Automated (deployment to Android + IOS stores) | Automated          |
+
+
+## Q&A
+
+### Container deployment is failing, how do I fix it ?
+Have a look at the `Actions` tab in the GitHub repository and finds out why it 
+is failing. If the process has trouble checking out the appropriate commit sha, 
+you might have to ssh to the machine, bring down the deployment (`make down`) 
+and delete the repository folder. It will be automatically re-created for the 
+next deployment.
+
+### I forgot to set an env variable on GitHub, can I re-trigger the deployment ?
+
+Yes, simply make an empty commit to your deployment branch:
+`git commit --allow-empty -m "trigger" && git push`. 
+You can also re-trigger a deployment in the repo's `Actions` tab, assuming you are a repo maintainer.
+
+### How do I set up a deployment on a new repository ?
+
+Go to the `Actions` tab and click on `New workflow`: scroll down to `Workflows created by Open Food Facts` and click on `Set up this workflow` for both `Docker image build` and `Docker Compose Deployment` workflows. It will generate pre-configured workflow files in `.github/workflows` that you can then tweak to your needs and commit to the repository.
+
+You will also need to create two GitHub environments (in Settings > Environments) and set up a few secrets needed by the deployment, mainly `HOST`, `SSH_PRIVATE_KEY`, `PROXY_HOST` and `USERNAME`.
+
+
+### What do I do if the deployment fails after merging my PR to the `main` or `master` branch ?
+
+Contact an OFF administrator to analyze why it is failing: the admin might have 
+to revert your PR to restore the previous working version in pre-production; you 
+can then continue to work on your branch to fix the problem, and make another PR.
+
+Ask the OFF administrator to deploy your PR before merging it, so that it is 
+known ahead of time if the PR will break the pre-production environment.
