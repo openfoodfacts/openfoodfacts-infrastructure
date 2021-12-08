@@ -185,3 +185,7 @@ can then continue to work on your branch to fix the problem, and make another PR
 
 Ask the OFF administrator to deploy your PR before merging it, so that it is 
 known ahead of time if the PR will break the pre-production environment.
+
+### I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?
+
+Yes, assuming your next version is `v1.1.0`, just create a git tag following semantic versioning using `git tag v1.1.0rc1 && git push --tags` and the automated process will deploy this release candidate to production.
