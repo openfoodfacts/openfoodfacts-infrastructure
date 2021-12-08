@@ -10,6 +10,8 @@ The observability stack used in the OFF stack is comprised of the following appl
 
 * **ElasticSearch** for centralized storage and indexing of logs collected from Docker.
 
+* **Kibana** UI to visualize and use logs collected by ElasticSearch.
+
 * **Prometheus** for scraping metrics from Prometheus exporters' `/metrics` endpoint, running as sidecar containers of the applications.
 
 * **AlertManager** to send alerts based on Prometheus metrics, integrated with dedicated Slack channels.
