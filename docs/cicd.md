@@ -76,7 +76,7 @@ to frequently merge code changes into a central repository where builds and test
 
 A good CI process consists of the following:
 
-* **On pull requests**, run `unit`, `integration`, and `performance` tests.
+* **On pull requests**, run `style checks` as well as `unit`, `integration`, and `performance` tests.
 * **On merge to `main` branch**, deploy to a live environment and run integration tests on it.
 
 
