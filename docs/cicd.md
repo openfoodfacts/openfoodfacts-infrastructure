@@ -35,6 +35,7 @@ In pre-production and production, the `.env` file is populated by the GitHub act
 **Warnings:** 
 * The default `.env` file should rarely change. If you need a different environment locally, create a new env file (e.g `.env.test`) and set `ENV_FILE=.env.test` before running the `Makefile` commands. 
 * Do not commit your env files to the repos !
+* you may use `direnv` to override some variables on a folder basis. See [how-to for openfoodfacts-server](https://github.com/openfoodfacts/openfoodfacts-server/blob/main/docs/how-to-guides/use-direnv.md)
 
 ### Makefile (*uniformity*)
 
