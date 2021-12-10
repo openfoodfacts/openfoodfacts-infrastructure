@@ -133,6 +133,7 @@ The steps for executing a manual rollback are as follow:
 * Replace the `TAG` variable by `sha-<COMMIT_SHA>` (where `COMMIT_SHA` is the last 'good' commit) in the `.env` file and restore it in the checked out repository.
 * Copy the `.env` file outside of the checked out repository so that it can be restored later.
 * Run `git checkout -qf <COMMIT_SHA>` of the last 'good' commit.
+* move the `.env` file from previous step into the directory
 
 Note that since deployments are automated, the following alternative also exists and is safer, although it can be a bit longer considering the git process:
 
