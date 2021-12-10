@@ -16,7 +16,7 @@ The observability stack used in the OFF stack is comprised of the following appl
 
 * **AlertManager** to send alerts based on Prometheus metrics, integrated with dedicated Slack channels.
 
-* **Grafana** for visualizing Prometheus metrics, InfluxDB and other metrics; and create dashboards.
+* [**Grafana**](https://grafana.openfoodfacts.org/) for visualizing Prometheus metrics, InfluxDB and other metrics; and create dashboards. [(official doc)](https://grafana.com/docs/grafana/latest)
 
 * **Prometheus exporters** such as the [Apache Prometheus Exporter](https://github.com/Lusitaniae/apache_exporter), which collect metrics from applications and expose them on a port in the Prometheus metric format. Some applications natively export Prometheus metrics and do not need additional exporters.
 
