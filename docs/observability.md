@@ -8,7 +8,7 @@ The observability stack used in the OFF stack is comprised of the following appl
 
 * **Filebeat** as a logs collection agent deployed on each QEMU VM with Docker containers.
 
-* **ElasticSearch** for centralized storage and indexing of logs collected from Docker.
+* [**ElasticSearch**](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) for centralized storage and indexing of logs collected from Docker.
 
 * **Kibana** UI to visualize and use logs collected by ElasticSearch.
 
