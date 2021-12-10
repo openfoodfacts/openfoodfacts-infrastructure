@@ -12,7 +12,7 @@ The observability stack used in the OFF stack is comprised of the following appl
 
 * [**Kibana**](https://kibana.openfoodfacts.org/) UI to visualize and use logs collected by ElasticSearch. [(official doc)](https://www.elastic.co/guide/en/kibana/current/index.html)
 
-* **Prometheus** for scraping metrics from Prometheus exporters' `/metrics` endpoint, running as sidecar containers of the applications.
+* [**Prometheus**](https://prometheus.io/docs) for scraping metrics from Prometheus exporters' `/metrics` endpoint, running as sidecar containers of the applications.
 
 * **AlertManager** to send alerts based on Prometheus metrics, integrated with dedicated Slack channels.
 
