@@ -10,7 +10,7 @@ The observability stack used in the OFF stack is comprised of the following appl
 
 * [**ElasticSearch**](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) for centralized storage and indexing of logs collected from Docker.
 
-* **Kibana** UI to visualize and use logs collected by ElasticSearch.
+* [**Kibana**](https://kibana.openfoodfacts.org/) UI to visualize and use logs collected by ElasticSearch. [(official doc)](https://www.elastic.co/guide/en/kibana/current/index.html)
 
 * **Prometheus** for scraping metrics from Prometheus exporters' `/metrics` endpoint, running as sidecar containers of the applications.
 
