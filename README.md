@@ -1,6 +1,18 @@
 # OpenFoodFacts Infrastructure
 Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 
+
+## Documentation
+
+The infrastructure documentation is as follows:
+
+- [CICD](./docs/cicd.md)
+- [Observability](./docs/observability.md)
+- [Docker Onboarding](./docs/docker_onboarding.md)
+- [Docker Infrastructure](./docs/docker_architecture.md)
+- [Virtual Machines](#virtual-machines)
+
+
 ## Requests
 
 ### Virtual Machines
