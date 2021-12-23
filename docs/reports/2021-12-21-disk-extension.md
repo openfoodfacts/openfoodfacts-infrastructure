@@ -4,6 +4,12 @@ We got alerts on low disk space on preprod VM (dockers (200) on ovh2)
 
 We added disk space in proxmox to this machine and the container machine but we still add to make it available on the system side.
 
+Operation was done on ovh2, VM dockers (200) and VM dockers-prod (201)
+
+## Snapshoting
+
+Before this delicate operation, we snapshoted the VM in proxmox.
+
 ## Extending partition size
 
 This is the commands we run to make it happens.
@@ -30,14 +36,26 @@ parted /dev/sda
 Unit?  [compact]? s
 # print partition table
 (parted) p
+Number  Start   End    Size    Type      File system     Flags
+ 1      1049kB  274GB  274GB   primary   ext4            boot
+ 2      274GB   275GB  1022MB  extended
+ 5      274GB   275GB  1022MB  logical   linux-swap(v1)
 # note tha swap partition is to 534872062 536868863 (1996802 sectores in size)
 # remove swap partitions
 (parted) rm 5
 (parted) rm 2
 # print to check
+(parted) p
+Number  Start  End         Size        Type     File system  Flags
+ 1      2048s  534870015s  534867968s  primary  ext4         boot
 # resize partition 1, leaving space for swap
-r(parted) esizepart 1 -1996802
-# recreate swap
+(parted) resizepart 1 -1996801
+Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+Yes/No? y
+# print
+umber  Start  End         Size        Type     File system  Flags
+ 1      2048s  627148799s  627146752s  primary  ext4         boot
+# recreate swap (Start is end of part 1 + 1)
 (parted) mkpart
 Partition type?  primary/extended? primary
 File system type?  [ext2]? linux-swap
@@ -55,7 +73,6 @@ End? -1s
 
 We recreated swap, now we have to format it:
 ```
-format swap
 mkswap /dev/sda2
 ```
 
@@ -78,9 +95,10 @@ UUID=f8e99f04-88eb-4550-9308-10a470175e45 none            swap    sw            
 ```
 
 
-We should have booked our operation in etckeeper (not done actualy, etckeeper was not yet installed)
+We should have booked our operation in etckeeper 
+(not done on dockers-prod, etckeeper was not yet installed)
 ```
-etckeeper commit "changed partition size
+etckeeper commit "changed partition size"
 ```
 
 Now we resized the partition, but we have to resize the filesystem. Let's resize sda1:
@@ -98,5 +116,5 @@ Let's see our changes:
 ```
 df -h /
 Filesystem      Size  Used Avail Use% Mounted on
-/dev/sda1       392G  223G  151G  60% /
+/dev/sda1       294G  187G   93G  67% /
 ```
