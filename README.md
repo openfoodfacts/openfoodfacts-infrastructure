@@ -6,8 +6,11 @@ Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 
 The infrastructure documentation is as follows:
 
-- [CICD](./docs/cicd.md)
-- [Observability](./docs/observability.md)
+- [Mail](./docs/mail.md) - servers mail setup
+- [Linux Server](./docs/linux-server.md) - servers general setup
+- [Proxmox](./docs/promox.md) - about proxmox management
+- [CICD](./docs/cicd.md) - continuous integration and deployment
+- [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
 - [Docker Onboarding](./docs/docker_onboarding.md)
 - [Docker Infrastructure](./docs/docker_architecture.md)
 - [Virtual Machines](#virtual-machines)
