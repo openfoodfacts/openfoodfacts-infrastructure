@@ -2,7 +2,7 @@
 
 **Date**: 2022-02-18
 
-**Authors**: Alex
+**Authors**: Alex <alex@openfoodfacts.org>
 
 **Summary**: wiki.openfoodfacts.net down after ovh1 reboot, as well as all services using a CNAME on proxy1.openfoodfacts.org or proxy.openfoodfacts.org.
 
@@ -15,7 +15,7 @@
 ## Diagnosis
 
 We got a problem after rebooting ovh1 : the proxy was not responding on it's public ip.
-On proxy VM aka `101`. We had two ips, one internal (NAT mode) `eth0` (`10.1.0.101`) and one public (bridged) sharing a virtual bridge with host: `eth1` `193.70.55.124`.
+On `proxy` VM aka `101`. We had two IPs, one internal (NAT mode) `eth0` (`10.1.0.101`) and one public (bridged) sharing a virtual bridge with host: `eth1` `193.70.55.124`.
 The problem was that nated requests (passing through ovh1 ip and forwarded by iptables) did work but not requests to public ip.
 * ping to ip did work
 * `nc -vz 193.70.55.124 80`  did succeed
@@ -67,7 +67,7 @@ The problem: proxmox do control the interfaces settings and in `/etc/network/int
 But as this part is managed by Proxmox, hence this is a bit hard to modify. And at boot time, eth cards are in competition to have their route the global default and eth0 wins over eth1, leading to the non working situation.
 
 
-I did try to add this a script in /etc/network/if-up.d/90-insure-eth1-default-route
+I did try to add this a script in `/etc/network/if-up.d/90-insure-eth1-default-route`
 ```bash
 #!/usr/bin/env bash
 # this script tries to ensure defaults route is on eth1
@@ -99,7 +99,7 @@ Note: to use a script in `/etc/network/if-up.d/`, remember to `chmod +x` but als
 
 ## Final Resolution
 
-Christian proposes a more radical solution: **remove gateway for eth0, and only keep it for eth1**.
+Christian (@cquest) proposes a more radical solution: **remove gateway for eth0, and only keep it for eth1**.
 
 This has the advantage of being driven from proxmox.
 
