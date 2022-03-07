@@ -15,6 +15,10 @@ The infrastructure documentation is as follows:
 - [Docker Infrastructure](./docs/docker_architecture.md)
 - [Virtual Machines](#virtual-machines)
 
+Some services:
+
+- [Zammad](./docs/zammad.md) for support
+
 
 ## Requests
 
