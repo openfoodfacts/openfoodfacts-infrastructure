@@ -1,5 +1,6 @@
 # OpenFoodFacts Infrastructure
 Sysadmin repository for the various parts of the Open Food Facts infrastructure.
+We have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
 
 ## Documentation
