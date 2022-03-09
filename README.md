@@ -19,6 +19,7 @@ The infrastructure documentation is as follows:
 Some services:
 
 - [Zammad](./docs/zammad.md) for support
+- [Matomo](./docs/matomo.md) for web analytics
 
 
 ## Requests
