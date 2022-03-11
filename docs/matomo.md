@@ -1,6 +1,6 @@
 # Matomo
 
-[Maomo](https://matomo.org/) is the web analytics platform.
+[Matomo](https://matomo.org/) is the web analytics platform.
 
 Available at: https://analytics.openfoodfacts.org/
 
