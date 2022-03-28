@@ -4,6 +4,10 @@ Because mail is difficult to setup, we use [Proxmox Mail Gateway](https://www.pr
 
 No server receive mail, but they should be able to send them.
 
+<a id="only-domain"></a>
+
+**📝Note:** We ONLY support emails address on primary domain (`openfoodfacts.org`) and we DO NOT support emails on sub domains (aka `xxx.openfoodfacts.org`).
+
 ## Proxmox Mail Gateway
 
 This is the `pmg`  lxc VM (aka `102`) currently on `ovh1.openfoodfacts.org`.

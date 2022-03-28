@@ -20,6 +20,7 @@ Some services:
 
 - [Zammad](./docs/zammad.md) for support
 - [Matomo](./docs/matomo.md) for web analytics
+- [Discourse](./docs/discourse.md) for forum
 
 
 ## Requests
