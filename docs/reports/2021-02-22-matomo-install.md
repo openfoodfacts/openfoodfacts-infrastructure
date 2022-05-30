@@ -69,3 +69,111 @@ $ sudo sed -i "s|index index.html index.htm index.nginx-debian.html;|index index
 $ sudo systemctl restart nginx
 https://analytics.openfoodfacts.org
 ```
+
+## Activate reverse proxy mode (2022-05-09)
+
+We have to configure matomo to take into account it is behind a reverse proxy.
+
+We follow https://matomo.org/faq/how-to-install/faq_98/
+
+And on matomo machine (container 107):
+
+1. edit `/var/www/html/matomo/config/config.ini` to add :
+   ```
+   [General]
+   ...
+   force_ssl = 1
+   assume_secure_protocol = 1
+   ...
+   proxy_client_headers[] = HTTP_X_FORWARDED_FOR
+   proxy_host_headers[] = HTTP_X_FORWARDED_HOST
+   ```
+
+2. restart pfm to take this into account:
+   ```
+   systemctl restart php7.3-fpm.service
+   ```
+
+On proxy machine (container 101), we insure the header is passed by nginx:
+
+1. edit `/etc/nginx/conf.d/analytics.conf`
+   ```
+   server {
+    server_name  analytics.openfoodfacts.org;
+    ...
+    location / {
+        ...
+        proxy_set_header  X-Forwarded-For $remote_addr;
+   ```
+
+2. reload nginx config:
+   ```
+   systemctl reload nginx
+   ```
+
+Verify it's working by looking at real time traffic on matomo.
+
+## Trigger archival offline - 2022-05-10
+
+By default matomo tries to run archival on analytics visit. But our website as a lot of analytics so it's important to run it on a regular basis and out of a request (which will timeout too soon).
+
+We follow https://matomo.org/faq/troubleshooting/faq_19489/ and thus https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/
+
+On analytics (container 107):
+
+- ensure [mail is setup correctly on the server](../mail.md#servers)
+
+- create directory for logs:
+  ```
+  mkdir /var/log/matomo/
+  chown www-data:www-data /var/log/matomo/
+  ```
+
+
+- edit  `/etc/cron.d/matomo-archive`
+
+  ```
+  MAILTO="root@openfoodfacts.org"
+  5 * * * * www-data /usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ >> /var/log/matomo/matomo-archive.log 2>>/var/log/matomo/matomo-archive-err.log
+  ```
+
+- add files to logrotate, by adding `/etc/logrotate.d/matomo` with
+  ```
+  /var/log/matomo/*.log {
+          daily
+          missingok
+          rotate 14
+          compress
+          delaycompress
+          notifempty
+          create 0640 www-data adm
+          sharedscripts
+  }
+  ```
+
+- tweak `/etc/php/7.3/cli/php.ini` (this correspond to settings for php command), to have:
+  ```
+  max_execution_time = 3000
+  ...
+  memory_limit = -1
+  ```
+
+
+In matomo (https://analytics.openfoodfacts.org), click on `Administration` → `System` → `General Settings`, and select:
+
+- Archive reports when viewed from the browser: No
+- Archive reports at most every X seconds : 3600 seconds
+
+## Performance settings
+
+I tweak `/etc/php/7.3/fpm/php.ini` to have:
+
+```
+max_execution_time = 120
+...
+memory_limit = 250M
+```
+then reload to take the change into account:
+```
+systemctl reload php7.3-fpm.service
+```
