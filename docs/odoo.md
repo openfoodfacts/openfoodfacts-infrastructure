@@ -1,3 +1,12 @@
+Odoo is a very rich tool: we need to think a little bit before doing things.
+Some actions can't be canceled; for example: some modules, when installed, can't be removed.
+ 
+Quick guidelines to follow:
+1. Technical and functional admins rights should be separated.
+2. Usages should be clearly expressed and modules should be discussed before implemented. An issue have to be open before each module or group of module installation.
+3. Tests need to be made in a staging environement.
+
+
 # Install
 
 The current test instance (Odoo 15) have been installed with the following commands.
