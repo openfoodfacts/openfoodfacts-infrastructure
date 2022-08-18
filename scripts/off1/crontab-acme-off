@@ -1,0 +1,4 @@
+59 0 * * * /home/acme-off/.acme.sh/acme.sh --cron --home "/home/acme-off/.acme.sh/config-openfoodfacts-org" > /dev/null
+49 0 * * * /home/acme-off/.acme.sh/acme.sh --cron --home "/home/acme-off/.acme.sh/config-openpetfoodfacts-org" > /dev/null
+39 0 * * * /home/acme-off/.acme.sh/acme.sh --cron --home "/home/acme-off/.acme.sh/config-openbeautyfacts-org" > /dev/null
+29 0 * * * /home/acme-off/.acme.sh/acme.sh --cron --home "/home/acme-off/.acme.sh/config-openproductsfacts-org" > /dev/null

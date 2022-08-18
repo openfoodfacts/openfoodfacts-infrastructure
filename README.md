@@ -21,7 +21,9 @@ Some services:
 - [Zammad](./docs/zammad.md) for support
 - [Matomo](./docs/matomo.md) for web analytics
 - [Discourse](./docs/discourse.md) for forum
+- [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
 
+Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
 ## Requests
 
