@@ -1,0 +1,6 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# m h  dom mon dow   command
+14 3	* * *		cd /root ; /bin/bash snapshot-purge.sh >> snapshot-purge.log
+

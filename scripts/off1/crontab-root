@@ -1,0 +1,19 @@
+# m h  dom mon dow   command
+#*/5 * * * *	/srv/off/scripts/checkmongodb.pl
+0 10 * * *	/home/scripts/lowdiskspace.pl
+0 10 * * *	/home/scripts/lowdiskspace_root.pl
+#0 15 * * *	/home/scripts/mdstat.pl
+0 2 * * *	/home/scripts/backup.sh > /dev/null 2>&1
+#*/45 1 * * *	wget -q -O /srv/off/html/cestemballepresdechezvous.html http://fr.openfoodfacts.org:8001/cgi/madenearyou.pl
+#*/50 2 * * *	wget -q -O /srv/off/html/madenearme-uk.html http://uk.openfoodfacts.org:8001/cgi/madenearme.pl
+#*/55 3 * * *	wget -q -O /srv/off/html/madenearme.html http://world.openfoodfacts.org:8001/cgi/madenearme.pl
+0 3 * * *	/usr/bin/certbot renew
+0 12 * * *	service nginx restart > /dev/null 2>&1
+* * * * *	tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1
+#* * * * *	/usr/bin/renice -n 19 $(pidof rsync) > /dev/null 2>&1 ; /usr/bin/ionice -c3 -p $(pidof rsync) > /dev/null 2>&1
+
+# synchro ZFS vers off2/ovh3
+*/30 *	* * *	cd /root ; /bin/bash sto-products-sync.sh >> /var/log/zfs-sync.log
+
+# restart nginx to reload SSL certs
+0 11 * * * systemctl restart nginx
