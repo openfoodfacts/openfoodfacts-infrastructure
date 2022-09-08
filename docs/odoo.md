@@ -1,3 +1,5 @@
+# Odoo: our relationship management (connect.openfoodfacts.org)
+
 Odoo is a very rich tool: we need to think a little bit before doing things.
 Some actions can't be canceled; for example: some modules, when installed, can't be removed.
  
@@ -7,7 +9,7 @@ Quick guidelines to follow:
 3. Tests need to be made in a staging environement.
 
 
-# Install
+## Install
 
 The current test instance (Odoo 15) have been installed with the following commands.
 
@@ -20,7 +22,7 @@ The current test instance (Odoo 15) have been installed with the following comma
 * `apt-get update && apt-get install odoo`
 * Setup Nginx proxy
 
-# Start/stop
+## Start/stop
 
 ```bash
 sudo systemctl start odoo # (starts service)
@@ -31,7 +33,7 @@ sudo systemctl enable odoo # (starts service at boot)
 sudo systemctl disable odoo # (disables service at boot)
 ```
 
-# Install a new module
+## Install a new module
 
 Examples:
 ```bash
@@ -46,7 +48,7 @@ wget https://apps.odoo.com/loempia/download/mass_editing/15.0/mass_editing.zip
 unzip formio.zip
 ```
 
-## Contributed modules from OCA store
+### Contributed modules from OCA store
 
 OCA hosts hundreds of modules. Those ones are disseminated into dozens of git repositories. For example, the Mass Editing module can be find inside the https://github.com/OCA/server-ux repository.
 
@@ -64,7 +66,7 @@ Then, as an admin, in Odoo:
 * `Update Apps List` sub-menu
 * then find the app in the `search` field
 
-# Create a test environment from production instance
+## Create a test environment from production instance
 
 ```shell
 pct snapshot 110 temp # create a "temp" named snapshot of CT with ID 120 (production)
