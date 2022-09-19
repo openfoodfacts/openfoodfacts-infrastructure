@@ -69,11 +69,12 @@ Then, as an admin, in Odoo:
 ## Create a test environment from production instance
 
 ```shell
+# previously verify that CT 112 is currently connect-staging, and delete it before renewing it
 pct snapshot 110 temp # create a "temp" named snapshot of CT with ID 120 (production)
 pct clone 110 112 --hostname connect-staging --snapname temp # take the snapshot and create a new CT (112) named connect-staging
 pct delsnapshot 110 temp # del production snapshot
 # New CT configuration
-pct set 112 --cores 2 --memory 4096 --net0 name=eth0,bridge=vmbr0,gw=192.168.0.254,ip=192.168.0.112/24
+pct set 112 --cores 2 --memory 4096 --net0 name=eth0,bridge=vmbr0,gw=10.0.0.1,ip=10.1.0.112/24
 pct start 112
 # pct exec 112 .................. # a way to execute things on a CT from host
 
