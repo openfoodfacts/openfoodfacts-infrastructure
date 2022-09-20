@@ -6,32 +6,37 @@ The goall of this prototype is to allow playing with Open Food Facts data in SQL
 
 ## Usages
 
-* Allows to build rich/complex queries with a well known and widely deployed query language (SQL).
-* Allows CSV exports by countries.
-* Allows to 
+* build rich/complex queries with a well known and widely deployed query language (SQL):
+  * search for list of terms while excluding false-positive ones ([exemple](http://mirabelle.openfoodfacts.org/products?sql=select+code%2C+url+from+%5Ball%5D+where+%0D%0A++url+REGEXP%0D%0A++++%22%28test%7Cessai%29%22++++++%2F*+search+for+test+or+essai+*%2F%0D%0A++++++++++++++++++++++++%2F*+but+not+the+following+false+positive+*%2F%0D%0A++and+url+NOT+REGEXP%0D%0A++++%22%28contest%7Ccutest%7Cfontestad%7Cfontestorbes%7Cgreatest%7Cgroentestoof%7Chottest%7Cmlinotest%7Cphitest%7Csealtest%7Csetteteste%7Csmartest%7Csweetest%7Ctesta%7Ctestaroli%7Ctesteninom%7Ctestosterone%7Ctestun%7Cintestin%7Cwattestabchen%7Cdessaint%7Cessaim%29%22%0D%0A++order+by+rowid+limit+1000))
+* CSV exports by countries.
+* go beyond the 10,000 products CSV export per query on Open Food Facts website.
+* export products that have changed until a given date.
+* build your own views containing only the fields you want.
+* communicate particular queries with their URLs.
+* for admins, build particular view of the database; eg. a [simplified](http://mirabelle.openfoodfacts.org/products/simplified) view
+* etc.
 
 
 ## Under the hood
 
-Mirabelle is made with [Datasette](https://datasette.io). It's using very few process and resources under the hood.
+Mirabelle is made with [Datasette](https://datasette.io). It's using very few processes and resources under the hood.
 
-1. SQLite
+### 1. SQLite
 
 It's starting with SQLite. Sqlite3-pcre is also installed to use REGEXP in SQL queries.
 
 `sudo apt install sqlite3 sqlite3-pcre jq`
 
-
-2. Datasette and its eco-system.
+### 2. Datasette and its eco-system
 
 `sudo pip install datasette`
 `sudo datasette install datasette-copyable datasette-upload-csvs datasette-total-page-time`
 
-3. Creating a dedicated user.
+### 3. Creating a dedicated user
 
 `adduser -m off`
 
-4. Setup datasette and different scripts.
+### 4. Setup datasette and different scripts
 
 * Create the database we will be using for Open Food Facts stats: `sqlite3 off-stats.db "create table products_from_owners(year TEXT,month TEXT,day TEXT,country TEXT,nb_products INTEGER);"`
 * Create script to gather data everyday: `proplatform-stats.sh`.
@@ -41,7 +46,7 @@ It's starting with SQLite. Sqlite3-pcre is also installed to use REGEXP in SQL q
 * `d-serve.sh` is launching datasette as a server.
 
 
-5. Deploy datasette as a service.
+### 5. Deploy datasette as a service
 
 Create a datasette service (`/etc/systemd/system/datasette.service`):
 ```toml
