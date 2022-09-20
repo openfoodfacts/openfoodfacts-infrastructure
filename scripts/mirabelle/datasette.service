@@ -1,0 +1,14 @@
+[Unit]
+Description=Datasette
+After=network.target
+
+[Service]
+Type=simple
+User=off
+Environment=DATASETTE_SECRET=3ffdab10e0919f1760f4cf0e8db999285e860b61ed3294e847e480ab01624148
+WorkingDirectory=/home/off/mirabelle
+ExecStart=/home/off/mirabelle/d-serve.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

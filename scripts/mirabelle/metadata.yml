@@ -1,0 +1,52 @@
+title: Some Open Food Facts stats
+description_html: |-
+  <p>This is an experiment to publish some stats related to 
+  <a href="https://world.openfoodfacts.org/">Open Food Facts</a>.</p>
+license: ODbL
+license_url: https://opendatacommons.org/licenses/odbl/
+databases:
+  off-stats:
+    tables:
+      products_from_owners:
+        description_html: |-
+          <p>Total number of products sent via the 
+          <a href="https://world.pro.openfoodfacts.org/">pro platform</a> 
+          in some countries at a certain day.
+          Data are gathered daily at 8am UTC</p>
+        source: Open Food Facts API
+        facets:
+          ["country","year","month","day"]
+      fr_es_it_be_de_ch:
+        title: Main countries
+        sql: |-
+          select rowid, year, month, day, country, nb_products 
+          from products_from_owners 
+          where country in (fr,es,it,be,de,ch) order by rowid limit 101
+  products:
+    description_html: |-
+      <p>All Open Food Facts products, based on CSV export.</p>
+    tables:
+      all:
+        description_html: |-
+          <p>All Open Food Facts products in one table (2,500,000+ products).
+          Data is imported from our 
+          <a href="https://world.openfoodfacts.org/data">daily CSV export</a>.</p>
+          <p><a href="https://en.wikipedia.org/wiki/Regular_expression">REGEXP</a> are activated.</p>
+        facets:
+          ["countries_en","brands","main_category_en", "nutriscore_grade", "nova_group", "ecoscore_grade"]
+    queries:
+      moderation:
+        sql: |-
+          select rowid, code, creator, url, last_modified_datetime, product_name as p 
+            from [all] where 
+            (p LIKE '%merd%' 
+            OR  p LIKE '%salop%' 
+            OR  p LIKE '%conar%' 
+            OR  p LIKE '%connar%' 
+            OR  p LIKE '%covid%')
+            and code != '3760182600142' /* exclude "le vin de merde", real product */
+            and code != '3760182600029'
+            and code != '3760182600036'
+            and code != '3760311102097'
+            order by last_modified_t desc limit 300
+        title: moderation
