@@ -30,26 +30,30 @@ It's starting with SQLite. Sqlite3-pcre is also installed to use REGEXP in SQL q
 ### 2. Datasette and its eco-system
 
 `sudo pip install datasette`
+
 `sudo datasette install datasette-copyable datasette-upload-csvs datasette-total-page-time`
 
 ### 3. Creating a dedicated user
 
 `adduser -m off`
 
+Also create a dedicated directory for the app: `mkdir /home/off/mirabelle`
+
 ### 4. Setup datasette and different scripts
 
-* Create the database we will be using for Open Food Facts stats: `sqlite3 off-stats.db "create table products_from_owners(year TEXT,month TEXT,day TEXT,country TEXT,nb_products INTEGER);"`
-* Create script to gather data everyday: `proplatform-stats.sh`.
+* Create the database we will be using for Open Food Facts stats:
+  `sqlite3 off-stats.db "create table products_from_owners(year TEXT,month TEXT,day TEXT,country TEXT,nb_products INTEGER);"`
+* Create script to gather data everyday: [proplatform-stats.sh](proplatform-stats.sh).
 * Add this script to crontab: `0 8 * * * bash /home/off/mirabelle/proplatform-stats.sh > /home/off/mirabelle/proplatform-stats.log`
-* `products_daily_updates.sh` is gathering the Open Food Facts CSV export and importing it into SQLite.
-* `metadata.yml` allows to add informations to datasette pages.
-* `d-serve.sh` is launching datasette as a server.
+* [products_daily_updates.sh](products_daily_updates.sh) is gathering the Open Food Facts CSV export and importing it into SQLite.
+* [metadata.yml](metadata.yml) allows to add informations to datasette pages.
+* [d-serve.sh](d-serve.sh) is launching datasette as a server. See [deploying Datasette](https://docs.datasette.io/en/stable/deploying.html) from the documentation.
 
 
 ### 5. Deploy datasette as a service
 
-Create a datasette service (`/etc/systemd/system/datasette.service`):
-```toml
+Create a [datasette service](datasette.service) for Systemd (`/etc/systemd/system/datasette.service`):
+```ini
 [Unit]
 Description=Datasette
 After=network.target
@@ -66,7 +70,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
-Let the `off` user access to datasette service. Launch `visudo` and add the following code:
+Let the `off` user access to the datasette service. Launch `visudo` and add the following code:
 ```bash
 # Cmnd alias specification
 Cmnd_Alias DATASETTE_CMDS = /bin/systemctl start datasette.service, /bin/systemctl stop datasette.service, /bin/systemctl restart datasette.service
@@ -78,7 +82,8 @@ off     ALL=(ALL) NOPASSWD: DATASETTE_CMDS
 
 `off` user is now able to start, stop or restart datasette service.
 
-`off@mirabelle:~/mirabelle$ sudo systemctl start datasette.service`
+* `off@mirabelle:~/mirabelle$ sudo systemctl start datasette.service`
 
-`off@mirabelle:~/mirabelle$ sudo systemctl start datasette.service`
+* `off@mirabelle:~/mirabelle$ sudo systemctl stop datasette.service`
 
+* `off@mirabelle:~/mirabelle$ sudo systemctl restart datasette.service`
