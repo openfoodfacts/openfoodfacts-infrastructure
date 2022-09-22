@@ -91,21 +91,23 @@ off     ALL=(ALL) NOPASSWD: DATASETTE_CMDS
 
 ### 6. Deploy nginx front web server
 
-[todo]
-
-This allows to build a efficient cache strategy:
-* as the database are read-only, we can cache them until their update
+Deploying with nginx web server allows to build an efficient cache strategy:
+* as the databases are read-only, we can cache them until their update by scripts
 * when an update is done, the updater can purge the cache
 
 `apt install nginx`
 
-Create [`/etc/nginx/sites-available.datasette.conf](datasette.conf).
+Create [/etc/nginx/sites-available/datasette.conf](datasette.conf).
 
 `ln -s /etc/nginx/sites-available/datasette.conf /etc/nginx/sites-enabled/`
 
-`nginx -t`
+`rm /etc/nginx/sites-enabled/default`
+
+`nginx -t # verify nginx config file syntax`
 
 `systemctl reload nginx`
 
 Verify all is working fine:
 `curl http://127.0.0.1`
+
+We also have to setup our front reverse proxy: [/etc/nginx/mirabelle.conf](mirabelle.conf).
