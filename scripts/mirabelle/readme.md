@@ -2,7 +2,7 @@
 
 "_Quelle est belle ma data !_" (_What a beautiful data!_)
 
-The goall of this prototype is to allow playing with Open Food Facts data in SQL.
+The goal of this prototype is to allow playing with Open Food Facts data in SQL.
 
 ## Usages
 
@@ -87,3 +87,25 @@ off     ALL=(ALL) NOPASSWD: DATASETTE_CMDS
 * `off@mirabelle:~/mirabelle$ sudo systemctl stop datasette.service`
 
 * `off@mirabelle:~/mirabelle$ sudo systemctl restart datasette.service`
+
+
+### 6. Deploy nginx front web server
+
+[todo]
+
+This allows to build a efficient cache strategy:
+* as the database are read-only, we can cache them until their update
+* when an update is done, the updater can purge the cache
+
+`apt install nginx`
+
+Create [`/etc/nginx/sites-available.datasette.conf](datasette.conf).
+
+`ln -s /etc/nginx/sites-available/datasette.conf /etc/nginx/sites-enabled/`
+
+`nginx -t`
+
+`systemctl reload nginx`
+
+Verify all is working fine:
+`curl http://127.0.0.1`
