@@ -70,14 +70,18 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+Enable service at startup: `systemctl enable datasette.service`.
+
 Let the `off` user access to the datasette service. Launch `visudo` and add the following code:
 ```bash
 # Cmnd alias specification
 Cmnd_Alias DATASETTE_CMDS = /bin/systemctl start datasette.service, /bin/systemctl stop datasette.service, /bin/systemctl restart datasette.service
+Cmnd_Alias CLEAR_CACHE = /home/off/mirabelle/clear_cache.sh
 
 # User privilege  specification
 # [...]
 off     ALL=(ALL) NOPASSWD: DATASETTE_CMDS
+off     ALL=(ALL) NOPASSWD: CLEAR_CACHE
 ```
 
 `off` user is now able to start, stop or restart datasette service.

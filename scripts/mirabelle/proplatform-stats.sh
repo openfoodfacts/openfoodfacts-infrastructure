@@ -2,7 +2,7 @@
 
 # Don't forget chmod +x proplatform.sh
 
-path="/home/off/mirabelle/"
+path="/home/off/mirabelle"
 db="off-stats.db"
 year=`date +"%Y"`
 month=`date +"%m"`
@@ -17,7 +17,8 @@ do
 sleep 1
 nb=`curl -s https://$country.openfoodfacts.org/owners?json=1 | jq "[.tags[].products] | add"`
 echo        "insert into $table values ('$year','$month','$day','$country',$nb);"
-sqlite3 $path$db "insert into $table values ('$year','$month','$day','$country',$nb);"
+sqlite3 ${path}/$db "insert into $table values ('$year','$month','$day','$country',$nb);"
 done
 
-#sudo systemctl restart datasette.service
+# Clear off-stats cache
+sudo ${path}/clear_cache.sh "off-stats"
