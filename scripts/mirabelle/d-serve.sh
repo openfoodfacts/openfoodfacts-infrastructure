@@ -21,4 +21,5 @@ datasette serve off-stats.db -i products.db \
     --setting max_csv_mb 6000 \
     --setting default_page_size 20 \
     --setting default_facet_size 10 \
+    --setting max_returned_rows 10000 \
     --load-extension /usr/lib/sqlite3/pcre.so

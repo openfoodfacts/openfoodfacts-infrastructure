@@ -44,9 +44,9 @@ Also create a dedicated directory for the app: `mkdir /home/off/mirabelle`
 * Create the database we will be using for Open Food Facts stats:
   `sqlite3 off-stats.db "create table products_from_owners(year TEXT,month TEXT,day TEXT,country TEXT,nb_products INTEGER);"`
 * Create script to gather data everyday: [proplatform-stats.sh](proplatform-stats.sh).
-* Add the script to crontab: `0 12 * * * bash /home/off/mirabelle/proplatform-stats.sh > /home/off/mirabelle/proplatform-stats.log`
-* Create the script to gather the Open Food Facts CSV export and import it into SQLite [products_daily_updates.sh](products_daily_updates.sh).
-* Add the script to crontab: `0 8 * * * bash /home/off/mirabelle/products_daily_updates.sh > /home/off/mirabelle/products_daily_updates.log`
+* Add the script to crontab: `0 8 * * * bash /home/off/mirabelle/proplatform-stats.sh > /home/off/mirabelle/proplatform-stats.log`
+* Create the script to gather the Open Food Facts CSV export and import it into SQLite [products_daily_update.sh](products_daily_update.sh).
+* Add the script to crontab: `0 4 * * * bash /home/off/mirabelle/products_daily_update.sh > /home/off/mirabelle/products_daily_update.log`
 * [metadata.yml](metadata.yml) allows to add informations to datasette pages.
 * [d-serve.sh](d-serve.sh) is launching datasette as a server. See [deploying Datasette](https://docs.datasette.io/en/stable/deploying.html) from the documentation.
 
