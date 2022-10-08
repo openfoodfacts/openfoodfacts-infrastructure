@@ -8,7 +8,7 @@ rm en.openfoodfacts.org.products.csv.bak products.db.bak products_new.db
 old_csv=$(wc -c en.openfoodfacts.org.products.csv | awk '{print $1}')
 old_csv_lines=$(wc -l en.openfoodfacts.org.products.csv | awk '{print $1}')
 echo "Old CSV weights $old_csv bytes for $old_csv_lines lines"
-[[$mode = "i"]] && read -p "Press [Enter] key to downloaf CSV..."
+[[ $mode = "i" ]] && read -p "Press [Enter] key to downloaf CSV..."
 
 wget -c https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv -O newdata.csv
 new_csv=$(wc -c newdata.csv | awk '{print $1}')
@@ -17,7 +17,7 @@ echo "New CSV weights $new_csv bytes for $new_csv_lines lines"
 
 if [ "$new_csv" -ge "$old_csv" ]
 then
-  [[$mode = "i"]] && read -p "Press [Enter] key to create new db..."
+  [[ $mode = "i" ]] && read -p "Press [Enter] key to create new db..."
   mv en.openfoodfacts.org.products.csv en.openfoodfacts.org.products.csv.bak
   mv newdata.csv en.openfoodfacts.org.products.csv
   echo `date`;
@@ -42,7 +42,7 @@ else
   exit 1
 fi
 
-[[$mode = "i"]] && read -p "Press [Enter] key to continue..."
+[[ $mode = "i" ]] && read -p "Press [Enter] key to continue..."
 rm en.openfoodfacts.org.products.csv.bak
 
 # Converting empty to NULL for columns which are either FLOAT or INTEGER
