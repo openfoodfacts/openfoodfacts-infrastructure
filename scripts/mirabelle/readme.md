@@ -27,6 +27,8 @@ It's starting with SQLite. Sqlite3-pcre is also installed to use REGEXP in SQL q
 
 `sudo apt install sqlite3 sqlite3-pcre jq`
 
+Note: the setup is using specific `.import` options (`--ascii, --skip`), which require sqlite3 >= 3.32.0.
+
 ### 2. Datasette and its eco-system
 
 `sudo pip install datasette`
