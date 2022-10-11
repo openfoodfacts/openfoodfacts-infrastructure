@@ -52,16 +52,22 @@ unzip formio.zip
 
 OCA hosts hundreds of modules. Those ones are disseminated into dozens of git repositories. For example, the Mass Editing module can be find inside the https://github.com/OCA/server-ux repository.
 
+Note: In github, always search for the 15.0 branch
+(if 15.0 is your version) because the front page might be that of 14.0
+and mislead you on supported versions.
+
+In this case we will add all addons of the repository:
+
 ```bash
 cd /usr/lib/python3/dist-packages/odoo/addons
-git clone https://github.com/OCA/server-ux
-cd business-requirement
-git checkout 15.0 #for the version 15.0: adapt according to desired version
-# Update the addon path in your `odoo.conf` file
+git clone https://github.com/OCA/server-ux --branch 15.0  #for the version 15.0: adapt according to desired version
+# Update the addon path in your `/etc/odoo/odoo.conf` file to add our new directory
+# addons_path = /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
 ```
 
 
 Then, as an admin, in Odoo:
+* pass in developer mode (ctrl+K debug:)
 * Apps menu
 * `Update Apps List` sub-menu
 * then find the app in the `search` field
