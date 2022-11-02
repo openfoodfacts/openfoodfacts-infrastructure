@@ -4,38 +4,15 @@ This document presents the Continous Integration and Continous Delivery (CICD) p
 
 The information below is valid for most OFF repositories containing apps deployed on OFF servers. A summary table is given at the end to get the status of the deployment / test automation across different OFF repositories.
 
-## Technology stack
+
+## Technology Stack
 
 This section gives an overview on the technologies used to automate the CI and CD process at Open Food Facts. Feel free to skip it if you already know these technologies !
 
-### Docker (*idempotency*)
+### Docker
 
-The process of dockerizing applications is an important step towards achieving a modern-day great Continuous Integration and Continous Delivery process.
+See [docker](./docker.md#technology-stack)
 
-**Dockerization** avoids common pitfalls in deployment processes, such as having to write idempotent deployment scripts to deploy an application. A Docker container build can be run many times producing each time the same resulting image.
-
-Most of Open Food Facts git repositories have a `Dockerfile` that is used both to test changes locally, but also to ease automated testing and automated deployments through **idempotency** (a.k.a repeatabilty, or the ability to re-run a deployment X times without problems).
-
-
-### Docker-Compose (*orchestration*)
-
-We use `docker-compose` to deploy our applications to our servers: it is a simple **orchestator** that can deploy to a single machine at once.
-
-
-An alternative like `docker swarm` or `kubernetes` could be considered in the future to deploy to multiple machines at scale, but it currently does not make much sense considering the small amount of servers used to run Open Food Facts.
-
-### Env file (*secret management*)
-
-Every OFF repo has a `.env` file that contains the secrets needed by the application to run properly. The `.env` file is loaded by the `docker-compose` commands.
-
-The default `.env` file in the repo is ready for local development and should rarely be modified.
-
-In pre-production and production, the `.env` file is populated by the GitHub action (using GitHub environment secrets) before deploying to the target environment.
-
-**Warnings:** 
-* The default `.env` file should rarely change. If you need a different environment locally, create a new env file (e.g `.env.test`) and set `ENV_FILE=.env.test` before running the `Makefile` commands. 
-* Do not commit your env files to the repos !
-* you may use `direnv` to override some variables on a folder basis. See [how-to for openfoodfacts-server](https://github.com/openfoodfacts/openfoodfacts-server/blob/main/docs/how-to-guides/use-direnv.md)
 
 ### Makefile (*uniformity*)
 
@@ -54,6 +31,7 @@ Most of the existing OFF repos try to have the commands below in their `Makefile
 * `make up`, `make down`, `make hdown`, `make restart`, `make status` map exactly to `docker-compose` commands, respectively `docker-compose up`, `docker-compose down`, `docker-compose down -v`, `docker-compose restart` and `docker-compose ps`.
 
 Using a different `.env` file (e.g: `.env.test`) is supported by setting the env variable `ENV_FILE=.env.test` so that the Make commands still work.
+
 
 ### GitHub Actions
 
@@ -154,9 +132,11 @@ The current status of the automation of the deployment and testing processes acr
 | [openfoodfacts-server](https://github.com/openfoodfacts/openfoodfacts-server)         | :heavy_exclamation_mark: Weak (lint, unit)    | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_exclamation_mark: Manual                                         | :heavy_check_mark: Automated          |
 | [robotoff](https://github.com/openfoodfacts/robotoff)                                 | :heavy_exclamation_mark: Weak (lint, unit)    | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_check_mark: Automated                                      | :heavy_check_mark: Automated          |
 | [robotoff-ann](https://github.com/openfoodfacts/robotoff-ann)                         | :heavy_exclamation_mark: Weak (lint, unit)    | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_check_mark: Automated                                      | :heavy_check_mark: Automated          |
-| [impactestimator](https://github.com/openfoodfacts/impactestimator)                   | :heavy_exclamation_mark: Weak                 | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_check_mark: Automated                                      | :heavy_check_mark: Automated          |
+| [impactestimator](https://github.com/openfoodfacts/impactestimator)                   | :heavy_exclamation_mark: Weak                 | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_check_mark: Automated disabled                             | :heavy_check_mark: Automated disabled  |
 | [openfoodfacts-monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring) | None                 | :heavy_check_mark: Good                  | :heavy_check_mark: Automated                 | :heavy_check_mark: Automated                                      | :heavy_check_mark: Automated          |
 | [smooth-app](https://github.com/openfoodfacts/smooth-app)                             | :heavy_exclamation_mark: Weak (lint, flutter) | :heavy_check_mark: Good                  | None                      | :heavy_check_mark: Automated (deployment to Android + IOS stores) | :heavy_check_mark: Automated          |
+
+**FIXME:** add taxonomy-editor, openfoodfacts-events, facets-knowledge-panels, robotoff-ml
 
 
 ## Q&A
