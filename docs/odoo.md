@@ -60,9 +60,21 @@ In this case we will add all addons of the repository:
 
 ```bash
 cd /usr/lib/python3/dist-packages/odoo/addons
-git clone https://github.com/OCA/server-ux --branch 15.0  #for the version 15.0: adapt according to desired version
-# Update the addon path in your `/etc/odoo/odoo.conf` file to add our new directory
-# addons_path = /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
+# for odoo version 15.0: adapt according to desired version
+git clone https://github.com/OCA/server-ux --branch 15.0
+```
+
+Update the addon path in your `/etc/odoo/odoo.conf` file to add our new directory
+```bash
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
+```
+
+Look at the `__manifest__.py`, for the product you want to install, and see if there are python modules to be installed (python dependencies). Also do that for any product, it depends on.
+
+Restart Odoo:
+
+```bash
+systemctl restart odoo
 ```
 
 
@@ -70,7 +82,7 @@ Then, as an admin, in Odoo:
 * pass in developer mode (ctrl+K debug:)
 * Apps menu
 * `Update Apps List` sub-menu
-* then find the app in the `search` field
+* then find the app in the `search` field (eventually remove the "app" filter if you installed a utility)
 
 ## Create a test environment from production instance
 
