@@ -17,3 +17,6 @@ markdown_extensions:
   - toc:
       # add permalink after titles
       permalink: "#"
+  # this one allow to have two space indentation
+  # counts as nested list
+  - mdx_truly_sane_lists

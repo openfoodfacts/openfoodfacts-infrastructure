@@ -26,9 +26,13 @@ jobs:
         with:
           python-version: 3.x
       - name: Install mkdocs requirements
-        run: pip install mkdocs-material
+        run: |
+          pip install mkdocs-material
+          pip install mdx_truly_sane_lists
       - name: Generate documentation
-        run: mkdocs build
+        run: |
+          bash scripts/build_mkdocs.sh
+          mkdocs build
       - name: Deploy documentation to Github Pages 🚀
         # we only deploy on push to main
         if: |

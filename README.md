@@ -5,25 +5,27 @@ We have a [specific repository regarding monitoring](https://github.com/openfood
 
 ## Documentation
 
+Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
+
 The infrastructure documentation is as follows:
 
-- [Mail](./mail.md) - servers mail setup
-- [Linux Server](./linux-server.md) - servers general setup
-- [Proxmox](./promox.md) - about proxmox management
-- [CICD](./cicd.md) - continuous integration and deployment
-- [Observability](./observability.md) - doc on monitoring / logs / etc.
-- [Docker Onboarding](./docker_onboarding.md)
-- [Docker Infrastructure](./docker_architecture.md)
+- [Mail](./docs/mail.md) - servers mail setup
+- [Linux Server](./docs/linux-server.md) - servers general setup
+- [Proxmox](./docs/promox.md) - about proxmox management
+- [CICD](./docs/cicd.md) - continuous integration and deployment
+- [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
+- [Docker Onboarding](./docs/docker_onboarding.md)
+- [Docker Infrastructure](./docs/docker_architecture.md)
 - [Virtual Machines](#virtual-machines)
 
 Some services:
 
-- [Zammad](./zammad.md) for support
-- [Matomo](./matomo.md) for web analytics
-- [Discourse](./discourse.md) for forum
-- [Producers sftp](./producers_sftp.md) to push product updates on producer platform
+- [Zammad](./docs/zammad.md) for support
+- [Matomo](./docs/matomo.md) for web analytics
+- [Discourse](./docs/discourse.md) for forum
+- [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
 
-Also look at all install and post-mortem reports in [docs/reports](./reports/)
+Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
 ## Requests
 
