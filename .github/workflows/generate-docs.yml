@@ -14,7 +14,7 @@ on:
       - "mkdocs.yml"
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build-docs:
