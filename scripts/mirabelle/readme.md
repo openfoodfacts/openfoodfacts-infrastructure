@@ -118,3 +118,18 @@ Verify all is working fine:
 `curl http://127.0.0.1`
 
 We also have to setup our front reverse proxy: [/etc/nginx/mirabelle.conf](mirabelle.conf).
+
+
+### 7. Deploy plugin to block robots
+
+`sudo pip install datasette-block-robots`
+
+Then edit `metadata.yml` file:
+```yaml
+plugins:
+  datasette-block-robots:
+    literal: |-
+      User-agent: *
+      Disallow: /
+```
+
