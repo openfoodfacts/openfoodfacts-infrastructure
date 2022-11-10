@@ -101,6 +101,10 @@ The following diagram represents the same process, but seen from a persona persp
 * deploying to production `.org` can also be done manually by pushing a tag to the repository that follows semantic versioning: `git tag v1.1.0tc1 && git push --tags` although this is not recommended as it contradicts with the automated deployment workflow.
 * release please has to use a user PAT (Access Token) to be able to run release please. See (#84)[https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84]
 
+* use github SECRETS only for real secrets !
+  To set environment variables that depends on the deploy target, use [environment modification](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable) with a `if` directive.
+
+
 ### Rollbacks
 
 In the advent where pre-production or production environments are broken by a 'bad' change, it is important to be able to rollback to the previous version.
