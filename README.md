@@ -18,10 +18,12 @@ The infrastructure documentation is as follows:
 
 Some services:
 
-- [Zammad](./docs/zammad.md) for support
-- [Matomo](./docs/matomo.md) for web analytics
 - [Discourse](./docs/discourse.md) for forum
+- [NGINX reverse proxy](./docs/nginx-reverse-proxy.md) the reverse proxy for OVH services
+- [Folksonomy](./docs/folksonomy.md) user editable labels and values
+- [Matomo](./docs/matomo.md) for web analytics
 - [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
+- [Zammad](./docs/zammad.md) for support
 
 Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
