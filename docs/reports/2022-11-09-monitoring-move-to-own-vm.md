@@ -177,6 +177,12 @@ $ exit
 
 … system reboots and is ready.
 
+> **NOTE**: on the network side, the wiki page did in fact explains how to do, but I was not aware of its existence
+>
+>> Tips for Debian install:
+>> * IP: 10.1.0.201/8 for the installation and then switch to /24 when install is done
+>> * Gateway IP: 10.0.0.1/8 for the installation and then switch to 10.0.0.1/24 when install is done
+
 ## Accessing for the first time
 
 When I try to ping from ovh1, 10.1.0.203 is not reachable.
@@ -201,7 +207,7 @@ Host offmonit
 
 But first I have to manually copy my key there:
 
-```
+```bash
 ssh ovh1.openfoodfacts.org
 $ ssh 10.1.0.203 -o PubkeyAuthentication=no
 ...
@@ -219,3 +225,116 @@ I also edited the `/etc/sudoers` to set remove password check:
 `%sudo   ALL=(ALL:ALL) NOPASSWD:ALL`
 
 (and remember you have to logout/in for group to be taken into account)
+
+## Setting up docker and docker-compose
+
+Docker install, following https://docs.docker.com/engine/install/debian/
+```bash
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+curl -fsSL https://download.docker.com/linux/debian/gpg | \
+  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo docker run hello-world
+```
+
+Docker-compose install, following https://docs.docker.com/compose/install/other/
+```bash
+$ sudo curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+$ chmod a+x /usr/local/bin/docker-compose
+```
+
+We also check git is already installed
+
+```bash
+$ git --version
+git version 2.30.2
+```
+
+And build-essential to have make
+```bash
+$ sudo apt install build-essential
+```
+
+## Creating off user
+
+This is the user that will be used by github actions.
+
+On the monitoring VM, I use a random password, I also create authorized keys using the publickey for off:
+```bash
+$ sudo adduser off
+$ sudo mkdir /home/off/.ssh
+$ sudo vim /home/off/.ssh/authorized_keys
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBCfxLQoDV2n+FgI4DiHhFSKzHx4RS3ynrSsAN14kt+
+ off-net@ovh1
+
+$ sudo chown off:off -R /home/off/
+$ sudo chmod go-rwx -R /home/off/.ssh
+```
+
+We need off user to be able to operate docker, add it to docker group:
+
+```bash
+$ sudo adduser off docker
+```
+
+## Setting up zfs share for ES backups
+
+### Create share on ovh3
+
+We want ES backups to be on the ovh3 backups server to avoid taking place on SSD. So we want to create a fs in /rpool/backup/monitoring-volumes and share it via nfs.
+
+```bash
+sudo nfs create /rpool/backups/monitoring-volumes
+```
+
+NFS sharing is automatically inherited from backups:
+
+```bash
+sudo zfs get all rpool/backups/monitoring-volumes
+NAME                                 PROPERTY              VALUE                                 SOURCE
+...
+rpool/backups/monitoring-volumes  sharenfs              rw=@10.0.0.0/28,no_root_squash        inherited from rpool/backups
+```
+
+We can even see it in NFS conf:
+```bash
+$ sudo grep monitoring-es-backup /etc/exports.d/zfs.exports
+/rpool/backups/monitoring-volumes 10.0.0.0/28(sec=sys,rw,no_subtree_check,mountpoint,no_root_squash)
+```
+
+### Mount it in monitoring VM
+
+On monitoring VM:
+```bash
+$ sudo apt install nfs-common
+$ sudo mkdir /mnt/monitoring-volumes
+$ sudo vim /etc/fstab
+...
+# NFS share on ovh3
+10.0.0.3:/rpool/backups/monitoring-volumes     /mnt/monitoring-volumes   nfs     rw      0 0
+```
+
+Try it:
+```bash
+sudo mount /mnt/monitoring-volumes
+ls /mnt/monitoring-volumes
+```
+
+## Deploying
+
+See https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/58
+
+I didn't have to edit secrets as they are all global.
+
+Of course I add different crashes, but rectified the doc above all along the way…
+
