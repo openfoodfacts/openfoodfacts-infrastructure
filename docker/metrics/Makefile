@@ -1,13 +1,16 @@
 #!/usr/bin/make
 
-ifneq (,$(wildcard ./.env))
-    -include .env
+ENV_FILE ?= .env
+
+# load env variables
+# also takes into account envrc (direnv file)
+ifneq (,$(wildcard ./${ENV_FILE}))
+    -include ${ENV_FILE}
     -include .envrc
     export
 endif
 
 NAME = "metrics"
-ENV_FILE ?= .env
 MOUNT_POINT ?= /mnt
 DOCKER_COMPOSE=docker-compose --env-file=${ENV_FILE}
 
