@@ -261,9 +261,12 @@ git version 2.30.2
 ```
 
 And build-essential to have make
+and some tools like jq and rsync
 ```bash
-$ sudo apt install build-essential
+$ sudo apt install build-essential jq rsync
 ```
+
+
 
 ## Creating off user
 
@@ -338,3 +341,84 @@ I didn't have to edit secrets as they are all global.
 
 Of course I add different crashes, but rectified the doc above all along the way…
 
+### Migrating data and starting
+
+#### Rsync setup
+
+To keep my ssh agent around I use `ssh -A` and `sudo -E`
+```bash
+ssh -A offpre
+sudo -E bash
+```
+
+To get the directory corresponding to a volume:
+
+```bash
+$ docker volume inspect elasticsearch-data|jq ".[]|[.Mountpoint,.Options.device]"
+
+[
+"/var/lib/docker/volumes/elasticsearch-data/_data"
+]
+```
+
+Remember when using rsync that source ending slash is very important…
+
+#### Elasticsearch + kibana
+
+I started a rsync of volumes from 200 to 203:
+
+```bash
+rsync -a --delete --info=progress2 --rsync-path="sudo rsync" /var/lib/docker/volumes/elasticsearch-data/_data alex@10.1.0.203:/var/lib/docker/volumes/monitoring_elasticsearch-data/_data
+```
+
+We have warnings but it's ok.
+
+Same for backups:
+```bash
+rsync -a --delete --info=progress2 --rsync-path="sudo rsync" /var/lib/docker/volumes/monitoring_elasticsearch-backup/_data/ alex@10.1.0.203:/mnt/monitoring-volumes/monitoring_elasticsearch-backup/
+```
+
+I stopped ES and kibana and ES exporter on old prod (200) and on new VM (203).
+
+Re-runned above rsync commands.
+
+Started ES and kibana on new VM.
+
+I then changed the proxy to the new address kibana on 101:
+in `kibana.openfoodfacts.org.conf`, 10.1.0.200 becomes 10.1.0.203
+
+I also manually changed prometheus config on old VM to stare at 203 instead of 200 for elasticsearch (I could'nt deploy there any more), editing `configs/prometheus/config.yml` and using `docker-composes restart prometheus`
+
+#### Influxdb, Prometheus, alert-manager and grafana
+
+I started with a rsync of volumes from 200 to 203, for volumes:
+* grafana-data --> monitoring_grafana-data
+* prometheus-data --> monitoring_prometheus-data
+* influxdb-data --> monitoring_influxdb-data
+* alertmanager-data --> monitoring_alertmanager-data
+
+```bash
+for vname in {grafana,prometheus,influxdb,alertmanager}-dat
+a;do echo "$vname --------------"; rsync -a --delete --info=progress2 --rsync-path="sudo rsync" /var/lib/docker/volumes/$vname/_data/ alex@10.1.0.203:/var/lib/docker/volumes/monitoring_$vname/_data/;done
+```
+
+It's very fast !
+
+Then I stopped old monitoring:
+```bash
+sudo -u off docker-compose stop
+```
+
+Redo the above sync.
+
+And started services on 203.
+
+I then changed config on reverse proxy for:
+* alertmanager.openfoodfacts.org.conf
+* grafana.openfoodfacts.org.conf
+* monitoring.openfoodfacts.org.conf
+* prometheus.openfoodfacts.org.conf
+
+### Breaking old deployment
+
+To avoid an accidental restart of old stack on 200 VM, but still keep it around, I edited manually the docker-compose.yml with a bad syntax, and change ownership to root, so a deployment would break !
