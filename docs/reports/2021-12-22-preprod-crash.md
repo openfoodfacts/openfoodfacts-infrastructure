@@ -8,7 +8,7 @@
 ## Why this happens
 * probably because of resize of partition the day before on both machine,
   this makes snapshot diverge and take much more space.
-  (see [2021-12-12-disk-extension](`./2021-12-12-disk-extension.md`))
+  (see [2021-12-21-disk-extension](`./2021-12-21-disk-extension.md`))
 * out of space on zfs, blocks machine because proxmox needs to snapshot memory
 
 ## What was done
@@ -23,4 +23,4 @@ The day after:
 
 * removed the efficientnet.tar.gz in /home/off/robotoff-ann-net as it was already untared in the ann_data folder
 * hard reboot of VM *dockers (200)*
-* resized partition to 300G following [previous operating mode](`./2021-12-12-disk-extension.md`)
+* resized partition to 300G following [previous operating mode](`./2021-12-21-disk-extension.md`)

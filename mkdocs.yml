@@ -1,0 +1,22 @@
+site_name: OpenFoodFacts-infrastructure
+site_dir: gh_pages
+
+# Where to find documentation
+docs_dir: docs
+# Link to Github on every page
+repo_url: https://github.com/openfoodfacts/openfoodfacts-infrastructure
+edit_uri: blob/main/docs/
+
+theme:
+  name: material
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      # add permalink after titles
+      permalink: "#"
+  # this one allow to have two space indentation
+  # counts as nested list
+  - mdx_truly_sane_lists

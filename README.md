@@ -1,9 +1,11 @@
 # OpenFoodFacts Infrastructure
+
 Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 We have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
-
 ## Documentation
+
+Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
 
 The infrastructure documentation is as follows:
 
@@ -30,6 +32,7 @@ Also look at all install and post-mortem reports in [docs/reports](./docs/report
 ### Virtual Machines
 
 <!-- VM table -->
+
 |                                                                      Title                                                                      |State |              OS              |      CPU #      |                              RAM                              |                                                    SSD (Local)                                                    |    HDD (Remote)     |                                       Services                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|------|------------------------------|-----------------|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|---------------------|---------------------------------------------------------------------------------------|
 |<a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/159>Monitoring - VM (QEMU host for docker) [#159]</a>               |open  |Debian                        |* 4 CPUs         |* 12G for we have influxdb and elastic-search that needs memory|* 30 Go disk (it is currently around 14G, but this will grow because we want to harvest more logs and more metrics)|* 50Go for ES backups|Docker, docker-compose                                                                 |
