@@ -1,4 +1,4 @@
-# Deploying openfoodfacts-search to stagging
+# Deploying openfoodfacts-search to staging
 
 I'm taking note to further upgrade documentation or simply remember the steps through an example.
 
@@ -107,3 +107,56 @@ Also I generated the certificates:
 ```
 certbot -d search.openfoodfacts.net
 ```
+
+## Enabling live update (2022-11-10)
+
+see https://github.com/openfoodfacts/openfoodfacts-search/issues/28
+
+### Fix common net name
+
+First I tried to see if I could ping redis from backend in off-net deployment.
+
+```bash
+sudo -u off bash
+$ cd /home/off
+$ docker-compose exec -u root backend bash
+$ apt update && apt install iputils-ping
+$ ping searchredis
+PING searchredis.openfoodfacts.org (213.36.253.206) 56(84) bytes of data.
+64 bytes from off1.free.org (213.36.253.206): icmp_seq=1 ttl=49 time=6.72 ms
+```
+This is not working.
+After a small investigation, I found that the problem is the "webnet" name, which is po_webnet in off-net and webnet in off-search-net.
+
+
+* in openfoodfacts-search github repo,
+  * I changed te deploy workflow so that COMMON_NET_NAME is po_webnet
+  * I git pushed as a "deploy-" branch and created a [PR](https://github.com/openfoodfacts/openfoodfacts-search/pull/27).
+
+then I was able to really ping searchredis container from backend
+```bash
+ping searchredis
+PING searchredis (172.30.0.12) 56(84) bytes of data.
+64 bytes from po_search_searchredis_1.po_webnet (172.30.0.12): icmp_seq=1 ttl=64 time=0.407 ms
+```
+
+see https://github.com/openfoodfacts/openfoodfacts-search/issues/27
+
+### Setting REDIS_URL in off-net
+
+* simply set it in deploy (although I first forgot the port, which is part of the URL)
+
+see: https://github.com/openfoodfacts/openfoodfacts-server/pull/7682
+
+### Setting OPENFOODFACTS_API_URL
+
+The search update was working but I did get errors telling some product did not exist, and having my products updates not taken into account.
+
+I finally realized, updates where fetch from openfoodfacts.org because we forgot to set OPENFOODFACTS_API_URL in deployment.
+
+I then had errors because I miss the basic auth that is necessary to reach openfoodfacts.net service. I added it in url and it worked.
+
+see https://github.com/openfoodfacts/openfoodfacts-search/pull/29
+
+
+
