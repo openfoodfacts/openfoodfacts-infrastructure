@@ -1,11 +1,11 @@
-site_name: OpenFoodFacts-infrastructure
+site_name: Open Food Facts Infrastructure documentation
 site_dir: gh_pages
 
 # Where to find documentation
 docs_dir: docs
 # Link to Github on every page
 repo_url: https://github.com/openfoodfacts/openfoodfacts-infrastructure
-edit_uri: blob/main/docs/
+edit_uri: blob/develop/docs/
 
 theme:
   name: material
