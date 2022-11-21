@@ -36,7 +36,7 @@ jobs:
       - name: Deploy documentation to Github Pages 🚀
         # we only deploy on push to main
         if: |
-          github.event_name == 'push' && github.event.ref == 'refs/heads/main'
+          github.event_name == 'push' && github.event.ref == 'refs/heads/develop'
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
