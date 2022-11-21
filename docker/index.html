@@ -1,0 +1,1027 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Docker at Open Food Facts - OpenFoodFacts-infrastructure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.08040f6c.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker-at-open-food-facts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="OpenFoodFacts-infrastructure" class="md-header__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenFoodFacts-infrastructure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Docker at Open Food Facts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="OpenFoodFacts-infrastructure" class="md-nav__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OpenFoodFacts-infrastructure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Docker at Open Food Facts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Docker at Open Food Facts
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    Technology stack
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-idempotency" class="md-nav__link">
+    Docker (idempotency)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-orchestration" class="md-nav__link">
+    Docker-Compose (orchestration)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env-file-secret-management" class="md-nav__link">
+    Env file (secret management)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practice-for-docker-containers" class="md-nav__link">
+    Best Practice for Docker containers
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practice for Docker containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-configuration-through-environment" class="md-nav__link">
+    Enable configuration through environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev-config" class="md-nav__link">
+    Dev config
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod-config" class="md-nav__link">
+    Prod config
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reports" data-md-level="1">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    Technology stack
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-idempotency" class="md-nav__link">
+    Docker (idempotency)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-orchestration" class="md-nav__link">
+    Docker-Compose (orchestration)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env-file-secret-management" class="md-nav__link">
+    Env file (secret management)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practice-for-docker-containers" class="md-nav__link">
+    Best Practice for Docker containers
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practice for Docker containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-configuration-through-environment" class="md-nav__link">
+    Enable configuration through environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev-config" class="md-nav__link">
+    Dev config
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod-config" class="md-nav__link">
+    Prod config
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/main/docs/docker.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="docker-at-open-food-facts">Docker at Open Food Facts<a class="headerlink" href="#docker-at-open-food-facts" title="Permanent link">#</a></h1>
+<h2 id="technology-stack">Technology stack<a class="headerlink" href="#technology-stack" title="Permanent link">#</a></h2>
+<p>See also:  <a href="../cicd/#technology-stack">Continous Integration and Continuous Delivery</a></p>
+<h3 id="docker-idempotency">Docker (<em>idempotency</em>)<a class="headerlink" href="#docker-idempotency" title="Permanent link">#</a></h3>
+<p>The process of dockerizing applications is an important step towards achieving a modern-day great Continuous Integration and Continous Delivery process.</p>
+<p><strong>Dockerization</strong> avoids common pitfalls in deployment processes, such as having to write idempotent deployment scripts to deploy an application. A Docker container build can be run many times producing each time the same resulting image.</p>
+<p>Most of Open Food Facts git repositories have a <code>Dockerfile</code> that is used both to test changes locally, but also to ease automated testing and automated deployments through <strong>idempotency</strong> (a.k.a repeatabilty, or the ability to re-run a deployment X times without problems).</p>
+<h3 id="docker-compose-orchestration">Docker-Compose (<em>orchestration</em>)<a class="headerlink" href="#docker-compose-orchestration" title="Permanent link">#</a></h3>
+<p>We use <code>docker-compose</code> to deploy our applications to our servers: it is a simple <strong>orchestator</strong> that can deploy to a single machine at once.</p>
+<p>An alternative like <code>docker swarm</code> or <code>kubernetes</code> could be considered in the future to deploy to multiple machines at scale, but it currently does not make much sense considering the small amount of servers used to run Open Food Facts.</p>
+<h3 id="env-file-secret-management">Env file (<em>secret management</em>)<a class="headerlink" href="#env-file-secret-management" title="Permanent link">#</a></h3>
+<p>Every OFF repo has a <code>.env</code> file that contains the secrets needed by the application to run properly. The <code>.env</code> file is loaded by the <code>docker-compose</code> commands.</p>
+<p>The default <code>.env</code> file in the repo is ready for local development and should rarely be modified.</p>
+<p>In pre-production and production, the <code>.env</code> file is populated by the GitHub action (using GitHub environment secrets) before deploying to the target environment.</p>
+<p><strong>Warnings:</strong>
+* The default <code>.env</code> file should rarely change. If you need a different environment locally, create a new env file (e.g <code>.env.test</code>) and set <code>ENV_FILE=.env.test</code> before running the <code>Makefile</code> commands. 
+* Do not commit your env files to the repos !
+* you may use <code>direnv</code> to override some variables on a folder basis. See <a href="https://github.com/openfoodfacts/openfoodfacts-server/blob/main/docs/how-to-guides/use-direnv.md">how-to for openfoodfacts-server</a></p>
+<h2 id="best-practice-for-docker-containers">Best Practice for Docker containers<a class="headerlink" href="#best-practice-for-docker-containers" title="Permanent link">#</a></h2>
+<p>Here are some important rules. The document also explain why we follow those rules.
+From time to time you might have good reason to bend or break the rules, 
+but only do it if needed.
+Rules also enables having a consistent experiences between projects.</p>
+<h3 id="images">Images<a class="headerlink" href="#images" title="Permanent link">#</a></h3>
+<ul>
+<li>If possible use an official image. If you use another image take a look on how it's built.
+  It's important to be future proof and to be able to rely on a good base.</li>
+</ul>
+<ul>
+<li>We try to favor images based on debian, if really needed you can use arch or other architecture.
+  This is to keep consistent and manageable to admin and developers to debug images.</li>
+</ul>
+<h3 id="enable-configuration-through-environment">Enable configuration through environment<a class="headerlink" href="#enable-configuration-through-environment" title="Permanent link">#</a></h3>
+<p>We really want to be able to run the same project multiple time on same machine / server.
+For that we need to ensure that we can configure the docker-compose project.</p>
+<p>You have two mechanism to configure the docker-compose:
+- docker-compose file composition, use it for structural changes
+- .env is the prefered way to change configuration (but can't solve it all)</p>
+<ul>
+<li>Avoid too generic name for services. Like <code>postgresql</code> it's better to use <code>myproject_db</code>.</li>
+<li>Every public network should have a configurable name.
+  To be able to run the project more than once, to also be able to connect docker-compose between them.</li>
+<li>Every port exposure should be changeable through env.
+  We want to be able to change port (run multiple time same project),
+  and to keep exposure to localhost on dev (avoid exposure on public wifi).</li>
+<li>Never use <em>container_name</em> (let docker-compose build the name)</li>
+<li>Never user static names for volumes, let docker-compose add a prefix</li>
+<li>try to stitch to the default network
+  and setup a network with a configurable name for exchanges with other projects services
+  (that is located in other docker-compose).</li>
+<li>restart directive should always be configurable.
+  While we want auto-start in production, we don't want it on dev machines.</li>
+<li>always prefer prod defaults for variable, or safe default.
+  For example it's better to only expose to localhost.
+  And if a variable is missing in prod it should never create a disaster.</li>
+</ul>
+<h3 id="dev-config">Dev config<a class="headerlink" href="#dev-config" title="Permanent link">#</a></h3>
+<p>The docker-compose.yml should be as close as possible to production.</p>
+<p>Put specific configurations in a docker/dev.yml</p>
+<ul>
+<li>The build part should only be in dev docker-compose.
+  (see why we use images only in prod)</li>
+<li>use a USER_UID / USER_GID parameter to align docker user with host user uid.
+  This avoid having problems with file permissions.</li>
+<li>bind mount code so that it's easy to develop.</li>
+<li>make it possible to connect the project between them on dev, as if it was on production.
+  This enables manual integration testing of all the project all together.</li>
+</ul>
+<h3 id="prod-config">Prod config<a class="headerlink" href="#prod-config" title="Permanent link">#</a></h3>
+<p>Here I talk about production, but staging is as much possible identical to prod.</p>
+<ul>
+<li>There should be no build in production, containers should be defined by their images.
+  We want to be able to redeploy easily only depending on the container registry, not external packages repositories and so on.</li>
+</ul>
+<ul>
+<li>every volume containing production data should be external (to avoid a <code>docker-compose down</code> fatality if <code>-v</code> is added). The Makefile should contain a creation target (<code>create_external_volumes</code>)</li>
+<li>shared network name should have a prefix which reflect the environment: like stagging / prod</li>
+<li>COMPOSE_PROJECT_NAME should use <project_name>_: like po_stagging, po_prod, ...</li>
+</ul>
+<p>see also https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/146</p>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">#</a></h3>
+<ul>
+<li>Try hard not to use root in docker images. (it's ok if root is only used to launch a service that immediately drops privileges)<ul>
+<li>for containers that contains code, or elements that are edited by developers and bind mounted at dev time</li>
+</ul>
+</li>
+<li>expose to localhost only whenever possible. Only expose to all interfaces when needed</li>
+<li>be aware that docker use an alternative table for ip tables.
+  A blocking INPUT or OUTPUT rule won't apply to docker exposed port.
+  You can instead add rules to DOCKER-USER chain.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../discourse/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Discourse" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Discourse
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../docker_architecture/" class="md-footer__link md-footer__link--next" aria-label="Next: Docker architecture" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Docker architecture
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1461 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Kibana down because of Elasticsearch circuit_breaking_exception - OpenFoodFacts-infrastructure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.08040f6c.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kibana-down-because-of-elasticsearch-circuit_breaking_exception" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenFoodFacts-infrastructure" class="md-header__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenFoodFacts-infrastructure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Kibana down because of Elasticsearch circuit_breaking_exception
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenFoodFacts-infrastructure" class="md-nav__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OpenFoodFacts-infrastructure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reports" data-md-level="1">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Kibana down because of Elasticsearch circuit_breaking_exception
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    Symptoms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-diagnose-and-remedy" class="md-nav__link">
+    Trying to diagnose and remedy
+  </a>
+  
+    <nav class="md-nav" aria-label="Trying to diagnose and remedy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-problem" class="md-nav__link">
+    Base problem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-memory" class="md-nav__link">
+    More memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continue-diagnosis" class="md-nav__link">
+    Continue diagnosis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tunning-parent-circuit-breaker" class="md-nav__link">
+    Tunning parent circuit breaker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#garbage-collection" class="md-nav__link">
+    Garbage collection ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-size" class="md-nav__link">
+    Data size
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#too-many-shards" class="md-nav__link">
+    Too many shards ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repairing-backup-then-remove-old-indices" class="md-nav__link">
+    Repairing (backup then remove old indices)
+  </a>
+  
+    <nav class="md-nav" aria-label="Repairing (backup then remove old indices)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#more-memory_1" class="md-nav__link">
+    More memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshoting-backup" class="md-nav__link">
+    Snapshoting (backup)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-indices" class="md-nav__link">
+    Removing indices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-snapshot-policy-and-ilm-policy" class="md-nav__link">
+    Fixing Snapshot policy and ILM policy
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Snapshot policy and ILM policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-snapshot-policy" class="md-nav__link">
+    Create snapshot policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-index-lifecycle-management-policy" class="md-nav__link">
+    Create Index Lifecycle Management policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attach-policy-to-index-template" class="md-nav__link">
+    Attach policy to index template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attach-old-index-to-a-policy" class="md-nav__link">
+    Attach old index to a policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#useful-resources" class="md-nav__link">
+    Useful resources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    Symptoms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-diagnose-and-remedy" class="md-nav__link">
+    Trying to diagnose and remedy
+  </a>
+  
+    <nav class="md-nav" aria-label="Trying to diagnose and remedy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-problem" class="md-nav__link">
+    Base problem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-memory" class="md-nav__link">
+    More memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continue-diagnosis" class="md-nav__link">
+    Continue diagnosis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tunning-parent-circuit-breaker" class="md-nav__link">
+    Tunning parent circuit breaker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#garbage-collection" class="md-nav__link">
+    Garbage collection ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-size" class="md-nav__link">
+    Data size
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#too-many-shards" class="md-nav__link">
+    Too many shards ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repairing-backup-then-remove-old-indices" class="md-nav__link">
+    Repairing (backup then remove old indices)
+  </a>
+  
+    <nav class="md-nav" aria-label="Repairing (backup then remove old indices)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#more-memory_1" class="md-nav__link">
+    More memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshoting-backup" class="md-nav__link">
+    Snapshoting (backup)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-indices" class="md-nav__link">
+    Removing indices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-snapshot-policy-and-ilm-policy" class="md-nav__link">
+    Fixing Snapshot policy and ILM policy
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Snapshot policy and ILM policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-snapshot-policy" class="md-nav__link">
+    Create snapshot policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-index-lifecycle-management-policy" class="md-nav__link">
+    Create Index Lifecycle Management policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attach-policy-to-index-template" class="md-nav__link">
+    Attach policy to index template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attach-old-index-to-a-policy" class="md-nav__link">
+    Attach old index to a policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#useful-resources" class="md-nav__link">
+    Useful resources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/main/docs/reports/2022-07-kibana-down-es-circuit-breaking-exception.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="kibana-down-because-of-elasticsearch-circuit_breaking_exception">Kibana down because of Elasticsearch circuit_breaking_exception<a class="headerlink" href="#kibana-down-because-of-elasticsearch-circuit_breaking_exception" title="Permanent link">#</a></h1>
+<h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
+<p>We got a lot of alerts in infrastructure-alerts slack channel for:</p>
+<blockquote>
+<p>Service probe on URL 'https://kibana.openfoodfacts.org/status' failed for more than 5 minutes.</p>
+</blockquote>
+<p>Going to the status url we got a "server error".</p>
+<h2 id="trying-to-diagnose-and-remedy">Trying to diagnose and remedy<a class="headerlink" href="#trying-to-diagnose-and-remedy" title="Permanent link">#</a></h2>
+<h3 id="base-problem">Base problem<a class="headerlink" href="#base-problem" title="Permanent link">#</a></h3>
+<p>On the machine, looking at kibana logs, while doing a request</p>
+<p><div class="highlight"><pre><span></span><code>docker-compose logs --tail=0 -f kibana
+</code></pre></div>
+we see
+<div class="highlight"><pre><span></span><code><span class="err">kiba</span><span class="kc">na</span><span class="err">_</span><span class="mi">1</span><span class="w">                  </span><span class="err">|</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;log&quot;</span><span class="p">,</span><span class="nt">&quot;@timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-07-27T12:36:07+00:00&quot;</span><span class="p">,</span><span class="nt">&quot;tags&quot;</span><span class="p">:[</span><span class="s2">&quot;error&quot;</span><span class="p">,</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span><span class="s2">&quot;security&quot;</span><span class="p">,</span><span class="s2">&quot;authentication&quot;</span><span class="p">],</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">1216</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;License is not available, authentication is not possible.&quot;</span><span class="p">}</span><span class="w"></span>
+<span class="err">kiba</span><span class="kc">na</span><span class="err">_</span><span class="mi">1</span><span class="w">                  </span><span class="err">|</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;log&quot;</span><span class="p">,</span><span class="nt">&quot;@timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-07-27T12:36:07+00:00&quot;</span><span class="p">,</span><span class="nt">&quot;tags&quot;</span><span class="p">:[</span><span class="s2">&quot;warning&quot;</span><span class="p">,</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span><span class="s2">&quot;licensing&quot;</span><span class="p">],</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">1216</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;License information could not be obtained from Elasticsearch due to {\&quot;error\&quot;:{\&quot;root_cause\&quot;:[{\&quot;type\&quot;:\&quot;circuit_breaking_exception\&quot;,\&quot;reason\&quot;:\&quot;[parent] Data too large, data for [&lt;http_request&gt;] would be [1028220976/980.5mb], which is larger than the limit of [1020054732/972.7mb], real usage: [1028220976/980.5mb], new bytes reserved: [0/0b], usages [request=0/0b, fielddata=0/0b, in_flight_requests=0/0b, model_inference=0/0b, eql_sequence=0/0b, accounting=76757928/73.2mb]\&quot;,\&quot;bytes_wanted\&quot;:1028220976,\&quot;bytes_limit\&quot;:1020054732,\&quot;durability\&quot;:\&quot;PERMANENT\&quot;}],\&quot;type\&quot;:\&quot;circuit_breaking_exception\&quot;,\&quot;reason\&quot;:\&quot;[parent] Data too large, data for [&lt;http_request&gt;] would be [1028220976/980.5mb], which is larger than the limit of [1020054732/972.7mb], real usage: [1028220976/980.5mb], new bytes reserved: [0/0b], usages [request=0/0b, fielddata=0/0b, in_flight_requests=0/0b, model_inference=0/0b, eql_sequence=0/0b, accounting=76757928/73.2mb]\&quot;,\&quot;bytes_wanted\&quot;:1028220976,\&quot;bytes_limit\&quot;:1020054732,\&quot;durability\&quot;:\&quot;PERMANENT\&quot;},\&quot;status\&quot;:429} error&quot;</span><span class="p">}</span><span class="w"></span>
+</code></pre></div></p>
+<h3 id="more-memory">More memory<a class="headerlink" href="#more-memory" title="Permanent link">#</a></h3>
+<p>The day before, I gave more memory to ES to see if it was the problem, but it's not (see <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/54">openfoodfacts-monitoring:#54</a>).</p>
+<h3 id="continue-diagnosis">Continue diagnosis<a class="headerlink" href="#continue-diagnosis" title="Permanent link">#</a></h3>
+<p>If we go on kibana container we can reproduce error:</p>
+<div class="highlight"><pre><span></span><code>docker-compose exec kibana bash
+</code></pre></div>
+<p>ES is there:
+<div class="highlight"><pre><span></span><code>curl -XGET http://elasticsearch:9200
+</code></pre></div></p>
+<p>but we get the circuit_breaking_exception while querying
+<div class="highlight"><pre><span></span><code><span class="err">curl</span><span class="w"> </span><span class="mi">-</span><span class="err">XGET</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">p</span><span class="p">:</span><span class="c1">//elasticsearch:9200/_license?pretty=true</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;root_cause&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;circuit_breaking_exception&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;reason&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[parent] Data too large, data for [&lt;http_request&gt;] would be [1027528328/979.9mb], which is larger than the limit of [1020054732/972.7mb], real usage: [1027528328/979.9mb], new bytes reserved: [0/0b], usages [request=0/0b, fielddata=0/0b, in_flight_requests=0/0b, model_inference=0/0b, eql_sequence=0/0b, accounting=76607288/73mb]&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;bytes_wanted&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1027528328</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;bytes_limit&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1020054732</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;durability&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERMANENT&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;circuit_breaking_exception&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;reason&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[parent] Data too large, data for [&lt;http_request&gt;] would be [1027528328/979.9mb], which is larger than the limit of [1020054732/972.7mb], real usage: [1027528328/979.9mb], new bytes reserved: [0/0b], usages [request=0/0b, fielddata=0/0b, in_flight_requests=0/0b, model_inference=0/0b, eql_sequence=0/0b, accounting=76607288/73mb]&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;bytes_wanted&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1027528328</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;bytes_limit&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1020054732</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;durability&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERMANENT&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">429</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></p>
+<p>trying to <a href="https://www.elastic.co/guide/en/elasticsearch//reference/current/cluster-nodes-stats.html">get stats</a> for breaker:
+<div class="highlight"><pre><span></span><code>curl -XGET elasticsearch:9200/_nodes/stats/breaker?pretty=true
+</code></pre></div>
+we see:
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;parent&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;limit_size_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1020054732</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;limit_size&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;972.7mb&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;estimated_size_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1030370648</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;estimated_size&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;982.6mb&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;overhead&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;tripped&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">39108</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+</code></pre></div></p>
+<p>Parent is the responsible for all memory according to <a href="">amazon help center</a> :</p>
+<blockquote>
+<p>The parent circuit breaker (a circuit breaker type) is responsible for the overall memory usage of your cluster.</p>
+</blockquote>
+<p>I tried to clear out <code>fielddata</code> cache:</p>
+<p><div class="highlight"><pre><span></span><code>curl -XPOST http://elasticsearch:9200/*/_cache/clear?fielddata=true
+</code></pre></div>
+but it does not solve the problem.</p>
+<h3 id="tunning-parent-circuit-breaker">Tunning parent circuit breaker<a class="headerlink" href="#tunning-parent-circuit-breaker" title="Permanent link">#</a></h3>
+<p>Comparing to <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.0/circuit-breaker.html#parent-circuit-breaker">reference documentation</a>,
+our settings seems a bit low compared to defaults.</p>
+<p>I will try to augment the parent size for now, and set it to real memory tracking.</p>
+<p>Edited the docker-compose to add configuration (through environment variables):</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">elasticsearch</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;indices.breaker.total.use_real_memory=true&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;indices.breaker.request.limit=95%&quot;</span><span class="w"></span>
+</code></pre></div>
+<p>and restarted the container
+<div class="highlight"><pre><span></span><code>docker-compose restart elasticsearch
+</code></pre></div></p>
+<p>It's not enough.</p>
+<p>The issue might be that we have too much  data (17Gb indexes)</p>
+<h3 id="garbage-collection">Garbage collection ?<a class="headerlink" href="#garbage-collection" title="Permanent link">#</a></h3>
+<p>Is that maybe related to Garbage collection ?
+Listing <code>/usr/share/elasticsearch/config/jvm.options</code> in the container shows that G1GC is in use:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## GC configuration</span>
+<span class="m">8</span>-13:-XX:+UseConcMarkSweepGC
+<span class="m">8</span>-13:-XX:CMSInitiatingOccupancyFraction<span class="o">=</span><span class="m">75</span>
+<span class="m">8</span>-13:-XX:+UseCMSInitiatingOccupancyOnly
+
+<span class="c1">## G1GC Configuration</span>
+<span class="c1"># NOTE: G1 GC is only supported on JDK version 10 or later</span>
+<span class="c1"># to use G1GC, uncomment the next two lines and update the version on the</span>
+<span class="c1"># following three lines to your version of the JDK</span>
+<span class="c1"># 10-13:-XX:-UseConcMarkSweepGC</span>
+<span class="c1"># 10-13:-XX:-UseCMSInitiatingOccupancyOnly</span>
+<span class="m">14</span>-:-XX:+UseG1GC
+</code></pre></div>
+<p>line <code>14-:</code> applies for we are on version 16 of the jdk:</p>
+<div class="highlight"><pre><span></span><code># jdk/bin/java --version
+openjdk 16.0.2 2021-07-20
+</code></pre></div>
+<h3 id="data-size">Data size<a class="headerlink" href="#data-size" title="Permanent link">#</a></h3>
+<p>In elasticsearch container:
+<div class="highlight"><pre><span></span><code>curl localhost:9200/_cluster/stats?pretty=true
+</code></pre></div></p>
+<p>We got
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="err">...</span><span class="w"></span>
+<span class="w"> </span><span class="nt">&quot;segments&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;count&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2390</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">76423432</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;terms_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">65353984</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;stored_fields_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1225392</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;term_vectors_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;norms_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">9117696</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;points_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;doc_values_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">726360</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;index_writer_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">35328144</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;version_map_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;fixed_bit_set_memory_in_bytes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">960</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;max_unsafe_auto_id_timestamp&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1658927252002</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;file_sizes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w"> </span><span class="err">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+other memory values (for <code>querycache</code> or <code>fielddata</code>) ar <code>0</code> or near <code>0</code>.</p>
+<p>This is 188,175,008 bytes in total, which is 180m.</p>
+<p>If we look at nodes using <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.14/cat-nodes.html">cat nodes API</a>:</p>
+<p><div class="highlight"><pre><span></span><code>curl -XGET &quot;localhost:9200/_cat/nodes?v=true&amp;h=name,node*,heap*&quot;
+name         id   node.role   heap.current heap.percent heap.max
+0665175f0369 3vOq cdfhilmrstw      978.5mb           95      1gb
+</code></pre></div>
+we see two potential problems:
+* heap size is only 1gb (it should be 2 according to our heap settings)
+* our a node use 95% memory</p>
+<h3 id="too-many-shards">Too many shards ?<a class="headerlink" href="#too-many-shards" title="Permanent link">#</a></h3>
+<p>following <a href="https://www.elastic.co/blog/managing-and-troubleshooting-elasticsearch-memory">Es blog on memory troubleshooting</a></p>
+<p>Over sharding is a usual suspect, let see:</p>
+<div class="highlight"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="err">curl</span><span class="w"> </span><span class="mi">-</span><span class="err">XGET</span><span class="w"> </span><span class="s2">&quot;localhost:9200/_cluster/health?filter_path=status,*_shards&amp;pretty=true&quot;</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;active_primary_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">317</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;active_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">317</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;relocating_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;initializing_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;unassigned_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">302</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;delayed_unassigned_shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>while recommanded for our setting (2Gb) is 40 shards !
+Also having <code>unassigned_shards</code> seems a bad news !</p>
+<p>The problems comes from the fact that we have many indices. The ILM (Index Life Cycle Management) should prevent that, but it does not.</p>
+<h2 id="repairing-backup-then-remove-old-indices">Repairing (backup then remove old indices)<a class="headerlink" href="#repairing-backup-then-remove-old-indices" title="Permanent link">#</a></h2>
+<h3 id="more-memory_1">More memory<a class="headerlink" href="#more-memory_1" title="Permanent link">#</a></h3>
+<p>First I need to snapshot to eventually clear some indices. But with the exception I can't do it, I can't even check a snapshot repository already exists:</p>
+<div class="highlight"><pre><span></span><code>$ curl -XGET 127.0.0.1:9200/_snapshot
+{&quot;error&quot;:{&quot;root_cause&quot;:[{&quot;type&quot;:&quot;circuit_breaking_exception&quot;,&quot;reason&quot;:&quot;[parent] Data too large, data for [&lt;http_request&gt;] would be [1026619992/979mb], which is larger than the limit of [1020054732/972.7mb], real usage: [1026619992/979mb], new bytes reserved: [0/0b], usages [request=0/0b, fielddata=815/815b, in_flight_request...
+</code></pre></div>
+<p>No choice then, we have to give ES enough memory to be able to handle current indices… we go for a hype of 8G.
+I change the <code>docker-compose.yml</code>:
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">elasticsearch</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;ES_JAVA_OPTS=-Xms8048m -Xmx8048m&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="nt">mem_limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9g</span><span class="w"></span>
+</code></pre></div></p>
+<p>But then again after a while we are blocked by the exception again :-(
+Even stranger, we have a larger than the limit of [1020054732/972.7mb]</p>
+<p>circuit breaker limit was for request not total !
+changed <code>indices.breaker.request.limit=95%</code> to <code>indices.breaker.total.limit=95%</code>.
+... same result !</p>
+<h3 id="snapshoting-backup">Snapshoting (backup)<a class="headerlink" href="#snapshoting-backup" title="Permanent link">#</a></h3>
+<p>Trying to backup:</p>
+<ul>
+<li>
+<p>modified docker-compose.yml to add</p>
+<p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">elasticsearch</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">- &quot;path.repo=/opt/elasticsearch/backups&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">volumes</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">elasticsearch-backup:/opt/elasticsearch</span><span class="w"></span>
+
+<span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="nn">...</span><span class="w"></span>
+<span class="nt">elasticsearch-backup</span><span class="p">:</span><span class="w"></span>
+</code></pre></div>
+- Create directories</p>
+<div class="highlight"><pre><span></span><code>docker-compose run --rm elasticsearch bash
+<span class="nb">cd</span> /opt/elasticsearch
+mkdir backups
+chown elasticsearch /opt/elasticsearch/ -R
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>Recreated container</p>
+<div class="highlight"><pre><span></span><code>docker-compose rm -sf elasticsearch
+docker-compose up -d elasticsearch
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>Created the snapshot repository
+  <div class="highlight"><pre><span></span><code>curl -X PUT <span class="s2">&quot;http://localhost:9200/_snapshot/backups?pretty&quot;</span> -H <span class="s1">&#39;Content-Type: application/json&#39;</span>     -d<span class="s1">&#39;</span>
+<span class="s1">{</span>
+<span class="s1">  &quot;type&quot;: &quot;fs&quot;,</span>
+<span class="s1">  &quot;settings&quot;: {</span>
+<span class="s1">    &quot;location&quot;: &quot;/opt/elasticsearch/backups&quot;</span>
+<span class="s1">  }</span>
+<span class="s1">}</span>
+<span class="s1">&#39;</span>
+</code></pre></div>
+  <strong>Note:</strong> (we had to retry several times because of circuit breaking exceptions)</li>
+</ul>
+<ul>
+<li>get all indices names<div class="highlight"><pre><span></span><code>curl -XGET <span class="s2">&quot;http://localhost:9200/*?pretty=true&quot;</span><span class="p">|</span>grep <span class="s1">&#39;^  &quot;logs&#39;</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>
+<p>make a global snapshot, in a screen !!!</p>
+<p><div class="highlight"><pre><span></span><code>screen
+...
+curl -X PUT <span class="s2">&quot;localhost:9200/_snapshot/backups/2022-07-31?wait_for_completion=true&amp;pretty&quot;</span> -H   <span class="s1">&#39;Content-Type: application/json&#39;</span> -d<span class="s1">&#39;</span>
+<span class="s1">{</span>
+<span class="s1">  &quot;indices&quot;: [],</span>
+<span class="s1">  &quot;ignore_unavailable&quot;: true,</span>
+<span class="s1">  &quot;include_global_state&quot;: false,</span>
+<span class="s1">  &quot;metadata&quot;: {</span>
+<span class="s1">    &quot;taken_by&quot;: &quot;alex&quot;,</span>
+<span class="s1">    &quot;taken_because&quot;: &quot;backup before removing some indices&quot;</span>
+<span class="s1">  }</span>
+<span class="s1">}</span>
+<span class="s1">&#39;</span>
+</code></pre></div>
+And it's a success !</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="nt">&quot;snapshot&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;snapshot&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-07-31&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;uuid&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kHQXBTGhQb-4-jH0m5mMfg&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;repository&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;backups&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;version_id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7140199</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="err">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SUCCESS&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;start_time&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-07-31T18:06:51.220Z&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;start_time_in_millis&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1659290811220</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;end_time&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-07-31T18:15:08.301Z&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;end_time_in_millis&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1659291308301</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;duration_in_millis&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">497081</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;failures&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;shards&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;total&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;failed&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;successful&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">322</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;feature_states&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</li>
+</ul>
+<p>So we start removing indices !</p>
+<h3 id="removing-indices">Removing indices<a class="headerlink" href="#removing-indices" title="Permanent link">#</a></h3>
+<p>Let's remove 2021 logs</p>
+<div class="highlight"><pre><span></span><code>curl -X DELETE <span class="s2">&quot;localhost:9200/logs-2021.*?pretty=true&quot;</span>
+</code></pre></div>
+<p>Is hard to pass, so we restart elasticsearch and try again… success.</p>
+<p>Lets remove 2022.01… until 04</p>
+<p>Finally it works !</p>
+<h2 id="fixing-snapshot-policy-and-ilm-policy">Fixing Snapshot policy and ILM policy<a class="headerlink" href="#fixing-snapshot-policy-and-ilm-policy" title="Permanent link">#</a></h2>
+<p>It is a temporary fix… now we have to use kibana to setup a better policy (and maybe take ES memory down a bit again ?)</p>
+<h3 id="create-snapshot-policy">Create snapshot policy<a class="headerlink" href="#create-snapshot-policy" title="Permanent link">#</a></h3>
+<p>In Kibana, go to Management -&gt; Stack Management -&gt; Snapshot and restore</p>
+<p>In "Repositories" we see the <code>backups</code> repository that was created before, pointing to <code>/opt/elasticsearch/backups</code></p>
+<p>Remember that we had to edit the <code>docker-compose.yml</code> file to add the <code>path.repo</code> environment variable and the <code>elasticsearch-backup</code> volume.</p>
+<p>In "Policies", we create a policy named <code>weekly-snapshots</code> as follow:
+- Snapshot name: <code>&lt;weekly-snap-{now/d}&gt;</code>
+- Repository: backups
+- Schedule : weekly
+- Data streams and indices: All indices
+- Ignore unavailable indices: No
+- Allow partial shards: No
+- Include global state: Yes
+- Retention: delete after 360d
+- Min count: 20</p>
+<h3 id="create-index-lifecycle-management-policy">Create Index Lifecycle Management policy<a class="headerlink" href="#create-index-lifecycle-management-policy" title="Permanent link">#</a></h3>
+<p>This part is very important. Logs are creating a lot of indices (as logrotate would) and so we have to automatically manage what happens with old indices so that we do not go beyond hardware capabilities (too much indices takes too much memory).
+ES has a mechanism for that called Index Lifecycle Management (ILM).</p>
+<p>In Kibana, go to Management -&gt; Stack Management -&gt; Index Lifecycle Policy</p>
+<p>There is already a log policy. Edit it to have this:</p>
+<ul>
+<li>Hot phase (the phase where the index is the active index for logs)<ul>
+<li>Roll over : use recommended defaults</li>
+<li>set index priority to 100</li>
+</ul>
+</li>
+<li>Warm phase (the phase where the index is history of logs, you want to search)<ul>
+<li>Move data into phase when 58 days old</li>
+<li>replicas: 0</li>
+<li>Shrink: to 1</li>
+<li>Force merge to 1 + compress</li>
+<li>mark read only</li>
+<li>index priority: 50</li>
+</ul>
+</li>
+<li>Cold phase (historical data, last phase before removal)<ul>
+<li>Move data into phase when: 119 days old</li>
+<li>Do not make them searchable</li>
+</ul>
+</li>
+<li>Delete phase:<ul>
+<li>move data intor phase when 240 days old</li>
+<li>Wait for snapshot policy: weekly-snapshots</li>
+</ul>
+</li>
+</ul>
+<h3 id="attach-policy-to-index-template">Attach policy to index template<a class="headerlink" href="#attach-policy-to-index-template" title="Permanent link">#</a></h3>
+<p>Attach the logs policy you edited to the logs index template.</p>
+<p>In Management -&gt; Stack Management -&gt; Index Lifecycle Policy,</p>
+<ul>
+<li>On the line corresponding to <strong>logs</strong> policy, use <em>Action</em> button + <em>Add policy to index template</em></li>
+<li>Set template to <strong>logs</strong></li>
+<li>Set alias to <strong>logs-current</strong></li>
+</ul>
+<p>We notice that logs template pattern was not coherent, as it was <code>logs-*-*</code>, so we also add <code>logs-*.*.*</code> that match our indexes names.
+To do this goes to Management -&gt; Stack Management -&gt; Index Management -&gt; Index Templates, and edit the logs template.</p>
+<p>Now we have to create the active alias. It should correspond to our last index. This was <code>logs-2022.08.18</code> at time of writing.</p>
+<p>In the Dev Tool -&gt; Console, we run:</p>
+<div class="highlight"><pre><span></span><code>POST _aliases
+{
+  &quot;actions&quot;: [
+    {
+      &quot;add&quot;: {
+        &quot;index&quot;: &quot;logs-2022.08.18&quot;,
+        &quot;alias&quot;: &quot;logs-current&quot;,
+         &quot;is_write_index&quot;: true
+      }
+    }
+  ]
+}
+</code></pre></div>
+<p>We then go to  Management -&gt; Stack Management -&gt; Index Management</p>
+<p>Select <em>logs-2022.08.18</em> and use "Manage" apply log policy, with:
+* policy: logs
+* alias: logs-current</p>
+<h3 id="attach-old-index-to-a-policy">Attach old index to a policy<a class="headerlink" href="#attach-old-index-to-a-policy" title="Permanent link">#</a></h3>
+<p>This will add it for future indices, but we want to add it to existing indices (we follow <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-with-existing-indices.html">ES doc, section Manage existing indices</a>).</p>
+<ul>
+<li>going to Management -&gt; Stack Management -&gt; Index Lifecycle Policy
+  we create a policy that is exactly the same as logs policy but:<ul>
+<li>name is logs-old</li>
+<li>rollover is disabled</li>
+</ul>
+</li>
+<li>we apply it to 05 logs, in Dev Tool -&gt; Console, by running:
+  <div class="highlight"><pre><span></span><code>PUT logs-2022.05.*/_settings 
+{
+  &quot;index&quot;: {
+    &quot;lifecycle&quot;: {
+      &quot;name&quot;: &quot;logs-old&quot;
+    }
+  }
+}
+</code></pre></div></li>
+<li>we do the  same for every monthes until 08, but beware not to apply it to 2022.08.18 !</li>
+</ul>
+<h2 id="useful-resources">Useful resources<a class="headerlink" href="#useful-resources" title="Permanent link">#</a></h2>
+<p>About circuit breaker exception:
+- https://aws.amazon.com/premiumsupport/knowledge-center/opensearch-circuit-breaker-exception/
+- https://www.elastic.co/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker
+- https://www.elastic.co/guide/en/elasticsearch/reference/7.0/circuit-breaker.html#parent-circuit-breaker</p>
+<p>About index lifecycle management (ILM):
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index-lifecycle-management.html
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../2022-07-11-infra-workshop/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Infrastructure future - workshop on 11th July 2022" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Infrastructure future - workshop on 11th July 2022
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-footer__link md-footer__link--next" aria-label="Next: 2022-08-17 openfoodfacts.net unreachable" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              2022-08-17 openfoodfacts.net unreachable
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>

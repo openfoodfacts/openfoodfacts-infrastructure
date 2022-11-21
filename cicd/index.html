@@ -1,0 +1,1202 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Continous Integration and Continuous Delivery - OpenFoodFacts-infrastructure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.08040f6c.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#continous-integration-and-continuous-delivery" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="OpenFoodFacts-infrastructure" class="md-header__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenFoodFacts-infrastructure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Continous Integration and Continuous Delivery
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="OpenFoodFacts-infrastructure" class="md-nav__button md-logo" aria-label="OpenFoodFacts-infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OpenFoodFacts-infrastructure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Continous Integration and Continuous Delivery
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Continous Integration and Continuous Delivery
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    Technology Stack
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-uniformity" class="md-nav__link">
+    Makefile (uniformity)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    GitHub Actions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
+    Continuous Integration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-delivery" class="md-nav__link">
+    Continuous Delivery
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-model" class="md-nav__link">
+    Deployment model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollbacks" class="md-nav__link">
+    Rollbacks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-status" class="md-nav__link">
+    CICD status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    Q&amp;A
+  </a>
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-deployment-is-failing-how-do-i-fix-it" class="md-nav__link">
+    Container deployment is failing, how do I fix it ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment" class="md-nav__link">
+    I forgot to set an env variable on GitHub, can I re-trigger the deployment ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-set-up-a-deployment-on-a-new-repository" class="md-nav__link">
+    How do I set up a deployment on a new repository ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" class="md-nav__link">
+    What do I do if the deployment fails after merging my PR to the main or master branch ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" class="md-nav__link">
+    I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reports" data-md-level="1">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    Technology Stack
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-uniformity" class="md-nav__link">
+    Makefile (uniformity)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    GitHub Actions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
+    Continuous Integration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-delivery" class="md-nav__link">
+    Continuous Delivery
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-model" class="md-nav__link">
+    Deployment model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollbacks" class="md-nav__link">
+    Rollbacks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-status" class="md-nav__link">
+    CICD status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    Q&amp;A
+  </a>
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-deployment-is-failing-how-do-i-fix-it" class="md-nav__link">
+    Container deployment is failing, how do I fix it ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment" class="md-nav__link">
+    I forgot to set an env variable on GitHub, can I re-trigger the deployment ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-set-up-a-deployment-on-a-new-repository" class="md-nav__link">
+    How do I set up a deployment on a new repository ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" class="md-nav__link">
+    What do I do if the deployment fails after merging my PR to the main or master branch ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" class="md-nav__link">
+    I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/main/docs/cicd.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="continous-integration-and-continuous-delivery">Continous Integration and Continuous Delivery<a class="headerlink" href="#continous-integration-and-continuous-delivery" title="Permanent link">#</a></h1>
+<p>This document presents the Continous Integration and Continous Delivery (CICD) process at Open Food Facts. </p>
+<p>The information below is valid for most OFF repositories containing apps deployed on OFF servers. A summary table is given at the end to get the status of the deployment / test automation across different OFF repositories.</p>
+<h2 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">#</a></h2>
+<p>This section gives an overview on the technologies used to automate the CI and CD process at Open Food Facts. Feel free to skip it if you already know these technologies !</p>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">#</a></h3>
+<p>See <a href="../docker/#technology-stack">docker</a></p>
+<h3 id="makefile-uniformity">Makefile (<em>uniformity</em>)<a class="headerlink" href="#makefile-uniformity" title="Permanent link">#</a></h3>
+<p>A <code>Makefile</code> proves very useful for wrapping up and centralizing all the commands we run (locally or on remote environments) and have a lighter development and deployment process using simpler aliases.</p>
+<p>Open Food Facts <strong>contributors</strong> should know that the Makefile is the simplest entrypoint for collaborating to Open Food Facts repos, although they are not mandatory if the user have a good knowledge of the application at hand.</p>
+<p><code>Makefile</code>s should stay away from complexities when possible and be streamlined enough that we can easily understand what the commands stand for.</p>
+<p>It is important to be able to switch between the different Open Food Facts repositories but keep the same interface to set up our local developer workflow. </p>
+<p>Most of the existing OFF repos try to have the commands below in their <code>Makefile</code>:</p>
+<ul>
+<li><code>make dev</code> is the only command needed to set up a complete developer environment after cloning the repo. It should hopefully never fail, but if it does anyway please open an issue to track it.</li>
+</ul>
+<ul>
+<li><code>make up</code>, <code>make down</code>, <code>make hdown</code>, <code>make restart</code>, <code>make status</code> map exactly to <code>docker-compose</code> commands, respectively <code>docker-compose up</code>, <code>docker-compose down</code>, <code>docker-compose down -v</code>, <code>docker-compose restart</code> and <code>docker-compose ps</code>.</li>
+</ul>
+<p>Using a different <code>.env</code> file (e.g: <code>.env.test</code>) is supported by setting the env variable <code>ENV_FILE=.env.test</code> so that the Make commands still work.</p>
+<h3 id="github-actions">GitHub Actions<a class="headerlink" href="#github-actions" title="Permanent link">#</a></h3>
+<p>We use GitHub Actions to automatically run tests pull requests (unit / integration / lint / performance), but also to build and deploy Docker containers to pre-production and production environments.</p>
+<p>GitHub actions workflows are stored in <code>.github/workflows</code> in each repository.</p>
+<p>In order to ease the deployments of new repositories and have uniform deployments across OFF apps, 2 GitHub Actions workflow templates were created, which can be setup by going to the <code>Actions</code> tab on the GitHub repo and selecting the "Docker image build" and "Docker Compose Deployment" actions:</p>
+<p><img alt="GitHub Action Workflows" src="../img/gh_workflows.png" /></p>
+<h2 id="continuous-integration">Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permanent link">#</a></h2>
+<p><strong>Continous integration</strong> (CI) is the practice of automating the integration of code 
+changes from multiple contributors into a single software project.</p>
+<p>It is thus essential in the DevOps space, as it allows developers
+to frequently merge code changes into a central repository where builds and tests are run.</p>
+<p>A good CI process consists of the following:</p>
+<ul>
+<li><strong>On pull requests</strong>, run <code>style checks</code> as well as <code>unit</code>, <code>integration</code>, and <code>performance</code> tests.</li>
+<li><strong>On merge to <code>main</code> branch</strong>, deploy to a live environment and run integration tests on it.</li>
+</ul>
+<h2 id="continuous-delivery">Continuous Delivery<a class="headerlink" href="#continuous-delivery" title="Permanent link">#</a></h2>
+<p>Continuous Delivery (CD) is the process of automatically deploying build 
+artifacts (Docker containers, tars, static assets, data, etc…) to the target 
+environment servers.</p>
+<h3 id="deployment-model">Deployment model<a class="headerlink" href="#deployment-model" title="Permanent link">#</a></h3>
+<p>The diagram below represents a standard development git tree and how the deployment process wraps up
+around it. It shows the developers workflow to get a change into 
+<code>net</code> and <code>org</code> environments, with the following principles in mind:</p>
+<ul>
+<li>A pull request needs to be tested automatically before an administrator can merge it. Additionally, an administrator can deploy it to pre-production by pushing the PR branch to a new branch called <code>deploy-&lt;something&gt;</code>.</li>
+</ul>
+<ul>
+<li>Any change needs to be successfully deployed to pre-production before it is deployed to production.</li>
+</ul>
+<ul>
+<li>No humans should have to worry about making releases. The process should be fully automated.</li>
+</ul>
+<p><img alt="GitOps deployment model" src="../img/cd_process.png" /></p>
+<p>The following diagram represents the same process, but seen from a persona perspective (Developer, Maintainer, Release Administrator):</p>
+<p><img alt="GitOps deployment model actions" src="../img/cd_process_action.png" /></p>
+<p><strong>Summary:</strong></p>
+<ul>
+<li>On <strong>pull requests</strong>: run the <code>pull_request.yml</code> Github Action workflow that builds and runs unit / integration / load tests locally.</li>
+<li>On <strong>commit to <code>master</code> / <code>main</code></strong>: <ul>
+<li>run the <code>release-please.yml</code> workflow that will <strong>create a release branch</strong> or <strong>add the commit to an existing release branch</strong>; </li>
+<li>run the <code>container-build.yml</code> workflow that will <strong>build the container image</strong> and <strong>tag it with the merge commit SHA</strong></li>
+<li>run the <code>container-deploy.yml</code> workflow that will <strong>deploy the container image to the pre-production <code>.net</code> environment</strong>.</li>
+</ul>
+</li>
+<li>On <strong>merge of branches matching <code>release-v*.*.*</code></strong>, run the <code>release-please.yml</code> workflow that will create the <code>v*.*.*</code> tag.</li>
+<li>On <strong>push to tags matching <code>v*.*.*</code></strong>, run the <code>container-deploy.yml</code> workflow that will reload the container image to the off-org environment. The version tag is automatically created when merging a release branch.</li>
+<li>On <strong>push to branches matching <code>deploy-*</code></strong>, run the <code>container-deploy.yml</code> workflow that will push the image to the pre-production (<code>.net</code>) environment. This is useful to quickly test a pull request in the pre-prod environment to see if it breaks anything.</li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>deployment process to pre-prod <code>.net</code> and production <code>.org</code> environments is identical (<code>container-deploy.yml</code>), as pre-production should be as close as possible to the production environment to avoid any pitfalls when pushing a release to production.</li>
+<li>the special branches (<code>deploy-*</code> and <code>release-v*.*.*</code>) MUST be <strong><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches">protected branches</a></strong>.</li>
+<li>deploying to production <code>.org</code> can also be done manually by pushing a tag to the repository that follows semantic versioning: <code>git tag v1.1.0tc1 &amp;&amp; git push --tags</code> although this is not recommended as it contradicts with the automated deployment workflow.</li>
+<li>release please has to use a user PAT (Access Token) to be able to run release please. See (#84)[https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84]</li>
+</ul>
+<ul>
+<li>use github SECRETS only for real secrets !
+  To set environment variables that depends on the deploy target, use <a href="https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable">environment modification</a> with a <code>if</code> directive.</li>
+</ul>
+<h3 id="rollbacks">Rollbacks<a class="headerlink" href="#rollbacks" title="Permanent link">#</a></h3>
+<p>In the advent where pre-production or production environments are broken by a 'bad' change, it is important to be able to rollback to the previous version.</p>
+<p>Automated rollbacks are tricky with <code>docker-compose</code> (a discussion to migrate to <code>docker swarm</code> should be envisioned), but manual rollbacks are easily done.</p>
+<p>The steps for executing a manual rollback are as follow:</p>
+<ul>
+<li>SSH to the QEMU VM (either pre-production or production) and go to the deployment folder (usually named after the GitHub environment we are deploying to)</li>
+<li>Replace the <code>TAG</code> variable by <code>sha-&lt;COMMIT_SHA&gt;</code> (where <code>COMMIT_SHA</code> is the last 'good' commit) in the <code>.env</code> file and restore it in the checked out repository.</li>
+<li>Copy the <code>.env</code> file outside of the checked out repository so that it can be restored later.</li>
+<li>Run <code>git checkout -qf &lt;COMMIT_SHA&gt;</code> of the last 'good' commit.</li>
+<li>move the <code>.env</code> file from previous step into the directory</li>
+</ul>
+<p>Note that since deployments are automated, the following alternative also exists and is safer, although it can be a bit longer considering the git process:</p>
+<ul>
+<li>Revert the 'bad' commit (<code>git revert &lt;COMMIT_SHA&gt;</code>) and make a pull request</li>
+<li>Push to a branch called <code>deploy-&lt;something&gt;</code> to deploy to pre-prod</li>
+<li><strong>Merge the pull request</strong>: the release workflow runs and creates a new release branch.</li>
+<li><strong>Merge the release branch</strong>: the revert will be deployed in production.</li>
+</ul>
+<h2 id="cicd-status">CICD status<a class="headerlink" href="#cicd-status" title="Permanent link">#</a></h2>
+<p>The current status of the automation of the deployment and testing processes across Open Food Facts repositories is as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Continuous Testing</th>
+<th>Continuous Deployment</th>
+<th>Pre-production deployment</th>
+<th>Production deployment</th>
+<th>Release automation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/openfoodfacts/openfoodfacts-server">openfoodfacts-server</a></td>
+<td>:heavy_exclamation_mark: Weak (lint, unit)</td>
+<td>:heavy_check_mark: Good</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_exclamation_mark: Manual</td>
+<td>:heavy_check_mark: Automated</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openfoodfacts/robotoff">robotoff</a></td>
+<td>:heavy_exclamation_mark: Weak (lint, unit)</td>
+<td>:heavy_check_mark: Good</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openfoodfacts/robotoff-ann">robotoff-ann</a></td>
+<td>:heavy_exclamation_mark: Weak (lint, unit)</td>
+<td>:heavy_check_mark: Good</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openfoodfacts/impactestimator">impactestimator</a></td>
+<td>:heavy_exclamation_mark: Weak</td>
+<td>:heavy_check_mark: Good</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated disabled</td>
+<td>:heavy_check_mark: Automated disabled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">openfoodfacts-monitoring</a></td>
+<td>None</td>
+<td>:heavy_check_mark: Good</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+<td>:heavy_check_mark: Automated</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openfoodfacts/smooth-app">smooth-app</a></td>
+<td>:heavy_exclamation_mark: Weak (lint, flutter)</td>
+<td>:heavy_check_mark: Good</td>
+<td>None</td>
+<td>:heavy_check_mark: Automated (deployment to Android + IOS stores)</td>
+<td>:heavy_check_mark: Automated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>FIXME:</strong> add taxonomy-editor, openfoodfacts-events, facets-knowledge-panels, robotoff-ml</p>
+<h2 id="qa">Q&amp;A<a class="headerlink" href="#qa" title="Permanent link">#</a></h2>
+<h3 id="container-deployment-is-failing-how-do-i-fix-it">Container deployment is failing, how do I fix it ?<a class="headerlink" href="#container-deployment-is-failing-how-do-i-fix-it" title="Permanent link">#</a></h3>
+<p>Have a look at the <code>Actions</code> tab in the GitHub repository and finds out why it 
+is failing. If the process has trouble checking out the appropriate commit sha, 
+you might have to ssh to the machine, bring down the deployment (<code>make down</code>) 
+and delete the repository folder. It will be automatically re-created for the 
+next deployment.</p>
+<h3 id="i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment">I forgot to set an env variable on GitHub, can I re-trigger the deployment ?<a class="headerlink" href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment" title="Permanent link">#</a></h3>
+<p>Yes, simply make an empty commit to your deployment branch:
+<code>git commit --allow-empty -m "trigger" &amp;&amp; git push</code>. 
+You can also re-trigger a deployment in the repo's <code>Actions</code> tab, assuming you are a repo maintainer.</p>
+<h3 id="how-do-i-set-up-a-deployment-on-a-new-repository">How do I set up a deployment on a new repository ?<a class="headerlink" href="#how-do-i-set-up-a-deployment-on-a-new-repository" title="Permanent link">#</a></h3>
+<p>Go to the <code>Actions</code> tab and click on <code>New workflow</code>: scroll down to <code>Workflows created by Open Food Facts</code> and click on <code>Set up this workflow</code> for both <code>Docker image build</code> and <code>Docker Compose Deployment</code> workflows. It will generate pre-configured workflow files in <code>.github/workflows</code> that you can then tweak to your needs and commit to the repository.</p>
+<p>You will also need to create two GitHub environments (in Settings &gt; Environments) and set up a few secrets needed by the deployment, mainly <code>HOST</code>, <code>SSH_PRIVATE_KEY</code>, <code>PROXY_HOST</code> and <code>USERNAME</code>.</p>
+<h3 id="what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch">What do I do if the deployment fails after merging my PR to the <code>main</code> or <code>master</code> branch ?<a class="headerlink" href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" title="Permanent link">#</a></h3>
+<p>Contact an OFF administrator to analyze why it is failing: the admin might have 
+to revert your PR to restore the previous working version in pre-production; you 
+can then continue to work on your branch to fix the problem, and make another PR.</p>
+<p>Ask the OFF administrator to deploy your PR before merging it, so that it is 
+known ahead of time if the PR will break the pre-production environment.</p>
+<h3 id="i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release">I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?<a class="headerlink" href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" title="Permanent link">#</a></h3>
+<p>Yes, assuming your next version is <code>v1.1.0</code>, just create a git tag following semantic versioning using <code>git tag v1.1.0rc1 &amp;&amp; git push --tags</code> and the automated process will deploy this release candidate to production.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: OpenFoodFacts Infrastructure" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              OpenFoodFacts Infrastructure
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../discourse/" class="md-footer__link md-footer__link--next" aria-label="Next: Discourse" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Discourse
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>
