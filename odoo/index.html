@@ -815,15 +815,21 @@ unzip formio.zip
 and mislead you on supported versions.</p>
 <p>In this case we will add all addons of the repository:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> /usr/lib/python3/dist-packages/odoo/addons
-git clone https://github.com/OCA/server-ux --branch <span class="m">15</span>.0  <span class="c1">#for the version 15.0: adapt according to desired version</span>
-<span class="c1"># Update the addon path in your `/etc/odoo/odoo.conf` file to add our new directory</span>
-<span class="c1"># addons_path = /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux</span>
+<span class="c1"># for odoo version 15.0: adapt according to desired version</span>
+git clone https://github.com/OCA/server-ux --branch <span class="m">15</span>.0
+</code></pre></div>
+<p>Update the addon path in your <code>/etc/odoo/odoo.conf</code> file to add our new directory
+<div class="highlight"><pre><span></span><code><span class="nv">addons_path</span> <span class="o">=</span> /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
+</code></pre></div></p>
+<p>Look at the <code>__manifest__.py</code>, for the product you want to install, and see if there are python modules to be installed (python dependencies). Also do that for any product, it depends on.</p>
+<p>Restart Odoo:</p>
+<div class="highlight"><pre><span></span><code>systemctl restart odoo
 </code></pre></div>
 <p>Then, as an admin, in Odoo:
 * pass in developer mode (ctrl+K debug:)
 * Apps menu
 * <code>Update Apps List</code> sub-menu
-* then find the app in the <code>search</code> field</p>
+* then find the app in the <code>search</code> field (eventually remove the "app" filter if you installed a utility)</p>
 <h2 id="create-a-test-environment-from-production-instance">Create a test environment from production instance<a class="headerlink" href="#create-a-test-environment-from-production-instance" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># previously verify that CT 112 is currently connect-staging, and delete it before renewing it</span>
 pct snapshot <span class="m">110</span> temp <span class="c1"># create a &quot;temp&quot; named snapshot of CT with ID 120 (production)</span>
