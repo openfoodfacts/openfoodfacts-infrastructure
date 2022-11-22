@@ -422,3 +422,15 @@ I then changed config on reverse proxy for:
 ### Breaking old deployment
 
 To avoid an accidental restart of old stack on 200 VM, but still keep it around, I edited manually the docker-compose.yml with a bad syntax, and change ownership to root, so a deployment would break !
+
+## Post migration
+
+## Elasticsearch life cycle and snapshot policies
+
+The day after migration, checking kibana, I realized index lifecycle management wasn't correctly setup, also the backup policy was not there.
+
+First I had to manually add the backup repository in kibana (choosing a repo of type shared file system, naming it backups, at location `/opt/elasticsearch/backups`)
+
+I decided to restore the `.kibana` index from last snapshot. I just followed the procedure to only restore it (not other indexes), but choosing to restore system settings.
+
+After that I got index lifecycle policy correct for logs (with a hot / warm / cold etc. phases).
