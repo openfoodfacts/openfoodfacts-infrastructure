@@ -9,7 +9,7 @@ First, launch deployment using Github Action.
 Create `robotoff` and `grafana` users in InfluxDB belonging to the `off` organization:
 
 ```
-docker exec -it metrics_influx_db_1 influx user create -n {USERNAME} -p {PASSWORD} -o off
+docker exec -it metrics_influx_db_1 influx user create -n {USERNAME} -o off
 ```
 
 Create an authentication token for both users (`robotoff` and `grafana`):
