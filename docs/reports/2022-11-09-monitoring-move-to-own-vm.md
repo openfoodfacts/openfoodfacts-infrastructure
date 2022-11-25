@@ -228,6 +228,9 @@ I also edited the `/etc/sudoers` to set remove password check:
 
 ## Setting up docker and docker-compose
 
+> **✎ NOTE**: I finally saw after install that indeed [we have a docker installation script](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/install_docker.sh). 
+> I should have used it !
+
 Docker install, following https://docs.docker.com/engine/install/debian/
 ```bash
 sudo apt-get remove docker docker-engine docker.io containerd runc
