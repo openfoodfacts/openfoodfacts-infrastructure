@@ -75,7 +75,7 @@ don't forget [to save iptables](./linux-servers#iptables)
 Note that the port 25 is in fact the private (trusted) port
 (not the public one, as we are not receiving emails). This is a tweak in default config.
 
-Also the nginx proxy (VM `101` on `ovh1`) proxies requests to `pmg.openfoodfacts.org` on port 80,
+Also the [nginx reverse proxy](./nginx-reverse-proxy.md) (VM `101` on `ovh1`) proxies requests to `pmg.openfoodfacts.org` on port 80,
 to the proxmox mail gateway VM (`102`), 
 this is needed for certificate generation through letsencrypt by the gateway.
 
