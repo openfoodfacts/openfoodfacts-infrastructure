@@ -2,7 +2,7 @@
 
 Folksonomy is a service to allow contributors to freely add labels and values to products.
 
-The code is at https://github.com/openfoodfacts/folksonomy_api/
+The code is at [https://github.com/openfoodfacts/folksonomy_api/](https://github.com/openfoodfacts/folksonomy_api/)
 
 ## Deployment
 
