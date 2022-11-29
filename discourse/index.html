@@ -269,6 +269,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#software-installation" class="md-nav__link">
+    Software installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#mail" class="md-nav__link">
     Mail
   </a>
@@ -707,6 +714,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#software-installation" class="md-nav__link">
+    Software installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#mail" class="md-nav__link">
     Mail
   </a>
@@ -735,8 +749,14 @@
 
 <h1 id="discourse">Discourse<a class="headerlink" href="#discourse" title="Permanent link">#</a></h1>
 <p><a href="https://www.discourse.org/">Discourse</a> is a forum application.</p>
-<p>It is installed on our proxmox infrastructure.</p>
-<p><strong>FIXME:</strong> more details ?</p>
+<p>It is installed on our proxmox infrastructure in a QEMU virtual machine (202)</p>
+<h2 id="software-installation">Software installation<a class="headerlink" href="#software-installation" title="Permanent link">#</a></h2>
+<p>Software is installed in /var/discourse.</p>
+<p>We use the https://github.com/discourse/discourse_docker.git.</p>
+<p>The docker configuration is contained in <code>config/app.yml</code></p>
+<p>It creates a unique docker container containing whole application, postgresql and redis database, and so on !</p>
+<p>It defines volumes where all the data is found. It's in <code>/var/discourse/shared/standalone</code> and mounted in container as <code>/shared</code></p>
+<p>You might get a shell into the docker container using <code>./launcher enter app bash</code>.</p>
 <h2 id="mail">Mail<a class="headerlink" href="#mail" title="Permanent link">#</a></h2>
 <p>Mail is very important as a lot of notifications are sent by the forum.</p>
 <p>Mail can be tested at https://forum.openfoodfacts.org/admin/email</p>
