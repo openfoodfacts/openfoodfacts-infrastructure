@@ -33,6 +33,8 @@ Login on container (101) and start a root bash.
 
 Create the basic configuration file for your service in `/etc/nginx/conf.d` named `my-service.openfoodfacts.net.conf` on machine `222`, port `8888`.
 
+**Important**: your file has to ends with `.conf` to be taken into account.
+
 It's a good idea to first test it exists, using nc and curl:
 
 ```bash
@@ -61,16 +63,13 @@ server {
         proxy_read_timeout 90;
         client_max_body_size 512M;
     }
-    location ~ /.well-known {
-        allow all;
-    }
 
 }
 ```
 
 If you need more [nginx docs are here](https://nginx.org/en/docs/)
 
-We test nginx is ok (**MANDATORY**):
+We test nginx configuration is ok (**Mandatory**)[^test-nginx]:
 
 ```bash
 $ nginx -t
@@ -86,6 +85,7 @@ $ systemctl reload nginx
 Next step is probably to setup https (putting something in http should be an exception, with good reason for that !)
 Otherwise jump to [EtcKeeper](#etc-keeper)
 
+[^test-nginx]: the nginx script will normally do the check before trying to restart nginx, but this way you are able to also see warnings.
 
 ### Adding https
 
@@ -93,7 +93,8 @@ Most of the time https certificates are managed on the nginx reverse proxy VM. H
 
 We use certbot to manage certificates.
 
-First prepare the service definition to answer on port 443 and 80. That is: 
+First prepare the service definition to answer on port 443 and 80. That is:
+
 - change your current configuration to listen on 443:
   ```nginx
   {
@@ -135,7 +136,7 @@ Cleaning up challenges
 Deploying Certificate to VirtualHost /etc/nginx/conf.d/my-service.openfoodfacts.net.conf
 ```
 
-**Note:** verify it's the right file which has been impacted ! If it's not you may have the option to restore the file with `git checkout wrong-touched-file` (but look befor with `git status`)
+**Note:** verify it's the right file which has been impacted ! If it's not you may have the option to restore the file with `git checkout wrong-touched-file` (but look before with `git status`)
 
 Test it's working (apart from the security alert in your browser, because certificate is from an unknown issuer).
 

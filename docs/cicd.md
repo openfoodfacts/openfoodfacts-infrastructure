@@ -99,7 +99,7 @@ The following diagram represents the same process, but seen from a persona persp
 * deployment process to pre-prod `.net` and production `.org` environments is identical (`container-deploy.yml`), as pre-production should be as close as possible to the production environment to avoid any pitfalls when pushing a release to production.
 * the special branches (`deploy-*` and `release-v*.*.*`) MUST be **[protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)**.
 * deploying to production `.org` can also be done manually by pushing a tag to the repository that follows semantic versioning: `git tag v1.1.0tc1 && git push --tags` although this is not recommended as it contradicts with the automated deployment workflow.
-* release please has to use a user PAT (Access Token) to be able to run release please. See (#84)[https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84]
+* release please has to use a user PAT (Access Token) to be able to run release please. See [#84](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84)
 
 * use github SECRETS only for real secrets !
   To set environment variables that depends on the deploy target, use [environment modification](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable) with a `if` directive.
