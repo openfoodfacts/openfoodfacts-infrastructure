@@ -295,6 +295,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../linux-server/" class="md-nav__link">
         Linux server
       </a>
@@ -463,6 +478,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy (OVH)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../observability/" class="md-nav__link">
         Observability
       </a>
@@ -541,18 +571,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_17" type="checkbox" id="__nav_17" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_15">
+        <label class="md-nav__link" for="__nav_17">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Reports" data-md-level="1">
-        <label class="md-nav__title" for="__nav_15">
+        <label class="md-nav__title" for="__nav_17">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -913,7 +943,7 @@ don't forget <a href="./linux-servers#iptables">to save iptables</a></p>
 <p>(a generic masquerading rule for VM also exists)</p>
 <p>Note that the port 25 is in fact the private (trusted) port
 (not the public one, as we are not receiving emails). This is a tweak in default config.</p>
-<p>Also the nginx proxy (VM <code>101</code> on <code>ovh1</code>) proxies requests to <code>pmg.openfoodfacts.org</code> on port 80,
+<p>Also the <a href="../nginx-reverse-proxy/">nginx reverse proxy</a> (VM <code>101</code> on <code>ovh1</code>) proxies requests to <code>pmg.openfoodfacts.org</code> on port 80,
 to the proxmox mail gateway VM (<code>102</code>), 
 this is needed for certificate generation through letsencrypt by the gateway.</p>
 <h3 id="testing-that-the-gateway-is-well-configured">Testing that the gateway is well configured<a class="headerlink" href="#testing-that-the-gateway-is-well-configured" title="Permanent link">#</a></h3>

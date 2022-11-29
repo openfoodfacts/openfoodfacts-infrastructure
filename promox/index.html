@@ -295,6 +295,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../linux-server/" class="md-nav__link">
         Linux server
       </a>
@@ -327,6 +342,21 @@
     <li class="md-nav__item">
       <a href="../matomo/" class="md-nav__link">
         Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy (OVH)
       </a>
     </li>
   
@@ -439,6 +469,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#loggin-to-a-container-or-vm" class="md-nav__link">
+    Loggin to a container or VM
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -473,18 +510,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_17" type="checkbox" id="__nav_17" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_15">
+        <label class="md-nav__link" for="__nav_17">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Reports" data-md-level="1">
-        <label class="md-nav__title" for="__nav_15">
+        <label class="md-nav__title" for="__nav_17">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -711,6 +748,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#loggin-to-a-container-or-vm" class="md-nav__link">
+    Loggin to a container or VM
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -736,29 +780,18 @@
 <p><strong>TODO</strong> this page is really incomplete !</p>
 <h2 id="http-reverse-proxy">HTTP Reverse Proxy<a class="headerlink" href="#http-reverse-proxy" title="Permanent link">#</a></h2>
 <p>The VM 101 is a http / https proxy to all services.</p>
-<p>It as a specific network configurations with two ethernet address:
-* one internal, to communicate with other VMs
-* one which is bridged on host network card, with ip fail over mechanism.</p>
-<p><strong>Important</strong>: only the public ip should have a gateway <sup id="fnref:proxmox_multiple_gateway"><a class="footnote-ref" href="#fn:proxmox_multiple_gateway">1</a></sup></p>
-<p>To make a new service, hosted on proxmox, available you needs to:
-* have this service available on proxmox internal network
-* write a configuration on nginx for this service
-* in the DNS, CNAME you service name to <code>proxy1.openfoodfacts.org</code></p>
-<p>Most of the time https certificates are managed on the proxy VM.</p>
+<p>It has it's own bridge interface with a public facing ip.</p>
+<p>See <a href="../nginx-reverse-proxy/">Nginx reverse proxy</a></p>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">#</a></h2>
 <p>We use two type of storage: the NVME and zfs storage.
 There are also mounts of zfs storage from ovh3.</p>
 <p><strong>TODO</strong> tell much more</p>
 <h2 id="creating-a-new-vm">Creating a new VM<a class="headerlink" href="#creating-a-new-vm" title="Permanent link">#</a></h2>
-<p><strong>TODO</strong></p>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:proxmox_multiple_gateway">
-<p>The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also <a href="../reports/2022-02-18-ovh-reverse-proxy-down/">ovh reverse proxy incident of 2022-02-18</a>&#160;<a class="footnote-backref" href="#fnref:proxmox_multiple_gateway" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p><strong>TODO</strong> (see wiki page)</p>
+<h2 id="loggin-to-a-container-or-vm">Loggin to a container or VM<a class="headerlink" href="#loggin-to-a-container-or-vm" title="Permanent link">#</a></h2>
+<p>Most of the time we use ssh to connect to containers and VM.</p>
+<p>The <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser">mkuser</a> script helps you create users using github keys.</p>
+<p>For the happy few sudoers on the host, they can attach to containers using <code>lxc-attach -n &lt;num&gt;</code> where <code>&lt;num&gt;</code> is the VM number. This gives a root console in the container.</p>
 
 
 
