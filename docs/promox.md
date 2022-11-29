@@ -8,20 +8,9 @@ On ovh1 and ovh2 we use proxmox to manage VMs.
 
 The VM 101 is a http / https proxy to all services.
 
-It as a specific network configurations with two ethernet address:
-* one internal, to communicate with other VMs
-* one which is bridged on host network card, with ip fail over mechanism.
+It has it's own bridge interface with a public facing ip.
 
-**Important**: only the public ip should have a gateway [^proxmox_multiple_gateway]
-
-To make a new service, hosted on proxmox, available you needs to:
-* have this service available on proxmox internal network
-* write a configuration on nginx for this service
-* in the DNS, CNAME you service name to `proxy1.openfoodfacts.org`
-
-Most of the time https certificates are managed on the proxy VM.
-
-[^proxmox_multiple_gateway]: The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also [ovh reverse proxy incident of 2022-02-18](./reports/2022-02-18-ovh-reverse-proxy-down.md)
+See [Nginx reverse proxy](./nginx-reverse-proxy.md)
 
 ## Storage
 
@@ -32,4 +21,12 @@ There are also mounts of zfs storage from ovh3.
 
 ## Creating a new VM
 
-**TODO**
+**TODO** (see wiki page)
+
+## Loggin to a container or VM
+
+Most of the time we use ssh to connect to containers and VM.
+
+The [mkuser](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser) script helps you create users using github keys.
+
+For the happy few sudoers on the host, they can attach to containers using `lxc-attach -n <num>` where `<num>` is the VM number. This gives a root console in the container.
