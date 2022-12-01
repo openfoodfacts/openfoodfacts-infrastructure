@@ -280,6 +280,19 @@
     GitHub Actions
   </a>
   
+    <nav class="md-nav" aria-label="GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-bot" class="md-nav__link">
+    Github Bot
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -849,6 +862,19 @@
     GitHub Actions
   </a>
   
+    <nav class="md-nav" aria-label="GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-bot" class="md-nav__link">
+    Github Bot
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -990,6 +1016,10 @@
 <p>GitHub actions workflows are stored in <code>.github/workflows</code> in each repository.</p>
 <p>In order to ease the deployments of new repositories and have uniform deployments across OFF apps, 2 GitHub Actions workflow templates were created, which can be setup by going to the <code>Actions</code> tab on the GitHub repo and selecting the "Docker image build" and "Docker Compose Deployment" actions:</p>
 <p><img alt="GitHub Action Workflows" src="../img/gh_workflows.png" /></p>
+<h4 id="github-bot">Github Bot<a class="headerlink" href="#github-bot" title="Permanent link">#</a></h4>
+<p>Some actions that needs their actions to trigger new actions, like <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">release-please</a>, needs a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">PAT (Personnal Access Token)</a> for that.</p>
+<p>We created <a href="https://github.com/openfoodfacts-bot">a bot account</a> for those cases. It's linked to <code>tech</code> mailing list.
+Having a bot account is better than using personal account because it clearly identified that this is automatic generated stuff, but also because if you use your account to generate PRs, you won't be able to validate them !</p>
 <h2 id="continuous-integration">Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permanent link">#</a></h2>
 <p><strong>Continous integration</strong> (CI) is the practice of automating the integration of code 
 changes from multiple contributors into a single software project.</p>
@@ -1038,7 +1068,7 @@ around it. It shows the developers workflow to get a change into
 <li>deployment process to pre-prod <code>.net</code> and production <code>.org</code> environments is identical (<code>container-deploy.yml</code>), as pre-production should be as close as possible to the production environment to avoid any pitfalls when pushing a release to production.</li>
 <li>the special branches (<code>deploy-*</code> and <code>release-v*.*.*</code>) MUST be <strong><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches">protected branches</a></strong>.</li>
 <li>deploying to production <code>.org</code> can also be done manually by pushing a tag to the repository that follows semantic versioning: <code>git tag v1.1.0tc1 &amp;&amp; git push --tags</code> although this is not recommended as it contradicts with the automated deployment workflow.</li>
-<li>release please has to use a user PAT (Access Token) to be able to run release please. See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">#84</a></li>
+<li>release please has to use a user PAT (Access Token) to be able to run release please. See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">#84</a>, and we have a specific account for that: https://github.com/openfoodfacts-bot</li>
 </ul>
 <ul>
 <li>use github SECRETS only for real secrets !
