@@ -114,7 +114,7 @@ First prepare the service definition to answer on port 443 and 80. That is:
   }
   ```
 
-We will first validate our config using `--test-cert` option (**WARNING** only skip this part if you really are used to certbot, as after too much invalid tentatives, we won't be able to renew any certificates on the domain for several hours from this IP, see [letsencrypt Rate limits](https://letsencrypt.org/docs/rate-limits/))
+We will first validate our config using `--test-cert` option (**WARNING** only skip this part if you really are used to certbot and nginx configuration, as after five tentatives, we won't be able to renew any certificates on the domain for one full week, and if you do too much error, the IP itself might be out of limit, see [letsencrypt Rate limits](https://letsencrypt.org/docs/rate-limits/))
 
 ```
 $ certbot --test-cert -d my-service.openfoodfacts.net
@@ -166,6 +166,19 @@ Deploying Certificate to VirtualHost /etc/nginx/conf.d/my-service.openfoodfacts.
 ```
 
 Test again if it's working
+
+#### Multiple domains
+
+If you're in the case where same configuration must serve multiple domains, like ui.my-site.openfoodfacts.net and api.my-site.openfoodfacts.net,
+simply add all those domain to the certbot command with the `-d` parameters.
+
+For example:
+
+```bash
+certbot -d ui.my-site.openfoodfacts.net -d api.my-site.openfoodfacts.net -d my-site.openfoodfacts.net
+```
+
+If a certificate already exists for a domain, certbot will propose to extend it with the other domains.
 
 ### Etc Keeper
 
