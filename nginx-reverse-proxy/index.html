@@ -415,6 +415,19 @@
     Adding https
   </a>
   
+    <nav class="md-nav" aria-label="Adding https">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-domains" class="md-nav__link">
+    Multiple domains
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -767,6 +780,19 @@
     Adding https
   </a>
   
+    <nav class="md-nav" aria-label="Adding https">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-domains" class="md-nav__link">
+    Multiple domains
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -881,7 +907,7 @@ Otherwise jump to <a href="#etc-keeper">EtcKeeper</a></p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></li>
 </ul>
-<p>We will first validate our config using <code>--test-cert</code> option (<strong>WARNING</strong> only skip this part if you really are used to certbot, as after too much invalid tentatives, we won't be able to renew any certificates on the domain for several hours from this IP, see <a href="https://letsencrypt.org/docs/rate-limits/">letsencrypt Rate limits</a>)</p>
+<p>We will first validate our config using <code>--test-cert</code> option (<strong>WARNING</strong> only skip this part if you really are used to certbot and nginx configuration, as after five tentatives, we won't be able to renew any certificates on the domain for one full week, and if you do too much error, the IP itself might be out of limit, see <a href="https://letsencrypt.org/docs/rate-limits/">letsencrypt Rate limits</a>)</p>
 <div class="highlight"><pre><span></span><code>$ certbot --test-cert -d my-service.openfoodfacts.net
 …
 Enter email address (used for urgent renewal and security notices) (Enter &#39;c&#39; to
@@ -925,6 +951,13 @@ Cleaning up challenges
 Deploying Certificate to VirtualHost /etc/nginx/conf.d/my-service.openfoodfacts.net.conf
 </code></pre></div>
 <p>Test again if it's working</p>
+<h4 id="multiple-domains">Multiple domains<a class="headerlink" href="#multiple-domains" title="Permanent link">#</a></h4>
+<p>If you're in the case where same configuration must serve multiple domains, like ui.my-site.openfoodfacts.net and api.my-site.openfoodfacts.net,
+simply add all those domain to the certbot command with the <code>-d</code> parameters.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>certbot -d ui.my-site.openfoodfacts.net -d api.my-site.openfoodfacts.net -d my-site.openfoodfacts.net
+</code></pre></div>
+<p>If a certificate already exists for a domain, certbot will propose to extend it with the other domains.</p>
 <h3 id="etc-keeper">Etc Keeper<a class="headerlink" href="#etc-keeper" title="Permanent link">#</a></h3>
 <p>We use <a href="../linux-server/#etckeeper">etckeeper</a>
 Do not forget to commit your changes:</p>
