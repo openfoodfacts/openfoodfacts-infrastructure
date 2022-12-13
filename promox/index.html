@@ -460,6 +460,19 @@
     Storage
   </a>
   
+    <nav class="md-nav" aria-label="Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-space-on-a-qemu-disk" class="md-nav__link">
+    Adding space on a QEMU disk
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -739,6 +752,19 @@
     Storage
   </a>
   
+    <nav class="md-nav" aria-label="Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-space-on-a-qemu-disk" class="md-nav__link">
+    Adding space on a QEMU disk
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -786,6 +812,68 @@
 <p>We use two type of storage: the NVME and zfs storage.
 There are also mounts of zfs storage from ovh3.</p>
 <p><strong>TODO</strong> tell much more</p>
+<h3 id="adding-space-on-a-qemu-disk">Adding space on a QEMU disk<a class="headerlink" href="#adding-space-on-a-qemu-disk" title="Permanent link">#</a></h3>
+<p>following https://pve.proxmox.com/wiki/Resize_disks</p>
+<p>Example: adding 8GB on VM for monitoring (203) and disk scsi0</p>
+<p>On host: <code>sudo qm resize 203 scsi0 +8G</code></p>
+<p>On VM:
+<div class="highlight"><pre><span></span><code>sudo parted /dev/sda
+<span class="o">(</span>parted<span class="o">)</span> print
+Model: QEMU QEMU HARDDISK <span class="o">(</span>scsi<span class="o">)</span>
+Disk /dev/sda: <span class="m">42</span>,9GB
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End     Size    Type      File system     Flags
+ <span class="m">1</span>      1049kB  <span class="m">33</span>,3GB  <span class="m">33</span>,3GB  primary   ext4            boot
+ <span class="m">2</span>      <span class="m">33</span>,3GB  <span class="m">34</span>,4GB  1022MB  extended
+ <span class="m">5</span>      <span class="m">33</span>,3GB  <span class="m">34</span>,4GB  1022MB  logical   linux-swap<span class="o">(</span>v1<span class="o">)</span>
+ <span class="o">(</span>parted<span class="o">)</span> quit
+</code></pre></div></p>
+<p>We have a problem because of swap. We must deactivate swap, remove swap partition and extended partition, augment our main partition, recreate extended and swap partition !</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># deactivate swap</span>
+$ sudo swapoff -a
+<span class="c1"># remove partition in parted, augment main partition, recreate them</span>
+$ sudo parted /dev/sda
+<span class="o">(</span>parted<span class="o">)</span> rm <span class="m">5</span>
+<span class="o">(</span>parted<span class="o">)</span> rm <span class="m">2</span>
+<span class="o">(</span>parted<span class="o">)</span> print
+...
+Number  Start   End     Size    Type     File system  Flags
+ <span class="m">1</span>      1049kB  <span class="m">33</span>,3GB  <span class="m">33</span>,3GB  primary  ext4         boot
+...
+<span class="o">(</span>parted<span class="o">)</span> <span class="nb">help</span> resizepart
+<span class="o">(</span>parted<span class="o">)</span> resizepart <span class="m">1</span> <span class="m">41</span>,3GB
+<span class="o">(</span>parted<span class="o">)</span> mkpart extended
+Start? <span class="m">41</span>,3GB
+End? <span class="m">100</span>%
+<span class="o">(</span>parted<span class="o">)</span> mkpart logical linux-swap <span class="m">41</span>,3GB <span class="m">100</span>%
+<span class="o">(</span>parted<span class="o">)</span> quit
+<span class="c1"># resize partition</span>
+$ sudo resize2fs /dev/sda1
+resize2fs <span class="m">1</span>.46.2 <span class="o">(</span><span class="m">28</span>-Feb-2021<span class="o">)</span>
+Filesystem at /dev/sda1 is mounted on /<span class="p">;</span> on-line resizing required
+<span class="nv">old_desc_blocks</span> <span class="o">=</span> <span class="m">4</span>, <span class="nv">new_desc_blocks</span> <span class="o">=</span> <span class="m">5</span>
+The filesystem on /dev/sda1 is now <span class="m">10082751</span> <span class="o">(</span>4k<span class="o">)</span> blocks long.
+</code></pre></div>
+<p>Now we have to re-enable swap, but UUID for partition have changed, so we have to edit <code>/etc/fstab</code> first.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># prepare swap</span>
+$ sudo mkswap /dev/sda5
+Setting up swapspace version <span class="m">1</span>, <span class="nv">size</span> <span class="o">=</span> <span class="m">1</span>,5 GiB <span class="o">(</span><span class="m">1648357376</span> bytes<span class="o">)</span>
+no label, <span class="nv">UUID</span><span class="o">=</span>431b8e8e-0691-471c-be8b-2c1039321142
+<span class="c1"># edit /etc/fstab to point to new UUID</span>
+$ sudo vim /etc/fstab
+...
+<span class="c1"># swap was on /dev/sda5 during installation</span>
+<span class="nv">UUID</span><span class="o">=</span>431b8e8e-0691-471c-be8b-2c1039321142 none            swap    sw              <span class="m">0</span>       <span class="m">0</span>
+/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     <span class="m">0</span>       <span class="m">0</span>
+...
+<span class="c1"># tell systemd</span>
+$ sudo systemctl daemon-reload
+<span class="c1"># remount swap</span>
+sudo swapon -a
+</code></pre></div>
 <h2 id="creating-a-new-vm">Creating a new VM<a class="headerlink" href="#creating-a-new-vm" title="Permanent link">#</a></h2>
 <p><strong>TODO</strong> (see wiki page)</p>
 <h2 id="loggin-to-a-container-or-vm">Loggin to a container or VM<a class="headerlink" href="#loggin-to-a-container-or-vm" title="Permanent link">#</a></h2>
