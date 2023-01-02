@@ -149,7 +149,7 @@ Product use cases:
 - facet speed
 - advanced search speed
 - nightly data exports
-- # of concurrent scan requests
+- \# of concurrent scan requests
 
 Increase modularity: being able to upgrade with confidence
 
