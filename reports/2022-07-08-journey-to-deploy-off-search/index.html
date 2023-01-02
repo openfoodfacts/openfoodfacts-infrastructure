@@ -8,8 +8,14 @@
       
       
       
+      
+        <link rel="prev" href="../2022-03-03-zammad-elasticsearch-not-running/">
+      
+      
+        <link rel="next" href="../2022-07-11-infra-workshop/">
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0">
     
     
       
@@ -17,11 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f79797b0.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -52,7 +57,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
     
@@ -919,10 +924,9 @@
                 
                   
 
-  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2022-07-08-journey-to-deploy-off-search.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="deploying-openfoodfacts-search-to-staging">Deploying openfoodfacts-search to staging<a class="headerlink" href="#deploying-openfoodfacts-search-to-staging" title="Permanent link">#</a></h1>
@@ -958,18 +962,18 @@ I also had to add the TAG variable in docker-compose to set image version.</p>
 If it's unique among servers it's better so that we can mix deployment on same machine if we want (eg. in an emergency scenario).</p>
 <p>Did wrote the create_external_volumes in Makefile.
 I tested locally by tweaking  the env variable, and removing volumes afterwards</p>
-<div class="highlight"><pre><span></span><code><span class="nb">declare</span> -x <span class="nv">DOCKER_LOCAL_DATA</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tmp/
-<span class="nb">declare</span> -x <span class="nv">COMPOSE_PROJECT_NAME</span><span class="o">=</span>po_search_prod 
-<span class="nb">declare</span> -x <span class="nv">COMPOSE_PATH_SEPARATOR</span><span class="o">=</span><span class="s2">&quot;;&quot;</span>
-<span class="nb">declare</span> -x <span class="nv">COMPOSE_FILE</span><span class="o">=</span><span class="s2">&quot;docker-compose.yml;docker/prod.yml&quot;</span>
-make create_external_volumes
+<div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOCKER_LOCAL_DATA</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tmp/
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_PROJECT_NAME</span><span class="o">=</span>po_search_prod<span class="w"> </span>
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_PATH_SEPARATOR</span><span class="o">=</span><span class="s2">&quot;;&quot;</span>
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_FILE</span><span class="o">=</span><span class="s2">&quot;docker-compose.yml;docker/prod.yml&quot;</span>
+make<span class="w"> </span>create_external_volumes
 <span class="c1"># test it works just starting setup</span>
-docker-compose up setup
-sudo ls tmp/*
+docker-compose<span class="w"> </span>up<span class="w"> </span>setup
+sudo<span class="w"> </span>ls<span class="w"> </span>tmp/*
 <span class="c1"># clean</span>
-docker-compose rm -sf setup
-docker volume rm po_search_prod_<span class="o">{</span>certs,esdata01,esdata02,rediscache<span class="o">}</span>
-<span class="nb">unset</span> DOCKER_LOCAL_DATA COMPOSE_PROJECT_NAME COMPOSE_PATH_SEPARATOR COMPOSE_FILE
+docker-compose<span class="w"> </span>rm<span class="w"> </span>-sf<span class="w"> </span>setup
+docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>po_search_prod_<span class="o">{</span>certs,esdata01,esdata02,rediscache<span class="o">}</span>
+<span class="nb">unset</span><span class="w"> </span>DOCKER_LOCAL_DATA<span class="w"> </span>COMPOSE_PROJECT_NAME<span class="w"> </span>COMPOSE_PATH_SEPARATOR<span class="w"> </span>COMPOSE_FILE
 </code></pre></div>
 <h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">#</a></h3>
 <p>There are a lot secrets to set on the github repo, I had to look at all used variables.</p>
@@ -983,14 +987,14 @@ docker volume rm po_search_prod_<span class="o">{</span>certs,esdata01,esdata02,
 - you have to connect through ovh1 as proxy, not ovh2
 - secret key is to be as in the id_rsa key, that is with the "BEGIN PRIVATE…" and "END …" lines</p>
 <p>I had problem with the volume creation because /srv/off/docker_data was owned by root.
-<div class="highlight"><pre><span></span><code>sudo chown off:off /srv/off/docker_data
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>/srv/off/docker_data
 </code></pre></div></p>
 <h2 id="reverse-proxy-setup">Reverse proxy setup<a class="headerlink" href="#reverse-proxy-setup" title="Permanent link">#</a></h2>
 <p>On OVH1, attaching to lxc 101.</p>
 <p>Added config (copying from robotoff, removing all certbot specific stuff)</p>
 <p>Then test and reload:</p>
-<div class="highlight"><pre><span></span><code>nginx -t
-systemctl reload nginx
+<div class="highlight"><pre><span></span><code>nginx<span class="w"> </span>-t
+systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
 </code></pre></div>
 <p>Also I generated the certificates:
 <div class="highlight"><pre><span></span><code>certbot -d search.openfoodfacts.net
@@ -999,13 +1003,13 @@ systemctl reload nginx
 <p>see https://github.com/openfoodfacts/openfoodfacts-search/issues/28</p>
 <h3 id="fix-common-net-name">Fix common net name<a class="headerlink" href="#fix-common-net-name" title="Permanent link">#</a></h3>
 <p>First I tried to see if I could ping redis from backend in off-net deployment.</p>
-<p><div class="highlight"><pre><span></span><code>sudo -u off bash
-$ <span class="nb">cd</span> /home/off
-$ docker-compose <span class="nb">exec</span> -u root backend bash
-$ apt update <span class="o">&amp;&amp;</span> apt install iputils-ping
-$ ping searchredis
-PING searchredis.openfoodfacts.org <span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span> <span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span> bytes of data.
-<span class="m">64</span> bytes from off1.free.org <span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span>: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">49</span> <span class="nv">time</span><span class="o">=</span><span class="m">6</span>.72 ms
+<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>bash
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/home/off
+$<span class="w"> </span>docker-compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>backend<span class="w"> </span>bash
+$<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>iputils-ping
+$<span class="w"> </span>ping<span class="w"> </span>searchredis
+PING<span class="w"> </span>searchredis.openfoodfacts.org<span class="w"> </span><span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>off1.free.org<span class="w"> </span><span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">49</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">6</span>.72<span class="w"> </span>ms
 </code></pre></div>
 This is not working.
 After a small investigation, I found that the problem is the "webnet" name, which is po_webnet in off-net and webnet in off-search-net.</p>
@@ -1017,9 +1021,9 @@ After a small investigation, I found that the problem is the "webnet" name, whic
 </li>
 </ul>
 <p>then I was able to really ping searchredis container from backend
-<div class="highlight"><pre><span></span><code>ping searchredis
-PING searchredis <span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span> <span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span> bytes of data.
-<span class="m">64</span> bytes from po_search_searchredis_1.po_webnet <span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span>: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span><span class="m">0</span>.407 ms
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>searchredis
+PING<span class="w"> </span>searchredis<span class="w"> </span><span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>po_search_searchredis_1.po_webnet<span class="w"> </span><span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.407<span class="w"> </span>ms
 </code></pre></div></p>
 <p>see https://github.com/openfoodfacts/openfoodfacts-search/issues/27</p>
 <h3 id="setting-redis_url-in-off-net">Setting REDIS_URL in off-net<a class="headerlink" href="#setting-redis_url-in-off-net" title="Permanent link">#</a></h3>
@@ -1048,42 +1052,6 @@ PING searchredis <span class="o">(</span><span class="m">172</span>.30.0.12<span
       
         <footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Elasticsearch not running on Zammad" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Elasticsearch not running on Zammad
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../2022-07-11-infra-workshop/" class="md-footer__link md-footer__link--next" aria-label="Next: Infrastructure future - workshop on 11th July 2022" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Infrastructure future - workshop on 11th July 2022
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
-  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -1105,12 +1073,11 @@ PING searchredis <span class="o">(</span><span class="m">172</span>.30.0.12<span
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
-    
     
   </body>
 </html>

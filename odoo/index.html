@@ -8,8 +8,14 @@
       
       
       
+      
+        <link rel="prev" href="../observability/">
+      
+      
+        <link rel="next" href="../producers_sftp/">
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0">
     
     
       
@@ -17,11 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f79797b0.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -52,7 +57,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
     
@@ -795,10 +800,9 @@
                 
                   
 
-  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/odoo.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="odoo-our-relationship-management-connectopenfoodfactsorg">Odoo: our relationship management (connect.openfoodfacts.org)<a class="headerlink" href="#odoo-our-relationship-management-connectopenfoodfactsorg" title="Permanent link">#</a></h1>
@@ -821,22 +825,22 @@ Some actions can't be canceled; for example: some modules, when installed, can't
 <li>Setup Nginx proxy</li>
 </ul>
 <h2 id="startstop">Start/stop<a class="headerlink" href="#startstop" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo systemctl start odoo <span class="c1"># (starts service)</span>
-sudo systemctl stop odoo <span class="c1"># (stops service)</span>
-sudo systemctl restart odoo <span class="c1"># (restarts Service)</span>
-sudo systemctl status odoo <span class="c1"># (status of service)</span>
-sudo systemctl <span class="nb">enable</span> odoo <span class="c1"># (starts service at boot)</span>
-sudo systemctl disable odoo <span class="c1"># (disables service at boot)</span>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (starts service)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (stops service)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (restarts Service)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (status of service)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (starts service at boot)</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>odoo<span class="w"> </span><span class="c1"># (disables service at boot)</span>
 </code></pre></div>
 <h2 id="install-a-new-module">Install a new module<a class="headerlink" href="#install-a-new-module" title="Permanent link">#</a></h2>
 <p>Examples:
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /usr/lib/python3/dist-packages/odoo/addons
-wget https://apps.odoo.com/loempia/download/formio/15.0/formio.zip
-unzip formio.zip
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/lib/python3/dist-packages/odoo/addons
+wget<span class="w"> </span>https://apps.odoo.com/loempia/download/formio/15.0/formio.zip
+unzip<span class="w"> </span>formio.zip
 </code></pre></div></p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /usr/lib/python3/dist-packages/odoo/addons
-wget https://apps.odoo.com/loempia/download/mass_editing/15.0/mass_editing.zip
-unzip formio.zip
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/lib/python3/dist-packages/odoo/addons
+wget<span class="w"> </span>https://apps.odoo.com/loempia/download/mass_editing/15.0/mass_editing.zip
+unzip<span class="w"> </span>formio.zip
 </code></pre></div>
 <h3 id="contributed-modules-from-oca-store">Contributed modules from OCA store<a class="headerlink" href="#contributed-modules-from-oca-store" title="Permanent link">#</a></h3>
 <p>OCA hosts hundreds of modules. Those ones are disseminated into dozens of git repositories. For example, the Mass Editing module can be find inside the https://github.com/OCA/server-ux repository.</p>
@@ -844,16 +848,16 @@ unzip formio.zip
 (if 15.0 is your version) because the front page might be that of 14.0
 and mislead you on supported versions.</p>
 <p>In this case we will add all addons of the repository:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /usr/lib/python3/dist-packages/odoo/addons
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/lib/python3/dist-packages/odoo/addons
 <span class="c1"># for odoo version 15.0: adapt according to desired version</span>
-git clone https://github.com/OCA/server-ux --branch <span class="m">15</span>.0
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/OCA/server-ux<span class="w"> </span>--branch<span class="w"> </span><span class="m">15</span>.0
 </code></pre></div>
 <p>Update the addon path in your <code>/etc/odoo/odoo.conf</code> file to add our new directory
-<div class="highlight"><pre><span></span><code><span class="nv">addons_path</span> <span class="o">=</span> /usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
+<div class="highlight"><pre><span></span><code><span class="nv">addons_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/odoo/addons/server-ux
 </code></pre></div></p>
 <p>Look at the <code>__manifest__.py</code>, for the product you want to install, and see if there are python modules to be installed (python dependencies). Also do that for any product, it depends on.</p>
 <p>Restart Odoo:</p>
-<div class="highlight"><pre><span></span><code>systemctl restart odoo
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>restart<span class="w"> </span>odoo
 </code></pre></div>
 <p>Then, as an admin, in Odoo:
 * pass in developer mode (ctrl+K debug:)
@@ -862,12 +866,12 @@ git clone https://github.com/OCA/server-ux --branch <span class="m">15</span>.0
 * then find the app in the <code>search</code> field (eventually remove the "app" filter if you installed a utility)</p>
 <h2 id="create-a-test-environment-from-production-instance">Create a test environment from production instance<a class="headerlink" href="#create-a-test-environment-from-production-instance" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># previously verify that CT 112 is currently connect-staging, and delete it before renewing it</span>
-pct snapshot <span class="m">110</span> temp <span class="c1"># create a &quot;temp&quot; named snapshot of CT with ID 120 (production)</span>
-pct clone <span class="m">110</span> <span class="m">112</span> --hostname connect-staging --snapname temp <span class="c1"># take the snapshot and create a new CT (112) named connect-staging</span>
-pct delsnapshot <span class="m">110</span> temp <span class="c1"># del production snapshot</span>
+pct<span class="w"> </span>snapshot<span class="w"> </span><span class="m">110</span><span class="w"> </span>temp<span class="w"> </span><span class="c1"># create a &quot;temp&quot; named snapshot of CT with ID 120 (production)</span>
+pct<span class="w"> </span>clone<span class="w"> </span><span class="m">110</span><span class="w"> </span><span class="m">112</span><span class="w"> </span>--hostname<span class="w"> </span>connect-staging<span class="w"> </span>--snapname<span class="w"> </span>temp<span class="w"> </span><span class="c1"># take the snapshot and create a new CT (112) named connect-staging</span>
+pct<span class="w"> </span>delsnapshot<span class="w"> </span><span class="m">110</span><span class="w"> </span>temp<span class="w"> </span><span class="c1"># del production snapshot</span>
 <span class="c1"># New CT configuration</span>
-pct <span class="nb">set</span> <span class="m">112</span> --cores <span class="m">2</span> --memory <span class="m">4096</span> --net0 <span class="nv">name</span><span class="o">=</span>eth0,bridge<span class="o">=</span>vmbr0,gw<span class="o">=</span><span class="m">10</span>.0.0.1,ip<span class="o">=</span><span class="m">10</span>.1.0.112/24
-pct start <span class="m">112</span>
+pct<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">112</span><span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--net0<span class="w"> </span><span class="nv">name</span><span class="o">=</span>eth0,bridge<span class="o">=</span>vmbr0,gw<span class="o">=</span><span class="m">10</span>.0.0.1,ip<span class="o">=</span><span class="m">10</span>.1.0.112/24
+pct<span class="w"> </span>start<span class="w"> </span><span class="m">112</span>
 <span class="c1"># pct exec 112 .................. # a way to execute things on a CT from host</span>
 
 <span class="c1"># TO BE CONTINUED</span>
@@ -887,42 +891,6 @@ pct start <span class="m">112</span>
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../observability/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Observability" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Observability
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../producers_sftp/" class="md-footer__link md-footer__link--next" aria-label="Next: Producers SFTP" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Producers SFTP
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -945,12 +913,11 @@ pct start <span class="m">112</span>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
-    
     
   </body>
 </html>

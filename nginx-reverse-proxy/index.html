@@ -8,8 +8,14 @@
       
       
       
+      
+        <link rel="prev" href="../matomo/">
+      
+      
+        <link rel="next" href="../observability/">
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0">
     
     
       
@@ -17,11 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f79797b0.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -52,7 +57,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
     
@@ -821,10 +826,9 @@
                 
                   
 
-  <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/nginx-reverse-proxy.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="nginx-reverse-proxy-ovh">NGINX Reverse proxy (OVH)<a class="headerlink" href="#nginx-reverse-proxy-ovh" title="Permanent link">#</a></h1>
@@ -849,39 +853,39 @@
 <p>Create the basic configuration file for your service in <code>/etc/nginx/conf.d</code> named <code>my-service.openfoodfacts.net.conf</code> on machine <code>222</code>, port <code>8888</code>.</p>
 <p><strong>Important</strong>: your file has to ends with <code>.conf</code> to be taken into account.</p>
 <p>It's a good idea to first test it exists, using nc and curl:</p>
-<div class="highlight"><pre><span></span><code>nc -vz <span class="m">10</span>.1.0.222 <span class="m">8888</span>
-curl  http://10.1.0.222:8888
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.1.0.222<span class="w"> </span><span class="m">8888</span>
+curl<span class="w">  </span>http://10.1.0.222:8888
 </code></pre></div>
 <p>Create a config, say:</p>
-<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span>
 
-<span class="w">    </span><span class="kn">access_log</span><span class="w">  </span><span class="s">/var/log/nginx/my-service.off.net.log</span><span class="w">  </span><span class="s">main</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kn">error_log</span><span class="w">   </span><span class="s">/var/log/nginx/my-service.off.net.err</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kn">access_log</span><span class="w">  </span><span class="s">/var/log/nginx/my-service.off.net.log</span><span class="w">  </span><span class="s">main</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">error_log</span><span class="w">   </span><span class="s">/var/log/nginx/my-service.off.net.err</span><span class="p">;</span>
 
-<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://10.1.0.222:8888</span><span class="nv">$request_uri</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="s">https</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">90</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kn">client_max_body_size</span><span class="w"> </span><span class="s">512M</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://10.1.0.222:8888</span><span class="nv">$request_uri</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="s">https</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">90</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">client_max_body_size</span><span class="w"> </span><span class="s">512M</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </code></pre></div>
 <p>If you need more <a href="https://nginx.org/en/docs/">nginx docs are here</a></p>
 <p>We test nginx configuration is ok (<strong>Mandatory</strong>)<sup id="fnref:test-nginx"><a class="footnote-ref" href="#fn:test-nginx">2</a></sup>:</p>
-<div class="highlight"><pre><span></span><code>$ nginx -t
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf <span class="nb">test</span> is successful
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>nginx<span class="w"> </span>-t
+nginx:<span class="w"> </span>the<span class="w"> </span>configuration<span class="w"> </span>file<span class="w"> </span>/etc/nginx/nginx.conf<span class="w"> </span>syntax<span class="w"> </span>is<span class="w"> </span>ok
+nginx:<span class="w"> </span>configuration<span class="w"> </span>file<span class="w"> </span>/etc/nginx/nginx.conf<span class="w"> </span><span class="nb">test</span><span class="w"> </span>is<span class="w"> </span>successful
 </code></pre></div>
 <p>if it's ok, we reload.
-<div class="highlight"><pre><span></span><code>$ systemctl reload nginx
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
 </code></pre></div></p>
 <p>Next step is probably to setup https (putting something in http should be an exception, with good reason for that !)
 Otherwise jump to <a href="#etc-keeper">EtcKeeper</a></p>
@@ -891,20 +895,20 @@ Otherwise jump to <a href="#etc-keeper">EtcKeeper</a></p>
 <p>First prepare the service definition to answer on port 443 and 80. That is:</p>
 <ul>
 <li>change your current configuration to listen on 443:
-  <div class="highlight"><pre><span></span><code><span class="k">{</span><span class="w"></span>
-<span class="w">  </span><span class="s">server</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+  <div class="highlight"><pre><span></span><code><span class="k">{</span>
+<span class="w">  </span><span class="s">server</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kn">…</span><span class="w"></span>
+<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">…</span>
 </code></pre></div></li>
 <li>but after it, add a new bare section for port 80:
-  <div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+  <div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div></li>
 </ul>
 <p>We will first validate our config using <code>--test-cert</code> option (<strong>WARNING</strong> only skip this part if you really are used to certbot and nginx configuration, as after five tentatives, we won't be able to renew any certificates on the domain for one full week, and if you do too much error, the IP itself might be out of limit, see <a href="https://letsencrypt.org/docs/rate-limits/">letsencrypt Rate limits</a>)</p>
@@ -955,13 +959,13 @@ Deploying Certificate to VirtualHost /etc/nginx/conf.d/my-service.openfoodfacts.
 <p>If you're in the case where same configuration must serve multiple domains, like ui.my-site.openfoodfacts.net and api.my-site.openfoodfacts.net,
 simply add all those domain to the certbot command with the <code>-d</code> parameters.</p>
 <p>For example:</p>
-<div class="highlight"><pre><span></span><code>certbot -d ui.my-site.openfoodfacts.net -d api.my-site.openfoodfacts.net -d my-site.openfoodfacts.net
+<div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>-d<span class="w"> </span>ui.my-site.openfoodfacts.net<span class="w"> </span>-d<span class="w"> </span>api.my-site.openfoodfacts.net<span class="w"> </span>-d<span class="w"> </span>my-site.openfoodfacts.net
 </code></pre></div>
 <p>If a certificate already exists for a domain, certbot will propose to extend it with the other domains.</p>
 <h3 id="etc-keeper">Etc Keeper<a class="headerlink" href="#etc-keeper" title="Permanent link">#</a></h3>
 <p>We use <a href="../linux-server/#etckeeper">etckeeper</a>
 Do not forget to commit your changes:</p>
-<div class="highlight"><pre><span></span><code>etckeeper commit -m <span class="s2">&quot;Configured my-service.openfoodfacts.net&quot;</span>
+<div class="highlight"><pre><span></span><code>etckeeper<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Configured my-service.openfoodfacts.net&quot;</span>
 </code></pre></div>
 <p>Now we are done 🎉</p>
 <div class="footnote">
@@ -991,42 +995,6 @@ Do not forget to commit your changes:</p>
       
         <footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../matomo/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Matomo" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Matomo
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../observability/" class="md-footer__link md-footer__link--next" aria-label="Next: Observability" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Observability
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
-  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -1048,12 +1016,11 @@ Do not forget to commit your changes:</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      <script src="../assets/javascripts/bundle.5cf534bf.min.js"></script>
       
-    
     
   </body>
 </html>
