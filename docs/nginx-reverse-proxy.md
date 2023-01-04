@@ -100,8 +100,8 @@ First prepare the service definition to answer on port 443 and 80. That is:
   {
     server {
 
-    listen 80;
-    listen [::]:80;
+    listen 443;
+    listen [::]:443;
     server_name  my-service.openfoodfacts.net;
     …
   ```
