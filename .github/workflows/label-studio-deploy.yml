@@ -72,7 +72,7 @@ jobs:
             echo "RESTART_POLICY=always" >> .env
             echo "DOCKER_CLIENT_TIMEOUT=120" >> .env
             echo "COMPOSE_HTTP_TIMEOUT=120" >> .env
-            echo "COMPOSE_PROJECT_NAME=label-studio" >> .env
+            echo "COMPOSE_PROJECT_NAME=${{ matrix.env }}" >> .env
             echo "COMPOSE_PATH_SEPARATOR=;" >> .env
             echo "COMPOSE_FILE=docker-compose.yml;prod.yml" >> .env
             echo "TAG=sha-${{ github.sha }}" >> .env
