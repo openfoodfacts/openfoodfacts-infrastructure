@@ -12,6 +12,19 @@ It has it's own bridge interface with a public facing ip.
 
 See [Nginx reverse proxy](./nginx-reverse-proxy.md)
 
+
+## Unlocking a VM
+
+Sometimes you may get alerts in email telling backup failed on a VM because it is locked. (`CT is locked`)
+
+This might be a temporary issue, so you should first verify in proxmox console if it's already resolved.
+
+If not you can unlock it using this command:
+
+```
+pct unlock <vm-id>
+```
+
 ## Storage
 
 We use two type of storage: the NVME and zfs storage.
