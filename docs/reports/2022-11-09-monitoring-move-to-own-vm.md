@@ -412,7 +412,7 @@ Then I stopped old monitoring:
 sudo -u off docker-compose stop
 ```
 
-Redo the above sync.
+Redo the above sync [^double_rsync].
 
 And started services on 203.
 
@@ -421,6 +421,13 @@ I then changed config on reverse proxy for:
 * grafana.openfoodfacts.org.conf
 * monitoring.openfoodfacts.org.conf
 * prometheus.openfoodfacts.org.conf
+
+[^double_rsync]: The idea here is to minimize down time. So:  
+1- you first rsync with new service down and old service up (you know it might not give a coherent state, but it's just to do most of the work);  
+2- then you stop the old service, do a rsync (which will be fast because most work is already done);  
+3- then you start new service.  
+I did this, of course, because at first I though it might takes long.
+
 
 ### Breaking old deployment
 
