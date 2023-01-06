@@ -461,6 +461,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#unlocking-a-vm" class="md-nav__link">
+    Unlocking a VM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#storage" class="md-nav__link">
     Storage
   </a>
@@ -753,6 +760,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#unlocking-a-vm" class="md-nav__link">
+    Unlocking a VM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#storage" class="md-nav__link">
     Storage
   </a>
@@ -812,6 +826,12 @@
 <p>The VM 101 is a http / https proxy to all services.</p>
 <p>It has it's own bridge interface with a public facing ip.</p>
 <p>See <a href="../nginx-reverse-proxy/">Nginx reverse proxy</a></p>
+<h2 id="unlocking-a-vm">Unlocking a VM<a class="headerlink" href="#unlocking-a-vm" title="Permanent link">#</a></h2>
+<p>Sometimes you may get alerts in email telling backup failed on a VM because it is locked. (<code>CT is locked</code>)</p>
+<p>This might be a temporary issue, so you should first verify in proxmox console if it's already resolved.</p>
+<p>If not you can unlock it using this command:</p>
+<div class="highlight"><pre><span></span><code>pct unlock &lt;vm-id&gt;
+</code></pre></div>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">#</a></h2>
 <p>We use two type of storage: the NVME and zfs storage.
 There are also mounts of zfs storage from ovh3.</p>
