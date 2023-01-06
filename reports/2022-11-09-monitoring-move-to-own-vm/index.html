@@ -1,0 +1,1445 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2022-08-17-openfoodfacts-net-unreachable/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>2022-11 moving monitoring to its own machine - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2022-11-moving-monitoring-to-its-own-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2022-11 moving monitoring to its own machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy (OVH)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_17" type="checkbox" id="__nav_17" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_17">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reports" data-md-level="1">
+        <label class="md-nav__title" for="__nav_17">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2022-11 moving monitoring to its own machine
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2022-11 moving monitoring to its own machine
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparing" class="md-nav__link">
+    Preparing
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disk-space" class="md-nav__link">
+    Disk space
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    Memory usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-usage" class="md-nav__link">
+    CPU usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-ticket" class="md-nav__link">
+    Create ticket
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-vm" class="md-nav__link">
+    Creating a VM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-system" class="md-nav__link">
+    Installing the system
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-for-the-first-time" class="md-nav__link">
+    Accessing for the first time
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-docker-and-docker-compose" class="md-nav__link">
+    Setting up docker and docker-compose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-off-user" class="md-nav__link">
+    Creating off user
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-zfs-share-for-es-backups" class="md-nav__link">
+    Setting up zfs share for ES backups
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up zfs share for ES backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-share-on-ovh3" class="md-nav__link">
+    Create share on ovh3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mount-it-in-monitoring-vm" class="md-nav__link">
+    Mount it in monitoring VM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying" class="md-nav__link">
+    Deploying
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploying">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migrating-data-and-starting" class="md-nav__link">
+    Migrating data and starting
+  </a>
+  
+    <nav class="md-nav" aria-label="Migrating data and starting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsync-setup" class="md-nav__link">
+    Rsync setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch-kibana" class="md-nav__link">
+    Elasticsearch + kibana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#influxdb-prometheus-alert-manager-and-grafana" class="md-nav__link">
+    Influxdb, Prometheus, alert-manager and grafana
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-old-deployment" class="md-nav__link">
+    Breaking old deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-migration" class="md-nav__link">
+    Post migration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch-life-cycle-and-snapshot-policies" class="md-nav__link">
+    Elasticsearch life cycle and snapshot policies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparing" class="md-nav__link">
+    Preparing
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disk-space" class="md-nav__link">
+    Disk space
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    Memory usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-usage" class="md-nav__link">
+    CPU usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-ticket" class="md-nav__link">
+    Create ticket
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-vm" class="md-nav__link">
+    Creating a VM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-system" class="md-nav__link">
+    Installing the system
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-for-the-first-time" class="md-nav__link">
+    Accessing for the first time
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-docker-and-docker-compose" class="md-nav__link">
+    Setting up docker and docker-compose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-off-user" class="md-nav__link">
+    Creating off user
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-zfs-share-for-es-backups" class="md-nav__link">
+    Setting up zfs share for ES backups
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up zfs share for ES backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-share-on-ovh3" class="md-nav__link">
+    Create share on ovh3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mount-it-in-monitoring-vm" class="md-nav__link">
+    Mount it in monitoring VM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying" class="md-nav__link">
+    Deploying
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploying">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migrating-data-and-starting" class="md-nav__link">
+    Migrating data and starting
+  </a>
+  
+    <nav class="md-nav" aria-label="Migrating data and starting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsync-setup" class="md-nav__link">
+    Rsync setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch-kibana" class="md-nav__link">
+    Elasticsearch + kibana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#influxdb-prometheus-alert-manager-and-grafana" class="md-nav__link">
+    Influxdb, Prometheus, alert-manager and grafana
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-old-deployment" class="md-nav__link">
+    Breaking old deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-migration" class="md-nav__link">
+    Post migration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch-life-cycle-and-snapshot-policies" class="md-nav__link">
+    Elasticsearch life cycle and snapshot policies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="2022-11-moving-monitoring-to-its-own-machine">2022-11 moving monitoring to its own machine<a class="headerlink" href="#2022-11-moving-monitoring-to-its-own-machine" title="Permanent link">#</a></h1>
+<p>When we deployed monitoring it was deployed on staging as it was the only available QEMU VM at that time.
+But it's a bad idea to keep it like it. We decided we should move it on OVH1 in it's own VM.</p>
+<h2 id="preparing">Preparing<a class="headerlink" href="#preparing" title="Permanent link">#</a></h2>
+<h3 id="disk-space">Disk space<a class="headerlink" href="#disk-space" title="Permanent link">#</a></h3>
+<p>I look how much data is taken by monitoring on current staging VM:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/home/off/monitoring
+$<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/var/lib/docker/volumes/<span class="o">{</span>influxdb-data,grafana-data,elasticsearch-data,prometheus-data,alertmanager-data<span class="o">}</span>
+418M<span class="w">    </span>/var/lib/docker/volumes/influxdb-data
+23M<span class="w"> </span>/var/lib/docker/volumes/grafana-data
+<span class="m">9</span>.8G<span class="w">    </span>/var/lib/docker/volumes/elasticsearch-data
+<span class="m">1</span>.7G<span class="w">    </span>/var/lib/docker/volumes/prometheus-data
+<span class="m">8</span>.0K<span class="w">    </span>/var/lib/docker/volumes/alertmanager-data
+</code></pre></div>
+<p>And separately ES backup which should be on a shared filesystem
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/var/lib/docker/volumes/monitoring_elasticsearch-backup/
+28G<span class="w"> </span>/var/lib/docker/volumes/monitoring_elasticsearch-backup/
+</code></pre></div></p>
+<h3 id="memory-usage">Memory usage<a class="headerlink" href="#memory-usage" title="Permanent link">#</a></h3>
+<p>Getting docker stats, limiting to used memory:
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stats<span class="w"> </span>--no-stream<span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;{{ json . }}&quot;</span><span class="p">|</span>jq<span class="w">  </span>-s<span class="w">  </span><span class="s1">&#39;map(select(.Name|startswith(&quot;monitoring_&quot;))) | map({&quot;Name&quot;: .Name, &quot;MemUsage&quot;: .MemUsage|split(&quot;/&quot;)|.[0]})&#39;</span>
+</code></pre></div></p>
+<p>We got: <code>2.317GiB + 4.389GiB + 313.3MiB + 719.1MiB + 221.1MiB + ...</code>
+And considering I want to give more memory to ES (4G instead of 1G),
+12G should be enough to begin with (and it's easy to scale-up)</p>
+<h3 id="cpu-usage">CPU usage<a class="headerlink" href="#cpu-usage" title="Permanent link">#</a></h3>
+<p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stats<span class="w"> </span>--no-stream<span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;{{ json . }}&quot;</span><span class="p">|</span>jq<span class="w">  </span>-s<span class="w">  </span><span class="s1">&#39;map(select(.Name|startswith(&quot;monitoring_&quot;))) | map({&quot;Name&quot;, &quot;CPUPerc&quot;})&#39;</span>
+</code></pre></div>
+total is about 21% (but ES is quite idle), on a 9 core machines. So 4 cores should be really fine (there again, easy to scale down).</p>
+<h3 id="create-ticket">Create ticket<a class="headerlink" href="#create-ticket" title="Permanent link">#</a></h3>
+<p>I thus create <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/159">a ticket for the VM</a></p>
+<h2 id="creating-a-vm">Creating a VM<a class="headerlink" href="#creating-a-vm" title="Permanent link">#</a></h2>
+<p>We prefer not to reuse an ip that:
+* from 100 to 200 for lxc containers
+* from 200 and up for QEMU</p>
+<p>Right click on ovh1 "create VM" or use the button up right (create VM).
+I used "advanced".</p>
+<p>General:
+* node: ovh1
+* VM ID: 203 (first available in 200+)
+* name: monitoring
+* start at boot: yes</p>
+<p>OS:
+* use CD/DVD image file:
+  * Storage: backup
+  * ISO image: debian 11.10</p>
+<p>System: all left to default</p>
+<p>Disk
+* Bus / device: SCISI 0
+* Storage: zfs
+* Disk Size: 32 G
+* advanced let as is</p>
+<p>CPU:
+* Sockets: 1
+* Cores: 4
+* Types: host (to be able to use SIMD opts)</p>
+<p>Memory
+* Memory: 12288 MB</p>
+<p>Network:
+* Bridge: vmbr0 (default)
+* Vlan tag: No vlan (default)
+* Model: virtio (default)</p>
+<p>We confirm, asking it starts immediately.</p>
+<p>In a console on ovh1 we can see it:</p>
+<div class="highlight"><pre><span></span><code>qm<span class="w"> </span>list
+<span class="w">      </span>VMID<span class="w"> </span>NAME<span class="w">                 </span>STATUS<span class="w">     </span>MEM<span class="o">(</span>MB<span class="o">)</span><span class="w">    </span>BOOTDISK<span class="o">(</span>GB<span class="o">)</span><span class="w"> </span>PID<span class="w">       </span>
+<span class="w">       </span><span class="m">202</span><span class="w"> </span>discourse<span class="w">            </span>running<span class="w">    </span><span class="m">4096</span><span class="w">              </span><span class="m">32</span>.00<span class="w"> </span><span class="m">4936</span><span class="w">      </span>
+<span class="w">       </span><span class="m">203</span><span class="w"> </span>monitoring<span class="w">           </span>running<span class="w">    </span><span class="m">12288</span><span class="w">             </span><span class="m">32</span>.00<span class="w"> </span><span class="m">46654</span><span class="w">     </span>
+</code></pre></div>
+<h2 id="installing-the-system">Installing the system<a class="headerlink" href="#installing-the-system" title="Permanent link">#</a></h2>
+<p>useful resource: https://www.snel.com/support/debian-vm-in-proxmox-and-networking-setup/</p>
+<p>Opened the NoVNC console of my newly created VM.</p>
+<p>We are on Debian installation.</p>
+<ul>
+<li>Graphical install</li>
+<li>English</li>
+<li>timezone: France (in others)</li>
+<li>locale: en_US.UTF8</li>
+<li>keymap: french</li>
+</ul>
+<p>… install runs … and stops on network
+* configure network manually
+* ip address: 10.1.0.203/24
+* gateway: 10.1.0.1 (it will then be set by PVE)
+* nameserver: 213.186.33.99 (it will then be set by PVE)</p>
+<p>I took values by looking at existing machines with (ip address list, ip route list and cat /etc/resolv.conf)</p>
+<p>… it checks network…</p>
+<ul>
+<li>hostname: monitoring</li>
+<li>domain name: openfoodfacts.org (I think we need it for mail)</li>
+<li>root password:used <code>pgen 20</code> and stored in github off-passwords project keepassx</li>
+<li>create user: alex / alex</li>
+<li>personal password</li>
+</ul>
+<p>… configuration continue…</p>
+<ul>
+<li>partition: use entire disk</li>
+<li>all file in one partition</li>
+<li>write changes</li>
+<li>confirm partition change</li>
+</ul>
+<p>… install continues…</p>
+<ul>
+<li>no extra media scan</li>
+<li>package manager sources -&gt; france -&gt; ftp.fr.debian.org</li>
+<li>no proxy </li>
+</ul>
+<p>… install continues and it fails (my network is not fine it seems) …</p>
+<p>I go back up to the steps menu and execute a shell to set the route config:</p>
+<p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>list
+default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.1.0.1<span class="w"> </span>dev<span class="w"> </span>ens18
+<span class="m">10</span>.1.0.0/24<span class="w"> </span>dev<span class="w"> </span>ens18<span class="w"> </span>scope<span class="w"> </span>link<span class="w"> </span>src<span class="w"> </span><span class="m">10</span>.1.0.203
+$<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>del<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.1.0.1<span class="w"> </span>dev<span class="w"> </span>ens18
+$<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>dev<span class="w"> </span>ens18<span class="w"> </span>proto<span class="w"> </span>kernel<span class="w"> </span>onlink<span class="w"> </span>
+
+$<span class="w"> </span>ping<span class="w"> </span>ftp.fr.debian.org
+…
+$<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+… restart from step configure the package manager …</p>
+<p>… this time it works, software is installed …</p>
+<ul>
+<li>popularity contest: no</li>
+<li>software to install: ssh server + standard system utilities</li>
+</ul>
+<p>… install continues …</p>
+<ul>
+<li>grub as primary: yes</li>
+<li>grub on: /dev/sda</li>
+</ul>
+<p>… install continues …</p>
+<ul>
+<li>continue</li>
+</ul>
+<p>… system reboots and is ready.</p>
+<blockquote>
+<p><strong>NOTE</strong>: on the network side, the wiki page did in fact explains how to do, but I was not aware of its existence</p>
+<blockquote>
+<p>Tips for Debian install:
+* IP: 10.1.0.201/8 for the installation and then switch to /24 when install is done
+* Gateway IP: 10.0.0.1/8 for the installation and then switch to 10.0.0.1/24 when install is done</p>
+</blockquote>
+</blockquote>
+<h2 id="accessing-for-the-first-time">Accessing for the first time<a class="headerlink" href="#accessing-for-the-first-time" title="Permanent link">#</a></h2>
+<p>When I try to ping from ovh1, 10.1.0.203 is not reachable.</p>
+<p>I open a console in proxmox to install qemu-guest-agent but it was already there.</p>
+<p>I saw in options that qemu agent was not enabled, so I enabled it.</p>
+<p>My machine is still unreachable, so I look at 10.1.0.200 and adapted the /etc/network/interfaces. I used a console to update it, in fact I only changed the gateway from 10.1.0.1 to 10.0.0.1.
+Then <code>systemctl restart networking.service</code> and <code>ifdown ens18; ifup ens18</code></p>
+<p>I then reboot the VM to be sure.</p>
+<p>created a config in my machine .ssh/config:</p>
+<div class="highlight"><pre><span></span><code>Host offmonit
+    Hostname 10.1.0.203
+    ProxyJump ovh1.openfoodfacts.org
+    IdentityFile /home/alex/.ssh/alex_github
+</code></pre></div>
+<p>But first I have to manually copy my key there:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>ovh1.openfoodfacts.org
+$<span class="w"> </span>ssh<span class="w"> </span><span class="m">10</span>.1.0.203<span class="w"> </span>-o<span class="w"> </span><span class="nv">PubkeyAuthentication</span><span class="o">=</span>no
+...
+mkdir<span class="w"> </span>.ssh
+nano<span class="w"> </span>.ssh/authorized_keys
+<span class="c1"># ...copy pubkey and save ...</span>
+chmod<span class="w"> </span>go-rwx<span class="w"> </span>-R<span class="w"> </span>.ssh/
+</code></pre></div>
+<p>After that I can easily connect.</p>
+<p>I use <code>su -</code> to become root, and then add my user to sudoers group: <code>adduser alex sudo</code>.</p>
+<p>I also edited the <code>/etc/sudoers</code> to set remove password check:
+<code>%sudo   ALL=(ALL:ALL) NOPASSWD:ALL</code></p>
+<p>(and remember you have to logout/in for group to be taken into account)</p>
+<h2 id="setting-up-docker-and-docker-compose">Setting up docker and docker-compose<a class="headerlink" href="#setting-up-docker-and-docker-compose" title="Permanent link">#</a></h2>
+<blockquote>
+<p><strong>✎ NOTE</strong>: I finally saw after install that indeed <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/install_docker.sh">we have a docker installation script</a>. 
+I should have used it !</p>
+</blockquote>
+<p>Docker install, following https://docs.docker.com/engine/install/debian/
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>remove<span class="w"> </span>docker<span class="w"> </span>docker-engine<span class="w"> </span>docker.io<span class="w"> </span>containerd<span class="w"> </span>runc
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ca-certificates<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>gnupg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>lsb-release
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/debian/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+<span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \</span>
+<span class="s2">  </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin
+sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+</code></pre></div></p>
+<p>Docker-compose install, following https://docs.docker.com/compose/install/other/
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>curl<span class="w"> </span>-SL<span class="w"> </span>https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64<span class="w"> </span>-o<span class="w"> </span>/usr/local/bin/docker-compose
+$<span class="w"> </span>chmod<span class="w"> </span>a+x<span class="w"> </span>/usr/local/bin/docker-compose
+</code></pre></div></p>
+<p>We also check git is already installed</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>--version
+git<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>.30.2
+</code></pre></div>
+<p>And build-essential to have make
+and some tools like jq and rsync
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>jq<span class="w"> </span>rsync
+</code></pre></div></p>
+<h2 id="creating-off-user">Creating off user<a class="headerlink" href="#creating-off-user" title="Permanent link">#</a></h2>
+<p>This is the user that will be used by github actions.</p>
+<p>On the monitoring VM, I use a random password, I also create authorized keys using the publickey for off:
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>adduser<span class="w"> </span>off
+$<span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>/home/off/.ssh
+$<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>/home/off/.ssh/authorized_keys
+ssh-ed25519<span class="w"> </span>AAAAC3NzaC1lZDI1NTE5AAAAICBCfxLQoDV2n+FgI4DiHhFSKzHx4RS3ynrSsAN14kt+
+<span class="w"> </span>off-net@ovh1
+
+$<span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/home/off/
+$<span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </span>go-rwx<span class="w"> </span>-R<span class="w"> </span>/home/off/.ssh
+</code></pre></div></p>
+<p>We need off user to be able to operate docker, add it to docker group:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>adduser<span class="w"> </span>off<span class="w"> </span>docker
+</code></pre></div>
+<h2 id="setting-up-zfs-share-for-es-backups">Setting up zfs share for ES backups<a class="headerlink" href="#setting-up-zfs-share-for-es-backups" title="Permanent link">#</a></h2>
+<h3 id="create-share-on-ovh3">Create share on ovh3<a class="headerlink" href="#create-share-on-ovh3" title="Permanent link">#</a></h3>
+<p>We want ES backups to be on the ovh3 backups server to avoid taking place on SSD. So we want to create a fs in /rpool/backup/monitoring-volumes and share it via nfs.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nfs<span class="w"> </span>create<span class="w"> </span>/rpool/backups/monitoring-volumes
+</code></pre></div>
+<p>NFS sharing is automatically inherited from backups:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>zfs<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>rpool/backups/monitoring-volumes
+NAME<span class="w">                                 </span>PROPERTY<span class="w">              </span>VALUE<span class="w">                                 </span>SOURCE
+...
+rpool/backups/monitoring-volumes<span class="w">  </span>sharenfs<span class="w">              </span><span class="nv">rw</span><span class="o">=</span>@10.0.0.0/28,no_root_squash<span class="w">        </span>inherited<span class="w"> </span>from<span class="w"> </span>rpool/backups
+</code></pre></div>
+<p>We can even see it in NFS conf:
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>grep<span class="w"> </span>monitoring-es-backup<span class="w"> </span>/etc/exports.d/zfs.exports
+/rpool/backups/monitoring-volumes<span class="w"> </span><span class="m">10</span>.0.0.0/28<span class="o">(</span><span class="nv">sec</span><span class="o">=</span>sys,rw,no_subtree_check,mountpoint,no_root_squash<span class="o">)</span>
+</code></pre></div></p>
+<h3 id="mount-it-in-monitoring-vm">Mount it in monitoring VM<a class="headerlink" href="#mount-it-in-monitoring-vm" title="Permanent link">#</a></h3>
+<p>On monitoring VM:
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+$<span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/monitoring-volumes
+$<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/fstab
+...
+<span class="c1"># NFS share on ovh3</span>
+<span class="m">10</span>.0.0.3:/rpool/backups/monitoring-volumes<span class="w">     </span>/mnt/monitoring-volumes<span class="w">   </span>nfs<span class="w">     </span>rw<span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div></p>
+<p>Try it:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mount<span class="w"> </span>/mnt/monitoring-volumes
+ls<span class="w"> </span>/mnt/monitoring-volumes
+</code></pre></div></p>
+<h2 id="deploying">Deploying<a class="headerlink" href="#deploying" title="Permanent link">#</a></h2>
+<p>See https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/58</p>
+<p>I didn't have to edit secrets as they are all global.</p>
+<p>Of course I add different crashes, but rectified the doc above all along the way…</p>
+<h3 id="migrating-data-and-starting">Migrating data and starting<a class="headerlink" href="#migrating-data-and-starting" title="Permanent link">#</a></h3>
+<h4 id="rsync-setup">Rsync setup<a class="headerlink" href="#rsync-setup" title="Permanent link">#</a></h4>
+<p>To keep my ssh agent around I use <code>ssh -A</code> and <code>sudo -E</code>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-A<span class="w"> </span>offpre
+sudo<span class="w"> </span>-E<span class="w"> </span>bash
+</code></pre></div></p>
+<p>To get the directory corresponding to a volume:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>volume<span class="w"> </span>inspect<span class="w"> </span>elasticsearch-data<span class="p">|</span>jq<span class="w"> </span><span class="s2">&quot;.[]|[.Mountpoint,.Options.device]&quot;</span>
+
+<span class="o">[</span>
+<span class="s2">&quot;/var/lib/docker/volumes/elasticsearch-data/_data&quot;</span>
+<span class="o">]</span>
+</code></pre></div>
+<p>Remember when using rsync that source ending slash is very important…</p>
+<h4 id="elasticsearch-kibana">Elasticsearch + kibana<a class="headerlink" href="#elasticsearch-kibana" title="Permanent link">#</a></h4>
+<p>I started a rsync of volumes from 200 to 203:</p>
+<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span>/var/lib/docker/volumes/elasticsearch-data/_data<span class="w"> </span>alex@10.1.0.203:/var/lib/docker/volumes/monitoring_elasticsearch-data/_data
+</code></pre></div>
+<p>We have warnings but it's ok.</p>
+<p>Same for backups:
+<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span>/var/lib/docker/volumes/monitoring_elasticsearch-backup/_data/<span class="w"> </span>alex@10.1.0.203:/mnt/monitoring-volumes/monitoring_elasticsearch-backup/
+</code></pre></div></p>
+<p>I stopped ES and kibana and ES exporter on old prod (200) and on new VM (203).</p>
+<p>Re-runned above rsync commands.</p>
+<p>Started ES and kibana on new VM.</p>
+<p>I then changed the proxy to the new address kibana on 101:
+in <code>kibana.openfoodfacts.org.conf</code>, 10.1.0.200 becomes 10.1.0.203</p>
+<p>I also manually changed prometheus config on old VM to stare at 203 instead of 200 for elasticsearch (I could'nt deploy there any more), editing <code>configs/prometheus/config.yml</code> and using <code>docker-composes restart prometheus</code></p>
+<h4 id="influxdb-prometheus-alert-manager-and-grafana">Influxdb, Prometheus, alert-manager and grafana<a class="headerlink" href="#influxdb-prometheus-alert-manager-and-grafana" title="Permanent link">#</a></h4>
+<p>I started with a rsync of volumes from 200 to 203, for volumes:
+* grafana-data --&gt; monitoring_grafana-data
+* prometheus-data --&gt; monitoring_prometheus-data
+* influxdb-data --&gt; monitoring_influxdb-data
+* alertmanager-data --&gt; monitoring_alertmanager-data</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>vname<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span>grafana,prometheus,influxdb,alertmanager<span class="o">}</span>-dat
+a<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$vname</span><span class="s2"> --------------&quot;</span><span class="p">;</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span>/var/lib/docker/volumes/<span class="nv">$vname</span>/_data/<span class="w"> </span>alex@10.1.0.203:/var/lib/docker/volumes/monitoring_<span class="nv">$vname</span>/_data/<span class="p">;</span><span class="k">done</span>
+</code></pre></div>
+<p>It's very fast !</p>
+<p>Then I stopped old monitoring:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker-compose<span class="w"> </span>stop
+</code></pre></div></p>
+<p>Redo the above sync <sup id="fnref:double_rsync"><a class="footnote-ref" href="#fn:double_rsync">1</a></sup>.</p>
+<p>And started services on 203.</p>
+<p>I then changed config on reverse proxy for:
+* alertmanager.openfoodfacts.org.conf
+* grafana.openfoodfacts.org.conf
+* monitoring.openfoodfacts.org.conf
+* prometheus.openfoodfacts.org.conf</p>
+<h3 id="breaking-old-deployment">Breaking old deployment<a class="headerlink" href="#breaking-old-deployment" title="Permanent link">#</a></h3>
+<p>To avoid an accidental restart of old stack on 200 VM, but still keep it around, I edited manually the docker-compose.yml with a bad syntax, and change ownership to root, so a deployment would break !</p>
+<h2 id="post-migration">Post migration<a class="headerlink" href="#post-migration" title="Permanent link">#</a></h2>
+<h2 id="elasticsearch-life-cycle-and-snapshot-policies">Elasticsearch life cycle and snapshot policies<a class="headerlink" href="#elasticsearch-life-cycle-and-snapshot-policies" title="Permanent link">#</a></h2>
+<p>The day after migration, checking kibana, I realized index lifecycle management wasn't correctly setup, also the backup policy was not there.</p>
+<p>First I had to manually add the backup repository in kibana (choosing a repo of type shared file system, naming it backups, at location <code>/opt/elasticsearch/backups</code>)</p>
+<p>I decided to restore the <code>.kibana</code> index from last snapshot. I just followed the procedure to only restore it (not other indexes), but choosing to restore system settings.</p>
+<p>After that I got index lifecycle policy correct for logs (with a hot / warm / cold etc. phases).</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:double_rsync">
+<p>The idea here is to minimize down time. So:<br />
+1- you first rsync with new service down and old service up (you know it might not give a coherent state, but it's just to do most of the work);<br />
+2- then you stop the old service, do a rsync (which will be fast because most work is already done);<br />
+3- then you start new service.<br />
+I did this, of course, because at first I though it might takes long.&#160;<a class="footnote-backref" href="#fnref:double_rsync" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>
