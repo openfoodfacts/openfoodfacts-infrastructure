@@ -668,9 +668,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2023-02-13 Zammad down
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         2023-02-13 Zammad down
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptom" class="md-nav__link">
+    Symptom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    Resolution
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -703,6 +755,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptom" class="md-nav__link">
+    Symptom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation" class="md-nav__link">
+    Investigation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    Resolution
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -721,8 +809,9 @@
 
 
 <h1 id="2023-02-13-zammad-down">2023-02-13 Zammad down<a class="headerlink" href="#2023-02-13-zammad-down" title="Permanent link">#</a></h1>
+<h2 id="symptom">Symptom<a class="headerlink" href="#symptom" title="Permanent link">#</a></h2>
 <p>Symptom: 502 Bad gateway on https://support.openfoodfacts.org/</p>
-<p>Investigation:</p>
+<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
 <p>Using systemctl status I see that :</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>zammad-web-1.service
 ●<span class="w"> </span>zammad-web-1.service
@@ -748,7 +837,7 @@ févr.<span class="w"> </span><span class="m">13</span><span class="w"> </span><
 févr.<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">09</span>:44:27<span class="w"> </span>off-zammad<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>zammad-web-1.service:<span class="w"> </span>Failed<span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="s1">&#39;exit-code&#39;</span>.
 févr.<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">09</span>:44:27<span class="w"> </span>off-zammad<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>start<span class="w"> </span>zammad-web-1.service.
 </code></pre></div>
-<p>Looking at logs I see:</p>
+<p>Looking at logs I see:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>zammad-web-1.service<span class="w"> </span>-r
 
 févr.<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">09</span>:44:27<span class="w"> </span>off-zammad<span class="w"> </span>zammad-web-1.service<span class="o">[</span><span class="m">137995</span><span class="o">]</span>:<span class="w"> </span>Exiting
@@ -762,10 +851,15 @@ févr.<span class="w"> </span><span class="m">13</span><span class="w"> </span><
 <span class="m">0</span><span class="w"> </span>S<span class="w"> </span>root<span class="w">         </span><span class="m">156</span><span class="w">       </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">80</span><span class="w">   </span><span class="m">0</span><span class="w"> </span>-<span class="w"> </span><span class="m">71564</span><span class="w"> </span>sys_po<span class="w"> </span>févr.12<span class="w"> </span>?<span class="w">     </span><span class="m">00</span>:00:00<span class="w"> </span>/usr/lib/accountsservice/accounts-daemon
 </code></pre></div></p>
 <p>I don't see any zombie process corresponding to zammad with <code>ps -elf</code></p>
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
 <p>So I decided to remove the PID file and relaunch:</p>
 <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>/opt/zammad/tmp/pids/server.pid
 systemctl<span class="w"> </span>restart<span class="w"> </span>zammad-web-1.service
 </code></pre></div>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
+<p>uptime is <code>14:25:43 up 16:43,  1 user,  load average: 3,17, 3,39, 3,95</code>
++ I have no syslog on 22 february from 00:30 until 21:40.</p>
+<p>The most probable cause for me is that there has been a hard shutdown with no time to remove the pid file. And has the pid was a small number, it was taken by a system process.</p>
 
 
 
