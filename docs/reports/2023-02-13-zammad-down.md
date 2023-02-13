@@ -1,8 +1,10 @@
 # 2023-02-13 Zammad down
 
+## Symptom
+
 Symptom: 502 Bad gateway on https://support.openfoodfacts.org/
 
-Investigation:
+## Investigation
 
 Using systemctl status I see that :
 
@@ -35,7 +37,7 @@ févr. 13 09:44:27 off-zammad systemd[1]: zammad-web-1.service: Failed with resu
 févr. 13 09:44:27 off-zammad systemd[1]: Failed to start zammad-web-1.service.
 ```
 
-Looking at logs I see:
+Looking at logs I see:
 
 ```bash
 $ journalctl -u zammad-web-1.service -r
@@ -55,9 +57,18 @@ ps -elf|grep 156
 
 I don't see any zombie process corresponding to zammad with `ps -elf`
 
+## Resolution
+
 So I decided to remove the PID file and relaunch:
 
 ```bash
 rm /opt/zammad/tmp/pids/server.pid
 systemctl restart zammad-web-1.service
 ```
+
+## Conclusion
+
+uptime is `14:25:43 up 16:43,  1 user,  load average: 3,17, 3,39, 3,95`
+\+ I have no syslog on 22 february from 00:30 until 21:40.
+
+The most probable cause for me is that there has been a hard shutdown with no time to remove the pid file. And has the pid was a small number, it was taken by a system process.
