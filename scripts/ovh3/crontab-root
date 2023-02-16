@@ -4,3 +4,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # m h  dom mon dow   command
 14 3	* * *		cd /root ; /bin/bash snapshot-purge.sh >> snapshot-purge.log
 
+# 2023-02-15 - alex temporary sync of off1
+32 0 * * * /home/off/cron/rsync_off1.sh
+
