@@ -1009,14 +1009,16 @@ Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etck
 <li>mail name: openfoodfacts.org</li>
 <li>
 <p>relayhost: pmg.openfoodfacts.org</p>
-<p>(with an exception for ovh1: 10.1.0.2)
-* mail for root: tech@openfoodfacts.org
-* other dest: blank
-* sync: no
-* local network: leave default
-* use procmail: no
-* default for the rest</p>
+<p>(with an exception for ovh1: 10.1.0.2)</p>
 </li>
+</ul>
+<ul>
+<li>mail for root: tech@openfoodfacts.org</li>
+<li>other dest: blank</li>
+<li>sync: no</li>
+<li>local network: leave default</li>
+<li>use procmail: no</li>
+<li>default for the rest</li>
 </ul>
 <h3 id="exim4-configuration">Exim4 configuration<a class="headerlink" href="#exim4-configuration" title="Permanent link">#</a></h3>
 <p>Run: <code>dpkg-reconfigure exim4-config</code>:</p>
@@ -1038,21 +1040,27 @@ Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etck
 <p>or, with the <code>mailutils</code> package installed:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;test message from xxx&quot;</span><span class="w"> </span><span class="p">|</span>mail.mailutils<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;test root xxx&quot;</span><span class="w"> </span>-r<span class="w"> </span>alex@openfoodfacts.org<span class="w"> </span>root
 </code></pre></div>
-<p>If you do not receive the email on expected group, here are some checks:
-* look at logs on your server:
-  * <code>/var/log/exim/</code> if you use <code>exim4</code>
-  * <code>/var/log/mail*</code> if you use postfix
-* look at logs on pmg VM:
-  * <code>/var/log/mail*</code>
-* <code>ping pmg.openfoodfacts.org</code> to verify network
-* <code>nc -vz pmg.openfoodfacts.org 25</code> suceed, else you might have firewall problems:
+<p>If you do not receive the email on expected group, here are some checks:</p>
+<ul>
+<li>look at logs on your server:<ul>
+<li><code>/var/log/exim/</code> if you use <code>exim4</code></li>
+<li><code>/var/log/mail*</code> if you use postfix</li>
+</ul>
+</li>
+<li>look at logs on pmg VM:<ul>
+<li><code>/var/log/mail*</code></li>
+</ul>
+</li>
+<li><code>ping pmg.openfoodfacts.org</code> to verify network</li>
+<li><code>nc -vz pmg.openfoodfacts.org 25</code> suceed, else you might have firewall problems:
   verify iptables on your machine and on ovh1.
-  (nc command belongs to <code>netcat-traditional</code> or <code>netcat-openbsd</code> packages)
-* you can even try to send a mail manualy using smtp protocol using
+  (nc command belongs to <code>netcat-traditional</code> or <code>netcat-openbsd</code> packages)</li>
+<li>you can even try to send a mail manualy using smtp protocol using
   <code>nc pmg.openfoodfacts.org</code> and following a tutorial about <a href="https://www.linuxjournal.com/content/sending-email-netcat">sending email with netcat</a>
-  If it suceed this may mean you have a problem in username to email address translation.
-* <code>/etc/mailname</code> contains <code>openfoodfacts.org</code> (see also <a href="https://wiki.debian.org/EtcMailName">debian wiki</a>)
-* check <code>/etc/aliases</code> and <code>/etc/email-adresses</code> if you use exim4</p>
+  If it suceed this may mean you have a problem in username to email address translation.</li>
+<li><code>/etc/mailname</code> contains <code>openfoodfacts.org</code> (see also <a href="https://wiki.debian.org/EtcMailName">debian wiki</a>)</li>
+<li>check <code>/etc/aliases</code> and <code>/etc/email-adresses</code> if you use exim4</li>
+</ul>
 <h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h3>
 <ul>
 <li><a href="https://www.debian.org/doc/manuals/debian-reference/ch06.en.html#_the_mail_system">Debian reference</a></li>
