@@ -36,7 +36,7 @@ We use iptables on a lot of servers (generally host servers).
 We use iptables-persistent to save rules, and restore them at startup.
 
 On ovh servers, rules are in `/etc/iptables/rule.v{4,6}`
-On free servers, rules are in `/etc/iptables.up.rules`
+On off1, rules are in `/etc/iptables.up.rules`
 
 Remember, that docker as it's own chains that are not affected by `INPUT` and `OUTPUT` rules.
 So it won't block a port exposed by docker. Use `DOCKER-USER` chain for that.
