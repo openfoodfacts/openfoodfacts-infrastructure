@@ -25,7 +25,7 @@ wait
 for dir_name in orgs users
 do
   nice -n 19 ionice -c 3 \
-    rsync -a -x -e "ssh -T -x -i /root/.ssh/off2_rsync_id_rsa" \
+    rsync -a -x -e "ssh -T -x" \
     off@off1.openfoodfacts.org:/srv/off/$dir_name /rpool/off/$dir_name &
 done
 wait
