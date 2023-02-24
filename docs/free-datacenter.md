@@ -27,7 +27,8 @@ The server switch on button is on the front panel, a small ⏼ button on the rig
 
 There is a double plug for power supply. A small velcro helps keeps plugs in place.
 
-**FIXME photo**
+
+<img src="img/2023-02-free-dc-plugs-velcro.jpg" height="250px" alt="Plugs velcro" title="A small velcro maintains plugs in place">
 
 There is a blue led if all is ok (on the front and on the back). If something is wrong it turns to orange and blinks. (it will be the case for example if cover is not on the server).
 
@@ -37,7 +38,11 @@ You can make the LED blink to identify the server by a button on the left on the
 
 IPMI enables rebooting the server through the network.
 
-It has to be configured with the right static network configuration in BIOS to be able to work.
+Connecting to 213.36.253.209 with a browser or ssh we get access to an emergency console on the machine.
+
+(**FIXME** c'est safe que ce ne soit pas plus protégé que ça (pour un accès par mot de passe en plus ? Quel mot de passe ?))
+
+It has to be configured with the right static network configuration in BIOS to be able to work (see below)
 
 ## Network
 
@@ -73,10 +78,28 @@ The 14Tb disks are in a ZFS pool mounted as RAID 1 (rpool)
 
 Since Feb. 2023, off2 uses [Proxmox](./promox.md).
 
-### IPMI settings
 
+### BIOS settings
+
+#### Slot bifurcation
+
+This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).
+
+In System BIOS / Integrated devices / Slot bifurcation: *Auto discovery of bifurcation*
+
+#### PERC adapter
+
+PERC Adapter Bios (Power Edge RAID Controller) is set to be  *HBA mode* for we use ZFS and don't want system RAID.
+
+
+#### IDRAC / IPMI settings
+
+Those settings are in the BIOS settings.
+They enable a distant reboot of the server through a specific interface.
+
+* disable DHCP and auto-discovery
 * Static IP address: 213.36.253.209
 * Gateway: 213.36.253.222
 * Subnet Mask: 255.255.255.224
 * Static DNS: 213.36.253.10
-* Static Alter: **FIXME** (see photo)
+* Static Alter: 213.36.252.131
