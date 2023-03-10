@@ -1,6 +1,6 @@
 # NGINX Reverse proxy (OVH)
 
-At OVH we have a lxc container dedicated to reverse proxy http/https applications.
+At OVH and at Free we have a lxc container dedicated to reverse proxy http/https applications. It serves applications that are located in servers the same provider (and same proxmox cluster).
 
 ## Network specific interface
 
@@ -18,20 +18,22 @@ It as a specific network configurations with two ethernet address:
 To make a new service, hosted on proxmox, available you needs to:
 
 * have this service available on proxmox internal network
-* in the DNS, CNAME you service name to `proxy1.openfoodfacts.org`
+* in the DNS, CNAME you service name to
+  * `proxy1.openfoodfacts.org` for OVH (ovh1..3)
+  * `proxy2.openfoodfacts.org` for Free (off1..2)
 * write a configuration on nginx for this service
 * eventually add https
 
 
 ### Steps to create Nginx configuration
 
-we will imagine we configure **my-service.openfoodfacts.net**
+we will imagine we configure **my-service.openfoodfacts.net**, to root request to container `222`, port `8888`.
 
 You will have to be root to do that.
 
 Login on container (101) and start a root bash.
 
-Create the basic configuration file for your service in `/etc/nginx/conf.d` named `my-service.openfoodfacts.net.conf` on machine `222`, port `8888`.
+Create the basic configuration file for your service in `/etc/nginx/conf.d` named after your service, eg. `my-service.openfoodfacts.net.conf`.
 
 **Important**: your file has to ends with `.conf` to be taken into account.
 
