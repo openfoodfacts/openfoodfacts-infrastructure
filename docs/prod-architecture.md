@@ -14,7 +14,7 @@ We use [proxmox](./promox.md)
 
 We have a container for the [NGINX reverse proxy](./nginx-reverse-proxy.md)
 
-This proxy might be cascading to another nginx specific to an installation (itself cascading to eg. an Apache for some of the requests).
+This proxy might be cascading to another Nginx specific to an installation (itself cascading to eg. an Apache for some of the requests).
 
 ## One application - one container
 
