@@ -22,7 +22,7 @@ Each application has its own LXC container.
 
 An application is a flavor of product-opener (off, opf, opff, obf) in public mode. A producer platform is another application (it currently exists only for off).
 
-The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases whiche are on separate dedicated containers.
+The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases which are on separate dedicated containers.
 
 This means:
 * nginx - aka the frontend
