@@ -66,7 +66,7 @@ Also all products / products images from other platform must be available to the
 
 ## Network
 
-All application must talk to each other using the internal network. To talk between machine every communication should go through Stunnel or https.
+All application must talk to each other using the internal network. To talk between machines, every communication should go through Stunnel or https.
 
 Stunnel has the advantage to conduct any TCP stream (not UDP, sadly). No need to add specific firewall rules, Stunnel use an authentication.
 
