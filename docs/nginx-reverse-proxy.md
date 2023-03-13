@@ -31,9 +31,9 @@ Imagine we have to configure **my-service.openfoodfacts.net**, to route request 
 
 You will have to be root to do that.
 
-Login on container (101) and start a root bash.
+Login on the Nginx reverse proxy container (101) and launch a Bash session as root.
 
-Create the basic configuration file for your service in `/etc/nginx/conf.d` named after your service, eg. `my-service.openfoodfacts.net.conf`.
+Create the basic configuration file for your service in `/etc/nginx/conf.d` directory, named after your service, eg. `my-service.openfoodfacts.net.conf`.
 
 **Important**: your file has to ends with `.conf` to be taken into account.
 

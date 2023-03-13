@@ -8,7 +8,7 @@ Some other services are hosted on OVH servers
 
 ## Proxmox
 
-We use [proxmox](./promox.md)
+We use the [Proxmox open-source virtualization platform](./promox.md)
 
 ## NGINX proxy
 
@@ -20,7 +20,7 @@ This proxy might be cascading to another Nginx specific to an installation (itse
 
 Each application has its own LXC container.
 
-An application is a flavor of product-opener (off, opf, opff, obf) in public mode. A producer platform is another application (it currently exists only for off).
+An application is a flavor of product-opener (off, opf, opff, obf) in public mode. The Producer Platform is another application (it currently exists only for off).
 
 The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases which are on separate dedicated containers.
 
@@ -39,7 +39,7 @@ Databases are shared between instances, for now this is more handy:
 
 We must try hard to separate data and software.
 
-All data is stored on ZFS. We have different datasets.
+All data is stored on ZFS. We have different [ZFS datasets](https://openzfs.github.io/openzfs-docs/man/7/zfsconcepts.7.html?highlight=dataset).
 
 Some are shared between installs:
 * users - `/mnt/<flavor>/users`
