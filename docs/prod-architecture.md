@@ -2,7 +2,7 @@
 
 ## Servers
 
-Main web server is hostde on off1 and off2 at [Free Datacenter](./free-datacenter.md)
+Main web server is hosted on off1 and off2 at [Free Datacenter](./free-datacenter.md)
 
 Some other services are hosted on OVH servers
 
