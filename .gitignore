@@ -1,2 +1,6 @@
 # Ignore IDE files
 .vscode/
+
+# python3 venv (for mkdocs)
+.venv/
+

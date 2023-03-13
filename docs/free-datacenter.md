@@ -18,7 +18,7 @@ Those are DELL servers.
 
 On the back side of server cover you find some useful instructions.
 
-<img src="img/2023-02-free-dc-instructions-on-server-cover.jpg" height="250px" alt="Server cover" title="Instructions on the server cover">
+![Server cover](img/2023-02-free-dc-instructions-on-server-cover.jpg "Instructions on the server cover"){ width=50% }
 
 
 To switch a server off, plug a screen and keyboard or use ssh, login and use shutdown command.
@@ -28,7 +28,7 @@ The server switch on button is on the front panel, a small ⏼ button on the rig
 There is a double plug for power supply. A small velcro helps keeps plugs in place.
 
 
-<img src="img/2023-02-free-dc-plugs-velcro.jpg" height="250px" alt="Plugs velcro" title="A small velcro maintains plugs in place">
+![Plugs velcro](img/2023-02-free-dc-plugs-velcro.jpg "A small velcro maintains plugs in place"){ width=50% }
 
 There is a blue led if all is ok (on the front and on the back). If something is wrong it turns to orange and blinks. (it will be the case for example if cover is not on the server).
 
@@ -51,7 +51,7 @@ We have three network physical interface on each server:
 - one for internal network - on a dedicated small switch between OFF and OSM machines
 - one for public network
 
-<img src="img/2023-02-free-dc-ethernet.jpg" height="250px" alt="Ethernet cables" title="The three eternet cables on the server">
+![Ethernet cables](img/2023-02-free-dc-ethernet.jpg "The three eternet cables on the server"){ width=50% }
 
 
 ## Disks
