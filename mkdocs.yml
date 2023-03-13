@@ -11,6 +11,7 @@ theme:
   name: material
 
 markdown_extensions:
+  - attr_list
   - footnotes
   - pymdownx.highlight
   - pymdownx.superfences
@@ -20,3 +21,9 @@ markdown_extensions:
   # this one allow to have two space indentation
   # counts as nested list
   - mdx_truly_sane_lists
+
+plugins:
+  # glightbox is for images
+  - glightbox:
+      auto_caption: true
+
