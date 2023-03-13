@@ -15,7 +15,7 @@ It as a specific network configurations with two ethernet address:
 
 ## Configuring a new service
 
-To make a new service, hosted on proxmox, available you needs to:
+To make a new service, hosted on Proxmox, available you need to:
 
 * have this service available on proxmox internal network
 * in the DNS, CNAME you service name to
