@@ -27,7 +27,7 @@ To make a new service, hosted on Proxmox, available you need to:
 
 ### Steps to create Nginx configuration
 
-we will imagine we configure **my-service.openfoodfacts.net**, to root request to container `222`, port `8888`.
+Imagine we have to configure **my-service.openfoodfacts.net**, to route request to container `222`, port `8888`.
 
 You will have to be root to do that.
 
