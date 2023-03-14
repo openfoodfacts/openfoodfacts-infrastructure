@@ -35,6 +35,8 @@ Databases are shared between instances, for now this is more handy:
 * PostgreSQL
 * Memcached
 
+Note that we requests pass through two NGINX: the reverse proxy and the project specific nginx. This is not a big cost, and it makes it far more easy to manage things, for the project nginx has a lot of specific rules and directly serve static resources.
+
 ## Storage
 
 We must try hard to separate data and software.
@@ -56,6 +58,7 @@ Some specific to each flavor:
 
 Also all products / products images from other platform must be available to the other flavors (because we need to move products around)
 
+All folders are datasets
 
 **FIXME**: what about js assets (how are they compiled in prod ?) --> we should publish them on release with a github action (safer)
 - icons_dist:/opt/product-opener/html/images/icons/dist:ro
@@ -63,6 +66,78 @@ Also all products / products images from other platform must be available to the
 - css_dist:/opt/product-opener/html/css/dist:ro
 - node_modules:/opt/product-opener/node_modules:ro
 
+### ZFS storage syncs
+
+ZFS datastest are replicated (via sync), snapshoted (for backups) and some snapshot are used through clones to provide data for staging.
+
+<!-- You can test it here https://mermaid.live/ -->
+```mermaid
+---
+title: Target ZFS sync state (all ZFS)
+---
+flowchart TD
+    subgraph free
+        subgraph OFF1 Datacenter
+            OFF1products(OFF1 products)
+            OFF1images(OFF1 images)
+        end
+        subgraph off2
+            OFF1products -->|ZFS sync| OFF2products(OFF2 products)
+            OFF1images(OFF1 images) --> |ZFS sync| OFF2images(OFF2 images)
+        end
+    end
+    subgraph OVH Datacenter
+        subgraph ovh3
+            OFF1products -->|ZFS sync| OVH3products(OVH3 products)
+            OFF1images(OFF1 images) -->|ZFS sync| OVH3images(OVH3 images)
+            OVH3products -->|ZFS snapshot| OVH3ProdSnapshots(OVH3 products snapshots)
+            OVH3ProdSnapshots -->|ZFS clone R/W| DotNETProdclone(.net products)
+
+            OVH3images -->|ZFS snapshot| OVH3ImgSnapshots(OVH3 images snapshots)
+            OVH3ImgSnapshots -->|ZFS clone  R/W| DotNETIMGclone(.net images)
+        end
+    end
+```
+
+alternative:
+
+
+```mermaid
+---
+title: Target ZFS sync state (all ZFS)
+---
+
+flowchart TD
+    subgraph free datacenter
+        subgraph off1
+            OFF1products(OFF1 products)
+            OFF1images(OFF1 images)
+        end
+        subgraph off2
+            OFF1products -->|ZFS sync| OFF2products(OFF2 products)
+            OFF1images(OFF1 images) --> |ZFS sync| OFF2images(OFF2 images)
+        end
+    end
+    subgraph OVH Datacenter
+        subgraph ovh3
+            OFF2products -->|ZFS sync| OVH3products(OVH3 products)
+            OFF2images(OFF1 images) -->|ZFS sync| OVH3images(OVH3 images)
+            OVH3products --> OVH3ProdSnapshots(OVH3 products snapshots)
+            OVH3ProdSnapshots -->|ZFS clone R/W| DotNETProdclone(.net products)
+
+            OVH3images --> OVH3ImgSnapshots(OVH3 images snapshots)
+            OVH3ImgSnapshots -->|ZFS clone R/W| DotNETIMGclone(.net images)
+        end
+    end
+```
+
+OVH3 images are used by NGINX serving `images.openfoodfacts.org`.
+Note that ZFS sync is done through ssh and is thus secure.
+
+
+# proxmox
+--> interface web 8006 / (tunnel ssh)
+--> 
 
 ## Network
 
