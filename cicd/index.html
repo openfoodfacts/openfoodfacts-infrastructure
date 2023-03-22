@@ -8,9 +8,9 @@
 <link href=".." rel="prev"/>
 <link href="../discourse/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.1.2" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.1.3" name="generator"/>
 <title>Continous Integration and Continuous Delivery - Open Food Facts Infrastructure documentation</title>
-<link href="../assets/stylesheets/main.7bf56d0a.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/main.c4a75a56.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -529,7 +529,7 @@
 <p>We use GitHub Actions to automatically run tests pull requests (unit / integration / lint / performance), but also to build and deploy Docker containers to pre-production and production environments.</p>
 <p>GitHub actions workflows are stored in <code>.github/workflows</code> in each repository.</p>
 <p>In order to ease the deployments of new repositories and have uniform deployments across OFF apps, 2 GitHub Actions workflow templates were created, which can be setup by going to the <code>Actions</code> tab on the GitHub repo and selecting the "Docker image build" and "Docker Compose Deployment" actions:</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitHub Action Workflows" data-width="100%" href="../img/gh_workflows.png"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png"/></a></p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitHub Action Workflows" data-type="image" data-width="100%" href="../img/gh_workflows.png"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png"/></a></p>
 <h4 id="github-bot">Github Bot<a class="headerlink" href="#github-bot" title="Permanent link">#</a></h4>
 <p>Some actions that needs their actions to trigger new actions, like <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">release-please</a>, needs a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">PAT (Personnal Access Token)</a> for that.</p>
 <p>We created <a href="https://github.com/openfoodfacts-bot">a bot account</a> for those cases. It's linked to <code>tech</code> mailing list.
@@ -561,9 +561,9 @@ around it. It shows the developers workflow to get a change into
 <ul>
 <li>No humans should have to worry about making releases. The process should be fully automated.</li>
 </ul>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model" data-width="100%" href="../img/cd_process.png"><img alt="GitOps deployment model" src="../img/cd_process.png"/></a></p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model" data-type="image" data-width="100%" href="../img/cd_process.png"><img alt="GitOps deployment model" src="../img/cd_process.png"/></a></p>
 <p>The following diagram represents the same process, but seen from a persona perspective (Developer, Maintainer, Release Administrator):</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model actions" data-width="100%" href="../img/cd_process_action.png"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png"/></a></p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model actions" data-type="image" data-width="100%" href="../img/cd_process_action.png"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png"/></a></p>
 <p><strong>Summary:</strong></p>
 <ul>
 <li>On <strong>pull requests</strong>: run the <code>pull_request.yml</code> Github Action workflow that builds and runs unit / integration / load tests locally.</li>
@@ -716,6 +716,6 @@ known ahead of time if the PR will break the pre-production environment.</p>
 <div class="md-dialog__inner md-typeset"></div>
 </div>
 <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-<script src="../assets/javascripts/bundle.fc8c2696.min.js"></script>
+<script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
 <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
