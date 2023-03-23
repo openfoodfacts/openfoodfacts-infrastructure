@@ -38,9 +38,7 @@ You can make the LED blink to identify the server by a button on the left on the
 
 IPMI enables rebooting the server through the network.
 
-Connecting to 213.36.253.209 with a browser or ssh we get access to an emergency console on the machine.
-
-(**FIXME** c'est safe que ce ne soit pas plus protégé que ça (pour un accès par mot de passe en plus ? Quel mot de passe ?))
+Connecting to 213.36.253.209 with a browser or ssh we get access to an emergency console on the machine. (note: it uses a self signed certificate).
 
 It has to be configured with the right static network configuration in BIOS to be able to work (see below)
 

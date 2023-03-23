@@ -14,7 +14,12 @@ markdown_extensions:
   - attr_list
   - footnotes
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      # mermaidjs graph supported by material theme
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       # add permalink after titles
       permalink: "#"
