@@ -221,6 +221,11 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../prod-architecture/">
+        Production architecture
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../producers_sftp/">
         Producers SFTP
       </a>
@@ -235,14 +240,19 @@
         Zammad
       </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../zfs-overview/">
+        ZFS overview
+      </a>
+</li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_18" type="checkbox"/>
-<label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+<input class="md-nav__toggle md-toggle" id="__nav_20" type="checkbox"/>
+<label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_18_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_18">
+<nav aria-expanded="false" aria-labelledby="__nav_20_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_20">
 <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -327,6 +337,16 @@
         2023-02-17 Off2 Upgrade
       </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reports/2023-02-24-zfs-introduction/">
+        2023 02 24 zfs introduction
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reports/2023-03-14-off2-reinstall/">
+        2023-03 OFF2 reinstall
+      </a>
+</li>
 </ul>
 </nav>
 </li>
@@ -390,25 +410,29 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="nginx-reverse-proxy-ovh">NGINX Reverse proxy (OVH)<a class="headerlink" href="#nginx-reverse-proxy-ovh" title="Permanent link">#</a></h1>
-<p>At OVH we have a lxc container dedicated to reverse proxy http/https applications.</p>
+<p>At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications. It serves applications that are located in servers at the same provider (and same Proxmox cluster).</p>
 <h2 id="network-specific-interface">Network specific interface<a class="headerlink" href="#network-specific-interface" title="Permanent link">#</a></h2>
 <p>It as a specific network configurations with two ethernet address:
 * one internal, to communicate with other VMs
 * one which is bridged on host network card, with ip fail over mechanism.</p>
 <p><strong>Important</strong>: only the public ip should have a gateway <sup id="fnref:proxmox_multiple_gateway"><a class="footnote-ref" href="#fn:proxmox_multiple_gateway">1</a></sup></p>
 <h2 id="configuring-a-new-service">Configuring a new service<a class="headerlink" href="#configuring-a-new-service" title="Permanent link">#</a></h2>
-<p>To make a new service, hosted on proxmox, available you needs to:</p>
+<p>To make a new service, hosted on Proxmox, available you need to:</p>
 <ul>
 <li>have this service available on proxmox internal network</li>
-<li>in the DNS, CNAME you service name to <code>proxy1.openfoodfacts.org</code></li>
+<li>in the DNS, CNAME you service name to<ul>
+<li><code>proxy1.openfoodfacts.org</code> for OVH (ovh1..3)</li>
+<li><code>proxy2.openfoodfacts.org</code> for Free (off1..2)</li>
+</ul>
+</li>
 <li>write a configuration on nginx for this service</li>
 <li>eventually add https</li>
 </ul>
 <h3 id="steps-to-create-nginx-configuration">Steps to create Nginx configuration<a class="headerlink" href="#steps-to-create-nginx-configuration" title="Permanent link">#</a></h3>
-<p>we will imagine we configure <strong>my-service.openfoodfacts.net</strong></p>
+<p>Imagine we have to configure <strong>my-service.openfoodfacts.net</strong>, to route request to container <code>222</code>, port <code>8888</code>.</p>
 <p>You will have to be root to do that.</p>
-<p>Login on container (101) and start a root bash.</p>
-<p>Create the basic configuration file for your service in <code>/etc/nginx/conf.d</code> named <code>my-service.openfoodfacts.net.conf</code> on machine <code>222</code>, port <code>8888</code>.</p>
+<p>Login on the Nginx reverse proxy container (101) and launch a Bash session as root.</p>
+<p>Create the basic configuration file for your service in <code>/etc/nginx/conf.d</code> directory, named after your service, eg. <code>my-service.openfoodfacts.net.conf</code>.</p>
 <p><strong>Important</strong>: your file has to ends with <code>.conf</code> to be taken into account.</p>
 <p>It's a good idea to first test it exists, using nc and curl:</p>
 <div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.1.0.222<span class="w"> </span><span class="m">8888</span>

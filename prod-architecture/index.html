@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../folksonomy/" rel="prev"/>
-<link href="../linux-server/" rel="next"/>
+<link href="../odoo/" rel="prev"/>
+<link href="../producers_sftp/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.1.3" name="generator"/>
-<title>Free Datacenter - Open Food Facts Infrastructure documentation</title>
+<title>Production architecture - Open Food Facts Infrastructure documentation</title>
 <link href="../assets/stylesheets/main.c4a75a56.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#free-datacenter">
+<a class="md-skip" href="#production-architecture">
           Skip to content
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Free Datacenter
+              Production architecture
             
           </span>
 </div>
@@ -134,81 +134,10 @@
         Folksonomy API
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-          Free Datacenter
-          <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../free-datacenter/">
         Free Datacenter
       </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#location">
-    Location
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#servers">
-    Servers
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#ipmi">
-    IPMI
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#network">
-    Network
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#disks">
-    Disks
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#off2-configuration">
-    off2 configuration
-  </a>
-<nav aria-label="off2 configuration" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#bios-settings">
-    BIOS settings
-  </a>
-<nav aria-label="BIOS settings" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#slot-bifurcation">
-    Slot bifurcation
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#perc-adapter">
-    PERC adapter
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#idrac-ipmi-settings">
-    IDRAC / IPMI settings
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../linux-server/">
@@ -240,10 +169,57 @@
         Odoo: our relationship management (connect.openfoodfacts.org)
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../prod-architecture/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Production architecture
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
         Production architecture
       </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#servers">
+    Servers
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#proxmox">
+    Proxmox
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#nginx-proxy">
+    NGINX proxy
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#one-application-one-container">
+    One application - one container
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#storage">
+    Storage
+  </a>
+<nav aria-label="Storage" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zfs-storage-syncs">
+    ZFS storage syncs
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../producers_sftp/">
@@ -385,59 +361,35 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#location">
-    Location
-  </a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#servers">
     Servers
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#ipmi">
-    IPMI
+<a class="md-nav__link" href="#proxmox">
+    Proxmox
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#network">
-    Network
+<a class="md-nav__link" href="#nginx-proxy">
+    NGINX proxy
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#disks">
-    Disks
+<a class="md-nav__link" href="#one-application-one-container">
+    One application - one container
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#off2-configuration">
-    off2 configuration
+<a class="md-nav__link" href="#storage">
+    Storage
   </a>
-<nav aria-label="off2 configuration" class="md-nav">
+<nav aria-label="Storage" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#bios-settings">
-    BIOS settings
+<a class="md-nav__link" href="#zfs-storage-syncs">
+    ZFS storage syncs
   </a>
-<nav aria-label="BIOS settings" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#slot-bifurcation">
-    Slot bifurcation
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#perc-adapter">
-    PERC adapter
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#idrac-ipmi-settings">
-    IDRAC / IPMI settings
-  </a>
-</li>
-</ul>
-</nav>
 </li>
 </ul>
 </nav>
@@ -449,66 +401,116 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="free-datacenter">Free Datacenter<a class="headerlink" href="#free-datacenter" title="Permanent link">#</a></h1>
-<p><a href="https://www.fondation-free.fr/">Fondation Free</a> is graciously providing us hosting for two servers: off1 and off2.
-They also provide network and electricity for free.</p>
-<h2 id="location">Location<a class="headerlink" href="#location" title="Permanent link">#</a></h2>
-<p>Those servers are located is Bezon, near Paris. To go there we need to ask to the team there.</p>
-<p>The two servers are piled one above another (off2 on top).
-It's a bay with different Open Source projects' servers.
-They have at small label on them "Open Food Facts"</p>
+<h1 id="production-architecture">Production architecture<a class="headerlink" href="#production-architecture" title="Permanent link">#</a></h1>
 <h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">#</a></h2>
-<p>Those are DELL servers.</p>
-<p>On the back side of server cover you find some useful instructions.</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="Server cover" data-type="image" data-width="100%" href="../img/2023-02-free-dc-instructions-on-server-cover.jpg"><img alt="Server cover" src="../img/2023-02-free-dc-instructions-on-server-cover.jpg" title="Instructions on the server cover" width="50%"/></a></p>
-<p>To switch a server off, plug a screen and keyboard or use ssh, login and use shutdown command.</p>
-<p>The server switch on button is on the front panel, a small ⏼ button on the right.</p>
-<p>There is a double plug for power supply. A small velcro helps keeps plugs in place.</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="Plugs velcro" data-type="image" data-width="100%" href="../img/2023-02-free-dc-plugs-velcro.jpg"><img alt="Plugs velcro" src="../img/2023-02-free-dc-plugs-velcro.jpg" title="A small velcro maintains plugs in place" width="50%"/></a></p>
-<p>There is a blue led if all is ok (on the front and on the back). If something is wrong it turns to orange and blinks. (it will be the case for example if cover is not on the server).</p>
-<p>You can make the LED blink to identify the server by a button on the left on the front side of the server.</p>
-<h2 id="ipmi">IPMI<a class="headerlink" href="#ipmi" title="Permanent link">#</a></h2>
-<p>IPMI enables rebooting the server through the network.</p>
-<p>Connecting to 213.36.253.209 with a browser or ssh we get access to an emergency console on the machine. (note: it uses a self signed certificate).</p>
-<p>It has to be configured with the right static network configuration in BIOS to be able to work (see below)</p>
+<p>Main web server is hosted on off1 and off2 at <a href="../free-datacenter/">Free Datacenter</a></p>
+<p>Some other services are hosted on OVH servers</p>
+<h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
+<p>We use the <a href="../promox/">Proxmox open-source virtualization platform</a></p>
+<h2 id="nginx-proxy">NGINX proxy<a class="headerlink" href="#nginx-proxy" title="Permanent link">#</a></h2>
+<p>We have a container for the <a href="../nginx-reverse-proxy/">NGINX reverse proxy</a></p>
+<p>This proxy might be cascading to another Nginx specific to an installation (itself cascading to eg. an Apache for some of the requests).</p>
+<h2 id="one-application-one-container">One application - one container<a class="headerlink" href="#one-application-one-container" title="Permanent link">#</a></h2>
+<p>Each application has its own LXC container.</p>
+<p>An application is a flavor of product-opener (off, opf, opff, obf) in public mode. The Producer Platform is another application (it currently exists only for off).</p>
+<p>The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases which are on separate dedicated containers.</p>
+<p>This means:
+* nginx - aka the frontend
+* apache - aka the backend
+* minion process
+* incron process</p>
+<p>Databases are shared between instances, for now this is more handy:
+* Mongodb instance
+* PostgreSQL
+* Memcached</p>
+<p>Note that we requests pass through two NGINX: the reverse proxy and the project specific nginx. This is not a big cost, and it makes it far more easy to manage things, for the project nginx has a lot of specific rules and directly serve static resources.</p>
+<h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">#</a></h2>
+<p>We must try hard to separate data and software.</p>
+<p>All data is stored on ZFS. We have different <a href="https://openzfs.github.io/openzfs-docs/man/7/zfsconcepts.7.html?highlight=dataset">ZFS datasets</a>.</p>
+<p>Some are shared between installs:
+* users - <code>/mnt/&lt;flavor&gt;/users</code>
+* orgs - <code>/mnt/&lt;flavor&gt;/orgs</code> (<strong>FIXME</strong> verify section)</p>
+<p>Some specific to a flavor, but shared between producer and public platform:
+* product images - <code>/mnt/&lt;flavor&gt;/product_images</code> (linked in html/images/)</p>
+<p>Some specific to each flavor:
+* products - <code>/mnt/&lt;flavor&gt;/products</code>
+* lang  - <code>/mnt/&lt;flavor&gt;/lang</code>
+* html_data <code>/mnt/&lt;flavor&gt;/html_data</code> (linked in html/data)
+* other data (<code>/mnt/&lt;flavor&gt;/*</code>)</p>
+<p>Also all products / products images from other platform must be available to the other flavors (because we need to move products around)</p>
+<p>All folders are datasets</p>
+<p><strong>FIXME</strong>: what about js assets (how are they compiled in prod ?) --&gt; we should publish them on release with a github action (safer)
+- icons_dist:/opt/product-opener/html/images/icons/dist:ro
+- js_dist:/opt/product-opener/html/js/dist:ro
+- css_dist:/opt/product-opener/html/css/dist:ro
+- node_modules:/opt/product-opener/node_modules:ro</p>
+<h3 id="zfs-storage-syncs">ZFS storage syncs<a class="headerlink" href="#zfs-storage-syncs" title="Permanent link">#</a></h3>
+<p>ZFS datastest are replicated (via sync), snapshoted (for backups) and some snapshot are used through clones to provide data for staging.</p>
+<!-- You can test it here https://mermaid.live/ -->
+<pre class="mermaid"><code>---
+title: Target ZFS sync state (all ZFS)
+---
+flowchart TD
+    subgraph free
+        subgraph OFF1 Datacenter
+            OFF1products(OFF1 products)
+            OFF1images(OFF1 images)
+        end
+        subgraph off2
+            OFF1products --&gt;|ZFS sync| OFF2products(OFF2 products)
+            OFF1images(OFF1 images) --&gt; |ZFS sync| OFF2images(OFF2 images)
+        end
+    end
+    subgraph OVH Datacenter
+        subgraph ovh3
+            OFF1products --&gt;|ZFS sync| OVH3products(OVH3 products)
+            OFF1images(OFF1 images) --&gt;|ZFS sync| OVH3images(OVH3 images)
+            OVH3products --&gt;|ZFS snapshot| OVH3ProdSnapshots(OVH3 products snapshots)
+            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
+
+            OVH3images --&gt;|ZFS snapshot| OVH3ImgSnapshots(OVH3 images snapshots)
+            OVH3ImgSnapshots --&gt;|ZFS clone  R/W| DotNETIMGclone(.net images)
+        end
+    end</code></pre>
+<p>alternative:</p>
+<pre class="mermaid"><code>---
+title: Target ZFS sync state (all ZFS)
+---
+
+flowchart TD
+    subgraph free datacenter
+        subgraph off1
+            OFF1products(OFF1 products)
+            OFF1images(OFF1 images)
+        end
+        subgraph off2
+            OFF1products --&gt;|ZFS sync| OFF2products(OFF2 products)
+            OFF1images(OFF1 images) --&gt; |ZFS sync| OFF2images(OFF2 images)
+        end
+    end
+    subgraph OVH Datacenter
+        subgraph ovh3
+            OFF2products --&gt;|ZFS sync| OVH3products(OVH3 products)
+            OFF2images(OFF1 images) --&gt;|ZFS sync| OVH3images(OVH3 images)
+            OVH3products --&gt; OVH3ProdSnapshots(OVH3 products snapshots)
+            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
+
+            OVH3images --&gt; OVH3ImgSnapshots(OVH3 images snapshots)
+            OVH3ImgSnapshots --&gt;|ZFS clone R/W| DotNETIMGclone(.net images)
+        end
+    end</code></pre>
+<p>OVH3 images are used by NGINX serving <code>images.openfoodfacts.org</code>.
+Note that ZFS sync is done through ssh and is thus secure.</p>
+<h1 id="proxmox_1">proxmox<a class="headerlink" href="#proxmox_1" title="Permanent link">#</a></h1>
+<p>--&gt; interface web 8006 / (tunnel ssh)
+--&gt; </p>
 <h2 id="network">Network<a class="headerlink" href="#network" title="Permanent link">#</a></h2>
-<p>We have three network physical interface on each server:
-- one dedicated to ipmi
-- one for internal network - on a dedicated small switch between OFF and OSM machines
-- one for public network</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="Ethernet cables" data-type="image" data-width="100%" href="../img/2023-02-free-dc-ethernet.jpg"><img alt="Ethernet cables" src="../img/2023-02-free-dc-ethernet.jpg" title="The three eternet cables on the server" width="50%"/></a></p>
-<h2 id="disks">Disks<a class="headerlink" href="#disks" title="Permanent link">#</a></h2>
-<p>SATA Disks are on the front panel. You just have to push a small red button, it makes a small handle comes out and you can rack them out.</p>
-<p>We had to use Dell SATA disks because otherwise there maybe compatibility issues (this is one of the limitation of DELL servers).</p>
-<p>SSDs are in the back of the server (extension card)</p>
-<h2 id="off2-configuration">off2 configuration<a class="headerlink" href="#off2-configuration" title="Permanent link">#</a></h2>
-<p>off2.openfoodfacts.org</p>
-<ul>
-<li>4x14Tb disks</li>
-<li>2x2TB SSD</li>
-<li>1x1TB SSD</li>
-<li>1x60GB <a href="https://en.wikipedia.org/wiki/3D_XPoint">optane disk</a></li>
-</ul>
-<p>Optane disk are as fast as flash drives but without being sensitive to rewrites (no limited life).</p>
-<p>The 14Tb disks are in a ZFS pool mounted as RAID 1 (rpool)</p>
-<p>Since Feb. 2023, off2 uses <a href="../promox/">Proxmox</a>.</p>
-<h3 id="bios-settings">BIOS settings<a class="headerlink" href="#bios-settings" title="Permanent link">#</a></h3>
-<h4 id="slot-bifurcation">Slot bifurcation<a class="headerlink" href="#slot-bifurcation" title="Permanent link">#</a></h4>
-<p>This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).</p>
-<p>In System BIOS / Integrated devices / Slot bifurcation: <em>Auto discovery of bifurcation</em></p>
-<h4 id="perc-adapter">PERC adapter<a class="headerlink" href="#perc-adapter" title="Permanent link">#</a></h4>
-<p>PERC Adapter Bios (Power Edge RAID Controller) is set to be  <em>HBA mode</em> for we use ZFS and don't want system RAID.</p>
-<h4 id="idrac-ipmi-settings">IDRAC / IPMI settings<a class="headerlink" href="#idrac-ipmi-settings" title="Permanent link">#</a></h4>
-<p>Those settings are in the BIOS settings.
-They enable a distant reboot of the server through a specific interface.</p>
-<ul>
-<li>disable DHCP and auto-discovery</li>
-<li>Static IP address: 213.36.253.209</li>
-<li>Gateway: 213.36.253.222</li>
-<li>Subnet Mask: 255.255.255.224</li>
-<li>Static DNS: 213.36.253.10</li>
-<li>Static Alter: 213.36.252.131</li>
-</ul>
+<p>All application must talk to each other using the internal network. To talk between machines, every communication should go through Stunnel or https.</p>
+<p>Stunnel has the advantage to conduct any TCP stream (not UDP, sadly). No need to add specific firewall rules, Stunnel use an authentication.</p>
+<p>We use Stunnel with PSK which is faster and easy to configure.
+Each server connection must use unique PSK.</p>
+<p>Here is a diagram to understand connections (not complete) (<a href="../img/architecture-diagram.drawio">source</a>).</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="Architecture diagram" data-type="image" data-width="100%" href="../img/architecture-diagram.png"><img alt="Architecture diagram" src="../img/architecture-diagram.png"/></a></p>
 </article>
 </div>
 </div>

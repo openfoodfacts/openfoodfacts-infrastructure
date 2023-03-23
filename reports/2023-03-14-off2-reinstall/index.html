@@ -5,11 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../2022-02-proxmox-mail-gateway-install/" rel="prev"/>
-<link href="../2022-03-03-zammad-elasticsearch-not-running/" rel="next"/>
+<link href="../2023-02-24-zfs-introduction/" rel="prev"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.1.3" name="generator"/>
-<title>2022-02 Removing some containers on ovh1 - Open Food Facts Infrastructure documentation</title>
+<title>2023-03 OFF2 reinstall - Open Food Facts Infrastructure documentation</title>
 <link href="../../assets/stylesheets/main.c4a75a56.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -33,7 +32,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#2022-02-removing-some-containers-on-ovh1">
+<a class="md-skip" href="#2023-03-off2-reinstall">
           Skip to content
         </a>
 </div>
@@ -57,7 +56,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              2022-02 Removing some containers on ovh1
+              2023-03 OFF2 reinstall
             
           </span>
 </div>
@@ -236,56 +235,10 @@
         Install of proxmox gateway server
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-          2022-02 Removing some containers on ovh1
-          <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2022-02-remove-containers-ovh1/">
         2022-02 Removing some containers on ovh1
       </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#backups">
-    Backups
-  </a>
-<nav aria-label="Backups" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#backup-of-a-machine">
-    Backup of a machine
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#removal-of-a-vm">
-    Removal of a VM
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#creating-a-vm">
-    Creating a VM
-  </a>
-<nav aria-label="Creating a VM" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#creating-a-qemu-vm">
-    Creating a QEMU VM
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../2022-03-03-zammad-elasticsearch-not-running/">
@@ -337,10 +290,33 @@
         2023 02 24 zfs introduction
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2023-03-14-off2-reinstall/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          2023-03 OFF2 reinstall
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
         2023-03 OFF2 reinstall
       </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#current-storage-situation">
+    Current Storage situation
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#nginx-reverse-proxy-install">
+    NGINX reverse proxy install
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -360,37 +336,14 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#backups">
-    Backups
-  </a>
-<nav aria-label="Backups" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#backup-of-a-machine">
-    Backup of a machine
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#removal-of-a-vm">
-    Removal of a VM
+<a class="md-nav__link" href="#current-storage-situation">
+    Current Storage situation
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#creating-a-vm">
-    Creating a VM
+<a class="md-nav__link" href="#nginx-reverse-proxy-install">
+    NGINX reverse proxy install
   </a>
-<nav aria-label="Creating a VM" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#creating-a-qemu-vm">
-    Creating a QEMU VM
-  </a>
-</li>
-</ul>
-</nav>
 </li>
 </ul>
 </nav>
@@ -399,57 +352,42 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="2022-02-removing-some-containers-on-ovh1">2022-02 Removing some containers on ovh1<a class="headerlink" href="#2022-02-removing-some-containers-on-ovh1" title="Permanent link">#</a></h1>
-<h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">#</a></h2>
-<p>On datacenter we have a backup menu --&gt; click edit you can see the policies. We only have one.
-We use snapshot mode as we are on ZFS, and we use ZSTD compression.
-There also we configure which mail will be notified on errors.
-Some VM maybe excluded because inactive</p>
-<p>Backups goes in the backups disk resource (NFS mount of ovh3 zpool, NFS is integrated in ZFS).</p>
-<p>If we click on it we can see the backups.</p>
-<h3 id="backup-of-a-machine">Backup of a machine<a class="headerlink" href="#backup-of-a-machine" title="Permanent link">#</a></h3>
-<p>115 backup is a bit old.
-We do a manal backup.
-We go on 115, backup tab, type <code>snapshot</code>, compression <code>ZSTD</code>.</p>
-<p>Problem: It can't acquire global lock…
-We see that there are no backup since quite a long date of ovh1 machine !
-We also see that backup task on ovh1 have been failing for a while ! We didn't have mail, but ovh1 mail was not sending reliabely and more over the address where to send alerts was wrong (it was that of the CA).
-It seems that there is an old blocked vzdump running since 2021 !.
-We had to kill a lot of processes to get all down, and then remove /var/run/vzdump.{pid,lock}</p>
-<p>We then had to remove a backup because we where above the limit of 4 backups</p>
-<p>We then backup, it was a bit long (25 minutes).</p>
-<h2 id="removal-of-a-vm">Removal of a VM<a class="headerlink" href="#removal-of-a-vm" title="Permanent link">#</a></h2>
-<p><strong>Important</strong>:
-* Ensure you have backups for the machine before removal
-* stop the machine</p>
-<p>In options we edit protection to remove "Yes" if present.
-In upper bar on the machine : More -&gt; destroy
-You then check "remove from tasks"</p>
-<p>We had a failure because it cun't umount rpool/subvol-115-disk-0.</p>
-<p>This maybe due to mounts inside it.</p>
-<div class="highlight"><pre><span></span><code>cat mtab |grep subvol
-...
-10.0.0.3:/rpool/off/images-clone /rpool/subvol-115-disk-0/mnt/images nfs4 rw,relatime,vers=4.2,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=10.0.0.1,local_lock=none,addr=10.0.0.3 0 0
-10.0.0.3:/rpool/off/products-clone /rpool/subvol-115-disk-0/mnt/products nfs4 rw,relatime,vers=4.2,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=10.0.0.1,local_lock=none,addr=10.0.0.3 0 0
-...
-</code></pre></div>
-<p>umount myself:</p>
-<div class="highlight"><pre><span></span><code>umount  /rpool/subvol-115-disk-0/mnt/images
-umount  /rpool/subvol-115-disk-0/mnt/products
-</code></pre></div>
-<p>we check zfs / CT volumes, there is no more 115 volume, and we see the free space on the graph.</p>
-<p>We also removed 110 machine. It was hard because of a process in status D (uninteruptible sleep). We had to reboot OVH1.</p>
-<p>Side Note: we see that munin is down, it's because Christian monitor it from it's own munin.</p>
-<p><strong>Important</strong> remember to report changes to  https://docs.google.com/spreadsheets/d/19RePmE_-1V_He73fpMJYukEMjPWNmav1610yjpGKfD0/edit#gid=0</p>
-<h2 id="creating-a-vm">Creating a VM<a class="headerlink" href="#creating-a-vm" title="Permanent link">#</a></h2>
-<p>Right click on ovh1 "create VM) or use the button up right.</p>
-<p>We prefer not to reuse an ip that:
-* from 100 to 200 for lxc containers
-* from 200 and up fot QEMU</p>
-<h3 id="creating-a-qemu-vm">Creating a QEMU VM<a class="headerlink" href="#creating-a-qemu-vm" title="Permanent link">#</a></h3>
-<ul>
-<li>use the iso in backups</li>
-</ul>
+<h1 id="2023-03-off2-reinstall">2023-03 OFF2 reinstall<a class="headerlink" href="#2023-03-off2-reinstall" title="Permanent link">#</a></h1>
+<h2 id="current-storage-situation">Current Storage situation<a class="headerlink" href="#current-storage-situation" title="Permanent link">#</a></h2>
+<pre class="mermaid"><code>---
+title: current state
+---
+flowchart TB
+    subgraph free datacenter
+        subgraph off1
+            OFF1products(OFF1 products)
+            OFF1srv(OFF1 srv)
+            OFF1images(OFF1 images - non ZFS)
+        end
+        subgraph off2
+            OFF2images(OFF2 images)
+            OFF2products(OFF2 products)
+        end
+    end
+    subgraph OVH Datacenter
+        subgraph ovh3
+            OVH3products(OVH3 products)
+            OVH3images(OVH3 images - zfs)
+            OVH3backup(OVH3 backup)
+            OVH3products --&gt; OVH3ProdSnapshots(OVH3 products snapshots)
+            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
+            OVH3images --&gt; OVH3ImgSnapshots(OVH3 images snapshots)
+            OVH3ImgSnapshots --&gt;|ZFS clone R/W| DotNetImgclone(.net images)
+        end
+    end
+    %% inter graph links
+    OFF1srv --&gt;|Rsync - daily| OVH3backup
+    OFF1products --&gt;|ZFS sync| OVH3products
+    OFF1images(OFF1 images) --&gt;|RSync - **manual**| OVH3images
+    OVH3images --&gt;|ZFS sync| OFF2images
+    OVH3images --&gt;|ZFS sync ???| OFF2products</code></pre>
+<h2 id="nginx-reverse-proxy-install">NGINX reverse proxy install<a class="headerlink" href="#nginx-reverse-proxy-install" title="Permanent link">#</a></h2>
+<p><strong>FIXME</strong></p>
 </article>
 </div>
 </div>
