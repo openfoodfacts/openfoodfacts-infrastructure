@@ -2,8 +2,8 @@
 name: VM template
 about: Ask for a VM on OFF infra.
 title: ''
-labels: 'container'
-assignees: 'cquest'
+labels: container
+assignees: cquest
 
 ---
 
@@ -36,4 +36,3 @@ assignees: 'cquest'
 ### Machine administrators
 [Default: you. Please indicate your github account name to retrieve your SSH key. Prefer your SSH key published on Github, eg. https://github.com/CharlesNepote.keys 
 There should be a main administrator and a co-administrator.]
-

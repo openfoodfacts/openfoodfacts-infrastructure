@@ -27,6 +27,8 @@ It's starting with SQLite. Sqlite3-pcre is also installed to use REGEXP in SQL q
 
 `sudo apt install sqlite3 sqlite3-pcre jq`
 
+We are also testing [sqlite-regex](https://github.com/asg017/sqlite-regex) which seems to be faster and providing more features.
+
 Note: the setup is using specific `.import` options (`--ascii, --skip`), which require sqlite3 >= 3.32.0.
 
 ### 2. Datasette and its eco-system
@@ -118,3 +120,18 @@ Verify all is working fine:
 `curl http://127.0.0.1`
 
 We also have to setup our front reverse proxy: [/etc/nginx/mirabelle.conf](mirabelle.conf).
+
+
+### 7. Deploy plugin to block robots
+
+`sudo pip install datasette-block-robots`
+
+Then edit `metadata.yml` file:
+```yaml
+plugins:
+  datasette-block-robots:
+    literal: |-
+      User-agent: *
+      Disallow: /
+```
+

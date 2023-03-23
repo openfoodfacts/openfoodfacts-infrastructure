@@ -1,0 +1,9 @@
+version: "3.9"
+
+volumes:
+  app-storage:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME:-label-studio}_app-storage
+  db-storage:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME:-label-studio}_db-storage

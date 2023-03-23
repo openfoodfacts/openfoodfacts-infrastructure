@@ -457,19 +457,24 @@ This will add it for future indices, but we want to add it to existing indices (
   we create a policy that is exactly the same as logs policy but:
   * name is logs-old
   * rollover is disabled
-* we apply it to 05 logs, in Dev Tool -> Console, by running:
+* we apply it to 05 logs, in Dev Tool -> Console, by running (put the unix timestamp value corresponding to the month in `origination_date`[^origination_date]):
   ```
-  PUT logs-2022.05.*/_settings 
+  PUT logs-2022.05.*/_settings
   {
     "index": {
       "lifecycle": {
         "name": "logs-old"
+        "origination_date": "xxxxx"
       }
     }
   }
   ```
 * we do the  same for every monthes until 08, but beware not to apply it to 2022.08.18 !
 
+[^origination_date]:
+    this is the timestamp used to calculate the index age for its phase transitions. If not specified, today date is taken.
+    see [documentation](https://www.elastic.co/guide/en/elasticsearch/reference/8.6/ilm-settings.html#index-lifecycle-origination-date).
+    You can get timestamp, eg in python with `datetime(year, month, date).timestamp()`.
 
 ## Useful resources
 
