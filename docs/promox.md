@@ -123,3 +123,15 @@ For the happy few sudoers on the host, they can attach to containers using `lxc-
 ## Proxmox installation
 
 Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.
+
+
+## Some good practice
+
+* when you have a specialized machine,
+  try to make it so that people get in the right directory on pct enter
+  Use bashrc for that (last command).
+
+  Eg. for NGINX reverse proxy:
+  `cd /etc/nginx/conf.d/`
+
+* Default NGINX install creates sites-enabled etc. **FIXME** ask christian about it ?
