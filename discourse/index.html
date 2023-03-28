@@ -8,9 +8,9 @@
 <link href="../cicd/" rel="prev"/>
 <link href="../docker/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.1.3" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.1.4" name="generator"/>
 <title>Discourse - Open Food Facts Infrastructure documentation</title>
-<link href="../assets/stylesheets/main.c4a75a56.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/main.240905d7.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -132,6 +132,11 @@
 <li class="md-nav__item">
 <a class="md-nav__link" href="#mail">
     Mail
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-update">
+    Software update
   </a>
 </li>
 </ul>
@@ -346,6 +351,11 @@
     Mail
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-update">
+    Software update
+  </a>
+</li>
 </ul>
 </nav>
 </div>
@@ -355,19 +365,45 @@
 <article class="md-content__inner md-typeset">
 <h1 id="discourse">Discourse<a class="headerlink" href="#discourse" title="Permanent link">#</a></h1>
 <p><a href="https://www.discourse.org/">Discourse</a> is a forum application.</p>
-<p>It is installed on our proxmox infrastructure in a QEMU virtual machine (202)</p>
+<p>It is installed on our Proxmox infrastructure in a QEMU virtual machine (202).</p>
 <h2 id="software-installation">Software installation<a class="headerlink" href="#software-installation" title="Permanent link">#</a></h2>
-<p>Software is installed in /var/discourse.</p>
+<p>Software is installed in <code>/var/discourse</code>.</p>
 <p>We use the https://github.com/discourse/discourse_docker.git.</p>
 <p>The docker configuration is contained in <code>config/app.yml</code></p>
-<p>It creates a unique docker container containing whole application, postgresql and redis database, and so on !</p>
+<p>It creates a unique docker container containing whole application, postgresql and redis database, and so on!</p>
 <p>It defines volumes where all the data is found. It's in <code>/var/discourse/shared/standalone</code> and mounted in container as <code>/shared</code></p>
 <p>You might get a shell into the docker container using <code>./launcher enter app bash</code>.</p>
 <h2 id="mail">Mail<a class="headerlink" href="#mail" title="Permanent link">#</a></h2>
 <p>Mail is very important as a lot of notifications are sent by the forum.</p>
 <p>Mail can be tested at https://forum.openfoodfacts.org/admin/email</p>
-<p>We use <a href="../mail/">promox mail gateway</a>.</p>
+<p>We use <a href="../mail/">Promox mail gateway</a>.</p>
 <p><strong>⚠ Warning:</strong> the sender email <a href="../mail/#only-domain">have to be on main domain</a>, NOT forum.openfoodfacts.org.</p>
+<h2 id="software-update">Software update<a class="headerlink" href="#software-update" title="Permanent link">#</a></h2>
+<p>Please respect the following procedure:</p>
+<ol>
+<li>Make a snapshot before upgrade.</li>
+<li>Try to upgrade threw the web interface: https://forum.openfoodfacts.org/admin/upgrade (you need to be an admin)</li>
+<li>Test the update during several days.</li>
+<li>After several days, if everything is fine, you can delete the snapshot.</li>
+</ol>
+<p>While upgrading via the web interface, you could possibly get this error message:
+<div class="highlight"><pre><span></span><code>You are running an old version of the Discourse image.
+
+Upgrades via the web UI are disabled until you run the latest image.
+
+To do so log in to your server using SSH and run:
+        cd /var/discourse
+        git pull
+        ./launcher rebuild app
+</code></pre></div>
+In this case, you have to upgrade in a Linux shell directly on the VM:</p>
+<ol>
+<li>Get root access on ovh1: <code>sudo su root</code></li>
+<li>Connect yourself to the VM: <code>ssh 10.1.0.202</code></li>
+<li><code>cd /var/discourse</code></li>
+<li><code>git pull</code></li>
+<li><code>./launcher rebuild app</code></li>
+</ol>
 </article>
 </div>
 </div>
@@ -391,6 +427,6 @@
 <div class="md-dialog__inner md-typeset"></div>
 </div>
 <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-<script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+<script src="../assets/javascripts/bundle.19047be9.min.js"></script>
 <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
