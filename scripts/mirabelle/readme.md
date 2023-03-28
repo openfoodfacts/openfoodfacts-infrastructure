@@ -135,3 +135,15 @@ plugins:
       Disallow: /
 ```
 
+### Upgrading Datasette
+
+`sudo pip install datasette --upgrade`
+
+Restart Datasette and check if you're running the last version: https://mirabelle.openfoodfacts.org/-/versions
+
+#### Upgrading a plugin
+
+`sudo datasette install datasette-dashboards --upgrade`
+
+Restart Datasette and check if you're running the last plugin version: https://mirabelle.openfoodfacts.org/-/plugins
+
