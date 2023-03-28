@@ -11,12 +11,24 @@ theme:
   name: material
 
 markdown_extensions:
+  - attr_list
   - footnotes
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      # mermaidjs graph supported by material theme
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       # add permalink after titles
       permalink: "#"
   # this one allow to have two space indentation
   # counts as nested list
   - mdx_truly_sane_lists
+
+plugins:
+  # glightbox is for images
+  - glightbox:
+      auto_caption: true
+
