@@ -192,3 +192,7 @@ etckeeper commit -m "Configured my-service.openfoodfacts.net"
 ```
 
 Now we are done 🎉
+
+## Install
+
+Install was quite simple: we simply install nginx package, as well as stunnel4.
