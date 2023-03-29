@@ -4,3 +4,5 @@
 # python3 venv (for mkdocs)
 .venv/
 
+# drawio temp file
+.$*.drawio.bkp
