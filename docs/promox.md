@@ -239,11 +239,9 @@ Then connect to the proxmox host:
 
     See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
 
-  * `sudo /root/cluster-scripts/mkuser` (if the GitHub username is the desired username)
+  * [create a user](#how-to-create-a-user-in-a-container-or-vm)
 
-    or `sudo /root/cluster-scripts/mkuseralias` (to specify a different username than the GitHub username)
-
-Then you can login to the machine (see SSH connexion).
+Then you can login to the machine (see [logging in to a container or VM](#logging-in-to-a-container-or-vm)).
 
 Using the web interface:
 
