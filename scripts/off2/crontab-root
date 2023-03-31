@@ -21,11 +21,10 @@
 # 
 # IF YOU MODIFY PLEASE UPDATE openfoodfacts-infrastructure repository
 # m h  dom mon dow   command
-0 2 * * * /usr/bin/mongo off /srv/off/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_off.log
-0 3 * * * /usr/bin/mongo obf /srv/off/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_obf.log
-0 4 * * * /usr/bin/mongo opf /srv/off/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_opf.log
-0 5 * * * /usr/bin/mongo opff /srv/off/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_opff.log
-0 0 1 * * /usr/bin/mongo admin -eval 'db.adminCommand({logRotate : 1 })' >> /var/log/mongodb/logrotate.log
+0 2 * * * /usr/bin/mongo off /home/off/openfoodfacts-server/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_off.log
+0 3 * * * /usr/bin/mongo obf /home/off/openfoodfacts-server/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_obf.log
+0 4 * * * /usr/bin/mongo opf /home/off/openfoodfacts-server/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_opf.log
+0 5 * * * /usr/bin/mongo opff /home/off/openfoodfacts-server/scripts/refresh_products_tags.js  >> /var/log/mongodb/refresh_products_tags_opff.log
 0 1 * * * /bin/bash /root/zfs-clean.sh >> /var/log/zfs-clean.log
-
-32 0 * * * /home/off/cron/rsync_off1.sh
+# moved to OVH3 - 2022-02-15
+#32 0 * * * /home/off/cron/rsync_off1.sh
