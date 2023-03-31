@@ -9,14 +9,20 @@ Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructu
 
 The infrastructure documentation is as follows:
 
-- [Mail](./docs/mail.md) - servers mail setup
+- [Free Datacenter](./docs/free-datacenter.md) - Data center with main production servers
+
 - [Linux Server](./docs/linux-server.md) - servers general setup
+- [Mail](./docs/mail.md) - servers mail setup
+- [An introduction to ZFS](./docs/zfs-overview.md) - ZFS is much used in our infrastructure
 - [Proxmox](./docs/promox.md) - about proxmox management
 - [CICD](./docs/cicd.md) - continuous integration and deployment
 - [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
 - [Docker Onboarding](./docs/docker_onboarding.md)
 - [Docker Infrastructure](./docs/docker_architecture.md)
 - [Virtual Machines](#virtual-machines)
+
+The main services:
+- [MongoDB](./docs/mongodb.md) the MongoDB database
 
 Some services:
 
@@ -26,6 +32,7 @@ Some services:
 - [Matomo](./docs/matomo.md) for web analytics
 - [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
 - [Zammad](./docs/zammad.md) for support
+- [Odoo](./docs/odoo.md) the CRM
 
 Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
