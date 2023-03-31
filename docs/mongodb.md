@@ -21,15 +21,14 @@ It is deployed on [staging containers VM](./docker_architecture.md#docker-server
 See https://github.com/openfoodfacts/openfoodfacts-server/blob/main/.github/workflows/mongo-deploy.yml script.
 
 
-
 ## Prod instance
 
-We installed the [MongoDB Community Edition Packages](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-debian/#std-label-debian-package-content) for Debian.
+We installed the [MongoDB Community Edition Packages](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-debian/#std-label-debian-package-content) for Debian in version 4.4.x.
 
 The configuration file is in `/etc/mongod.conf`.
 
 * `storage.dbPath` is set to a specific volume: `/mongo/db`
-* `systemLog.LogRotate` is set to `reopen`
+* `systemLog.LogRotate` is set to `reopen` (needed by logrotate)
 * `processManagement.pidFilePath` is set to `"/var/run/mongodb/mongod.pid"`
   (strangely it's not set by default while `/lib/systemd/system/mongod.service` uses this path)
 
@@ -52,13 +51,23 @@ Then `/etc/logrotate.d/mongod`:
 ```
 /var/log/mongodb/mongod.log
 {
+   # keep 7 files (one week)
    rotate 7
+   # every day
    daily
+   # min file size
    size 100M
+   # no problem if it does not yet exists
    missingok
+   # create it if needed with owner mongodb
    create 0600 mongodb mongodb
+   # compress only old file (as switch is not immediate)
    delaycompress
+   # but compress old archives
    compress
+   # the postrotate tells mongo to change log
+   # Be sure to have processManagement.pidFilePath set to this path in mongod.conf
+   # and that folder exists and is owned by mongodb
    sharedscripts
    postrotate
      /bin/kill -SIGUSR1 $(cat /var/run/mongodb/mongod.pid)
@@ -74,12 +83,13 @@ We also have logs for refresh products tags `/etc/logrotate.d/mongo_refresh_tags
   weekly
   size 100M
   missingok
+  # we don't know when logrotate will happen
+  # script might be working, so only compress previous files
   delaycompress
   compress
 }
 ```
 
-```
 
 [^stagging_no_log_rotate]:
     On staging logs are sent to docker stdout/err and we let docker handle logs.
