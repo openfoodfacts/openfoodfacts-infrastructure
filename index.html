@@ -186,6 +186,11 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="mongodb/">
+        MongoDB
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="nginx-reverse-proxy/">
         NGINX Reverse proxy (OVH)
       </a>
@@ -231,13 +236,13 @@
       </a>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_21" type="checkbox"/>
-<label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+<input class="md-nav__toggle md-toggle" id="__nav_22" type="checkbox"/>
+<label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_21_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_21">
+<nav aria-expanded="false" aria-labelledby="__nav_22_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_22">
 <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -382,8 +387,12 @@ We have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">sp
 <p>Link to <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/">Github Page</a></p>
 <p>The infrastructure documentation is as follows:</p>
 <ul>
-<li><a href="mail/">Mail</a> - servers mail setup</li>
+<li><a href="free-datacenter/">Free Datacenter</a> - Data center with main production servers</li>
+</ul>
+<ul>
 <li><a href="linux-server/">Linux Server</a> - servers general setup</li>
+<li><a href="mail/">Mail</a> - servers mail setup</li>
+<li><a href="zfs-overview/">An introduction to ZFS</a> - ZFS is much used in our infrastructure</li>
 <li><a href="promox/">Proxmox</a> - about proxmox management</li>
 <li><a href="cicd/">CICD</a> - continuous integration and deployment</li>
 <li><a href="observability/">Observability</a> - doc on monitoring / logs / etc.</li>
@@ -391,6 +400,8 @@ We have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">sp
 <li><a href="docker_architecture/">Docker Infrastructure</a></li>
 <li><a href="#virtual-machines">Virtual Machines</a></li>
 </ul>
+<p>The main services:
+- <a href="mongodb/">MongoDB</a> the MongoDB database</p>
 <p>Some services:</p>
 <ul>
 <li><a href="discourse/">Discourse</a> for forum</li>
@@ -399,6 +410,7 @@ We have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">sp
 <li><a href="matomo/">Matomo</a> for web analytics</li>
 <li><a href="producers_sftp/">Producers sftp</a> to push product updates on producer platform</li>
 <li><a href="zammad/">Zammad</a> for support</li>
+<li><a href="odoo/">Odoo</a> the CRM</li>
 </ul>
 <p>Also look at all install and post-mortem reports in <a href="./reports/">docs/reports</a></p>
 <details><summary><h2>Weekly meetings</h2></summary>
