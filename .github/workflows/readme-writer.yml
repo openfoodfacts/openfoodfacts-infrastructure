@@ -19,11 +19,11 @@ jobs:
         pip install -r scripts/readme-writer/requirements.txt
         python scripts/readme-writer/readme_writer.py
         cat README.md
+    - name: Commit README.md
+      uses: stefanzweifel/git-auto-commit-action@v4
       env:
         # we use a personal access token of openfoodfacts-bot to allow bypassing branch protection rules
         GITHUB_TOKEN: "${{ secrets.README_WRITER_PAT }}"
-    - name: Commit README.md
-      uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: develop
         repository: .
