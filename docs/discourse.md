@@ -55,3 +55,33 @@ In this case, you have to upgrade in a Linux shell directly on the VM:
 3. `cd /var/discourse`
 4. `git pull`
 5. `./launcher rebuild app`
+
+
+## Analytics with Matomo
+
+We setup analytics with Matomo on the forum.
+
+There is a theme: https://meta.discourse.org/t/matomo-analytics/33090 [^install_theme]
+
+### setup
+
+I created the website in Matomo. Site id is 8.
+
+In Discourse:
+* go to administration / Customize / theme
+* install / from a git repository : https://github.com/discourse/discourse-matomo-analytics.git 
+* Settings:
+  * Include component on these themes: **Default**  (using button *add to all them*)
+  * host url: `analytics.openfoodfacts.org`
+  * website id: **8**
+  * subdomain tracking: **yes**
+  * do not track: **yes**
+  * disable cookies: **yes** (keep GDPR compatibility)
+
+Discourse is very specific in it's Content Security Policy headers, so we have to add an entry for Matomo.
+* go to administration / settings / security
+* in content security policy script src, add entry: `https://analytics.openfoodfacts.org/piwik.js`
+
+
+[^install_theme]:
+    More info on how to install a theme: https://meta.discourse.org/t/install-a-theme-or-theme-component/63682
