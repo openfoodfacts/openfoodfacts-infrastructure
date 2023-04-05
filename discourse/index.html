@@ -139,6 +139,20 @@
     Software update
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analytics-with-matomo">
+    Analytics with Matomo
+  </a>
+<nav aria-label="Analytics with Matomo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup">
+    setup
+  </a>
+</li>
+</ul>
+</nav>
+</li>
 </ul>
 </nav>
 </li>
@@ -366,6 +380,20 @@
     Software update
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analytics-with-matomo">
+    Analytics with Matomo
+  </a>
+<nav aria-label="Analytics with Matomo" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup">
+    setup
+  </a>
+</li>
+</ul>
+</nav>
+</li>
 </ul>
 </nav>
 </div>
@@ -414,6 +442,32 @@ In this case, you have to upgrade in a Linux shell directly on the VM:</p>
 <li><code>git pull</code></li>
 <li><code>./launcher rebuild app</code></li>
 </ol>
+<h2 id="analytics-with-matomo">Analytics with Matomo<a class="headerlink" href="#analytics-with-matomo" title="Permanent link">#</a></h2>
+<p>We setup analytics with Matomo on the forum.</p>
+<p>There is a theme: https://meta.discourse.org/t/matomo-analytics/33090 <sup id="fnref:install_theme"><a class="footnote-ref" href="#fn:install_theme">1</a></sup></p>
+<h3 id="setup">setup<a class="headerlink" href="#setup" title="Permanent link">#</a></h3>
+<p>I created the website in Matomo. Site id is 8.</p>
+<p>In Discourse:
+* go to administration / Customize / theme
+* install / from a git repository : https://github.com/discourse/discourse-matomo-analytics.git 
+* Settings:
+  * Include component on these themes: <strong>Default</strong>  (using button <em>add to all them</em>)
+  * host url: <code>analytics.openfoodfacts.org</code>
+  * website id: <strong>8</strong>
+  * subdomain tracking: <strong>yes</strong>
+  * do not track: <strong>yes</strong>
+  * disable cookies: <strong>yes</strong> (keep GDPR compatibility)</p>
+<p>Discourse is very specific in it's Content Security Policy headers, so we have to add an entry for Matomo.
+* go to administration / settings / security
+* in content security policy script src, add entry: <code>https://analytics.openfoodfacts.org/piwik.js</code></p>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:install_theme">
+<p>More info on how to install a theme: https://meta.discourse.org/t/install-a-theme-or-theme-component/63682 <a class="footnote-backref" href="#fnref:install_theme" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 </article>
 </div>
 </div>
