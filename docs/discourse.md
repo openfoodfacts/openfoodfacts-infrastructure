@@ -82,6 +82,22 @@ Discourse is very specific in it's Content Security Policy headers, so we have t
 * go to administration / settings / security
 * in content security policy script src, add entry: `https://analytics.openfoodfacts.org/piwik.js`
 
+## Events plugin
+
+Follow: https://meta.discourse.org/t/install-plugins-in-discourse/19157
+
+1. Get root access on ovh1: `sudo su root`
+2. Connect yourself to the VM: `ssh 10.1.0.202`
+3. `cd /var/discourse`
+4. `nano containers/app.yml`
+5. Add [the plugin’s repository URL](https://github.com/paviliondev/discourse-events.git) to your container’s app.yml file, right after the `git clone https://github.com/discourse/docker_manager.git`
+6. Rebuild the app: `./launcher rebuild app`
+
+Found this warning, ans solved by implementing its advice:
+`WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.`
+
+
+
 
 [^install_theme]:
     More info on how to install a theme: https://meta.discourse.org/t/install-a-theme-or-theme-component/63682
