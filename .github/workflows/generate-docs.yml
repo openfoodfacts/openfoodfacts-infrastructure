@@ -27,7 +27,7 @@ jobs:
           python-version: 3.x
       - name: Install mkdocs requirements
         run: |
-          pip install mkdocs-material mdx_truly_sane_lists mkdocs-glightbox
+          pip install mkdocs-material mdx_truly_sane_lists mkdocs-glightbox mdx-breakless-lists
       - name: Generate documentation
         run: |
           bash scripts/build_mkdocs.sh

@@ -5,9 +5,12 @@ read -p 'which container ID (100..): ' CT
 MUNIN_CT=100
 PROXY_CT=101
 
+# support fr locale
+lxc-attach -n $CT -- sed -i 's/# \(en_US\|fr_FR\).UTF-8 UTF-8/\1.UTF-8 UTF-8/' /etc/locale.gen
+pct exec $CT locale-gen
 pct exec $CT apt update
-pct exec $CT apt install sudo curl etckeeper htop fail2ban molly-guard lsb-release
-pct exec $CT apt install munin-node
+lxc-attach -n $CT -- apt install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release
+lxc-attach -n $CT -- apt install -y munin-node
 pct exec $CT apt dist-upgrade
 pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
 

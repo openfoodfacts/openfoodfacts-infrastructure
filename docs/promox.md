@@ -226,7 +226,7 @@ Using web interface:
 * Disk: try to keep a thight disk space and to avoid using nvme if it's not useful.
 * Swap: you might choose 0B (do you really need swap ?) or a sensible value
 * Network:
-  * Bridge: vmbr0 (may vary, currently vmbr1 on off2 !)
+  * Bridge: vmbr0 (may vary, currently vmbr1 on off2 !) - the one which is an "Internal network"
   * IPv4: `10.1.0.<ct number>/24`
     (you need to use /24; end of IPv4 should be the same as the Proxmox container id; container 101 has the 10.1.0.101 IP).
   * Gateway: `10.0.0.1` (may vary, `10.0.0.2` on off2 !)

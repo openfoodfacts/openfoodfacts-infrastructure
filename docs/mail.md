@@ -123,7 +123,7 @@ Run: `dpkg-reconfigure postfix`:
 * mail name: openfoodfacts.org
 * relayhost: pmg.openfoodfacts.org
 
-  (with an exception for ovh1: 10.1.0.2)
+  (with an exception for ovh1/ovh2/ovh3: 10.1.0.2)
 
 * mail for root: tech@openfoodfacts.org
 * other dest: blank

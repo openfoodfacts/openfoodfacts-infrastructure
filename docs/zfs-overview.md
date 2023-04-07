@@ -8,7 +8,10 @@ We use a lot ZFS for our data for it's reliability and incredible capabilities. 
 
 To learn about ZFS, see [the onboarding made by Christian](reports/2023-02-24-zfs-introduction.md)
 
-See also [OpenZFS official documentation](https://openzfs.github.io/openzfs-docs/)
+See also [OpenZFS official documentation](https://openzfs.github.io/openzfs-docs/) 
+and [Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device)
+
+Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 
 ## Sync
 
@@ -37,3 +40,7 @@ On ovh3: [snapshot-purge.sh](https://github.com/openfoodfacts/openfoodfacts-infr
 If ZFS dataset is on same machine we can use bind mounts to mount a folder in a ZFS partition.
 
 For distant machines, ZFS datasets can be exposed as NFS partition. Docker as an integrated driver to mount distant NFS as volumes.
+
+
+## Mounting datasets in a proxmox container
+
