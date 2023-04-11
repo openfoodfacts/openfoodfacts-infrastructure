@@ -154,6 +154,11 @@
     Useful commands
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#upgrade">
+    Upgrade
+  </a>
+</li>
 </ul>
 </nav>
 </li>
@@ -356,6 +361,11 @@
     Useful commands
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#upgrade">
+    Upgrade
+  </a>
+</li>
 </ul>
 </nav>
 </div>
@@ -380,6 +390,17 @@
 <p>See service logs:
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>folksonomy
 </code></pre></div></p>
+<h2 id="upgrade">Upgrade<a class="headerlink" href="#upgrade" title="Permanent link">#</a></h2>
+<p>Before every upgrade, make a snapshot of the Proxmox container. Then:</p>
+<div class="highlight"><pre><span></span><code>su<span class="w"> </span>folksonomy
+git<span class="w"> </span>pull
+pytest<span class="w"> </span><span class="c1"># should pass</span>
+<span class="c1"># Migration process here?</span>
+<span class="c1"># [...]</span>
+pytest<span class="w"> </span><span class="c1"># should pass</span>
+<span class="c1"># Finally, restart the service (with root user or root rights or sudo rights)</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>folksonomy
+</code></pre></div>
 </article>
 </div>
 </div>
