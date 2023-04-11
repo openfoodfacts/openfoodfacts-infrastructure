@@ -29,3 +29,18 @@ See service logs:
 ```bash
 sudo journalctl -u folksonomy
 ```
+
+## Upgrade
+
+Before every upgrade, make a snapshot of the Proxmox container. Then:
+
+```bash
+su folksonomy
+git pull
+pytest # should pass
+# Migration process here?
+# [...]
+pytest # should pass
+# Finally, restart the service (with root user or root rights or sudo rights)
+systemctl restart folksonomy
+```
