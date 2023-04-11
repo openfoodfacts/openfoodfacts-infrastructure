@@ -3,6 +3,23 @@
 Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 We have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
+## Current priorities
+
+As of 2023 our current priorities are:
+
+* server migration with hardware upgrade and a clean containerized install - and zfs syncs
+* better encrypted two-way communication between data centers  (stunnel + https)
+* backups checks
+  * testing backups through staging
+    * with automated deployment of new clones
+  * monitoring backups
+* better monitoring
+  * more/better dashboards
+  * more active checks (monitoring - alerts)
+  * less false positives in alerts
+* GPU server for inference and possibly one for training (not hosted) - may
+
+
 ## Documentation
 
 Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
