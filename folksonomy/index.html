@@ -392,11 +392,16 @@
 </code></pre></div></p>
 <h2 id="upgrade">Upgrade<a class="headerlink" href="#upgrade" title="Permanent link">#</a></h2>
 <p>Before every upgrade, make a snapshot of the Proxmox container. Then:</p>
-<div class="highlight"><pre><span></span><code>su<span class="w"> </span>folksonomy
+<div class="highlight"><pre><span></span><code><span class="c1"># Switch to "folksonomy" user</span>
+su<span class="w"> </span>folksonomy
+<span class="c1"># Upgrade from git repository</span>
 git<span class="w"> </span>pull
+<span class="c1"># Install new depencies if any</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="c1"># Do not use in production?</span>
 pytest<span class="w"> </span><span class="c1"># should pass</span>
-<span class="c1"># Migration process here?</span>
-<span class="c1"># [...]</span>
+<span class="c1"># DB migration process</span>
+yoyo<span class="w"> </span>apply<span class="w"> </span>--database<span class="w"> </span>postgresql:///folksonomy
 pytest<span class="w"> </span><span class="c1"># should pass</span>
 <span class="c1"># Finally, restart the service (with root user or root rights or sudo rights)</span>
 systemctl<span class="w"> </span>restart<span class="w"> </span>folksonomy
