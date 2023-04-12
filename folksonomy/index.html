@@ -398,11 +398,8 @@ su<span class="w"> </span>folksonomy
 git<span class="w"> </span>pull
 <span class="c1"># Install new depencies if any</span>
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-<span class="c1"># Do not use in production?</span>
-pytest<span class="w"> </span><span class="c1"># should pass</span>
 <span class="c1"># DB migration process</span>
 yoyo<span class="w"> </span>apply<span class="w"> </span>--database<span class="w"> </span>postgresql:///folksonomy
-pytest<span class="w"> </span><span class="c1"># should pass</span>
 <span class="c1"># Finally, restart the service (with root user or root rights or sudo rights)</span>
 systemctl<span class="w"> </span>restart<span class="w"> </span>folksonomy
 </code></pre></div>
