@@ -2,7 +2,7 @@
 
 It happens that some program is hammering Open Food Facts, causing serious latency and 504 problems to every users.
 
-Most of the time it's someone who is not aware data must be uploaded at https://world.openfoodfacts.org/data instead of harvesting.
+Most of the time it's someone who is not aware data must be downloaded at https://world.openfoodfacts.org/data instead of harvesting.
 
 ## Find disturbing IPs
 
@@ -14,7 +14,7 @@ Go to access log for your site.
 tail -n 100000 access_log |  ./concatenate_by_ip.pl|tail -n 10
 ```
 
-Shows you a list of ip addresses with a number of requests
+Shows you a list of IP addresses with a number of requests
 
 ```bash
 tail -n 100000 access_log | grep <ip_adress>
