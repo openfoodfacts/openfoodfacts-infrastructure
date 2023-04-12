@@ -35,11 +35,16 @@ sudo journalctl -u folksonomy
 Before every upgrade, make a snapshot of the Proxmox container. Then:
 
 ```bash
+# Switch to "folksonomy" user
 su folksonomy
+# Upgrade from git repository
 git pull
+# Install new depencies if any
+pip install -r requirements.txt
+# Do not use in production?
 pytest # should pass
-# Migration process here?
-# [...]
+# DB migration process
+yoyo apply --database postgresql:///folksonomy
 pytest # should pass
 # Finally, restart the service (with root user or root rights or sudo rights)
 systemctl restart folksonomy
