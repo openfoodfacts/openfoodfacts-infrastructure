@@ -41,11 +41,8 @@ su folksonomy
 git pull
 # Install new depencies if any
 pip install -r requirements.txt
-# Do not use in production?
-pytest # should pass
 # DB migration process
 yoyo apply --database postgresql:///folksonomy
-pytest # should pass
 # Finally, restart the service (with root user or root rights or sudo rights)
 systemctl restart folksonomy
 ```
