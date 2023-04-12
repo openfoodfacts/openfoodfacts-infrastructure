@@ -10,6 +10,9 @@ pct exec $CT apt install sudo curl etckeeper htop fail2ban molly-guard lsb-relea
 pct exec $CT apt install munin-node
 pct exec $CT apt dist-upgrade
 pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
+# To allow function keys to work properly in bash sessions
+# https://forum.proxmox.com/threads/function-keys-with-lxc-and-xterm-js.61747/
+pct exec $CT echo 'export TERM=xterm-256color' >> /etc/bash.bashrc
 
 # no password for sudo group users
 lxc-attach -n $CT -- sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
