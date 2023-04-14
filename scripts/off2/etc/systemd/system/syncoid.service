@@ -2,13 +2,13 @@
 Description=Sync ZFS Pool
 Requires=zfs.target
 After=zfs.target 
-Before=sanoid.service
+After=sanoid.service
 ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 
 [Service]
 Environment=TZ=UTC
 Type=oneshot
-ExecStart=cat /etc/sanoid/syncoid-args.conf|xargs -d\\n -n 1 syncoid 
+ExecStart=/bin/bash -c "while read args;do syncoid --quiet $args;done </etc/sanoid/syncoid-args.conf"
 
 [Install]
 WantedBy=sanoid.service

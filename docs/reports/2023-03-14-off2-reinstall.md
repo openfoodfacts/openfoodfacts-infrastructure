@@ -137,7 +137,7 @@ We also have some html contents linked to off **FIXME decide what to do**
 * /srv/opff/products -> /rpool/opff/products
 * /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
 
-### creating datasets
+#### creating datasets
 
 I init a dataset for each projects: `zfs create opff`, `zfs create opff`, etc for `off`, `off-pro`, `obf` and `opf`
 
@@ -175,39 +175,12 @@ real    5m59.378s
 
 #### users
 
-Users are not currently in a zfs on prod but we will move it to a zfs dataset on new prod.
+Users are not currently in a zfs on prod but we have them on zfs on ovh3 and there is a sync every day.
 
-That said we already sync them on ovh3. So we now have to sync off2 from ovh3 zfs of users.
-
-
+So we can use zfs sync from ovh3 to off2.
 
 
-In between we can launch regular rsync from off1 to off2 and have a sync from off2 to ovh3.
-
-1. I created the dataset on off2: `zfs create zfs-hdd/off/users`
-
-2. did a first sync   (took about 25 min)
-   ```bash
-   rsync -a /srv/off/users/ 10.0.0.2:/zfs-hdd/off/users/
-   ```
-
-   A second to see if its fast enough:
-
-   ```bash
-   time rsync -a /srv/off/users/ 10.0.0.2:/zfs-hdd/off/users/
-   real    0m25.381s
-   ```
-
-3. Added a cron on off1 (as root), every hours:
-
-   ```
-   # synchro users to off2
-   25 * * * * rsync -a /srv/off/users/ 10.0.0.2:/zfs-hdd/off/users/
-   ```
-
-**FIXME**: I did it wrong I should have instead sync the OVH3 users volume on off2
-
-## snapshots and syncs
+#### Snapshots and Syncs
 
 I decided to use [sanoid](https://github.com/jimsalterjrs/sanoid) (packaged on debian bullseyes) to handle snapshots and syncs.
 
@@ -232,6 +205,7 @@ sudo systemctl enable --now sanoid.timer
 ```
 
 ~~On off2, I just apt installed it.~~[^sanoid_debian] 
+
 On off2 I install same package as the one on ovh3 (`scp ovh3.openfoodfacts.org:/home/alex/sanoid_2.1.0_all.deb` and `sudo apt install ./sanoid_2.1.0_all.deb` and `sudo systemctl enable --now sanoid.timer`)
 
 On ovh3 I wrote the `/etc/sanoid/sanoid.conf` file to snapshot users regularly.
@@ -280,11 +254,87 @@ I decide to use `--no-sync-snap` as we already have a snapshot strategy.
 
 Also supprisingly, the `root@` specification is mandatory.
 
-No I need to do a systemd service and timer on off2 for syncoid.
+Now I need to do a systemd service and timer on off2 for syncoid.
 
+Did the systemd service. It's working fine (after some tweaking of the interface)
 
+```bash
+cat /etc/sanoid/syncoid-args.conf
+--no-sync-snap root@ovh3.openfoodfacts.org:rpool/off/users zfs-hdd/off/users
+```
 
 [^sanoid_debian]:
     There seems to be a difference between debian bullseye packaging: it uses `cron.d` and `/etc/sanoid.conf`,
     while the last stable version uses systemd timerss and `/etc/sanoid/sanoid.conf`.
     So I prefered to go for the same version on all servers, and install the 2.1.0 deb that I built on ovh3.
+
+
+
+## Setting up services
+
+### Mounting volumes
+
+We will use bind mounts to make zfs datasets available inside the machine.
+
+See: https://pve.proxmox.com/wiki/Linux_Container#_bind_mount_points
+
+#### linking data
+
+
+**FIXME**
+```
+sudo ln -s 
+```
+
+### NGINX
+
+Installed nginx `apt install nginx`.
+
+Removed default site ` unlink /etc/nginx/sites-enabled/default`
+
+Copied production nginx configuration of off1 in `/etc/nginx/sites-enabled/opff` to off2 in `/srv/opff/conf/nginx/sites-available/opff`
+
+Modified it's configuration to remove ssl section (**FIXME:** to be commited in off-server)
+
+Then made a symlink: `ln -s /srv/opff/conf/nginx/sites-available/opff /etc/nginx/sites-enabled/opff /`
+
+
+### Apache
+
+On off1 conf is in `/etc/apache2-opff/`, here we can set it up in directly in system apache configuration.
+
+On off2:
+
+* Remove default config (or it will conflict on port 80 with nginx):
+  ```bash
+  sudo unlink /etc/apache2/sites-enabled/000-default.conf
+  ```
+
+* We disable mpm event and enable mpm prefork:
+  ```bash
+  sudo a2dismod mpm_event
+  sudo a2enmod mpm_prefork
+  ```
+
+* add the configuration for opff (as stored openfoodfacts-server project)
+  copied the opff.conf file in `/etc/apache2/sites-available` and activate it:
+  ```bash
+  sudo a2ensite opff.conf
+  ```
+
+* edit `/etc/apache2-opf/envvars`
+  ```
+  #export APACHE_RUN_USER=www-data
+  export APACHE_RUN_USER=off
+  #export APACHE_RUN_GROUP=www-data
+  export APACHE_RUN_GROUP=off
+  ```
+
+* edit `/etc/apache2/mods-available/mpm_prefork.conf`
+  ```
+        StartServers                     2
+        MinSpareServers           2
+        MaxSpareServers          4
+        MaxRequestWorkers         20
+        MaxConnectionsPerChild   500
+  ```

@@ -269,6 +269,21 @@ The `sudo /root/cluster-scripts/mkuser` (see script [mkuser](https://github.com/
 
 Alternatively `sudo /root/cluster-scripts/mkuseralias` can be used if the username on server is different from the GitHub username.
 
+## How to resolve slow ssh login time in container
+
+If when you ssh to a container it takes a long time, here is a possible fix:
+
+See https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916:
+
+```
+# If Debian 11 is ran on a LXC container (Proxmox), SSH login and sudo actions can be slow
+# Check if in /var/log/auth.log the following messages 
+Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
+
+-> Run  systemctl mask systemd-logind
+-> Run pam-auth-update (and deselect Register user sessions in the systemd control group hierarchy)
+```
+
 ## Proxmox installation
 
 Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.
