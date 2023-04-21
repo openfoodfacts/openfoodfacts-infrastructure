@@ -8,7 +8,11 @@ ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 [Service]
 Environment=TZ=UTC
 Type=oneshot
-ExecStart=/bin/bash -c "while read args;do syncoid --quiet $args;done </etc/sanoid/syncoid-args.conf"
+# read one line at a time, and use as args to syncoid.
+# we also handle return result so that we get notified if there is an error.
+# Some tricks: use '$$' for $ for systemd some interpolation 
+# + give syncoid a null input, as otherwise it consumes main input and we do loose commands
+ExecStart=/bin/bash -c 'RESULT=0; grep -v "^#" /etc/sanoid/syncoid-args.conf | while read -a sync_args;do syncoid --quiet "$${sync_args[@]}" </dev/null ; RESULT=$$(($$RESULT + $?)); done; exit $$RESULT;' 
 
 [Install]
 WantedBy=sanoid.service

@@ -52,9 +52,39 @@ Some specific to a flavor, but shared between producer and public platform:
 
 Some specific to each flavor:
 * products - `/mnt/<flavor>/products`
-* lang  - `/mnt/<flavor>/lang`
 * html_data `/mnt/<flavor>/html_data` (linked in html/data)
 * other data (`/mnt/<flavor>/*`)
+
+The other data contains:
+* static data
+  * `data-default`
+  * `ecoscore` (external)
+  * `emb_codes` (external)
+  * `forest-footprint` (external)
+  * `ingredients`
+  * `packager-codes` (external)
+  * `taxonomies`
+  * `templates`
+  * `po`
+  * `lang`
+* real data:
+  * `deleted.images`
+  * `html_data`
+  * `data`
+    * `scanbot.xxxx` is not cache
+* cache data:
+  * `build-cache`
+  * `tmp`
+  * `debug`
+  * `new_images`
+* specific:
+  * `log`
+  * `users_emails.sto` linked to ./users/users_emails.sto (**FIXME:** TODO on OPF, OPFF, OPBF)
+
+
+Note:
+* lang  - `/mnt/<flavor>/lang` is mounted as a specific volume in docker but this is just compiled configuration data (po files)
+
 
 Also all products / products images from other platform must be available to the other flavors (because we need to move products around)
 

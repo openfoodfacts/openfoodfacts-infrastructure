@@ -40,6 +40,8 @@ flowchart TB
 
 ## NGINX reverse proxy install
 
+### Installing VM
+
 I followed [How to create a new Container](../promox.md#how-to-create-a-new-container)
 
 I add a problem running `ct_postinstall` as it wasn't able to fetch debian archives. Indeed there was no network in the CT.
@@ -54,15 +56,24 @@ I add a problem running `ct_postinstall` as it wasn't able to fetch debian archi
     I also tweak a bit to have
     ```bash
     # ip route list
-    default via 213.36.253.222 dev vmbr0 proto kernel onlink 
-    10.0.0.0/8 dev vmbr1 proto kernel scope link src 10.0.0.2 
-    213.36.253.192/27 dev vmbr0 proto kernel scope link src 213.36.253.208 
+    default via 213.36.253.222 dev vmbr0 proto kernel onlink
+    10.0.0.0/8 dev vmbr1 proto kernel scope link src 10.0.0.2
+    213.36.253.192/27 dev vmbr0 proto kernel scope link src 213.36.253.208
     ```
 3. I also had to reboot the host
 
 I then simply install `nginx` and `stunnel4` using apt.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+### Adding the IP
+
+Using proxmox interface, on container 110, I add net1, on vmbr0, IP 213.36.253.214/27, Gateway 213.36.253.222 (copied from Host config).
+
+**Important**: I removed the gateway on net0 (see [here](../nginx-reverse-proxy.md#network-specific-interface)).
+
+I reboot the container 101, and it seems to work.
+
 
 ## Open Pet Food Facts install
 
@@ -89,12 +100,14 @@ apt install nginx
 
 I then rsync the content of `/srv/opff` from off1 to the machine, (with -x to avoid sending crossing filesystems and excluding logs and html/images/products/).
 
+I copied the `/root/.ssh/id_rsa.pub`  off off2 in the `/root/.ssh/authorized_keys` of off1
 
-I logged with -A (forward user agent) on off2, and use `sudo -E` to keep it !
+
+On off2:
 
 ```
 sudo mkdir /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
-sudo -E - rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" off1.openfoodfacts.org:/srv/opff/ /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
+sudo rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" off1.openfoodfacts.org:/srv/opff/ /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
 ```
 
 Strangely /srv/opff/lang was not world readable, I changed this on off1: `chmod a+rX -R lang/` and did rsync again.
@@ -141,6 +154,94 @@ We also have some html contents linked to off **FIXME decide what to do**
 
 I init a dataset for each projects: `zfs create opff`, `zfs create opff`, etc for `off`, `off-pro`, `obf` and `opf`
 
+I then create `zfs create zfs-hdd/opff/data`, `zfs create zfs-hdd/opff/images`, `zfs create zfs-hdd/opff/cache` (not products because we will sync it).
+
+And change permissions of directories:
+
+```bash
+sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/data /zfs-hdd/opff/images /zfs-hdd/opff/cache
+```
+
+Add them to `sanoid.conf`
+```
+[zfs-hdd/opff]
+  use_template=prod_data
+  recursive=no
+
+[zfs-hdd/opff/cache]
+  use_template=prod_data
+  recursive=no
+
+[zfs-hdd/opff/data]
+  use_template=prod_data
+  recursive=no
+
+[zfs-hdd/opff/images]
+  use_template=prod_data
+  recursive=no
+
+```
+
+For opff it's a bit more complicated because I had it created already on off2 and ovh3, so no sync possible ! (at time of doing it I had products and images)
+
+To be able to sync it, here is what I did:
+* on off2, sync opff to a dataset with a temporary name on ovh3:
+  ```bash
+   sudo syncoid --no-sync-snap zfs-hdd/opff  root@ovh3.openfoodfacts.org:rpool/opff-new
+  ```
+* on ovh3:
+
+  * on off2 temporarily disable the syncoid service
+    ```bash
+    sudo systemctl disable syncoid
+    ```
+  * choose a time far from the products updates (to avoid having to disable it)
+  * on ovh3
+    * move products and images dataset to opff-new
+      ```bash
+      sudo zfs rename rpool/opff{,-new}/products
+      sudo zfs rename rpool/opff{,-new}/images
+      ```
+    * move opff to opff-old
+      ```bash
+      sudo zfs rename rpool/opff{,-old}
+      ```
+    * rename opff-new to opff
+      ```bash
+      sudo zfs rename rpool/opff{-new,}
+      ```
+  * on off2 reactivate syncoid service
+    ```bash
+    sudo systemctl enable syncoid
+    ```
+  * on ovh3
+    * verify opff-old is empty
+      ```bash
+      sudo ls -a /rpool/opff-old
+      sudo zfs list rpool/opff-old
+      sudo zfs list rpool/opff-old -t snapshot
+      ```
+    * and destroy it
+      ```bash
+      sudo zfs destroy rpool/opff-old
+      ```
+
+Finally I added the opff sync to `syncoid-args.conf` on ovh3 and the snapshoting as synced on ovh3 in `sanoid.conf`
+
+I also did it for the data and cache dataset:
+
+```bash
+# from off2 to ovh3
+--no-sync-snap zfs-hdd/opff root@ovh3.openfoodfacts.org:rpool/opff
+--no-sync-snap zfs-hdd/opff/cache root@ovh3.openfoodfacts.org:rpool/opff/cache
+--no-sync-snap zfs-hdd/opff/data root@ovh3.openfoodfacts.org:rpool/opff/data
+```
+
+> **NOTE** renaming dataset:
+> I had to rename data to html_data (I didn't spot there was another data dataset).
+> `zfs rename zfs-hdd/opff/data zfs-hdd/opff/html_data` on both ovh3 and off2
+> Then changed `/etc/sanoid/sanoid.conf` and `/etc/sanoid/syncoid_args.conf`
+
 #### Products
 
 Notice: the script to sync is not working out of the box because it use `-i` even if distant snapshot is empty !
@@ -179,6 +280,45 @@ Users are not currently in a zfs on prod but we have them on zfs on ovh3 and the
 
 So we can use zfs sync from ovh3 to off2.
 
+**FIXME:** we have to fix the users case !
+
+#### Products images
+
+We will do a rsync, that we will have to repeat when putting in production.
+
+On off2 (in a screen):
+
+```bash
+sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products  /zfs-hdd/opff/images
+```
+this took 12 minutes.
+
+Then I sync to ovh3:
+
+```bash
+time sudo  syncoid --no-sync-snap zfs-hdd/opff/images root@ovh3.openfoodfacts.org:rpool/opff/images
+```
+
+After first sync (which took 44 min), I also added it to sanoid.conf ovh3, but using synced template.
+
+I also add the main dataset and images to be synced to ovh3 by adding to `/etc/sanoid/syncoid-args.conf`
+```bash
+--no-sync-snap zfs-hdd/opff/images root@ovh3.openfoodfacts.org:rpool/opff/images
+```
+
+#### other data (and cache)
+
+I rsync cache data on ofF2:
+
+```bash
+rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/{build-cache,tmp,debug,new_images} /zfs-hdd/opff/cache
+```
+`build-cache` does not exist, not a problem !
+
+I rsync other data on ofF2:
+```bash
+rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/{deleted.images,data} /zfs-hdd/opff/
+```
 
 #### Snapshots and Syncs
 
@@ -263,6 +403,12 @@ cat /etc/sanoid/syncoid-args.conf
 --no-sync-snap root@ovh3.openfoodfacts.org:rpool/off/users zfs-hdd/off/users
 ```
 
+And we notify systemd:
+
+```bash
+$ sudo systemctl daemon-reload
+```
+
 [^sanoid_debian]:
     There seems to be a difference between debian bullseye packaging: it uses `cron.d` and `/etc/sanoid.conf`,
     while the last stable version uses systemd timerss and `/etc/sanoid/sanoid.conf`.
@@ -278,12 +424,123 @@ We will use bind mounts to make zfs datasets available inside the machine.
 
 See: https://pve.proxmox.com/wiki/Linux_Container#_bind_mount_points
 
+and https://pve.proxmox.com/wiki/Unprivileged_LXC_containers
+
+We edit /etc/subuid and /etc/subgid to add `root:1000:10`. This allow container started by root to map ids 1000 to their same ids on system.
+
+We edit 110 conf to add sub_id exceptions:
+
+```
+# uid map: from uid 0 map 999 uids (in the ct) to the range starting 100000 (on the host)
+# so 0..999 (ct) → 100000..100999 (host)
+lxc.idmap = u 0 100000 999
+lxc.idmap = g 0 100000 999
+# we map 10 uid starting from uid 1000 onto 1000, so 1000..1010 → 1000..1010
+lxc.idmap = u 1000 1000 10
+lxc.idmap = g 1000 1000 10
+# we map the rest of 65535 from 1010 upto 101010, so 1010..65535 → 101010..165535
+lxc.idmap = u 1011 101011 64525
+lxc.idmap = g 1011 101011 64525
+```
+
+
+```
+# volumes
+mp0: /zfs-hdd/opff,mp=/mnt/opff
+mp1: /zfs-hdd/opff/products/,mp=/mnt/opff/products
+mp2: /zfs-hdd/off/users/,mp=/mnt/opff/users
+mp3: /zfs-hdd/opff/images,mp=/mnt/opff/images
+mp4: /zfs-hdd/opff/html_data,mp=/mnt/opff/html_data
+mp5: /zfs-hdd/opff/cache,mp=/mnt/opff/cache
+```
+**Important**: the order is important for the first one, otherwise `/mnt/opff/products` will be invisibilized by the mount of `/mnt/opff`.
+
+
+We restart `pct reboot 110`
+
+But we have a problem: we loose access to our home directory because of uids changes.
+We fix this from the host:
+
+```
+root@off2:# chown 1001:1001 -R /zfs-hdd/pve/subvol-110-disk-0/home/alex
+root@off2:# chown 1000:1000 -R /zfs-hdd/pve/subvol-110-disk-0/home/off
+```
 #### linking data
 
+Unless stated operation are done with user off.
 
-**FIXME**
+Create a backup folder to be sure
+```bash
+sudo mkdir /srv/backup/
+sudo chown off:off /srv/backup/
 ```
-sudo ln -s 
+
+Remove old links:
+```bash
+unlink /srv/opff/products
+unlink /srv/opff/users
+mv /srv/opff/users_emails.sto /srv/backup
+```
+
+Create links for users and products
+```bash
+ln -s /mnt/opff/products /srv/opff/products
+ln -s /mnt/opff/users /srv/opff/users
+# old versions of Product opener needs users_emails.sto in /srv/xxx
+ln -s /mnt/opff/users/users_emails.sto /srv/opff/users_emails.sto
+```
+
+Create links for data folders, also moving data zfs parts:
+
+```bash
+# html data
+sudo rsync -a /srv/opff/html/data/ /mnt/opff/html_data/
+sudo mv /srv/opff/html/data/ /srv/backup/
+ln -s /mnt/opff/html_data/ /srv/opff/html/data
+# product images
+sudo rmdir /srv/opff/html/images/products/
+ln -s /mnt/opff/images/products  /srv/opff/html/images/products
+# deleted.images
+mv /srv/opff/deleted.images /mnt/opff/
+ln -s  /{mnt,srv}/opff/deleted.images
+# data (was non existent)
+mkdir /mnt/opff/data
+ln -s  /{mnt,srv}/opff/data
+```
+
+We also want to move Lang file in data folder but keep compatibility (it's an old version)
+
+```bash
+mv /srv/opff/Lang.openpetfoodfacts.org.sto /mnt/opff/data/
+ln -s /mnt/opff/data/Lang.openpetfoodfacts.org.sto /srv/opff/
+```
+
+Same for cache folders
+```bash
+# build-cache (was non existent)
+mkdir /mnt/opff/cache/build-cache
+ln -s /mnt/opff/cache/build-cache /srv/opff/build-cache
+mv /srv/{opff,backup}/tmp/
+ln -s /mnt/opff/cache/tmp /srv/opff/tmp
+mv /srv/{opff,backup}/debug 
+ln -s /mnt/opff/cache/debug /srv/opff/debug
+mv /srv/{opff,backup}/new_images
+ln -s /mnt/opff/cache/new_images /srv/opff/new_images
+```
+
+#### linking logs
+
+We want logs to go in /var/logs.
+
+We will create a directory for opff and also add links to nginx and apache2 logs.
+
+```bash
+sudo mkdir /var/log/opff
+sudo chown off:off -R /var/log/opff
+sudo -u off rmdir /srv/opff/logs/
+sudo -u off ln -s /var/log/opff /srv/opff/logs
+sudo  -u off ln -s ../apache2 /var/log/opff
+sudo -u off ln -s ../nginx /var/log/opff
 ```
 
 ### NGINX
@@ -338,3 +595,38 @@ On off2:
         MaxRequestWorkers         20
         MaxConnectionsPerChild   500
   ```
+
+We also have to change permissions on log since we changed run user:
+
+```bash
+sudo chown off:off -R /var/log/apache2 /var/run/apache2
+```
+
+
+### Finding OPFF version
+
+on off1 in /srv/opff:
+```bash
+find . -xdev  -iregex ".*\.\(pl\|pm\|txt\)"|xargs ls -l --time-style=+'%Y-%m-%d'|tr -s ' ' ' '|cut -d ' ' -f 6-|sort
+```
+
+Interesting data retained `2020-05-30`.
+
+To get modified files along with versions `git log --name-only`
+
+I then compared code with various commits. Finally I put the tag [OPFF-v1](https://github.com/openfoodfacts/openfoodfacts-server/releases/tag/OPFF-v1) on commit [34a1c35](https://github.com/openfoodfacts/openfoodfacts-server/commit/34a1c355049b2c1017a65b9ab6419c79fe083f3c)
+
+It's approximate because we apparently got less up to date taxonomies.
+
+
+## Still TODO
+
+- notification when important task fails
+
+## TODO at final production switch
+
+1. rsync products images:
+   `sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products  /zfs-hdd/opff/images`
+1. rsync html/data
+   `sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data  /zfs-hdd/opff/data`
+1. verify /srv/opff is not too different
