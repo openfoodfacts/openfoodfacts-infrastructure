@@ -77,6 +77,22 @@ It has it's own bridge interface with a public facing ip.
 
 See [Nginx reverse proxy](./nginx-reverse-proxy.md)
 
+## Storage synchronization
+
+VM and container storage are regularly synchronized to ovh3 (and eventually to ovh1/2) to have a continuous backup.
+
+Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.
+
+This is managed with command line `pvesr` (PVE Storage replication). See [official doc](https://pve.proxmox.com/wiki/Storage_Replication)
+
+
+## How to migrate a container / VM
+
+You may want to move containers or VM from one server to another.
+
+Just go to the interface, right click on the VM / Container and ask to migrate !
+
+If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button) and then run the migration.
 
 ## Unlocking a Container
 

@@ -528,6 +528,7 @@ mv /srv/{opff,backup}/new_images
 ln -s /mnt/opff/cache/new_images /srv/opff/new_images
 ```
 
+
 #### linking logs
 
 We want logs to go in /var/logs.
@@ -542,6 +543,16 @@ sudo -u off ln -s /var/log/opff /srv/opff/logs
 sudo  -u off ln -s ../apache2 /var/log/opff
 sudo -u off ln -s ../nginx /var/log/opff
 ```
+
+#### verify config links
+
+They where normaly kept in the transfer, but for the record:
+```bash
+ls -l /srv/opff/lib/ProductOpener/{SiteLang,Config}.pm
+lrwxrwxrwx 1 off off 14 30 mars    2017 /srv/opff/lib/ProductOpener/Config.pm -> Config_opff.pm
+lrwxrwxrwx 1 off off 16  2 janv.   2018 /srv/opff/lib/ProductOpener/SiteLang.pm -> SiteLang_opff.pm
+```
+and `/srv/opff/lib/ProductOpener/Config2.pm` is specific.
 
 ### NGINX
 
@@ -596,6 +607,19 @@ On off2:
         MaxConnectionsPerChild   500
   ```
 
+* change ports apache is listening in `/etc/apache2/ports.conf` (because we need port 80 for nginx):
+  ```
+  Listen 8001
+
+  #<IfModule ssl_module>
+  #       Listen 443
+  #</IfModule>
+
+  #<IfModule mod_gnutls.c>
+  #       Listen 443
+  #</IfModule>
+  ```
+
 We also have to change permissions on log since we changed run user:
 
 ```bash
@@ -619,9 +643,186 @@ I then compared code with various commits. Finally I put the tag [OPFF-v1](https
 It's approximate because we apparently got less up to date taxonomies.
 
 
+## Using git
+
+Created /srv/opff-git to clone and compare:
+```bash
+sudo mkdir /srv/opff-git
+sudo chown off:off /srv/opff-git
+```
+
+Create a key for off (as off user), without a passphrase:
+```bash
+ssh-keygen -t ed25519 -C "off@opff.openfoodfacts.org"
+cat /home/off/.ssh/id_ed25519.pub
+```
+
+In github add the `/home/off/.ssh/id_ed25519.pub` to deploy keys for openfoodfacts-server ([github docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys)): going to settings / deploy keys / add deploy key. I did not gave write access.
+
+With user off, clone git:
+```bash
+cd /srv/opff-git/
+git clone -b OPFF-v1 --single-branch --depth=10 git@github.com:openfoodfacts/openfoodfacts-server.git .
+```
+Compared both:
+```bash
+diff --no-dereference /srv/opff-git/ /srv/opff > /tmp/opff.diff
+```
+Important differences spotted:
+* cpanfile -- many differences ! But in fact on off1 it was not really use, so we will take the one in git
+* bower.json is no more in git, not a problem
+* log.conf
+  ```diff
+  diff --no-dereference --ignore-space-change --strip-trailing-cr /srv/opff-git/log.conf /srv/opff/log.conf
+  3,4d2
+  < log4perl.PatternLayout.cspec.S = sub { my $context = Log::Log4perl::MDC->get_context; use Data::Dumper (); local $Data::Dumper::Indent    = 0; local $Data::Dumper::Terse     = 1; local $Data::Dumper::Sortkeys  = 1; local $Data::Dumper::Quotekeys = 0; local $Data::Dumper::Deparse   = 1; my $str = Data::Dumper::Dumper($context); $str =~ s/[\n\r]/ /g; return $str; }
+  < 
+  6c4
+  < log4perl.appender.LOGFILE.filename=./logs/log4perl.log
+  ---
+  > log4perl.appender.LOGFILE.filename=/srv/opff/logs/log4perl.log
+  10c8
+  < log4perl.appender.LOGFILE.layout.ConversionPattern=[%r] %F %L %c %S %m{chomp}%n
+  ---
+  > log4perl.appender.LOGFILE.layout.ConversionPattern=[%r] %F %L %c - %m%n
+  ```
+
+### Replacing with git repo
+
+```bash
+sudo mv /srv/opff{,-old}
+sudo mv /srv/opff{-git,}
+```
+Update needed file:
+
+1. apache and nginx conf is wrong, copy it in git version:
+
+```bash
+cp /etc/apache2/sites-available/opff.conf conf/apache-2.4/sites-available/opff.conf
+cp /srv/opff-old/conf/nginx/sites-available/opff conf/nginx/sites-available/opff
+```
+
+**TODO**: verify lgos.conf works
+
+### Using link for system files
+
+```bash
+sudo ln -s /srv/opff/conf/nginx/sites-available /etc/nginx/sites-enabled/opff
+sudo ln -s /srv/opff/conf/nginx/expires-no-json-xml.conf /etc/nginx/
+sudo rm /etc/nginx/mime.types
+sudo ln -s /srv/opff/conf/nginx/mime.types /etc/nginx/
+
+
+```
+
+## Installing CPAN
+
+```bash
+cd /srv/opff
+sudo cpanm --notest --quiet --skip-satisfied --installdeps .
+Successfully installed CLDR-Number-0.19
+Successfully installed Mojolicious-9.31
+Successfully installed Minion-10.25
+You have CLDR::Number (0.19)
+Successfully installed Modern-Perl-1.20230106
+Successfully installed Heap-0.80
+Successfully installed Set-Object-1.42
+Successfully installed Graph-0.9726
+Successfully installed GraphViz2-2.67
+Successfully installed Algorithm-CheckDigits-v1.3.6
+You have CLDR::Number::Format::Percent (0.19)
+Successfully installed XML-Rules-1.16
+Successfully installed Text-Fuzzy-0.29
+Successfully installed LEOCHARRE-DEBUG-1.14
+Successfully installed LEOCHARRE-CLI-1.19
+Successfully installed Image-OCR-Tesseract-1.26
+Successfully installed Action-CircuitBreaker-0.1
+Successfully installed Text-CSV_XS-1.50
+Successfully installed Spreadsheet-CSV-0.20
+Successfully installed UUID-URandom-0.001
+Successfully installed MongoDB-v2.2.2
+You have Mojolicious::Lite (undef)
+Successfully installed Module-Build-Pluggable-CPANfile-0.05
+Successfully installed IO-Interactive-Tiny-0.2
+Successfully installed Data-Dumper-AutoEncode-1.00
+Successfully installed SQL-Abstract-2.000001 (upgraded from 1.87)
+Successfully installed SQL-Abstract-Pg-1.0
+Successfully installed Mojo-Pg-4.27
+Successfully installed Encode-Punycode-1.002
+Successfully installed B-Keywords-1.24
+Successfully installed Config-Tiny-2.29
+Successfully installed Task-Weaken-1.06
+Successfully installed PPI-1.276
+Successfully installed PPIx-Regexp-0.088
+You have PPIx::Regexp::Util (0.088)
+Successfully installed PPIx-Utils-0.003
+Successfully installed String-Format-1.18
+You have PPI (1.276)
+You have PPI::Node (1.276)
+Successfully installed PPIx-QuoteLike-0.023
+You have PPI::Token::Quote::Single (1.276)
+Successfully installed Perl-Tidy-20230309
+You have PPI::Document::File (1.276)
+You have PPI::Document (1.276)
+Successfully installed Lingua-EN-Inflect-1.905
+Successfully installed Pod-Spell-1.26
+Successfully installed Perl-Critic-1.150
+You have Perl::Critic::Utils (1.150)
+Successfully installed MCE-1.884
+You have Perl::Critic::Violation (1.150)
+Successfully installed Test-Perl-Critic-1.04
+Successfully installed Text-CSV-2.02
+/usr/bin/tar: Action-Retry-0.24/README: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/Changes: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/LICENSE: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/dist.ini: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/META.yml: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/MANIFEST: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/Build.PL: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/linear.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/Makefile.PL: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/constant.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/fibonacci.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/00-compile.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/nonblocking.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/check_params.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/release-distmeta.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/t/release-pod-coverage.t: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/Linear.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/Constant.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/Fibonacci.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/HelperRole/RetriesLimit.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/HelperRole/SleepCapping.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/HelperRole/SleepTimeout.pm: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy/HelperRole: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry/Strategy: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24/lib/Action/Retry: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Action-Retry-0.24: Cannot change ownership to uid 3957780, gid 10902869: Invalid argument
+/usr/bin/tar: Exiting with failure status due to previous errors
+Successfully installed Action-Retry-0.24
+Successfully installed Locale-Maketext-Lexicon-Getcontext-0.05
+Successfully installed Crypt-ScryptKDF-0.010
+44 distributions installed
+
+```
+
+
 ## Still TODO
 
+**FIXME** off-net sur OVH1 !
+
 - notification when important task fails
+- IP failover ? (maybe after off1 setup)
+- verify if we need to in nginx config: install Apache2::Connection::XForwardedFor (see [wiki]())
+- GEOIP updates (should be regular updates IMO) see https://manpages.debian.org/bullseye/geoipupdate/geoipupdate.1.en.html
+- Generate JS assets via github action
+- Minions for off
+- vérifier que la compression fonctionne ?
+
 
 ## TODO at final production switch
 
