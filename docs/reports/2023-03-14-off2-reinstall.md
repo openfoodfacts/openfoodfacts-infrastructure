@@ -87,8 +87,14 @@ I also [configure postfix](../mail#postfix-configuration) and tested it.
 
 Then I installed needed package following docker container:
 
-```
+```bash
 apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 make gettext wget imagemagick graphviz tesseract-ocr libtie-ixhash-perl libwww-perl libimage-magick-perl libxml-encoding-perl libtext-unaccent-perl libmime-lite-perl libcache-memcached-fast-perl libjson-pp-perl libclone-perl libcrypt-passwdmd5-perl libencode-detect-perl libgraphics-color-perl libbarcode-zbar-perl libxml-feedpp-perl liburi-find-perl libxml-simple-perl libexperimental-perl libapache2-request-perl libdigest-md5-perl libtime-local-perl libdbd-pg-perl libtemplate-perl liburi-escape-xs-perl libmath-random-secure-perl libfile-copy-recursive-perl libemail-stuffer-perl liblist-moreutils-perl libexcel-writer-xlsx-perl libpod-simple-perl liblog-any-perl liblog-log4perl-perl liblog-any-adapter-log4perl-perl libgeoip2-perl libemail-valid-perl libmath-fibonacci-perl libev-perl libprobe-perl-perl libmath-round-perl libsoftware-license-perl libtest-differences-perl libtest-exception-perl libmodule-build-pluggable-perl libclass-accessor-lite-perl libclass-singleton-perl libfile-sharedir-install-perl libnet-idn-encode-perl libtest-nowarnings-perl libfile-chmod-perl libdata-dumper-concise-perl libdata-printer-perl libdata-validate-ip-perl libio-compress-perl libjson-maybexs-perl liblist-allutils-perl liblist-someutils-perl libdata-section-simple-perl libfile-which-perl libipc-run3-perl liblog-handler-perl libtest-deep-perl libwant-perl libfile-find-rule-perl liblinux-usermod-perl liblocale-maketext-lexicon-perl liblog-any-adapter-tap-perl libcrypt-random-source-perl libmath-random-isaac-perl libtest-sharedfork-perl libtest-warn-perl libsql-abstract-perl libauthen-sasl-saslprep-perl libauthen-scram-perl libbson-perl libclass-xsaccessor-perl libconfig-autoconf-perl libdigest-hmac-perl libpath-tiny-perl libsafe-isa-perl libspreadsheet-parseexcel-perl libtest-number-delta-perl libdevel-size-perl gnumeric libreadline-dev libperl-dev
+```
+
+Also installed mailx which is handy:
+
+```bash
+apt install à
 ```
 
 We also want nginx in this container:
@@ -687,6 +693,21 @@ Important differences spotted:
   > log4perl.appender.LOGFILE.layout.ConversionPattern=[%r] %F %L %c - %m%n
   ```
 
+
+Added files that are symlinks:
+
+```bash
+cd /srv/opff/lib/ProductOpener
+ln -s Config_opff.pm Config.pm
+ln -s SiteLang_opff.pm  SiteLang.pm
+ln -s SiteQuality_off.pm SiteQuality.pm
+cd /srv/off
+ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
+```
+
+
+
+
 ### Replacing with git repo
 
 ```bash
@@ -702,18 +723,140 @@ cp /etc/apache2/sites-available/opff.conf conf/apache-2.4/sites-available/opff.c
 cp /srv/opff-old/conf/nginx/sites-available/opff conf/nginx/sites-available/opff
 ```
 
-**TODO**: verify lgos.conf works
+I add to replace `log.conf`:
+```bash
+ln -s conf/opff-log.conf /srv/opff/log.conf
+```
+
+I add to redo all links done above in the new folder…
+
+### Adding dists
+
+Create a folder for dist:
+```bash
+sudo mkdir /srv/opff-dist
+sudo chown off:off /srv/opff-dist 
+```
+
+As off, transfer dists in it:
+```bash
+cp -r  /srv/opff-old/html/images/icons/dist/ /srv/opff-dist/icons
+cp -r /srv/opff-old/html/css/dist  /srv/opff-dist/css
+cp -r /srv/opff-old/html/js/dist  /srv/opff-dist/js
+# only for off ?
+cp -r /srv/opff-old/html/images/attributes  /srv/opff-dist/attributes
+```
+
+And use symbolic links in folders:
+
+```bash
+# first link for whole folder
+ln -s /srv/opff-dist /srv/opff/dist
+# relative links for the rest
+ln -s ../../../dist/icons /srv/opff/html/images/icons/dist
+ln -s ../../dist/css /srv/opff/html/css/dist
+ln -s ../../dist/js /srv/opff/html/js/dist
+```
+
+### Testing
+
+Direct apache call
+```bash
+curl localhost:8001/cgi/display.pl --header 'Host: fr.openpetfoodfacts.org'
+```
+
+Nginx call
+```bash
+curl localhost --header 'Host: fr.openpetfoodfacts.org'
+```
+### creating systemd units for timers jobs
+
+Good source:
+* https://trstringer.com/systemd-timer-vs-cronjob/
+* https://dev.to/setevoy/linux-systemd-unit-files-edit-restart-on-failure-and-email-notifications-5h3k
+* https://www.freedesktop.org/software/systemd/man/systemd.unit.html to use "instance names"
+
+See git for actual units and timers and the service for email notifications.
+
+We can also add the on failure to apache2.service and nginx.service
+```bash
+$ grep -B 4 email-failure /usr/lib/systemd/system/apache2.service
+[Unit]
+Description=The Apache HTTP Server
+After=network.target remote-fs.target nss-lookup.target
+Documentation=https://httpd.apache.org/docs/2.4/
+OnFailure=email-failures@apache2-opff.service
+$ grep -B 4 email-failure /usr/lib/systemd/system/nginx.service
+[Unit]
+Description=A high performance web server and a reverse proxy server
+Documentation=man:nginx(8)
+After=network.target nss-lookup.target
+OnFailure=email-failures@nginx-opff.service
+```
+
 
 ### Using link for system files
 
+Nginx conf:
+
 ```bash
 sudo ln -s /srv/opff/conf/nginx/sites-available /etc/nginx/sites-enabled/opff
-sudo ln -s /srv/opff/conf/nginx/expires-no-json-xml.conf /etc/nginx/
+sudo ln -s /srv/opff/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+sudo ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
 sudo rm /etc/nginx/mime.types
 sudo ln -s /srv/opff/conf/nginx/mime.types /etc/nginx/
-
-
+# add specific files
+ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
 ```
+
+test it:
+```bash
+sudo nginx -t
+```
+
+Apache conf:
+
+```bash
+ln -s /srv/opff/conf/apache-2.4/sites-available/opff.conf /etc/apache2/sites-enabled/opff.conf
+# we replace mpm_prefork conf
+ln -s /srv/opff/conf/apache-2.4/opff-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+# replace ports.conf
+ln -s /srv/opff/conf/apache-2.4/opff-ports.conf /etc/apache2/ports.conf
+```
+
+test it:
+```bash
+sudo apache2ctl configtest
+```
+
+Systemd units:
+```bash
+ln -s /srv/opff/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+ln -s /srv/opff/conf/systemd/email-failures\@.service /etc/systemd/system
+```
+
+Test failure notification is working:
+
+```bash
+systemctl start email-failures@gen_feeds__opff.service
+```
+
+Test systemclt gen_feeds services are working:
+
+**FIXME TODO**
+```bash
+```
+
+Activate systemd units:
+
+```bash
+systemctl enable gen_feeds@opff.timer
+systemctl enable gen_feeds_daily@opff.timer
+systemctl daemon-reload
+```
+
 
 ## Installing CPAN
 
@@ -810,7 +953,6 @@ Successfully installed Crypt-ScryptKDF-0.010
 
 ```
 
-
 ## Still TODO
 
 **FIXME** off-net sur OVH1 !
@@ -821,8 +963,41 @@ Successfully installed Crypt-ScryptKDF-0.010
 - GEOIP updates (should be regular updates IMO) see https://manpages.debian.org/bullseye/geoipupdate/geoipupdate.1.en.html
 - Generate JS assets via github action
 - Minions for off
-- vérifier que la compression fonctionne ?
+- verify if compression is working on nginx ?
+- pb madenearme
+- logrotate:
+  - nginx specific logs
+  - apache logs
+  - po logs
+- release of JS assets
+- ssl headers on frontend ?:
+  ```conf
+  add_header Strict-Transport-Security "max-age=63072000";
+  add_header X-Content-Type-Options nosniff;
+  add_header X-Frame-Options DENY;
+  ```
+- ssl params on frontend ?
+  ```conf
+  # from https://cipherli.st/
+  # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+  
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+  ssl_ecdh_curve secp384r1;
+  #ssl_session_cache shared:SSL:10m;
+  ssl_session_tickets off;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  resolver 8.8.8.8 8.8.4.4 valid=300s;
+  resolver_timeout 5s;
+  
+  include snippets/ssl-headers.conf;
+  
+  ssl_dhparam /etc/ssl/certs/dhparam.pem;
+  ```
 
+- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ???
 
 ## TODO at final production switch
 
@@ -831,3 +1006,103 @@ Successfully installed Crypt-ScryptKDF-0.010
 1. rsync html/data
    `sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data  /zfs-hdd/opff/data`
 1. verify /srv/opff is not too different
+
+
+## **TODO** symlinks to check
+find files that are symlinks in opff on off1:
+```
+$ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
+```
+
+To be verified:
+```
+
+/srv/opff/lib/log.conf -> ../log.conf
+
+/srv/opff/html/robots.txt -> /srv/off/html/robots.txt
+
+
+# FIXME ? - icon change !
+/srv/opff/html/images/misc/openfoodfacts-logo-zh-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-es-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-pt-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-pl-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-zh-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-pt-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/android-apk.svg -> /srv/opff/html/images/misc/android-apk-40x135.svg
+/srv/opff/html/images/misc/openfoodfacts-logo-es-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-pl-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openpetfoodfacts-logo-en.178x150.png -> openpetfoodfacts-logo-en-178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-4years-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-vi-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-ru-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-fr-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-en-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-he-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-nl-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-ar-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-de-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-vi-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-4years-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-ru-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-fr-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-en-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-he-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+/srv/opff/html/images/misc/openfoodfacts-logo-de-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-nl-178x150.png -> openpetfoodfacts-logo-en.178x150.png
+/srv/opff/html/images/misc/openfoodfacts-logo-ar-356x300.png -> openpetfoodfacts-logo-en.356x300.png
+
+
+
+# FIXME ? contents links to off !
+/srv/opff/lang/fr/texts/contacts.html -> /srv/off/lang/fr/texts/contacts.html
+/srv/opff/lang/fr/texts/press.html -> /srv/off/lang/fr/texts/presskit.html
+/srv/opff/lang/fr/texts/open-food-hunt-2015.html -> open-food-hunt-2015.fr.html
+/srv/opff/lang/fr/tags/labels.txt -> /home/off-fr/cgi/labels.txt
+/srv/opff/lang/fr/tags/categories.txt -> /home/off-fr/cgi/categories.txt
+/srv/opff/lang/en/texts/data.html -> data.en.html
+/srv/opff/lang/en/texts/contacts.html -> /srv/off/lang/en/texts/contacts.html
+/srv/opff/lang/en/texts/press.html -> /srv/off/lang/en/texts/presskit.html
+/srv/opff/lang/en/texts/index.foundation.en.html -> /srv/opff/lang/en/texts/index.html
+/srv/opff/lang/nl/texts/contacts.html -> /srv/off/lang/nl/texts/contacts.html
+/srv/opff/lang/nl/texts/press.html -> /srv/off/lang/nl/texts/presskit.html
+/srv/opff/lang/he/texts/index.html -> index.he.html
+/srv/opff/lang/he/texts/press.html -> /srv/off/lang/he/texts/presskit.html
+/srv/opff/lang/he/texts/contacts.html -> /srv/off/lang/he/texts/contacts.html
+/srv/opff/lang/ar/texts/index.html -> index.ar.html
+/srv/opff/lang/ar/texts/press.html -> /srv/off/lang/ar/texts/presskit.html
+/srv/opff/lang/ar/texts/contacts.html -> /srv/off/lang/ar/texts/contacts.html
+/srv/opff/lang/es/texts/open-food-hunt-2015.html -> open-food-hunt-2015.es.html
+/srv/opff/lang/es/texts/contacts.html -> /srv/off/lang/es/texts/contacts.html
+/srv/opff/lang/es/texts/press.html -> /srv/off/lang/es/texts/presskit.html
+/srv/opff/lang/es/tags/labels.txt -> /home/off-fr/cgi/labels.es.txt
+/srv/opff/lang/pl/texts/contacts.html -> /srv/off/lang/pl/texts/contacts.html
+/srv/opff/lang/pl/texts/index.html -> index.pl.html
+/srv/opff/lang/pl/texts/press.html -> /srv/off/lang/pl/texts/presskit.html
+/srv/opff/lang/da/texts/press.html -> /srv/off/lang/da/texts/presskit.html
+/srv/opff/lang/da/texts/contacts.html -> /srv/off/lang/da/texts/contacts.html
+/srv/opff/lang/ro/texts/contacts.html -> /srv/off/lang/ro/texts/contacts.html
+/srv/opff/lang/ro/texts/index.html -> index.ro.html
+/srv/opff/lang/ro/texts/press.html -> /srv/off/lang/ro/texts/presskit.html
+/srv/opff/lang/it/texts/contacts.html -> /srv/off/lang/it/texts/contacts.html
+/srv/opff/lang/it/texts/open-food-hunt-2015.html -> open-food-hunt-2015.it.html
+/srv/opff/lang/it/texts/press.html -> /srv/off/lang/it/texts/presskit.html
+/srv/opff/lang/it/texts/index.html -> index.it.html
+/srv/opff/lang/pt/texts/open-food-hunt-2015.html -> open-food-hunt-2015.pt.html
+/srv/opff/lang/ru/texts/index.html -> index.ru.html
+/srv/opff/lang/ru/texts/press.html -> /srv/off/lang/ru/texts/presskit.html
+/srv/opff/lang/ru/texts/contacts.html -> /srv/off/lang/ru/texts/contacts.html
+/srv/opff/lang/de/texts/contacts.html -> /srv/off/lang/de/texts/contacts.html
+/srv/opff/lang/de/texts/press.html -> /srv/off/lang/de/texts/presskit.html
+/srv/opff/lang/vi/texts/press.html -> /srv/off/lang/vi/texts/presskit.html
+/srv/opff/lang/vi/texts/contacts.html -> /srv/off/lang/vi/texts/contacts.html
+/srv/opff/lang/el/texts/press.html -> /srv/off/lang/el/texts/presskit.html
+/srv/opff/lang/el/texts/contacts.html -> /srv/off/lang/el/texts/contacts.html
+
+
+# FIXME not needed, I guess …
+/srv/opff/ingredients/additifs/extract_additives.pl -> /home/off-fr/cgi/extract_additives.pl
+/srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
+
+```
+

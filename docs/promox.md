@@ -92,7 +92,7 @@ You may want to move containers or VM from one server to another.
 
 Just go to the interface, right click on the VM / Container and ask to migrate !
 
-If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button) and then run the migration.
+If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.
 
 ## Unlocking a Container
 
