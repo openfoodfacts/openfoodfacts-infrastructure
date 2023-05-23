@@ -1,540 +1,1147 @@
 
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../discourse/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+    
+    
+      
+        <title>Continous Integration and Continuous Delivery - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.85bb2934.min.css">
+      
+      
 
-<html class="no-js" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href=".." rel="prev"/>
-<link href="../discourse/" rel="next"/>
-<link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.1.6" name="generator"/>
-<title>Continous Integration and Continuous Delivery - Open Food Facts Infrastructure documentation</title>
-<link href="../assets/stylesheets/main.ded33207.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
-<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            
-                .gscrollbar-fixer { padding-right: 15px; }
-                .gdesc-inner { font-size: 0.75rem; }
-                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
-<body data-md-color-accent="" data-md-color-primary="" data-md-color-scheme="default" dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#continous-integration-and-continuous-delivery">
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#continous-integration-and-continuous-delivery" class="md-skip">
           Skip to content
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
 <header class="md-header md-header--shadow" data-md-component="header">
-<nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" data-md-component="logo" href=".." title="Open Food Facts Infrastructure documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
-</a>
-<label class="md-header__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
-</label>
-<div class="md-header__title" data-md-component="header-title">
-<div class="md-header__ellipsis">
-<div class="md-header__topic">
-<span class="md-ellipsis">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             Open Food Facts Infrastructure documentation
           </span>
-</div>
-<div class="md-header__topic" data-md-component="header-topic">
-<span class="md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               Continous Integration and Continuous Delivery
             
           </span>
-</div>
-</div>
-</div>
-<div class="md-header__source">
-<a class="md-source" data-md-component="source" href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
-</div>
-<div class="md-source__repository">
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
     GitHub
   </div>
 </a>
-</div>
-</nav>
+      </div>
+    
+  </nav>
+  
 </header>
-<div class="md-container" data-md-component="container">
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Open Food Facts Infrastructure documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
-</a>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
     Open Food Facts Infrastructure documentation
   </label>
-<div class="md-nav__source">
-<a class="md-source" data-md-component="source" href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
-</div>
-<div class="md-source__repository">
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
     GitHub
   </div>
 </a>
-</div>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="..">
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         OpenFoodFacts Infrastructure
       </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
           Continous Integration and Continuous Delivery
           <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Continous Integration and Continuous Delivery
       </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#technology-stack">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
     Technology Stack
   </a>
-<nav aria-label="Technology Stack" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#docker">
+  
+    <nav class="md-nav" aria-label="Technology Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
     Docker
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#makefile-uniformity">
+        
+          <li class="md-nav__item">
+  <a href="#makefile-uniformity" class="md-nav__link">
     Makefile (uniformity)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#github-actions">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
     GitHub Actions
   </a>
-<nav aria-label="GitHub Actions" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#github-bot">
+  
+    <nav class="md-nav" aria-label="GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-bot" class="md-nav__link">
     Github Bot
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#continuous-integration">
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
     Continuous Integration
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#continuous-delivery">
+      
+        <li class="md-nav__item">
+  <a href="#continuous-delivery" class="md-nav__link">
     Continuous Delivery
   </a>
-<nav aria-label="Continuous Delivery" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#deployment-model">
+  
+    <nav class="md-nav" aria-label="Continuous Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-model" class="md-nav__link">
     Deployment model
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#rollbacks">
+        
+          <li class="md-nav__item">
+  <a href="#rollbacks" class="md-nav__link">
     Rollbacks
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#cicd-status">
+      
+        <li class="md-nav__item">
+  <a href="#cicd-status" class="md-nav__link">
     CICD status
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#qa">
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
     Q&amp;A
   </a>
-<nav aria-label="Q&amp;A" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#container-deployment-is-failing-how-do-i-fix-it">
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-deployment-is-failing-how-do-i-fix-it" class="md-nav__link">
     Container deployment is failing, how do I fix it ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment">
+        
+          <li class="md-nav__item">
+  <a href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment" class="md-nav__link">
     I forgot to set an env variable on GitHub, can I re-trigger the deployment ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#how-do-i-set-up-a-deployment-on-a-new-repository">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-set-up-a-deployment-on-a-new-repository" class="md-nav__link">
     How do I set up a deployment on a new repository ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch">
+        
+          <li class="md-nav__item">
+  <a href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" class="md-nav__link">
     What do I do if the deployment fails after merging my PR to the main or master branch ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release">
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" class="md-nav__link">
     I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?
   </a>
+  
 </li>
-</ul>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../discourse/">
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discourse/" class="md-nav__link">
         Discourse
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../docker/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
         Docker at Open Food Facts
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../docker_architecture/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_architecture/" class="md-nav__link">
         Docker architecture
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../docker_onboarding/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_onboarding/" class="md-nav__link">
         Onboarding
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../folksonomy/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../folksonomy/" class="md-nav__link">
         Folksonomy API
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../free-datacenter/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../free-datacenter/" class="md-nav__link">
         Free Datacenter
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../linux-server/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-server/" class="md-nav__link">
         Linux server
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../mail/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mail/" class="md-nav__link">
         Mail on Open Food Facts infrastructure
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../matomo/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matomo/" class="md-nav__link">
         Matomo
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../mongodb/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mongodb/" class="md-nav__link">
         MongoDB
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../nginx-reverse-proxy/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
         NGINX Reverse proxy (OVH)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../observability/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
         Observability
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../odoo/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../odoo/" class="md-nav__link">
         Odoo: our relationship management (connect.openfoodfacts.org)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../prod-architecture/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../producers_sftp/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producers_sftp/" class="md-nav__link">
         Producers SFTP
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../promox/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../promox/" class="md-nav__link">
         Proxmox
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../slackin/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slackin/" class="md-nav__link">
         auto Slack invitation
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../zammad/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zammad/" class="md-nav__link">
         Zammad
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../zfs-overview/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zfs-overview/" class="md-nav__link">
         ZFS overview
       </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_22" type="checkbox"/>
-<label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_22_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_22">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_22">
+          <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2021-02-22-matomo-install/">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
         Matomo install
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2021-10-03-network-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
         [Postmortem] OpenFoodFacts.net down (#1)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2021-12-21-disk-extension/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
         Disk extension for preprod and containers prod (ovh2)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2021-12-22-preprod-crash/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
         Preprod crash 2021 12
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-02-18-ovh-reverse-proxy-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         [Postmortem] Reverse proxy down
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-02-proxmox-mail-gateway-install/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         Install of proxmox gateway server
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-02-remove-containers-ovh1/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
         2022-02 Removing some containers on ovh1
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-03-03-zammad-elasticsearch-not-running/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-07-08-journey-to-deploy-off-search/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         Deploying openfoodfacts-search to staging
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-07-11-infra-workshop/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
         Infrastructure future - workshop on 11th July 2022
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         Kibana down because of Elasticsearch circuit_breaking_exception
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-08-17-openfoodfacts-net-unreachable/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         2022-08-17 openfoodfacts.net unreachable
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2022-11-09-monitoring-move-to-own-vm/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         2022-11 moving monitoring to its own machine
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2023-02-13-zammad-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
         2023-02-13 Zammad down
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2023-02-16-off2-shutdown/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
         2023 02 16 off2 shutdown
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2023-02-17-off2-upgrade/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
         2023-02-17 Off2 Upgrade
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2023-02-24-zfs-introduction/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
         2023 02 24 zfs introduction
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reports/2023-03-14-off2-reinstall/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
         2023-03 OFF2 reinstall
       </a>
-</li>
-</ul>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#technology-stack">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
     Technology Stack
   </a>
-<nav aria-label="Technology Stack" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#docker">
+  
+    <nav class="md-nav" aria-label="Technology Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
     Docker
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#makefile-uniformity">
+        
+          <li class="md-nav__item">
+  <a href="#makefile-uniformity" class="md-nav__link">
     Makefile (uniformity)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#github-actions">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
     GitHub Actions
   </a>
-<nav aria-label="GitHub Actions" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#github-bot">
+  
+    <nav class="md-nav" aria-label="GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-bot" class="md-nav__link">
     Github Bot
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#continuous-integration">
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
     Continuous Integration
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#continuous-delivery">
+      
+        <li class="md-nav__item">
+  <a href="#continuous-delivery" class="md-nav__link">
     Continuous Delivery
   </a>
-<nav aria-label="Continuous Delivery" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#deployment-model">
+  
+    <nav class="md-nav" aria-label="Continuous Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-model" class="md-nav__link">
     Deployment model
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#rollbacks">
+        
+          <li class="md-nav__item">
+  <a href="#rollbacks" class="md-nav__link">
     Rollbacks
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#cicd-status">
+      
+        <li class="md-nav__item">
+  <a href="#cicd-status" class="md-nav__link">
     CICD status
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#qa">
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
     Q&amp;A
   </a>
-<nav aria-label="Q&amp;A" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#container-deployment-is-failing-how-do-i-fix-it">
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-deployment-is-failing-how-do-i-fix-it" class="md-nav__link">
     Container deployment is failing, how do I fix it ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment">
+        
+          <li class="md-nav__item">
+  <a href="#i-forgot-to-set-an-env-variable-on-github-can-i-re-trigger-the-deployment" class="md-nav__link">
     I forgot to set an env variable on GitHub, can I re-trigger the deployment ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#how-do-i-set-up-a-deployment-on-a-new-repository">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-set-up-a-deployment-on-a-new-repository" class="md-nav__link">
     How do I set up a deployment on a new repository ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch">
+        
+          <li class="md-nav__item">
+  <a href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" class="md-nav__link">
     What do I do if the deployment fails after merging my PR to the main or master branch ?
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release">
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" class="md-nav__link">
     I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content" data-md-component="content">
-<article class="md-content__inner md-typeset">
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
 <h1 id="continous-integration-and-continuous-delivery">Continous Integration and Continuous Delivery<a class="headerlink" href="#continous-integration-and-continuous-delivery" title="Permanent link">#</a></h1>
 <p>This document presents the Continous Integration and Continous Delivery (CICD) process at Open Food Facts. </p>
 <p>The information below is valid for most OFF repositories containing apps deployed on OFF servers. A summary table is given at the end to get the status of the deployment / test automation across different OFF repositories.</p>
@@ -559,7 +1166,7 @@
 <p>We use GitHub Actions to automatically run tests pull requests (unit / integration / lint / performance), but also to build and deploy Docker containers to pre-production and production environments.</p>
 <p>GitHub actions workflows are stored in <code>.github/workflows</code> in each repository.</p>
 <p>In order to ease the deployments of new repositories and have uniform deployments across OFF apps, 2 GitHub Actions workflow templates were created, which can be setup by going to the <code>Actions</code> tab on the GitHub repo and selecting the "Docker image build" and "Docker Compose Deployment" actions:</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitHub Action Workflows" data-type="image" data-width="100%" href="../img/gh_workflows.png"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png"/></a></p>
+<p><a class="glightbox" href="../img/gh_workflows.png" data-type="image" data-width="100%" data-height="auto" data-title="GitHub Action Workflows" data-desc-position="bottom"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png" /></a></p>
 <h4 id="github-bot">Github Bot<a class="headerlink" href="#github-bot" title="Permanent link">#</a></h4>
 <p>Some actions that needs their actions to trigger new actions, like <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">release-please</a>, needs a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">PAT (Personnal Access Token)</a> for that.</p>
 <p>We created <a href="https://github.com/openfoodfacts-bot">a bot account</a> for those cases. It's linked to <code>tech</code> mailing list.
@@ -591,9 +1198,9 @@ around it. It shows the developers workflow to get a change into
 <ul>
 <li>No humans should have to worry about making releases. The process should be fully automated.</li>
 </ul>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model" data-type="image" data-width="100%" href="../img/cd_process.png"><img alt="GitOps deployment model" src="../img/cd_process.png"/></a></p>
+<p><a class="glightbox" href="../img/cd_process.png" data-type="image" data-width="100%" data-height="auto" data-title="GitOps deployment model" data-desc-position="bottom"><img alt="GitOps deployment model" src="../img/cd_process.png" /></a></p>
 <p>The following diagram represents the same process, but seen from a persona perspective (Developer, Maintainer, Release Administrator):</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-title="GitOps deployment model actions" data-type="image" data-width="100%" href="../img/cd_process_action.png"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png"/></a></p>
+<p><a class="glightbox" href="../img/cd_process_action.png" data-type="image" data-width="100%" data-height="auto" data-title="GitOps deployment model actions" data-desc-position="bottom"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png" /></a></p>
 <p><strong>Summary:</strong></p>
 <ul>
 <li>On <strong>pull requests</strong>: run the <code>pull_request.yml</code> Github Action workflow that builds and runs unit / integration / load tests locally.</li>
@@ -723,29 +1330,48 @@ can then continue to work on your branch to fix the problem, and make another PR
 known ahead of time if the PR will break the pre-production environment.</p>
 <h3 id="i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release">I don't have much confidence in the next release, can I make a release candidate before publishing the official release ?<a class="headerlink" href="#i-dont-have-much-confidence-in-the-next-release-can-i-make-a-release-candidate-before-publishing-the-official-release" title="Permanent link">#</a></h3>
 <p>Yes, assuming your next version is <code>v1.1.0</code>, just create a git tag following semantic versioning using <code>git tag v1.1.0rc1 &amp;&amp; git push --tags</code> and the automated process will deploy this release candidate to production.</p>
-</article>
-</div>
-</div>
-</main>
-<footer class="md-footer">
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-copyright">
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
+  
 </div>
-</div>
-</div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<div class="md-dialog" data-md-component="dialog">
-<div class="md-dialog__inner md-typeset"></div>
-</div>
-<script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-<script src="../assets/javascripts/bundle.51198bba.min.js"></script>
-<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

@@ -1,621 +1,1252 @@
 
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2023-02-17-off2-upgrade/">
+      
+      
+        <link rel="next" href="../2023-03-14-off2-reinstall/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+    
+    
+      
+        <title>2023 02 24 zfs introduction - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+      
 
-<html class="no-js" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../2023-02-17-off2-upgrade/" rel="prev"/>
-<link href="../2023-03-14-off2-reinstall/" rel="next"/>
-<link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.1.6" name="generator"/>
-<title>2023 02 24 zfs introduction - Open Food Facts Infrastructure documentation</title>
-<link href="../../assets/stylesheets/main.ded33207.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
-<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            
-                .gscrollbar-fixer { padding-right: 15px; }
-                .gdesc-inner { font-size: 0.75rem; }
-                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head>
-<body data-md-color-accent="" data-md-color-primary="" data-md-color-scheme="default" dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#zfs-the-basics">
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zfs-the-basics" class="md-skip">
           Skip to content
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
 <header class="md-header md-header--shadow" data-md-component="header">
-<nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Open Food Facts Infrastructure documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
-</a>
-<label class="md-header__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
-</label>
-<div class="md-header__title" data-md-component="header-title">
-<div class="md-header__ellipsis">
-<div class="md-header__topic">
-<span class="md-ellipsis">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             Open Food Facts Infrastructure documentation
           </span>
-</div>
-<div class="md-header__topic" data-md-component="header-topic">
-<span class="md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               2023 02 24 zfs introduction
             
           </span>
-</div>
-</div>
-</div>
-<div class="md-header__source">
-<a class="md-source" data-md-component="source" href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
-</div>
-<div class="md-source__repository">
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
     GitHub
   </div>
 </a>
-</div>
-</nav>
+      </div>
+    
+  </nav>
+  
 </header>
-<div class="md-container" data-md-component="container">
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Open Food Facts Infrastructure documentation">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
-</a>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
     Open Food Facts Infrastructure documentation
   </label>
-<div class="md-nav__source">
-<a class="md-source" data-md-component="source" href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
-</div>
-<div class="md-source__repository">
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
     GitHub
   </div>
 </a>
-</div>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../..">
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         OpenFoodFacts Infrastructure
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../cicd/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
         Continous Integration and Continuous Delivery
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../discourse/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
         Discourse
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../docker/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
         Docker at Open Food Facts
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../docker_architecture/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
         Docker architecture
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../docker_onboarding/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
         Onboarding
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../folksonomy/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
         Folksonomy API
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../free-datacenter/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
         Free Datacenter
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../linux-server/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
         Linux server
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../mail/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
         Mail on Open Food Facts infrastructure
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../matomo/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
         Matomo
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../mongodb/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
         MongoDB
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../nginx-reverse-proxy/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
         NGINX Reverse proxy (OVH)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../observability/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
         Observability
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../odoo/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
         Odoo: our relationship management (connect.openfoodfacts.org)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../prod-architecture/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../producers_sftp/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
         Producers SFTP
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../promox/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../promox/" class="md-nav__link">
         Proxmox
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../slackin/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
         auto Slack invitation
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../zammad/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
         Zammad
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../zfs-overview/">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
         ZFS overview
       </a>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_22" type="checkbox"/>
-<label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="true" aria-labelledby="__nav_22_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_22">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_22">
+          <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2021-02-22-matomo-install/">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
         Matomo install
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2021-10-03-network-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
         [Postmortem] OpenFoodFacts.net down (#1)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2021-12-21-disk-extension/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
         Disk extension for preprod and containers prod (ovh2)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2021-12-22-preprod-crash/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
         Preprod crash 2021 12
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-02-18-ovh-reverse-proxy-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         [Postmortem] Reverse proxy down
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-02-proxmox-mail-gateway-install/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         Install of proxmox gateway server
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-02-remove-containers-ovh1/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
         2022-02 Removing some containers on ovh1
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-03-03-zammad-elasticsearch-not-running/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-07-08-journey-to-deploy-off-search/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         Deploying openfoodfacts-search to staging
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-07-11-infra-workshop/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
         Infrastructure future - workshop on 11th July 2022
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-07-kibana-down-es-circuit-breaking-exception/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         Kibana down because of Elasticsearch circuit_breaking_exception
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-08-17-openfoodfacts-net-unreachable/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         2022-08-17 openfoodfacts.net unreachable
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2022-11-09-monitoring-move-to-own-vm/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         2022-11 moving monitoring to its own machine
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2023-02-13-zammad-down/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
         2023-02-13 Zammad down
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2023-02-16-off2-shutdown/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
         2023 02 16 off2 shutdown
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2023-02-17-off2-upgrade/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
         2023-02-17 Off2 Upgrade
       </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
           2023 02 24 zfs introduction
           <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         2023 02 24 zfs introduction
       </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-the-basics">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#zfs-the-basics" class="md-nav__link">
     ZFS : the basics
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#some-story">
+      
+        <li class="md-nav__item">
+  <a href="#some-story" class="md-nav__link">
     Some story
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-glossary">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-glossary" class="md-nav__link">
     ZFS glossary
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-virtual-device-vdev">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-virtual-device-vdev" class="md-nav__link">
     ZFS virtual device (vDev)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vdev-manipulation">
+      
+        <li class="md-nav__item">
+  <a href="#vdev-manipulation" class="md-nav__link">
     vDev manipulation
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-pools">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-pools" class="md-nav__link">
     ZFS : pools
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-vdev-redundancy">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-vdev-redundancy" class="md-nav__link">
     ZFS vdev redundancy
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#create-a-zpool-and-vdev-inside-it">
+      
+        <li class="md-nav__item">
+  <a href="#create-a-zpool-and-vdev-inside-it" class="md-nav__link">
     Create a zpool and vdev inside it
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#spare-disks">
+      
+        <li class="md-nav__item">
+  <a href="#spare-disks" class="md-nav__link">
     Spare disks
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datasets">
+      
+        <li class="md-nav__item">
+  <a href="#datasets" class="md-nav__link">
     Datasets
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datasets-2">
+      
+        <li class="md-nav__item">
+  <a href="#datasets-2" class="md-nav__link">
     Datasets (2)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dataset-creation-example">
+      
+        <li class="md-nav__item">
+  <a href="#dataset-creation-example" class="md-nav__link">
     Dataset creation example
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dataset-size">
+      
+        <li class="md-nav__item">
+  <a href="#dataset-size" class="md-nav__link">
     Dataset size
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#snapshots">
+      
+        <li class="md-nav__item">
+  <a href="#snapshots" class="md-nav__link">
     snapshots
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#clone">
+      
+        <li class="md-nav__item">
+  <a href="#clone" class="md-nav__link">
     Clone
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-snapshot-and-sync">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-snapshot-and-sync" class="md-nav__link">
     ZFS snapshot and sync
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#block-storage-datasets">
+      
+        <li class="md-nav__item">
+  <a href="#block-storage-datasets" class="md-nav__link">
     Block storage datasets
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#some-features">
+      
+        <li class="md-nav__item">
+  <a href="#some-features" class="md-nav__link">
     Some features
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#performance-data-safety-tradeoff">
+      
+        <li class="md-nav__item">
+  <a href="#performance-data-safety-tradeoff" class="md-nav__link">
     Performance / Data safety tradeoff
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-read-cache">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-read-cache" class="md-nav__link">
     ZFS Read Cache
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-write-with-journaling">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-write-with-journaling" class="md-nav__link">
     ZFS write with journaling
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#deduplication-at-pool-level">
+      
+        <li class="md-nav__item">
+  <a href="#deduplication-at-pool-level" class="md-nav__link">
     Deduplication (at pool level)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-daemon">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-daemon" class="md-nav__link">
     ZFS daemon
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#ssd-management">
+      
+        <li class="md-nav__item">
+  <a href="#ssd-management" class="md-nav__link">
     SSD management
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-limits">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-limits" class="md-nav__link">
     ZFS limits
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#summary">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
     Summary
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#using-zfs-on-your-own-machine">
+      
+        <li class="md-nav__item">
+  <a href="#using-zfs-on-your-own-machine" class="md-nav__link">
     Using ZFS on your own machine
   </a>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../2023-03-14-off2-reinstall/">
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
         2023-03 OFF2 reinstall
       </a>
-</li>
-</ul>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-the-basics">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#zfs-the-basics" class="md-nav__link">
     ZFS : the basics
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#some-story">
+      
+        <li class="md-nav__item">
+  <a href="#some-story" class="md-nav__link">
     Some story
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-glossary">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-glossary" class="md-nav__link">
     ZFS glossary
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-virtual-device-vdev">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-virtual-device-vdev" class="md-nav__link">
     ZFS virtual device (vDev)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vdev-manipulation">
+      
+        <li class="md-nav__item">
+  <a href="#vdev-manipulation" class="md-nav__link">
     vDev manipulation
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-pools">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-pools" class="md-nav__link">
     ZFS : pools
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-vdev-redundancy">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-vdev-redundancy" class="md-nav__link">
     ZFS vdev redundancy
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#create-a-zpool-and-vdev-inside-it">
+      
+        <li class="md-nav__item">
+  <a href="#create-a-zpool-and-vdev-inside-it" class="md-nav__link">
     Create a zpool and vdev inside it
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#spare-disks">
+      
+        <li class="md-nav__item">
+  <a href="#spare-disks" class="md-nav__link">
     Spare disks
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datasets">
+      
+        <li class="md-nav__item">
+  <a href="#datasets" class="md-nav__link">
     Datasets
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datasets-2">
+      
+        <li class="md-nav__item">
+  <a href="#datasets-2" class="md-nav__link">
     Datasets (2)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dataset-creation-example">
+      
+        <li class="md-nav__item">
+  <a href="#dataset-creation-example" class="md-nav__link">
     Dataset creation example
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#dataset-size">
+      
+        <li class="md-nav__item">
+  <a href="#dataset-size" class="md-nav__link">
     Dataset size
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#snapshots">
+      
+        <li class="md-nav__item">
+  <a href="#snapshots" class="md-nav__link">
     snapshots
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#clone">
+      
+        <li class="md-nav__item">
+  <a href="#clone" class="md-nav__link">
     Clone
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-snapshot-and-sync">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-snapshot-and-sync" class="md-nav__link">
     ZFS snapshot and sync
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#block-storage-datasets">
+      
+        <li class="md-nav__item">
+  <a href="#block-storage-datasets" class="md-nav__link">
     Block storage datasets
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#some-features">
+      
+        <li class="md-nav__item">
+  <a href="#some-features" class="md-nav__link">
     Some features
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#performance-data-safety-tradeoff">
+      
+        <li class="md-nav__item">
+  <a href="#performance-data-safety-tradeoff" class="md-nav__link">
     Performance / Data safety tradeoff
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-read-cache">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-read-cache" class="md-nav__link">
     ZFS Read Cache
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-write-with-journaling">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-write-with-journaling" class="md-nav__link">
     ZFS write with journaling
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#deduplication-at-pool-level">
+      
+        <li class="md-nav__item">
+  <a href="#deduplication-at-pool-level" class="md-nav__link">
     Deduplication (at pool level)
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-daemon">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-daemon" class="md-nav__link">
     ZFS daemon
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#ssd-management">
+      
+        <li class="md-nav__item">
+  <a href="#ssd-management" class="md-nav__link">
     SSD management
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#zfs-limits">
+      
+        <li class="md-nav__item">
+  <a href="#zfs-limits" class="md-nav__link">
     ZFS limits
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#summary">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
     Summary
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#using-zfs-on-your-own-machine">
+      
+        <li class="md-nav__item">
+  <a href="#using-zfs-on-your-own-machine" class="md-nav__link">
     Using ZFS on your own machine
   </a>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content" data-md-component="content">
-<article class="md-content__inner md-typeset">
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
 <h3 id="zfs-the-basics">ZFS : the basics<a class="headerlink" href="#zfs-the-basics" title="Permanent link">#</a></h3>
 <p>24 feb 2022 - by Christian Quest</p>
-<hr/>
+<hr />
 <h3 id="some-story">Some story<a class="headerlink" href="#some-story" title="Permanent link">#</a></h3>
 <ul>
 <li><a href="https://openzfs.github.io/openzfs-docs/#"><strong>OpenZFS</strong></a></li>
@@ -632,7 +1263,7 @@
 <ul>
 <li>A lot of forks have joined again (OpenZFS) and more features are developped</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-glossary">ZFS glossary<a class="headerlink" href="#zfs-glossary" title="Permanent link">#</a></h3>
 <p>forget partitions / filesystem / lvm / md etc.</p>
 <ol>
@@ -647,7 +1278,7 @@
 <ul>
 <li>see also: https://openzfs.github.io/openzfs-docs/man/7/zfsconcepts.7.html</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-virtual-device-vdev">ZFS virtual device (vDev)<a class="headerlink" href="#zfs-virtual-device-vdev" title="Permanent link">#</a></h3>
 <ul>
 <li>
@@ -673,7 +1304,7 @@
 </ul>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="vdev-manipulation">vDev manipulation<a class="headerlink" href="#vdev-manipulation" title="Permanent link">#</a></h3>
 <ul>
 <li>Most of the time, you create the vdev by adding it to the pool.</li>
@@ -691,7 +1322,7 @@
 </ul>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-pools">ZFS : pools<a class="headerlink" href="#zfs-pools" title="Permanent link">#</a></h3>
 <ul>
 <li>There can be several virtual devices in a pool.</li>
@@ -709,7 +1340,7 @@
 <p>So think carefully before adding them.</p>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-vdev-redundancy">ZFS vdev redundancy<a class="headerlink" href="#zfs-vdev-redundancy" title="Permanent link">#</a></h3>
 <ul>
 <li>Example:<ul>
@@ -726,7 +1357,7 @@
 </ul>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="create-a-zpool-and-vdev-inside-it">Create a zpool and vdev inside it<a class="headerlink" href="#create-a-zpool-and-vdev-inside-it" title="Permanent link">#</a></h3>
 <ul>
 <li>
@@ -740,7 +1371,7 @@
 <p>Adds a new vdev in mirror mode with two disks</p>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="spare-disks">Spare disks<a class="headerlink" href="#spare-disks" title="Permanent link">#</a></h3>
 <ul>
 <li>You can add spare disks in your pool. That is a disk which is not in a vdev, but can be used as a replacement if a disk fails in any vdev (replacement will be automatic).</li>
@@ -751,7 +1382,7 @@
 <ul>
 <li>Maybe a disk that was lost, may be in fact still resetable (after some tests), and can become the new spare.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Permanent link">#</a></h3>
 <ul>
 <li>Each pool can have as many datasets as wanted</li>
@@ -768,7 +1399,7 @@
 <ul>
 <li>Datasets are created in the pool, not on a specific vdev</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="datasets-2">Datasets (2)<a class="headerlink" href="#datasets-2" title="Permanent link">#</a></h3>
 <ul>
 <li>The command to manage datasets in <code>zfs</code></li>
@@ -777,7 +1408,7 @@
 <li>ZFS is a copy on write (COW) storage system. Data is always written to a new place, not where you read it previously.
 Thanks to that we can create snapshots (freeze part  dataset at a point in time, while still writing to it).</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="dataset-creation-example">Dataset creation example<a class="headerlink" href="#dataset-creation-example" title="Permanent link">#</a></h3>
 <ul>
 <li>
@@ -791,7 +1422,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <p>Compression will be active for everything added after that</p>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="dataset-size">Dataset size<a class="headerlink" href="#dataset-size" title="Permanent link">#</a></h3>
 <ul>
 <li>For dataset size:<ul>
@@ -806,7 +1437,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <p>Will limit  the quantity of data to 100G, but without taking into account snapshots.</p>
 </li>
 </ul>
-<hr/>
+<hr />
 <h3 id="snapshots">snapshots<a class="headerlink" href="#snapshots" title="Permanent link">#</a></h3>
 <ul>
 <li>You can diff two snapshots. This enables very cheap backups.</li>
@@ -826,7 +1457,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>To sync ZFS you can snapshot at regular intervals.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="clone">Clone<a class="headerlink" href="#clone" title="Permanent link">#</a></h3>
 <ul>
 <li>You can create writable snapshots, known as clones. It's like a fork of the filesystem.</li>
@@ -840,7 +1471,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>At Open Food Facts stagging areas use clone of backup datasets (and mount them through nfs).</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-snapshot-and-sync">ZFS snapshot and sync<a class="headerlink" href="#zfs-snapshot-and-sync" title="Permanent link">#</a></h3>
 <ul>
 <li>
@@ -863,7 +1494,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li><strong>Note:</strong> On the receiving side, you can also maintain a receive token, to be able to resume send at a specific point if it breaks in the middle.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="block-storage-datasets">Block storage datasets<a class="headerlink" href="#block-storage-datasets" title="Permanent link">#</a></h3>
 <ul>
 <li>Datasets can be blocks. And you can format that block storage as ext4, etc. All read/write are done on the dataset, so you still get snapshots, compression, etc.</li>
@@ -871,7 +1502,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>There is shortcuts in ZFS for this option.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="some-features">Some features<a class="headerlink" href="#some-features" title="Permanent link">#</a></h3>
 <ul>
 <li>
@@ -888,7 +1519,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li><strong>NFS</strong> is integrated to ZFS, which is very handy.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="performance-data-safety-tradeoff">Performance / Data safety tradeoff<a class="headerlink" href="#performance-data-safety-tradeoff" title="Permanent link">#</a></h3>
 <ul>
 <li>ZFS is not the champion of performance because it prefers data safety.</li>
@@ -905,7 +1536,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>If a disk have bad sectors - an error is reported. Thanks to redundancy zfs will write again the data (to ensure redundancy). And zfs will manage "pending sectors" - sectors that cannot be read, that will come back (reallocated) after a new successful write.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-read-cache">ZFS Read Cache<a class="headerlink" href="#zfs-read-cache" title="Permanent link">#</a></h3>
 <ul>
 <li>cache is at pool level</li>
@@ -917,7 +1548,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <li>cache balances Least Recently Used (LRU) and Most Recently Used (MRU), this avoid cache poisonning.
   (which happens with LRU cache when you read a big file (you loose all interesting cache))</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-write-with-journaling">ZFS write with journaling<a class="headerlink" href="#zfs-write-with-journaling" title="Permanent link">#</a></h3>
 <ul>
 <li>At pool level.</li>
@@ -928,7 +1559,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>ZFS has a write cache in RAM, but it's not safe. You can add a SSD to keep a journaling of last write, used only if we lose RAM content after a crash. (you need fast disk and disks that accepts a lot of rewrite - you just need a few gigabits)</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="deduplication-at-pool-level">Deduplication (at pool level)<a class="headerlink" href="#deduplication-at-pool-level" title="Permanent link">#</a></h3>
 <ul>
 <li>You can deduplicate data in a pool.</li>
@@ -939,7 +1570,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>It's real time dedup (no async dedup, yet).</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-daemon">ZFS daemon<a class="headerlink" href="#zfs-daemon" title="Permanent link">#</a></h3>
 <ul>
 <li><a href="https://openzfs.github.io/openzfs-docs/man/8/zed.8.html">ZED</a> is the ZFS Event Daemon.</li>
@@ -950,16 +1581,16 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>Notifications from ZED are really important.</li>
 </ul>
-<hr/>
+<hr />
 <h3 id="ssd-management">SSD management<a class="headerlink" href="#ssd-management" title="Permanent link">#</a></h3>
 <ul>
 <li>SSD timming can be automatic, but you can launch it with <code>zpool trim</code></li>
 </ul>
-<hr/>
+<hr />
 <h3 id="zfs-limits">ZFS limits<a class="headerlink" href="#zfs-limits" title="Permanent link">#</a></h3>
 <p>Very hard to hit limits on number of directories and files.</p>
 <p>Same for file size.</p>
-<hr/>
+<hr />
 <h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">#</a></h3>
 <ul>
 <li>ZFS - very stable</li>
@@ -978,7 +1609,7 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>https://cq94.medium.com/zfs-vous-connaissez-vous-devriez-1d2611e7dad6</li>
 </ul>
-<hr/>
+<hr />
 <h1 id="using-zfs-on-your-own-machine">Using ZFS on your own machine<a class="headerlink" href="#using-zfs-on-your-own-machine" title="Permanent link">#</a></h1>
 <ul>
 <li>It make sense using ZFS to sync prod data on your<ul>
@@ -996,29 +1627,48 @@ Thanks to that we can create snapshots (freeze part  dataset at a point in time,
 <ul>
 <li>ZFS for root - only if you know it well</li>
 </ul>
-</article>
-</div>
-</div>
-</main>
-<footer class="md-footer">
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-copyright">
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
+  
 </div>
-</div>
-</div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<div class="md-dialog" data-md-component="dialog">
-<div class="md-dialog__inner md-typeset"></div>
-</div>
-<script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-<script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
-<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
