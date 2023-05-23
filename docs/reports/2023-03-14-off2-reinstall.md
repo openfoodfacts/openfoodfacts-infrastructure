@@ -158,8 +158,6 @@ $ chmod og-rwx -R /root/.ovhapi
 Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications
 ```bash
 $ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
-
-$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
 ...
 Plugins selected: Authenticator dns-ovh, Installer None
 Requesting a certificate for openpetfoodfacts.org and *.openpetfoodfacts.org
@@ -174,9 +172,39 @@ Cleaning up challenges
    /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
 ```
 
-now we can do a real certificate:
+now we can do a real certificate, by removing the `--test-cert` option. We will ask to renew & replace the existing certificate (as ith was a test one):
 
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+...
+```
 
+Now we install it on our website, we did it manually…
+```conf
+server {
+    listen 80;
+    listen [::]:80;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openpetfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openpetfoodfacts.org/chain.pem;
+
+...
+}
+```
 
 ## Open Pet Food Facts install
 
@@ -1124,6 +1152,23 @@ iptables -A INPUT -s 10.1.0.1/24 -i ens19 -p tcp -m tcp --dport 27017 -m conntra
 ```
 
 I also added it to `/etc/iptables/rules.v4`.
+
+There was also a route problem on off3: route is only defined for `10.0.0.3/24` while our containers are in `10.1.x.x`.
+
+To solve this, on off3:
+```bash
+sudo ip route add 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
+```
+and I modified `/etc/network/interfaces` to add a post-up rule:
+```conf
+# The internal network interface
+auto ens19
+iface ens19 inet static
+        address 10.0.0.3/24
+        # needed for off2 containers to access mongodb
+        post-up ip route add 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
+        pre-down ip route del 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
+```
 
 
 ## Still TODO
