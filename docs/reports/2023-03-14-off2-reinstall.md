@@ -40,7 +40,7 @@ flowchart TB
 
 ## NGINX reverse proxy install
 
-### Installing VM
+### Installing Container
 
 I followed [How to create a new Container](../promox.md#how-to-create-a-new-container)
 
@@ -74,6 +74,109 @@ Using proxmox interface, on container 110, I add net1, on vmbr0, IP 213.36.253.2
 
 I reboot the container 101, and it seems to work.
 
+### declaring DNS entry
+
+I added an A record `proxy-off.openfoodfacts.org` to point to this IP in OVH DNS zones.
+
+### Cloning git infra repository
+
+as root, I created a ssh key as root:
+```bash
+ssh-keygen -t ed25519 -C "off@proxy-off.openfoodfacts.org"
+cat /root/.ssh/id_ed25519.pub
+```
+and add it as [authorized key in openfoodfacts-infrastructure](https://github.com/openfoodfacts/openfoodfacts-infrastructure/settings/keys) with write authorization (as it will be mainly modified directly in the container).
+
+
+Then I cloned the repository in /opt
+```
+cd /opt
+git clone git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
+```
+
+
+### NGINX configuration
+
+To have same config as on ovh1, I added a `log_format.conf` file with log format definition:
+```conf
+log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                  '$status $body_bytes_sent "$http_referer" '
+                  '"$http_user_agent" "$http_x_forwarded_for"';
+```
+It's in the git repository, so then:
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/log_format.conf /etc/nginx/conf.d/log_format.conf
+```
+
+### OpenPetFoodFacts host
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openpetfoodfacts.org  /etc/nginx/sites-enabled/openpetfoodfacts.org
+nginx -t
+systemctl restart nginx
+```
+
+### certbot wildcard certificates using OVH DNS
+
+Official documentation: https://certbot-dns-ovh.readthedocs.io/en/stable/ and https://certbot.eff.org/instructions?ws=nginx&os=debianbuster
+Official documentation requires snapd… we are not keen on that, and moreover, in a lxc container [it does not seems to work well](https://forum.proxmox.com/threads/cant-install-snap-in-lxc-container.68708/).
+So we go the alternate way, using the debian package.
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-dns-ovh
+```
+
+Generate credential, following https://eu.api.ovh.com/createToken/
+
+(useful resource for [OVH keys management](https://gandrille.github.io/linux-notes/Web_API/OVH_API/OVH_API_Keys_management.html))
+
+Using:
+* GET /domain/zone/
+* GET/PUT/POST/DELETE /domain/zone/openfoodfacts.org/*
+
+![token creation at form at OVH](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation at form at OVH"){width=50%}
+![token creation result](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation result"){width=50%}
+
+and we put config file in `/root/.ovhapi/openpetfoodfacts.org`
+```bash
+$ mkdir /root/.ovhapi
+$ vim /root/.ovhapi/openpetfoodfacts.org
+...
+$ cat /root/.ovhapi/openpetfoodfacts.org
+# OVH API credentials used by Certbot
+dns_ovh_endpoint = ovh-eu
+dns_ovh_application_key = ***********
+dns_ovh_application_secret = ***********
+dns_ovh_consumer_key = ***********
+
+# ensure no reading by others
+$ chmod og-rwx -R /root/.ovhapi
+```
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
+
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
+...
+Plugins selected: Authenticator dns-ovh, Installer None
+Requesting a certificate for openpetfoodfacts.org and *.openpetfoodfacts.org
+Performing the following challenges:
+dns-01 challenge for openpetfoodfacts.org
+dns-01 challenge for openpetfoodfacts.org
+Waiting 30 seconds for DNS changes to propagate
+Waiting for verification...
+Cleaning up challenges
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+```
+
+now we can do a real certificate:
+
+
 
 ## Open Pet Food Facts install
 
@@ -94,13 +197,50 @@ apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 mak
 Also installed mailx which is handy:
 
 ```bash
-apt install à
+apt install mailx
 ```
 
 We also want nginx in this container:
 ```bash
 apt install nginx
 ```
+
+
+### GeoIP updates
+
+install `geoipupdate` package:
+
+```bash
+sudo apt install geoipupdate
+```
+
+It will be triggered by a systemd timer, but we want to test if it runs correctly:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+...
+Process: 7819 ExecCondition=grep -q ^AccountID .*[^0]\+ /etc/GeoIP.conf (code=exited, stat>
+        CPU: 2ms
+...
+mai 10 09:12:23 opff systemd[1]: geoipupdate.service: Skipped due to 'exec-condition'.
+mai 10 09:12:23 opff systemd[1]: Condition check resulted in Weekly GeoIP update being skipped.
+```
+it does not work because we did not have an account and license key.
+
+I had to [create an account](https://www.maxmind.com/en/geolite2/signup?utm_source=kb&utm_medium=kb-link&utm_campaign=kb-create-account) to GeoipLite2 database at maxmind.com with tech at off.org (and saved the password in our keepassx).
+After login, I then created a license key (at url indicated on https://dev.maxmind.com/geoip/updating-databases) and downloaded the provided GeoIP.conf, and installed it at `/etc/GeoIP.conf`
+
+Test it again:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+...
+mai 10 09:45:27 opff systemd[1]: Starting Weekly GeoIP update...
+mai 10 09:45:34 opff systemd[1]: geoipupdate.service: Succeeded.
+mai 10 09:45:34 opff systemd[1]: Finished Weekly GeoIP update.
+```
+this works.
+
 
 ### Getting the code
 
@@ -705,7 +845,12 @@ cd /srv/off
 ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
 ```
 
-
+After that, to be able to fetch opff-main remote branche:
+```bash
+$ git remote set-branches --add origin 'opff-main'
+$ git remote set-branches --add origin 'opff-reinstall'
+$ git fetch -v --depth=1
+```
 
 
 ### Replacing with git repo
@@ -953,23 +1098,52 @@ Successfully installed Crypt-ScryptKDF-0.010
 
 ```
 
+
+## OPFF NGINX configuration
+
+We follow [Steps to create Nginx configuration](../nginx-reverse-proxy.md#steps-to-create-nginx-configuration)
+but we put host in `/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx`
+
+**FIXME** use wildcard certificates
+
+### Mongodb access
+
+I wasn't able to connect to mongodb from opff container.
+
+On off2:
+```bash
+nc -vz 10.0.0.3 27017
+```
+did not suceed.
+
+I had to go on off3 and add an iptables rule:
+
+```bash
+iptables -A INPUT -s 10.0.0.2/32 -i ens19 -p tcp -m tcp --dport 27017 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.1.0.1/24 -i ens19 -p tcp -m tcp --dport 27017 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+```
+
+I also added it to `/etc/iptables/rules.v4`.
+
+
 ## Still TODO
 
-**FIXME** off-net sur OVH1 !
+**DONE**
+- image magick avec le format de mac HEIC - DONE on .net - TESTED OK
 
-- notification when important task fails
-- IP failover ? (maybe after off1 setup)
+
+**TODO**
 - verify if we need to in nginx config: install Apache2::Connection::XForwardedFor (see [wiki]())
-- GEOIP updates (should be regular updates IMO) see https://manpages.debian.org/bullseye/geoipupdate/geoipupdate.1.en.html
-- Generate JS assets via github action
-- Minions for off
-- verify if compression is working on nginx ?
-- pb madenearme
+  SEE if we have ip adress of client or of proxy
+
+- GEOIP updates - verify it works and it's compatible (country of a product)
+- wilcard certificates on nginx proxy
+
+
 - logrotate:
   - nginx specific logs
   - apache logs
-  - po logs
-- release of JS assets
+  - product opener logs
 - ssl headers on frontend ?:
   ```conf
   add_header Strict-Transport-Security "max-age=63072000";
@@ -997,7 +1171,21 @@ Successfully installed Crypt-ScryptKDF-0.010
   ssl_dhparam /etc/ssl/certs/dhparam.pem;
   ```
 
-- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ???
+- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works.
+
+**Improve**
+- notification when important task fails
+- IP failover ? (maybe after off1 setup)
+
+
+**FIXME** for off
+- Generate JS assets via github action and add to release
+- Minions for off
+- verify if compression is working on nginx ?
+
+- pb madenearme - WONTFIX ?
+
+
 
 ## TODO at final production switch
 
@@ -1019,7 +1207,6 @@ To be verified:
 
 /srv/opff/lib/log.conf -> ../log.conf
 
-/srv/opff/html/robots.txt -> /srv/off/html/robots.txt
 
 
 # FIXME ? - icon change !
@@ -1053,43 +1240,30 @@ To be verified:
 /srv/opff/html/images/misc/openfoodfacts-logo-ar-356x300.png -> openpetfoodfacts-logo-en.356x300.png
 
 
+# FIXME --> put it in proxy
+/srv/opff/html/robots.txt -> /srv/off/html/robots.txt
+
 
 # FIXME ? contents links to off !
 /srv/opff/lang/fr/texts/contacts.html -> /srv/off/lang/fr/texts/contacts.html
 /srv/opff/lang/fr/texts/press.html -> /srv/off/lang/fr/texts/presskit.html
-/srv/opff/lang/fr/texts/open-food-hunt-2015.html -> open-food-hunt-2015.fr.html
-/srv/opff/lang/fr/tags/labels.txt -> /home/off-fr/cgi/labels.txt
-/srv/opff/lang/fr/tags/categories.txt -> /home/off-fr/cgi/categories.txt
-/srv/opff/lang/en/texts/data.html -> data.en.html
 /srv/opff/lang/en/texts/contacts.html -> /srv/off/lang/en/texts/contacts.html
 /srv/opff/lang/en/texts/press.html -> /srv/off/lang/en/texts/presskit.html
-/srv/opff/lang/en/texts/index.foundation.en.html -> /srv/opff/lang/en/texts/index.html
 /srv/opff/lang/nl/texts/contacts.html -> /srv/off/lang/nl/texts/contacts.html
 /srv/opff/lang/nl/texts/press.html -> /srv/off/lang/nl/texts/presskit.html
-/srv/opff/lang/he/texts/index.html -> index.he.html
 /srv/opff/lang/he/texts/press.html -> /srv/off/lang/he/texts/presskit.html
 /srv/opff/lang/he/texts/contacts.html -> /srv/off/lang/he/texts/contacts.html
-/srv/opff/lang/ar/texts/index.html -> index.ar.html
 /srv/opff/lang/ar/texts/press.html -> /srv/off/lang/ar/texts/presskit.html
 /srv/opff/lang/ar/texts/contacts.html -> /srv/off/lang/ar/texts/contacts.html
-/srv/opff/lang/es/texts/open-food-hunt-2015.html -> open-food-hunt-2015.es.html
 /srv/opff/lang/es/texts/contacts.html -> /srv/off/lang/es/texts/contacts.html
 /srv/opff/lang/es/texts/press.html -> /srv/off/lang/es/texts/presskit.html
-/srv/opff/lang/es/tags/labels.txt -> /home/off-fr/cgi/labels.es.txt
-/srv/opff/lang/pl/texts/contacts.html -> /srv/off/lang/pl/texts/contacts.html
-/srv/opff/lang/pl/texts/index.html -> index.pl.html
 /srv/opff/lang/pl/texts/press.html -> /srv/off/lang/pl/texts/presskit.html
 /srv/opff/lang/da/texts/press.html -> /srv/off/lang/da/texts/presskit.html
 /srv/opff/lang/da/texts/contacts.html -> /srv/off/lang/da/texts/contacts.html
 /srv/opff/lang/ro/texts/contacts.html -> /srv/off/lang/ro/texts/contacts.html
-/srv/opff/lang/ro/texts/index.html -> index.ro.html
 /srv/opff/lang/ro/texts/press.html -> /srv/off/lang/ro/texts/presskit.html
 /srv/opff/lang/it/texts/contacts.html -> /srv/off/lang/it/texts/contacts.html
-/srv/opff/lang/it/texts/open-food-hunt-2015.html -> open-food-hunt-2015.it.html
 /srv/opff/lang/it/texts/press.html -> /srv/off/lang/it/texts/presskit.html
-/srv/opff/lang/it/texts/index.html -> index.it.html
-/srv/opff/lang/pt/texts/open-food-hunt-2015.html -> open-food-hunt-2015.pt.html
-/srv/opff/lang/ru/texts/index.html -> index.ru.html
 /srv/opff/lang/ru/texts/press.html -> /srv/off/lang/ru/texts/presskit.html
 /srv/opff/lang/ru/texts/contacts.html -> /srv/off/lang/ru/texts/contacts.html
 /srv/opff/lang/de/texts/contacts.html -> /srv/off/lang/de/texts/contacts.html
@@ -1097,12 +1271,31 @@ To be verified:
 /srv/opff/lang/vi/texts/press.html -> /srv/off/lang/vi/texts/presskit.html
 /srv/opff/lang/vi/texts/contacts.html -> /srv/off/lang/vi/texts/contacts.html
 /srv/opff/lang/el/texts/press.html -> /srv/off/lang/el/texts/presskit.html
+/srv/opff/lang/pl/texts/contacts.html -> /srv/off/lang/pl/texts/contacts.html
 /srv/opff/lang/el/texts/contacts.html -> /srv/off/lang/el/texts/contacts.html
 
 
-# FIXME not needed, I guess …
+# FIXME other contents ? - remove
+/srv/opff/lang/fr/texts/open-food-hunt-2015.html -> open-food-hunt-2015.fr.html
+/srv/opff/lang/es/texts/open-food-hunt-2015.html -> open-food-hunt-2015.es.html
+/srv/opff/lang/it/texts/open-food-hunt-2015.html -> open-food-hunt-2015.it.html
+/srv/opff/lang/pt/texts/open-food-hunt-2015.html -> open-food-hunt-2015.pt.html
+/srv/opff/lang/fr/tags/labels.txt -> /home/off-fr/cgi/labels.txt
+/srv/opff/lang/es/tags/labels.txt -> /home/off-fr/cgi/labels.es.txt
+/srv/opff/lang/fr/tags/categories.txt -> /home/off-fr/cgi/categories.txt
+/srv/opff/lang/en/texts/data.html -> data.en.html
 /srv/opff/ingredients/additifs/extract_additives.pl -> /home/off-fr/cgi/extract_additives.pl
 /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
+
+# FIXME keep for the moment ?
+/srv/opff/lang/en/texts/index.foundation.en.html -> /srv/opff/lang/en/texts/index.html
+/srv/opff/lang/he/texts/index.html -> index.he.html
+/srv/opff/lang/ar/texts/index.html -> index.ar.html
+/srv/opff/lang/pl/texts/index.html -> index.pl.html
+/srv/opff/lang/ro/texts/index.html -> index.ro.html
+/srv/opff/lang/it/texts/index.html -> index.it.html
+/srv/opff/lang/ru/texts/index.html -> index.ru.html
+
 
 ```
 

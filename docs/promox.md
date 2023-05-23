@@ -68,6 +68,11 @@ iface vmbr1 inet static
 
 **FIXME**: I added the last lines (post-up/down) myself, not sure if PVE would normally add them by itself ?
 
+### Firewall
+
+We use proxmox firewall on host. **FIXME** to be completed.
+
+We have a masquerading rule for 10.1.0.1/24.
 
 ## HTTP Reverse Proxy
 
@@ -76,6 +81,10 @@ The VM 101 is a http / https proxy to all services.
 It has it's own bridge interface with a public facing ip.
 
 See [Nginx reverse proxy](./nginx-reverse-proxy.md)
+
+At OVH we have special DNS entries:
+* `proxy1.openfoodfacts.org` pointing to OVH reverse proxy
+* `off-proxy.openfoodfacts.org` pointing to Free reverse proxy
 
 ## Storage synchronization
 
