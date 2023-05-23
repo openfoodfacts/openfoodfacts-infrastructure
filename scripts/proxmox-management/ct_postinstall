@@ -18,7 +18,7 @@ pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
 lxc-attach -n $CT -- sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 
 # add CT in global munin config
-lxc-attach -n $MUNIN_CT -- bash -c "echo -e '\n[off$CT.ct.openfoodfacts.org]\n    address 10.1.0.$CT' >> /etc/munin/munin.conf"
+#lxc-attach -n $MUNIN_CT -- bash -c "echo -e '\n[off$CT.ct.openfoodfacts.org]\n    address 10.1.0.$CT' >> /etc/munin/munin.conf"
 
 # add CT in reverse-proxy config
 lxc-attach -n $PROXY_CT -- bash -c ""
