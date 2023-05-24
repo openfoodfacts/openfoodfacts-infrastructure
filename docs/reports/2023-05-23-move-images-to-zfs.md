@@ -25,4 +25,49 @@ We have two script implementing that for products that we can transform for imag
 
 ## Doing it
 
+### reverse current syncing
+
+I first verify if off2 is in sync with ovh3:
+```bash
+(off2)$ sudo zfs list -t snapshot zfs-hdd/off/images
+...
+zfs-hdd/off/images@20230220220000  1.75G      -     9.70T  -
+zfs-hdd/off/images@20230221070000  1.61G      -     9.70T  -
+zfs-hdd/off/images@20230221183000   232K      -     9.70T  -
+```
+```bash
+(ovh3)$ sudo zfs list -t snapshot rpool/off/images
+...
+rpool/off/images@20230221070000  2.21G      -     10.1T  -
+rpool/off/images@20230221183000  6.76G      -     10.1T  -
+rpool/off/images@20230516083018  22.3G      -     10.1T  -
+```
+It's not, we miss one snapshot, so we must sync.
+
+Sync from ovh3 (we had to use -F)
+```
+zfs send -i rpool/off/images@20230221183000 rpool/off/images@20230516083018 |ssh off2.openfoodfacts.org zfs recv zfs-hdd/off/images -F
+```
+
+I also see that last snapshot on ovh3 has not all modifications:
+
+```bash
+$ zfs list -po written rpool/off/images
+    WRITTEN
+24130245744
+$ zfs get -Hr written rpool/off/images
+rpool/off/images	written	22.5G	-
+...
+```
+So I create a snapshot and redo the sync operation
+```bash
+TIMESTAMP=$(date +%Y%m%d%H%M%S)
+zfs snapshot rpool/off/images@$TIMESTAMP
+zfs send -i rpool/off/images@20230516083018 rpool/off/images@$TIMESTAMP |ssh off2.openfoodfacts.org zfs recv zfs-hdd/off/images -F
+```
+
+But after that, on ovh3 the dataset keeps continuing being written at !
+
+
 I use migration.sh and wrote `scripts/zfs/migration-images.sh` and copied it to off1.
+
