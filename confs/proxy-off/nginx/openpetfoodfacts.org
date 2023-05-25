@@ -1,22 +1,30 @@
 server {
-    server_name openpetfoodfacts.org *.openpetfoodfacts.org
     listen 80;
+    listen [::]:80;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openpetfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openpetfoodfacts.org/chain.pem;
 
     access_log  /var/log/nginx/openpetfoodfacts.org.log  main;
     error_log   /var/log/nginx/openfoodfacts.org.errors.log;
-
-    # shared robots.txt
-    location /robots.txt {
-       alias /var/www/off/robots.txt;
-    }
 
     location / {
         proxy_pass http://10.1.0.110:80/;
         proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        # put back when we have proxy
-        # proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Proto https;
         proxy_set_header Host $host;
         client_max_body_size 512M;
     }
