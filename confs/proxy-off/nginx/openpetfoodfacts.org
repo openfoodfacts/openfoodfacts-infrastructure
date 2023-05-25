@@ -1,9 +1,14 @@
 server {
     server_name openpetfoodfacts.org *.openpetfoodfacts.org
     listen 80;
-    
+
     access_log  /var/log/nginx/openpetfoodfacts.org.log  main;
     error_log   /var/log/nginx/openfoodfacts.org.errors.log;
+
+    # shared robots.txt
+    location /robots.txt {
+       alias /var/www/off/robots.txt;
+    }
 
     location / {
         proxy_pass http://10.1.0.110:80/;
