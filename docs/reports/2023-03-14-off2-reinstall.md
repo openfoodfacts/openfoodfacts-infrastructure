@@ -112,6 +112,9 @@ ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/log_format.conf /e
 ### OpenPetFoodFacts host
 
 ```bash
+# some shared files
+ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/www/off/ /var/www/off
+# conf
 ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openpetfoodfacts.org  /etc/nginx/sites-enabled/openpetfoodfacts.org
 nginx -t
 systemctl restart nginx
@@ -728,7 +731,7 @@ lrwxrwxrwx 1 off off 16  2 janv.   2018 /srv/opff/lib/ProductOpener/SiteLang.pm 
 ```
 and `/srv/opff/lib/ProductOpener/Config2.pm` is specific.
 
-### NGINX
+### NGINX for OPFF
 
 Installed nginx `apt install nginx`.
 
@@ -738,7 +741,7 @@ Copied production nginx configuration of off1 in `/etc/nginx/sites-enabled/opff`
 
 Modified it's configuration to remove ssl section (**FIXME:** to be commited in off-server)
 
-Then made a symlink: `ln -s /srv/opff/conf/nginx/sites-available/opff /etc/nginx/sites-enabled/opff /`
+Then made a symlink: `ln -s /srv/opff/conf/nginx/sites-available/opff /etc/nginx/sites-enabled/opff`
 
 
 ### Apache
@@ -831,7 +834,7 @@ ssh-keygen -t ed25519 -C "off@opff.openfoodfacts.org"
 cat /home/off/.ssh/id_ed25519.pub
 ```
 
-In github add the `/home/off/.ssh/id_ed25519.pub` to deploy keys for openfoodfacts-server ([github docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys)): going to settings / deploy keys / add deploy key. I did not gave write access.
+In github add the `/home/off/.ssh/id_ed25519.pub` to deploy keys for openfoodfacts-server and  ([github docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys)): going to settings / deploy keys / add deploy key. I did not gave write access.
 
 With user off, clone git:
 ```bash
@@ -903,6 +906,15 @@ ln -s conf/opff-log.conf /srv/opff/log.conf
 
 I add to redo all links done above in the new folder…
 
+
+Note: to share the repo to off group, see https://stackoverflow.com/a/7268608/2886726
+
+```bash
+sudo adduser alex off
+sudo -u off git config core.sharedRepository true
+sudo chmod g+rwX -R .
+```
+
 ### Adding dists
 
 Create a folder for dist:
@@ -929,6 +941,91 @@ ln -s /srv/opff-dist /srv/opff/dist
 ln -s ../../../dist/icons /srv/opff/html/images/icons/dist
 ln -s ../../dist/css /srv/opff/html/css/dist
 ln -s ../../dist/js /srv/opff/html/js/dist
+```
+
+### adding openfoodfacts-web
+
+We have some content that we want to take from openfoodfacts-web (also because shared with off). So we want to clone it.
+
+
+#### Cloning repo
+
+Note that I add to make two deploys keys as explained in [github documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#using-multiple-repositories-on-one-server) and use a specific ssh_config hostname for openfoodfacts-web:
+
+Create new key:
+```bash
+# deploy key for openfoodfacts-web
+ssh-keygen -t ed25519 -C "off@opff.off2.openfoodfacts.org"
+```
+
+Add a specific host in ssh config
+```conf
+# /home/off/.ssh/config
+Host github.com-off-web
+    Hostname github.com
+    IdentityFile=/home/off/.ssh/id_ed25519_off-web
+```
+
+In github add the `/home/off/.ssh/id_ed25519_off-web.pub` to deploy keys for openfoodfacts-web.
+
+Cloning:
+```bash
+sudo mkdir /srv/openfoodfacts-web
+sudo chown off:off /srv/openfoodfacts-web
+sudo -u off git clone git@github.com-off-web:openfoodfacts/openfoodfacts-web.git
+```
+
+#### Linking content
+
+We clearly want opff folder to come from off-web:
+
+```bash
+rm -rf /srv/opff/lang/opff/
+ln -s /srv/openfoodfacts-web/lang/opff/ /srv/opff/lang/opff
+```
+
+We then will link press, contacts, term of use
+```bash
+# USE WITH CARE !
+cd /srv/opff/lang
+for FNAME in contacts.html press.html terms-of-use.html; do \
+  for LANG in $(ls -d ?? ??_*); do \
+    FILE_PATH=$LANG/texts/$FNAME;
+    if [[ -e /srv/openfoodfacts-web/lang/$FILE_PATH ]]; then \
+        rm $FILE_PATH; \
+        ln -s /srv/openfoodfacts-web/lang/$FILE_PATH $FILE_PATH; \
+    fi; \
+  done; \
+done;
+```
+
+We can verify with:
+```bash
+ls -l */texts/{contacts,press,terms-of-use}.html
+```
+
+We keep the rest as is for now.
+
+**FIXME**: add a ticket to understand if we want to use off-web for all the content
+
+### Linking images
+
+App use openfoodfacts logo name and we link files to openpetfoodfacts logo !
+```bash
+cd /srv/opff/html/images/misc/
+# also for "en" because of . vs -
+for LANG in ar ca de en es fa fr he it nl no pl pt ru sq uk vi zh zh-tw;do \
+    unlink openfoodfacts-logo-$LANG-356x300.png; \
+    ln -s  openpetfoodfacts-logo-en-356x300.png openfoodfacts-logo-$LANG-356x300.png; \
+    unlink openfoodfacts-logo-$LANG-178x150.png; \
+    ln -s  openpetfoodfacts-logo-en-178x150.png openfoodfacts-logo-$LANG-178x150.png; \
+done;
+```
+
+A last image:
+```bash
+cd /srv/opff/html/images/misc/
+ln -s android-apk.svg android-apk-40x135.svg
 ```
 
 ### Testing
@@ -1126,6 +1223,80 @@ Successfully installed Crypt-ScryptKDF-0.010
 
 ```
 
+### Verifying if we need Apache2::Connection::XForwardedFor
+
+We want to verify if we need to install Apache2::Connection::XForwardedFor
+
+For this after having deployed, and it's working ok, I log in the new site.
+Then I use:
+
+```
+cd /srv/opff/scripts
+perl sto_to_json.pl /mnt/opff/users/alexg.sto|jq .
+```
+and look at the higher timstamp for `user_sessions` and look at `ip`.
+It's `10.1.0.101` so ip is masked to the app.
+
+Install the package: 
+
+add `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile, then run: 
+
+```bash
+sudo apt install libapache2-mod-perl2-dev
+sudo cpanm --notest --quiet --skip-satisfied --installdeps .
+```
+
+then
+```bash
+sudo apachectl configtest
+sudo systemctl restart apache2
+```
+
+It is not enough, I have two problems:
+1. `opff-access.log` of ngix in opff container does not log the user ip adress, but the proxy ip adress (useless)
+2. nginx in opff container should not change X-Real-IP and X-Forwarded-For provided by first proxy
+
+So I:
+
+* tweak the nginx logging by adding a specific conf in `/srv/opff/conf/nginx/conf.d/log_format_realip.conf`:
+  ```conf
+  # a log format for behing a proxy
+  log_format proxied_requests
+    '$http_x_forwarded_for - $remote_user [$time_local] '
+    '"$request" $status $body_bytes_sent '
+    '"$http_referer" "$http_user_agent"';
+  ```
+  and use it:
+  ```bash
+  sudo ln -s /srv/opff/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d/log_format_realip.conf
+  ```
+* then change the configuration to use this log format for opff `/srv/opff/conf/nginx/sites-available/opff`:
+  ```conf
+  ...
+          access_log /var/log/nginx/opff-access.log proxied_requests;
+  ...
+         location / {
+                proxy_set_header Host $host;
+                # those headers are set by the first reverse proxy
+                #proxy_set_header X-Real-IP $remote_addr;
+                #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+                proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
+        }
+
+        location /cgi/ {
+                proxy_set_header Host $host;
+                # those headers are set by the first reverse proxy
+                #proxy_set_header X-Real-IP $remote_addr;
+                #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_pass http://127.0.0.1:8001;
+        }
+  ```
+* restart nginx
+  ```bash
+  sudo nginx -t
+  sudo systemctl restart nginx
+  ```
 
 ## OPFF NGINX configuration
 
@@ -1175,20 +1346,18 @@ iface ens19 inet static
 
 **DONE**
 - image magick avec le format de mac HEIC - DONE on .net - TESTED OK
+- wilcard certificates on nginx proxy
 
 
 **TODO**
-- verify if we need to in nginx config: install Apache2::Connection::XForwardedFor (see [wiki]())
-  SEE if we have ip adress of client or of proxy
 
 - GEOIP updates - verify it works and it's compatible (country of a product)
-- wilcard certificates on nginx proxy
-
 
 - logrotate:
   - nginx specific logs
   - apache logs
   - product opener logs
+
 - ssl headers on frontend ?:
   ```conf
   add_header Strict-Transport-Security "max-age=63072000";
@@ -1241,106 +1410,8 @@ iface ens19 inet static
 1. verify /srv/opff is not too different
 
 
-## **TODO** symlinks to check
+## **DONE** symlinks to check
 find files that are symlinks in opff on off1:
 ```
 $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 ```
-
-To be verified:
-```
-
-/srv/opff/lib/log.conf -> ../log.conf
-
-
-
-# FIXME ? - icon change !
-/srv/opff/html/images/misc/openfoodfacts-logo-zh-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-es-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-pt-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-pl-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-zh-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-pt-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/android-apk.svg -> /srv/opff/html/images/misc/android-apk-40x135.svg
-/srv/opff/html/images/misc/openfoodfacts-logo-es-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-pl-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openpetfoodfacts-logo-en.178x150.png -> openpetfoodfacts-logo-en-178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-4years-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-vi-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-ru-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-fr-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-en-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-he-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-nl-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-ar-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-de-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-vi-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-4years-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-ru-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-fr-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-en-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-he-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-/srv/opff/html/images/misc/openfoodfacts-logo-de-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-nl-178x150.png -> openpetfoodfacts-logo-en.178x150.png
-/srv/opff/html/images/misc/openfoodfacts-logo-ar-356x300.png -> openpetfoodfacts-logo-en.356x300.png
-
-
-# FIXME --> put it in proxy
-/srv/opff/html/robots.txt -> /srv/off/html/robots.txt
-
-
-# FIXME ? contents links to off !
-/srv/opff/lang/fr/texts/contacts.html -> /srv/off/lang/fr/texts/contacts.html
-/srv/opff/lang/fr/texts/press.html -> /srv/off/lang/fr/texts/presskit.html
-/srv/opff/lang/en/texts/contacts.html -> /srv/off/lang/en/texts/contacts.html
-/srv/opff/lang/en/texts/press.html -> /srv/off/lang/en/texts/presskit.html
-/srv/opff/lang/nl/texts/contacts.html -> /srv/off/lang/nl/texts/contacts.html
-/srv/opff/lang/nl/texts/press.html -> /srv/off/lang/nl/texts/presskit.html
-/srv/opff/lang/he/texts/press.html -> /srv/off/lang/he/texts/presskit.html
-/srv/opff/lang/he/texts/contacts.html -> /srv/off/lang/he/texts/contacts.html
-/srv/opff/lang/ar/texts/press.html -> /srv/off/lang/ar/texts/presskit.html
-/srv/opff/lang/ar/texts/contacts.html -> /srv/off/lang/ar/texts/contacts.html
-/srv/opff/lang/es/texts/contacts.html -> /srv/off/lang/es/texts/contacts.html
-/srv/opff/lang/es/texts/press.html -> /srv/off/lang/es/texts/presskit.html
-/srv/opff/lang/pl/texts/press.html -> /srv/off/lang/pl/texts/presskit.html
-/srv/opff/lang/da/texts/press.html -> /srv/off/lang/da/texts/presskit.html
-/srv/opff/lang/da/texts/contacts.html -> /srv/off/lang/da/texts/contacts.html
-/srv/opff/lang/ro/texts/contacts.html -> /srv/off/lang/ro/texts/contacts.html
-/srv/opff/lang/ro/texts/press.html -> /srv/off/lang/ro/texts/presskit.html
-/srv/opff/lang/it/texts/contacts.html -> /srv/off/lang/it/texts/contacts.html
-/srv/opff/lang/it/texts/press.html -> /srv/off/lang/it/texts/presskit.html
-/srv/opff/lang/ru/texts/press.html -> /srv/off/lang/ru/texts/presskit.html
-/srv/opff/lang/ru/texts/contacts.html -> /srv/off/lang/ru/texts/contacts.html
-/srv/opff/lang/de/texts/contacts.html -> /srv/off/lang/de/texts/contacts.html
-/srv/opff/lang/de/texts/press.html -> /srv/off/lang/de/texts/presskit.html
-/srv/opff/lang/vi/texts/press.html -> /srv/off/lang/vi/texts/presskit.html
-/srv/opff/lang/vi/texts/contacts.html -> /srv/off/lang/vi/texts/contacts.html
-/srv/opff/lang/el/texts/press.html -> /srv/off/lang/el/texts/presskit.html
-/srv/opff/lang/pl/texts/contacts.html -> /srv/off/lang/pl/texts/contacts.html
-/srv/opff/lang/el/texts/contacts.html -> /srv/off/lang/el/texts/contacts.html
-
-
-# FIXME other contents ? - remove
-/srv/opff/lang/fr/texts/open-food-hunt-2015.html -> open-food-hunt-2015.fr.html
-/srv/opff/lang/es/texts/open-food-hunt-2015.html -> open-food-hunt-2015.es.html
-/srv/opff/lang/it/texts/open-food-hunt-2015.html -> open-food-hunt-2015.it.html
-/srv/opff/lang/pt/texts/open-food-hunt-2015.html -> open-food-hunt-2015.pt.html
-/srv/opff/lang/fr/tags/labels.txt -> /home/off-fr/cgi/labels.txt
-/srv/opff/lang/es/tags/labels.txt -> /home/off-fr/cgi/labels.es.txt
-/srv/opff/lang/fr/tags/categories.txt -> /home/off-fr/cgi/categories.txt
-/srv/opff/lang/en/texts/data.html -> data.en.html
-/srv/opff/ingredients/additifs/extract_additives.pl -> /home/off-fr/cgi/extract_additives.pl
-/srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
-
-# FIXME keep for the moment ?
-/srv/opff/lang/en/texts/index.foundation.en.html -> /srv/opff/lang/en/texts/index.html
-/srv/opff/lang/he/texts/index.html -> index.he.html
-/srv/opff/lang/ar/texts/index.html -> index.ar.html
-/srv/opff/lang/pl/texts/index.html -> index.pl.html
-/srv/opff/lang/ro/texts/index.html -> index.ro.html
-/srv/opff/lang/it/texts/index.html -> index.it.html
-/srv/opff/lang/ru/texts/index.html -> index.ru.html
-
-
-```
-

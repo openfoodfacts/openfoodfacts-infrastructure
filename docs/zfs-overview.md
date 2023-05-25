@@ -35,6 +35,9 @@ You also have to clean snapshots from time to time to avoid retaining too much u
 
 On ovh3: [snapshot-purge.sh](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/ovh3/snapshot-purge.sh)
 
+
+**FIXME** explain sanoid
+
 ## Docker mount
 
 If ZFS dataset is on same machine we can use bind mounts to mount a folder in a ZFS partition.
