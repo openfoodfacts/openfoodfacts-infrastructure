@@ -16,6 +16,23 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/openpetfoodfacts.org/privkey.pem;
     ssl_trusted_certificate /etc/letsencrypt/live/openpetfoodfacts.org/chain.pem;
 
+    # Harden SSL
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_ecdh_curve secp384r1;
+    #ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 9.9.9.9 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=63072000";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options DENY;
+
+
     access_log  /var/log/nginx/openpetfoodfacts.org.log  main;
     error_log   /var/log/nginx/openfoodfacts.org.errors.log;
 
