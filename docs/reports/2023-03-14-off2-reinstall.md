@@ -74,6 +74,16 @@ Using proxmox interface, on container 110, I add net1, on vmbr0, IP 213.36.253.2
 
 I reboot the container 101, and it seems to work.
 
+### Re-enforcing security thanks to fail2ban
+
+Created a `confs/proxy-off/fail2ban/jail.d/nginx` using debian provided feature for nginx
+Then:
+```bash
+sudo ln -s 
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/fail2ban/jail.d/nginx.conf /etc/fail2ban/jail.d/
+systemctl reload fail2ban
+```
+
 ### declaring DNS entry
 
 I added an A record `proxy-off.openfoodfacts.org` to point to this IP in OVH DNS zones.
@@ -1298,6 +1308,45 @@ So I:
   sudo systemctl restart nginx
   ```
 
+Later on, I discovered the [`set_real_ip_from` directive](https://nginx.org/en/docs/http/ngx_http_realip_module.html) which is really tailored for this situation, and so my configuration became:
+
+```conf
+...
+ location / {
+                proxy_set_header Host $host;
+                # recursive hosts as we are proxying behind a proxy
+                set_real_ip_from 10.0.0.0/8;
+                real_ip_recursive on;
+                proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
+        }
+
+        location /cgi/ {
+                proxy_set_header Host $host;
+                # recursive hosts as we are proxying behind a proxy
+                set_real_ip_from 10.0.0.0/8;
+                real_ip_recursive on;
+                proxy_pass http://127.0.0.1:8001;
+        }
+```
+
+### log rotate perl logs
+
+Perl logs rotation requires an apache restart, so we will replace the apache conf to use our log rotate with all considered files.
+
+So I wrote `conf/logrotate/apache` and then:
+```bash
+sudo rm /etc/logrotate.d/apache
+sudo ln -s /srv/opff/conf/logrotate/apache2 /etc/logrotate.d/apache2
+# logrotate needs root ownerships
+sudo chown root:root /srv/opff/conf/logrotate/apache2
+```
+
+We can test with:
+```bash
+sudo logrotate /etc/logrotate.conf --debug
+```
+
+
 ## OPFF NGINX configuration
 
 We follow [Steps to create Nginx configuration](../nginx-reverse-proxy.md#steps-to-create-nginx-configuration)
@@ -1342,21 +1391,89 @@ iface ens19 inet static
 ```
 
 
+### Logrotate
+
+Looking at logrotate default debian configuration for apache2 and nginx, it rotates all `*.log` files, so instead of having a specific configuration, I edited the apache2 configuration to ensure log files ar in `.log`
+
+Nginx config was ok, but for Apache2, in `/etc/nginx/sites-enabled/opff`:
+```conf
+...
+ErrorLog /var/log/apache2/opff_error.log
+CustomLog /var/log/apache2/opff_access.log proxy
+```
+
+
+## Debugs
+
+### Testing
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
+```
+
+### GeoIP
+
+GeoIP does not seems to work. If I had a new product from https://world.openpetfoodfacts.org country where soled is not pre-filled.
+
+I found a script helps debugging geoip issues. To test I run:
+```bash
+perl -I/srv/opff/lib -d scripts/test_geoip.pl
+```
+It wait's for a IP input.
+
+As it does not work, I try to debug it, using the `-d` flag. It seems `$gi` gloabl which is geo ip database is not loaded.
+Indeed the file specified by `$geolite2_path` does not exists.
+
+I look at what packages provides:
+```bash
+dpkg-query -L geoip-database
+dpkg-query -L geoipupdate
+```
+We seems to have a `/usr/share/GeoIP/GeoIP.dat` (and `/usr/share/GeoIP/GeoIPv6.dat`)
+
+Trying in debugger:
+```perl
+  DB<2> $gi = GeoIP2::Database::Reader->new(file => '/usr/share/GeoIP/GeoIP.dat');
+
+  DB<4> x $gi
+0  GeoIP2::Database::Reader=HASH(0x55a4cca974c0)
+   'file' => '/usr/share/GeoIP/GeoIP.dat'
+   'locales' => ARRAY(0x55a4ccbdfdd8)
+      0  'en'
+  DB<5> x $gi->country(ip => '*.*.*.*');  # removed id
+MaxMind::DB::Reader::XS - Error opening database file "/usr/share/GeoIP/GeoIP.dat": The MaxMind DB file contains invalid metadata at /usr/lib/x86_64-linux-gnu/perl5/5.32/MaxMind/DB/Reader/XS.pm line 73, <STDIN> line 1.
+```
+
+It's not this.
+But looking at [`GeoIP.conf` man page](https://manpages.debian.org/bullseye/geoipupdate/GeoIP.conf.5.en.html) I see it's in `/var/lib/GeoIP/` (very logically !).
+Testing it again and it works.
+
+So I edited `/srv/opff/lib/ProductOpener/Config2.pm` to have:
+```perl
+$geolite2_path = '/var/lib/GeoIP/GeoLite2-Country.mmdb';
+```
+
+### X-Forwarded-For problem
+
+Reading at `/var/log/apache2/opff_access_log` the ip adress seemed to be 127.0.0.1.
+But it was only because the LogFormat directive was ignored because of an error in the format name in CustomLog directive.
+
+Fixing that it worked. But on the way to do it, I changed Nginx config as I discovered the `set_real_ip_from` directive.
+
+
 ## Still TODO
 
 **DONE**
 - image magick avec le format de mac HEIC - DONE on .net - TESTED OK
 - wilcard certificates on nginx proxy
-
-
-**TODO**
-
 - GEOIP updates - verify it works and it's compatible (country of a product)
 
 - logrotate:
   - nginx specific logs
   - apache logs
   - product opener logs
+
 
 - ssl headers on frontend ?:
   ```conf
@@ -1385,18 +1502,21 @@ iface ens19 inet static
   ssl_dhparam /etc/ssl/certs/dhparam.pem;
   ```
 
-- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works.
+
+**TODO**
+
+- mongodb export on mongodb server ? using docker ?
 
 **Improve**
 - notification when important task fails
 - IP failover ? (maybe after off1 setup)
+- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works.
 
 
 **FIXME** for off
 - Generate JS assets via github action and add to release
 - Minions for off
 - verify if compression is working on nginx ?
-
 - pb madenearme - WONTFIX ?
 
 
