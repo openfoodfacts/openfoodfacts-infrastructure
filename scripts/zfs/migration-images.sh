@@ -3,9 +3,11 @@
 # this script was used to progressively migrate the images folder to a zfs dataset
 
 SRC=/srv2/off/html/images/products
-DST=/mnt/off2-off-product-images
+DST=/mnt/off2/off-images/products
+# don't use rsync over NFS, but over SSH
+SYNC_DST=10.0.0.2:/zfs-hdd/off/images/products
 
-# on stoppe à la moindre erreur
+# we stop as soon as we encounter an error
 set -e
 
 function sync_folder {
@@ -13,14 +15,15 @@ function sync_folder {
   echo "--- $DIR"
   echo $(date --iso-8601=s)
   # first sync (slow) then second one (fast thanks to caches)
-  time rsync $SRC/$DIR $DST/ -a --delete
-  time rsync $SRC/$DIR $DST/ -a
+  time rsync $SRC/$DIR $SYNC_DST/ -a --delete
+  time rsync $SRC/$DIR $SYNC_DST/ -a
 
   # rename XXX > XXX.old + symlink to the new storage
-  mv $SRC/$DIR $SRC/$DIR.old && ln -s $DST/$DIR $DIR
+  mv $SRC/$DIR $SRC/$DIR.old && \
+    ln -s $DST/$DIR $SRC/$DIR
 
   # final sync in update mode to cover what may have be written during second rsync
-  time rsync $SRC/$DIR.old/ $DST/$DIR -av -u
+  time rsync $SRC/$DIR.old/ $SYNC_DST/$DIR -av -u
 }
 
 cd $SRC

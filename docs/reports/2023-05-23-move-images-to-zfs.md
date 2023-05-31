@@ -25,7 +25,7 @@ We have two script implementing that for products that we can transform for imag
 
 ## Doing it
 
-### reverse current syncing
+### Verifications before reversing current syncing
 
 I first verify if off2 is in sync with ovh3:
 ```bash
@@ -67,7 +67,212 @@ zfs send -i rpool/off/images@20230516083018 rpool/off/images@$TIMESTAMP |ssh off
 ```
 
 But after that, on ovh3 the dataset keeps continuing being written at !
+We will suppose that it's because of `atime` (access time) which must be stored.
+
+### Reverse current syncing
+
+#### Configuring
+
+On ovh3, I will use sanoid but with the synced data format:
+
+```conf
+# /etc/sanoid/sanoid.conf
+…
+[rpool/off/images]
+  use_template=synced_data
+  recursive=no
+…
+```
+
+On off, I will use sanoid with normal format:
+
+```conf
+# /etc/sanoid/sanoid.conf
+…
+[zfs-hdd/off/images]
+  use_template=prod_data
+  recursive=no
+…
+```
+
+And configure syncoid to replicate to ovh3
+
+```conf
+# /ect/sanoid/syncoid-args.conf
+…
+--no-sync-snap zfs-hdd/off/images root@ovh3.openfoodfacts.org:rpool/off/images
+…
+```
+
+#### Failing
+
+Let's try a run of syncoid:
+```
+syncoid --no-sync-snap zfs-hdd/off/images root@ovh3.openfoodfacts.org:rpool/off/images
+NEWEST SNAPSHOT: 20230523165657
+INFO: no snapshots on source newer than 20230523165657 on target. Nothing to do, not syncing.
+```
+So I wait until next snapshoting… (10 min later).
+And it's catastrophic: OVH3 nginx is not capable of serving images anymore !
+And in fact syncoid service is blocked (because of a problem on ovh3 that makes it reboot…).
+
+This made me think I should add a TimeoutStartSec to syncoid for such case (eg. 6h).
+
+After stoping the stalled syncoid, I wait for the next run.
+
+It's catastrophic, OVH3 does not serve images anymore. Looking at processes I see a `zfr rollback` on `rpool/off/images` and it's normal since syncoid tries to put it on last snapshot before syncing. But in the meantime, NGINX does not have access to images… and it seems to take a long time to happen.
+
+#### Disabling atime on ovh3
+
+I decided to disable atime on ovh3 to see if it make the writes stops.
+
+On ovh3 ([useful resource](https://www.unixtutorial.org/zfs-performance-basics-disable-atime/)):
+
+```bash
+$ zfs set atime=off rpool/off/images
+$ # verifying
+$ zfs get atime rpool/off/images
+NAME              PROPERTY  VALUE  SOURCE
+rpool/off/images  atime     off    local
+$ mount |grep rpool/off/images
+rpool/off/images on /rpool/off/images type zfs (rw,noatime,xattr,noacl)
+```
+
+I then take a snapshot:
+```bash
+TIMESTAMP=$(date +%Y%m%d%H%M%S)
+zfs snapshot rpool/off/images@$TIMESTAMP
+```
+
+Now it seems nothing is written anymore on the disk:
+```bash
+$ zfs list -po written rpool/off/images
+WRITTEN
+      0
+```
+
+So the guess about atime was right.
+
+I synced back to off2:
+
+```
+zfs send -i rpool/off/images@20230523165657 rpool/off/images@20230531083016 |ssh off2.openfoodfacts.org zfs recv zfs-hdd/off/images -F
+```
+
+#### syncing with syncoid
+
+Now that we have a stable ZFS on ovh3 we can activate the syncoid sync.
+
+## NFS mount
+
+### Mount off2 ZFS dataset on off1
+
+Let's mount the images images ZFS volume from off2 to off1.
+
+I first install nfs server on off2 and enable nfs sharing on my dataset:
+
+```bash
+apt install nfs-kernel-server
+```
+
+```bash
+zfs set sharenfs="rw=@10.0.0.1/32" zfs-hdd/off/images
+```
+
+Then on off1,
+
+To install NFS, I add to update the sources list in `/etc/apt/sources.list` and replace `fr2.ftp.debian.org` by `archive.debian.org`
+
+Then
+```
+apt update
+apt install nfs-common
+```
+
+Trying to mount
+```bash
+mkdir /mnt/off2
+mkdir /mnt/off2/off-images
+mount -t nfs -o rw "10.0.0.2:/zfs-hdd/off/images"  /mnt/off2/off-images
+ls /mnt/off2/off-images
+```
+
+Adding to `/etc/fstab`:
+```bash
+…
+# off2 NFS mounts
+10.0.0.2:/zfs-hdd/off/images    /mnt/off2/off-images    nfs     rw,nolock      0       0
+…
+```
+
+## Testing
+
+Doing rsync manually for one folder to see the time it takes. Taking some 3?? code:
+
+
+
+
+### Mount off1 ZFS dataset on off2 - FIXME move to other branch…
+
+Install NFS server on off1:
+
+```bash
+apt install nfs-kernel-server
+```
+
+Add volumes to NFS shares in `/etc/exports/`:
+
+```conf
+# share volumes to off2 using NFSv3
+# note that products are directly shared through zfs
+/srv2/off/html/images/products  10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv2/off-pro/html/images/products      10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv/obf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv/opf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
+```
+
+Testing a mount on off2:
+
+```bash
+mkdir /mnt/off1/
+mkdir /mnt/off1/off-images-products
+mount -t nfs -o rw "10.0.0.1://srv2/off/html/images/products"  /mnt/off1/off-images-products
+ls off1/off-images-products/000/000/023/4/
+```
+
+It works.
+
+Now we will share zfs volumes for products.
+
+On off1:
+```bash
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/obf/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/off/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/opf/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/opff/products
+```
+
+Test on off2:
+```bash
+mkdir off1/obf-products
+mount -t nfs -o rw "10.0.0.1://rpool/obf/products"  /mnt/off1/obf-products
+# test
+ls -l /mnt/off1/obf-products/000/000/614/7198
+```
+
+Creating mount points on off2:
+```
+mkdir /mnt/off1/o{b,p,f}f-products
+mkdir /mnt/off1/o{p,b,f}f-images-products
+```
+
+Editing `/etc/fstab` on off2 to add all nfs shares:
+```
+```
 
 
 I use migration.sh and wrote `scripts/zfs/migration-images.sh` and copied it to off1.
 
+#FIXME
+- mongo export
+- product migration
