@@ -12,6 +12,10 @@ set -e
 
 function sync_folder {
   DIR=$1
+  # skip symlinks as they are migrated folders
+  if [[ -L $DIR ]]; then
+      return 0
+  fi
   echo "--- $DIR"
   echo $(date --iso-8601=s)
   # first sync (slow) then second one (fast thanks to caches)
