@@ -26,6 +26,9 @@ function sync_folder {
   mv $SRC/$DIR $SRC/$DIR.old && \
     ln -s $DST/$DIR $SRC/$DIR
 
+  # give some time for operations on files to complete
+  sleep 15
+
   # final sync in update mode to cover what may have be written during second rsync
   time rsync $SRC/$DIR.old/ $SYNC_DST/$DIR -av -u
 }

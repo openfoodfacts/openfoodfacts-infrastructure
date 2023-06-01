@@ -14,7 +14,7 @@ The strategy is the following
 3. for each top level folders
    1. rsync the folder to the ZFS dataset
    2. move the folder to a new name (xxx.old)
-   3. replace by a symblink that point to the synced folder on the ZFS dataset (mounted on off1)
+   3. replace by a symlink that point to the synced folder on the ZFS dataset (mounted on off1)
    4. rsync again to be sure we didn't miss anything
 
    At the end we will have a product images folder full of symlinks.
@@ -210,69 +210,6 @@ Adding to `/etc/fstab`:
 Doing rsync manually for one folder to see the time it takes. Taking some 3?? code:
 
 
-
-
-### Mount off1 ZFS dataset on off2 - FIXME move to other branch…
-
-Install NFS server on off1:
-
-```bash
-apt install nfs-kernel-server
-```
-
-Add volumes to NFS shares in `/etc/exports/`:
-
-```conf
-# share volumes to off2 using NFSv3
-# note that products are directly shared through zfs
-/srv2/off/html/images/products  10.0.0.2(rw,no_subtree_check,no_root_squash)
-/srv2/off-pro/html/images/products      10.0.0.2(rw,no_subtree_check,no_root_squash)
-/srv/obf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
-/srv/opf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
-```
-
-Testing a mount on off2:
-
-```bash
-mkdir /mnt/off1/
-mkdir /mnt/off1/off-images-products
-mount -t nfs -o rw "10.0.0.1://srv2/off/html/images/products"  /mnt/off1/off-images-products
-ls off1/off-images-products/000/000/023/4/
-```
-
-It works.
-
-Now we will share zfs volumes for products.
-
-On off1:
-```bash
-zfs set sharenfs="rw=@10.0.0.2/32" rpool/obf/products
-zfs set sharenfs="rw=@10.0.0.2/32" rpool/off/products
-zfs set sharenfs="rw=@10.0.0.2/32" rpool/opf/products
-zfs set sharenfs="rw=@10.0.0.2/32" rpool/opff/products
-```
-
-Test on off2:
-```bash
-mkdir off1/obf-products
-mount -t nfs -o rw "10.0.0.1://rpool/obf/products"  /mnt/off1/obf-products
-# test
-ls -l /mnt/off1/obf-products/000/000/614/7198
-```
-
-Creating mount points on off2:
-```
-mkdir /mnt/off1/o{b,p,f}f-products
-mkdir /mnt/off1/o{p,b,f}f-images-products
-```
-
-Editing `/etc/fstab` on off2 to add all nfs shares:
-```
-```
-
+## Running script
 
 I use migration.sh and wrote `scripts/zfs/migration-images.sh` and copied it to off1.
-
-#FIXME
-- mongo export
-- product migration
