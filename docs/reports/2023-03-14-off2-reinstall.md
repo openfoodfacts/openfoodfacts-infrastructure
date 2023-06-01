@@ -1346,6 +1346,25 @@ We can test with:
 sudo logrotate /etc/logrotate.conf --debug
 ```
 
+### Installing mongodb client
+
+In opff.
+
+I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
+but we are on bullseye, and we just want to install tools.
+
+```bash
+curl -fsSL https://pgp.mongodb.com/server-4.4.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg \
+   --dearmor
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/4.4 main" | \
+  sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update
+sudo apt install  mongodb-database-tools
+```
+
+We can see if we will be able to use mongoexport
+
 
 ## OPFF NGINX configuration
 
@@ -1461,6 +1480,126 @@ But it was only because the LogFormat directive was ignored because of an error 
 
 Fixing that it worked. But on the way to do it, I changed Nginx config as I discovered the `set_real_ip_from` directive.
 
+## Fixing migration by cross nfs mounting folders
+
+To be able to migrate products between instances, we need to:
+* talk to same mongodb (it's already the case)
+* access products and images folders of other instances (todo)
+
+Working on moving images to ZFS (**FIXME**: link), I already setup sharing off2 ZFS dataset of zfs-hdd/off/images on off1.
+
+Now we will:
+- also mount products datasets on off1
+- install zfs server on off1 and share current products and images folders
+
+
+
+### Mount off1 ZFS dataset on off2 - FIXME move to other branch…
+
+Install NFS server on off1:
+
+```bash
+apt install nfs-kernel-server
+```
+
+Add volumes to NFS shares in `/etc/exports/`:
+
+```conf
+# share volumes to off2 using NFSv3
+# note that products are directly shared through zfs
+/srv2/off/html/images/products  10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv2/off-pro/html/images/products      10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv/obf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
+/srv/opf/html/images/products   10.0.0.2(rw,no_subtree_check,no_root_squash)
+```
+
+Testing a mount on off2:
+
+```bash
+mkdir /mnt/off1/
+mkdir /mnt/off1/off-images-products
+mount -t nfs -o rw "10.0.0.1://srv2/off/html/images/products"  /mnt/off1/off-images-products
+ls off1/off-images-products/000/000/023/4/
+```
+
+It works.
+
+Now we will share zfs volumes for products.
+
+On off1:
+```bash
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/obf/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/off/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/opf/products
+zfs set sharenfs="rw=@10.0.0.2/32" rpool/opff/products
+```
+
+Test on off2:
+```bash
+mkdir off1/obf-products
+mount -t nfs -o rw "10.0.0.1://rpool/obf/products"  /mnt/off1/obf-products
+# test
+ls -l /mnt/off1/obf-products/000/000/614/7198
+```
+
+Creating mount points on off2:
+```bash
+mkdir /mnt/off1/o{b,p,f}f-products
+mkdir /mnt/off1/o{p,b,f}f-images-products
+```
+
+Editing `/etc/fstab` on off2 to add all nfs shares:
+```conf
+10.0.0.1://srv2/off/html/images/products  /mnt/off1/off-images-products nfs rw,nolock  0 0
+10.0.0.1://rpool/off/products  /mnt/off1/off-products nfs rw,nolock  0 0
+10.0.0.1://srv/obf/html/images/products  /mnt/off1/obf-images-products nfs rw  0 0
+10.0.0.1://rpool/obf/products  /mnt/off1/obf-products nfs rw,nolock  0 0
+10.0.0.1://srv/opf/html/images/products  /mnt/off1/opf-images-products nfs rw  0 0
+10.0.0.1://rpool/opf/products  /mnt/off1/opf-products nfs rw,nolock  0 0
+```
+
+**WARNING:** the `nolock` (no inter-server lock, lock are local to a server only) here is not really safe, as we have processes on two machines, but it should be safe enough in this case (as the product is moving, so the lock on one side still stand, and the other side as really few chances to edit a product which does not yet exists), and for a relative short time.
+
+### Bind mount
+
+Note: I decided to bind mount the NFS mounts. I could have directly mouted the nfs volumes in the container, but as in target deployment they really will be bind mount, I prefer to do this for now. (Note than NFS inside lxc seems to require [a specific apparmor settings](https://memo-linux.com/proxmox-5-ajout-dun-point-de-montage-nfs-dans-un-conteneur-lxc/))
+
+We bind mount the folders in our lxc container `/etc/pve/lxc/110.conf`:
+```conf
+…
+# temporary mount of off1 folders
+mp6: /mnt/off1/off-products,mp=/mnt/off/products
+mp7: /mnt/off1/off-images-products,mnt=/mnt/off/images
+mp8: /mnt/off1/opf-products,mp=/mnt/opf/products
+mp9: /mnt/off1/opf-images-products,mnt=/mnt/opf/images
+mp10: /mnt/off1/obf-products,mp=/mnt/obf/products
+mp11: /mnt/off1/obf-images-products,mnt=/mnt/obf/images
+…
+```
+Note: comments in conf file are put at begining of file by proxmox and populate notes in the interface.
+
+Then restart container: `sudo pct reboot 110`
+
+Looking at data from inside the container, the current migration on images introduce a problem:
+```bash
+(opff))$ ls -l /mnt/off/images/000
+lrwxrwxrwx 1 nobody nogroup 33  1 juin   09:00 /mnt/off/images/000 -> /mnt/off2/off-images/products/000
+```
+this /mnt/off2/off-images/products/000 does not exists in the container…
+I can add it by adding one more MP.
+
+
+
+## Improvment
+
+Using `git` for off2 configuration (I'm omitting the moves / cp I add to do):
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off2/sanoid/sanoid.conf/ /etc/sanoid/sanoid.conf
+ln -s /opt/openfoodfacts-infrastructure/confs/off2/sanoid/syncoid-args.conf /etc/sanoid/syncoid-args.conf
+```
+
+For `/etc/pve` symlinking is not possible (this is a fuse mount handled by proxmox). So I only copied current configuration.
 
 ## Still TODO
 
@@ -1506,6 +1645,9 @@ Fixing that it worked. But on the way to do it, I changed Nginx config as I disc
 **TODO**
 
 - mongodb export on mongodb server ? using docker ?
+- mounting to enable products migration
+
+
 
 **Improve**
 - notification when important task fails
