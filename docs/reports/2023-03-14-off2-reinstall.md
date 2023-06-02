@@ -687,17 +687,14 @@ ln -s /mnt/opff/html_data/ /srv/opff/html/data
 # product images
 sudo rmdir /srv/opff/html/images/products/
 ln -s /mnt/opff/images/products  /srv/opff/html/images/products
+```
+
+We also want to move Lang file and deleted.images in data folder but keep compatibility (it's an old version)
+
+```bash
 # deleted.images
 mv /srv/opff/deleted.images /mnt/opff/
 ln -s  /{mnt,srv}/opff/deleted.images
-# data (was non existent)
-mkdir /mnt/opff/data
-ln -s  /{mnt,srv}/opff/data
-```
-
-We also want to move Lang file in data folder but keep compatibility (it's an old version)
-
-```bash
 mv /srv/opff/Lang.openpetfoodfacts.org.sto /mnt/opff/data/
 ln -s /mnt/opff/data/Lang.openpetfoodfacts.org.sto /srv/opff/
 ```
@@ -1492,9 +1489,24 @@ Now we will:
 - also mount products datasets on off1
 - install zfs server on off1 and share current products and images folders
 
+## Fixing lang problem
+
+Symptom: no images loaded on product. In console, 404 on https://static.openpetfoodfacts.org/data/i18n/en/lang.json
+
+Indeed I didn't sync the data folder from off1 (because I wanted to see exports regenerated…)
+
+On off2:
+```bash
+rsync -a --info=progress2 10.0.0.1://srv/opff/html/data/ /zfs-hdd/opff/data/
+```
+But I also forgot to link /srv/opff/html/data/ to /mnt/…
+```bash
+mv /srv/opff/html/data{,.old} && ln -s /mnt/opff/html_data /srv/opff/html/data
+```
+Fixed the problem.
 
 
-### Mount off1 ZFS dataset on off2 - FIXME move to other branch…
+### Mount off1 ZFS dataset on off2
 
 Install NFS server on off1:
 
@@ -1588,9 +1600,112 @@ lrwxrwxrwx 1 nobody nogroup 33  1 juin   09:00 /mnt/off/images/000 -> /mnt/off2/
 this /mnt/off2/off-images/products/000 does not exists in the container…
 I can add it by adding one more MP.
 
+## Fixing users share
+
+As I added nfs to expose off1 data to off2, I realized it could be better to use it to be able to continue to create users and have them synced on opff (let alone the lock, but it should be safe enough).
+
+For that I have to mount a NFS mount of off1:/srv/off/users instead of the current zfs-hdd/off/users volume.
+
+So I added `/srv/off/users` share in exports on off1:
+```conf
+# share of off users until "off" migration to off2
+/srv/off/users  10.0.0.2(rw,no_subtree_check,no_root_squash)
+```
+```bash
+systemctl reload nfs-server
+```
+
+On off2, I added in `/etc/fstab`:
+```conf
+# TEMPORARY off users
+10.0.0.1://srv/off/users  /mnt/off1/off-users nfs rw  0 0
+```
+```bash
+mkdir /mnt/off1/off-users
+mount /mnt/off1/off-users
+# test
+ls /mnt/off1/off-users/users_emails.sto
+```
+
+Replace mp2 volume in `/etc/pve/lxc/110.conf`
+```conf
+mp2: /mnt/off1/off-users,mp=/mnt/opff/users
+```
+```bash
+pct reboot 110
+```
+But it didn't start…
+
+```bash
+$ pct start 110
+run_buffer: 321 Script exited with status 116
+lxc_init: 847 Failed to run lxc.hook.pre-start for container "110"
+__lxc_start: 2008 Failed to initialize container "110"
+startup for container '110' failed
+```
+
+Trying to debug ([as proposed here](https://forum.proxmox.com/threads/failed-to-run-lxc-hook-pre-start.33260/post-163472)):
+```bash
+$ lxc-start -n 110 -F -lDEBUG -o /tmp/lxc-110.log
+lxc-start: 110: ../src/lxc/conf.c: run_buffer: 321 Script exited with status 116
+lxc-start: 110: ../src/lxc/start.c: lxc_init: 847 Failed to run lxc.hook.pre-start for container "110"
+lxc-start: 110: ../src/lxc/start.c: __lxc_start: 2008 Failed to initialize container "110"
+lxc-start: 110: ../src/lxc/tools/lxc_start.c: main: 306 The container failed to start
+lxc-start: 110: ../src/lxc/tools/lxc_start.c: main: 311 Additional information can be obtained by setting the --logfile and --logpriority options
+$ cat /tmp/lxc-110.log
+…
+lxc-start 110 20230602130630.394 DEBUG    conf - ../src/lxc/conf.c:run_buffer:310 - Script exec /usr/share/lxc/hooks/lxc-pve-prestart-hook 110 lxc pre-start produced output: directory '/mnt/off1/off-products' does not exist
+
+lxc-start 110 20230602130630.411 ERROR    conf - ../src/lxc/conf.c:run_buffer:321 - Script exited with status 116
+…
+```
+
+In fact I got
+```bash
+$ ls /mnt/off1/
+ls: cannot access '/mnt/off1/obf-products': Stale file handle
+ls: cannot access '/mnt/off1/off-products': Stale file handle
+ls: cannot access '/mnt/off1/opf-products': Stale file handle
+$ umount /mnt/off1/o{p,f,b}f-products
+$ for f in /mnt/off1/o{p,f,b}f-products;do echo $f; mount $f; done
+/mnt/off1/opf-products
+mount.nfs: access denied by server while mounting 10.0.0.1://rpool/opf/products
+/mnt/off1/off-products
+mount.nfs: access denied by server while mounting 10.0.0.1://rpool/off/products
+/mnt/off1/obf-products
+mount.nfs: access denied by server while mounting 10.0.0.1://rpool/obf/products
+```
+This access denied is strange…
+After searching a bit, finally a `systemctl restart nfs-server` on off1 did resolve…
+
+Then `pct start 110` works.
+
+### Prepare to mount off2 datasets on off1
+
+After migration we want to be able to access opff products and images on off1 to ensure migrations works.
+
+We just change sharenfs property:
+```bash
+zfs set sharenfs=rw=@10.0.0.1/32 zfs-hdd/opff/products
+zfs set sharenfs=rw=@10.0.0.1/32 zfs-hdd/opff/images
+```
+
+And test on off1 it works:
+```bash
+mkdir /tmp/test-mount
+mount -t nfs -o rw,nolock "10.0.0.2://zfs-hdd/opff/products"  /tmp/test-mount
+ls /tmp/test-mount/301/762/042/2003/
+umount /tmp/test-mount
+rmdir /tmp/test-mount
+```
+
+
+
 
 
 ## Improvment
+
+### using git for off2 configurations
 
 Using `git` for off2 configuration (I'm omitting the moves / cp I add to do):
 
@@ -1608,9 +1723,17 @@ For `/etc/pve` symlinking is not possible (this is a fuse mount handled by proxm
 - wilcard certificates on nginx proxy
 - GEOIP updates - verify it works and it's compatible (country of a product)
 
+- verify if compression is working on nginx ?
+symlinks to check
+find files that are symlinks in opff on off1:
+```
+$ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
+```
+
+
 - logrotate:
-  - nginx specific logs
-  - apache logs
+  - nginx specific logs -> by system
+  - apache logs -> see above
   - product opener logs
 
 
@@ -1641,39 +1764,54 @@ For `/etc/pve` symlinking is not possible (this is a fuse mount handled by proxm
   ssl_dhparam /etc/ssl/certs/dhparam.pem;
   ```
 
+- mongodb export on mongodb server --> installed client
+- mounting to enable products migration --> NFS shares
 
-**TODO**
-
-- mongodb export on mongodb server ? using docker ?
-- mounting to enable products migration
-
+- /srv/opff/mediawiki folder is probably because this was initially stored in the git (it contains a php file).
 
 
 **Improve**
 - notification when important task fails
+- verifications of state (last snapshot, last start date for a systemctl oneshot)
 - IP failover ? (maybe after off1 setup)
-- crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works.
+- metrics ?
+- de we want to reintroduce this crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works - can't we use nginx rate limitation instead ?
 
 
 **FIXME** for off
 - Generate JS assets via github action and add to release
 - Minions for off
-- verify if compression is working on nginx ?
 - pb madenearme - WONTFIX ?
-
-
 
 ## TODO at final production switch
 
-1. rsync products images:
-   `sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products  /zfs-hdd/opff/images`
-1. rsync html/data
-   `sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data  /zfs-hdd/opff/data`
+1. shutdown opff on off2
+
+1. Rync all data (on off2):
+  ```bash
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/products/  /zfs-hdd/opff/products/
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products/  /zfs-hdd/opff/images/
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data/  /zfs-hdd/opff/html_data/
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/deleted.images/ /zfs-hdd/opff/deleted.images/
+  
+  ```
+  opff/cache is skipped, nothing of interest.
+
+2. shutdown opff on both side
+
+3. Rsync again
+
+4. ensure migrations works using NFS:
+   ```bash
+   # move old prod
+   mv /srv/opff /srv/opff.old
+   # create dirs
+   mkdir -p /srv/opff/products /srv/opff/html/images/products
+   chown off:off -R /srv/opff
+   ```
+   then change /etc/fstab to mount off2 there
+
+
 1. verify /srv/opff is not too different
 
 
-## **DONE** symlinks to check
-find files that are symlinks in opff on off1:
-```
-$ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
-```
