@@ -1785,21 +1785,36 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 
 ## TODO at final production switch
 
+1. change TTL for openpetfoodfacts domains to a low value in DNS
+
 1. shutdown opff on off2
+   `sudo systemctl stop apache2 nginx`
+
 
 1. Rync all data (on off2):
   ```bash
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/products/  /zfs-hdd/opff/products/
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products/  /zfs-hdd/opff/images/
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data/  /zfs-hdd/opff/html_data/
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/deleted.images/ /zfs-hdd/opff/deleted.images/
-  
+  date && \
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products/  /zfs-hdd/opff/images/products/ && \
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/data/  /zfs-hdd/opff/html_data/ && \
+  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/deleted.images/ /zfs-hdd/opff/deleted.images/  && \
+  date
   ```
   opff/cache is skipped, nothing of interest.
 
-2. shutdown opff on both side
+  *took around 2min*
 
-3. Rsync again
+
+4. products sync:
+   - remove opff from sync products script
+   - do a zfs send of only opff products with a modified version of the script
+
+
+2. shutdown opff on both side
+   on off1: `sudo systemctl stop apache2@opff` `unlink /etc/nginx/sites-enabled/opff && systemctl reload nginx`
+
+3. change DNS to point to new machine
+
+3. Rsync and zfs sync again
 
 4. ensure migrations works using NFS:
    ```bash
@@ -1809,9 +1824,24 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
    mkdir -p /srv/opff/products /srv/opff/html/images/products
    chown off:off -R /srv/opff
    ```
-   then change /etc/fstab to mount off2 there
+   then change /etc/fstab to mount off1 there:
+   ```conf
+   # mount of opff zfs datasets via NFS to enable products migrations
+   10.0.0.2:/zfs-hdd/opff/products	/srv/opff/products	nfs	rw,nolock	0	0
+   10.0.0.2:/zfs-hdd/opff/images/products	/srv/opff/html/images/products	nfs	rw,nolock	0	0
+   ```
+   and mount:
+   ```bash
+   mount /srv/opff/products
+   mount /srv/opff/html/images/products
+   ```
 
+5. start opff on container off2/110 (opff): `sudo systemctl start apache2 nginx`
+6. check it works (remember to also clean your /etc/hosts if you modified it for tests)
+6. disable opff service on off1:
+   - `systemctl disable apache2@opff`
+   - `unlink /etc/nginx/site-enabled/opff && sytemctl reload nginx` (if not already done)
 
-1. verify /srv/opff is not too different
-
-
+7. on off2 and ovh3 modify sanoid configuration to have opff/products handled by sanoid and synced to ovh3
+8. remove opff from snapshot-purge.sh on ovh3 (now handled by sanoid)
+9. don't forget to test that it still work after that
