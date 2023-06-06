@@ -339,4 +339,10 @@ Copied my user .bashrc to /root/ (as the root .bashrc was almost empty)
 
 ## Still TODO ?
 
-1. install  iptables-persistent
+1. install iptables-persistent
+1. install etckeeper
+1. install rsync
+1. install screen
+1. removed nginx (why was it there ?)
+
+

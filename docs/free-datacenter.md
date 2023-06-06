@@ -101,3 +101,9 @@ They enable a distant reboot of the server through a specific interface.
 * Subnet Mask: 255.255.255.224
 * Static DNS: 213.36.253.10
 * Static Alter: 213.36.252.131
+
+### Network
+
+Apart from the IDRAC address, off2 has the 213.36.253.208 IP address.
+
+We also have 213.36.253.214 which is dedicated to the [NGINX reverse proxmox](./nginx-reverse-proxy.md).
