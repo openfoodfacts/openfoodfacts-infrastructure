@@ -2,7 +2,7 @@
 
 So far, Robotoff backups were performed manually. We wish to automate the process.
 
-I created a zfs dataset for Robotoff backups:
+On ovh3, I created a zfs dataset for Robotoff backups:
 
 `zfs create rpool/backups/robotoff`
 
