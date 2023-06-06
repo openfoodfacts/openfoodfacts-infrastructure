@@ -300,7 +300,7 @@ $ sudo adduser off docker
 We want ES backups to be on the ovh3 backups server to avoid taking place on SSD. So we want to create a fs in /rpool/backup/monitoring-volumes and share it via nfs.
 
 ```bash
-sudo nfs create /rpool/backups/monitoring-volumes
+sudo zfs create /rpool/backups/monitoring-volumes
 ```
 
 NFS sharing is automatically inherited from backups:
