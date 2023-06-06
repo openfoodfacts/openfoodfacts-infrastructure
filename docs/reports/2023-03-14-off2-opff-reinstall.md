@@ -1,6 +1,6 @@
-# 2023-03 OFF2 reinstall
+# 2023-03 OFF2 reinstall - opff migration
 
-## Current Storage situation
+## Storage situation before re-install
 
 
 ```mermaid
@@ -79,10 +79,11 @@ I reboot the container 101, and it seems to work.
 Created a `confs/proxy-off/fail2ban/jail.d/nginx` using debian provided feature for nginx
 Then:
 ```bash
-sudo ln -s 
 sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/fail2ban/jail.d/nginx.conf /etc/fail2ban/jail.d/
 systemctl reload fail2ban
 ```
+
+**NOTE**: it's really not enough, but to analyze 403 / 401 we need a specific plugin that analyze logs.
 
 ### declaring DNS entry
 
@@ -219,112 +220,8 @@ server {
 }
 ```
 
-## Open Pet Food Facts install
 
-### Creating CT
-
-I created a CT followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
-
-I also [configure postfix](../mail#postfix-configuration) and tested it.
-
-### Installing packages
-
-Then I installed needed package following docker container:
-
-```bash
-apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 make gettext wget imagemagick graphviz tesseract-ocr libtie-ixhash-perl libwww-perl libimage-magick-perl libxml-encoding-perl libtext-unaccent-perl libmime-lite-perl libcache-memcached-fast-perl libjson-pp-perl libclone-perl libcrypt-passwdmd5-perl libencode-detect-perl libgraphics-color-perl libbarcode-zbar-perl libxml-feedpp-perl liburi-find-perl libxml-simple-perl libexperimental-perl libapache2-request-perl libdigest-md5-perl libtime-local-perl libdbd-pg-perl libtemplate-perl liburi-escape-xs-perl libmath-random-secure-perl libfile-copy-recursive-perl libemail-stuffer-perl liblist-moreutils-perl libexcel-writer-xlsx-perl libpod-simple-perl liblog-any-perl liblog-log4perl-perl liblog-any-adapter-log4perl-perl libgeoip2-perl libemail-valid-perl libmath-fibonacci-perl libev-perl libprobe-perl-perl libmath-round-perl libsoftware-license-perl libtest-differences-perl libtest-exception-perl libmodule-build-pluggable-perl libclass-accessor-lite-perl libclass-singleton-perl libfile-sharedir-install-perl libnet-idn-encode-perl libtest-nowarnings-perl libfile-chmod-perl libdata-dumper-concise-perl libdata-printer-perl libdata-validate-ip-perl libio-compress-perl libjson-maybexs-perl liblist-allutils-perl liblist-someutils-perl libdata-section-simple-perl libfile-which-perl libipc-run3-perl liblog-handler-perl libtest-deep-perl libwant-perl libfile-find-rule-perl liblinux-usermod-perl liblocale-maketext-lexicon-perl liblog-any-adapter-tap-perl libcrypt-random-source-perl libmath-random-isaac-perl libtest-sharedfork-perl libtest-warn-perl libsql-abstract-perl libauthen-sasl-saslprep-perl libauthen-scram-perl libbson-perl libclass-xsaccessor-perl libconfig-autoconf-perl libdigest-hmac-perl libpath-tiny-perl libsafe-isa-perl libspreadsheet-parseexcel-perl libtest-number-delta-perl libdevel-size-perl gnumeric libreadline-dev libperl-dev
-```
-
-Also installed mailx which is handy:
-
-```bash
-apt install mailx
-```
-
-We also want nginx in this container:
-```bash
-apt install nginx
-```
-
-
-### GeoIP updates
-
-install `geoipupdate` package:
-
-```bash
-sudo apt install geoipupdate
-```
-
-It will be triggered by a systemd timer, but we want to test if it runs correctly:
-```bash
-sudo systemctl start geoipupdate.service
-sudo systemctl status geoipupdate.service
-...
-Process: 7819 ExecCondition=grep -q ^AccountID .*[^0]\+ /etc/GeoIP.conf (code=exited, stat>
-        CPU: 2ms
-...
-mai 10 09:12:23 opff systemd[1]: geoipupdate.service: Skipped due to 'exec-condition'.
-mai 10 09:12:23 opff systemd[1]: Condition check resulted in Weekly GeoIP update being skipped.
-```
-it does not work because we did not have an account and license key.
-
-I had to [create an account](https://www.maxmind.com/en/geolite2/signup?utm_source=kb&utm_medium=kb-link&utm_campaign=kb-create-account) to GeoipLite2 database at maxmind.com with tech at off.org (and saved the password in our keepassx).
-After login, I then created a license key (at url indicated on https://dev.maxmind.com/geoip/updating-databases) and downloaded the provided GeoIP.conf, and installed it at `/etc/GeoIP.conf`
-
-Test it again:
-```bash
-sudo systemctl start geoipupdate.service
-sudo systemctl status geoipupdate.service
-...
-mai 10 09:45:27 opff systemd[1]: Starting Weekly GeoIP update...
-mai 10 09:45:34 opff systemd[1]: geoipupdate.service: Succeeded.
-mai 10 09:45:34 opff systemd[1]: Finished Weekly GeoIP update.
-```
-this works.
-
-
-### Getting the code
-
-I then rsync the content of `/srv/opff` from off1 to the machine, (with -x to avoid sending crossing filesystems and excluding logs and html/images/products/).
-
-I copied the `/root/.ssh/id_rsa.pub`  off off2 in the `/root/.ssh/authorized_keys` of off1
-
-
-On off2:
-
-```
-sudo mkdir /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
-sudo rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" off1.openfoodfacts.org:/srv/opff/ /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
-```
-
-Strangely /srv/opff/lang was not world readable, I changed this on off1: `chmod a+rX -R lang/` and did rsync again.
-
-In the container:
-
-* I created user off: `adduser off` with a complex password that I immediately forgot (on purpose).
-* I give ownership to off user and group to `/srv/opff`: `chown off:off -R /srv/opff` --> it fails.
-  In fact I don't have the permissions, it's because we are in a LXC container.
-
-* On the host, we have to setup ownership correctly on `/zfs-hdd/pve/subvol-110-disk-0/srv/opff/`
-  but we have to apply user id translation (see UID Mapping in [man lxc.containers.conf](https://linuxcontainers.org/lxc/manpages/man5/lxc.container.conf.5.html))
-* To get correct Id:
-  * in the container, I created a simple file  `/srv/off.txt` and gave ownership to `off`
-  * on the host I `ls -ln /zfs-hdd/pve/subvol-110-disk-0/srv/off.txt` and get the id: 101000:101000.
-* Then on the host: `sudo chown 101000:101000 -R /zfs-hdd/pve/subvol-110-disk-0/srv/opff/`
-* In the container, I then created logs and html/images/products/:
-  ```bash
-  sudo mkdir logs
-  sudo mkdir html/images/products/
-  sudo chown off:off html/images/products/ logs
-  ```
-
-lrwxrwxrwx 1 off off 20 22 févr.  2021 /srv/opff/products -> /rpool/opff/products
-lrwxrwxrwx 1 off off 14 25 sept.  2018 /srv/opff/users -> /srv/off/users
-lrwxrwxrwx 1 off off 24 29 janv.  2021 /srv/opff/html/robots.txt -> /srv/off/html/robots.txt
-
-
-
-### Putting data in zfs datasets
+## Putting data in zfs datasets
 
 Finding broken links:
 `find /srv/opff -xtype l | xargs ls -l`
@@ -337,7 +234,7 @@ We also have some html contents linked to off **FIXME decide what to do**
 * /srv/opff/products -> /rpool/opff/products
 * /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
 
-#### creating datasets
+### creating datasets
 
 I init a dataset for each projects: `zfs create opff`, `zfs create opff`, etc for `off`, `off-pro`, `obf` and `opf`
 
@@ -349,87 +246,7 @@ And change permissions of directories:
 sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/data /zfs-hdd/opff/images /zfs-hdd/opff/cache
 ```
 
-Add them to `sanoid.conf`
-```
-[zfs-hdd/opff]
-  use_template=prod_data
-  recursive=no
-
-[zfs-hdd/opff/cache]
-  use_template=prod_data
-  recursive=no
-
-[zfs-hdd/opff/data]
-  use_template=prod_data
-  recursive=no
-
-[zfs-hdd/opff/images]
-  use_template=prod_data
-  recursive=no
-
-```
-
-For opff it's a bit more complicated because I had it created already on off2 and ovh3, so no sync possible ! (at time of doing it I had products and images)
-
-To be able to sync it, here is what I did:
-* on off2, sync opff to a dataset with a temporary name on ovh3:
-  ```bash
-   sudo syncoid --no-sync-snap zfs-hdd/opff  root@ovh3.openfoodfacts.org:rpool/opff-new
-  ```
-* on ovh3:
-
-  * on off2 temporarily disable the syncoid service
-    ```bash
-    sudo systemctl disable syncoid
-    ```
-  * choose a time far from the products updates (to avoid having to disable it)
-  * on ovh3
-    * move products and images dataset to opff-new
-      ```bash
-      sudo zfs rename rpool/opff{,-new}/products
-      sudo zfs rename rpool/opff{,-new}/images
-      ```
-    * move opff to opff-old
-      ```bash
-      sudo zfs rename rpool/opff{,-old}
-      ```
-    * rename opff-new to opff
-      ```bash
-      sudo zfs rename rpool/opff{-new,}
-      ```
-  * on off2 reactivate syncoid service
-    ```bash
-    sudo systemctl enable syncoid
-    ```
-  * on ovh3
-    * verify opff-old is empty
-      ```bash
-      sudo ls -a /rpool/opff-old
-      sudo zfs list rpool/opff-old
-      sudo zfs list rpool/opff-old -t snapshot
-      ```
-    * and destroy it
-      ```bash
-      sudo zfs destroy rpool/opff-old
-      ```
-
-Finally I added the opff sync to `syncoid-args.conf` on ovh3 and the snapshoting as synced on ovh3 in `sanoid.conf`
-
-I also did it for the data and cache dataset:
-
-```bash
-# from off2 to ovh3
---no-sync-snap zfs-hdd/opff root@ovh3.openfoodfacts.org:rpool/opff
---no-sync-snap zfs-hdd/opff/cache root@ovh3.openfoodfacts.org:rpool/opff/cache
---no-sync-snap zfs-hdd/opff/data root@ovh3.openfoodfacts.org:rpool/opff/data
-```
-
-> **NOTE** renaming dataset:
-> I had to rename data to html_data (I didn't spot there was another data dataset).
-> `zfs rename zfs-hdd/opff/data zfs-hdd/opff/html_data` on both ovh3 and off2
-> Then changed `/etc/sanoid/sanoid.conf` and `/etc/sanoid/syncoid_args.conf`
-
-#### Products
+### Products (for all flavors)
 
 Notice: the script to sync is not working out of the box because it use `-i` even if distant snapshot is empty !
 
@@ -461,15 +278,17 @@ real    117m16.799s
 real    5m59.378s
 ```
 
-#### users
+Then I put off2 in the sync products scripts. So that sync products script synchronize to both machines.
 
-Users are not currently in a zfs on prod but we have them on zfs on ovh3 and there is a sync every day.
+Note: as we move a flavor to production on off2, we will change the sync as off2 will become the master.
 
-So we can use zfs sync from ovh3 to off2.
+### Users
 
-**FIXME:** we have to fix the users case !
+~~Users are not currently in a zfs on prod but we have them on zfs on ovh3 and there is a sync every day.~~
 
-#### Products images
+We will nfs mount the users folder of off1.
+
+### Products images
 
 We will do a rsync, that we will have to repeat when putting in production.
 
@@ -480,7 +299,7 @@ sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products  /zfs-
 ```
 this took 12 minutes.
 
-Then I sync to ovh3:
+Then I sync to ovh3 (see also below [sanoid usage](#sanoid)):
 
 ```bash
 time sudo  syncoid --no-sync-snap zfs-hdd/opff/images root@ovh3.openfoodfacts.org:rpool/opff/images
@@ -493,7 +312,7 @@ I also add the main dataset and images to be synced to ovh3 by adding to `/etc/s
 --no-sync-snap zfs-hdd/opff/images root@ovh3.openfoodfacts.org:rpool/opff/images
 ```
 
-#### other data (and cache)
+### other data (and cache)
 
 I rsync cache data on ofF2:
 
@@ -507,11 +326,11 @@ I rsync other data on ofF2:
 rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/{deleted.images,data} /zfs-hdd/opff/
 ```
 
-#### Snapshots and Syncs
+### Snapshots and Syncs with sanoid
 
 I decided to use [sanoid](https://github.com/jimsalterjrs/sanoid) (packaged on debian bullseyes) to handle snapshots and syncs.
 
-
+#### Installing
 
 On OVH3 I have [to install it](https://github.com/jimsalterjrs/sanoid/blob/master/INSTALL.md#debianubuntu).
 I exactly follow the instructions.
@@ -601,11 +420,162 @@ $ sudo systemctl daemon-reload
     while the last stable version uses systemd timerss and `/etc/sanoid/sanoid.conf`.
     So I prefered to go for the same version on all servers, and install the 2.1.0 deb that I built on ovh3.
 
+#### setting up snapshot and syncs
 
 
-## Setting up services
+I added the shares of opff to `sanoid.conf`
+```
+[zfs-hdd/opff]
+  use_template=prod_data
+  recursive=no
 
-### Mounting volumes
+[zfs-hdd/opff/cache]
+  use_template=prod_data
+  recursive=no
+
+[zfs-hdd/opff/data]
+  use_template=prod_data
+  recursive=no
+
+[zfs-hdd/opff/images]
+  use_template=prod_data
+  recursive=no
+```
+
+It's easy to start the sync for data, cache and images.
+
+For opff root dataset it's a bit more complicated because I had it created already on off2 and ovh3, so no sync possible ! (at time of doing it I had products and images)
+
+To be able to sync it, here is what I did:
+* on off2, sync opff to a dataset with a temporary name on ovh3:
+  ```bash
+   sudo syncoid --no-sync-snap zfs-hdd/opff  root@ovh3.openfoodfacts.org:rpool/opff-new
+  ```
+* on ovh3:
+
+  * on off2 temporarily disable the syncoid service
+    ```bash
+    sudo systemctl disable syncoid
+    ```
+  * choose a time far from the products updates (to avoid having to disable it)
+  * on ovh3
+    * move products and images dataset to opff-new
+      ```bash
+      sudo zfs rename rpool/opff{,-new}/products
+      sudo zfs rename rpool/opff{,-new}/images
+      ```
+    * move opff to opff-old
+      ```bash
+      sudo zfs rename rpool/opff{,-old}
+      ```
+    * rename opff-new to opff
+      ```bash
+      sudo zfs rename rpool/opff{-new,}
+      ```
+  * on off2 reactivate syncoid service
+    ```bash
+    sudo systemctl enable syncoid
+    ```
+  * on ovh3
+    * verify opff-old is empty
+      ```bash
+      sudo ls -a /rpool/opff-old
+      sudo zfs list rpool/opff-old
+      sudo zfs list rpool/opff-old -t snapshot
+      ```
+    * and destroy it
+      ```bash
+      sudo zfs destroy rpool/opff-old
+      ```
+
+Finally I added the opff sync to `syncoid-args.conf` on ovh3 and the snapshoting as synced on ovh3 in `sanoid.conf`
+
+I also did it for the data and cache dataset:
+
+```bash
+# from off2 to ovh3
+--no-sync-snap zfs-hdd/opff root@ovh3.openfoodfacts.org:rpool/opff
+--no-sync-snap zfs-hdd/opff/cache root@ovh3.openfoodfacts.org:rpool/opff/cache
+--no-sync-snap zfs-hdd/opff/data root@ovh3.openfoodfacts.org:rpool/opff/data
+```
+
+> **NOTE** renaming dataset:
+> I had to rename data to html_data (I didn't spot there was another data dataset).
+> `zfs rename zfs-hdd/opff/data zfs-hdd/opff/html_data` on both ovh3 and off2
+> Then changed `/etc/sanoid/sanoid.conf` and `/etc/sanoid/syncoid_args.conf`
+
+
+
+## Open Pet Food Facts container install
+
+
+### Creating Container
+
+I created a CT followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+
+I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+
+### Installing packages
+
+Then I installed needed package following docker container:
+
+```bash
+apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 make gettext wget imagemagick graphviz tesseract-ocr libtie-ixhash-perl libwww-perl libimage-magick-perl libxml-encoding-perl libtext-unaccent-perl libmime-lite-perl libcache-memcached-fast-perl libjson-pp-perl libclone-perl libcrypt-passwdmd5-perl libencode-detect-perl libgraphics-color-perl libbarcode-zbar-perl libxml-feedpp-perl liburi-find-perl libxml-simple-perl libexperimental-perl libapache2-request-perl libdigest-md5-perl libtime-local-perl libdbd-pg-perl libtemplate-perl liburi-escape-xs-perl libmath-random-secure-perl libfile-copy-recursive-perl libemail-stuffer-perl liblist-moreutils-perl libexcel-writer-xlsx-perl libpod-simple-perl liblog-any-perl liblog-log4perl-perl liblog-any-adapter-log4perl-perl libgeoip2-perl libemail-valid-perl libmath-fibonacci-perl libev-perl libprobe-perl-perl libmath-round-perl libsoftware-license-perl libtest-differences-perl libtest-exception-perl libmodule-build-pluggable-perl libclass-accessor-lite-perl libclass-singleton-perl libfile-sharedir-install-perl libnet-idn-encode-perl libtest-nowarnings-perl libfile-chmod-perl libdata-dumper-concise-perl libdata-printer-perl libdata-validate-ip-perl libio-compress-perl libjson-maybexs-perl liblist-allutils-perl liblist-someutils-perl libdata-section-simple-perl libfile-which-perl libipc-run3-perl liblog-handler-perl libtest-deep-perl libwant-perl libfile-find-rule-perl liblinux-usermod-perl liblocale-maketext-lexicon-perl liblog-any-adapter-tap-perl libcrypt-random-source-perl libmath-random-isaac-perl libtest-sharedfork-perl libtest-warn-perl libsql-abstract-perl libauthen-sasl-saslprep-perl libauthen-scram-perl libbson-perl libclass-xsaccessor-perl libconfig-autoconf-perl libdigest-hmac-perl libpath-tiny-perl libsafe-isa-perl libspreadsheet-parseexcel-perl libtest-number-delta-perl libdevel-size-perl gnumeric libreadline-dev libperl-dev
+```
+
+Also installed mailx which is handy:
+
+```bash
+apt install mailx
+```
+
+We also want nginx in this container:
+```bash
+apt install nginx
+```
+
+
+### GeoIP updates
+
+install `geoipupdate` package:
+
+```bash
+sudo apt install geoipupdate
+```
+
+It will be triggered by a systemd timer, but we want to test if it runs correctly:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+...
+Process: 7819 ExecCondition=grep -q ^AccountID .*[^0]\+ /etc/GeoIP.conf (code=exited, stat>
+        CPU: 2ms
+...
+mai 10 09:12:23 opff systemd[1]: geoipupdate.service: Skipped due to 'exec-condition'.
+mai 10 09:12:23 opff systemd[1]: Condition check resulted in Weekly GeoIP update being skipped.
+```
+it does not work because we did not have an account and license key.
+
+I had to [create an account](https://www.maxmind.com/en/geolite2/signup?utm_source=kb&utm_medium=kb-link&utm_campaign=kb-create-account) to GeoipLite2 database at maxmind.com with tech at off.org (and saved the password in our keepassx).
+After login, I then created a license key (at url indicated on https://dev.maxmind.com/geoip/updating-databases) and downloaded the provided GeoIP.conf, and installed it at `/etc/GeoIP.conf`
+
+Test it again:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+...
+mai 10 09:45:27 opff systemd[1]: Starting Weekly GeoIP update...
+mai 10 09:45:34 opff systemd[1]: geoipupdate.service: Succeeded.
+mai 10 09:45:34 opff systemd[1]: Finished Weekly GeoIP update.
+```
+this works.
+
+
+**NOTE:** I don't put this configuration in git because it has the token. The token is saved in the shared keepass file.
+
+
+## Mounting volumes
 
 We will use bind mounts to make zfs datasets available inside the machine.
 
@@ -652,7 +622,49 @@ We fix this from the host:
 root@off2:# chown 1001:1001 -R /zfs-hdd/pve/subvol-110-disk-0/home/alex
 root@off2:# chown 1000:1000 -R /zfs-hdd/pve/subvol-110-disk-0/home/off
 ```
-#### linking data
+
+
+## Installing OPFF code
+
+
+**NOTE:** I didn't choose to use git from the start. But for next install, I will instead use git to find the code and compare to existing ([see below](#using-git)), instead of doing it this way
+
+### Getting the code
+
+I then rsync the content of `/srv/opff` from off1 to the machine, (with -x to avoid sending crossing filesystems and excluding logs and html/images/products/).
+
+I copied the `/root/.ssh/id_rsa.pub`  off off2 in the `/root/.ssh/authorized_keys` of off1
+
+
+On off2:
+
+```
+sudo mkdir /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
+sudo rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" off1.openfoodfacts.org:/srv/opff/ /zfs-hdd/pve/subvol-110-disk-0/srv/opff/
+```
+
+Strangely /srv/opff/lang was not world readable, I changed this on off1: `chmod a+rX -R lang/` and did rsync again.
+
+In the container:
+
+* I created user off: `adduser off` with a complex password that I immediately forgot (on purpose).
+* I give ownership to off user and group to `/srv/opff`: `chown off:off -R /srv/opff` --> it fails.
+  In fact I don't have the permissions, it's because we are in a LXC container.
+
+* On the host, we have to setup ownership correctly on `/zfs-hdd/pve/subvol-110-disk-0/srv/opff/`
+  but we have to apply user id translation (see UID Mapping in [man lxc.containers.conf](https://linuxcontainers.org/lxc/manpages/man5/lxc.container.conf.5.html))
+* To get correct Id:
+  * in the container, I created a simple file  `/srv/off.txt` and gave ownership to `off`
+  * on the host I `ls -ln /zfs-hdd/pve/subvol-110-disk-0/srv/off.txt` and get the id: 101000:101000.
+* Then on the host: `sudo chown 101000:101000 -R /zfs-hdd/pve/subvol-110-disk-0/srv/opff/`
+* In the container, I then created logs and html/images/products/:
+  ```bash
+  sudo mkdir logs
+  sudo mkdir html/images/products/
+  sudo chown off:off html/images/products/ logs
+  ```
+
+### linking data
 
 Unless stated operation are done with user off.
 
@@ -712,8 +724,7 @@ mv /srv/{opff,backup}/new_images
 ln -s /mnt/opff/cache/new_images /srv/opff/new_images
 ```
 
-
-#### linking logs
+### linking logs
 
 We want logs to go in /var/logs.
 
@@ -728,7 +739,7 @@ sudo  -u off ln -s ../apache2 /var/log/opff
 sudo -u off ln -s ../nginx /var/log/opff
 ```
 
-#### verify config links
+### verify config links
 
 They where normaly kept in the transfer, but for the record:
 ```bash
@@ -738,78 +749,13 @@ lrwxrwxrwx 1 off off 16  2 janv.   2018 /srv/opff/lib/ProductOpener/SiteLang.pm 
 ```
 and `/srv/opff/lib/ProductOpener/Config2.pm` is specific.
 
-### NGINX for OPFF
 
-Installed nginx `apt install nginx`.
+### Using git
 
-Removed default site ` unlink /etc/nginx/sites-enabled/default`
+After using a copy of code, I decided to use git and have an opff-main branch to track change.
+This is because I wanted to also track the container services configuration files there.
 
-Copied production nginx configuration of off1 in `/etc/nginx/sites-enabled/opff` to off2 in `/srv/opff/conf/nginx/sites-available/opff`
-
-Modified it's configuration to remove ssl section (**FIXME:** to be commited in off-server)
-
-Then made a symlink: `ln -s /srv/opff/conf/nginx/sites-available/opff /etc/nginx/sites-enabled/opff`
-
-
-### Apache
-
-On off1 conf is in `/etc/apache2-opff/`, here we can set it up in directly in system apache configuration.
-
-On off2:
-
-* Remove default config (or it will conflict on port 80 with nginx):
-  ```bash
-  sudo unlink /etc/apache2/sites-enabled/000-default.conf
-  ```
-
-* We disable mpm event and enable mpm prefork:
-  ```bash
-  sudo a2dismod mpm_event
-  sudo a2enmod mpm_prefork
-  ```
-
-* add the configuration for opff (as stored openfoodfacts-server project)
-  copied the opff.conf file in `/etc/apache2/sites-available` and activate it:
-  ```bash
-  sudo a2ensite opff.conf
-  ```
-
-* edit `/etc/apache2-opf/envvars`
-  ```
-  #export APACHE_RUN_USER=www-data
-  export APACHE_RUN_USER=off
-  #export APACHE_RUN_GROUP=www-data
-  export APACHE_RUN_GROUP=off
-  ```
-
-* edit `/etc/apache2/mods-available/mpm_prefork.conf`
-  ```
-        StartServers                     2
-        MinSpareServers           2
-        MaxSpareServers          4
-        MaxRequestWorkers         20
-        MaxConnectionsPerChild   500
-  ```
-
-* change ports apache is listening in `/etc/apache2/ports.conf` (because we need port 80 for nginx):
-  ```
-  Listen 8001
-
-  #<IfModule ssl_module>
-  #       Listen 443
-  #</IfModule>
-
-  #<IfModule mod_gnutls.c>
-  #       Listen 443
-  #</IfModule>
-  ```
-
-We also have to change permissions on log since we changed run user:
-
-```bash
-sudo chown off:off -R /var/log/apache2 /var/run/apache2
-```
-
+Here is what I did (but next time, it is better to just start from the git code).
 
 ### Finding OPFF version
 
@@ -826,8 +772,7 @@ I then compared code with various commits. Finally I put the tag [OPFF-v1](https
 
 It's approximate because we apparently got less up to date taxonomies.
 
-
-## Using git
+### modifying git code to match opff code
 
 Created /srv/opff-git to clone and compare:
 ```bash
@@ -891,7 +836,7 @@ $ git fetch -v --depth=1
 ```
 
 
-### Replacing with git repo
+### Swapping code for the one of the git repo
 
 ```bash
 sudo mv /srv/opff{,-old}
@@ -1035,107 +980,8 @@ cd /srv/opff/html/images/misc/
 ln -s android-apk.svg android-apk-40x135.svg
 ```
 
-### Testing
 
-Direct apache call
-```bash
-curl localhost:8001/cgi/display.pl --header 'Host: fr.openpetfoodfacts.org'
-```
-
-Nginx call
-```bash
-curl localhost --header 'Host: fr.openpetfoodfacts.org'
-```
-### creating systemd units for timers jobs
-
-Good source:
-* https://trstringer.com/systemd-timer-vs-cronjob/
-* https://dev.to/setevoy/linux-systemd-unit-files-edit-restart-on-failure-and-email-notifications-5h3k
-* https://www.freedesktop.org/software/systemd/man/systemd.unit.html to use "instance names"
-
-See git for actual units and timers and the service for email notifications.
-
-We can also add the on failure to apache2.service and nginx.service
-```bash
-$ grep -B 4 email-failure /usr/lib/systemd/system/apache2.service
-[Unit]
-Description=The Apache HTTP Server
-After=network.target remote-fs.target nss-lookup.target
-Documentation=https://httpd.apache.org/docs/2.4/
-OnFailure=email-failures@apache2-opff.service
-$ grep -B 4 email-failure /usr/lib/systemd/system/nginx.service
-[Unit]
-Description=A high performance web server and a reverse proxy server
-Documentation=man:nginx(8)
-After=network.target nss-lookup.target
-OnFailure=email-failures@nginx-opff.service
-```
-
-
-### Using link for system files
-
-Nginx conf:
-
-```bash
-sudo ln -s /srv/opff/conf/nginx/sites-available /etc/nginx/sites-enabled/opff
-sudo ln -s /srv/opff/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
-sudo ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-sudo rm /etc/nginx/mime.types
-sudo ln -s /srv/opff/conf/nginx/mime.types /etc/nginx/
-# add specific files
-ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-```
-
-test it:
-```bash
-sudo nginx -t
-```
-
-Apache conf:
-
-```bash
-ln -s /srv/opff/conf/apache-2.4/sites-available/opff.conf /etc/apache2/sites-enabled/opff.conf
-# we replace mpm_prefork conf
-ln -s /srv/opff/conf/apache-2.4/opff-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
-# replace ports.conf
-ln -s /srv/opff/conf/apache-2.4/opff-ports.conf /etc/apache2/ports.conf
-```
-
-test it:
-```bash
-sudo apache2ctl configtest
-```
-
-Systemd units:
-```bash
-ln -s /srv/opff/conf/systemd/gen_feeds\@.timer /etc/systemd/system
-ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
-ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
-ln -s /srv/opff/conf/systemd/email-failures\@.service /etc/systemd/system
-```
-
-Test failure notification is working:
-
-```bash
-systemctl start email-failures@gen_feeds__opff.service
-```
-
-Test systemclt gen_feeds services are working:
-
-**FIXME TODO**
-```bash
-```
-
-Activate systemd units:
-
-```bash
-systemctl enable gen_feeds@opff.timer
-systemctl enable gen_feeds_daily@opff.timer
-systemctl daemon-reload
-```
-
-
-## Installing CPAN
+### Installing CPAN
 
 ```bash
 cd /srv/opff
@@ -1228,6 +1074,188 @@ Successfully installed Locale-Maketext-Lexicon-Getcontext-0.05
 Successfully installed Crypt-ScryptKDF-0.010
 44 distributions installed
 
+```
+
+
+## Setting up services
+
+
+### NGINX for OPFF (inside container)
+
+Installed nginx `apt install nginx`.
+
+Removed default site ` unlink /etc/nginx/sites-enabled/default`
+
+Copied production nginx configuration of off1 in `/etc/nginx/sites-enabled/opff` to off2 in `/srv/opff/conf/nginx/sites-available/opff`
+
+Modified it's configuration to remove ssl section (**FIXME:** to be commited in off-server)
+
+Then made a symlink: `ln -s /srv/opff/conf/nginx/sites-available/opff /etc/nginx/sites-enabled/opff`
+
+But we want to have config files in the git, so here is what we did.
+
+Nginx conf:
+
+```bash
+sudo ln -s /srv/opff/conf/nginx/sites-available /etc/nginx/sites-enabled/opff
+sudo ln -s /srv/opff/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+sudo ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+sudo rm /etc/nginx/mime.types
+sudo ln -s /srv/opff/conf/nginx/mime.types /etc/nginx/
+# add specific files
+ln -s /srv/opff/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+```
+
+test it and restart:
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+### Apache
+
+On off1 conf is in `/etc/apache2-opff/`, here we can set it up in directly in system apache configuration.
+
+On off2:
+
+* Remove default config (or it will conflict on port 80 with nginx):
+  ```bash
+  sudo unlink /etc/apache2/sites-enabled/000-default.conf
+  ```
+
+* We disable mpm event and enable mpm prefork:
+  ```bash
+  sudo a2dismod mpm_event
+  sudo a2enmod mpm_prefork
+  ```
+
+* add the configuration for opff (as stored openfoodfacts-server project)
+  copied the opff.conf file in `/etc/apache2/sites-available` and activate it:
+  ```bash
+  sudo a2ensite opff.conf
+  ```
+
+* edit `/etc/apache2-opf/envvars`
+  ```
+  #export APACHE_RUN_USER=www-data
+  export APACHE_RUN_USER=off
+  #export APACHE_RUN_GROUP=www-data
+  export APACHE_RUN_GROUP=off
+  ```
+
+* edit `/etc/apache2/mods-available/mpm_prefork.conf`
+  ```
+        StartServers                     2
+        MinSpareServers           2
+        MaxSpareServers          4
+        MaxRequestWorkers         20
+        MaxConnectionsPerChild   500
+  ```
+
+* change ports apache is listening in `/etc/apache2/ports.conf` (because we need port 80 for nginx):
+  ```
+  Listen 8001
+
+  #<IfModule ssl_module>
+  #       Listen 443
+  #</IfModule>
+
+  #<IfModule mod_gnutls.c>
+  #       Listen 443
+  #</IfModule>
+  ```
+
+We also have to change permissions on log since we changed run user:
+
+```bash
+sudo chown off:off -R /var/log/apache2 /var/run/apache2
+```
+
+We want to put it all in git:
+
+```bash
+ln -s /srv/opff/conf/apache-2.4/sites-available/opff.conf /etc/apache2/sites-enabled/opff.conf
+# we replace mpm_prefork conf
+ln -s /srv/opff/conf/apache-2.4/opff-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+# replace ports.conf
+ln -s /srv/opff/conf/apache-2.4/opff-ports.conf /etc/apache2/ports.conf
+```
+
+test it:
+```bash
+sudo apache2ctl configtest
+```
+
+
+### creating systemd units for timers jobs
+
+Good source:
+* https://trstringer.com/systemd-timer-vs-cronjob/
+* https://dev.to/setevoy/linux-systemd-unit-files-edit-restart-on-failure-and-email-notifications-5h3k
+* https://www.freedesktop.org/software/systemd/man/systemd.unit.html to use "instance names"
+
+See git for actual units and timers and the service for email notifications.
+
+We want them to be in git, so finally:
+
+Systemd units:
+```bash
+ln -s /srv/opff/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+ln -s /srv/opff/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+ln -s /srv/opff/conf/systemd/email-failures\@.service /etc/systemd/system
+```
+
+Test failure notification is working:
+
+```bash
+systemctl start email-failures@gen_feeds__opff.service
+```
+
+Test systemclt gen_feeds services are working:
+
+```bash
+systemctl start gen_feeds_daily@opff.service
+systemctl start gen_feeds@opff.service
+```
+
+Activate systemd units:
+
+```bash
+systemctl enable gen_feeds@opff.timer
+systemctl enable gen_feeds_daily@opff.timer
+systemctl daemon-reload
+```
+### Adding failure notification for apache and nginx in systemd
+
+We can add the on failure notification we created for timers to apache2.service and nginx.service:
+
+```bash
+$ grep -B 4 email-failure /usr/lib/systemd/system/apache2.service
+[Unit]
+Description=The Apache HTTP Server
+After=network.target remote-fs.target nss-lookup.target
+Documentation=https://httpd.apache.org/docs/2.4/
+OnFailure=email-failures@apache2-opff.service
+$ grep -B 4 email-failure /usr/lib/systemd/system/nginx.service
+[Unit]
+Description=A high performance web server and a reverse proxy server
+Documentation=man:nginx(8)
+After=network.target nss-lookup.target
+OnFailure=email-failures@nginx-opff.service
+```
+
+
+### Testing
+
+Direct apache call
+```bash
+curl localhost:8001/cgi/display.pl --header 'Host: fr.openpetfoodfacts.org'
+```
+
+Nginx call
+```bash
+curl localhost --header 'Host: fr.openpetfoodfacts.org'
 ```
 
 ### Verifying if we need Apache2::Connection::XForwardedFor
@@ -1326,6 +1354,7 @@ Later on, I discovered the [`set_real_ip_from` directive](https://nginx.org/en/d
         }
 ```
 
+
 ### log rotate perl logs
 
 Perl logs rotation requires an apache restart, so we will replace the apache conf to use our log rotate with all considered files.
@@ -1347,6 +1376,8 @@ sudo logrotate /etc/logrotate.conf --debug
 
 In opff.
 
+We need mongodb client to be able to export the database in gen_feeds.
+
 I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
 but we are on bullseye, and we just want to install tools.
 
@@ -1363,7 +1394,7 @@ sudo apt install  mongodb-database-tools
 We can see if we will be able to use mongoexport
 
 
-## OPFF NGINX configuration
+## OPFF NGINX reverse proxy configuration
 
 We follow [Steps to create Nginx configuration](../nginx-reverse-proxy.md#steps-to-create-nginx-configuration)
 but we put host in `/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx`
@@ -1419,7 +1450,7 @@ CustomLog /var/log/apache2/opff_access.log proxy
 ```
 
 
-## Debugs
+## Debugs and fixing
 
 ### Testing
 
@@ -1428,7 +1459,7 @@ To test my installation I added this to `/etc/hosts` on my computer:
 213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
 ```
 
-### GeoIP
+### Fixing GeoIP
 
 GeoIP does not seems to work. If I had a new product from https://world.openpetfoodfacts.org country where soled is not pre-filled.
 
@@ -1477,19 +1508,7 @@ But it was only because the LogFormat directive was ignored because of an error 
 
 Fixing that it worked. But on the way to do it, I changed Nginx config as I discovered the `set_real_ip_from` directive.
 
-## Fixing migration by cross nfs mounting folders
-
-To be able to migrate products between instances, we need to:
-* talk to same mongodb (it's already the case)
-* access products and images folders of other instances (todo)
-
-Working on moving images to ZFS (**FIXME**: link), I already setup sharing off2 ZFS dataset of zfs-hdd/off/images on off1.
-
-Now we will:
-- also mount products datasets on off1
-- install zfs server on off1 and share current products and images folders
-
-## Fixing lang problem
+### Fixing lang problem
 
 Symptom: no images loaded on product. In console, 404 on https://static.openpetfoodfacts.org/data/i18n/en/lang.json
 
@@ -1504,6 +1523,18 @@ But I also forgot to link /srv/opff/html/data/ to /mnt/…
 mv /srv/opff/html/data{,.old} && ln -s /mnt/opff/html_data /srv/opff/html/data
 ```
 Fixed the problem.
+
+## Enabling migration by cross nfs mounting folders
+
+To be able to migrate products between instances, we need to:
+* talk to same mongodb (it's already the case)
+* access products and images folders of other instances (todo)
+
+Working on moving images to ZFS (**FIXME**: link), I already setup sharing off2 ZFS dataset of zfs-hdd/off/images on off1.
+
+Now we will:
+- also mount products datasets on off1
+- install zfs server on off1 and share current products and images folders
 
 
 ### Mount off1 ZFS dataset on off2
@@ -1600,7 +1631,7 @@ lrwxrwxrwx 1 nobody nogroup 33  1 juin   09:00 /mnt/off/images/000 -> /mnt/off2/
 this /mnt/off2/off-images/products/000 does not exists in the container…
 I can add it by adding one more MP.
 
-## Fixing users share
+## Sharing users with NFS
 
 As I added nfs to expose off1 data to off2, I realized it could be better to use it to be able to continue to create users and have them synced on opff (let alone the lock, but it should be safe enough).
 
@@ -1700,9 +1731,6 @@ rmdir /tmp/test-mount
 ```
 
 
-
-
-
 ## Improvment
 
 ### using git for off2 configurations
@@ -1716,74 +1744,7 @@ ln -s /opt/openfoodfacts-infrastructure/confs/off2/sanoid/syncoid-args.conf /etc
 
 For `/etc/pve` symlinking is not possible (this is a fuse mount handled by proxmox). So I only copied current configuration.
 
-## Still TODO
-
-**DONE**
-- image magick avec le format de mac HEIC - DONE on .net - TESTED OK
-- wilcard certificates on nginx proxy
-- GEOIP updates - verify it works and it's compatible (country of a product)
-
-- verify if compression is working on nginx ?
-symlinks to check
-find files that are symlinks in opff on off1:
-```
-$ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
-```
-
-
-- logrotate:
-  - nginx specific logs -> by system
-  - apache logs -> see above
-  - product opener logs
-
-
-- ssl headers on frontend ?:
-  ```conf
-  add_header Strict-Transport-Security "max-age=63072000";
-  add_header X-Content-Type-Options nosniff;
-  add_header X-Frame-Options DENY;
-  ```
-- ssl params on frontend ?
-  ```conf
-  # from https://cipherli.st/
-  # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
-  
-  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-  ssl_prefer_server_ciphers on;
-  ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
-  ssl_ecdh_curve secp384r1;
-  #ssl_session_cache shared:SSL:10m;
-  ssl_session_tickets off;
-  ssl_stapling on;
-  ssl_stapling_verify on;
-  resolver 8.8.8.8 8.8.4.4 valid=300s;
-  resolver_timeout 5s;
-  
-  include snippets/ssl-headers.conf;
-  
-  ssl_dhparam /etc/ssl/certs/dhparam.pem;
-  ```
-
-- mongodb export on mongodb server --> installed client
-- mounting to enable products migration --> NFS shares
-
-- /srv/opff/mediawiki folder is probably because this was initially stored in the git (it contains a php file).
-
-
-**Improve**
-- notification when important task fails
-- verifications of state (last snapshot, last start date for a systemctl oneshot)
-- IP failover ? (maybe after off1 setup)
-- metrics ?
-- de we want to reintroduce this crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works - can't we use nginx rate limitation instead ?
-
-
-**FIXME** for off
-- Generate JS assets via github action and add to release
-- Minions for off
-- pb madenearme - WONTFIX ?
-
-## TODO at final production switch
+## Procedure for switch of opff from off1 to off2
 
 1. change TTL for openpetfoodfacts domains to a low value in DNS
 
@@ -1845,3 +1806,73 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 7. on off2 and ovh3 modify sanoid configuration to have opff/products handled by sanoid and synced to ovh3
 8. remove opff from snapshot-purge.sh on ovh3 (now handled by sanoid)
 9. don't forget to test that it still work after that
+
+
+## Still TODO
+
+### DONE
+- image magick avec le format de mac HEIC - DONE on .net - TESTED OK
+- wilcard certificates on nginx proxy
+- GEOIP updates - verify it works and it's compatible (country of a product)
+
+- verify if compression is working on nginx ?
+symlinks to check
+find files that are symlinks in opff on off1:
+```
+$ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
+```
+
+
+- logrotate:
+  - nginx specific logs -> by system
+  - apache logs -> see above
+  - product opener logs
+
+
+- ssl headers on frontend ?:
+  ```conf
+  add_header Strict-Transport-Security "max-age=63072000";
+  add_header X-Content-Type-Options nosniff;
+  add_header X-Frame-Options DENY;
+  ```
+- ssl params on frontend ?
+  ```conf
+  # from https://cipherli.st/
+  # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+  
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+  ssl_ecdh_curve secp384r1;
+  #ssl_session_cache shared:SSL:10m;
+  ssl_session_tickets off;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  resolver 8.8.8.8 8.8.4.4 valid=300s;
+  resolver_timeout 5s;
+  
+  include snippets/ssl-headers.conf;
+  
+  ssl_dhparam /etc/ssl/certs/dhparam.pem;
+  ```
+
+- mongodb export on mongodb server --> installed client
+- mounting to enable products migration --> NFS shares
+
+- /srv/opff/mediawiki folder is probably because this was initially stored in the git (it contains a php file).
+
+
+### Improve
+
+- notification when important task fails
+- verifications of state (last snapshot, last start date for a systemctl oneshot)
+- IP failover ? (maybe after off1 setup)
+- metrics ?
+- de we want to reintroduce this crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works - can't we use nginx rate limitation instead ?
+- verification of snapshot state on off2 and ovh3
+
+
+### TODO for off install
+- Generate JS assets via github action and add to release
+- Minions for off
+- pb madenearme - WONTFIX ?
