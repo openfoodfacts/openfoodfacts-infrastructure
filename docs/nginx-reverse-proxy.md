@@ -20,7 +20,7 @@ To make a new service, hosted on Proxmox, available you need to:
 * have this service available on proxmox internal network
 * in the DNS, CNAME you service name to
   * `proxy1.openfoodfacts.org` for OVH (ovh1..3)
-  * `-off-proxy.openfoodfacts.org` for Free (off1..2)
+  * `off-proxy.openfoodfacts.org` for Free (off1..2)
 * write a configuration on nginx for this service
 * eventually add https
 
