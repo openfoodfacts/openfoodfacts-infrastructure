@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -628,6 +643,20 @@
     <li class="md-nav__item">
       <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -971,8 +1000,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1260,36 +1317,52 @@ total is about 21% (but ES is quite idle), on a 9 core machines. So 4 cores shou
 <h3 id="create-ticket">Create ticket<a class="headerlink" href="#create-ticket" title="Permanent link">#</a></h3>
 <p>I thus create <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/159">a ticket for the VM</a></p>
 <h2 id="creating-a-vm">Creating a VM<a class="headerlink" href="#creating-a-vm" title="Permanent link">#</a></h2>
-<p>We prefer not to reuse an ip that:
-* from 100 to 200 for lxc containers
-* from 200 and up for QEMU</p>
+<p>We prefer not to reuse an ip that:</p>
+<ul>
+<li>from 100 to 200 for lxc containers</li>
+<li>from 200 and up for QEMU</li>
+</ul>
 <p>Right click on ovh1 "create VM" or use the button up right (create VM).
 I used "advanced".</p>
-<p>General:
-* node: ovh1
-* VM ID: 203 (first available in 200+)
-* name: monitoring
-* start at boot: yes</p>
-<p>OS:
-* use CD/DVD image file:
-  * Storage: backup
-  * ISO image: debian 11.10</p>
+<p>General:</p>
+<ul>
+<li>node: ovh1</li>
+<li>VM ID: 203 (first available in 200+)</li>
+<li>name: monitoring</li>
+<li>start at boot: yes</li>
+</ul>
+<p>OS:</p>
+<ul>
+<li>use CD/DVD image file:<ul>
+<li>Storage: backup</li>
+<li>ISO image: debian 11.10</li>
+</ul>
+</li>
+</ul>
 <p>System: all left to default</p>
-<p>Disk
-* Bus / device: SCISI 0
-* Storage: zfs
-* Disk Size: 32 G
-* advanced let as is</p>
-<p>CPU:
-* Sockets: 1
-* Cores: 4
-* Types: host (to be able to use SIMD opts)</p>
-<p>Memory
-* Memory: 12288 MB</p>
-<p>Network:
-* Bridge: vmbr0 (default)
-* Vlan tag: No vlan (default)
-* Model: virtio (default)</p>
+<p>Disk</p>
+<ul>
+<li>Bus / device: SCISI 0</li>
+<li>Storage: zfs</li>
+<li>Disk Size: 32 G</li>
+<li>advanced let as is</li>
+</ul>
+<p>CPU:</p>
+<ul>
+<li>Sockets: 1</li>
+<li>Cores: 4</li>
+<li>Types: host (to be able to use SIMD opts)</li>
+</ul>
+<p>Memory</p>
+<ul>
+<li>Memory: 12288 MB</li>
+</ul>
+<p>Network:</p>
+<ul>
+<li>Bridge: vmbr0 (default)</li>
+<li>Vlan tag: No vlan (default)</li>
+<li>Model: virtio (default)</li>
+</ul>
 <p>We confirm, asking it starts immediately.</p>
 <p>In a console on ovh1 we can see it:</p>
 <div class="highlight"><pre><span></span><code>qm<span class="w"> </span>list
@@ -1308,11 +1381,13 @@ I used "advanced".</p>
 <li>locale: en_US.UTF8</li>
 <li>keymap: french</li>
 </ul>
-<p>… install runs … and stops on network
-* configure network manually
-* ip address: 10.1.0.203/24
-* gateway: 10.1.0.1 (it will then be set by PVE)
-* nameserver: 213.186.33.99 (it will then be set by PVE)</p>
+<p>… install runs … and stops on network</p>
+<ul>
+<li>configure network manually</li>
+<li>ip address: 10.1.0.203/24</li>
+<li>gateway: 10.1.0.1 (it will then be set by PVE)</li>
+<li>nameserver: 213.186.33.99 (it will then be set by PVE)</li>
+</ul>
 <p>I took values by looking at existing machines with (ip address list, ip route list and cat /etc/resolv.conf)</p>
 <p>… it checks network…</p>
 <ul>
@@ -1508,11 +1583,13 @@ sudo<span class="w"> </span>-E<span class="w"> </span>bash
 in <code>kibana.openfoodfacts.org.conf</code>, 10.1.0.200 becomes 10.1.0.203</p>
 <p>I also manually changed prometheus config on old VM to stare at 203 instead of 200 for elasticsearch (I could'nt deploy there any more), editing <code>configs/prometheus/config.yml</code> and using <code>docker-composes restart prometheus</code></p>
 <h4 id="influxdb-prometheus-alert-manager-and-grafana">Influxdb, Prometheus, alert-manager and grafana<a class="headerlink" href="#influxdb-prometheus-alert-manager-and-grafana" title="Permanent link">#</a></h4>
-<p>I started with a rsync of volumes from 200 to 203, for volumes:
-* grafana-data --&gt; monitoring_grafana-data
-* prometheus-data --&gt; monitoring_prometheus-data
-* influxdb-data --&gt; monitoring_influxdb-data
-* alertmanager-data --&gt; monitoring_alertmanager-data</p>
+<p>I started with a rsync of volumes from 200 to 203, for volumes:</p>
+<ul>
+<li>grafana-data --&gt; monitoring_grafana-data</li>
+<li>prometheus-data --&gt; monitoring_prometheus-data</li>
+<li>influxdb-data --&gt; monitoring_influxdb-data</li>
+<li>alertmanager-data --&gt; monitoring_alertmanager-data</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>vname<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span>grafana,prometheus,influxdb,alertmanager<span class="o">}</span>-dat
 a<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$vname</span><span class="s2"> --------------&quot;</span><span class="p">;</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span>/var/lib/docker/volumes/<span class="nv">$vname</span>/_data/<span class="w"> </span>alex@10.1.0.203:/var/lib/docker/volumes/monitoring_<span class="nv">$vname</span>/_data/<span class="p">;</span><span class="k">done</span>
 </code></pre></div>
@@ -1522,11 +1599,13 @@ a<span class="p">;</span><span class="k">do</span><span class="w"> </span><span 
 </code></pre></div></p>
 <p>Redo the above sync <sup id="fnref:double_rsync"><a class="footnote-ref" href="#fn:double_rsync">1</a></sup>.</p>
 <p>And started services on 203.</p>
-<p>I then changed config on reverse proxy for:
-* alertmanager.openfoodfacts.org.conf
-* grafana.openfoodfacts.org.conf
-* monitoring.openfoodfacts.org.conf
-* prometheus.openfoodfacts.org.conf</p>
+<p>I then changed config on reverse proxy for:</p>
+<ul>
+<li>alertmanager.openfoodfacts.org.conf</li>
+<li>grafana.openfoodfacts.org.conf</li>
+<li>monitoring.openfoodfacts.org.conf</li>
+<li>prometheus.openfoodfacts.org.conf</li>
+</ul>
 <h3 id="breaking-old-deployment">Breaking old deployment<a class="headerlink" href="#breaking-old-deployment" title="Permanent link">#</a></h3>
 <p>To avoid an accidental restart of old stack on 200 VM, but still keep it around, I edited manually the docker-compose.yml with a bad syntax, and change ownership to root, so a deployment would break !</p>
 <h2 id="post-migration">Post migration<a class="headerlink" href="#post-migration" title="Permanent link">#</a></h2>

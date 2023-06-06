@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../2022-03-03-zammad-elasticsearch-not-running/">
+        <link rel="prev" href="../2022-03-off2-PCI-NVMe-problems/">
       
       
         <link rel="next" href="../2022-07-11-infra-workshop/">
@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -628,6 +643,20 @@
     <li class="md-nav__item">
       <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -902,8 +931,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1138,15 +1195,19 @@ docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> <
 </code></pre></div>
 <h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">#</a></h3>
 <p>There are a lot secrets to set on the github repo, I had to look at all used variables.</p>
-<p>I edited branch protection rule, because workflow are sensible:
-- restrict only admins and maintainers to push to deploy-* branches
-- same for main branch, with of course pull request review etc.</p>
+<p>I edited branch protection rule, because workflow are sensible:</p>
+<ul>
+<li>restrict only admins and maintainers to push to deploy-* branches</li>
+<li>same for main branch, with of course pull request review etc.</li>
+</ul>
 <p>To create a GRAPHANA token I had to go to graphana configuration -&gt; API keys - made an editor key and put it at repository level</p>
 <h3 id="first-run">First run<a class="headerlink" href="#first-run" title="Permanent link">#</a></h3>
 <p>I did had a very hard way making connection to server successful:</p>
-<p>Lessons learned:
-- you have to connect through ovh1 as proxy, not ovh2
-- secret key is to be as in the id_rsa key, that is with the "BEGIN PRIVATE…" and "END …" lines</p>
+<p>Lessons learned:</p>
+<ul>
+<li>you have to connect through ovh1 as proxy, not ovh2</li>
+<li>secret key is to be as in the id_rsa key, that is with the "BEGIN PRIVATE…" and "END …" lines</li>
+</ul>
 <p>I had problem with the volume creation because /srv/off/docker_data was owned by root.
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>/srv/off/docker_data
 </code></pre></div></p>

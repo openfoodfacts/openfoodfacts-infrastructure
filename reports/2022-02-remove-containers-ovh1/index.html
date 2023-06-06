@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -721,6 +736,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         Deploying openfoodfacts-search to staging
       </a>
@@ -847,8 +876,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1000,9 +1057,11 @@ We had to kill a lot of processes to get all down, and then remove /var/run/vzdu
 <p>We then had to remove a backup because we where above the limit of 4 backups</p>
 <p>We then backup, it was a bit long (25 minutes).</p>
 <h2 id="removal-of-a-vm">Removal of a VM<a class="headerlink" href="#removal-of-a-vm" title="Permanent link">#</a></h2>
-<p><strong>Important</strong>:
-* Ensure you have backups for the machine before removal
-* stop the machine</p>
+<p><strong>Important</strong>:</p>
+<ul>
+<li>Ensure you have backups for the machine before removal</li>
+<li>stop the machine</li>
+</ul>
 <p>In options we edit protection to remove "Yes" if present.
 In upper bar on the machine : More -&gt; destroy
 You then check "remove from tasks"</p>
@@ -1024,9 +1083,11 @@ umount  /rpool/subvol-115-disk-0/mnt/products
 <p><strong>Important</strong> remember to report changes to  https://docs.google.com/spreadsheets/d/19RePmE_-1V_He73fpMJYukEMjPWNmav1610yjpGKfD0/edit#gid=0</p>
 <h2 id="creating-a-vm">Creating a VM<a class="headerlink" href="#creating-a-vm" title="Permanent link">#</a></h2>
 <p>Right click on ovh1 "create VM) or use the button up right.</p>
-<p>We prefer not to reuse an ip that:
-* from 100 to 200 for lxc containers
-* from 200 and up fot QEMU</p>
+<p>We prefer not to reuse an ip that:</p>
+<ul>
+<li>from 100 to 200 for lxc containers</li>
+<li>from 200 and up fot QEMU</li>
+</ul>
 <h3 id="creating-a-qemu-vm">Creating a QEMU VM<a class="headerlink" href="#creating-a-qemu-vm" title="Permanent link">#</a></h3>
 <ul>
 <li>use the iso in backups</li>

@@ -532,6 +532,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -627,17 +642,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -749,6 +764,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -887,8 +916,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1095,10 +1152,12 @@ PMG sees each incoming request as issued by <code>10.1.0.1</code>.</p>
 the public key was reported in DNS configuration</p>
 <p>see also <a href="../reports/2022-02-proxmox-mail-gateway-install/">installation report</a></p>
 <h3 id="redirects">redirects<a class="headerlink" href="#redirects" title="Permanent link">#</a></h3>
-<p>On DNS:
-* <code>pmg.openfoodfacts.org</code> is a CNAME to <code>ovh1.openfoodfacts.org</code>
-* <code>ovh1</code> ip address is reported in the spf entry of the DNS
-* there is an entry for the dkim key</p>
+<p>On DNS:</p>
+<ul>
+<li><code>pmg.openfoodfacts.org</code> is a CNAME to <code>ovh1.openfoodfacts.org</code></li>
+<li><code>ovh1</code> ip address is reported in the spf entry of the DNS</li>
+<li>there is an entry for the dkim key</li>
+</ul>
 <p>An iptable rule on host (<code>ovh1</code>) redirects our server incoming ips to the VM smtp port (25).
 Private network address (corresponding to VM and docker ranges) are also redirected.</p>
 <p>To add a new machine
@@ -1118,14 +1177,16 @@ this is needed for certificate generation through letsencrypt by the gateway.</p
 directly on the <code>pmg</code> server.</p>
 <p>To test quality of the configuration
 we can send a mail to a service such as https://www.mail-tester.com/</p>
-<p>To test using this service:
-- I temporarily added an iptables rule to enable my personal ip address 
-  to be forwarded to the mail gateway (as for servers)
-- I added pmg.openfoodfacts.org as an smtp server in thunderbird
-  and configured my personal address to use it
-- I sent a mail as requested by the service
-- I could then check the result
-- I undo iptables and thunderbird config</p>
+<p>To test using this service:</p>
+<ul>
+<li>I temporarily added an iptables rule to enable my personal ip address 
+  to be forwarded to the mail gateway (as for servers)</li>
+<li>I added pmg.openfoodfacts.org as an smtp server in thunderbird
+  and configured my personal address to use it</li>
+<li>I sent a mail as requested by the service</li>
+<li>I could then check the result</li>
+<li>I undo iptables and thunderbird config</li>
+</ul>
 <h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">#</a></h2>
 <p>On client servers (be it a VM, a host or a standalone server),
 we use either exim4 or postfix.</p>
@@ -1141,7 +1202,7 @@ Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etck
 <li>mail name: openfoodfacts.org</li>
 <li>
 <p>relayhost: pmg.openfoodfacts.org</p>
-<p>(with an exception for ovh1: 10.1.0.2)</p>
+<p>(with an exception for ovh1/ovh2/ovh3: 10.1.0.2)</p>
 </li>
 </ul>
 <ul>

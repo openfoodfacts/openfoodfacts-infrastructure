@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -628,6 +643,20 @@
     <li class="md-nav__item">
       <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -944,8 +973,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1192,22 +1249,26 @@ We put the card back into the server.</p>
 <h2 id="bios-config">Bios config<a class="headerlink" href="#bios-config" title="Permanent link">#</a></h2>
 <p>At some point, after memory check, the server display a dark screen and indicates some key to trigger BIOS. We hit F2 to enter BIOS (System Setup).</p>
 <h3 id="slot-bifurcation">Slot bifurcation<a class="headerlink" href="#slot-bifurcation" title="Permanent link">#</a></h3>
-<p>We go in:
-* System BIOS
-* Integrated devices
-* Slot bifurcation
-* we choose: Auto discovery of bifurcation</p>
+<p>We go in:</p>
+<ul>
+<li>System BIOS</li>
+<li>Integrated devices</li>
+<li>Slot bifurcation</li>
+<li>we choose: Auto discovery of bifurcation</li>
+</ul>
 <p>This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).</p>
 <p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - slot bifurcation menu" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation menu" src="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" title="Getting to Slot bifurcation menu in BIOS" width="50%" /></a></p>
 <p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - slot bifurcation" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation" src="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" title="Slot bifurcation set to Auto Discovery in BIOS" width="50%" /></a></p>
 <h3 id="idrac-ipmi">IDRAC / IPMI<a class="headerlink" href="#idrac-ipmi" title="Permanent link">#</a></h3>
-<p>We go in Network settings to configure IDRAC / IPMI (which has its own ethernet card):
-* disable DHCP and auto-discovery
-* Static IP address: 213.36.253.209
-* Gateway: 213.36.253.222
-* Subnet Mask: 255.255.255.224
-* Static Prefered DNS: 213.36.253.10
-* Static Alter: 213.36.252.131</p>
+<p>We go in Network settings to configure IDRAC / IPMI (which has its own ethernet card):</p>
+<ul>
+<li>disable DHCP and auto-discovery</li>
+<li>Static IP address: 213.36.253.209</li>
+<li>Gateway: 213.36.253.222</li>
+<li>Subnet Mask: 255.255.255.224</li>
+<li>Static Prefered DNS: 213.36.253.10</li>
+<li>Static Alter: 213.36.252.131</li>
+</ul>
 <p><a class="glightbox" href="../../img/2023-02-free-dc-bios-idrac-settings.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - IDRAC" data-desc-position="bottom"><img alt="BIOS screen - IDRAC" src="../../img/2023-02-free-dc-bios-idrac-settings.jpg" title="IDRAC settings in BIOS" width="50%" /></a></p>
 <p>These settings are given by our host provider (free)</p>
 <h3 id="perc-adapter">PERC adapter<a class="headerlink" href="#perc-adapter" title="Permanent link">#</a></h3>
@@ -1234,10 +1295,12 @@ We choose target ZFS. We choose RAID5, and we setup to only use the four 14TB di
 </ul>
 <p>We then add a root password, email: root@openfoodfacts.org
 hostname: off2.openfoodfacts.org</p>
-<p>Eno2 network setup:
-* IP static: 213.36.253.208/27
-* Gateway: 213.36.253.222
-* DNS Server: 213.36.253.10</p>
+<p>Eno2 network setup:</p>
+<ul>
+<li>IP static: 213.36.253.208/27</li>
+<li>Gateway: 213.36.253.222</li>
+<li>DNS Server: 213.36.253.10</li>
+</ul>
 <p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-network.jpg" data-type="image" data-width="100%" data-height="auto" data-title="eno2 config" data-desc-position="bottom"><img alt="eno2 config" src="../../img/2023-02-free-dc-pve-install-network.jpg" title="Configuration for eno2 interface" width="50%" /></a></p>
 <p>We are asked for confirmation:</p>
 <p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-summary.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Install summary screen" data-desc-position="bottom"><img alt="Install summary screen" src="../../img/2023-02-free-dc-pve-install-summary.jpg" title="Summary of Proxmox install" width="50%" /></a></p>
@@ -1379,7 +1442,11 @@ zfs-nvme<span class="w">  </span><span class="m">1</span>.81T<span class="w">   
 <p>Copied my user .bashrc to /root/ (as the root .bashrc was almost empty)</p>
 <h2 id="still-todo">Still TODO ?<a class="headerlink" href="#still-todo" title="Permanent link">#</a></h2>
 <ol>
-<li>install  iptables-persistent</li>
+<li>install iptables-persistent</li>
+<li>install etckeeper</li>
+<li>install rsync</li>
+<li>install screen</li>
+<li>removed nginx (why was it there ?)</li>
 </ol>
 
 

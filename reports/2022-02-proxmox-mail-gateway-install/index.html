@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -749,6 +764,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         Deploying openfoodfacts-search to staging
       </a>
@@ -875,8 +904,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1043,10 +1100,12 @@
 <p>Following https://www.proxmox.com/en/proxmox-mail-gateway/get-started</p>
 <p>VM is already there as Christian as started</p>
 <p>I take at Install Proxmox Mail Gateway on Debian, see https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmg_install_on_debian</p>
-<p>I started with apt update &amp;&amp; apt upgrade
-* I had to re-install package manager version of config file for clamav
-* I also installed vim ;-)
-* I edited <code>/etc/locale.gen</code> to add <code>fr_FR.UTF-8</code> then I run <code>locale-gen</code></p>
+<p>I started with apt update &amp;&amp; apt upgrade</p>
+<ul>
+<li>I had to re-install package manager version of config file for clamav</li>
+<li>I also installed vim ;-)</li>
+<li>I edited <code>/etc/locale.gen</code> to add <code>fr_FR.UTF-8</code> then I run <code>locale-gen</code></li>
+</ul>
 <p>Then apt install <code>proxmox-mailgateway</code></p>
 <p>reading <code>/etc/network/interfaces</code> show me we have a static address, this is ok</p>
 <p><code>/etc/apt/sources.list.d/pmg-enterprise.list</code> is ok 
@@ -1072,12 +1131,11 @@ see bug <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=3879">https://bugz
 <p><strong>❗️Warning:</strong> '+' is not an acceptable sign in password for it will be converted to space by http !!!</p>
 <p>Following <a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#_options">section 4.5.2</a></p>
 <p>Following <a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#sysadmin_certificate_management">section 4.6.3</a></p>
-<p>Prepared:
-- In <a href="https://www.ovh.com/manager/web/#/domain/openfoodfacts.org/zone">ovh web DNS</a>, 
-  I registered <code>pmg.openfoodfacts.org</code> as a <code>CNAME</code> to <code>ovh1.openfoodfacts.org</code>
-- I changed the configuration on nginx proxy (lxc 101) to redirect to pmg (so that certbot could work) :</p>
-<div class="highlight"><pre><span></span><code>```
-root@proxy:/etc/nginx/conf.d# cat pmg.openfoodfacts.org.conf
+<p>Prepared:</p>
+<ul>
+<li>In <a href="https://www.ovh.com/manager/web/#/domain/openfoodfacts.org/zone">ovh web DNS</a>, 
+  I registered <code>pmg.openfoodfacts.org</code> as a <code>CNAME</code> to <code>ovh1.openfoodfacts.org</code></li>
+<li>I changed the configuration on nginx proxy (lxc 101) to redirect to pmg (so that certbot could work) :<div class="highlight"><pre><span></span><code>root@proxy:/etc/nginx/conf.d# cat pmg.openfoodfacts.org.conf
 # PMG stands for Promox Mail Gateway
 # We need to redirect port 80, for letsencrypt&#39;s certificate management
 server {
@@ -1105,8 +1163,9 @@ root@proxy:/etc/nginx/conf.d# nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 root@proxy:/etc/nginx/conf.d# systemctl reload nginx
-```
 </code></pre></div>
+</li>
+</ul>
 <p>On the pmg machine:
 <div class="highlight"><pre><span></span><code>root@mail-gateway:/home/alex# pmgconfig acme account register default tech@openfoodfacts.org
 Directory endpoints:
@@ -1131,18 +1190,24 @@ Task OK
 put default relay to <code>smtp-relay.gmail.com</code>. In our case, normally we should not relay (it's for incoming mails)</p>
 <p>Removed any relay domains</p>
 <p>Ports: I move public port to 24 and private port to 25, this is because we will only join PMV from trusted servers</p>
-<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_networks">4.7.8 Networks</a>:
-- In networks tab I put the address of off1 and off2 without any mask.
-- Same for ovh1/2/3.
-- I also added usual private networks: (see <a href="https://en.wikipedia.org/wiki/Reserved_IP_addresses">https://en.wikipedia.org/wiki/Reserved_IP_addresses</a>): <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></p>
-<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_tls">4.7.9 TLS</a>
-- In TLS tab: I enables TLS</p>
-<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_dkim">4.7.10 DKIM</a>
-- I added selector with <code>pmg-openfoodfacts</code> value, key size 2048
-- Then I activated DKIM and tell to sign all outgoing mail
-- I clicked "View DNS record"
-- In ovh I then have to use the DKIM record type and use the form to create a similar looking entry:
-  checked version / Algorithm checked hash 256 / checked key type / public key (I add to join the string) / service type none / checked key valid for subdomains</p>
+<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_networks">4.7.8 Networks</a>:</p>
+<ul>
+<li>In networks tab I put the address of off1 and off2 without any mask.</li>
+<li>Same for ovh1/2/3.</li>
+<li>I also added usual private networks: (see <a href="https://en.wikipedia.org/wiki/Reserved_IP_addresses">https://en.wikipedia.org/wiki/Reserved_IP_addresses</a>): <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></li>
+</ul>
+<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_tls">4.7.9 TLS</a></p>
+<ul>
+<li>In TLS tab: I enables TLS</li>
+</ul>
+<p><a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_dkim">4.7.10 DKIM</a></p>
+<ul>
+<li>I added selector with <code>pmg-openfoodfacts</code> value, key size 2048</li>
+<li>Then I activated DKIM and tell to sign all outgoing mail</li>
+<li>I clicked "View DNS record"</li>
+<li>In ovh I then have to use the DKIM record type and use the form to create a similar looking entry:
+  checked version / Algorithm checked hash 256 / checked key type / public key (I add to join the string) / service type none / checked key valid for subdomains</li>
+</ul>
 <ul>
 <li>I added domain openfoodfacts.org (still in DKIM tab)</li>
 </ul>
@@ -1178,30 +1243,34 @@ sudo iptables -t nat -A PREROUTING -s 213.36.253.206,213.36.253.208,146.59.148.1
 <h2 id="configuring-servers">configuring servers<a class="headerlink" href="#configuring-servers" title="Permanent link">#</a></h2>
 <h3 id="on-dockers-aka-preprod">on dockers (aka preprod)<a class="headerlink" href="#on-dockers-aka-preprod" title="Permanent link">#</a></h3>
 <p>Configuration VM200 to send emails (this is a good candidates for tests):</p>
-<p><code>sudo apt intall postfix</code>
-* configuration type : satellite system
-* mail name: openfoodfacts.org
-* relayhost: pmg.openfoodfacts.org
-* mail for root: <a href="mailto:tech@openfoodfacts.org">tech@openfoodfacts.org</a>
-* other dest: blank
-* sync: no
-* local network: leave default
-* use procmail: no
-* default for the rest</p>
+<p><code>sudo apt intall postfix</code></p>
+<ul>
+<li>configuration type : satellite system</li>
+<li>mail name: openfoodfacts.org</li>
+<li>relayhost: pmg.openfoodfacts.org</li>
+<li>mail for root: <a href="mailto:tech@openfoodfacts.org">tech@openfoodfacts.org</a></li>
+<li>other dest: blank</li>
+<li>sync: no</li>
+<li>local network: leave default</li>
+<li>use procmail: no</li>
+<li>default for the rest</li>
+</ul>
 <p>test on preprod:
 <div class="highlight"><pre><span></span><code>echo &quot;Subject: sendmail test&quot; | sendmail -f alex@openfoodfacts.org -v alex@openfoodfacts.org
 </code></pre></div></p>
 <h3 id="on-off1">on off1<a class="headerlink" href="#on-off1" title="Permanent link">#</a></h3>
-<p><code>dpkg-reconfigure exim4-config</code>
-* mail sent by smarthost; no local mail
-* mail name: openfoodfacts.org
-* listen: 127.0.0.1
-* other dest: off1.free.org
-* visible domain name : openfoodfacts.org
-* IP address smarthost:  pmg.openfoodfacts.org
-* keep DNS queries minimal (dial-up): no
-* local: maildir format in home
-* split config : no</p>
+<p><code>dpkg-reconfigure exim4-config</code></p>
+<ul>
+<li>mail sent by smarthost; no local mail</li>
+<li>mail name: openfoodfacts.org</li>
+<li>listen: 127.0.0.1</li>
+<li>other dest: off1.free.org</li>
+<li>visible domain name : openfoodfacts.org</li>
+<li>IP address smarthost:  pmg.openfoodfacts.org</li>
+<li>keep DNS queries minimal (dial-up): no</li>
+<li>local: maildir format in home</li>
+<li>split config : no</li>
+</ul>
 <h2 id="on-off2">on off2<a class="headerlink" href="#on-off2" title="Permanent link">#</a></h2>
 <p>Same config of exim as on off1.</p>
 <p>But Initially I cannot send !</p>

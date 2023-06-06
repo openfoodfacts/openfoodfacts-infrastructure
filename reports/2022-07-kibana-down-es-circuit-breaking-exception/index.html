@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -506,17 +521,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -628,6 +643,20 @@
     <li class="md-nav__item">
       <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -951,8 +980,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1265,6 +1322,7 @@ our settings seems a bit low compared to defaults.</p>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;indices.breaker.total.use_real_memory=true&quot;</span>
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;indices.breaker.request.limit=95%&quot;</span>
 </code></pre></div>
@@ -1324,9 +1382,11 @@ other memory values (for <code>querycache</code> or <code>fielddata</code>) ar <
 name         id   node.role   heap.current heap.percent heap.max
 0665175f0369 3vOq cdfhilmrstw      978.5mb           95      1gb
 </code></pre></div>
-we see two potential problems:
-* heap size is only 1gb (it should be 2 according to our heap settings)
-* our a node use 95% memory</p>
+we see two potential problems:</p>
+<ul>
+<li>heap size is only 1gb (it should be 2 according to our heap settings)</li>
+<li>our a node use 95% memory</li>
+</ul>
 <h3 id="too-many-shards">Too many shards ?<a class="headerlink" href="#too-many-shards" title="Permanent link">#</a></h3>
 <p>following <a href="https://www.elastic.co/blog/managing-and-troubleshooting-elasticsearch-memory">Es blog on memory troubleshooting</a></p>
 <p>Over sharding is a usual suspect, let see:</p>
@@ -1356,6 +1416,7 @@ I change the <code>docker-compose.yml</code>:
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- &quot;ES_JAVA_OPTS=-Xms8048m -Xmx8048m&quot;</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="nt">mem_limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9g</span>
@@ -1370,10 +1431,11 @@ changed <code>indices.breaker.request.limit=95%</code> to <code>indices.breaker.
 <ul>
 <li>
 <p>modified docker-compose.yml to add</p>
-<p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">elasticsearch</span>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">elasticsearch</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">- &quot;path.repo=/opt/elasticsearch/backups&quot;</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">volumes</span><span class="p p-Indicator">:</span>
@@ -1383,7 +1445,11 @@ changed <code>indices.breaker.request.limit=95%</code> to <code>indices.breaker.
 <span class="nn">...</span>
 <span class="nt">elasticsearch-backup</span><span class="p">:</span>
 </code></pre></div>
-- Create directories</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>Create directories</p>
 <div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>elasticsearch<span class="w"> </span>bash
 <span class="nb">cd</span><span class="w"> </span>/opt/elasticsearch
 mkdir<span class="w"> </span>backups
@@ -1474,16 +1540,18 @@ And it's a success !</p>
 <p>In Kibana, go to Management -&gt; Stack Management -&gt; Snapshot and restore</p>
 <p>In "Repositories" we see the <code>backups</code> repository that was created before, pointing to <code>/opt/elasticsearch/backups</code></p>
 <p>Remember that we had to edit the <code>docker-compose.yml</code> file to add the <code>path.repo</code> environment variable and the <code>elasticsearch-backup</code> volume.</p>
-<p>In "Policies", we create a policy named <code>weekly-snapshots</code> as follow:
-- Snapshot name: <code>&lt;weekly-snap-{now/d}&gt;</code>
-- Repository: backups
-- Schedule : weekly
-- Data streams and indices: All indices
-- Ignore unavailable indices: No
-- Allow partial shards: No
-- Include global state: Yes
-- Retention: delete after 360d
-- Min count: 20</p>
+<p>In "Policies", we create a policy named <code>weekly-snapshots</code> as follow:</p>
+<ul>
+<li>Snapshot name: <code>&lt;weekly-snap-{now/d}&gt;</code></li>
+<li>Repository: backups</li>
+<li>Schedule : weekly</li>
+<li>Data streams and indices: All indices</li>
+<li>Ignore unavailable indices: No</li>
+<li>Allow partial shards: No</li>
+<li>Include global state: Yes</li>
+<li>Retention: delete after 360d</li>
+<li>Min count: 20</li>
+</ul>
 <h3 id="create-index-lifecycle-management-policy">Create Index Lifecycle Management policy<a class="headerlink" href="#create-index-lifecycle-management-policy" title="Permanent link">#</a></h3>
 <p>This part is very important. Logs are creating a lot of indices (as logrotate would) and so we have to automatically manage what happens with old indices so that we do not go beyond hardware capabilities (too much indices takes too much memory).
 ES has a mechanism for that called Index Lifecycle Management (ILM).</p>
@@ -1541,9 +1609,11 @@ To do this goes to Management -&gt; Stack Management -&gt; Index Management -&gt
 }
 </code></pre></div>
 <p>We then go to  Management -&gt; Stack Management -&gt; Index Management</p>
-<p>Select <em>logs-2022.08.18</em> and use "Manage" apply log policy, with:
-* policy: logs
-* alias: logs-current</p>
+<p>Select <em>logs-2022.08.18</em> and use "Manage" apply log policy, with:</p>
+<ul>
+<li>policy: logs</li>
+<li>alias: logs-current</li>
+</ul>
 <h3 id="attach-old-index-to-a-policy">Attach old index to a policy<a class="headerlink" href="#attach-old-index-to-a-policy" title="Permanent link">#</a></h3>
 <p>This will add it for future indices, but we want to add it to existing indices (we follow <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-with-existing-indices.html">ES doc, section Manage existing indices</a>).</p>
 <ul>
@@ -1567,13 +1637,17 @@ To do this goes to Management -&gt; Stack Management -&gt; Index Management -&gt
 <li>we do the  same for every monthes until 08, but beware not to apply it to 2022.08.18 !</li>
 </ul>
 <h2 id="useful-resources">Useful resources<a class="headerlink" href="#useful-resources" title="Permanent link">#</a></h2>
-<p>About circuit breaker exception:
-- https://aws.amazon.com/premiumsupport/knowledge-center/opensearch-circuit-breaker-exception/
-- https://www.elastic.co/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker
-- https://www.elastic.co/guide/en/elasticsearch/reference/7.0/circuit-breaker.html#parent-circuit-breaker</p>
-<p>About index lifecycle management (ILM):
-* https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index-lifecycle-management.html
-* https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html</p>
+<p>About circuit breaker exception:</p>
+<ul>
+<li>https://aws.amazon.com/premiumsupport/knowledge-center/opensearch-circuit-breaker-exception/</li>
+<li>https://www.elastic.co/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker</li>
+<li>https://www.elastic.co/guide/en/elasticsearch/reference/7.0/circuit-breaker.html#parent-circuit-breaker</li>
+</ul>
+<p>About index lifecycle management (ILM):</p>
+<ul>
+<li>https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index-lifecycle-management.html</li>
+<li>https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html</li>
+</ul>
 <div class="footnote">
 <hr />
 <ol>

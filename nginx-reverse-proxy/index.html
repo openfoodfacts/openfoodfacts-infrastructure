@@ -451,6 +451,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    Install
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -484,6 +491,21 @@
     <li class="md-nav__item">
       <a href="../odoo/" class="md-nav__link">
         Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
       </a>
     </li>
   
@@ -592,17 +614,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -714,6 +736,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -852,8 +888,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -974,6 +1038,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    Install
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -995,9 +1066,11 @@
 <h1 id="nginx-reverse-proxy-ovh">NGINX Reverse proxy (OVH)<a class="headerlink" href="#nginx-reverse-proxy-ovh" title="Permanent link">#</a></h1>
 <p>At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications. It serves applications that are located in servers at the same provider (and same Proxmox cluster).</p>
 <h2 id="network-specific-interface">Network specific interface<a class="headerlink" href="#network-specific-interface" title="Permanent link">#</a></h2>
-<p>It as a specific network configurations with two ethernet address:
-* one internal, to communicate with other VMs
-* one which is bridged on host network card, with ip fail over mechanism.</p>
+<p>It as a specific network configurations with two ethernet address:</p>
+<ul>
+<li>one internal, to communicate with other VMs</li>
+<li>one which is bridged on host network card, with ip fail over mechanism.</li>
+</ul>
 <p><strong>Important</strong>: only the public ip should have a gateway <sup id="fnref:proxmox_multiple_gateway"><a class="footnote-ref" href="#fn:proxmox_multiple_gateway">1</a></sup></p>
 <h2 id="configuring-a-new-service">Configuring a new service<a class="headerlink" href="#configuring-a-new-service" title="Permanent link">#</a></h2>
 <p>To make a new service, hosted on Proxmox, available you need to:</p>
@@ -1005,7 +1078,7 @@
 <li>have this service available on proxmox internal network</li>
 <li>in the DNS, CNAME you service name to<ul>
 <li><code>proxy1.openfoodfacts.org</code> for OVH (ovh1..3)</li>
-<li><code>proxy2.openfoodfacts.org</code> for Free (off1..2)</li>
+<li><code>off-proxy.openfoodfacts.org</code> for Free (off1..2)</li>
 </ul>
 </li>
 <li>write a configuration on nginx for this service</li>
@@ -1068,6 +1141,8 @@ Otherwise jump to <a href="#etc-keeper">EtcKeeper</a></p>
 <span class="w">  </span><span class="kn">server_name</span><span class="w">  </span><span class="s">my-service.openfoodfacts.net</span><span class="p">;</span>
 <span class="w">  </span><span class="kn">…</span>
 </code></pre></div></li>
+</ul>
+<ul>
 <li>but after it, add a new bare section for port 80:
   <div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
@@ -1133,6 +1208,8 @@ Do not forget to commit your changes:</p>
 <div class="highlight"><pre><span></span><code>etckeeper<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Configured my-service.openfoodfacts.net&quot;</span>
 </code></pre></div>
 <p>Now we are done 🎉</p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<p>Install was quite simple: we simply install nginx package, as well as stunnel4.</p>
 <div class="footnote">
 <hr />
 <ol>

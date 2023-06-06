@@ -409,6 +409,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -545,6 +560,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#mounting-datasets-in-a-proxmox-container" class="md-nav__link">
+    Mounting datasets in a proxmox container
+  </a>
+  
+    <nav class="md-nav" aria-label="Mounting datasets in a proxmox container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-uids-and-gids-right" class="md-nav__link">
+    Getting uids and gids right
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -566,17 +601,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -688,6 +723,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -826,8 +875,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -922,6 +999,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#mounting-datasets-in-a-proxmox-container" class="md-nav__link">
+    Mounting datasets in a proxmox container
+  </a>
+  
+    <nav class="md-nav" aria-label="Mounting datasets in a proxmox container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-uids-and-gids-right" class="md-nav__link">
+    Getting uids and gids right
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -945,20 +1042,57 @@
 <p>We use a lot ZFS for our data for it's reliability and incredible capabilities. The most important feature is data synchronization through snapshots. Clone also enables to easily have same data as production for tests.</p>
 <h2 id="learning-resources">Learning resources<a class="headerlink" href="#learning-resources" title="Permanent link">#</a></h2>
 <p>To learn about ZFS, see <a href="../reports/2023-02-24-zfs-introduction/">the onboarding made by Christian</a></p>
-<p>See also <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a></p>
+<p>See also <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a> 
+and <a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device">Proxmox ZFS documentation</a></p>
+<p>Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview</p>
 <h2 id="sync">Sync<a class="headerlink" href="#sync" title="Permanent link">#</a></h2>
 <p>To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
 You then use <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-send.8.html">zfs-send</a> an <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-recv.8.html">zfs-recv</a> through ssh to sync the distant server (send snapshots).</p>
 <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>send<span class="w"> </span>&lt;previous-snap&gt;<span class="w"> </span>&lt;dataset_name&gt;@$&lt;last-snap&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="p">|</span><span class="w"> </span>ssh<span class="w"> </span>&lt;hostname&gt;<span class="w"> </span>zfs<span class="w"> </span>recv<span class="w"> </span>&lt;target_dataset_name&gt;<span class="w"> </span>-F
 </code></pre></div>
-<p>ZFS sync of sto files from off1 to off2:
-* see <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/off1/sto-products-sync.sh">sto-products-sync.sh</a></p>
+<p>ZFS sync of sto files from off1 to off2:</p>
+<ul>
+<li>see <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/off1/sto-products-sync.sh">sto-products-sync.sh</a></li>
+</ul>
 <p>You also have to clean snapshots from time to time to avoid retaining too much useless data.</p>
 <p>On ovh3: <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/ovh3/snapshot-purge.sh">snapshot-purge.sh</a></p>
+<p><strong>FIXME</strong> explain sanoid</p>
 <h2 id="docker-mount">Docker mount<a class="headerlink" href="#docker-mount" title="Permanent link">#</a></h2>
 <p>If ZFS dataset is on same machine we can use bind mounts to mount a folder in a ZFS partition.</p>
 <p>For distant machines, ZFS datasets can be exposed as NFS partition. Docker as an integrated driver to mount distant NFS as volumes.</p>
+<h2 id="mounting-datasets-in-a-proxmox-container">Mounting datasets in a proxmox container<a class="headerlink" href="#mounting-datasets-in-a-proxmox-container" title="Permanent link">#</a></h2>
+<p>To move dataset in a proxmox container you have to mount them as bind volumes.</p>
+<p>See: https://pve.proxmox.com/wiki/Linux_Container#_bind_mount_points</p>
+<p>and https://pve.proxmox.com/wiki/Unprivileged_LXC_containers</p>
+<p>Edit <code>/etc/pve/lxc/&lt;container_id&gt;.conf</code> and ad volumes with mount point.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code># volumes
+mp0: /zfs-hdd/opff,mp=/mnt/opff
+mp1: /zfs-hdd/opff/products/,mp=/mnt/opff/products
+mp2: /zfs-hdd/off/users/,mp=/mnt/opff/users
+mp3: /zfs-hdd/opff/images,mp=/mnt/opff/images
+mp4: /zfs-hdd/opff/html_data,mp=/mnt/opff/html_data
+mp5: /zfs-hdd/opff/cache,mp=/mnt/opff/cache
+</code></pre></div>
+<p><strong>Important</strong>: if you have nested mount points, the order is very important. First the outermost, then the inner ones.</p>
+<p>To take changes in account, you have to reboot: <code>pct reboot &lt;container_id&gt;</code></p>
+<h3 id="getting-uids-and-gids-right">Getting uids and gids right<a class="headerlink" href="#getting-uids-and-gids-right" title="Permanent link">#</a></h3>
+<p>LXC maps uids inside the container to specific ids outside, most of the time by adding a large value. It's a way to ensure security.</p>
+<p>If you want to have file belonging to say uid 1000 in the zfs mount, you will have to tweak it:</p>
+<p>We edit /etc/subuid and /etc/subgid to add <code>root:1000:10</code>. This allow container started by root to map ids 1000 to their same ids on system.</p>
+<p>Edit <code>/etc/pve/lxc/&lt;machine_id&gt;.conf</code> conf to add sub_id exceptions:</p>
+<div class="highlight"><pre><span></span><code># uid map: from uid 0 map 999 uids (in the ct) to the range starting 100000 (on the host)
+# so 0..999 (ct) → 100000..100999 (host)
+lxc.idmap = u 0 100000 999
+lxc.idmap = g 0 100000 999
+# we map 10 uid starting from uid 1000 onto 1000, so 1000..1010 → 1000..1010
+lxc.idmap = u 1000 1000 10
+lxc.idmap = g 1000 1000 10
+# we map the rest of 65535 from 1010 upto 101010, so 1010..65535 → 101010..165535
+lxc.idmap = u 1011 101011 64525
+lxc.idmap = g 1011 101011 64525
+</code></pre></div>
 
 
 

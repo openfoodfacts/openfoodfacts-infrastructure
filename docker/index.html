@@ -525,6 +525,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -620,17 +635,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -742,6 +757,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -880,8 +909,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1062,10 +1119,12 @@
 <p>Every OFF repo has a <code>.env</code> file that contains the secrets needed by the application to run properly. The <code>.env</code> file is loaded by the <code>docker-compose</code> commands.</p>
 <p>The default <code>.env</code> file in the repo is ready for local development and should rarely be modified.</p>
 <p>In pre-production and production, the <code>.env</code> file is populated by the GitHub action (using GitHub environment secrets) before deploying to the target environment.</p>
-<p><strong>Warnings:</strong>
-* The default <code>.env</code> file should rarely change. If you need a different environment locally, create a new env file (e.g <code>.env.test</code>) and set <code>ENV_FILE=.env.test</code> before running the <code>Makefile</code> commands. 
-* Do not commit your env files to the repos !
-* you may use <code>direnv</code> to override some variables on a folder basis. See <a href="https://github.com/openfoodfacts/openfoodfacts-server/blob/main/docs/how-to-guides/use-direnv.md">how-to for openfoodfacts-server</a></p>
+<p><strong>Warnings:</strong></p>
+<ul>
+<li>The default <code>.env</code> file should rarely change. If you need a different environment locally, create a new env file (e.g <code>.env.test</code>) and set <code>ENV_FILE=.env.test</code> before running the <code>Makefile</code> commands. </li>
+<li>Do not commit your env files to the repos !</li>
+<li>you may use <code>direnv</code> to override some variables on a folder basis. See <a href="https://github.com/openfoodfacts/openfoodfacts-server/blob/main/docs/how-to-guides/use-direnv.md">how-to for openfoodfacts-server</a></li>
+</ul>
 <h2 id="best-practice-for-docker-containers">Best Practice for Docker containers<a class="headerlink" href="#best-practice-for-docker-containers" title="Permanent link">#</a></h2>
 <p>Here are some important rules. The document also explain why we follow those rules.
 From time to time you might have good reason to bend or break the rules, 
@@ -1083,9 +1142,11 @@ Rules also enables having a consistent experiences between projects.</p>
 <h3 id="enable-configuration-through-environment">Enable configuration through environment<a class="headerlink" href="#enable-configuration-through-environment" title="Permanent link">#</a></h3>
 <p>We really want to be able to run the same project multiple time on same machine / server.
 For that we need to ensure that we can configure the docker-compose project.</p>
-<p>You have two mechanism to configure the docker-compose:
-- docker-compose file composition, use it for structural changes
-- .env is the prefered way to change configuration (but can't solve it all)</p>
+<p>You have two mechanism to configure the docker-compose:</p>
+<ul>
+<li>docker-compose file composition, use it for structural changes</li>
+<li>.env is the prefered way to change configuration (but can't solve it all)</li>
+</ul>
 <ul>
 <li>Avoid too generic name for services. Like <code>postgresql</code> it's better to use <code>myproject_db</code>.</li>
 <li>Every public network should have a configurable name.

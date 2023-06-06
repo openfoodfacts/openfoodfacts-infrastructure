@@ -12,7 +12,7 @@
         <link rel="prev" href="../observability/">
       
       
-        <link rel="next" href="../prod-architecture/">
+        <link rel="next" href="../open-pet-food-facts/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
@@ -484,6 +484,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -579,17 +594,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -701,6 +716,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -839,8 +868,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -969,10 +1026,12 @@
 <h1 id="odoo-our-relationship-management-connectopenfoodfactsorg">Odoo: our relationship management (connect.openfoodfacts.org)<a class="headerlink" href="#odoo-our-relationship-management-connectopenfoodfactsorg" title="Permanent link">#</a></h1>
 <p>Odoo is a very rich tool: we need to think a little bit before doing things.
 Some actions can't be canceled; for example: some modules, when installed, can't be removed.</p>
-<p>Quick guidelines to follow:
-1. Technical and functional admins rights should be separated.
-2. Usages should be clearly expressed and modules should be discussed before implemented. An issue have to be open before each module or group of module installation.
-3. Tests need to be made in a staging environement.</p>
+<p>Quick guidelines to follow:</p>
+<ol>
+<li>Technical and functional admins rights should be separated.</li>
+<li>Usages should be clearly expressed and modules should be discussed before implemented. An issue have to be open before each module or group of module installation.</li>
+<li>Tests need to be made in a staging environement.</li>
+</ol>
 <h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
 <p>The current test instance (Odoo 15) have been installed with the following commands.</p>
 <ul>
@@ -1020,11 +1079,13 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/OCA/s
 <p>Restart Odoo:</p>
 <div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>restart<span class="w"> </span>odoo
 </code></pre></div>
-<p>Then, as an admin, in Odoo:
-* pass in developer mode (ctrl+K debug:)
-* Apps menu
-* <code>Update Apps List</code> sub-menu
-* then find the app in the <code>search</code> field (eventually remove the "app" filter if you installed a utility)</p>
+<p>Then, as an admin, in Odoo:</p>
+<ul>
+<li>pass in developer mode (ctrl+K debug:)</li>
+<li>Apps menu</li>
+<li><code>Update Apps List</code> sub-menu</li>
+<li>then find the app in the <code>search</code> field (eventually remove the "app" filter if you installed a utility)</li>
+</ul>
 <h2 id="create-a-test-environment-from-production-instance">Create a test environment from production instance<a class="headerlink" href="#create-a-test-environment-from-production-instance" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># previously verify that CT 112 is currently connect-staging, and delete it before renewing it</span>
 pct<span class="w"> </span>snapshot<span class="w"> </span><span class="m">110</span><span class="w"> </span>temp<span class="w"> </span><span class="c1"># create a &quot;temp&quot; named snapshot of CT with ID 120 (production)</span>

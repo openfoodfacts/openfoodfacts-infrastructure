@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../odoo/">
+        <link rel="prev" href="../open-pet-food-facts/">
       
       
         <link rel="next" href="../producers_sftp/">
@@ -407,6 +407,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -586,17 +601,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -708,6 +723,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -846,8 +875,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -993,36 +1050,88 @@
 <p>Each application has its own LXC container.</p>
 <p>An application is a flavor of product-opener (off, opf, opff, obf) in public mode. The Producer Platform is another application (it currently exists only for off).</p>
 <p>The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases which are on separate dedicated containers.</p>
-<p>This means:
-* nginx - aka the frontend
-* apache - aka the backend
-* minion process
-* incron process</p>
-<p>Databases are shared between instances, for now this is more handy:
-* Mongodb instance
-* PostgreSQL
-* Memcached</p>
+<p>This means:</p>
+<ul>
+<li>nginx - aka the frontend</li>
+<li>apache - aka the backend</li>
+<li>minion process</li>
+<li>incron process</li>
+</ul>
+<p>Databases are shared between instances, for now this is more handy:</p>
+<ul>
+<li>Mongodb instance</li>
+<li>PostgreSQL</li>
+<li>Memcached</li>
+</ul>
 <p>Note that we requests pass through two NGINX: the reverse proxy and the project specific nginx. This is not a big cost, and it makes it far more easy to manage things, for the project nginx has a lot of specific rules and directly serve static resources.</p>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">#</a></h2>
 <p>We must try hard to separate data and software.</p>
 <p>All data is stored on ZFS. We have different <a href="https://openzfs.github.io/openzfs-docs/man/7/zfsconcepts.7.html?highlight=dataset">ZFS datasets</a>.</p>
-<p>Some are shared between installs:
-* users - <code>/mnt/&lt;flavor&gt;/users</code>
-* orgs - <code>/mnt/&lt;flavor&gt;/orgs</code> (<strong>FIXME</strong> verify section)</p>
-<p>Some specific to a flavor, but shared between producer and public platform:
-* product images - <code>/mnt/&lt;flavor&gt;/product_images</code> (linked in html/images/)</p>
-<p>Some specific to each flavor:
-* products - <code>/mnt/&lt;flavor&gt;/products</code>
-* lang  - <code>/mnt/&lt;flavor&gt;/lang</code>
-* html_data <code>/mnt/&lt;flavor&gt;/html_data</code> (linked in html/data)
-* other data (<code>/mnt/&lt;flavor&gt;/*</code>)</p>
+<p>Some are shared between installs:</p>
+<ul>
+<li>users - <code>/mnt/&lt;flavor&gt;/users</code></li>
+<li>orgs - <code>/mnt/&lt;flavor&gt;/orgs</code> (<strong>FIXME</strong> verify section)</li>
+</ul>
+<p>Some specific to a flavor, but shared between producer and public platform:</p>
+<ul>
+<li>product images - <code>/mnt/&lt;flavor&gt;/product_images</code> (linked in html/images/)</li>
+</ul>
+<p>Some specific to each flavor:</p>
+<ul>
+<li>products - <code>/mnt/&lt;flavor&gt;/products</code></li>
+<li>html_data <code>/mnt/&lt;flavor&gt;/html_data</code> (linked in html/data)</li>
+<li>other data (<code>/mnt/&lt;flavor&gt;/*</code>)</li>
+</ul>
+<p>The other data contains:</p>
+<ul>
+<li>static data<ul>
+<li><code>data-default</code></li>
+<li><code>ecoscore</code> (external)</li>
+<li><code>emb_codes</code> (external)</li>
+<li><code>forest-footprint</code> (external)</li>
+<li><code>ingredients</code></li>
+<li><code>packager-codes</code> (external)</li>
+<li><code>taxonomies</code></li>
+<li><code>templates</code></li>
+<li><code>po</code></li>
+<li><code>lang</code></li>
+</ul>
+</li>
+<li>real data:<ul>
+<li><code>deleted.images</code></li>
+<li><code>html_data</code></li>
+<li><code>data</code><ul>
+<li><code>scanbot.xxxx</code> is not cache</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>cache data:<ul>
+<li><code>build-cache</code></li>
+<li><code>tmp</code></li>
+<li><code>debug</code></li>
+<li><code>new_images</code></li>
+</ul>
+</li>
+<li>specific:<ul>
+<li><code>log</code></li>
+<li><code>users_emails.sto</code> linked to ./users/users_emails.sto (<strong>FIXME:</strong> TODO on OPF, OPFF, OPBF)</li>
+</ul>
+</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>lang  - <code>/mnt/&lt;flavor&gt;/lang</code> is mounted as a specific volume in docker but this is just compiled configuration data (po files)</li>
+</ul>
 <p>Also all products / products images from other platform must be available to the other flavors (because we need to move products around)</p>
 <p>All folders are datasets</p>
-<p><strong>FIXME</strong>: what about js assets (how are they compiled in prod ?) --&gt; we should publish them on release with a github action (safer)
-- icons_dist:/opt/product-opener/html/images/icons/dist:ro
-- js_dist:/opt/product-opener/html/js/dist:ro
-- css_dist:/opt/product-opener/html/css/dist:ro
-- node_modules:/opt/product-opener/node_modules:ro</p>
+<p><strong>FIXME</strong>: what about js assets (how are they compiled in prod ?) --&gt; we should publish them on release with a github action (safer)</p>
+<ul>
+<li>icons_dist:/opt/product-opener/html/images/icons/dist:ro</li>
+<li>js_dist:/opt/product-opener/html/js/dist:ro</li>
+<li>css_dist:/opt/product-opener/html/css/dist:ro</li>
+<li>node_modules:/opt/product-opener/node_modules:ro</li>
+</ul>
 <h3 id="zfs-storage-syncs">ZFS storage syncs<a class="headerlink" href="#zfs-storage-syncs" title="Permanent link">#</a></h3>
 <p>ZFS datastest are replicated (via sync), snapshoted (for backups) and some snapshot are used through clones to provide data for staging.</p>
 <!-- You can test it here https://mermaid.live/ -->

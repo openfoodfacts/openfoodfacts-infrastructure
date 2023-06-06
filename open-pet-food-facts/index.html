@@ -9,21 +9,21 @@
       
       
       
-        <link rel="prev" href="../2023-02-24-zfs-introduction/">
+        <link rel="prev" href="../odoo/">
       
       
-        <link rel="next" href="../2023-05-19-overload-of-osm-machine/">
+        <link rel="next" href="../prod-architecture/">
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>2023-03 OFF2 reinstall - Open Food Facts Infrastructure documentation</title>
+        <title>Open Pet Food Facts - Open Food Facts Infrastructure documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
       
       
 
@@ -39,14 +39,14 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -57,7 +57,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     <body dir="ltr">
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-03-off2-reinstall" class="md-skip">
+        <a href="#open-pet-food-facts" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-03 OFF2 reinstall
+              Open Pet Food Facts
             
           </span>
         </div>
@@ -153,7 +153,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -184,7 +184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         OpenFoodFacts Infrastructure
       </a>
     </li>
@@ -199,7 +199,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cicd/" class="md-nav__link">
+      <a href="../cicd/" class="md-nav__link">
         Continous Integration and Continuous Delivery
       </a>
     </li>
@@ -214,7 +214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../discourse/" class="md-nav__link">
+      <a href="../discourse/" class="md-nav__link">
         Discourse
       </a>
     </li>
@@ -229,7 +229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker/" class="md-nav__link">
+      <a href="../docker/" class="md-nav__link">
         Docker at Open Food Facts
       </a>
     </li>
@@ -244,7 +244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker_architecture/" class="md-nav__link">
+      <a href="../docker_architecture/" class="md-nav__link">
         Docker architecture
       </a>
     </li>
@@ -259,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker_onboarding/" class="md-nav__link">
+      <a href="../docker_onboarding/" class="md-nav__link">
         Onboarding
       </a>
     </li>
@@ -274,7 +274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../folksonomy/" class="md-nav__link">
+      <a href="../folksonomy/" class="md-nav__link">
         Folksonomy API
       </a>
     </li>
@@ -289,7 +289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../free-datacenter/" class="md-nav__link">
+      <a href="../free-datacenter/" class="md-nav__link">
         Free Datacenter
       </a>
     </li>
@@ -304,7 +304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux-server/" class="md-nav__link">
+      <a href="../linux-server/" class="md-nav__link">
         Linux server
       </a>
     </li>
@@ -319,7 +319,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mail/" class="md-nav__link">
+      <a href="../mail/" class="md-nav__link">
         Mail on Open Food Facts infrastructure
       </a>
     </li>
@@ -334,7 +334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../matomo/" class="md-nav__link">
+      <a href="../matomo/" class="md-nav__link">
         Matomo
       </a>
     </li>
@@ -349,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mongodb/" class="md-nav__link">
+      <a href="../mongodb/" class="md-nav__link">
         MongoDB
       </a>
     </li>
@@ -364,7 +364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
         NGINX Reverse proxy (OVH)
       </a>
     </li>
@@ -379,7 +379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         Observability
       </a>
     </li>
@@ -394,7 +394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../odoo/" class="md-nav__link">
+      <a href="../odoo/" class="md-nav__link">
         Odoo: our relationship management (connect.openfoodfacts.org)
       </a>
     </li>
@@ -405,363 +405,6 @@
       
       
 
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../prod-architecture/" class="md-nav__link">
-        Production architecture
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../producers_sftp/" class="md-nav__link">
-        Producers SFTP
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../promox/" class="md-nav__link">
-        Proxmox
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../slackin/" class="md-nav__link">
-        auto Slack invitation
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../zammad/" class="md-nav__link">
-        Zammad
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../zfs-overview/" class="md-nav__link">
-        ZFS overview
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
-      
-      
-      
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
-          Reports
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_22">
-          <span class="md-nav__icon md-icon"></span>
-          Reports
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
-        Matomo install
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2021-10-03-network-down/" class="md-nav__link">
-        [Postmortem] OpenFoodFacts.net down (#1)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
-        Disk extension for preprod and containers prod (ovh2)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
-        Preprod crash 2021 12
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
-        [Postmortem] Reverse proxy down
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
-        Install of proxmox gateway server
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
-        2022-02 Removing some containers on ovh1
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
-        Elasticsearch not running on Zammad
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
-        Deploying openfoodfacts-search to staging
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
-        Infrastructure future - workshop on 11th July 2022
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
-        Kibana down because of Elasticsearch circuit_breaking_exception
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
-        2022-08-17 openfoodfacts.net unreachable
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
-        2022-11 moving monitoring to its own machine
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
-        2023-02-13 Zammad down
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
-        2023 02 16 off2 shutdown
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
-        2023-02-17 Off2 Upgrade
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
-        2023 02 24 zfs introduction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
   
   
     
@@ -776,12 +419,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          2023-03 OFF2 reinstall
+          Open Pet Food Facts
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        2023-03 OFF2 reinstall
+        Open Pet Food Facts
       </a>
       
         
@@ -800,15 +443,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-storage-situation" class="md-nav__link">
-    Current Storage situation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx-reverse-proxy-install" class="md-nav__link">
-    NGINX reverse proxy install
+  <a href="#prod-instance" class="md-nav__link">
+    Prod instance
   </a>
   
 </li>
@@ -820,6 +456,138 @@
     </li>
   
 
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prod-architecture/" class="md-nav__link">
+        Production architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slackin/" class="md-nav__link">
+        auto Slack invitation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zfs-overview/" class="md-nav__link">
+        ZFS overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
             
           
             
@@ -828,7 +596,287 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        2022-11 moving monitoring to its own machine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
+        2023-02-13 Zammad down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
+        2023 02 16 off2 shutdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
+        2023-02-17 Off2 Upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
+        2023 02 24 zfs introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         2023-05-18 Mongodb down
       </a>
     </li>
@@ -842,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+      <a href="../reports/2023-06-01-robotoff-backups/" class="md-nav__link">
         2023-06-01 Robotoff backups
       </a>
     </li>
@@ -883,15 +931,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-storage-situation" class="md-nav__link">
-    Current Storage situation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx-reverse-proxy-install" class="md-nav__link">
-    NGINX reverse proxy install
+  <a href="#prod-instance" class="md-nav__link">
+    Prod instance
   </a>
   
 </li>
@@ -914,42 +955,9 @@
   
 
 
-<h1 id="2023-03-off2-reinstall">2023-03 OFF2 reinstall<a class="headerlink" href="#2023-03-off2-reinstall" title="Permanent link">#</a></h1>
-<h2 id="current-storage-situation">Current Storage situation<a class="headerlink" href="#current-storage-situation" title="Permanent link">#</a></h2>
-<pre class="mermaid"><code>---
-title: current state
----
-flowchart TB
-    subgraph free datacenter
-        subgraph off1
-            OFF1products(OFF1 products)
-            OFF1srv(OFF1 srv)
-            OFF1images(OFF1 images - non ZFS)
-        end
-        subgraph off2
-            OFF2images(OFF2 images)
-            OFF2products(OFF2 products)
-        end
-    end
-    subgraph OVH Datacenter
-        subgraph ovh3
-            OVH3products(OVH3 products)
-            OVH3images(OVH3 images - zfs)
-            OVH3backup(OVH3 backup)
-            OVH3products --&gt; OVH3ProdSnapshots(OVH3 products snapshots)
-            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
-            OVH3images --&gt; OVH3ImgSnapshots(OVH3 images snapshots)
-            OVH3ImgSnapshots --&gt;|ZFS clone R/W| DotNetImgclone(.net images)
-        end
-    end
-    %% inter graph links
-    OFF1srv --&gt;|Rsync - daily| OVH3backup
-    OFF1products --&gt;|ZFS sync| OVH3products
-    OFF1images(OFF1 images) --&gt;|RSync - **manual**| OVH3images
-    OVH3images --&gt;|ZFS sync| OFF2images
-    OVH3images --&gt;|ZFS sync ???| OFF2products</code></pre>
-<h2 id="nginx-reverse-proxy-install">NGINX reverse proxy install<a class="headerlink" href="#nginx-reverse-proxy-install" title="Permanent link">#</a></h2>
-<p><strong>FIXME</strong></p>
+<h1 id="open-pet-food-facts">Open Pet Food Facts<a class="headerlink" href="#open-pet-food-facts" title="Permanent link">#</a></h1>
+<h2 id="prod-instance">Prod instance<a class="headerlink" href="#prod-instance" title="Permanent link">#</a></h2>
+<p>Is installed on CT 110 in proxmox</p>
 
 
 
@@ -987,10 +995,10 @@ flowchart TB
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

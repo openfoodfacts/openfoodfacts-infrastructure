@@ -491,6 +491,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
@@ -586,17 +601,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
       
       
       
-        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_22">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -708,6 +723,20 @@
     <li class="md-nav__item">
       <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
   
@@ -846,8 +875,36 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-reinstall/" class="md-nav__link">
-        2023-03 OFF2 reinstall
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
       </a>
     </li>
   
@@ -1026,19 +1083,25 @@ In this case, you have to upgrade in a Linux shell directly on the VM:</p>
 <p>There is a theme: https://meta.discourse.org/t/matomo-analytics/33090 <sup id="fnref:install_theme"><a class="footnote-ref" href="#fn:install_theme">1</a></sup></p>
 <h3 id="setup">setup<a class="headerlink" href="#setup" title="Permanent link">#</a></h3>
 <p>I created the website in Matomo. Site id is 8.</p>
-<p>In Discourse:
-* go to administration / Customize / theme
-* install / from a git repository : https://github.com/discourse/discourse-matomo-analytics.git 
-* Settings:
-  * Include component on these themes: <strong>Default</strong>  (using button <em>add to all them</em>)
-  * host url: <code>analytics.openfoodfacts.org</code>
-  * website id: <strong>8</strong>
-  * subdomain tracking: <strong>yes</strong>
-  * do not track: <strong>yes</strong>
-  * disable cookies: <strong>yes</strong> (keep GDPR compatibility)</p>
-<p>Discourse is very specific in it's Content Security Policy headers, so we have to add an entry for Matomo.
-* go to administration / settings / security
-* in content security policy script src, add entry: <code>https://analytics.openfoodfacts.org/piwik.js</code></p>
+<p>In Discourse:</p>
+<ul>
+<li>go to administration / Customize / theme</li>
+<li>install / from a git repository : https://github.com/discourse/discourse-matomo-analytics.git </li>
+<li>Settings:<ul>
+<li>Include component on these themes: <strong>Default</strong>  (using button <em>add to all them</em>)</li>
+<li>host url: <code>analytics.openfoodfacts.org</code></li>
+<li>website id: <strong>8</strong></li>
+<li>subdomain tracking: <strong>yes</strong></li>
+<li>do not track: <strong>yes</strong></li>
+<li>disable cookies: <strong>yes</strong> (keep GDPR compatibility)</li>
+</ul>
+</li>
+</ul>
+<p>Discourse is very specific in it's Content Security Policy headers, so we have to add an entry for Matomo.</p>
+<ul>
+<li>go to administration / settings / security</li>
+<li>in content security policy script src, add entry: <code>https://analytics.openfoodfacts.org/piwik.js</code></li>
+</ul>
 <h2 id="events-plugin">Events plugin<a class="headerlink" href="#events-plugin" title="Permanent link">#</a></h2>
 <p>Follow: https://meta.discourse.org/t/install-plugins-in-discourse/19157</p>
 <ol>
