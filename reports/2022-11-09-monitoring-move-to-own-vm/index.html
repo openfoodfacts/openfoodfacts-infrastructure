@@ -15,7 +15,7 @@
         <link rel="next" href="../2023-02-13-zammad-down/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
       
       
 
@@ -993,6 +993,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        2023-06-01 Robotoff backups
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1436,7 +1450,7 @@ $<span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </spa
 <h2 id="setting-up-zfs-share-for-es-backups">Setting up zfs share for ES backups<a class="headerlink" href="#setting-up-zfs-share-for-es-backups" title="Permanent link">#</a></h2>
 <h3 id="create-share-on-ovh3">Create share on ovh3<a class="headerlink" href="#create-share-on-ovh3" title="Permanent link">#</a></h3>
 <p>We want ES backups to be on the ovh3 backups server to avoid taking place on SSD. So we want to create a fs in /rpool/backup/monitoring-volumes and share it via nfs.</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nfs<span class="w"> </span>create<span class="w"> </span>/rpool/backups/monitoring-volumes
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>zfs<span class="w"> </span>create<span class="w"> </span>/rpool/backups/monitoring-volumes
 </code></pre></div>
 <p>NFS sharing is automatically inherited from backups:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>zfs<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>rpool/backups/monitoring-volumes
