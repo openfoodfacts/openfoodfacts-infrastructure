@@ -27,7 +27,9 @@ function sync_folder {
     ln -s $DST/$DIR $SRC/$DIR
 
   # give some time for operations on files to complete
-  sleep 15
+  if [[ "${#DIR}" -eq 3 ]]; then  # but only for ean13 (ean8 are very flat)
+    sleep 15
+  fi
 
   # final sync in update mode to cover what may have be written during second rsync
   time rsync $SRC/$DIR.old/ $SYNC_DST/$DIR -av -u

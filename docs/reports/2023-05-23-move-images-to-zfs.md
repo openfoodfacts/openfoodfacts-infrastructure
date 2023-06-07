@@ -163,9 +163,7 @@ zfs send -i rpool/off/images@20230523165657 rpool/off/images@20230531083016 |ssh
 
 Now that we have a stable ZFS on ovh3 we can activate the syncoid sync.
 
-## NFS mount
-
-### Mount off2 ZFS dataset on off1
+### NFS Mount off2 ZFS dataset on off1
 
 Let's mount the images images ZFS volume from off2 to off1.
 
@@ -205,11 +203,31 @@ Adding to `/etc/fstab`:
 …
 ```
 
-## Testing
+### Testing rsync
 
-Doing rsync manually for one folder to see the time it takes. Taking some 3?? code:
+Doing rsync manually for one folder to see the time it takes. Taking some 3?? code. It shows it was fast enough on second pass.
 
-
-## Running script
+### Running script
 
 I use migration.sh and wrote `scripts/zfs/migration-images.sh` and copied it to off1.
+
+Running it works fine. But it had to be relaunched several time because sometime rsync did end up with non zero error.
+
+EAN8 are the longest to migrate due to their sequentiality.
+
+It took around 6 days.
+
+### Switching old folder for new folder
+
+EAN8 folders continually get created, so I ended up with a single command to do last syncs and change the link to the NFS mount:
+```bash
+./migration-images.sh && \
+./migration-images.sh && \
+unlink /srv/off/html/images/products && \
+ln -s /mnt/off2/off-images/products /srv/off/html/images/products
+```
+
+and do a last check that we have no non migrated directory left:
+```bash
+find /srv2/off/html/images/products.old/ -maxdepth 1 -type d -not -name '*.old'
+```
