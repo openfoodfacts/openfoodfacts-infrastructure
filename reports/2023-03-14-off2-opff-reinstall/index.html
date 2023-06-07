@@ -3384,7 +3384,13 @@ mount<span class="w"> </span>/srv/opff/html/images/products
 <p>on off2 and ovh3 modify sanoid configuration to have opff/products handled by sanoid and synced to ovh3</p>
 </li>
 <li>remove opff from snapshot-purge.sh on ovh3 (now handled by sanoid)</li>
-<li>don't forget to test that it still work after that</li>
+<li>
+<p>don't forget to test that it still work after that</p>
+</li>
+<li>
+<p>remove opff gen feeds from <code>/srv/off/scripts/gen_all_feeds.sh</code> and <code>/srv/off/scripts/gen_all_feeds_daily.sh</code></p>
+</li>
+<li>remove <code>/srv/opff/scripts/gen_opff_leaderboard.sh</code> from off crontab</li>
 </ol>
 <h2 id="still-todo">Still TODO<a class="headerlink" href="#still-todo" title="Permanent link">#</a></h2>
 <h3 id="done">DONE<a class="headerlink" href="#done" title="Permanent link">#</a></h3>
