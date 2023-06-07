@@ -1807,8 +1807,10 @@ For `/etc/pve` symlinking is not possible (this is a fuse mount handled by proxm
 8. remove opff from snapshot-purge.sh on ovh3 (now handled by sanoid)
 9. don't forget to test that it still work after that
 
-10. remove opff gen feeds from `/srv/off/scripts/gen_all_feeds.sh` and `/srv/off/scripts/gen_all_feeds_daily.sh`
-11. remove `/srv/opff/scripts/gen_opff_leaderboard.sh` from off crontab
+10. cleanup:
+    - remove opff gen feeds from `/srv/off/scripts/gen_all_feeds.sh` and `/srv/off/scripts/gen_all_feeds_daily.sh`
+    - remove `/srv/opff/scripts/gen_opff_leaderboard.sh` from off crontab
+    - remove or comment `/etc/logrotate.d/apache2-opff`
 
 ## Still TODO
 
