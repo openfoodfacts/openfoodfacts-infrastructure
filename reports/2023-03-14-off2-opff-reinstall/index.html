@@ -3388,9 +3388,11 @@ mount<span class="w"> </span>/srv/opff/html/images/products
 <p>don't forget to test that it still work after that</p>
 </li>
 <li>
-<p>remove opff gen feeds from <code>/srv/off/scripts/gen_all_feeds.sh</code> and <code>/srv/off/scripts/gen_all_feeds_daily.sh</code></p>
+<p>cleanup:
+    - remove opff gen feeds from <code>/srv/off/scripts/gen_all_feeds.sh</code> and <code>/srv/off/scripts/gen_all_feeds_daily.sh</code>
+    - remove <code>/srv/opff/scripts/gen_opff_leaderboard.sh</code> from off crontab
+    - remove or comment <code>/etc/logrotate.d/apache2-opff</code></p>
 </li>
-<li>remove <code>/srv/opff/scripts/gen_opff_leaderboard.sh</code> from off crontab</li>
 </ol>
 <h2 id="still-todo">Still TODO<a class="headerlink" href="#still-todo" title="Permanent link">#</a></h2>
 <h3 id="done">DONE<a class="headerlink" href="#done" title="Permanent link">#</a></h3>
