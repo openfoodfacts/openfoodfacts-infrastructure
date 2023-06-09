@@ -223,27 +223,16 @@ server {
 
 ## Putting data in zfs datasets
 
-Finding broken links:
-`find /srv/opff -xtype l | xargs ls -l`
-
-We have a lot in new_images and in html images folders, we can just remove them all
-`find /srv/opff/new_images/ /srv/opff/html/images/bak/misc/ /srv/opff/html/images/misc.nok/ -xtype l |xargs -L 1 unlink`
-
-
-We also have some html contents linked to off **FIXME decide what to do**
-* /srv/opff/products -> /rpool/opff/products
-* /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
-
 ### creating datasets
 
 I init a dataset for each projects: `zfs create opff`, `zfs create opff`, etc for `off`, `off-pro`, `obf` and `opf`
 
-I then create `zfs create zfs-hdd/opff/data`, `zfs create zfs-hdd/opff/images`, `zfs create zfs-hdd/opff/cache` (not products because we will sync it).
+I then create `zfs create zfs-hdd/opff/html_data`, `zfs create zfs-hdd/opff/images`, `zfs create zfs-hdd/opff/cache` (not products because we will sync it).
 
 And change permissions of directories:
 
 ```bash
-sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/data /zfs-hdd/opff/images /zfs-hdd/opff/cache
+sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/html_data /zfs-hdd/opff/images /zfs-hdd/opff/cache
 ```
 
 ### Products (for all flavors)
@@ -398,7 +387,7 @@ real	0m2,535s
 
 I decide to use `--no-sync-snap` as we already have a snapshot strategy.
 
-Also supprisingly, the `root@` specification is mandatory.
+Also surprisingly, the `root@` specification is mandatory.
 
 Now I need to do a systemd service and timer on off2 for syncoid.
 
@@ -453,7 +442,7 @@ To be able to sync it, here is what I did:
   ```
 * on ovh3:
 
-  * on off2 temporarily disable the syncoid service
+  * on off2 temporarily disable the syncoid service (because we already setup sync !)
     ```bash
     sudo systemctl disable syncoid
     ```
@@ -755,6 +744,19 @@ lrwxrwxrwx 1 off off 14 30 mars    2017 /srv/opff/lib/ProductOpener/Config.pm ->
 lrwxrwxrwx 1 off off 16  2 janv.   2018 /srv/opff/lib/ProductOpener/SiteLang.pm -> SiteLang_opff.pm
 ```
 and `/srv/opff/lib/ProductOpener/Config2.pm` is specific.
+
+### some broken / strange links
+
+Finding broken links:
+`find /srv/opff -xtype l | xargs ls -l`
+
+We have a lot in new_images and in html images folders, we can just remove them all
+`find /srv/opff/new_images/ /srv/opff/html/images/bak/misc/ /srv/opff/html/images/misc.nok/ -xtype l |xargs -L 1 unlink`
+
+
+We also have some html contents linked to off **FIXME decide what to do**
+* /srv/opff/products -> /rpool/opff/products
+* /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
 
 
 ### Using git
