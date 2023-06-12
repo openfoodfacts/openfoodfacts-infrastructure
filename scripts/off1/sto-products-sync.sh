@@ -59,7 +59,7 @@ do
   done
 
   # suppression des snapshots de mois -2 sauf le premier
-  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d '2 month days' +%Y%m)" | tail -n +2)
+  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d '2 month ago' +%Y%m)" | tail -n +2)
   for OLD_SNAP in $OLD
   do
     zfs destroy $OLD_SNAP
