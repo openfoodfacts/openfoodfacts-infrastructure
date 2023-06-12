@@ -199,7 +199,7 @@ Adding to `/etc/fstab`:
 ```bash
 …
 # off2 NFS mounts
-10.0.0.2:/zfs-hdd/off/images    /mnt/off2/off-images    nfs     rw,nolock      0       0
+10.0.0.2:/zfs-hdd/off/images    /mnt/off2/off-images    nfs     rw,nolock,nofail      0       0
 …
 ```
 
