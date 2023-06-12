@@ -469,6 +469,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../slackin/" class="md-nav__link">
         auto Slack invitation
       </a>
@@ -521,17 +536,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_24" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_24" id="__nav_24_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_23">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_24_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_24">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -1045,6 +1060,13 @@
           <li class="md-nav__item">
   <a href="#linking-logs" class="md-nav__link">
     linking logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-translations" class="md-nav__link">
+    linking translations
   </a>
   
 </li>
@@ -1696,6 +1718,13 @@
           <li class="md-nav__item">
   <a href="#linking-logs" class="md-nav__link">
     linking logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-translations" class="md-nav__link">
+    linking translations
   </a>
   
 </li>
@@ -2575,6 +2604,9 @@ sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span
 sudo<span class="w">  </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../apache2<span class="w"> </span>/var/log/opff
 sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../nginx<span class="w"> </span>/var/log/opff
 </code></pre></div>
+<h3 id="linking-translations">linking translations<a class="headerlink" href="#linking-translations" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/opff/po/openpetfoodfacts<span class="w"> </span>/srv/opff/po/site-specific
+</code></pre></div>
 <h3 id="verify-config-links">verify config links<a class="headerlink" href="#verify-config-links" title="Permanent link">#</a></h3>
 <p>They where normaly kept in the transfer, but for the record:
 <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/srv/opff/lib/ProductOpener/<span class="o">{</span>SiteLang,Config<span class="o">}</span>.pm
@@ -2643,6 +2675,7 @@ ln<span class="w"> </span>-s<span class="w"> </span>../node_modules/@bower_compo
 $<span class="w"> </span>git<span class="w"> </span>remote<span class="w"> </span>set-branches<span class="w"> </span>--add<span class="w"> </span>origin<span class="w"> </span><span class="s1">&#39;opff-reinstall&#39;</span>
 $<span class="w"> </span>git<span class="w"> </span>fetch<span class="w"> </span>-v<span class="w"> </span>--depth<span class="o">=</span><span class="m">1</span>
 </code></pre></div></p>
+<p>I also had to add some files from <code>po/</code> that where missing from the repository</p>
 <h3 id="swapping-code-for-the-one-of-the-git-repo">Swapping code for the one of the git repo<a class="headerlink" href="#swapping-code-for-the-one-of-the-git-repo" title="Permanent link">#</a></h3>
 <p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mv<span class="w"> </span>/srv/opff<span class="o">{</span>,-old<span class="o">}</span>
 sudo<span class="w"> </span>mv<span class="w"> </span>/srv/opff<span class="o">{</span>-git,<span class="o">}</span>
@@ -2725,6 +2758,22 @@ ln<span class="w"> </span>-s<span class="w"> </span>/srv/openfoodfacts-web/lang/
 <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>*/texts/<span class="o">{</span>contacts,press,terms-of-use<span class="o">}</span>.html
 </code></pre></div></p>
 <p>We keep the rest as is for now.</p>
+<p>Opff specific content
+<div class="highlight"><pre><span></span><code><span class="c1"># USE WITH CARE !</span>
+<span class="nb">cd</span><span class="w"> </span>/srv/opff/lang
+<span class="k">for</span><span class="w"> </span>FNAME<span class="w"> </span><span class="k">in</span><span class="w"> </span>index.html<span class="w"> </span>data.html<span class="w"> </span>open-pet-food-facts-mobile-app.html<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>LANG<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>-d<span class="w"> </span>??<span class="w"> </span>??_*<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">FILE_PATH</span><span class="o">=</span><span class="nv">$LANG</span>/texts/<span class="nv">$FNAME</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-e<span class="w"> </span>/srv/openfoodfacts-web/lang/opff/<span class="nv">$FILE_PATH</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>unlink<span class="w"> </span><span class="nv">$FILE_PATH</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/openfoodfacts-web/lang/opff/<span class="nv">$FILE_PATH</span><span class="w"> </span><span class="nv">$FILE_PATH</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">fi</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">done</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span><span class="p">;</span>
+</code></pre></div></p>
+<p>A specific one:
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>application-mobile-open-food-facts.html<span class="w"> </span>fr/texts/application-mobile-open-pet-food-facts.html
+</code></pre></div></p>
 <p><strong>FIXME</strong>: add a ticket to understand if we want to use off-web for all the content</p>
 <h3 id="linking-images">Linking images<a class="headerlink" href="#linking-images" title="Permanent link">#</a></h3>
 <p>App use openfoodfacts logo name and we link files to openpetfoodfacts logo !

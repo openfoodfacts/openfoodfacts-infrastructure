@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../open-pet-food-facts/">
+        <link rel="prev" href="../promox/">
       
       
-        <link rel="next" href="../producers_sftp/">
+        <link rel="next" href="../slackin/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>Production architecture - Open Food Facts Infrastructure documentation</title>
+        <title>Sanoid - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#production-architecture" class="md-skip">
+        <a href="#sanoid" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Production architecture
+              Sanoid
             
           </span>
         </div>
@@ -422,93 +422,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Production architecture
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#servers" class="md-nav__link">
-    Servers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#proxmox" class="md-nav__link">
-    Proxmox
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx-proxy" class="md-nav__link">
-    NGINX proxy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#one-application-one-container" class="md-nav__link">
-    One application - one container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    Storage
-  </a>
-  
-    <nav class="md-nav" aria-label="Storage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#zfs-storage-syncs" class="md-nav__link">
-    ZFS storage syncs
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -549,11 +467,73 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../sanoid/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Sanoid
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Sanoid
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#snapshot-configuration" class="md-nav__link">
+    snapshot configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syncoid-service-and-configuration" class="md-nav__link">
+    syncoid service and configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-status" class="md-nav__link">
+    getting status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    Install
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -987,50 +967,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#servers" class="md-nav__link">
-    Servers
+  <a href="#snapshot-configuration" class="md-nav__link">
+    snapshot configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#proxmox" class="md-nav__link">
-    Proxmox
+  <a href="#syncoid-service-and-configuration" class="md-nav__link">
+    syncoid service and configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nginx-proxy" class="md-nav__link">
-    NGINX proxy
+  <a href="#getting-status" class="md-nav__link">
+    getting status
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-application-one-container" class="md-nav__link">
-    One application - one container
+  <a href="#install" class="md-nav__link">
+    Install
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    Storage
-  </a>
-  
-    <nav class="md-nav" aria-label="Storage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#zfs-storage-syncs" class="md-nav__link">
-    ZFS storage syncs
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1052,168 +1012,39 @@
   
 
 
-<h1 id="production-architecture">Production architecture<a class="headerlink" href="#production-architecture" title="Permanent link">#</a></h1>
-<h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">#</a></h2>
-<p>Main web server is hosted on off1 and off2 at <a href="../free-datacenter/">Free Datacenter</a></p>
-<p>Some other services are hosted on OVH servers</p>
-<h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
-<p>We use the <a href="../promox/">Proxmox open-source virtualization platform</a></p>
-<h2 id="nginx-proxy">NGINX proxy<a class="headerlink" href="#nginx-proxy" title="Permanent link">#</a></h2>
-<p>We have a container for the <a href="../nginx-reverse-proxy/">NGINX reverse proxy</a></p>
-<p>This proxy might be cascading to another Nginx specific to an installation (itself cascading to eg. an Apache for some of the requests).</p>
-<h2 id="one-application-one-container">One application - one container<a class="headerlink" href="#one-application-one-container" title="Permanent link">#</a></h2>
-<p>Each application has its own LXC container.</p>
-<p>An application is a flavor of product-opener (off, opf, opff, obf) in public mode. The Producer Platform is another application (it currently exists only for off).</p>
-<p>The container contains all the needed software (the application is not further splitted in smaller containers as it's the case for docker installation), with exception to databases which are on separate dedicated containers.</p>
-<p>This means:</p>
+<h1 id="sanoid">Sanoid<a class="headerlink" href="#sanoid" title="Permanent link">#</a></h1>
+<p>We use <a href="https://github.com/jimsalterjrs/sanoid/">Sanoid</a> to:</p>
 <ul>
-<li>nginx - aka the frontend</li>
-<li>apache - aka the backend</li>
-<li>minion process</li>
-<li>incron process</li>
+<li>automatically take regular snapshots of ZFS Datasets</li>
+<li>automatically clean snapshots thanks to a retention policy</li>
+<li>sync datasets between servers thanks to the <code>syncoid</code> command</li>
 </ul>
-<p>Databases are shared between instances, for now this is more handy:</p>
+<h2 id="snapshot-configuration">snapshot configuration<a class="headerlink" href="#snapshot-configuration" title="Permanent link">#</a></h2>
+<p><code>/etc/sanoid/sanoid.conf</code> contains the configuration for sanoid snapshots.
+That is how frequently you want to do them, and the retention policy (how much to keep snapshots).</p>
+<p>See <a href="https://github.com/jimsalterjrs/sanoid/wiki/Sanoid">reference documentation</a></p>
+<p>There are generally two templates:</p>
 <ul>
-<li>Mongodb instance</li>
-<li>PostgreSQL</li>
-<li>Memcached</li>
+<li>one for datasets that are synced from a different server.
+  In this case we don't want to create snapshots as we already receive the one from source.
+  We only want to purge old snapshots.</li>
+<li>one for datasets where the source is this server.
+  In this case we want to regularly create snapshots and purge old ones.</li>
 </ul>
-<p>Note that we requests pass through two NGINX: the reverse proxy and the project specific nginx. This is not a big cost, and it makes it far more easy to manage things, for the project nginx has a lot of specific rules and directly serve static resources.</p>
-<h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">#</a></h2>
-<p>We must try hard to separate data and software.</p>
-<p>All data is stored on ZFS. We have different <a href="https://openzfs.github.io/openzfs-docs/man/7/zfsconcepts.7.html?highlight=dataset">ZFS datasets</a>.</p>
-<p>Some are shared between installs:</p>
-<ul>
-<li>users - <code>/mnt/&lt;flavor&gt;/users</code></li>
-<li>orgs - <code>/mnt/&lt;flavor&gt;/orgs</code> (<strong>FIXME</strong> verify section)</li>
-</ul>
-<p>Some specific to a flavor, but shared between producer and public platform:</p>
-<ul>
-<li>product images - <code>/mnt/&lt;flavor&gt;/product_images</code> (linked in html/images/)</li>
-</ul>
-<p>Some specific to each flavor:</p>
-<ul>
-<li>products - <code>/mnt/&lt;flavor&gt;/products</code></li>
-<li>html_data <code>/mnt/&lt;flavor&gt;/html_data</code> (linked in html/data)</li>
-<li>other data (<code>/mnt/&lt;flavor&gt;/*</code>)</li>
-</ul>
-<p>The other data contains:</p>
-<ul>
-<li>static data<ul>
-<li><code>data-default</code></li>
-<li><code>ecoscore</code> (external)</li>
-<li><code>emb_codes</code> (external)</li>
-<li><code>forest-footprint</code> (external)</li>
-<li><code>ingredients</code></li>
-<li><code>packager-codes</code> (external)</li>
-<li><code>taxonomies</code></li>
-<li><code>templates</code></li>
-<li><code>po</code></li>
-<li><code>lang</code></li>
-</ul>
-</li>
-<li>real data:<ul>
-<li><code>deleted.images</code></li>
-<li><code>html_data</code></li>
-<li><code>data</code><ul>
-<li><code>scanbot.xxxx</code> is not cache</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>cache data:<ul>
-<li><code>build-cache</code></li>
-<li><code>tmp</code></li>
-<li><code>debug</code></li>
-<li><code>new_images</code></li>
-</ul>
-</li>
-<li>specific:<ul>
-<li><code>log</code></li>
-<li><code>users_emails.sto</code> linked to ./users/users_emails.sto (<strong>FIXME:</strong> TODO on OPF, OPFF, OPBF)</li>
-</ul>
-</li>
-</ul>
-<p>Note:</p>
-<ul>
-<li>lang  - <code>/mnt/&lt;flavor&gt;/lang</code> is mounted as a specific volume in docker but this is just compiled configuration data (po files)</li>
-</ul>
-<p>Also all products / products images from other platform must be available to the other flavors (because we need to move products around)</p>
-<p>All folders are datasets</p>
-<p><strong>FIXME</strong>: what about js assets (how are they compiled in prod ?) --&gt; we should publish them on release with a github action (safer)</p>
-<ul>
-<li>icons_dist:/opt/product-opener/html/images/icons/dist:ro</li>
-<li>js_dist:/opt/product-opener/html/js/dist:ro</li>
-<li>css_dist:/opt/product-opener/html/css/dist:ro</li>
-<li>node_modules:/opt/product-opener/node_modules:ro</li>
-</ul>
-<h3 id="zfs-storage-syncs">ZFS storage syncs<a class="headerlink" href="#zfs-storage-syncs" title="Permanent link">#</a></h3>
-<p>ZFS datastest are replicated (via sync), snapshoted (for backups) and some snapshot are used through clones to provide data for staging.</p>
-<!-- You can test it here https://mermaid.live/ -->
-<pre class="mermaid"><code>---
-title: Target ZFS sync state (all ZFS)
----
-flowchart TD
-    subgraph free
-        subgraph OFF1 Datacenter
-            OFF1products(OFF1 products)
-            OFF1images(OFF1 images)
-        end
-        subgraph off2
-            OFF1products --&gt;|ZFS sync| OFF2products(OFF2 products)
-            OFF1images(OFF1 images) --&gt; |ZFS sync| OFF2images(OFF2 images)
-        end
-    end
-    subgraph OVH Datacenter
-        subgraph ovh3
-            OFF1products --&gt;|ZFS sync| OVH3products(OVH3 products)
-            OFF1images(OFF1 images) --&gt;|ZFS sync| OVH3images(OVH3 images)
-            OVH3products --&gt;|ZFS snapshot| OVH3ProdSnapshots(OVH3 products snapshots)
-            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
-
-            OVH3images --&gt;|ZFS snapshot| OVH3ImgSnapshots(OVH3 images snapshots)
-            OVH3ImgSnapshots --&gt;|ZFS clone  R/W| DotNETIMGclone(.net images)
-        end
-    end</code></pre>
-<p>alternative:</p>
-<pre class="mermaid"><code>---
-title: Target ZFS sync state (all ZFS)
----
-
-flowchart TD
-    subgraph free datacenter
-        subgraph off1
-            OFF1products(OFF1 products)
-            OFF1images(OFF1 images)
-        end
-        subgraph off2
-            OFF1products --&gt;|ZFS sync| OFF2products(OFF2 products)
-            OFF1images(OFF1 images) --&gt; |ZFS sync| OFF2images(OFF2 images)
-        end
-    end
-    subgraph OVH Datacenter
-        subgraph ovh3
-            OFF2products --&gt;|ZFS sync| OVH3products(OVH3 products)
-            OFF2images(OFF1 images) --&gt;|ZFS sync| OVH3images(OVH3 images)
-            OVH3products --&gt; OVH3ProdSnapshots(OVH3 products snapshots)
-            OVH3ProdSnapshots --&gt;|ZFS clone R/W| DotNETProdclone(.net products)
-
-            OVH3images --&gt; OVH3ImgSnapshots(OVH3 images snapshots)
-            OVH3ImgSnapshots --&gt;|ZFS clone R/W| DotNETIMGclone(.net images)
-        end
-    end</code></pre>
-<p>OVH3 images are used by NGINX serving <code>images.openfoodfacts.org</code>.
-Note that ZFS sync is done through ssh and is thus secure.</p>
-<h1 id="proxmox_1">proxmox<a class="headerlink" href="#proxmox_1" title="Permanent link">#</a></h1>
-<p>--&gt; interface web 8006 / (tunnel ssh)
---&gt; </p>
-<h2 id="network">Network<a class="headerlink" href="#network" title="Permanent link">#</a></h2>
-<p>All application must talk to each other using the internal network. To talk between machines, every communication should go through Stunnel or https.</p>
-<p>Stunnel has the advantage to conduct any TCP stream (not UDP, sadly). No need to add specific firewall rules, Stunnel use an authentication.</p>
-<p>We use Stunnel with PSK which is faster and easy to configure.
-Each server connection must use unique PSK.</p>
-<p>Here is a diagram to understand connections (not complete) (<a href="../img/architecture-diagram.drawio">source</a>).</p>
-<p><a class="glightbox" href="../img/architecture-diagram.png" data-type="image" data-width="100%" data-height="auto" data-title="Architecture diagram" data-desc-position="bottom"><img alt="Architecture diagram" src="../img/architecture-diagram.png" /></a></p>
+<h2 id="syncoid-service-and-configuration">syncoid service and configuration<a class="headerlink" href="#syncoid-service-and-configuration" title="Permanent link">#</a></h2>
+<p>Sanoid does not come with a systemd service, so we created one, see: <code>confs/off2/systemd/system/syncoid.service</code></p>
+<p>The syncoid service can synchronize <em>to</em> or <em>from</em> a server.</p>
+<p>The service simply use each line of <code>/etc/sanoid/syncoid-args.conf</code> as arguments to <code>syncoid</code> command.</p>
+<h2 id="getting-status">getting status<a class="headerlink" href="#getting-status" title="Permanent link">#</a></h2>
+<p>You can use :
+<code>systemctl status sanoid.service</code> and <code>systemctl status syncoid.service</code> to see the logs of last synchronization.</p>
+<p>Also you can list snapshot on source / destination ZFS datasets to see if there are recent ones:
+<code>sudo zfs list -t snap &lt;pool&gt;/&lt;dataset/path&gt;</code></p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<p>Sanoid is installed by using the official repository, building the deb and installing it.</p>
+<p>It provides a sanoid systemd service and a timer unit that just have to be enabled.</p>
+<p>For syncoid to be launched by systemd, we created a service (<a href="#syncoid-service-and-configuration">see syncoid service and configuration</a>).
+This service is declared as a dependency of the sanoid so that it runs just after it.</p>
 
 
 

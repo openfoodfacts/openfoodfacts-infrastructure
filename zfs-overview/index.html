@@ -469,6 +469,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../slackin/" class="md-nav__link">
         auto Slack invitation
       </a>
@@ -547,6 +562,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxmox" class="md-nav__link">
+    Proxmox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-sanoid" class="md-nav__link">
+    Using sanoid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sync" class="md-nav__link">
     Sync
   </a>
@@ -601,17 +630,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_24" >
       
       
       
-        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_24" id="__nav_24_label" tabindex="0">
           Reports
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_23">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_24_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_24">
           <span class="md-nav__icon md-icon"></span>
           Reports
         </label>
@@ -986,6 +1015,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxmox" class="md-nav__link">
+    Proxmox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-sanoid" class="md-nav__link">
+    Using sanoid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sync" class="md-nav__link">
     Sync
   </a>
@@ -1045,6 +1088,11 @@
 <p>See also <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a> 
 and <a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device">Proxmox ZFS documentation</a></p>
 <p>Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview</p>
+<h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
+<p>Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.</p>
+<h2 id="using-sanoid">Using sanoid<a class="headerlink" href="#using-sanoid" title="Permanent link">#</a></h2>
+<p>We use sanoid / syncoid to sync ZFS datasets between servers (also to back them up).</p>
+<p>See <a href="../sanoid/">sanoid</a></p>
 <h2 id="sync">Sync<a class="headerlink" href="#sync" title="Permanent link">#</a></h2>
 <p>To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
 You then use <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-send.8.html">zfs-send</a> an <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-recv.8.html">zfs-recv</a> through ssh to sync the distant server (send snapshots).</p>
