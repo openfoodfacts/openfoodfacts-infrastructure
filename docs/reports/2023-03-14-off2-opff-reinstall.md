@@ -739,6 +739,13 @@ sudo  -u off ln -s ../apache2 /var/log/opff
 sudo -u off ln -s ../nginx /var/log/opff
 ```
 
+### linking translations
+
+```bash
+sudo -u off ln -s /srv/opff/po/openpetfoodfacts /srv/opff/po/site-specific
+```
+
+
 ### verify config links
 
 They where normaly kept in the transfer, but for the record:
@@ -834,6 +841,8 @@ $ git remote set-branches --add origin 'opff-main'
 $ git remote set-branches --add origin 'opff-reinstall'
 $ git fetch -v --depth=1
 ```
+
+I also had to add some files from `po/` that where missing from the repository
 
 
 ### Swapping code for the one of the git repo
@@ -957,6 +966,26 @@ ls -l */texts/{contacts,press,terms-of-use}.html
 ```
 
 We keep the rest as is for now.
+
+Opff specific content
+```bash
+# USE WITH CARE !
+cd /srv/opff/lang
+for FNAME in index.html data.html open-pet-food-facts-mobile-app.html; do \
+  for LANG in $(ls -d ?? ??_*); do \
+    FILE_PATH=$LANG/texts/$FNAME;
+    if [[ -e /srv/openfoodfacts-web/lang/opff/$FILE_PATH ]]; then \
+        unlink $FILE_PATH; \
+        ln -s /srv/openfoodfacts-web/lang/opff/$FILE_PATH $FILE_PATH; \
+    fi; \
+  done; \
+done;
+```
+
+A specific one:
+```bash
+ln -s application-mobile-open-food-facts.html fr/texts/application-mobile-open-pet-food-facts.html
+```
 
 **FIXME**: add a ticket to understand if we want to use off-web for all the content
 

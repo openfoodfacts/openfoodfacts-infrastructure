@@ -13,6 +13,16 @@ and [Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadm
 
 Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 
+## Proxmox
+
+Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.
+
+## Using sanoid
+
+We use sanoid / syncoid to sync ZFS datasets between servers (also to back them up).
+
+See [sanoid](./sanoid.md)
+
 ## Sync
 
 To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
