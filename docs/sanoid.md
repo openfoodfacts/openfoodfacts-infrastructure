@@ -31,7 +31,7 @@ The service simply use each line of `/etc/sanoid/syncoid-args.conf` as arguments
 ## getting status
 
 You can use :
-`sytemctl status sanoid.service` and `systemctl status syncoid.service` to see the logs of last synchronization.
+`systemctl status sanoid.service` and `systemctl status syncoid.service` to see the logs of last synchronization.
 
 Also you can list snapshot on source / destination ZFS datasets to see if there are recent ones:
 `sudo zfs list -t snap <pool>/<dataset/path>`

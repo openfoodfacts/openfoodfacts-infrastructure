@@ -742,7 +742,7 @@ sudo -u off ln -s ../nginx /var/log/opff
 ### linking translations
 
 ```bash
-sudo -u off ln -s openpetfoodfacts /srv/opff/po/site-specific
+sudo -u off ln -s /srv/opff/po/openpetfoodfacts /srv/opff/po/site-specific
 ```
 
 
