@@ -120,7 +120,7 @@ This made me think I should add a TimeoutStartSec to syncoid for such case (eg. 
 
 After stoping the stalled syncoid, I wait for the next run.
 
-It's catastrophic, OVH3 does not serve images anymore. Looking at processes I see a `zfr rollback` on `rpool/off/images` and it's normal since syncoid tries to put it on last snapshot before syncing. But in the meantime, NGINX does not have access to images… and it seems to take a long time to happen.
+It's catastrophic, OVH3 does not serve images anymore. Looking at processes I see a `zfs rollback` on `rpool/off/images` and it's normal since syncoid tries to put it on last snapshot before syncing. But in the meantime, NGINX does not have access to images… and it seems to take a long time to happen.
 
 #### Disabling atime on ovh3
 
