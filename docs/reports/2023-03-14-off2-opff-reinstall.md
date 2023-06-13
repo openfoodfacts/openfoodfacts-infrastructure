@@ -501,6 +501,7 @@ I also did it for the data and cache dataset:
 ### Creating Container
 
 I created a CT followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
 
@@ -548,6 +549,7 @@ it does not work because we did not have an account and license key.
 
 I had to [create an account](https://www.maxmind.com/en/geolite2/signup?utm_source=kb&utm_medium=kb-link&utm_campaign=kb-create-account) to GeoipLite2 database at maxmind.com with tech at off.org (and saved the password in our keepassx).
 After login, I then created a license key (at url indicated on https://dev.maxmind.com/geoip/updating-databases) and downloaded the provided GeoIP.conf, and installed it at `/etc/GeoIP.conf`
+and did a `sudo chmod o-rwx /etc/GeoIP.conf`
 
 Test it again:
 ```bash
@@ -1661,6 +1663,20 @@ lrwxrwxrwx 1 nobody nogroup 33  1 juin   09:00 /mnt/off/images/000 -> /mnt/off2/
 ```
 this /mnt/off2/off-images/products/000 does not exists in the container…
 I can add it by adding one more MP.
+
+**EDIT:** after images migrations, I changed mounts to directly use the ZFS dataset for off/images.
+
+
+
+We also have to mimic the old structure.
+On opff as root:
+```bash
+$ mkdir -p /srv/o{f,p,b}f/html/images/
+$ chown -R off:off -R /srv/o{f,p,b}f/
+$ for site in o{f,p,b}f;do ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products;done
+$ ls -l /srv/o{p,b,f}f/ /srv/o{p,b,f}f/html/images
+```
+
 
 ## Sharing users with NFS
 

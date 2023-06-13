@@ -155,3 +155,224 @@ Add them to `/etc/sanoid/syncoid-args.conf`
 
 And on ovh3 add them to `sanoid.conf` with `synced_data` template
 
+
+### Creating Containers
+
+I created a CT for obf followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
+
+I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+**Important:** do not create any user until you changed id maping in lxc conf (see [Mounting volumes](#mounting-volumes)). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.
+
+#### Installing generic packages
+
+I also installed generic packages:
+
+```bash
+sudo apt install -y apache2 apt-utils g++ gcc less make gettext wget vim
+```
+
+#### Geoip with updates
+
+Installed geoip with updates, and copied `/etc/GeoIP.conf` from opff:
+```bash
+sudo apt install geoipupdate
+vim /etc/GeoIP.conf
+…
+sudo chmod o-rwx /etc/GeoIP.conf
+```
+
+Test it:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+…
+juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Succeeded.
+juin 12 16:18:34 obf systemd[1]: Finished Weekly GeoIP update.
+juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Consumed 3.231s CPU time.
+…
+```
+
+#### Clone obf as opf
+
+I then shutdow the obf VM and clone it as opf.
+
+After cloning I had to change network IP address settings before starting.
+
+#### Installing packages
+
+On obf and opf
+
+```bash
+sudo apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 make gettext wget imagemagick graphviz tesseract-ocr libtie-ixhash-perl libwww-perl libimage-magick-perl libxml-encoding-perl libtext-unaccent-perl libmime-lite-perl libcache-memcached-fast-perl libjson-pp-perl libclone-perl libcrypt-passwdmd5-perl libencode-detect-perl libgraphics-color-perl libbarcode-zbar-perl libxml-feedpp-perl liburi-find-perl libxml-simple-perl libexperimental-perl libapache2-request-perl libdigest-md5-perl libtime-local-perl libdbd-pg-perl libtemplate-perl liburi-escape-xs-perl libmath-random-secure-perl libfile-copy-recursive-perl libemail-stuffer-perl liblist-moreutils-perl libexcel-writer-xlsx-perl libpod-simple-perl liblog-any-perl liblog-log4perl-perl liblog-any-adapter-log4perl-perl libgeoip2-perl libemail-valid-perl libmath-fibonacci-perl libev-perl libprobe-perl-perl libmath-round-perl libsoftware-license-perl libtest-differences-perl libtest-exception-perl libmodule-build-pluggable-perl libclass-accessor-lite-perl libclass-singleton-perl libfile-sharedir-install-perl libnet-idn-encode-perl libtest-nowarnings-perl libfile-chmod-perl libdata-dumper-concise-perl libdata-printer-perl libdata-validate-ip-perl libio-compress-perl libjson-maybexs-perl liblist-allutils-perl liblist-someutils-perl libdata-section-simple-perl libfile-which-perl libipc-run3-perl liblog-handler-perl libtest-deep-perl libwant-perl libfile-find-rule-perl liblinux-usermod-perl liblocale-maketext-lexicon-perl liblog-any-adapter-tap-perl libcrypt-random-source-perl libmath-random-isaac-perl libtest-sharedfork-perl libtest-warn-perl libsql-abstract-perl libauthen-sasl-saslprep-perl libauthen-scram-perl libbson-perl libclass-xsaccessor-perl libconfig-autoconf-perl libdigest-hmac-perl libpath-tiny-perl libsafe-isa-perl libspreadsheet-parseexcel-perl libtest-number-delta-perl libdevel-size-perl gnumeric libreadline-dev libperl-dev
+```
+
+## Mounting volumes
+
+In our target production we will have obf, opf and opff in off2,
+so we cross mount their products and images volumes,
+while keeping nfs volumes for off products, and mounting zfs images volume.
+
+But as opff is already in prod, we don't change it now
+
+### changing lxc confs
+
+On off2, editing /etc/pve/lxc/11{1,2}.conf
+
+So for obf:
+```conf
+mp0: /zfs-hdd/obf,mp=/mnt/obf
+mp1: /zfs-hdd/obf/products/,mp=/mnt/obf/products
+mp2: /mnt/off1/off-users,mp=/mnt/obf/users
+mp3: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp4: /zfs-hdd/obf/html_data,mp=/mnt/obf/html_data
+mp5: /zfs-hdd/obf/cache,mp=/mnt/obf/cache
+mp6: /mnt/off1/off-products,mp=/mnt/off/products
+mp7: /zfs-hdd/off/images,mp=/mnt/off/images
+mp8: /zfs-hdd/opff/products,mp=/mnt/opff/products
+mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
+mp10: /zfs-hdd/opf/products,mp=/mnt/opf/products
+mp11: /zfs-hdd/opf/images,mp=/mnt/opf/images
+…
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 10
+lxc.idmap: g 1000 1000 10
+lxc.idmap: u 1011 101011 64525
+lxc.idmap: g 1011 101011 64525
+```
+
+```bash
+pct reboot 111
+```
+
+
+So for opf:
+```conf
+mp0: /zfs-hdd/opf,mp=/mnt/opf
+mp1: /zfs-hdd/opf/products/,mp=/mnt/opf/products
+mp2: /mnt/off1/off-users,mp=/mnt/opf/users
+mp3: /zfs-hdd/opf/images,mp=/mnt/opf/images
+mp4: /zfs-hdd/opf/html_data,mp=/mnt/opf/html_data
+mp5: /zfs-hdd/opf/cache,mp=/mnt/opf/cache
+mp6: /mnt/off1/off-products,mp=/mnt/off/products
+mp7: /zfs-hdd/off/images,mp=/mnt/off/images
+mp8: /zfs-hdd/opff/products,mp=/mnt/opff/products
+mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
+mp10: /zfs-hdd/obf/products,mp=/mnt/obf/products
+mp11: /zfs-hdd/obf/images,mp=/mnt/obf/images
+…
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 10
+lxc.idmap: g 1000 1000 10
+lxc.idmap: u 1011 101011 64525
+lxc.idmap: g 1011 101011 64525
+```
+
+```bash
+pct reboot 112
+```
+
+**Warning**: after changing lxc idmap, the alex user which I already created, now as an id which is not mapped correctly. More over it was a mistake to create it immediatly as it have id 1000, which should be reserved to *off* user. This makes it impossible to log with ssh as .ssh/authorized_keys is not readable !
+
+To remedy that, on obf and opf, using pct enter 111/2, we will also create off user:
+```bash
+usermod -u 1001 alex
+groupmod -g 1001 alex
+adduser --uid 1000 off
+```
+And then from off2, we will change ownership on the mounted ZFS dataset.
+```bash
+sudo chown 1001:1001 -R /zfs-hdd/pve/subvol-11{1,2}-disk-0/home/alex
+```
+
+### SSH problem
+
+I add a problem with ssh connection being very long.
+Looking at /var/log/syslog why logging in, I saw:
+```log
+systemd-logind.service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+Jun 13 13:35:19 obf systemd[734]: systemd-logind.service: Failed at step NAMESPACE spawning /lib/systemd/systemd-logind: Permission denied
+```
+It seems to be related to recent versions of systemd needs nesting (see [here](https://forum.proxmox.com/threads/question-on-nested-option-lxc-container.86497/post-381450)) and so I enabled it by editing `/etc/pve/lxc/11{1,2}.conf`, adding `features: nesting=1`. It fixes the problem. (and indeed 110 was created with this setting on)
+
+### symlinks to mimic old structure
+Now we create symlinks to mimic old structure:
+
+On obf, as root:
+```bash
+for site in o{f,p,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
+```
+on opf, same with `o{f,b,pf}f`
+
+## Getting the code
+
+### Copying production code
+
+I started by copying current code from off1 to each container, while avoiding data. I put code in `/srv/opf-old/` and `/srv/obf-old/` so that I can easily compare to git code later on.
+
+On off2 as root:
+```bash
+mkdir /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
+rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/obf/ /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
+
+mkdir /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
+rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/opf/ /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
+```
+### Cloning off-server repository
+
+First I create a key for off to access off-server repo:
+```bash
+sudo -u off ssh-keygen -f /home/off/.ssh/github_off-server -t ed25519 -C "off+off-server@obf.openfoodfacts.org"
+sudo -u off vim /home/off/.ssh/config
+…
+# deploy key for openfoodfacts-server
+Host github.com-off-server
+        Hostname github.com
+        IdentityFile=/home/off/.ssh/github_off-server
+…
+cat /home/off/.ssh/github_off-server.pub
+```
+Go to github add the obf pub key for off to [productopener repository](https://github.com/openfoodfacts/openfoodfacts-server/settings/keys) with write access:
+
+Then clone repository, on obf:
+
+```bash
+sudo mkdir /srv/obf
+sudo chown off:off /srv/obf
+sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/obf
+```
+
+I will generaly work to modify / commit to the repository using my user alex, while using off only to push.
+So as alex on obf:
+```
+git config --global --add safe.directory /srv/obf
+git config --global --add author.name "Alex Garel"
+git config --global --add author.email "alex@openfoodfacts.org"
+```
+
+Do the same on opf.
+
+### Finding git commit for obf
+
+`ls -ltr lib/ProductOpener/ cgi/` seems to indicate to search commits around 2021-02-03
+
+## Production switch
+
+**FIXME**: don't forget to cross mount opf and obf volumes in opff
+
+
+## Documentation
+
+
+**FIXME**: report change on 110.conf for off images as dataset
+
+**FIXME**: report zfs-nvme creation:

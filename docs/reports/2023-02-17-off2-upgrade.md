@@ -278,6 +278,28 @@ We set some properties and rename it from off-zfs to zfs-nvme and create the zfs
 2023-02-17.19:42:19 zfs create zfs-nvme/pve
 ```
 
+**EDIT:** on 2023-06-13, I re-created the zpool (it was lost in between, until we changed nvme disks).
+```bash
+$ zpool destroy testnvme
+$ zpool create -o ashift=12 testnvme mirror nvme1n1 nvme0n1
+$ zpool add zfs-nvme log nvme2n1
+zpool status zfs-nvme
+  pool: zfs-nvme
+ state: ONLINE
+config:
+
+        NAME         STATE     READ WRITE CKSUM
+        zfs-nvme     ONLINE       0     0     0
+          mirror-0   ONLINE       0     0     0
+            nvme0n1  ONLINE       0     0     0
+            nvme1n1  ONLINE       0     0     0
+        logs
+          nvme2n1    ONLINE       0     0     0
+
+errors: No known data errors
+```
+
+
 we also receive the data from rpool2 back here:
 
 ```bash
