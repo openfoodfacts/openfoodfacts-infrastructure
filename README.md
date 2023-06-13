@@ -53,10 +53,10 @@ Some services:
 
 Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
-<details><summary><h2>Weekly meetings</h2></summary>
+<details><summary><h2>Monthly meetings</h2></summary>
 
 * We e-meet monthly at [18:00 CET](https://dateful.com/convert/paris-france?t=6pm) the second Thuesday of the month
-* ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: https://meet.google.com/nnw-qswu-hza
+* ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: meet.google.com/ybq-dwuk-pvi
 * Join by phone: https://tel.meet/nnw-qswu-hza?pin=2111028061202
 * Add the Event to your Calendar by [adding the Open Food Facts community calendar to your calendar](https://wiki.openfoodfacts.org/Events)
 * [Monthly Agenda](https://docs.google.com/document/d/18BNNqxL6MSLAMrwsQ9F-CaVBUojnUEilQmQuC7XdVks/edit?usp=sharing): please add the Agenda items as early as you can. 
