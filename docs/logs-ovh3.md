@@ -1,7 +1,7 @@
 # ovh3 server logs
 
 Report here the timeline of incidents and interventions on ovh3 server.
-Keep thing short or write a report.
+Keep things short or write a report.
 
 
 ## 2023-06-08 ZFS dataset stalled

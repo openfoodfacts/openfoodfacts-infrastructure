@@ -55,4 +55,19 @@ After a `pct reboot 110`, I was unable to ssh into it.
 
 but more importantly, from off2, `nc -vz 10.1.0.110 22`  did not work, nor `nc -vz 10.1.0.110 80`  while nginx was running on ct 110. `ping 10.1.0.110` was working ok.
 
-Finally I did a `ping 10.0.0.2` from inside ct 110… and everything works again. 
+Finally I did a `ping 10.0.0.2` from inside ct 110… and everything works again.
+
+## 2023-06-12
+
+Problem appeared today again…
+
+On off2, suddenly, 110 seems to be unreachable from 101.
+This made an alert to be notified: *opff-org is down*.
+The site did display a gateway timeout.
+
+Pinging 101 from 110 did return opff website, but not the mongodb (off3) connection (no product found on the web page, slow to load, because it wait for mongodb connection to timeout).
+And pinging `10.0.0.3` from inside 110 did not work.
+
+On 110, running,
+`sudo ip link set arp off dev eth0 ; sudo ip link set arp on dev eth0`
+which reset ARP cache tables did fix it. So this really seems to be a problem with ARP.

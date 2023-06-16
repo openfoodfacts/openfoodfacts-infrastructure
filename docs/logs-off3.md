@@ -1,7 +1,7 @@
 # off3 server logs
 
 Report here the timeline of incidents and interventions on off3 server.
-Keep thing short or write a report.
+Keep things short or write a report.
 
 ## 2023-05-23 unable to connect from opff on off2 after reboot
 Added:
