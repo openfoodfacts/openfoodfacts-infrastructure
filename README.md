@@ -19,6 +19,16 @@ As of 2023 our current priorities are:
   * less false positives in alerts
 * GPU server for inference and possibly one for training (not hosted) - may
 
+## Incident logs
+
+We started logging incidents by server:
+
+* [off1 incident logs](./docs/logs-off1.md)
+* [off2 incident logs](./docs/logs-off2.md)
+* [off3 incident logs](./docs/logs-off3.md)
+* [ovh1 incident logs](./docs/logs-ovh1.md)
+* [ovh2 incident logs](./docs/logs-ovh2.md)
+* [ovh3 incident logs](./docs/logs-ovh3.md)
 
 ## Documentation
 
