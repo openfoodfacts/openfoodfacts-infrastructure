@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../2022-02-remove-containers-ovh1/">
+        <link rel="prev" href="../2023-05-23-move-images-to-zfs/">
       
       
-        <link rel="next" href="../2022-03-off2-PCI-NVMe-problems/">
+        <link rel="next" href="../2023-06-01-robotoff-backups/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
     
     
       
-        <title>Elasticsearch not running on Zammad - Open Food Facts Infrastructure documentation</title>
+        <title>2023-05-23 off2 - container 110 unreachable from 101 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#elasticsearch-not-running-on-zammad" class="md-skip">
+        <a href="#2023-05-23-off2-container-110-unreachable-from-101" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Elasticsearch not running on Zammad
+              2023-05-23 off2 - container 110 unreachable from 101
             
           </span>
         </div>
@@ -744,80 +744,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Elasticsearch not running on Zammad
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution" class="md-nav__link">
-    Solution
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution-2-zammad-messed-up" class="md-nav__link">
-    Resolution 2 - zammad messed up
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#finish-es-integration" class="md-nav__link">
-    Finish ES integration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-learned" class="md-nav__link">
-    Lessons learned
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1037,11 +968,73 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2023-05-23 off2 - container 110 unreachable from 101
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         2023-05-23 off2 - container 110 unreachable from 101
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#possible-causes" class="md-nav__link">
+    Possible causes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-06-02" class="md-nav__link">
+    2023-06-02
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-06-12" class="md-nav__link">
+    2023-06-12
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1101,29 +1094,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#solution" class="md-nav__link">
-    Solution
+  <a href="#possible-causes" class="md-nav__link">
+    Possible causes
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolution-2-zammad-messed-up" class="md-nav__link">
-    Resolution 2 - zammad messed up
+  <a href="#2023-06-02" class="md-nav__link">
+    2023-06-02
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#finish-es-integration" class="md-nav__link">
-    Finish ES integration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-learned" class="md-nav__link">
-    Lessons learned
+  <a href="#2023-06-12" class="md-nav__link">
+    2023-06-12
   </a>
   
 </li>
@@ -1146,63 +1132,59 @@
   
 
 
-<h1 id="elasticsearch-not-running-on-zammad">Elasticsearch not running on Zammad<a class="headerlink" href="#elasticsearch-not-running-on-zammad" title="Permanent link">#</a></h1>
-<p>Date: 2022-03-03</p>
-<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">#</a></h2>
-<p>I wanted to <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/91">Set up ES for Zammad</a></p>
-<p>After having access to the machine (which up to now is gracefully hosted by CQuest), I verify, as told by CQuest, that elasticsearch was installed.</p>
-<p>The problem was the elasticsearch service was not running, according to <code>systemctl status elasticsearch</code>.</p>
-<p><code>journalctl -r -u elasticsearch</code><br />
-shows this error:<br />
-<code>Failed to start elasticsearch due to a fatal signal received by control process (code=killed, signal=9/KILL)</code></p>
-<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">#</a></h2>
-<p>After searching about in various directions, it reminds me of a OOMKill situation. Although we didn't have a OOMKill message in <code>/var/log/syslog</code> because this is an LXC container, so OOMKill happens in the guest.</p>
-<p>As I look into <code>/etc/elasticsearch/jvm.options</code> I've seen that by default it handles memory alone by looking at available memory.</p>
-<p>Being in an LXC container, it sees more memory than the container is allowed to take. Hence the kill situation.</p>
-<p>Thus I decided to fix the heap size manually. I created a file <code>/etc/elasticsearch/jvm.options.d/memory.options</code> <sup id="fnref:options"><a class="footnote-ref" href="#fn:options">1</a></sup> with:</p>
-<div class="highlight"><pre><span></span><code>-Xms300m
--Xmx300m
+<h1 id="2023-05-23-off2-container-110-unreachable-from-101">2023-05-23 off2 - container 110 unreachable from 101<a class="headerlink" href="#2023-05-23-off2-container-110-unreachable-from-101" title="Permanent link">#</a></h1>
+<h3 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">#</a></h3>
+<p>Something strange on off2, I was trying to debug a bad gateway on opff install. The problem was supposedly between the nginx proxy (on CT 101) and the opff nginx (on CT 110). So I wanted to debug.
+I tried to curl from 101 to 110
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="m">10</span>.1.0.110:80<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;HOST: fr.openpetfoodfacts.org&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-Forwarded-Proto: https&quot;</span><span class="w"> </span>
+curl:<span class="w"> </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span><span class="m">10</span>.1.0.110<span class="w"> </span>port<span class="w"> </span><span class="m">80</span>:<span class="w"> </span>Connection<span class="w"> </span>refused
 </code></pre></div>
-<p>After a <code>systemctl start elasticsearch</code>, elasticsearch was up.</p>
-<h2 id="resolution-2-zammad-messed-up">Resolution 2 - zammad messed up<a class="headerlink" href="#resolution-2-zammad-messed-up" title="Permanent link">#</a></h2>
-<p>I first had a hardtime figuring out how zammad was running.</p>
-<p>The real services in <code>/etc/systemd/system/</code> are the one with a <code>-1</code> in their name (others are just sleep commands, they act as placeholders to handle dependencies, I guess). But the executable was not there !</p>
-<p>This was because I unadvertantly de-installed it, while trying to solve elasticsearch issue (where I did a uninstall / reinstall of elasticsearch). I did not see it was also de-installing zammad :-/</p>
-<p>Hopefully I did not purge, and an <code>apt install zammad</code> solved the issue !</p>
-<h2 id="finish-es-integration">Finish ES integration<a class="headerlink" href="#finish-es-integration" title="Permanent link">#</a></h2>
-<p>Following https://docs.zammad.org/en/latest/install/elasticsearch.html, I wanted to verify settings:</p>
-<div class="highlight"><pre><span></span><code>$ zammad run rails r &#39;print Setting.get(&quot;es_index&quot;) + &quot;\n&quot;&#39;
-zammad
+So I tried same command directly on CT 110 to verify nginx was working fine and it did work.
+I then tried to ping 110 from 101, it's all fine:
+<div class="highlight"><pre><span></span><code><span class="c1"># ping 10.1.0.110</span>
+PING<span class="w"> </span><span class="m">10</span>.1.0.110<span class="w"> </span><span class="o">(</span><span class="m">10</span>.1.0.110<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.110:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.161<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.110:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.195<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.110:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.187<span class="w"> </span>ms
+^C
+---<span class="w"> </span><span class="m">10</span>.1.0.110<span class="w"> </span>ping<span class="w"> </span>statistics<span class="w"> </span>---
+<span class="m">3</span><span class="w"> </span>packets<span class="w"> </span>transmitted,<span class="w"> </span><span class="m">3</span><span class="w"> </span>received,<span class="w"> </span><span class="m">0</span>%<span class="w"> </span>packet<span class="w"> </span>loss,<span class="w"> </span><span class="nb">time</span><span class="w"> </span>2027ms
 </code></pre></div>
-<p>I reindex everything using<br />
-<code>zammad run rake searchindex:rebuild</code><br />
-as indicated on <a href="https://github.com/zammad/zammad/issues/1630#issuecomment-344864858">zammad issue 1630</a></p>
-<p>It failed with:
-<div class="highlight"><pre><span></span><code>rake aborted!
-Unable to send Ticket.find(33).search_index_update_backend backend: #&lt;RuntimeError: Unable to process post request to elasticsearch URL &#39;http://localhost:9200/zammad_production_ticket/_doc/33?pipeline=zammad116611039594&#39;. Elasticsearch is not reachable, probably because it&#39;s not running or even installed.
-
-Response:
-#&lt;UserAgent::Result:0x0000563cf7686228 @success=false, @body=nil, @data=nil, @code=0, @content_type=nil, @error=&quot;#&lt;Errno::ECONNREFUSED: Failed to open TCP connection to localhost:9200 (Connection refused - connect(2) for \&quot;localhost\&quot; port 9200)&gt;&quot;, @header=nil&gt;
-</code></pre></div></p>
-<p>Indeed <code>systemctl status elasticsearch</code> shows me it failed. Due to <code>Terminating due to java.lang.OutOfMemoryError: Java heap space</code></p>
-<p>I edit <code>/etc/elasticsearch/jvm.options.d/memory.options</code> to give more memory:</p>
-<div class="highlight"><pre><span></span><code>-Xms600m
--Xmx600m
+I tried to ping 101 for 110 and it took some time:
+<div class="highlight"><pre><span></span><code><span class="c1"># ping 10.1.0.101</span>
+PING<span class="w"> </span><span class="m">10</span>.1.0.101<span class="w"> </span><span class="o">(</span><span class="m">10</span>.1.0.101<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.101:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">7</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.040<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.101:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.055<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.101:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">9</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.027<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.1.0.101:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.055<span class="w"> </span>ms
+^C
+---<span class="w"> </span><span class="m">10</span>.1.0.101<span class="w"> </span>ping<span class="w"> </span>statistics<span class="w"> </span>---
+<span class="m">10</span><span class="w"> </span>packets<span class="w"> </span>transmitted,<span class="w"> </span><span class="m">4</span><span class="w"> </span>received,<span class="w"> </span><span class="m">60</span>%<span class="w"> </span>packet<span class="w"> </span>loss,<span class="w"> </span><span class="nb">time</span><span class="w"> </span>9203ms
+rtt<span class="w"> </span>min/avg/max/mdev<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.027/0.044/0.055/0.011<span class="w"> </span>ms
 </code></pre></div>
-<p>Then relaunched:</p>
-<p><code>zammad run rake searchindex:rebuild</code></p>
-<p>Finally it works !</p>
-<h2 id="lessons-learned">Lessons learned<a class="headerlink" href="#lessons-learned" title="Permanent link">#</a></h2>
-<p>This Elasticsearch memory problem is a recurring one ! In this case it was hard to spot at first sight. But this is always a lead to investigate on a hard kill of an Elasticsearch instance.</p>
-<p>Be prudent when doing <code>apt remove</code> to verify you aren't removing something else ! 😓</p>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:options">
-<p>in fact I was induced in error because in <code>jvm.options</code> the mandatory <code>.options</code> extension was not cited, so I first created a file with no extension and it did not work (but no log could tell me that). Reading <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/advanced-configuration.html#set-jvm-options">online doc</a> I sort this out. The problem is  <a href="https://github.com/elastic/elasticsearch/commit/3aeac89466f87c992f26a3885903264a1945f561">already fixed in elasticsearch repos</a>&#160;<a class="footnote-backref" href="#fnref:options" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+as you can see the first 6 pings were lost…</p>
+<p>After that I tried again the curl command from 101 and it worked !</p>
+<h2 id="possible-causes">Possible causes<a class="headerlink" href="#possible-causes" title="Permanent link">#</a></h2>
+<p>My analysis is that we may have some ARP tables / cache problems on CT 110 ? Is this something that reminds you something ?</p>
+<p>Could be https://forum.proxmox.com/threads/debugging-sporadic-networking-problems-on-lxc.125259/ maybe ? Or https://forum.proxmox.com/threads/invalid-arp-responses-cause-network-problems.118128/ ?</p>
+<p>a proposed fix is
+net.ipv4.conf.all.arp_ignore=2</p>
+<h2 id="2023-06-02">2023-06-02<a class="headerlink" href="#2023-06-02" title="Permanent link">#</a></h2>
+<p>I did have the problem again today !
+After a <code>pct reboot 110</code>, I was unable to ssh into it.</p>
+<p><code>pct enter 110</code> did work, sshd was failed, restarted it (already a bit strange)…</p>
+<p>but more importantly, from off2, <code>nc -vz 10.1.0.110 22</code>  did not work, nor <code>nc -vz 10.1.0.110 80</code>  while nginx was running on ct 110. <code>ping 10.1.0.110</code> was working ok.</p>
+<p>Finally I did a <code>ping 10.0.0.2</code> from inside ct 110… and everything works again.</p>
+<h2 id="2023-06-12">2023-06-12<a class="headerlink" href="#2023-06-12" title="Permanent link">#</a></h2>
+<p>Problem appeared today again…</p>
+<p>On off2, suddenly, 110 seems to be unreachable from 101.
+This made an alert to be notified: <em>opff-org is down</em>.
+The site did display a gateway timeout.</p>
+<p>Pinging 101 from 110 did return opff website, but not the mongodb (off3) connection (no product found on the web page, slow to load, because it wait for mongodb connection to timeout).
+And pinging <code>10.0.0.3</code> from inside 110 did not work.</p>
+<p>On 110, running,
+<code>sudo ip link set arp off dev eth0 ; sudo ip link set arp on dev eth0</code>
+which reset ARP cache tables did fix it. So this really seems to be a problem with ARP.</p>
 
 
 

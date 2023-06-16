@@ -9,21 +9,21 @@
       
       
       
-        <link rel="prev" href="../2022-02-remove-containers-ovh1/">
+        <link rel="prev" href="../linux-server/">
       
       
-        <link rel="next" href="../2022-03-off2-PCI-NVMe-problems/">
+        <link rel="next" href="../logs-off2/">
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
     
     
       
-        <title>Elasticsearch not running on Zammad - Open Food Facts Infrastructure documentation</title>
+        <title>off1 server logs - Open Food Facts Infrastructure documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
       
       
 
@@ -39,14 +39,14 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -57,7 +57,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     <body dir="ltr">
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#elasticsearch-not-running-on-zammad" class="md-skip">
+        <a href="#off1-server-logs" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Elasticsearch not running on Zammad
+              off1 server logs
             
           </span>
         </div>
@@ -153,7 +153,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -184,7 +184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         OpenFoodFacts Infrastructure
       </a>
     </li>
@@ -199,7 +199,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cicd/" class="md-nav__link">
+      <a href="../cicd/" class="md-nav__link">
         Continous Integration and Continuous Delivery
       </a>
     </li>
@@ -214,7 +214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../discourse/" class="md-nav__link">
+      <a href="../discourse/" class="md-nav__link">
         Discourse
       </a>
     </li>
@@ -229,7 +229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker/" class="md-nav__link">
+      <a href="../docker/" class="md-nav__link">
         Docker at Open Food Facts
       </a>
     </li>
@@ -244,7 +244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker_architecture/" class="md-nav__link">
+      <a href="../docker_architecture/" class="md-nav__link">
         Docker architecture
       </a>
     </li>
@@ -259,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker_onboarding/" class="md-nav__link">
+      <a href="../docker_onboarding/" class="md-nav__link">
         Onboarding
       </a>
     </li>
@@ -274,7 +274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../folksonomy/" class="md-nav__link">
+      <a href="../folksonomy/" class="md-nav__link">
         Folksonomy API
       </a>
     </li>
@@ -289,7 +289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../free-datacenter/" class="md-nav__link">
+      <a href="../free-datacenter/" class="md-nav__link">
         Free Datacenter
       </a>
     </li>
@@ -304,7 +304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux-server/" class="md-nav__link">
+      <a href="../linux-server/" class="md-nav__link">
         Linux server
       </a>
     </li>
@@ -317,11 +317,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../logs-off1/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         off1 server logs
       </a>
+      
     </li>
   
 
@@ -334,7 +344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../logs-off2/" class="md-nav__link">
+      <a href="../logs-off2/" class="md-nav__link">
         off2 server logs
       </a>
     </li>
@@ -349,7 +359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../logs-off3/" class="md-nav__link">
+      <a href="../logs-off3/" class="md-nav__link">
         off3 server logs
       </a>
     </li>
@@ -364,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../logs-ovh1/" class="md-nav__link">
+      <a href="../logs-ovh1/" class="md-nav__link">
         ovh1 server logs
       </a>
     </li>
@@ -379,7 +389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../logs-ovh2/" class="md-nav__link">
+      <a href="../logs-ovh2/" class="md-nav__link">
         ovh2 server logs
       </a>
     </li>
@@ -394,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../logs-ovh3/" class="md-nav__link">
+      <a href="../logs-ovh3/" class="md-nav__link">
         ovh3 server logs
       </a>
     </li>
@@ -409,7 +419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mail/" class="md-nav__link">
+      <a href="../mail/" class="md-nav__link">
         Mail on Open Food Facts infrastructure
       </a>
     </li>
@@ -424,7 +434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../matomo/" class="md-nav__link">
+      <a href="../matomo/" class="md-nav__link">
         Matomo
       </a>
     </li>
@@ -439,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mongodb/" class="md-nav__link">
+      <a href="../mongodb/" class="md-nav__link">
         MongoDB
       </a>
     </li>
@@ -454,7 +464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
         NGINX Reverse proxy (OVH)
       </a>
     </li>
@@ -469,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         Observability
       </a>
     </li>
@@ -484,7 +494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../odoo/" class="md-nav__link">
+      <a href="../odoo/" class="md-nav__link">
         Odoo: our relationship management (connect.openfoodfacts.org)
       </a>
     </li>
@@ -499,7 +509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../open-pet-food-facts/" class="md-nav__link">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
         Open Pet Food Facts
       </a>
     </li>
@@ -514,7 +524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../prod-architecture/" class="md-nav__link">
+      <a href="../prod-architecture/" class="md-nav__link">
         Production architecture
       </a>
     </li>
@@ -529,7 +539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../producers_sftp/" class="md-nav__link">
+      <a href="../producers_sftp/" class="md-nav__link">
         Producers SFTP
       </a>
     </li>
@@ -544,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../promox/" class="md-nav__link">
+      <a href="../promox/" class="md-nav__link">
         Proxmox
       </a>
     </li>
@@ -559,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sanoid/" class="md-nav__link">
+      <a href="../sanoid/" class="md-nav__link">
         Sanoid
       </a>
     </li>
@@ -574,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../slackin/" class="md-nav__link">
+      <a href="../slackin/" class="md-nav__link">
         auto Slack invitation
       </a>
     </li>
@@ -589,7 +599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zammad/" class="md-nav__link">
+      <a href="../zammad/" class="md-nav__link">
         Zammad
       </a>
     </li>
@@ -604,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zfs-overview/" class="md-nav__link">
+      <a href="../zfs-overview/" class="md-nav__link">
         ZFS overview
       </a>
     </li>
@@ -617,16 +627,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" >
       
       
       
@@ -635,7 +643,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_30">
           <span class="md-nav__icon md-icon"></span>
           Reports
@@ -648,7 +656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
         Matomo install
       </a>
     </li>
@@ -662,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2021-10-03-network-down/" class="md-nav__link">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
         [Postmortem] OpenFoodFacts.net down (#1)
       </a>
     </li>
@@ -676,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
         Disk extension for preprod and containers prod (ovh2)
       </a>
     </li>
@@ -690,7 +698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
         Preprod crash 2021 12
       </a>
     </li>
@@ -704,7 +712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         [Postmortem] Reverse proxy down
       </a>
     </li>
@@ -718,7 +726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         Install of proxmox gateway server
       </a>
     </li>
@@ -732,7 +740,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
         2022-02 Removing some containers on ovh1
       </a>
     </li>
@@ -744,80 +752,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Elasticsearch not running on Zammad
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         Elasticsearch not running on Zammad
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution" class="md-nav__link">
-    Solution
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution-2-zammad-messed-up" class="md-nav__link">
-    Resolution 2 - zammad messed up
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#finish-es-integration" class="md-nav__link">
-    Finish ES integration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-learned" class="md-nav__link">
-    Lessons learned
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -829,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
         2022-03 Problem with PCI supporting NVMe
       </a>
     </li>
@@ -843,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         Deploying openfoodfacts-search to staging
       </a>
     </li>
@@ -857,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
         Infrastructure future - workshop on 11th July 2022
       </a>
     </li>
@@ -871,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         Kibana down because of Elasticsearch circuit_breaking_exception
       </a>
     </li>
@@ -885,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         2022-08-17 openfoodfacts.net unreachable
       </a>
     </li>
@@ -899,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         2022-11 moving monitoring to its own machine
       </a>
     </li>
@@ -913,7 +852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
         2023-02-13 Zammad down
       </a>
     </li>
@@ -927,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
         2023 02 16 off2 shutdown
       </a>
     </li>
@@ -941,7 +880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
         2023-02-17 Off2 Upgrade
       </a>
     </li>
@@ -955,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
         2023 02 24 zfs introduction
       </a>
     </li>
@@ -969,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
         2023-03 OFF2 reinstall - opff migration
       </a>
     </li>
@@ -983,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
         2023-04-27 moving docker staging to OVH1
       </a>
     </li>
@@ -997,7 +936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
         2022-05-12 refresh staging clones
       </a>
     </li>
@@ -1011,7 +950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         2023-05-18 Mongodb down
       </a>
     </li>
@@ -1025,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+      <a href="../reports/2023-05-23-move-images-to-zfs/" class="md-nav__link">
         2023-05-23 move Images to ZFS
       </a>
     </li>
@@ -1039,7 +978,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+      <a href="../reports/2023-05-off2-110-unreachable/" class="md-nav__link">
         2023-05-23 off2 - container 110 unreachable from 101
       </a>
     </li>
@@ -1053,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+      <a href="../reports/2023-06-01-robotoff-backups/" class="md-nav__link">
         2023-06-01 Robotoff backups
       </a>
     </li>
@@ -1087,49 +1026,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution" class="md-nav__link">
-    Solution
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution-2-zammad-messed-up" class="md-nav__link">
-    Resolution 2 - zammad messed up
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#finish-es-integration" class="md-nav__link">
-    Finish ES integration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-learned" class="md-nav__link">
-    Lessons learned
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1146,63 +1042,9 @@
   
 
 
-<h1 id="elasticsearch-not-running-on-zammad">Elasticsearch not running on Zammad<a class="headerlink" href="#elasticsearch-not-running-on-zammad" title="Permanent link">#</a></h1>
-<p>Date: 2022-03-03</p>
-<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">#</a></h2>
-<p>I wanted to <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/91">Set up ES for Zammad</a></p>
-<p>After having access to the machine (which up to now is gracefully hosted by CQuest), I verify, as told by CQuest, that elasticsearch was installed.</p>
-<p>The problem was the elasticsearch service was not running, according to <code>systemctl status elasticsearch</code>.</p>
-<p><code>journalctl -r -u elasticsearch</code><br />
-shows this error:<br />
-<code>Failed to start elasticsearch due to a fatal signal received by control process (code=killed, signal=9/KILL)</code></p>
-<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">#</a></h2>
-<p>After searching about in various directions, it reminds me of a OOMKill situation. Although we didn't have a OOMKill message in <code>/var/log/syslog</code> because this is an LXC container, so OOMKill happens in the guest.</p>
-<p>As I look into <code>/etc/elasticsearch/jvm.options</code> I've seen that by default it handles memory alone by looking at available memory.</p>
-<p>Being in an LXC container, it sees more memory than the container is allowed to take. Hence the kill situation.</p>
-<p>Thus I decided to fix the heap size manually. I created a file <code>/etc/elasticsearch/jvm.options.d/memory.options</code> <sup id="fnref:options"><a class="footnote-ref" href="#fn:options">1</a></sup> with:</p>
-<div class="highlight"><pre><span></span><code>-Xms300m
--Xmx300m
-</code></pre></div>
-<p>After a <code>systemctl start elasticsearch</code>, elasticsearch was up.</p>
-<h2 id="resolution-2-zammad-messed-up">Resolution 2 - zammad messed up<a class="headerlink" href="#resolution-2-zammad-messed-up" title="Permanent link">#</a></h2>
-<p>I first had a hardtime figuring out how zammad was running.</p>
-<p>The real services in <code>/etc/systemd/system/</code> are the one with a <code>-1</code> in their name (others are just sleep commands, they act as placeholders to handle dependencies, I guess). But the executable was not there !</p>
-<p>This was because I unadvertantly de-installed it, while trying to solve elasticsearch issue (where I did a uninstall / reinstall of elasticsearch). I did not see it was also de-installing zammad :-/</p>
-<p>Hopefully I did not purge, and an <code>apt install zammad</code> solved the issue !</p>
-<h2 id="finish-es-integration">Finish ES integration<a class="headerlink" href="#finish-es-integration" title="Permanent link">#</a></h2>
-<p>Following https://docs.zammad.org/en/latest/install/elasticsearch.html, I wanted to verify settings:</p>
-<div class="highlight"><pre><span></span><code>$ zammad run rails r &#39;print Setting.get(&quot;es_index&quot;) + &quot;\n&quot;&#39;
-zammad
-</code></pre></div>
-<p>I reindex everything using<br />
-<code>zammad run rake searchindex:rebuild</code><br />
-as indicated on <a href="https://github.com/zammad/zammad/issues/1630#issuecomment-344864858">zammad issue 1630</a></p>
-<p>It failed with:
-<div class="highlight"><pre><span></span><code>rake aborted!
-Unable to send Ticket.find(33).search_index_update_backend backend: #&lt;RuntimeError: Unable to process post request to elasticsearch URL &#39;http://localhost:9200/zammad_production_ticket/_doc/33?pipeline=zammad116611039594&#39;. Elasticsearch is not reachable, probably because it&#39;s not running or even installed.
-
-Response:
-#&lt;UserAgent::Result:0x0000563cf7686228 @success=false, @body=nil, @data=nil, @code=0, @content_type=nil, @error=&quot;#&lt;Errno::ECONNREFUSED: Failed to open TCP connection to localhost:9200 (Connection refused - connect(2) for \&quot;localhost\&quot; port 9200)&gt;&quot;, @header=nil&gt;
-</code></pre></div></p>
-<p>Indeed <code>systemctl status elasticsearch</code> shows me it failed. Due to <code>Terminating due to java.lang.OutOfMemoryError: Java heap space</code></p>
-<p>I edit <code>/etc/elasticsearch/jvm.options.d/memory.options</code> to give more memory:</p>
-<div class="highlight"><pre><span></span><code>-Xms600m
--Xmx600m
-</code></pre></div>
-<p>Then relaunched:</p>
-<p><code>zammad run rake searchindex:rebuild</code></p>
-<p>Finally it works !</p>
-<h2 id="lessons-learned">Lessons learned<a class="headerlink" href="#lessons-learned" title="Permanent link">#</a></h2>
-<p>This Elasticsearch memory problem is a recurring one ! In this case it was hard to spot at first sight. But this is always a lead to investigate on a hard kill of an Elasticsearch instance.</p>
-<p>Be prudent when doing <code>apt remove</code> to verify you aren't removing something else ! 😓</p>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:options">
-<p>in fact I was induced in error because in <code>jvm.options</code> the mandatory <code>.options</code> extension was not cited, so I first created a file with no extension and it did not work (but no log could tell me that). Reading <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/advanced-configuration.html#set-jvm-options">online doc</a> I sort this out. The problem is  <a href="https://github.com/elastic/elasticsearch/commit/3aeac89466f87c992f26a3885903264a1945f561">already fixed in elasticsearch repos</a>&#160;<a class="footnote-backref" href="#fnref:options" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<h1 id="off1-server-logs">off1 server logs<a class="headerlink" href="#off1-server-logs" title="Permanent link">#</a></h1>
+<p>Report here the timeline of incidents and interventions on off1 server.
+Keep things short or write a report.</p>
 
 
 
@@ -1240,10 +1082,10 @@ Response:
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../assets/javascripts/bundle.a51614de.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
