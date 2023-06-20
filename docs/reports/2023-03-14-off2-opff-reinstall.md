@@ -836,7 +836,7 @@ ln -s Config_opff.pm Config.pm
 ln -s SiteLang_opff.pm  SiteLang.pm
 ln -s SiteQuality_off.pm SiteQuality.pm
 cd /srv/off
-ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
+# ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
 ```
 
 After that, to be able to fetch opff-main remote branche:

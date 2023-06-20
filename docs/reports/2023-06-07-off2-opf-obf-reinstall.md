@@ -141,8 +141,8 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{build-cache,tmp,debug,new_i
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/{deleted.images,data} /zfs-hdd/opf/
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{deleted.images,data} /zfs-hdd/obf/
 # html/data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/data /zfs-hdd/opf/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/data /zfs-hdd/obf/html_data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/data/ /zfs-hdd/opf/html_data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/data/ /zfs-hdd/obf/html_data
 ```
 It took less than 3 min.
 
@@ -323,9 +323,13 @@ On off2 as root:
 ```bash
 mkdir /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
 rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/obf/ /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
+# there are some permissions problems
+sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
 
 mkdir /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
 rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/opf/ /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
+# there are some permissions problems
+sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
 ```
 ### Cloning off-server repository
 
@@ -351,28 +355,724 @@ sudo chown off:off /srv/obf
 sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/obf
 ```
 
+Make it shared:
+```bash
+cd /srv/obf
+sudo -u off git config core.sharedRepository true
+sudo chmod g+rwX -R .
+```
+
 I will generaly work to modify / commit to the repository using my user alex, while using off only to push.
 So as alex on obf:
 ```
 git config --global --add safe.directory /srv/obf
 git config --global --add author.name "Alex Garel"
 git config --global --add author.email "alex@openfoodfacts.org"
+git config --global --add user.name "Alex Garel"
+git config --global --add user.email "alex@openfoodfacts.org"
 ```
 
 Do the same on opf.
 
 ### Finding git commit for obf
 
-`ls -ltr lib/ProductOpener/ cgi/` seems to indicate to search commits around 2021-02-03
+`ls -ltr /srv/obf-old/{lib/ProductOpener/,cgi/}` seems to indicate to search commits around 2021-02-03
+
+`git log --stat --before=2021-02-03` to search, the last seems to be ok: `7443d1c839150a21a1a0e14834aa8674b52c5f43`
+
+We checkout this one in `/srv/obf` and try to see the differences with `obf-old`.
+I do this on my computer because I want to use meld.
+
+NB: I had to change permissions for /srv/obf-old/html/js/bak/countries and /srv/obf-old/lang:
+`sudo chmod a+rX -R /srv/obf-old/html/js/bak/countries /srv/obf-old/lang/`
+
+It's a hard work…
+
+See [Annex files difference for obf in git vs server](#annex-files-difference-for-obf-in-git-vs-server)
+
+Also I copied Config2.pm: `cp /srv/obf-old/lib/ProductOpener/Config2.pm lib/ProductOpener/`
+
+Also copied `Users.pm` as it has some protection to spam.
+
+
+### Finding git commit for opf
+
+`ls -ltr /srv/opf-old/{lib/ProductOpener/,cgi/}` seems to indicate to search commits around 2020-05-30
+
+`git log --stat --before=2020-05-30` to search, the last with taxonomy build seems to be ok: ~~`88573d0b4450af9fd3fe4c342f46255007cab3b2`~~ but it's not,
+if we look at po file and `lang/opf/en/texts/data.html`, we should take `ccf9ce1d5f42fe58b1462a13b7ed7c52dc335f4f`
+
+We checkout this one in `/srv/obf` and try to see the differences with `obf-old`.
+I do this on my computer because I want to use meld.
+
+NB: I had to change permissions for /srv/obf-old/html/js/bak/countries and /srv/obf-old/lang:
+`sudo chmod a+rX -R /srv/obf-old/html/js/bak/countries /srv/obf-old/lang/`
+
+It's a hard work…
+
+See [Annex files difference for opf in git vs server](#annex-files-difference-for-opf-in-git-vs-server)
+
+
+## Installing
+
+We have git cloned our repository in `/srv/o{b,p}f`.
+
+
+
+### linking data
+
+Unless stated operation are done with user off.
+
+Create links for users and products
+
+for obf
+```bash
+ln -s /mnt/obf/products /srv/obf/products
+ln -s /mnt/obf/users /srv/obf/users
+# old versions of Product opener needs users_emails.sto in /srv/xxx
+ln -s /mnt/obf/users/users_emails.sto /srv/obf/users_emails.sto
+# verify
+ls -l /srv/obf/html/data /srv/obf/users_emails.sto /srv/obf/products /srv/obf/users
+```
+
+for opf
+```bash
+ln -s /mnt/opf/products /srv/opf/products
+ln -s /mnt/opf/users /srv/opf/users
+# old versions of Product opener needs users_emails.sto in /srv/xxx
+ln -s /mnt/opf/users/users_emails.sto /srv/opf/users_emails.sto
+# verify
+ls -l /srv/opf/html/data /srv/opf/users_emails.sto /srv/opf/products /srv/opf/users
+```
+
+We have some permissions problems on some data, to fix this on off2:
+```
+sudo chown 1000:1000 -R /zfs-hdd/opf/html_data/ /zfs-hdd/obf/html_data/
+```
+
+Create links for data folders, also moving data to zfs datasets:
+
+for obf:
+```bash
+# html data
+mv /srv/obf/html/data/data-fields.txt /mnt/obf/html_data/
+rmdir /srv/obf/html/data
+ln -s /mnt/obf/html_data /srv/obf/html/data
+# product images
+rmdir /srv/obf/html/images/products/
+# verify
+ln -s /mnt/obf/images/products  /srv/obf/html/images/products
+```
+
+
+for opf:
+```bash
+# html data
+mv /srv/opf/html/data/data-fields.txt /mnt/opf/html_data/
+rmdir /srv/opf/html/data
+ln -s /mnt/opf/html_data /srv/opf/html/data
+# product images
+rmdir /srv/opf/html/images/products/
+# verify
+ln -s /mnt/opf/images/products  /srv/opf/html/images/products
+```
+
+We also want to move Lang file and deleted.images in data folder but keep compatibility (it's an old version)
+
+for obf:
+```bash
+# deleted.images
+mv /srv/obf/deleted.images /mnt/obf/
+ln -s  /{mnt,srv}/obf/deleted.images
+mkdir /mnt/obf/data/
+# note: specific file name
+cp /srv/obf-old/Lang.openbeautyfacts.org.sto /mnt/obf/data/
+ln -s /mnt/obf/data/Lang.openbeautyfacts.org.sto /srv/obf/
+```
+
+for opf:
+```bash
+# deleted.images
+mv /srv/opf/deleted.images /mnt/opf/
+ln -s  /{mnt,srv}/opf/deleted.images
+mkdir /mnt/opf/data/
+# note: specific file name
+cp /srv/opf-old/Lang.openproductsfacts.org.sto /mnt/opf/data/
+ln -s /mnt/opf/data/Lang.openproductsfacts.org.sto /srv/opf/
+```
+
+
+Create and link cache folders
+
+for obf:
+```bash
+# build-cache (was non existent)
+mkdir /mnt/obf/cache/build-cache
+ln -s /mnt/obf/cache/build-cache /srv/obf/build-cache
+ln -s /mnt/obf/cache/tmp /srv/obf/tmp
+ln -s /mnt/obf/cache/debug /srv/obf/debug
+ln -s /mnt/obf/cache/new_images /srv/obf/new_images
+# verify
+ls -l /srv/obf/tmp /srv/obf/debug /srv/obf/new_images /srv/obf/build-cache
+```
+
+for opf:
+```bash
+# build-cache (was non existent)
+mkdir /mnt/opf/cache/build-cache
+ln -s /mnt/opf/cache/build-cache /srv/opf/build-cache
+ln -s /mnt/opf/cache/tmp /srv/opf/tmp
+ln -s /mnt/opf/cache/debug /srv/opf/debug
+ln -s /mnt/opf/cache/new_images /srv/opf/new_images
+# verify
+ls -l /srv/opf/tmp /srv/opf/debug /srv/opf/new_images /srv/opf/build-cache
+```
+
+We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
+```bash
+cd srv/obf
+mv html/data/data-field.txt html/data-field.txt
+ln -s ../data-fields.txt html/data/data-fields.txt
+```
+And add the `html/data-field.txt` file to git.
+
+Opf does not have it on prod, still we had to commit the removal of `html/data/data-fields.txt` to the repository
+
+
+### linking logs
+
+We want logs to go in /var/logs.
+
+We will create a directory for instance (obf/opf) and also add links to nginx and apache2 logs.
+
+for obf:
+```bash
+sudo mkdir /var/log/obf
+sudo chown off:off -R /var/log/obf
+sudo -u off rmdir /srv/obf/logs/
+sudo -u off ln -s /var/log/obf /srv/obf/logs
+sudo  -u off ln -s ../apache2 /var/log/obf
+sudo -u off ln -s ../nginx /var/log/obf
+```
+
+for opf:
+```bash
+sudo mkdir /var/log/opf
+sudo chown off:off -R /var/log/opf
+sudo -u off rmdir /srv/opf/logs/
+sudo -u off ln -s /var/log/opf /srv/opf/logs
+sudo  -u off ln -s ../apache2 /var/log/opf
+sudo -u off ln -s ../nginx /var/log/opf
+```
+
+
+Copy original `log.conf` and make it a symlink.
+
+For obf:
+```bash
+cp /srv/obf-old/log.conf /srv/obf/conf/obf-log.conf
+rm /srv/obf/log.conf
+ln -s conf/obf-log.conf /srv/obf/log.conf
+# verify
+ls -l /srv/obf/log.conf
+```
+
+For opf:
+```bash
+cp /srv/opf-old/log.conf /srv/opf/conf/opf-log.conf
+rm /srv/opf/log.conf
+ln -s conf/opf-log.conf /srv/opf/log.conf
+# verify
+ls -l /srv/opf/log.conf
+```
+
+### copy and verify config links
+
+For obf:
+
+```bash
+cp /srv/obf-old/lib/ProductOpener/Config2.pm /srv/obf/lib/ProductOpener/Config2.pm
+ln -s SiteLang_obf.pm /srv/obf/lib/ProductOpener/SiteLang.pm
+ln -s Config_obf.pm /srv/obf/lib/ProductOpener/Config.pm
+# verify
+ls -l /srv/obf/lib/ProductOpener/{SiteLang,Config,Config2}.pm
+```
+and for opf, SiteLang does not seems to exist !
+```bash
+cp /srv/opf-old/lib/ProductOpener/Config2.pm /srv/opf/lib/ProductOpener/Config2.pm
+ln -s Config_opf.pm /srv/opf/lib/ProductOpener/Config.pm
+# verify
+ls -l /srv/opf/lib/ProductOpener/{SiteLang,Config,Config2}.pm
+```
+
+### Verify broken links
+
+`sudo find /srv/obf-old -xtype l | xargs ls -l`, see [Annex: obf broken links](#annex-obf-broken-links)
+
+`sudo find /srv/opf-old -xtype l | xargs ls -l`, see [Annex: opf broken links](#annex-opf-broken-links)
+
+
+
+
+
 
 ## Production switch
 
 **FIXME**: don't forget to cross mount opf and obf volumes in opff
 
 
-## Documentation
 
 
-**FIXME**: report change on 110.conf for off images as dataset
+## Annex: obf broken links
 
-**FIXME**: report zfs-nvme creation:
+### TODO
+
+```
+# to be handled by creating symlinks to off-web
+lang/??/texts/contacts.html -> /srv/off/lang/??/texts/contacts.html
+lang/??/texts/press.html -> /srv/off/lang/??/texts/presskit.html
+
+```
+
+### DONE
+
+```
+products -> /rpool/obf/products
+users -> /srv/off/users
+users_emails.sto -> /srv/off/users_emails.sto
+
+# updated in git
+html/robots.txt -> /srv/off/html/robots.txt
+```
+
+
+### WONTFIX
+
+```
+# javascript
+html/bower_components -> /srv/obf/node_modules/@bower_components
+html/js-old/jquery-interestingviews-selectclip.js -> /home/off-fr/cgi/jquery-interestingviews-selectclip.js
+html/js-old/product.js -> /home/off-fr/cgi/product.js
+html/js/bak2/jquery-interestingviews-selectclip.js -> /home/off-fr/cgi/jquery-interestingviews-selectclip.js
+html/js/bak2/jquery.rotate.js -> jQueryRotateCompressed.2.1.js
+html/js/bak2/jquery.tagsinput.css -> xoxco-jQuery-Tags-Input-6d2b1d3/jquery.tagsinput.css
+html/js/bak2/jquery.tagsinput.js -> xoxco-jQuery-Tags-Input-6d2b1d3/jquery.tagsinput.js
+html/js/jquery-interestingviews-selectclip.js -> /home/off-fr/cgi/jquery-interestingviews-selectclip.js
+
+# off fr
+lang/es/tags/labels.txt -> /home/off-fr/cgi/labels.es.txt
+lang/fr/tags/categories.txt -> /home/off-fr/cgi/categories.txt
+lang/fr/tags/labels.txt -> /home/off-fr/cgi/labels.txt
+ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
+ingredients/additifs/extract_additives.pl -> /home/off-fr/cgi/extract_additives.pl
+
+```
+
+
+## Annex: opf broken links
+
+### TODO
+
+```
+# to be handled by creating symlinks to off-web
+lang/??/texts/contacts.html -> /srv/off/lang/??/texts/contacts.html
+lang/??/texts/press.html -> /srv/off/lang/??/texts/presskit.html
+```
+
+### DONE
+
+```
+products -> /rpool/opf/products
+users -> /srv/off/users
+users_emails.sto -> /srv/off/users_emails.sto
+```
+
+
+
+### WONTFIX
+
+```
+html/bower_components -> ../node_modules/@bower_components
+html/images/misc/android-apk.svg -> /srv/opf/html/images/misc/android-apk-40x135.svg
+html/robots.txt -> /srv/off/html/robots.txt
+```
+
+## Annex: files difference for obf in git vs server
+
+**TO DECIDE**
+```
+cgi/
+  madenearme.pl
+  madenearyou.pl
+```
+
+
+**DONE different**
+```
+templates/donate_banner.tt.html
+```
+
+**DONE missing**
+```
+html/
+  robots-disallow.txt
+  .well-known
+html/.well-known/
+  assetlinks.json
+html/images/misc/
+  obf-favicon.png
+  obf-logo-en.white.2200x1800.png
+  obf-logo-en.white.220x180.png
+  obf-logo-fr.blanc.2200x1800.png
+  obf-logo-fr.blanc.220x180.png
+  openbeautyfacts-logo-de-178x150.png
+  openbeautyfacts-logo-de-356x300.png
+  openbeautyfacts-logo-es-356x300.png
+  openbeautyfacts-logo-it-178x150.png
+  openbeautyfacts-logo-it-356x300.png
+  openbeautyfacts-logo-pl-178x150.png
+  openbeautyfacts-logo-pl-356x300.png
+  openbeautyfacts-logo-pt-356x300.png
+  openbeautyfacts-logo-ru-178x150.png
+  openbeautyfacts-logo-ru-356x300.png
+html/images/misc/microsoft
+  Chinese-Traditional.svg
+  Czech.svg
+  Dutch.svg
+  Finnish.svg
+  German.svg
+  Hebrew.svg
+  Hungarian.svg
+  Japanese_get it from MS_864X312.svg
+  Korean.svg
+  microsoft
+  Portuguese-Portugal.svg
+  Russian.svg
+  Slovak.svg
+  Slovenian.svg
+  Turkish.svg
+  Vietnamese.svg
+lib/ProductOpener
+  SiteQuality_off.pm
+po/common
+  nl_be.po
+  pt_pt.po
+po/tags
+  nl_be.po
+  pt_pt.po
+```
+
+**TODO**
+```
+lang/**/texts/
+  open-beauty-hunt.html
+  open-beauty-facts-mobile-app.html
+lang/fr/texts
+  missions_list.html
+
+index/ # put in cache
+  categories_nutriments_per_country.??.sto
+  countries
+  countries_points.sto
+  ambassadors_countries_points.sto
+  ambassadors_users_points.sto
+```
+
+**TODO differently**
+```
+log
+log.conf
+
+products
+users
+users_emails.sto
+
+scripts: ProductOpener
+lib/ProductOpener
+  SiteQuality.pm
+  SiteLang.pm
+```
+
+
+**WONTFIX missing**
+```
+css
+js
+missions.sto
+texts
+test
+translate
+html/js:
+  dist
+  autoresize.jquery.min.js ?
+  canvas-to-blob.min.js
+  carouFredSel
+  datatables.js
+  countries
+html:
+  index.obf.shtml
+  index.shtml
+  index.txt
+  make_static.sh
+  md5sum
+html/images/misc
+  additives.new.html
+  additives.old.html
+  apps
+  a.338x72.png
+  ajax-loader.gif
+  android-apk.112x40.png
+  android-apk.131x47.png
+  android-apk-old.svg
+  b.338x72.png
+  c.338x72.png
+  d.338x72.png
+  e.338x72.png
+  google-play-badge-svg-master
+html/images/icons
+  egg.svg
+  egg.white.96x96.png
+  egg.white.svg
+  leaf.svg
+  leaf.white.96x96.png
+  leaf_white.svg
+  monkey_happy.svg
+  monkey_happy.white.96x96.png
+  monkey_happy.white.svg
+  monkey_uncertain.svg
+  monkey_uncertain.white.96x96.png
+  monkey_uncertain.white.svg
+  monkey_unhappy.svg
+  monkey_unhappy.white.96x96.png
+  monkey_unhappy.white.svg
+html/images/lang/en/labels  # WON'T FIX food labels
+  doca-rioja.121x90.png
+  do-manzanilla-sanlucar-de-barrameda.54x90.png
+  do-montilla-moriles.145x90.png
+  do-navarra.77x90.png
+  do-toro.108x90.png
+  eg-oko-verordnung.110x90.svg
+  ohne-gentechnik.90x90.svg
+  pdo-arroz-de-calasparra.74x90.png
+  pdo-arroz-de-valencia.90x90.png
+  pdo-azafran-de-la-mancha.78x90.png
+  pdo-chufa-de-valencia.52x90.png
+  pdo-estepa.76x90.png
+  pdo-montes-de-granada.91x90.png
+  pdo-montes-de-toledo.64x90.png
+  pdo-pasas-de-malaga.72x90.png
+  pdo-pera-de-lleida.34x90.png
+  pdo-peras-de-rincon-de-soto.88x90.png
+  pdo-pimenton-de-la-vera.52x90.png
+  pdo-pimenton-de-murcia.78x90.png
+  pdo-sierra-de-segura.133x90.png
+  pdo-vinagre-de-jerez.54x90.png
+  pgi-alubia-de-la-baneza-leon.120x90.png
+  pgi-berenjena-de-almagro.40x90.png
+  pgi-esparrago-de-navarra.85x90.png
+  pgi-garbanzo-de-fuentesauco.160x90.png
+  pgi-lenteja-de-la-armuna.95x90.png
+  pgi-lenteja-pardina-de-tierra-de-campos.120x90.png
+  pgi-mazapan-de-toledo.96x90.png
+  pgi-pemento-do-couto.142x90.png
+  pgi-platano-de-canarias.128x90.png
+  pgi-turron-de-alicante.74x90.png
+  pgi-turron-de-jijona.74x90.png
+  real-california-milk-90x90.png
+cgi/:
+  product-multilingual.js
+  profile.plpo/common
+  nl_be.po
+  pt_pt.po
+po/tags
+  nl_be.po
+  pt_pt.po
+
+lib/
+  startup.pl
+
+packager-codes/
+  FR-merge.csv
+
+po/common
+  common-web.pot
+po/openfoodfacts:
+  nl_be.po
+po/openpetfoodfacts
+  nl_be.po
+scss:
+  app.scss
+  templates
+```
+
+## Annex files difference for obf in git vs server
+
+
+**TO DECIDE**
+```
+html/images/banners/donate/
+  donate-banner.independent.fr.1600x300.png
+  donate-banner.research.fr.1600x300.png
+  donate-banner.personal.fr.1600x300.png
+
+html/
+  countries.html
+  langs.html
+  products_countries.html
+translate/
+  categories.ru.txt
+  ingredients.ru.txt
+```
+
+
+**TODO**
+```
+lang/
+```
+
+
+
+**DONE missing**
+```
+.well-known/assetlinks.json
+/home/alex/docker/tmp/opf-old/html/images/misc/microsoft/
+  Chinese-Traditional.svg
+  Czech.svg
+  Dutch.svg
+  Finnish.svg
+  German.svg
+  Hebrew.svg
+  Hungarian.svg
+  Korean.svg
+  Portuguese-Portugal.svg
+  Russian.svg
+  Slovak.svg
+  Slovenian.svg
+  Turkish.svg
+  Vietnamese.svg
+lib/ProductOpener
+  SiteQuality.pm
+cgi/
+  madenearme.pl
+  madenearyou.pl
+```
+
+**DONE modified**
+```
+html/products_countries.js # contains "Open Products Facts"
+madenearme/
+  madenearme-fr.html
+  madenearme-uk.html
+```
+
+
+**TODO differently**
+```
+html/css/dist/
+htm/icons/dist
+html/js/dist
+lib/ProductOpener
+  Config.pm  # link
+  Config2.pm  # local only
+  SiteQuality.pm  # link
+
+index/*.sto  # generated files to put in cache
+po/site-specific  # link
+Lang.openproductsfacts.org.sto
+```
+
+**WONTFIX modified**
+```
+emb_codes/villes-geo-france-galichon-20130208.csv
+dump/*
+html/files/tagline-off.json
+lib/ProductOpener/Config_opff.pm
+po/ # small changes
+```
+
+**WONTFIX missing**
+```
+fonts/icons/*
+html/lang/de/labels/*.png  # renamed or moved to en
+html/lang/fr/labels/*.png
+
+html/images/misc/google-play-badge-svg-master  # made a zip sent to pierre
+
+html/images/misc/
+  android-apk-40x135.svg
+  android-apk-old.svg
+  android-apk.112x40.png
+  android-apk.131x47.png
+html/js/
+  barcode
+  cropper-20150415
+  jquery.tagsinput.20150416
+  jquery.imgareaselect-0.9.8
+  jquery.autocomplete.20150416
+  jquery-ui-1.11.4
+  gnuwilliam-jQuery-Tags-Input-a648557
+  lang/*
+  xoxco-jQuery-Tags-Input-6d2b1d3
+  zeroclipboard
+  ZeroClipboard.js
+  ZeroClipboard.swf
+  autoresize.jquery.min.js
+  canvas-to-blob.min.js
+  datatables.js
+  jquery.form.js.old
+  jquery.iframe-transport.js
+  jquery.iframe-transport.min.js
+  jquery.imgareaselect-0.9.8.zip
+  jquery.autoresize.js
+  jquery.cookie.js
+  jquery.cookie.js.js
+  jquery.cookie.min.js
+  jquery.fileupload-ip.js
+  jquery.fileupload-ip.min.js
+  jquery.fileupload.js
+  jquery.fileupload.min.js
+  highcharts.js
+  highcharts.js.2.2.5
+  highcharts.js.3.0.1
+  highcharts.js.4.0.4
+  jQueryRotateCompressed.2.1.js
+  jquery.rotate.js
+  jquery.transit.min.js
+  load-image.min.js
+  mColorPicker.js
+  mColorPicker_min.js
+  mColorPicker_min.js.old
+  master
+  zeroclipboard-1.0.7.tar
+mediawiki/*  # seems out of place
+node_modules/  # no nodes
+packager-codes/
+scripts/
+  # dead code
+  fix_code_stored_as_number.pl
+  fix_countries_removed_by_yuka.pl
+  fix_deleted_products.pl
+  fix_leading_zeros.pl
+  fix_product.pl
+  fix_product2.pl
+  franprix.pl
+  gen_categories_stats.pl
+  gen_top_tags.pl
+  import_xxx.sh
+  nutrinet_libelles.pl
+  nutrinet_libelles2.pl
+  po2jqueryi18.pl
+  remove_deleted_products_form_db.pl
+  test_addifitfs.pl
+  update_texts_from_wiki.pl
+  update_users.pl
+  upload_photos.pl
+  upload_photos_2016_franprix.pl
+  upload_photos_2018_liege.pl
+  upload_photos_foodvisor.sh
+  upload_photos_saintelucie_maisonduthe.sh
+  upload_photos_scanparty_rotterdam_1.sh
+  upload_photos_scanparty_rotterdam_ekoplaza.sh
+t/sitequality.t # renamed
+```
+
