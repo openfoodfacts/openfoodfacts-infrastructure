@@ -607,14 +607,291 @@ ls -l /srv/opf/lib/ProductOpener/{SiteLang,Config,Config2}.pm
 
 ### Verify broken links
 
-`sudo find /srv/obf-old -xtype l | xargs ls -l`, see [Annex: obf broken links](#annex-obf-broken-links)
+obf:
+`sudo find /srv/obf-old -xtype l | xargs ls -l`,
+see [Annex: obf broken links](#annex-obf-broken-links)
 
-`sudo find /srv/opf-old -xtype l | xargs ls -l`, see [Annex: opf broken links](#annex-opf-broken-links)
+opf:
+`sudo find /srv/opf-old -xtype l | xargs ls -l`,
+see [Annex: opf broken links](#annex-opf-broken-links)
 
 
+### Adding dists
+
+For obf:
+
+Create a folder for dist:
+```bash
+sudo mkdir /srv/obf-dist
+sudo chown off:off -R /srv/obf-dist 
+```
+
+As off, transfer dists in it (as user off):
+```bash
+cp -r  /srv/obf-old/html/images/icons/dist /srv/obf-dist/icons
+cp -r /srv/obf-old/html/css/dist  /srv/obf-dist/css
+cp -r /srv/obf-old/html/js/dist  /srv/obf-dist/js
+```
+
+And use symbolic links in folders (as user off):
+
+```bash
+# first link for whole folder
+ln -s /srv/obf-dist /srv/obf/dist
+# relative links for the rest
+ln -s ../../../dist/icons /srv/obf/html/images/icons/dist
+ln -s ../../dist/css /srv/obf/html/css/dist
+ln -s ../../dist/js /srv/obf/html/js/dist
+# verify
+ls -l  /srv/obf/dist /srv/obf/html/{images/icons,css,js}/dist
+```
+
+Same for opf:
+
+Create a folder for dist:
+```bash
+sudo mkdir /srv/opf-dist
+sudo chown off:off -R /srv/opf-dist
+```
+
+As off, transfer dists in it (as user off):
+```bash
+cp -r  /srv/opf-old/html/images/icons/dist /srv/opf-dist/icons
+cp -r /srv/opf-old/html/css/dist  /srv/opf-dist/css
+cp -r /srv/opf-old/html/js/dist  /srv/opf-dist/js
+```
+
+And use symbolic links in folders (as user off):
+
+```bash
+# first link for whole folder
+ln -s /srv/opf-dist /srv/opf/dist
+# relative links for the rest
+ln -s ../../../dist/icons /srv/opf/html/images/icons/dist
+ln -s ../../dist/css /srv/opf/html/css/dist
+ln -s ../../dist/js /srv/opf/html/js/dist
+ls -l  /srv/opf/dist /srv/opf/html/{images/icons,css,js}/dist
+```
+
+### Adding openfoodfacts-web
+
+We have some content that we want to take from openfoodfacts-web (also because shared with off). So we want to clone it.
+
+#### Cloning repo
+
+Note that I add to make two deploys keys as explained in [github documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#using-multiple-repositories-on-one-server) and use a specific ssh_config hostname for openfoodfacts-web:
+
+Create new key, as off:
+```bash
+# deploy key for openfoodfacts-web
+ssh-keygen -t ed25519 -C "off+off-web@obf.openfoodfacts.org" -f /home/off/.ssh/github_off-web
+```
+
+Add a specific host in ssh config
+```conf
+# /home/off/.ssh/config
+Host github.com-off-web
+    Hostname github.com
+    IdentityFile=/home/off/.ssh/github_off-web
+```
+
+In github add the `/home/off/.ssh/github_off-web.pub` to deploy keys for openfoodfacts-web.
+
+Cloning:
+```bash
+sudo mkdir /srv/openfoodfacts-web
+sudo chown off:off /srv/openfoodfacts-web
+sudo -u off git clone git@github.com-off-web:openfoodfacts/openfoodfacts-web.git /srv/openfoodfacts-web
+```
+
+Do the same for opf
+
+#### Linking content
+
+We clearly want obf lang folder to come from off-web:
+
+for obf (as off):
+```bash
+rm -rf /srv/obf/lang/obf/
+ln -s /srv/openfoodfacts-web/lang/obf/ /srv/obf/lang/obf
+```
+
+for opf (as off):
+```bash
+rm -rf /srv/opf/lang/opf/
+ln -s /srv/openfoodfacts-web/lang/opf/ /srv/opf/lang/opf
+```
+
+We then will link press, contacts, term of use (as user off)
+```bash
+# USE WITH CARE !
+cd /srv/obf/lang
+for FNAME in contacts.html press.html terms-of-use.html; do \
+  for LANG in $(ls -d ?? ??_*); do \
+    FILE_PATH=$LANG/texts/$FNAME;
+    if [[ -e /srv/openfoodfacts-web/lang/$FILE_PATH ]]; then \
+        rm $FILE_PATH; \
+        ln -s /srv/openfoodfacts-web/lang/$FILE_PATH $FILE_PATH; \
+    fi; \
+  done; \
+done;
+```
+
+We can verify with:
+```bash
+ls -l */texts/{contacts,press,terms-of-use}.html
+```
+
+Same for opf.
+
+We keep the rest as is for now.
+
+**FIXME**: add a ticket to understand if we want to use off-web for all the content
+
+### Linking logo images
+
+No need of it for obf, logo names are handled by `SiteLang_obf.pm` and `po/openbeautyfacts/??.po`
+
+No need of it for opf neither, logo names are handled by `po/openbeautyfacts/??.po`
 
 
+### Installing CPAN
 
+First add `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile
+
+```bash
+cd /srv/obf
+sudo apt install libapache2-mod-perl2-dev
+sudo cpanm --notest --quiet --skip-satisfied --installdeps .
+```
+
+
+## Setting up services
+
+
+### NGINX for OBF and OPF (inside container)
+
+Installed nginx `sudo apt install nginx`.
+
+Removed default site `sudo unlink /etc/nginx/sites-enabled/default`
+
+On off2, Copied production nginx configuration of off1:
+```
+# base configs
+sudo scp 10.0.0.1:/etc/nginx/sites-enabled/obf /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/sites-available/
+sudo scp 10.0.0.1:/etc/nginx/sites-enabled/opf /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/sites-available/
+# other config files
+sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/snippets/
+sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/snipets/
+sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/
+sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/
+sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/
+sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf
+```
+
+I added /srv/obf/conf/nginx/conf.d/log_format_realip.conf (on obf), same for opf, with same content as the one on opff (it's now in git).
+
+Then made symlinks:
+* For obf:
+  ```bash
+  sudo ln -s /srv/obf/conf/nginx/sites-available /etc/nginx/sites-enabled/obf
+  sudo ln -s /srv/obf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+  sudo ln -s /srv/obf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+  sudo ln -s /srv/obf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+  sudo rm /etc/nginx/mime.types
+  sudo ln -s /srv/obf/conf/nginx/mime.types /etc/nginx/
+  ```
+* For opf:
+  ```bash
+  sudo ln -s /srv/opf/conf/nginx/sites-available /etc/nginx/sites-enabled/opf
+  sudo ln -s /srv/opf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+  sudo ln -s /srv/opf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+  sudo ln -s /srv/opf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+  sudo rm /etc/nginx/mime.types
+  sudo ln -s /srv/opf/conf/nginx/mime.types /etc/nginx/
+  ```
+
+On obf and opf Modified their configuration to remove ssl section, change log path and access log format, and to set real_ip_resursive options (it's all in git)
+
+test it:
+```bash
+sudo nginx -t
+```
+
+
+### Apache
+
+On obf and opf we start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+```bash
+sudo unlink /etc/apache2/sites-enabled/000-default.conf
+sudo a2dismod mpm_event
+sudo a2enmod mpm_prefork
+sudo chown off:off -R /var/log/apache2 /var/run/apache2
+```
+and edit `/etc/apache2/envvars` to use off user:
+```
+#export APACHE_RUN_USER=www-data
+export APACHE_RUN_USER=off
+#export APACHE_RUN_GROUP=www-data
+export APACHE_RUN_GROUP=off
+```
+
+
+On obf:
+* Add configuration for obf in sites enabled
+  ```bash
+  sudo ln -s /srv/obf/conf/apache-2.4/sites-available/obf.conf /etc/apache2/sites-enabled/
+  ```
+* link `mpm_prefork.conf` to a file in git, identical as the one in production
+  ```bash
+  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/obf/conf/apache-2.4/obf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  ```
+* use customized ports.conf for obf (8002)
+  ```bash
+  sudo rm /etc/apache2/ports.conf
+  sudo ln -s /srv/obf/conf/apache-2.4/obf-ports.conf /etc/apache2/ports.conf
+  ```
+
+On opf:
+* Add configuration for opf in sites enabled
+  ```bash
+  sudo ln -s /srv/opf/conf/apache-2.4/sites-available/opf.conf /etc/apache2/sites-enabled/
+  ```
+* link `mpm_prefork.conf` to a file in git, identical as the one in production
+  ```bash
+  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/opf/conf/apache-2.4/opf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  ```
+* use customized ports.conf for opf (8003)
+  ```bash
+  sudo rm /etc/apache2/ports.conf
+  sudo ln -s /srv/opf/conf/apache-2.4/opf-ports.conf /etc/apache2/ports.conf
+  ```
+
+test it in both container:
+```bash
+sudo apache2ctl configtest
+```
+
+We can restart apache2 then nginx:
+```bash
+sudo systemctl restart apache2
+sudo systemctl restart nginx
+```
+
+#### Problem when restarting apache2 on obf
+
+In `/var/log/apache2/error.log`
+```
+Could not load taxonomy: /srv/obf/taxonomies/inci_functions.result.sto
+```
+repairing:
+```bash
+cp /srv/obf-old/taxonomies/inci_functions* /srv/obf/taxonomies/
+```
+
+**FIXME** logs
 
 ## Production switch
 

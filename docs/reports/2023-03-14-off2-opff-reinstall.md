@@ -908,7 +908,7 @@ ln -s ../../dist/css /srv/opff/html/css/dist
 ln -s ../../dist/js /srv/opff/html/js/dist
 ```
 
-### adding openfoodfacts-web
+### Adding openfoodfacts-web
 
 We have some content that we want to take from openfoodfacts-web (also because shared with off). So we want to clone it.
 
