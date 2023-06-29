@@ -154,10 +154,10 @@ To test that mail is well configured, you can use:
 echo "Subject: sendmail test xxx" | sudo sendmail -f alex@openfoodfacts.org -v root
 ```
 
-or, with the `mailutils` package installed:
+or, with the `bsd-mailx` package installed [^bsd-mailx]:
 
 ```bash
-echo "test message from xxx" |mail.mailutils -s "test root xxx" -r alex@openfoodfacts.org root
+echo "test message from xxx" |mailx -s "test root xxx" -r alex@openfoodfacts.org root
 ```
 
 If you do not receive the email on expected group, here are some checks:
@@ -177,6 +177,10 @@ If you do not receive the email on expected group, here are some checks:
 * `/etc/mailname` contains `openfoodfacts.org` (see also [debian wiki](https://wiki.debian.org/EtcMailName))
 * check `/etc/aliases` and `/etc/email-adresses` if you use exim4
 
+
+[^bsd-mailx]:
+  Note that we use bsd-mailx and not the alias from mailutils as it does not behave the same.
+  Noticabely it won't use /etc/mailname to complete email address which leads to problems.
 
 ### References
 

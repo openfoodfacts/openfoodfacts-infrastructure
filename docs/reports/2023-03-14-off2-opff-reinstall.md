@@ -517,7 +517,7 @@ apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 mak
 Also installed mailx which is handy:
 
 ```bash
-apt install mailx
+apt install bsd-mailx
 ```
 
 We also want nginx in this container:
@@ -1259,6 +1259,7 @@ systemctl enable gen_feeds@opff.timer
 systemctl enable gen_feeds_daily@opff.timer
 systemctl daemon-reload
 ```
+
 ### Adding failure notification for apache and nginx in systemd
 
 We can add the on failure notification we created for timers to apache2.service and nginx.service:
@@ -1278,6 +1279,16 @@ After=network.target nss-lookup.target
 OnFailure=email-failures@nginx-opff.service
 ```
 
+But we want to put that in git, so:
+
+```bash
+cp /etc/systemd/system/apache2.service.d -r conf/systemd/
+cp /etc/systemd/system/nginx.service.d/ -r conf/systemd/
+sudo rm /etc/systemd/system/apache2.service.d /etc/systemd/system/nginx.service.d -r
+sudo ln -s /srv/opff/conf/systemd/nginx.service.d /etc/systemd/system/
+sudo ln -s /srv/opff/conf/systemd/apache2.service.d /etc/systemd/system/
+sudo systemctl daemon-reload
+```
 
 ### Testing
 
@@ -1432,7 +1443,16 @@ We can see if we will be able to use mongoexport
 We follow [Steps to create Nginx configuration](../nginx-reverse-proxy.md#steps-to-create-nginx-configuration)
 but we put host in `/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx`
 
-**FIXME** use wildcard certificates
+See also how we [setup wildcard certificates, above](#certbot-wildcard-certificates-using-ovh-dns)
+
+## Debugs and fixing
+
+### Testing
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
+```
 
 ### Mongodb access
 
@@ -1468,28 +1488,6 @@ iface ens19 inet static
         # needed for off2 containers to access mongodb
         post-up ip route add 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
         pre-down ip route del 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
-```
-
-
-### Logrotate
-
-Looking at logrotate default debian configuration for apache2 and nginx, it rotates all `*.log` files, so instead of having a specific configuration, I edited the apache2 configuration to ensure log files ar in `.log`
-
-Nginx config was ok, but for Apache2, in `/etc/nginx/sites-enabled/opff`:
-```conf
-...
-ErrorLog /var/log/apache2/opff_error.log
-CustomLog /var/log/apache2/opff_access.log proxy
-```
-
-
-## Debugs and fixing
-
-### Testing
-
-To test my installation I added this to `/etc/hosts` on my computer:
-```conf
-213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
 ```
 
 ### Fixing GeoIP

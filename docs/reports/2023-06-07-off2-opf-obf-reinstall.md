@@ -746,7 +746,6 @@ Same for opf.
 
 We keep the rest as is for now.
 
-**FIXME**: add a ticket to understand if we want to use off-web for all the content
 
 ### Linking logo images
 
@@ -891,7 +890,217 @@ repairing:
 cp /srv/obf-old/taxonomies/inci_functions* /srv/obf/taxonomies/
 ```
 
-**FIXME** logs
+### creating systemd units for timers jobs
+
+We install mailx
+
+```bash
+sudo apt install mailutils
+```
+
+We copy the units from opff branch.
+
+```bash
+git checkout origin/opff-main conf/systemd/
+git add conf/systemd/
+git commit -a -m "build: added systemd units"
+```
+and link them at system level
+```bash
+declare -x PROJ_NAME=opf
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.service /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/email-failures\@.service /etc/systemd/system
+# account for new services
+sudo systemctl daemon-reload
+```
+
+Test failure notification is working:
+
+```bash
+sudo systemctl start email-failures@gen_feeds__$PROJ_NAME.service
+```
+
+Test systemctl gen_feeds services are working:
+
+```bash
+sudo systemctl start gen_feeds_daily@$PROJ_NAME.service
+sudo systemctl start gen_feeds@$PROJ_NAME.service
+```
+
+Activate systemd units:
+
+```bash
+sudo systemctl enable gen_feeds@$PROJ_NAME.timer
+sudo systemctl enable gen_feeds_daily@$PROJ_NAME.timer
+sudo systemctl daemon-reload
+```
+
+
+### Adding failure notification for apache and nginx in systemd
+
+We can add the on failure notification we created for timers to apache2.service and nginx.service.
+We can get them from opff (at the time of writting it's on a specific branch)
+
+```bash
+declare -x PROJ_NAME=obf
+cd /srv/$PROJ_NAME
+sudo -u off git checkout origin/opff-reinstall-fixes -- conf/systemd/{apache2.service.d,nginx.service.d}
+sudo ln -s /srv/opff/conf/systemd/nginx.service.d /etc/systemd/system/
+sudo ln -s /srv/opff/conf/systemd/apache2.service.d /etc/systemd/system/
+sudo systemctl daemon-reload
+```
+
+
+### log rotate perl logs
+
+```bash
+declare -x PROJ_NAME=obf
+```
+
+
+We get `conf/logrotate/apache` from opff and install it:
+
+```bash
+cd /srv/$PROJ_NAME
+sudo -u off git checkout origin/opff-main -- conf/logrotate/apache2
+sudo rm /etc/logrotate.d/apache2
+sudo ln -s /srv/$PROJ_NAME/conf/logrotate/apache2 /etc/logrotate.d/apache2
+# logrotate needs root ownerships
+sudo chown root:root /srv/$PROJ_NAME/conf/logrotate/apache2
+```
+
+We can test with:
+```bash
+sudo logrotate /etc/logrotate.conf --debug
+```
+
+### Installing mongodb client
+
+We need mongodb client to be able to export the database in gen_feeds.
+
+I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
+but we are on bullseye, and we just want to install tools.
+
+```bash
+curl -fsSL https://pgp.mongodb.com/server-4.4.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg \
+   --dearmor
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/4.4 main" | \
+  sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update
+sudo apt install  mongodb-database-tools
+```
+
+### Test with curl
+
+for obf:
+```bash
+declare -x DOMAIN_NAME=openbeautyfacts
+declare -x PORT_NUM=8002
+```
+
+for opf:
+```bash
+declare -x DOMAIN_NAME=openproductsfacts
+declare -x PORT_NUM=8003
+```
+
+
+```bash
+curl localhost:$PORT_NUM/cgi/display.pl --header "Host: fr.$DOMAIN_NAME.org"
+```
+
+Nginx call
+```bash
+curl localhost --header "Host: fr.$DOMAIN_NAME.org"
+```
+
+### Using Matomo instead of google analytics
+
+Copied configuration from OPFF and adapted with site id after creation of sites in Matomo.
+
+
+
+## Reverse proxy configuration
+
+### certbot wildcard certificates using OVH DNS
+
+We already install `python3-certbot-dns-ovh` so we just need to add credentials.
+
+```bash
+$ declare -x DOMAIN_NAME=openbeautyfacts
+```
+
+Generate credential, following https://eu.api.ovh.com/createToken/
+
+Using (for obf):
+* name: `off proxy openbeautyfacts.org`
+* description: `nginx proxy on off2 for openbeautyfacts.org`
+* validity: `unlimited`
+* GET `/domain/zone/`
+  (note: the last `/` is important !)
+* GET/PUT/POST/DELETE `/domain/zone/openbeautyfacts.org/*`
+
+and we put config file in `/root/.ovhapi/openbeautyfacts.org` and `/root/.ovhapi/openproductsfacts.org`
+```bash
+$ mkdir /root/.ovhapi
+$ vim /root/.ovhapi/$DOMAIN_NAME.org
+...
+$ cat /root/.ovhapi/$DOMAIN_NAME.org
+# OVH API credentials used by Certbot
+dns_ovh_endpoint = ovh-eu
+dns_ovh_application_key = ***********
+dns_ovh_application_secret = ***********
+dns_ovh_consumer_key = ***********
+
+# ensure no reading by others
+$ chmod og-rwx -R /root/.ovhapi
+```
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with `--test-cert`
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+```
+and then without `--test-cert`
+```bash
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+```
+
+### Create site config
+
+In the git repository, we copied the openpetfoodfacts config and changed names to the right domain.
+
+Then we linked them:
+```bash
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openbeautyfacts.org /etc/nginx/sites-enabled/
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openproductsfacts.org /etc/nginx/sites-enabled/
+# test
+nginx -t
+systemctl restart nginx
+```
+
+## Testing
+
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openbeautyfacts.org world-fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org world.openbeautyfacts.org
+213.36.253.214 fr.openproductsfacts.org world-fr.openproductsfacts.org static.openproductsfacts.org images.openproductsfacts.org world.openproductsfacts.org
+```
+
+And it works at first try :tada: !
 
 ## Production switch
 
