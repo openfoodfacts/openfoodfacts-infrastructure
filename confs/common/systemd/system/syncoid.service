@@ -5,6 +5,9 @@ After=zfs.target
 After=sanoid.service
 ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 
+# email on failure
+OnFailure=email-failures@sanoid-%l.service
+
 [Service]
 Environment=TZ=UTC
 Type=oneshot
