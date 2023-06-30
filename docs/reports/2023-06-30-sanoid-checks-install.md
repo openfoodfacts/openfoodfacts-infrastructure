@@ -31,4 +31,21 @@ sudo systemctl status sanoid_check.service
 
 It worked !
 
-Same operation on ovh3.
+Same operation on ovh3 (but with ovh3 folder).
+
+## OnFailure for sanoid and syncoid
+
+While installing sanoid check, I realized `email-failures@.service` did not exists already,
+and that sanoid and syncoid did not email their failures !
+
+So I override sanoid.service and modify syncoid.service to add it.
+
+After adding relevant files to git,
+
+On off2:
+```bash
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/off2/systemd/sanoid.service.d/override.conf /etc/systemd/system/
+sudo systemctl daemon-reload
+```
+
+same on ovh3 (but with ovh3 folder).

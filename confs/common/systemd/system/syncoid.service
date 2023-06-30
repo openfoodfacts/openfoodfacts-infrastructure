@@ -6,7 +6,7 @@ After=sanoid.service
 ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 
 # email on failure
-OnFailure=email-failures@sanoid-%l.service
+OnFailure=email-failures@syncoid-args-%l.service
 
 [Service]
 Environment=TZ=UTC
