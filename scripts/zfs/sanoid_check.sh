@@ -26,7 +26,7 @@ function check_last_snap_date {
   # check for a volume last snapshot date
   local VOL_PATH=$1
   # list snapshots
-  local last_snap=$(zfs list zfs-hdd/opff -t snap|grep 'autosnap_.*_hourly'|sort |tail -n 1)
+  local last_snap=$(zfs list "$VOL_PATH" -t snap|grep 'autosnap_.*_hourly'|sort |tail -n 1)
   # get date from name
   local last_date=$(echo $last_snap | sed -e 's/^.*autosnap_\([0-9-]\+\)_\([0-9:]\+\)_hourly.*$/\1 \2/g')
   # compare timestamps
