@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Sanoid check Every 2 hours
+
+[Timer]
+# every two hours
+OnBootSec=2h
+OnUnitInactiveSec=2h
+
+[Install]
+WantedBy=timers.target
