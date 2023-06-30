@@ -6,7 +6,9 @@ TIMESTAMP=$(date +%Y%m%d-%H%M)
 
 REMOTE="10.0.0.2 ovh3.openfoodfacts.org" # IP destination
 
-DATASETS='rpool/off/products rpool/obf/products rpool/opf/products rpool/opff/products rpool/off-pro/products'
+# 2023-06-05 alex - removed opff
+# DATASETS='rpool/off/products rpool/obf/products rpool/opf/products rpool/opff/products rpool/off-pro/products'
+DATASETS='rpool/off/products rpool/obf/products rpool/opf/products rpool/off-pro/products'
 
 for DATASET in $DATASETS
 do
@@ -20,7 +22,9 @@ do
     TARGET=$DATASET
     if [ "$DEST" == "10.0.0.2" ]
     then
-       TARGET=$(echo $TARGET | sed 's+rpool/+zfs-nvme/+')
+       # use HDD for now
+       # TARGET=$(echo $TARGET | sed 's+rpool/+zfs-nvme/+')
+       TARGET=$(echo $TARGET | sed 's+rpool/+zfs-hdd/+')
     fi
 
     # liste des snapshots destination
@@ -47,15 +51,15 @@ do
 
   # RETENTION
 
-  # suppression des snapshots de la veille sauf le premier
-  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d yesterday +%Y%m%d)" | tail -n +2)
+  # suppression des snapshots de l'avant veille sauf le premier
+  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d '2 days ago' +%Y%m%d)" | tail -n +2)
   for OLD_SNAP in $OLD
   do
     zfs destroy $OLD_SNAP
   done
 
-  # suppression des snapshots du mois dernier sauf le premier
-  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d 'last month' +%Y%m)" | tail -n +2)
+  # suppression des snapshots de mois -2 sauf le premier
+  OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d '2 month ago' +%Y%m)" | tail -n +2)
   for OLD_SNAP in $OLD
   do
     zfs destroy $OLD_SNAP
