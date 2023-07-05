@@ -1,7 +1,7 @@
 #! /bin/bash
 
-# opff is handled by sanoid
-for D in obf opf off-pro off
+# obf, opf and opff are handled by sanoid
+for D in off-pro off
 do
   # destroy old snapshots, keep last 100 (one full day) and the daily ones at midnight
   for S in $(zfs list -t snap rpool/$D/products -o name -H | grep -v '0000$' | head -n -100); do echo $S; zfs destroy $S; done
