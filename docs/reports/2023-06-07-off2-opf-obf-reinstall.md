@@ -753,6 +753,49 @@ No need of it for obf, logo names are handled by `SiteLang_obf.pm` and `po/openb
 
 No need of it for opf neither, logo names are handled by `po/openbeautyfacts/??.po`
 
+### Changing logo
+
+On OBF:
+
+We want to use the new logo. We uploaded a new version as:
+- openbeautyfacts-logo.svg
+- openbeautyfacts-logo-178x150.png
+- openbeautyfacts-logo-356x300.png
+- openbeautyfacts-logo-712x600.png
+
+And the want to link every versions to them. For that we run.
+
+```bash
+cd /srv/obf/html/images/misc/
+for f in openbeautyfacts-logo-??.svg;do rm $f;ln -s openbeautyfacts-logo.svg $f;done
+for f in openbeautyfacts-logo-??-178x150.png;do rm $f && ln -s openbeautyfacts-logo-178x150.png $f;done
+for f in openbeautyfacts-logo-??-356x300.png;do rm $f && ln -s openbeautyfacts-logo-356x300.png $f;done
+for f in openbeautyfacts-logo-??-712x600.png;do rm $f && ln -s openbeautyfacts-logo-712x600.png $f;done
+for f in openbeautyfacts-logo-??.png;do rm $f && ln -s openbeautyfacts-logo-178x150.png $f;done
+rm openbeautyfacts-logo-zh-CN-712x600.png && ln -s openbeautyfacts-logo-712x600.png openbeautyfacts-logo-zh-CN-712x600.png
+```
+
+
+On OPF:
+
+We want to use the new logo. We uploaded a new version as:
+- openproductsfacts-logo.svg
+- openproductsfacts-logo-178x150.png
+- openproductsfacts-logo-356x300.png
+- openproductsfacts-logo-712x600.png
+
+And the want to link every versions to them. For that we run.
+
+```bash
+cd /srv/opf/html/images/misc/
+for f in openproductsfacts-logo-??.svg;do rm $f;ln -s openproductsfacts-logo.svg $f;done
+for f in openproductsfacts-logo-??-178x150.png;do rm $f && ln -s openproductsfacts-logo-178x150.png $f;done
+for f in openproductsfacts-logo-??-356x300.png;do rm $f && ln -s openproductsfacts-logo-356x300.png $f;done
+for f in openproductsfacts-logo-??-712x600.png;do rm $f && ln -s openproductsfacts-logo-712x600.png $f;done
+for f in openproductsfacts-logo-??.png;do rm $f && ln -s openproductsfacts-logo-178x150.png $f;done
+rm openproductsfacts-logo-zh-CN-712x600.png && ln -s openproductsfacts-logo-712x600.png openproductsfacts-logo-zh-CN-712x600.png
+```
+
 
 ### Installing CPAN
 
@@ -1109,6 +1152,13 @@ And it works at first try :tada: !
 
 1. change TTL for openbeautyfacts domains to a low value in DNS
 
+1. enable NFS sharing of needed datasets:
+
+   ```bash
+   sudo zfs set sharenfs=on zfs-hdd/obf/products
+   sudo zfs set sharenfs=on zfs-hdd/obf/images
+   ```
+
 1. shutdown obf on **off2**
    `sudo systemctl stop apache2 nginx`
 
@@ -1122,10 +1172,11 @@ And it works at first try :tada: !
   ```
   obf/cache is skipped, nothing of interest.
 
+  it took 17min
+
 4. products sync:
    - remove obf from sync products script
    - do a zfs send of only obf products with a modified version of the script
-
 
 2. shutdown obf on both side
    on off1: `sudo systemctl stop apache2@obf` and `unlink /etc/nginx/sites-enabled/obf && systemctl reload nginx`
@@ -1133,6 +1184,8 @@ And it works at first try :tada: !
 3. change DNS to point to new machine
 
 3. Rsync and zfs sync again
+
+   rsync took 8 minutes
 
 4. ensure migrations works using NFS for off1 apps:
    ```bash
@@ -1156,14 +1209,14 @@ And it works at first try :tada: !
 
 4. ensure migrations works using mounts for off2 apps:
    * edit 110 and 112 mount points to mount obf volumes instead of NFS shares, by editing `/etc/pve/lxc/11{0,2}.conf`
-   * save your new settings to git folder
+   * save your new settings to git folder: `cp /etc/pve/lxc/110.conf /opt/openfoodfacts-infrastructure/confs/off2/pve/lxc_110.conf` and `cp /etc/pve/lxc/112.conf /opt/openfoodfacts-infrastructure/confs/off2/pve/lxc_112.conf`
    * restart 110 and 112: `sudo pct reboot 110; sudo pct reboot 112`
 
 5. start obf on container off2/111 (obf): `sudo systemctl start apache2 nginx`
 6. check it works (remember to also clean your /etc/hosts if you modified it for tests)
 6. disable obf service on off1:
    - `systemctl disable apache2@obf`
-   - `unlink /etc/nginx/site-enabled/obf && sytemctl reload nginx` (if not already done)
+   - `unlink /etc/nginx/sites-enabled/obf && sytemctl reload nginx` (if not already done)
 
 7. remove obf from snapshot-purge.sh on ovh3 (now handled by sanoid)
 8. on off2 and ovh3 modify sanoid configuration to have obf/products handled by sanoid and synced to ovh3
@@ -1171,7 +1224,6 @@ And it works at first try :tada: !
 
 10. off1 cleanup:
     - remove obf gen feeds from `/srv/off/scripts/gen_all_feeds.sh` and `/srv/off/scripts/gen_all_feeds_daily.sh`
-    - remove `/srv/obf/scripts/gen_obf_leaderboard.sh` from off crontab
     - remove or comment `/etc/logrotate.d/apache2-obf`
 
 11. off2 cleanup:
@@ -1181,6 +1233,13 @@ And it works at first try :tada: !
 ### Procedure for switch of opf off1 to off2
 
 1. change TTL for openproductsfacts domains to a low value in DNS
+
+1. enable NFS sharing of needed datasets:
+
+   ```bash
+   sudo zfs set sharenfs=on zfs-hdd/opf/products
+   sudo zfs set sharenfs=on zfs-hdd/opf/images
+   ```
 
 1. shutdown opf on **off2**
    `sudo systemctl stop apache2 nginx`
@@ -1199,12 +1258,17 @@ And it works at first try :tada: !
    - remove opf from sync products script
    - do a zfs send of only opf products with a modified version of the script
 
+   rsync took 7 min.
+
 2. shutdown opf on both side
    on off1: `sudo systemctl stop apache2@opf` and `unlink /etc/nginx/sites-enabled/opf && systemctl reload nginx`
+
 
 3. change DNS to point to new machine
 
 3. Rsync and zfs sync again
+
+   rsync took 2 min
 
 4. ensure migrations works using NFS for off1 apps:
    ```bash
@@ -1228,14 +1292,14 @@ And it works at first try :tada: !
 
 4. ensure migrations works using mounts for off2 apps:
    * edit 110 and 111 mount points to mount opf volumes instead of NFS shares, by editing `/etc/pve/lxc/11{0,1}.conf`
-   * save your new settings to git folder
+   * save your new settings to git folder: `cp /etc/pve/lxc/110.conf /opt/openfoodfacts-infrastructure/confs/off2/pve/lxc_110.conf` and `cp /etc/pve/lxc/111.conf /opt/openfoodfacts-infrastructure/confs/off2/pve/lxc_111.conf`
    * restart 110 and 111: `sudo pct reboot 110;sudo pct reboot 111`
 
 5. start opf on container off2/112 (opf): `sudo systemctl start apache2 nginx`
 6. check it works (remember to also clean your /etc/hosts if you modified it for tests)
 6. disable opf service on off1:
    - `systemctl disable apache2@opf`
-   - `unlink /etc/nginx/site-enabled/opf && sytemctl reload nginx` (if not already done)
+   - `unlink /etc/nginx/sites-enabled/opf && sytemctl reload nginx` (if not already done)
 
 7. remove opf from snapshot-purge.sh on ovh3 (now handled by sanoid)
 8. on off2 and ovh3 modify sanoid configuration to have opf/products handled by sanoid and synced to ovh3
@@ -1243,7 +1307,6 @@ And it works at first try :tada: !
 
 10. off1 cleanup:
     - remove opf gen feeds from `/srv/off/scripts/gen_all_feeds.sh` and `/srv/off/scripts/gen_all_feeds_daily.sh`
-    - remove `/srv/opf/scripts/gen_opf_leaderboard.sh` from off crontab
     - remove or comment `/etc/logrotate.d/apache2-opf`
 
 11. off2 cleanup:

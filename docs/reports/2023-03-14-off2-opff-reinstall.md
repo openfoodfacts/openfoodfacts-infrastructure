@@ -1914,11 +1914,12 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 ### Improve
 
 - notification when important task fails
-- verifications of state (last snapshot, last start date for a systemctl oneshot)
+- (DONE) verifications of state (last snapshot, last start date for a systemctl oneshot)
 - IP failover ? (maybe after off1 setup)
 - metrics ? prometheus-{apache,nginx}-exporter (+exposition via stunnel ?)
 - de we want to reintroduce this crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works - can't we use nginx rate limitation instead ?
 - verification of snapshot state on off2 and ovh3
+- use chattr +i on mountpoints, see https://serverfault.com/questions/313994/how-to-prevent-access-to-unmounted-mount-point
 
 
 ### TODO for off install
