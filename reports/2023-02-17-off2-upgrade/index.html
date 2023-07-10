@@ -15,7 +15,7 @@
         <link rel="next" href="../2023-02-24-zfs-introduction/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -1176,8 +1176,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
       </a>
     </li>
   
@@ -1552,6 +1580,25 @@ Number<span class="w">  </span>Start<span class="w">   </span>End<span class="w"
 2023-02-17.19:39:57 zpool import off-zfs zfs-nvme
 2023-02-17.19:42:19 zfs create zfs-nvme/pve
 </code></pre></div>
+<p><strong>EDIT:</strong> on 2023-06-13, I re-created the zpool (it was lost in between, until we changed nvme disks).
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>zpool<span class="w"> </span>destroy<span class="w"> </span>testnvme
+$<span class="w"> </span>zpool<span class="w"> </span>create<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>testnvme<span class="w"> </span>mirror<span class="w"> </span>nvme1n1<span class="w"> </span>nvme0n1
+$<span class="w"> </span>zpool<span class="w"> </span>add<span class="w"> </span>zfs-nvme<span class="w"> </span>log<span class="w"> </span>nvme2n1
+zpool<span class="w"> </span>status<span class="w"> </span>zfs-nvme
+<span class="w">  </span>pool:<span class="w"> </span>zfs-nvme
+<span class="w"> </span>state:<span class="w"> </span>ONLINE
+config:
+
+<span class="w">        </span>NAME<span class="w">         </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">        </span>zfs-nvme<span class="w">     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>mirror-0<span class="w">   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>nvme0n1<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>nvme1n1<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>logs
+<span class="w">          </span>nvme2n1<span class="w">    </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div></p>
 <p>we also receive the data from rpool2 back here:</p>
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nb">time</span><span class="w"> </span>zfs<span class="w"> </span>send<span class="w"> </span>-vwR<span class="w"> </span>rpool2@move<span class="w"> </span><span class="p">|</span><span class="w"> </span>zfs<span class="w"> </span>recv<span class="w"> </span>off-zfs<span class="w"> </span>-F
 </code></pre></div>
@@ -1632,10 +1679,10 @@ zfs-nvme<span class="w">  </span><span class="m">1</span>.81T<span class="w">   
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

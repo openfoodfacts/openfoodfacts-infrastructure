@@ -15,7 +15,7 @@
         <link rel="next" href="../sanoid/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -578,6 +578,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#proxmox-backups" class="md-nav__link">
+    Proxmox Backups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#host-network-configuration" class="md-nav__link">
     Host network configuration
   </a>
@@ -612,6 +619,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-proxmox-post-install-thing" class="md-nav__link">
+    Some Proxmox post-install thing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#http-reverse-proxy" class="md-nav__link">
     HTTP Reverse Proxy
   </a>
@@ -633,8 +647,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#unlocking-a-container" class="md-nav__link">
-    Unlocking a Container
+  <a href="#how-to-unlock-a-container" class="md-nav__link">
+    How to Unlock a Container
   </a>
   
 </li>
@@ -1188,8 +1202,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
       </a>
     </li>
   
@@ -1229,6 +1271,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#proxmox-backups" class="md-nav__link">
+    Proxmox Backups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#host-network-configuration" class="md-nav__link">
     Host network configuration
   </a>
@@ -1263,6 +1312,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-proxmox-post-install-thing" class="md-nav__link">
+    Some Proxmox post-install thing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#http-reverse-proxy" class="md-nav__link">
     HTTP Reverse Proxy
   </a>
@@ -1284,8 +1340,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#unlocking-a-container" class="md-nav__link">
-    Unlocking a Container
+  <a href="#how-to-unlock-a-container" class="md-nav__link">
+    How to Unlock a Container
   </a>
   
 </li>
@@ -1407,6 +1463,9 @@
 <h1 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h1>
 <p>On ovh1 and ovh2 we use proxmox to manage VMs.</p>
 <p><strong>TODO</strong> this page is really incomplete !</p>
+<h2 id="proxmox-backups">Proxmox Backups<a class="headerlink" href="#proxmox-backups" title="Permanent link">#</a></h2>
+<p>Every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
+(see Datacenter -&gt; backup)</p>
 <h2 id="host-network-configuration">Host network configuration<a class="headerlink" href="#host-network-configuration" title="Permanent link">#</a></h2>
 <p>We configure network through virtual bridges (<code>vmbr&lt;n&gt;</code>) that are themselves linked to a physical network device.</p>
 <p>Also note that [NGINX proxy] has it's own IP address on a separate bridge, so that it can get network traffic directly.</p>
@@ -1460,6 +1519,16 @@ iface vmbr1 inet static
 <h3 id="firewall">Firewall<a class="headerlink" href="#firewall" title="Permanent link">#</a></h3>
 <p>We use proxmox firewall on host. <strong>FIXME</strong> to be completed.</p>
 <p>We have a masquerading rule for 10.1.0.1/24.</p>
+<h2 id="some-proxmox-post-install-thing">Some Proxmox post-install thing<a class="headerlink" href="#some-proxmox-post-install-thing" title="Permanent link">#</a></h2>
+<p>Remove enterprise repository and add the no-subscription one
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>/etc/apt/sources.list.d/pve-enterprise.list
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb http://download.proxmox.com/debian/pve &quot;</span><span class="k">$(</span>lsb_release<span class="w"> </span>--short<span class="w"> </span>--codename<span class="k">)</span><span class="s2">&quot; pve-no-subscription&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/apt/sources.list.d/pve-install-repo.list
+apt<span class="w"> </span>update
+</code></pre></div></p>
+<p>Verify smartclt is activated.</p>
+<p>Interesting page: <a href="https://techno-tim.github.io/posts/first-11-things-proxmox/">Techno Tim</a></p>
+<p>IOMMU ?</p>
+<p>Don't forget to schedule <a href="#proxmox-backups">backups</a>.</p>
 <h2 id="http-reverse-proxy">HTTP Reverse Proxy<a class="headerlink" href="#http-reverse-proxy" title="Permanent link">#</a></h2>
 <p>The VM 101 is a http / https proxy to all services.</p>
 <p>It has it's own bridge interface with a public facing ip.</p>
@@ -1477,7 +1546,7 @@ iface vmbr1 inet static
 <p>You may want to move containers or VM from one server to another.</p>
 <p>Just go to the interface, right click on the VM / Container and ask to migrate !</p>
 <p>If you have a large disk, you may want to first setup replication of your disk to the target server (see <a href="#storage-synchronization">Storage synchronization</a>), schedule it immediatly (schedule button)− and then run the migration.</p>
-<h2 id="unlocking-a-container">Unlocking a Container<a class="headerlink" href="#unlocking-a-container" title="Permanent link">#</a></h2>
+<h2 id="how-to-unlock-a-container">How to Unlock a Container<a class="headerlink" href="#how-to-unlock-a-container" title="Permanent link">#</a></h2>
 <p>Sometimes you may get alerts in email telling backup failed on a VM because it is locked. (<code>CT is locked</code>)</p>
 <p>This might be a temporary issue, so you should first verify in proxmox console if it's already resolved.</p>
 <p>If not you can unlock it using this command:</p>
@@ -1580,7 +1649,8 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <li>Click on "Create CT"</li>
 <li>Note carefully the container number (ct number)</li>
 <li>Use a "Hostname" to let people know what it is about. Eg. "robotoff", "wiki", "proxy"...</li>
-<li>unset Nesting option, keep "Unprivileged container" option… unless you know what you do.</li>
+<li>set Nesting option (systemd recent versions needs it)</li>
+<li>keep "Unprivileged container" option checked… unless you know what you do.</li>
 <li>Password: put something complex and forget it, as we will connect through SSH and not the web interface</li>
 <li>Create a root password - forget about it also (you will use <code>pct enter</code> or <code>lxc-attach</code>)</li>
 <li>Choose template (normaly debian)</li>
@@ -1590,11 +1660,12 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <li>Bridge: vmbr0 (may vary, currently vmbr1 on off2 !) - the one which is an "Internal network"</li>
 <li>IPv4: <code>10.1.0.&lt;ct number&gt;/24</code>
   (you need to use /24; end of IPv4 should be the same as the Proxmox container id; container 101 has the 10.1.0.101 IP).</li>
-<li>Gateway: <code>10.0.0.1</code> (may vary, <code>10.0.0.2</code> on off2 !)</li>
+<li>Gateway: <code>10.0.0.1</code> (may vary, <code>10.0.0.2</code> on off2 or ovh2 !)</li>
 </ul>
 </li>
 <li>Start the server after install</li>
 </ul>
+<p>Wait for container to be created and started !</p>
 <p>Then connect to the proxmox host:</p>
 <p>* Install useful package and do some other configurations:
     <code>sudo /root/cluster-scripts/ct_postinstall</code> choose the container ID when asked.</p>
@@ -1674,10 +1745,10 @@ Failed to activate service &#39;org.freedesktop.login1&#39;: timed out (service_
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

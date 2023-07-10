@@ -15,7 +15,7 @@
         <link rel="next" href="../observability/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -510,16 +510,36 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#adding-https" class="md-nav__link">
-    Adding https
+  <a href="#how-to-add-https" class="md-nav__link">
+    How to add https
   </a>
   
-    <nav class="md-nav" aria-label="Adding https">
+    <nav class="md-nav" aria-label="How to add https">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#multiple-domains" class="md-nav__link">
     Multiple domains
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wildcard-certificates" class="md-nav__link">
+    Wildcard certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Wildcard certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-wildcard-certificates" class="md-nav__link">
+    How to add wildcard certificates
   </a>
   
 </li>
@@ -1091,8 +1111,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
       </a>
     </li>
   
@@ -1154,16 +1202,36 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#adding-https" class="md-nav__link">
-    Adding https
+  <a href="#how-to-add-https" class="md-nav__link">
+    How to add https
   </a>
   
-    <nav class="md-nav" aria-label="Adding https">
+    <nav class="md-nav" aria-label="How to add https">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#multiple-domains" class="md-nav__link">
     Multiple domains
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wildcard-certificates" class="md-nav__link">
+    Wildcard certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Wildcard certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-wildcard-certificates" class="md-nav__link">
+    How to add wildcard certificates
   </a>
   
 </li>
@@ -1274,7 +1342,7 @@ nginx:<span class="w"> </span>configuration<span class="w"> </span>file<span cla
 </code></pre></div></p>
 <p>Next step is probably to setup https (putting something in http should be an exception, with good reason for that !)
 Otherwise jump to <a href="#etc-keeper">EtcKeeper</a></p>
-<h3 id="adding-https">Adding https<a class="headerlink" href="#adding-https" title="Permanent link">#</a></h3>
+<h3 id="how-to-add-https">How to add https<a class="headerlink" href="#how-to-add-https" title="Permanent link">#</a></h3>
 <p>Most of the time https certificates are managed on the nginx reverse proxy VM. Here is how to configure them to enable https.</p>
 <p>We use certbot to manage certificates.</p>
 <p>First prepare the service definition to answer on port 443 and 80. That is:</p>
@@ -1349,6 +1417,88 @@ simply add all those domain to the certbot command with the <code>-d</code> para
 <div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>-d<span class="w"> </span>ui.my-site.openfoodfacts.net<span class="w"> </span>-d<span class="w"> </span>api.my-site.openfoodfacts.net<span class="w"> </span>-d<span class="w"> </span>my-site.openfoodfacts.net
 </code></pre></div>
 <p>If a certificate already exists for a domain, certbot will propose to extend it with the other domains.</p>
+<h3 id="wildcard-certificates">Wildcard certificates<a class="headerlink" href="#wildcard-certificates" title="Permanent link">#</a></h3>
+<p>Certbot can deliver wildcard certificates for domains based on DNS challenges. So you need a plugin for your DNS provider.</p>
+<p>In our case, this is the plugin for ovh. Installing <code>python3-certbot-dns-ovh</code> did works in our case.</p>
+<p>Access tokens are stored in /root/.ovhapi/<domain-name> and are only readable by root (0600).</p>
+<h4 id="how-to-add-wildcard-certificates">How to add wildcard certificates<a class="headerlink" href="#how-to-add-wildcard-certificates" title="Permanent link">#</a></h4>
+<p>Official documentation: https://certbot-dns-ovh.readthedocs.io/en/stable/ and https://certbot.eff.org/instructions?ws=nginx&amp;os=debianbuster
+Official documentation requires snapd… we are not keen on that, and moreover, in a lxc container <a href="https://forum.proxmox.com/threads/cant-install-snap-in-lxc-container.68708/">it does not seems to work well</a>.
+So we go the alternate way, using the debian package.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>certbot<span class="w"> </span>python3-certbot-dns-ovh
+</code></pre></div>
+<p>Here we will use openpetfoodfacts.org as the domain name.</p>
+<p>Generate credential, following https://eu.api.ovh.com/createToken/</p>
+<p>(useful resource for <a href="https://gandrille.github.io/linux-notes/Web_API/OVH_API/OVH_API_Keys_management.html">OVH keys management</a>)</p>
+<p>Using:</p>
+<ul>
+<li>GET <code>/domain/zone/</code>
+  (Note: the trailing slash is important !)</li>
+<li>GET/PUT/POST/DELETE <code>/domain/zone/openpetfoodfacts.org/*</code></li>
+</ul>
+<p><a class="glightbox" href="../img/2023-05-ovh-create-token-openfoodfacts.org-form.png" data-type="image" data-width="100%" data-height="auto" data-title="token creation at form at OVH" data-desc-position="bottom"><img alt="token creation at form at OVH" src="../img/2023-05-ovh-create-token-openfoodfacts.org-form.png" title="token creation at form at OVH" width="50%" /></a>
+<a class="glightbox" href="../img/2023-05-ovh-create-token-openfoodfacts.org-result.png" data-type="image" data-width="100%" data-height="auto" data-title="token creation result" data-desc-position="bottom"><img alt="token creation result" src="../img/2023-05-ovh-create-token-openfoodfacts.org-result.png" title="token creation result" width="50%" /></a></p>
+<p>and we put config file in <code>/root/.ovhapi/openpetfoodfacts.org</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>mkdir<span class="w"> </span>/root/.ovhapi
+$<span class="w"> </span>vim<span class="w"> </span>/root/.ovhapi/openpetfoodfacts.org
+...
+$<span class="w"> </span>cat<span class="w"> </span>/root/.ovhapi/openpetfoodfacts.org
+<span class="c1"># OVH API credentials used by Certbot</span>
+<span class="nv">dns_ovh_endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ovh-eu
+<span class="nv">dns_ovh_application_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+<span class="nv">dns_ovh_application_secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+<span class="nv">dns_ovh_consumer_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+
+<span class="c1"># ensure no reading by others</span>
+$<span class="w"> </span>chmod<span class="w"> </span>og-rwx<span class="w"> </span>-R<span class="w"> </span>/root/.ovhapi
+</code></pre></div></p>
+<p>Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--test-cert<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/openpetfoodfacts.org<span class="w"> </span>-d<span class="w"> </span>openpetfoodfacts.org<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.openpetfoodfacts.org&quot;</span>
+...
+Plugins<span class="w"> </span>selected:<span class="w"> </span>Authenticator<span class="w"> </span>dns-ovh,<span class="w"> </span>Installer<span class="w"> </span>None
+Requesting<span class="w"> </span>a<span class="w"> </span>certificate<span class="w"> </span><span class="k">for</span><span class="w"> </span>openpetfoodfacts.org<span class="w"> </span>and<span class="w"> </span>*.openpetfoodfacts.org
+Performing<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>challenges:
+dns-01<span class="w"> </span>challenge<span class="w"> </span><span class="k">for</span><span class="w"> </span>openpetfoodfacts.org
+dns-01<span class="w"> </span>challenge<span class="w"> </span><span class="k">for</span><span class="w"> </span>openpetfoodfacts.org
+Waiting<span class="w"> </span><span class="m">30</span><span class="w"> </span>seconds<span class="w"> </span><span class="k">for</span><span class="w"> </span>DNS<span class="w"> </span>changes<span class="w"> </span>to<span class="w"> </span>propagate
+Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>verification...
+Cleaning<span class="w"> </span>up<span class="w"> </span>challenges
+...
+
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+</code></pre></div></p>
+<p>Mow we can do a real certificate, by removing the <code>--test-cert</code> option. We will ask to renew &amp; replace the existing certificate (as ith was a test one), when you are asked, choose to replace existing certificate:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--test-cert<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/openpetfoodfacts.org<span class="w"> </span>-d<span class="w"> </span>openpetfoodfacts.org<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.openpetfoodfacts.org&quot;</span>
+...
+
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+...
+</code></pre></div>
+<p>Now we install it on our website, we did it manually…
+<div class="highlight"><pre><span></span><code>server {
+    listen 80;
+    listen [::]:80;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openpetfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openpetfoodfacts.org/chain.pem;
+
+…
+}
+</code></pre></div></p>
 <h3 id="etc-keeper">Etc Keeper<a class="headerlink" href="#etc-keeper" title="Permanent link">#</a></h3>
 <p>We use <a href="../linux-server/#etckeeper">etckeeper</a>
 Do not forget to commit your changes:</p>
@@ -1405,10 +1555,10 @@ Do not forget to commit your changes:</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
