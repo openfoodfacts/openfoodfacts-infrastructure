@@ -1,0 +1,20 @@
+[Unit]
+Description=Check sanoid sync is running correctly
+Requires=zfs.target
+After=zfs.target
+ConditionFileNotEmpty=/etc/sanoid/sanoid.conf
+# email on failure
+OnFailure=email-failures@sanoid_check-%l.service
+
+[Service]
+Environment=TZ=UTC
+Type=oneshot
+# this is a home made script
+ExecStart=/opt/openfoodfacts-infrastructure/scripts/zfs/sanoid_check.sh
+# place a timeout for bad cases
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+TimeoutStartSec=10m
+
+[Install]
+WantedBy=sanoid.service
+

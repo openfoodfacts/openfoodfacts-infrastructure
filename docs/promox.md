@@ -4,6 +4,11 @@ On ovh1 and ovh2 we use proxmox to manage VMs.
 
 **TODO** this page is really incomplete !
 
+## Proxmox Backups
+
+Every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
+(see Datacenter -> backup)
+
 ## Host network configuration
 
 We configure network through virtual bridges (`vmbr<n>`) that are themselves linked to a physical network device.
@@ -74,6 +79,23 @@ We use proxmox firewall on host. **FIXME** to be completed.
 
 We have a masquerading rule for 10.1.0.1/24.
 
+## Some Proxmox post-install thing
+
+Remove enterprise repository and add the no-subscription one
+```bash
+rm /etc/apt/sources.list.d/pve-enterprise.list
+echo "deb http://download.proxmox.com/debian/pve "$(lsb_release --short --codename)" pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list
+apt update
+```
+
+Verify smartclt is activated.
+
+Interesting page: [Techno Tim](https://techno-tim.github.io/posts/first-11-things-proxmox/)
+
+IOMMU ?
+
+Don't forget to schedule [backups](#proxmox-backups).
+
 ## HTTP Reverse Proxy
 
 The VM 101 is a http / https proxy to all services.
@@ -103,7 +125,7 @@ Just go to the interface, right click on the VM / Container and ask to migrate !
 
 If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.
 
-## Unlocking a Container
+## How to Unlock a Container
 
 Sometimes you may get alerts in email telling backup failed on a VM because it is locked. (`CT is locked`)
 
@@ -244,7 +266,8 @@ Using web interface:
 * Click on "Create CT"
 * Note carefully the container number (ct number)
 * Use a "Hostname" to let people know what it is about. Eg. "robotoff", "wiki", "proxy"...
-* unset Nesting option, keep "Unprivileged container" option… unless you know what you do.
+* set Nesting option (systemd recent versions needs it)
+* keep "Unprivileged container" option checked… unless you know what you do.
 * Password: put something complex and forget it, as we will connect through SSH and not the web interface
 * Create a root password - forget about it also (you will use `pct enter` or `lxc-attach`)
 * Choose template (normaly debian)
@@ -254,8 +277,10 @@ Using web interface:
   * Bridge: vmbr0 (may vary, currently vmbr1 on off2 !) - the one which is an "Internal network"
   * IPv4: `10.1.0.<ct number>/24`
     (you need to use /24; end of IPv4 should be the same as the Proxmox container id; container 101 has the 10.1.0.101 IP).
-  * Gateway: `10.0.0.1` (may vary, `10.0.0.2` on off2 !)
+  * Gateway: `10.0.0.1` (may vary, `10.0.0.2` on off2 or ovh2 !)
 * Start the server after install
+
+Wait for container to be created and started !
 
 Then connect to the proxmox host:
 

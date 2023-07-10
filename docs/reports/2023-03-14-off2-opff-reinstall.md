@@ -151,7 +151,7 @@ Using:
 * GET/PUT/POST/DELETE /domain/zone/openfoodfacts.org/*
 
 ![token creation at form at OVH](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation at form at OVH"){width=50%}
-![token creation result](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation result"){width=50%}
+![token creation result](img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
 
 and we put config file in `/root/.ovhapi/openpetfoodfacts.org`
 ```bash
@@ -223,27 +223,16 @@ server {
 
 ## Putting data in zfs datasets
 
-Finding broken links:
-`find /srv/opff -xtype l | xargs ls -l`
-
-We have a lot in new_images and in html images folders, we can just remove them all
-`find /srv/opff/new_images/ /srv/opff/html/images/bak/misc/ /srv/opff/html/images/misc.nok/ -xtype l |xargs -L 1 unlink`
-
-
-We also have some html contents linked to off **FIXME decide what to do**
-* /srv/opff/products -> /rpool/opff/products
-* /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
-
 ### creating datasets
 
 I init a dataset for each projects: `zfs create opff`, `zfs create opff`, etc for `off`, `off-pro`, `obf` and `opf`
 
-I then create `zfs create zfs-hdd/opff/data`, `zfs create zfs-hdd/opff/images`, `zfs create zfs-hdd/opff/cache` (not products because we will sync it).
+I then create `zfs create zfs-hdd/opff/html_data`, `zfs create zfs-hdd/opff/images`, `zfs create zfs-hdd/opff/cache` (not products because we will sync it).
 
 And change permissions of directories:
 
 ```bash
-sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/data /zfs-hdd/opff/images /zfs-hdd/opff/cache
+sudo chown 1000:1000  /zfs-hdd/opff/ /zfs-hdd/opff/html_data /zfs-hdd/opff/images /zfs-hdd/opff/cache
 ```
 
 ### Products (for all flavors)
@@ -398,7 +387,7 @@ real	0m2,535s
 
 I decide to use `--no-sync-snap` as we already have a snapshot strategy.
 
-Also supprisingly, the `root@` specification is mandatory.
+Also surprisingly, the `root@` specification is mandatory.
 
 Now I need to do a systemd service and timer on off2 for syncoid.
 
@@ -453,7 +442,7 @@ To be able to sync it, here is what I did:
   ```
 * on ovh3:
 
-  * on off2 temporarily disable the syncoid service
+  * on off2 temporarily disable the syncoid service (because we already setup sync !)
     ```bash
     sudo systemctl disable syncoid
     ```
@@ -512,6 +501,7 @@ I also did it for the data and cache dataset:
 ### Creating Container
 
 I created a CT followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
 
@@ -527,7 +517,7 @@ apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 mak
 Also installed mailx which is handy:
 
 ```bash
-apt install mailx
+apt install bsd-mailx
 ```
 
 We also want nginx in this container:
@@ -559,6 +549,7 @@ it does not work because we did not have an account and license key.
 
 I had to [create an account](https://www.maxmind.com/en/geolite2/signup?utm_source=kb&utm_medium=kb-link&utm_campaign=kb-create-account) to GeoipLite2 database at maxmind.com with tech at off.org (and saved the password in our keepassx).
 After login, I then created a license key (at url indicated on https://dev.maxmind.com/geoip/updating-databases) and downloaded the provided GeoIP.conf, and installed it at `/etc/GeoIP.conf`
+and did a `sudo chmod o-rwx /etc/GeoIP.conf`
 
 Test it again:
 ```bash
@@ -756,6 +747,19 @@ lrwxrwxrwx 1 off off 16  2 janv.   2018 /srv/opff/lib/ProductOpener/SiteLang.pm 
 ```
 and `/srv/opff/lib/ProductOpener/Config2.pm` is specific.
 
+### some broken / strange links
+
+Finding broken links:
+`find /srv/opff -xtype l | xargs ls -l`
+
+We have a lot in new_images and in html images folders, we can just remove them all
+`find /srv/opff/new_images/ /srv/opff/html/images/bak/misc/ /srv/opff/html/images/misc.nok/ -xtype l |xargs -L 1 unlink`
+
+
+We also have some html contents linked to off **FIXME decide what to do**
+* /srv/opff/products -> /rpool/opff/products
+* /srv/opff/ingredients/additifs/authorized_additives.txt -> /home/off-fr/cgi/authorized_additives.pl
+
 
 ### Using git
 
@@ -832,7 +836,7 @@ ln -s Config_opff.pm Config.pm
 ln -s SiteLang_opff.pm  SiteLang.pm
 ln -s SiteQuality_off.pm SiteQuality.pm
 cd /srv/off
-ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
+# ln -s ../node_modules/@bower_components /srv/opff/html/bower_components
 ```
 
 After that, to be able to fetch opff-main remote branche:
@@ -904,7 +908,7 @@ ln -s ../../dist/css /srv/opff/html/css/dist
 ln -s ../../dist/js /srv/opff/html/js/dist
 ```
 
-### adding openfoodfacts-web
+### Adding openfoodfacts-web
 
 We have some content that we want to take from openfoodfacts-web (also because shared with off). So we want to clone it.
 
@@ -1255,6 +1259,7 @@ systemctl enable gen_feeds@opff.timer
 systemctl enable gen_feeds_daily@opff.timer
 systemctl daemon-reload
 ```
+
 ### Adding failure notification for apache and nginx in systemd
 
 We can add the on failure notification we created for timers to apache2.service and nginx.service:
@@ -1274,6 +1279,16 @@ After=network.target nss-lookup.target
 OnFailure=email-failures@nginx-opff.service
 ```
 
+But we want to put that in git, so:
+
+```bash
+cp /etc/systemd/system/apache2.service.d -r conf/systemd/
+cp /etc/systemd/system/nginx.service.d/ -r conf/systemd/
+sudo rm /etc/systemd/system/apache2.service.d /etc/systemd/system/nginx.service.d -r
+sudo ln -s /srv/opff/conf/systemd/nginx.service.d /etc/systemd/system/
+sudo ln -s /srv/opff/conf/systemd/apache2.service.d /etc/systemd/system/
+sudo systemctl daemon-reload
+```
 
 ### Testing
 
@@ -1428,7 +1443,16 @@ We can see if we will be able to use mongoexport
 We follow [Steps to create Nginx configuration](../nginx-reverse-proxy.md#steps-to-create-nginx-configuration)
 but we put host in `/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx`
 
-**FIXME** use wildcard certificates
+See also how we [setup wildcard certificates, above](#certbot-wildcard-certificates-using-ovh-dns)
+
+## Debugs and fixing
+
+### Testing
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
+```
 
 ### Mongodb access
 
@@ -1464,28 +1488,6 @@ iface ens19 inet static
         # needed for off2 containers to access mongodb
         post-up ip route add 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
         pre-down ip route del 10.1.0.0/16 dev ens19 proto kernel scope link src 10.0.0.3
-```
-
-
-### Logrotate
-
-Looking at logrotate default debian configuration for apache2 and nginx, it rotates all `*.log` files, so instead of having a specific configuration, I edited the apache2 configuration to ensure log files ar in `.log`
-
-Nginx config was ok, but for Apache2, in `/etc/nginx/sites-enabled/opff`:
-```conf
-...
-ErrorLog /var/log/apache2/opff_error.log
-CustomLog /var/log/apache2/opff_access.log proxy
-```
-
-
-## Debugs and fixing
-
-### Testing
-
-To test my installation I added this to `/etc/hosts` on my computer:
-```conf
-213.36.253.214 fr.openpetfoodfacts.org world-fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org world.openpetfoodfacts.org
 ```
 
 ### Fixing GeoIP
@@ -1659,6 +1661,20 @@ lrwxrwxrwx 1 nobody nogroup 33  1 juin   09:00 /mnt/off/images/000 -> /mnt/off2/
 ```
 this /mnt/off2/off-images/products/000 does not exists in the container…
 I can add it by adding one more MP.
+
+**EDIT:** after images migrations, I changed mounts to directly use the ZFS dataset for off/images.
+
+
+
+We also have to mimic the old structure.
+On opff as root:
+```bash
+$ mkdir -p /srv/o{f,p,b}f/html/images/
+$ chown -R off:off -R /srv/o{f,p,b}f/
+$ for site in o{f,p,b}f;do ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products;done
+$ ls -l /srv/o{p,b,f}f/ /srv/o{p,b,f}f/html/images
+```
+
 
 ## Sharing users with NFS
 
@@ -1898,11 +1914,12 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 ### Improve
 
 - notification when important task fails
-- verifications of state (last snapshot, last start date for a systemctl oneshot)
+- (DONE) verifications of state (last snapshot, last start date for a systemctl oneshot)
 - IP failover ? (maybe after off1 setup)
-- metrics ?
+- metrics ? prometheus-{apache,nginx}-exporter (+exposition via stunnel ?)
 - de we want to reintroduce this crontab entry: tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 ??? See if there are logs and if it works - can't we use nginx rate limitation instead ?
 - verification of snapshot state on off2 and ovh3
+- use chattr +i on mountpoints, see https://serverfault.com/questions/313994/how-to-prevent-access-to-unmounted-mount-point
 
 
 ### TODO for off install

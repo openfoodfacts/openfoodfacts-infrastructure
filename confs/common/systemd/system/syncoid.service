@@ -5,6 +5,9 @@ After=zfs.target
 After=sanoid.service
 ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 
+# email on failure
+OnFailure=email-failures@syncoid-args-%l.service
+
 [Service]
 Environment=TZ=UTC
 Type=oneshot
@@ -14,7 +17,7 @@ Type=oneshot
 # + give syncoid a null input, as otherwise it consumes main input and we do loose commands
 ExecStart=/bin/bash -c 'RESULT=0; grep -v "^#" /etc/sanoid/syncoid-args.conf | while read -a sync_args;do syncoid --quiet "$${sync_args[@]}" </dev/null ; RESULT=$$(($$RESULT + $?)); done; exit $$RESULT;' 
 # place a timeout for bad cases (remote machine shutdown), it's a large timeout
-# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
 TimeoutStartSec=6h
 
 [Install]
