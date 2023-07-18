@@ -37,6 +37,8 @@ Note: to find the ticket back:
 
 ## What we did
 
+### Ask OVH for disk replacement
+
 On 2023-07-17.
 
 I did a backup of /etc on ovh3 and copied it to off2.
@@ -62,6 +64,8 @@ At 17:23 I received a mail telling me the server was rebooted in rescue mode
 I ssh the server but realized rescue mode was not useful to me.
 
 So I go in OVH console, change boot type to disk,  and ask for cold reboot.
+
+### Replacing sdc in ZFS pool
 
 Now I ssh ovh3, and started a root session.
 
@@ -172,3 +176,60 @@ action: Wait for the resilver to complete.
 	50.2G resilvered, 0.96% done, 1 days 16:09:43 to go
 
 ```
+
+### Temporarily serving images with off2
+
+To leviate pressure on OVH3 we wanted to serve images with off2.
+
+First I wanted to use the off container to serve images. But as I see it would take more time than expected, and also because I might need to reboot the container, 
+I decided to go straight and do it directly on the host (as on ovh3).
+
+Installed nginx on off2:
+
+```bash
+apt update && apt install nginx certbot
+```
+
+Copied config and certificates from ovh3:
+```bash
+rsync -a root@ovh3.openfoodfacts.org:/etc/letsencrypt/ /etc/letsencrypt/
+rm -rf /etc/letsencrypt/*/ovh3.*
+rsync -a root@ovh3.openfoodfacts.org:/etc/nginx/acme.sh /etc/nginx
+scp root@ovh3.openfoodfacts.org:/etc/nginx/sites-enabled/static-off /etc/nginx/sites-available/
+ln -s ../sites-available/static-off /etc/nginx/sites-enabled/
+```
+
+created a dataset for nginx logs as on ovh3:
+```bash
+zfs create zfs-hdd/logs-nginx
+chown www-data:www-data /zfs-hdd/logs-nginx
+```
+
+Edited `/etc/nginx/site-enabled/static-off`:
+
+* changed upstream ip:
+
+  ```
+  upstream openfoodfacts {
+  		server 10.0.0.2:443 weight=100;
+  		server off1.openfoodfacts.org:443;
+  …
+  ```
+* replaced every rpool by zfs-hdd (%s/rpool/zfs-hdd/g)
+
+tested with `nginx -t`
+
+restart nginx:
+```bash
+systemctl restart nginx
+```
+
+Test from my machine by editing `/etc/hosts`:
+```conf
+# images transfer on off2
+213.36.253.208 images.openfoodfacts.org
+```
+and going to the website… works like a charm.
+
+
+I then go to OVH console to change DNS CNAME entry of `images.openfoodfacts.org` to point to `off2.openfoodfacts.org`.
