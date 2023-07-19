@@ -270,8 +270,8 @@ Using web interface:
 * keep "Unprivileged container" option checked… unless you know what you do.
 * Password: put something complex and forget it, as we will connect through SSH and not the web interface
 * Create a root password - forget about it also (you will use `pct enter` or `lxc-attach`)
-* Choose template (normaly debian)
-* Disk: try to keep a thight disk space and to avoid using nvme if it's not useful.
+* Choose template (normally debian)
+* Disk: try to keep a tight disk space and to avoid using nvme if it's not useful.
 * Swap: you might choose 0B (do you really need swap ?) or a sensible value
 * Network:
   * Bridge: vmbr0 (may vary, currently vmbr1 on off2 !) - the one which is an "Internal network"
@@ -285,7 +285,7 @@ Wait for container to be created and started !
 Then connect to the proxmox host:
 
   * Install useful package and do some other configurations:
-    `sudo /root/cluster-scripts/ct_postinstall` choose the container ID when asked.
+    `sudo /root/cluster-scripts/ct_postinstall` (or `/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall`) choose the container ID when asked.
 
     See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
 

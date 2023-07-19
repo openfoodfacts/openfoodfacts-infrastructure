@@ -298,21 +298,6 @@ Jun 13 13:35:19 obf systemd[734]: systemd-logind.service: Failed at step NAMESPA
 ```
 It seems to be related to recent versions of systemd needs nesting (see [here](https://forum.proxmox.com/threads/question-on-nested-option-lxc-container.86497/post-381450)) and so I enabled it by editing `/etc/pve/lxc/11{1,2}.conf`, adding `features: nesting=1`. It fixes the problem. (and indeed 110 was created with this setting on)
 
-### symlinks to mimic old structure
-Now we create symlinks to mimic old structure:
-
-On obf, as root:
-```bash
-for site in o{f,p,pf}f;do \
-  mkdir -p /srv/$site/html/images/ && \
-  chown -R off:off -R /srv/$site/ && \
-
-  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
-done
-ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
-```
-on opf, same with `o{f,b,pf}f`
-
 ## Getting the code
 
 ### Copying production code
@@ -417,6 +402,21 @@ See [Annex files difference for opf in git vs server](#annex-files-difference-fo
 
 We have git cloned our repository in `/srv/o{b,p}f`.
 
+
+### symlinks to mimic old structure
+Now we create symlinks to mimic old structure:
+
+On obf, as root:
+```bash
+for site in o{f,p,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
+```
+on opf, same with `o{f,b,pf}f`
 
 
 ### linking data
