@@ -349,7 +349,7 @@ MIME-Version: 1.0
 Content-type: text/html; charset=UTF-8
 <html>
 <body>
-<p>Hello fellow contibutor!</p>
+<p>Hello fellow contributor!</p>
 
 <p>${nbOfContributors} awesome contributors are currently receiving such an email.</p>
 
