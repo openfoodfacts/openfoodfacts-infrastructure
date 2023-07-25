@@ -3,12 +3,20 @@ diff -r -u --exclude logs/ --exclude html/images/products/ --exclude html/data '
 --- /home/off/openfoodfacts-server/.gitignore	2023-02-28 14:40:05.359077955 +0100
 
 # TODO copy
+
+```
 Only in /srv/off/lib/ProductOpener: Config2.pm
 Only in /srv/off: log.conf
 Only in /srv/off: minion_log.conf
 
+Only in /srv/off/html/.well-known: apple-app-site-association
+Only in /srv/off/html/.well-known: apple-developer-merchantid-domain-association
+Only in /srv/off/html/.well-known: pki-validation
+```
 
 # TODO link
+
+```
 Only in /srv/off: Lang.openfoodfacts.org.sto
 Only in /srv/off: Lang_select_country_options.sto
 Only in /srv/off/lib/ProductOpener: SiteLang.pm
@@ -17,14 +25,18 @@ Only in /srv/off: orgs_glns.sto
 Only in /srv/off/po: site-specific
 Only in /srv/off: products
 Only in /srv/off: users_emails.sto
+```
 
 
-# move to data or html_data and link ?
+# Move to data or html_data and link ?
+```
 Only in /srv/off/: files
 Only in /srv/off: new_images
-Only in /srv/off/html: dump
+Only in /srv/off/html: dump  # bson est dans dump et pas dans data
+
 Only in /srv/off/html: exports
 Only in /srv/off: imports
+
 Only in /srv/off: deleted_products
 Only in /srv/off: deleted_products_images
 
@@ -32,49 +44,85 @@ Only in /srv/off: deleted_products_images
 Only in /srv/off/lib/ProductOpener: SiteLang_obf.pm
 Only in /srv/off/lib/ProductOpener: SiteLang_off.pm
 Only in /srv/off/lib/ProductOpener: SiteQuality_off.pm
+```
 
+# Put in git
+
+IMPORTANT: verify there are no private urls or keys ! (if yes put in Config2.pm)
+```
+Only in /srv/off/scripts: import_carrefour.sh
+Only in /srv/off/scripts: import_carrefour_off1.sh
+Only in /srv/off/scripts: import_fleurymichon_old.pl
+
+In obsolete:
+Only in /srv/off/scripts: import_barilla.sh
+Only in /srv/off/scripts: import_baskalia_pechalou.sh
+Only in /srv/off/scripts: import_casino.sh
+Only in /srv/off/scripts: import_foodrepo.sh
+Only in /srv/off/scripts: import_harrys.sh
+Only in /srv/off/scripts: import_iglo.sh
+Only in /srv/off/scripts: import_ldc.sh
+Only in /srv/off/scripts: import_mxbot.sh
+Only in /srv/off/scripts: import_ocr_nutriscore.sh
+Only in /srv/off/scripts: import_openfood_ch.pl
+Only in /srv/off/scripts: import_openfood_ch_name_translations.pl
+Only in /srv/off/scripts: import_saintelucie.sh
+Only in /srv/off/scripts: import_sodebo.pl
+Only in /srv/off/scripts: import_stores_be_delhaize.sh
+Only in /srv/off/scripts: import_us_ndb.pl
+```
 
 # ASK Stephane
-Only in /srv/off: bad-users
-Only in /srv/off: missions
-Only in /srv/off: reverted_products
-Only in /srv/off: translate
-Only in /srv/off: spam_users
+```
+Only in /srv/off: bad-users  # remove
+Only in /srv/off: missions  # sauvegarder ?
+Only in /srv/off: reverted_products # à mettre dans data…
+Only in /srv/off: translate # à mettre dans data…
+Only in /srv/off: spam_users # remove
 
 
-What to keep from logs ? (can keep all on ovh3)
+What to keep from logs ? (can keep all on ovh3)  # faire un volume logs --> vieux logs dans un dossier
 
-Only in /srv/off/packager-codes: FR-merge.csv
-Only in /srv/off/packager-codes: IT-merge.csv
+Only in /srv/off/packager-codes: FR-merge.csv  # remove
+Only in /srv/off/packager-codes: IT-merge.csv  # remove
+
 
 Only in /srv/off/conf/nginx/sites-available: labelme
-Only in /srv/off/conf/nginx/sites-available: off-fr
-Only in /srv/off/conf/nginx/sites-available: off-preprod
-Only in /srv/off/conf/nginx/sites-available: whatsinmyshampoo
-Only in /srv/off/conf/nginx/sites-available: whatsinmyyogurt
+Only in /srv/off/conf/nginx/sites-available: off-fr  # à sauvegarder -- 
+Only in /srv/off/conf/nginx/sites-available: off-preprod  # remove
+Only in /srv/off/conf/nginx/sites-available: whatsinmyshampoo  # historique - sauvegarder
+Only in /srv/off/conf/nginx/sites-available: whatsinmyyogurt  # historique - sauvegarder
 
-Only in /srv/off/html: 706f6c558c3ea05ed0cb6ec4f5cce053.html
-Only in /srv/off/html: BingSiteAuth.xml?url=http:%2F%2Fopenfoodfacts.org%2F
-Only in /srv/off/html: OpenFoodFacts-CCC201209.pdf
-Only in /srv/off/html: android
-Only in /srv/off/html: apps
-Only in /srv/off/html: ar.index.html
-Only in /srv/off/html/js: hunger-game
-Only in /srv/off/html/js: lang
-Only in /srv/off/html: langs.html
-Only in /srv/off/html: last_delta_export.txt
+Only in /srv/off/html: 706f6c558c3ea05ed0cb6ec4f5cce053.html # remove
+Only in /srv/off/html: BingSiteAuth.xml?url=http:%2F%2Fopenfoodfacts.org%2F # remove
+Only in /srv/off/html: OpenFoodFacts-CCC201209.pdf # move to drive Computer Cooking Contest 2012 - Lyon – Sept. 3rd 2012
+Only in /srv/off/html: android  # remove
+Only in /srv/off/html: apps  # move in drive
+Only in /srv/off/html: ??.index.html  # lié aux version statiques --> to remove
+Only in /srv/off/html/js: hunger-game  # remove
+Only in /srv/off/html/js: lang  # remove
+Only in /srv/off/html: langs.html  # remove
+Only in /srv/off/html: last_delta_export.txt  # remove
+
+# move to a zfs and serve with nginx
 Only in /srv/off/html: madenearme-uk.html
 Only in /srv/off/html: madenearme.html
 Only in /srv/off/html: madenearme.html.world
 Only in /srv/off/html: madenearyou-uk.html
-Only in /srv/off/html: robots-disallow.txt
+Only in /srv/off/html: cestemballepresdechezvous-embed.html
+Only in /srv/off/html: cestemballepresdechezvous.html
 
+Only in /srv/off/html: robots-disallow.txt # remove (included in robots.txt)
+
+# remove - but schedule feeds more smartly
 Only in /srv/off/scripts: gen_all_feeds.sh
 Only in /srv/off/scripts: gen_all_feeds_daily.sh
 Only in /srv/off/scripts: gen_all_feeds_off.sh
-Only in /srv/off/scripts: minion.pl
-Only in /srv/off/scripts: minion_import.pl
 
+Only in /srv/off/scripts: minion.pl # remove
+Only in /srv/off/scripts: minion_import.pl # remove
+
+# to remove
 Only in /srv/off/scripts: scanbot.2018.products.csv
 Only in /srv/off/scripts: scanbot.20180908-20190918.csv
 Only in /srv/off/scripts: scanbot.2019
@@ -111,23 +159,35 @@ Only in /srv/off/scripts: scans.20190422-20190510.fr.random-100.quality.csv
 Only in /srv/off/scripts: scans.20190422-20190510.fr.random-1000.csv
 Only in /srv/off/scripts: scans.20190422-20190510.fr.random-1000.quality.csv
 
-Only in /srv/off/scripts: select_random_sample.pl
-Only in /srv/off/scripts: update_all_products_ogm.pl
-Only in /srv/off/scripts: update_one_product.pl
-Only in /srv/off/scripts: update_some_products.pl
-Only in /srv/off/scripts: update_texts_from_wiki.pl
-Only in /srv/off/scripts: update_users.pl
-Only in /srv/off/scripts: upload_photos.pl
+
+Only in /srv/off/scripts: select_random_sample.pl  # remove
+
+Only in /srv/off/scripts: update_all_products_ogm.pl  # remove
+Only in /srv/off/scripts: update_one_product.pl  # remove
+Only in /srv/off/scripts: update_some_products.pl  # remove
+Only in /srv/off/scripts: update_texts_from_wiki.pl  # remove
+Only in /srv/off/scripts: update_users.pl  # remove
+Only in /srv/off/scripts: upload_photos.pl  # keep in git scripts/obsolete
+
+# keep last emails exports to brevo
+Only in /srv/off/scripts: emails10_diff.txt
+Only in /srv/off/scripts: emails10_diff_plus_random.txt
+Only in /srv/off/scripts: emails10_old_format_sorted.txt
+Only in /srv/off/scripts: emails10_sorted.txt
+```
 
 
 
 
 # ASK Pierre
-Only in /srv/off: crowdin-gic.yml
+```
+Only in /srv/off: crowdin-gic.yml  # remove 
+```
 
 
 
 # TO remove
+```
 Only in /srv/off: tmp
 
 Only in /srv/off/cgi: README-IMAGE-DATA-SET.TXT
@@ -155,9 +215,6 @@ Only in /srv/off: export_files
 Only in /srv/off: forest-footprint
 Only in /srv/off: gulpfile.js
 Only in /srv/off/html/.well-known: acme-challenge
-Only in /srv/off/html/.well-known: apple-app-site-association
-Only in /srv/off/html/.well-known: apple-developer-merchantid-domain-association
-Only in /srv/off/html/.well-known: pki-validation
 Only in /srv/off/html: Store.debug.txt
 Only in /srv/off/html: bak
 Only in /srv/off/html: be-fr.index.html
@@ -166,8 +223,6 @@ Only in /srv/off/html: bower_components
 Only in /srv/off/html: br.index.html
 Only in /srv/off/html: ca-fr.index.html
 Only in /srv/off/html: ca.index.html
-Only in /srv/off/html: cestemballepresdechezvous-embed.html
-Only in /srv/off/html: cestemballepresdechezvous.html
 Only in /srv/off/html: cestfabriquepresdechezvous.html
 Only in /srv/off/html: ch-fr.index.html
 Only in /srv/off/html: cl.index.html
@@ -279,123 +334,12 @@ Only in /srv/off/lib/ProductOpener: scripts
 Only in /srv/off/lib/ProductOpener: t
 Only in /srv/off/lib/ProductOpener: taxonomies
 Only in /srv/off/lib: startup.pl
-Only in /srv/off/logs: access_log
-Only in /srv/off/logs: android_app.log
-Only in /srv/off/logs: android_app.log.scan.2019.gz
-Only in /srv/off/logs: android_app.log.scan.20190617.gz
-Only in /srv/off/logs: android_app.log.scan.2020.20200117.gz
-Only in /srv/off/logs: android_app.log.scan.2020.gz
-Only in /srv/off/logs: android_app.log.scan.20200117.gz
-Only in /srv/off/logs: android_app.log.scan.2021
-Only in /srv/off/logs: android_app.log.scan.2022
-Only in /srv/off/logs: api
-Only in /srv/off/logs: api.2017-2018.gz
-Only in /srv/off/logs: api.2018.gz
-Only in /srv/off/logs: api.2018.old-android-app.gz
-Only in /srv/off/logs: api.20180101-20180727.old-android-app.gz
-Only in /srv/off/logs: api.20180908-20181231.android.gz
-Only in /srv/off/logs: api.20180908-20181231.old-android-app.gz
-Only in /srv/off/logs: api.20180908-20190918.android.201909.gz
-Only in /srv/off/logs: api.20180908-20190918.android.gz
-Only in /srv/off/logs: api.20180908-20190918.gz
-Only in /srv/off/logs: api.20180908-20190918.ios.201909.gz
-Only in /srv/off/logs: api.20180908-20190918.ios.gz
-Only in /srv/off/logs: api.20180908-20190918.old-android-app.gz
-Only in /srv/off/logs: api.2020.gz
-Only in /srv/off/logs: api.20200101-20200716.gz
-Only in /srv/off/logs: api.20200716-20201231.gz
-Only in /srv/off/logs: api.20200716-20210118.gz
-Only in /srv/off/logs: api.20200716.android-old-app.gz
-Only in /srv/off/logs: api.20200716.android.gz
-Only in /srv/off/logs: api.20200716.gz
-Only in /srv/off/logs: api.20200716.ios.gz
-Only in /srv/off/logs: api.20200928.android.gz
-Only in /srv/off/logs: api.20200928.gz
-Only in /srv/off/logs: api.20200928.ios.gz
-Only in /srv/off/logs: api.2021
-Only in /srv/off/logs: api.20210101-20210118
-Only in /srv/off/logs: api.20210118-20211231
-Only in /srv/off/logs: api.2022
-Only in /srv/off/logs: api.2023.feb-01-06
-Only in /srv/off/logs: api.2023.feb-01-06.smoothie.scan
-Only in /srv/off/logs: api.product_image_upload.2021
-Only in /srv/off/logs: api.product_jqm2.2021
-Only in /srv/off/logs: api.sh
-Only in /srv/off/logs: api_stats.pl
-Only in /srv/off/logs: baidu.20171106.blocked
-Only in /srv/off/logs: ban_abusive_ip.pl
-Only in /srv/off/logs: blocked_ips.txt
-Only in /srv/off/logs: cgi_product.20200217
-Only in /srv/off/logs: cloud_vision.log
-Only in /srv/off/logs: concatenate_by_ip.pl
-Only in /srv/off/logs: concatenate_by_ip3.pl
-Only in /srv/off/logs: concatenate_by_user_agent.pl
-Only in /srv/off/logs: dart.log.2022
-Only in /srv/off/logs: download_matomo_logs.pl
-Only in /srv/off/logs: dpkg.log
-Only in /srv/off/logs: error_log
-Only in /srv/off/logs: hunger-game
-Only in /srv/off/logs: hunger-game.nginx.access2.log
-Only in /srv/off/logs: hunger-game.nginx.error2.log
-Only in /srv/off/logs: ios_app.log.scan.2019.gz
-Only in /srv/off/logs: ios_app.log.scan.2020.20200117.gz
-Only in /srv/off/logs: ios_app.log.scan.2020.gz
-Only in /srv/off/logs: ios_app.log.scan.20200117.gz
-Only in /srv/off/logs: ios_app.log.scan.2021
-Only in /srv/off/logs: ios_app.log.scan.2022
-Only in /srv/off/logs: labelme.nginx.access2.log
-Only in /srv/off/logs: labelme.nginx.error2.log
-Only in /srv/off/logs: log4perl.log
-Only in /srv/off/logs: m
-Only in /srv/off/logs: matomo.2022
-Only in /srv/off/logs: matomo_smoothie_app.log.scan.2022
-Only in /srv/off/logs: minion.log
-Only in /srv/off/logs: minion_log4perl.log
-Only in /srv/off/logs: modperl_error_log
-Only in /srv/off/logs: mongodb_log4perl.log
-Only in /srv/off/logs: nginx.access.log
-Only in /srv/off/logs: nginx.access.redirects.log
-Only in /srv/off/logs: nginx.access2.log
-Only in /srv/off/logs: nginx.access2.log.20200716.gz
-Only in /srv/off/logs: nginx.access2.log.20210118.gz
-Only in /srv/off/logs: nginx.access2.log.20220105.gz
-Only in /srv/off/logs: nginx.cestemballepresdechezvous.access.log
-Only in /srv/off/logs: nginx.cestemballepresdechezvous.error.log
-Only in /srv/off/logs: nginx.combiendesucres.access.log
-Only in /srv/off/logs: nginx.combiendesucres.error.log
-Only in /srv/off/logs: nginx.error.log
-Only in /srv/off/logs: nginx.error.redirects.log
-Only in /srv/off/logs: nginx.error2.log
-Only in /srv/off/logs: nginx.madenearme-uk.access.log
-Only in /srv/off/logs: nginx.madenearme-uk.error.log
-Only in /srv/off/logs: nginx.madenearme.access.log
-Only in /srv/off/logs: nginx.madenearme.error.log
-Only in /srv/off/logs: old
-Only in /srv/off/logs: robotoff.nginx.access2.log
-Only in /srv/off/logs: robotoff.nginx.error2.log
-Only in /srv/off/logs: run_cloud_vision_ocr.log
-Only in /srv/off/logs: scanbot.history
-Only in /srv/off/logs: scans.20190422-20190510
-Only in /srv/off/logs: search_crash_log
-Only in /srv/off/logs: search_fail_access
-Only in /srv/off/logs: search_fail_nginx
-Only in /srv/off/logs: search_log
-Only in /srv/off/logs: search_log_debug
-Only in /srv/off/logs: search_log_debug.10k
-Only in /srv/off/logs: search_log_debug.fail
-Only in /srv/off/logs: search_memory_issue_log
-Only in /srv/off/logs: smoothie_app.log.scan.2022
-Only in /srv/off/logs: subdomains.pl
-Only in /srv/off/logs: subdomains.txt
-Only in /srv/off/logs: tagline-off.log
-Only in /srv/off/logs: top_errors.pl
-Only in /srv/off/logs: user_spam.log
 Only in /srv/off/madenearme: bak
 Only in /srv/off: minion_log.conf
 Only in /srv/off/po/common: common-web.pot
 Only in /srv/off/po/common: obsolete.pot
 Only in /srv/off/po/common: zh_backup.po
-nly in /srv/off/scripts: -C
+Only in /srv/off/scripts: -C
 Only in /srv/off/scripts: .import_systemeu.pl.swp
 Only in /srv/off/scripts: .json
 Only in /srv/off/scripts: .remove_empty_products.pl.swp
@@ -513,13 +457,13 @@ Only in /srv/off/scripts: franprix.pl
 Only in /srv/off/scripts: gen_users_emails_list.pl.bak
 Only in /srv/off/scripts: i
 Only in /srv/off/scripts: iglo-master-final-2020.xlsx
-Only in /srv/off/scripts: import_barilla.sh
-Only in /srv/off/scripts: import_baskalia_pechalou.sh
-Only in /srv/off/scripts: import_carrefour.sh
 Only in /srv/off/scripts: import_carrefour_off1.sh
 Only in /srv/off/scripts: import_carrefour_test.sh
-Only in /srv/off/scripts: import_casino.sh
+Only in /srv/off/scripts: import_carrefour.sh
 Only in /srv/off/scripts: import_fleurymichon_old.pl
+Only in /srv/off/scripts: import_barilla.sh
+Only in /srv/off/scripts: import_baskalia_pechalou.sh
+Only in /srv/off/scripts: import_casino.sh
 Only in /srv/off/scripts: import_foodrepo.sh
 Only in /srv/off/scripts: import_harrys.sh
 Only in /srv/off/scripts: import_iglo.sh
@@ -772,3 +716,4 @@ Only in /srv/off/templates/web/common/includes: donate_banner_bottom.tt.html
 Only in /srv/off/templates/web/pages: login_form
 Only in /srv/off/templates/web/pages/session: session.tt.html
 Only in /srv/off: yarn-error.log
+```
