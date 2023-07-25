@@ -421,7 +421,7 @@ on opf, same with `o{f,b,pf}f`
 
 ### linking data
 
-Unless stated operation are done with user off.
+Unless stated otherwise operation are done with user off.
 
 Create links for users and products
 

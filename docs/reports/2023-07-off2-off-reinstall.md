@@ -49,6 +49,8 @@ sudo chown 1000:1000  /zfs-hdd/off/orgs
 
 ### Moving products to vme zfs
 
+#### creating datasets
+
 Because of problems at server install, we have the products in `zfs-hdd` datasets while, at least for off and off-pro, we want them in `zfs-nvme`. This will improve performances.
 
 So we will move products there.
@@ -61,25 +63,47 @@ zfs create zfs-nvme/off/products
 zfs create zfs-nvme/off-pro
 zfs create zfs-nvme/off-pro/products
 ```
+#### disabling sync
 
 On off1, we temporarily disable sync to off2 by editing `$REMOTE` in `sto-products-sync.sh`.
 
 On off1 we verify no send  to off2 is in progress `ps -elf|grep zfs.send`
 
+#### copying datasets
+
 On off2, we sync the `zfs-hdd` datasets to the `zfs-nvme` ones:
 ```bash
+SERVICE=off
 # get first and last snapshot
-zfs list -t snap zfs-hdd/off/products
+zfs list -t snap zfs-hdd/$SERVICE/products
 zfs-hdd/off/products@20230417-0000  7.93G      -      300G  -
 …
 zfs-hdd/off/products@20230719-0930     0B      -      317G  -
 
+# TIP from Christian Quest:
+# * on sending side, use "-w" to send raw data (avoid compression etc.),
+# * on receiving side, use -s to be able to restart from where you stopped if needed
+
 # send first snapshot, this took about 5 hours (damn me, I didn't add the time…)
-time zfs send zfs-hdd/off/products@20230417-0000 |pv| zfs recv zfs-nvme/off/products -F
+time zfs send -w zfs-hdd/$SERVICE/products@20230417-0000 | pv | zfs recv zfs-nvme/$SERVICE/products -s -F
 # send all snapshots incrementally
-time zfs send -I 20230417-0000 zfs-hdd/off/products@20230719-0930 |pv|zfs recv zfs-nvme/off/products
+time zfs send -w -I 20230417-0000 zfs-hdd/$SERVICE/products@20230719-0930 | pv | zfs recv zfs-nvme/$SERVICE/products -s
 ```
 
+We do the same for `off-pro` (this time first snapshot was `20230418-0000` and last was `20230719-0930`)
+
+#### enabling sync again
+
+On off1, we change the  `sto-products-sync.sh`
+
+* adding off2 IP back to`$REMOTE`
+* using zfs-nvme instead of zfs-hdd
+
+After some time we verify it's working.
+
+#### changing containers mount points
+
+As we did this operation, the lxc configuration for 113 and 114 where still using zfs-hdd mount points, we changed them to zfs-nvme for products.
 
 ### Creating Containers
 
@@ -233,23 +257,92 @@ adduser off
 
 I started by copying current code from off1 to each container, while avoiding data. I put code in `/srv/off-old/` and `/srv/off-pro-old/` so that I can easily compare to git code later on.
 
+
+#### Verifying what to exclude
+
+I first did the rsync but got the disks completely full ! So I gave a better look at disk usage on off1:
+
+For off:
+```bash
+sudo du -sh -x /srv/off/*|sort -h
+…
+493M	/srv/off/taxonomies
+606M	/srv/off/build-cache
+662M	/srv/off/users  # this will go in zfs
+878M	/srv/off/data  # this will go in zfs 
+1.4G	/srv/off/lists  # those are html files generated on facets ?
+3.0G	/srv/off/deleted.images  # if we keep them it should go it data
+4.9G	/srv/off/debug
+6.2G	/srv/off/scripts # see below
+7.7G	/srv/off/tmp  # we can ditch, I suppose !
+191G	/srv/off/html  # see below
+1.8T	/srv/off/logs  # no need to carry arround --> SHOULD also be a specific volume… maybe in zfs ?
+
+# what makes html so big ?
+410M	/srv/off/html/js
+844M	/srv/off/html/illustrations  # not in git
+1001M	/srv/off/html/images  # a lot of files not in git
+24G	/srv/off/html/files  # should be in data
+165G	/srv/off/html/exports  # should be in data
+# what makes htm/files so big ?
+527M	/srv/off/html/files/mongod.20181230.log.gz
+1003M	/srv/off/html/files/annotate
+1.7G	/srv/off/html/files/debug
+2.0G	/srv/off/html/files/presskit
+4.5G	/srv/off/html/files/best_remap
+5.9G	/srv/off/html/files/300.tar.gz
+5.9G	/srv/off/html/files/products-20200324-890.tar.gz
+
+# what makes scripts so big ?
+102M	/srv/off/scripts/x
+144M	/srv/off/scripts/scanbot.2020
+485M	/srv/off/scripts/scanbot.old
+868M	/srv/off/scripts/best_remap_202105_fr.filtered2.csv
+951M	/srv/off/scripts/bak
+1.3G	/srv/off/scripts/best_remap_202105_fr.filtered.csv
+1.3G	/srv/off/scripts/best_remap_202105_fr.unfiltered.csv
+```
+
+For off-pro
+```bash
+sudo du -sh -x /srv/off-pro/*|sort -h
+
+191M	/srv/off-pro/debug  # avoid it
+273M	/srv/off-pro/node_modules.old # no need
+276M	/srv/off-pro/node_modules # no need
+295M	/srv/off-pro/build-cache # goes in zfs
+364M	/srv/off-pro/html
+885M	/srv/off-pro/new_images # should not be so big ! do not take it - we need the incron for it ?
+1.4G	/srv/off-pro/export_files  # should go in zfs
+7.6G	/srv/off-pro/deleted.images  # Not sure what to do
+28G	/srv/off-pro/tmp  # ditch it !
+47G	/srv/off-pro/logs  # no need, but logs should however go in zfs
+60G	/srv/off-pro/import_files  # should be in data zfs volume
+138G	/srv/off-pro/deleted_private_products
+```
+
+#### Copying code
+
 On off2 as root:
 ```bash
-mkdir /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
-rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/obf/ /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
+mkdir /zfs-hdd/pve/subvol-113-disk-0/srv/off-old/
+time rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude="html/illustrations" --exclude "html/files" --exclude "html/exports"  --exclude "scripts/*.csv" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" --exclude="debug" --exclude="node_modules" --exclude="node_modules.old" --exclude="users" --exclude="lists" --exclude="data" --exclude="orgs"  off1.openfoodfacts.org:/srv/off/ /zfs-hdd/pve/subvol-113-disk-0/srv/off-old/
+# took 121m
 # there are some permissions problems
-sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-111-disk-0/srv/obf-old/
+time sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-113-disk-0/srv/off-old/
 
-mkdir /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
-rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" off1.openfoodfacts.org:/srv/opf/ /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
+mkdir /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro-old/
+time rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "html/" --exclude "deleted.images" --exclude "tmp/" --exclude "debug/" --exclude="node_modules" --exclude="node_modules.old"   --exclude "new_images/" --exclude="build-cache" --exclude="users" --exclude="orgs" --exclude="import_files" --exclude="deleted_private_products" --exclude="export_files" off1.openfoodfacts.org:/srv/off-pro/ /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro-old/
 # there are some permissions problems
-sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-112-disk-0/srv/opf-old/
+time sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro-old/
 ```
 ### Cloning off-server repository
 
 First I create a key for off to access off-server repo:
 ```bash
-sudo -u off ssh-keygen -f /home/off/.ssh/github_off-server -t ed25519 -C "off+off-server@obf.openfoodfacts.org"
+# off or off-pro
+SERVICE=off
+sudo -u off ssh-keygen -f /home/off/.ssh/github_off-server -t ed25519 -C "off+off-server@$SERVICE.openfoodfacts.org"
 sudo -u off vim /home/off/.ssh/config
 …
 # deploy key for openfoodfacts-server
@@ -259,34 +352,62 @@ Host github.com-off-server
 …
 cat /home/off/.ssh/github_off-server.pub
 ```
-Go to github add the obf pub key for off to [productopener repository](https://github.com/openfoodfacts/openfoodfacts-server/settings/keys) with write access:
 
-Then clone repository, on obf:
+Go to github add the off pub key for off to [productopener repository](https://github.com/openfoodfacts/openfoodfacts-server/settings/keys) with write access:
+
+Then clone repository, on off:
 
 ```bash
-sudo mkdir /srv/obf
-sudo chown off:off /srv/obf
-sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/obf
+sudo mkdir /srv/$SERVICE
+sudo chown off:off /srv/$SERVICE
+sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/$SERVICE
 ```
 
 Make it shared:
 ```bash
-cd /srv/obf
+cd /srv/$SERVICE
 sudo -u off git config core.sharedRepository true
 sudo chmod g+rwX -R .
 ```
 
 I will generaly work to modify / commit to the repository using my user alex, while using off only to push.
-So as alex on obf:
+So as alex on off / off-pro:
 ```
-git config --global --add safe.directory /srv/obf
+git config --global --add safe.directory /srv/$SERVICE
 git config --global --add author.name "Alex Garel"
 git config --global --add author.email "alex@openfoodfacts.org"
 git config --global --add user.name "Alex Garel"
 git config --global --add user.email "alex@openfoodfacts.org"
 ```
 
-Do the same on opf.
+Do the same on off-pro.
+
+### Finding git commit
+
+Contrary to obf, opf and opff we don't have to do this, as we know we are on the last version !
+
+### Finding difference with prod
+
+diff -r -u  --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude="html/illustrations" --exclude "html/files" --exclude "html/exports"  --exclude "scripts/*.csv" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" --exclude="debug" --exclude="node_modules" --exclude="node_modules.old" --exclude="users" --exclude="lists" --exclude="data" --exclude="orgs" --exclude="html/images/products" --exclude=".git" /home/off/openfoodfacts-server /srv/off > /tmp/off-diff.patch
+
+### symlinks to mimic old structure
+Now we create symlinks to mimic old structure:
+
+On off, as root:
+```bash
+for site in o{b,p,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{b,p,pf}f/ /srv/o{b,p,pf}f/html/images
+```
+
+We don't need it for off-pro
+
+
+
 
 ## Setting up services
 
