@@ -1,0 +1,1446 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2023-06-30-sanoid-checks-install/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>Post-mortem 2023-07-16 Disk sdc errors on OVH3 - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#post-mortem-2023-07-16-disk-sdc-errors-on-ovh3" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Post-mortem 2023-07-16 Disk sdc errors on OVH3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        Free Datacenter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        off1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        off2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        off3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        ovh1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        ovh2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        ovh3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        MongoDB
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy (OVH)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../open-pet-food-facts/" class="md-nav__link">
+        Open Pet Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        Production architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../promox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        auto Slack invitation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        ZFS overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_30" id="__nav_30_label" tabindex="0">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_30">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        2022-11 moving monitoring to its own machine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        2023-02-13 Zammad down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        2023 02 16 off2 shutdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        2023-02-17 Off2 Upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        2023 02 24 zfs introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        2023-05-23 move Images to ZFS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        2023-05-23 off2 - container 110 unreachable from 101
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        2023-06-01 Robotoff backups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Post-mortem 2023-07-16 Disk sdc errors on OVH3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Post-mortem 2023-07-16 Disk sdc errors on OVH3
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-happened" class="md-nav__link">
+    What happened
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did" class="md-nav__link">
+    What we did
+  </a>
+  
+    <nav class="md-nav" aria-label="What we did">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ask-ovh-for-disk-replacement" class="md-nav__link">
+    Ask OVH for disk replacement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replacing-sdc-in-zfs-pool" class="md-nav__link">
+    Replacing sdc in ZFS pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporarily-serving-images-with-off2" class="md-nav__link">
+    Temporarily serving images with off2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-happened" class="md-nav__link">
+    What happened
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did" class="md-nav__link">
+    What we did
+  </a>
+  
+    <nav class="md-nav" aria-label="What we did">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ask-ovh-for-disk-replacement" class="md-nav__link">
+    Ask OVH for disk replacement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replacing-sdc-in-zfs-pool" class="md-nav__link">
+    Replacing sdc in ZFS pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporarily-serving-images-with-off2" class="md-nav__link">
+    Temporarily serving images with off2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="post-mortem-2023-07-16-disk-sdc-errors-on-ovh3">Post-mortem 2023-07-16 Disk sdc errors on OVH3<a class="headerlink" href="#post-mortem-2023-07-16-disk-sdc-errors-on-ovh3" title="Permanent link">#</a></h1>
+<h2 id="what-happened">What happened<a class="headerlink" href="#what-happened" title="Permanent link">#</a></h2>
+<p>On 16 july 2023 we received a mail from OVH to tell us :</p>
+<ul>
+<li>ping was lost on ovh3 at 19:31</li>
+<li>an intervention took place, that ended at 19:44</li>
+</ul>
+<p>Content of <a href="https://help.ovhcloud.com/csm?id=csm_ticket&amp;table=sn_customerservice_case&amp;sys_id=8c68f40a884c7550476bac9f915e86b0">the intervention</a>:</p>
+<blockquote>
+<p>Serveur 'freezé' sur "Kernel panic - not syncing". Pas de réponse clavier.</p>
+<p>Actions :
+Nous avons effectué un redémarrage.
+Test hardware en échec :
+Le disque SN :5PHAUL7F est défectueux.
+RAM : OK.
+Cooling : OK.
+Redémarrage du serveur.</p>
+<p>Le serveur est démarré sur disque et est sur l'écran de connexion. Ping OK et les services sont ouverts.</p>
+<p>Recommandations :
+Merci de bien vouloir procéder à une sauvegarde de vos données et de contacter le support afin de remplacer le &gt; disque défectueux.</p>
+<p>Additional details :
+SMART_ATA_ERROR : SMART ATA errors found on disk 5PHAUL7F (Total : 2)</p>
+</blockquote>
+<p>So they tell us they will replace the disk when we are ready (backups done).</p>
+<p>Note: to find the ticket back: </p>
+<ul>
+<li>gone to https://help.ovhcloud.com/csm/fr-home?id=csm_index</li>
+<li>signed in</li>
+<li>followed entry "tickets" under search bar</li>
+<li>"notification services" in tickets</li>
+</ul>
+<h2 id="what-we-did">What we did<a class="headerlink" href="#what-we-did" title="Permanent link">#</a></h2>
+<h3 id="ask-ovh-for-disk-replacement">Ask OVH for disk replacement<a class="headerlink" href="#ask-ovh-for-disk-replacement" title="Permanent link">#</a></h3>
+<p>On 2023-07-17.</p>
+<p>I did a backup of /etc on ovh3 and copied it to off2.</p>
+<p>I tell OVH I was ready for the intervention through OVH console:</p>
+<ul>
+<li>added all requested informations<ul>
+<li>I  got disk serial number with <code>udevadm info --query=all --name=/dev/sdc | grep ID_SERIAL</code></li>
+<li>for RAID status I put the result of <code>sudo zpool status</code></li>
+<li>added reference of incident and PDF of it</li>
+</ul>
+</li>
+<li>ticket <a href="https://help.ovhcloud.com/csm?id=csm_ticket&amp;table=sn_customerservice_case&amp;sys_id=4bfe4512a4c4bd102d4cf25a537d0e87">CS8088256</a> was created</li>
+</ul>
+<p>I proposed to make the change the same day between 15:00 and 17:00 UTC.</p>
+<p>I later got confirmation for that schedule from OVH team.</p>
+<p>At 14:30 UTC, I changed CNAME entry for images.openfoodfacts.org to point to off1.</p>
+<p>At 17:03 (15:03 UTC) I received a mail telling the operation will take place after 15min</p>
+<p>At 17:23 I received a mail telling me the server was rebooted in rescue mode</p>
+<p>I ssh the server but realized rescue mode was not useful to me.</p>
+<p>So I go in OVH console, change boot type to disk,  and ask for cold reboot.</p>
+<h3 id="replacing-sdc-in-zfs-pool">Replacing sdc in ZFS pool<a class="headerlink" href="#replacing-sdc-in-zfs-pool" title="Permanent link">#</a></h3>
+<p>Now I ssh ovh3, and started a root session.</p>
+<p>zpool status is as expected
+<div class="highlight"><pre><span></span><code><span class="c1"># zpool status</span>
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>could<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>label<span class="w"> </span>is<span class="w"> </span>missing<span class="w"> </span>or
+<span class="w">    </span>invalid.<span class="w">  </span>Sufficient<span class="w"> </span>replicas<span class="w"> </span>exist<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>pool<span class="w"> </span>to<span class="w"> </span><span class="k">continue</span>
+<span class="w">    </span>functioning<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Replace<span class="w"> </span>the<span class="w"> </span>device<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;zpool replace&#39;</span>.
+<span class="w">   </span>see:<span class="w"> </span>https://openzfs.github.io/openzfs-docs/msg/ZFS-8000-4J
+<span class="w">  </span>scan:<span class="w"> </span>scrub<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Sun<span class="w"> </span>Jul<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">23</span>:21:45<span class="w"> </span><span class="m">2023</span>
+<span class="w">    </span><span class="m">6</span>.99T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span><span class="m">1</span>.20G/s,<span class="w"> </span><span class="m">6</span>.68T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span>0B/s,<span class="w"> </span><span class="m">32</span>.1T<span class="w"> </span>total
+<span class="w">    </span>0B<span class="w"> </span>repaired,<span class="w"> </span><span class="m">20</span>.80%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span>no<span class="w"> </span>estimated<span class="w"> </span>completion<span class="w"> </span><span class="nb">time</span>
+config:
+
+<span class="w">    </span>NAME<span class="w">                      </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">                     </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">                </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span><span class="m">17844476680277185950</span><span class="w">  </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>was<span class="w"> </span>/dev/sdc1
+<span class="w">        </span>sdd<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdf<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">    </span>logs<span class="w">    </span>
+<span class="w">      </span>nvme0n1p4<span class="w">               </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">    </span>cache
+<span class="w">      </span>nvme0n1p5<span class="w">               </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div></p>
+<p>And new sdc is here.</p>
+<div class="highlight"><pre><span></span><code>lsblk
+…
+sdb<span class="w">           </span><span class="m">8</span>:16<span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">10</span>,9T<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk<span class="w"> </span>
+├─sdb1<span class="w">        </span><span class="m">8</span>:17<span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">10</span>,9T<span class="w">  </span><span class="m">0</span><span class="w"> </span>part<span class="w"> </span>
+└─sdb9<span class="w">        </span><span class="m">8</span>:25<span class="w">   </span><span class="m">0</span><span class="w">     </span>8M<span class="w">  </span><span class="m">0</span><span class="w"> </span>part<span class="w"> </span>
+sdc<span class="w">           </span><span class="m">8</span>:32<span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">10</span>,9T<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk<span class="w"> </span>
+sdd<span class="w">           </span><span class="m">8</span>:48<span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">10</span>,9T<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk<span class="w"> </span>
+├─sdd1<span class="w">        </span><span class="m">8</span>:49<span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">10</span>,9T<span class="w">  </span><span class="m">0</span><span class="w"> </span>part<span class="w"> </span>
+└─sdd9<span class="w">        </span><span class="m">8</span>:57<span class="w">   </span><span class="m">0</span><span class="w">     </span>8M<span class="w">  </span><span class="m">0</span><span class="w"> </span>part<span class="w"> </span>
+…
+</code></pre></div>
+<p>Added a gpt label to sdc (not sure if useful)</p>
+<div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/sdc
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>mklabel
+New<span class="w"> </span>disk<span class="w"> </span>label<span class="w"> </span>type?<span class="w"> </span>gpt<span class="w">  </span>
+</code></pre></div>
+<p>Then followed https://askubuntu.com/questions/172577/replacing-a-disk-in-zpool</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>offline<span class="w"> </span>rpool<span class="w"> </span><span class="m">17844476680277185950</span>
+zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sdc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># zpool status</span>
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span>Jul<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">16</span>:27:48<span class="w"> </span><span class="m">2023</span>
+<span class="w">    </span>599G<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span><span class="m">3</span>.54G/s,<span class="w"> </span><span class="m">1</span>.80G<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span><span class="m">10</span>.9M/s,<span class="w"> </span><span class="m">32</span>.1T<span class="w"> </span>total
+<span class="w">    </span>0B<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">0</span>.01%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">35</span><span class="w"> </span>days<span class="w"> </span><span class="m">15</span>:39:43<span class="w"> </span>to<span class="w"> </span>go
+config:
+
+<span class="w">    </span>NAME<span class="w">                        </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">                       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">                  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-2<span class="w">             </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span><span class="m">17844476680277185950</span><span class="w">  </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>was<span class="w"> </span>/dev/sdc1/old
+<span class="w">          </span>sdc<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdf<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">    </span>logs<span class="w">    </span>
+<span class="w">      </span>nvme0n1p4<span class="w">                 </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">    </span>cache
+<span class="w">      </span>nvme0n1p5<span class="w">                 </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div>
+<p>Later, at 18:51 it's more optimistic:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>status
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span>Jul<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">16</span>:27:48<span class="w"> </span><span class="m">2023</span>
+<span class="w">    </span><span class="m">1</span>.78T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span><span class="m">1</span>.30G/s,<span class="w"> </span>315G<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span>231M/s,<span class="w"> </span><span class="m">32</span>.1T<span class="w"> </span>total
+<span class="w">    </span><span class="m">50</span>.2G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">0</span>.96%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">1</span><span class="w"> </span>days<span class="w"> </span><span class="m">16</span>:09:43<span class="w"> </span>to<span class="w"> </span>go
+</code></pre></div></p>
+<h3 id="temporarily-serving-images-with-off2">Temporarily serving images with off2<a class="headerlink" href="#temporarily-serving-images-with-off2" title="Permanent link">#</a></h3>
+<p>To leviate pressure on OVH3 we wanted to serve images with off2.</p>
+<p>First I wanted to use the off container to serve images. But as I see it would take more time than expected, and also because I might need to reboot the container, 
+I decided to go straight and do it directly on the host (as on ovh3).</p>
+<p>Installed nginx on off2:</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nginx<span class="w"> </span>certbot
+</code></pre></div>
+<p>Copied config and certificates from ovh3:
+<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>root@ovh3.openfoodfacts.org:/etc/letsencrypt/<span class="w"> </span>/etc/letsencrypt/
+rm<span class="w"> </span>-rf<span class="w"> </span>/etc/letsencrypt/*/ovh3.*
+rsync<span class="w"> </span>-a<span class="w"> </span>root@ovh3.openfoodfacts.org:/etc/nginx/acme.sh<span class="w"> </span>/etc/nginx
+scp<span class="w"> </span>root@ovh3.openfoodfacts.org:/etc/nginx/sites-enabled/static-off<span class="w"> </span>/etc/nginx/sites-available/
+ln<span class="w"> </span>-s<span class="w"> </span>../sites-available/static-off<span class="w"> </span>/etc/nginx/sites-enabled/
+</code></pre></div></p>
+<p>created a dataset for nginx logs as on ovh3:
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/logs-nginx
+chown<span class="w"> </span>www-data:www-data<span class="w"> </span>/zfs-hdd/logs-nginx
+</code></pre></div></p>
+<p>Edited <code>/etc/nginx/site-enabled/static-off</code>:</p>
+<ul>
+<li>
+<p>changed upstream ip:</p>
+<div class="highlight"><pre><span></span><code>upstream openfoodfacts {
+      server 10.0.0.2:443 weight=100;
+      server off1.openfoodfacts.org:443;
+…
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>replaced every rpool by zfs-hdd (%s/rpool/zfs-hdd/g)</li>
+</ul>
+<p>tested with <code>nginx -t</code></p>
+<p>restart nginx:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
+</code></pre></div></p>
+<p>Test from my machine by editing <code>/etc/hosts</code>:
+<div class="highlight"><pre><span></span><code># images transfer on off2
+213.36.253.208 images.openfoodfacts.org
+</code></pre></div>
+and going to the website… works like a charm.</p>
+<p>I then go to OVH console to change DNS CNAME entry of <code>images.openfoodfacts.org</code> to point to <code>off2.openfoodfacts.org</code>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
