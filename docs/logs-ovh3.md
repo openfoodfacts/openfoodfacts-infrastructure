@@ -3,6 +3,9 @@
 Report here the timeline of incidents and interventions on ovh3 server.
 Keep things short or write a report.
 
+##  2023-07-16 Disk sdc errors on OVH3
+
+See [ 2023-07-16 Disk sdc errors on OVH3](./reports/2023-07-16-ovh3-sdc-broken.md)
 
 ## 2023-06-08 ZFS dataset stalled
 
