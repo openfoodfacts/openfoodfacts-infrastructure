@@ -294,14 +294,13 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} 
 # other
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images,data,exports,imports} /zfs-hdd/off/
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_products,deleted_products_images,data,imports} /zfs-hdd/off-pro/
-# html/data
+# html/data, took 158 and 214 mins for off, fast for off-pro
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{dump,files,exports} /zfs-hdd/off/html_data/
 
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/files /zfs-hdd/off/html_data/
 ```
-It took less than 3 min.
 
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 
@@ -393,6 +392,7 @@ mp9: /zfs-hdd/opff/products,mp=/mnt/opff/products
 mp10: /zfs-hdd/opff/images,mp=/mnt/opff/images
 mp11: /zfs-hdd/opf/products,mp=/mnt/opf/products
 mp12: /zfs-hdd/opf/images,mp=/mnt/opf/images
+mp13: /zfs-hdd/off/logs,mp=/mnt/off/logs
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
