@@ -5,20 +5,17 @@ diff -r -u --exclude logs/ --exclude html/images/products/ --exclude html/data '
 # TODO copy
 
 ```
-Only in /srv/off/lib/ProductOpener: Config2.pm
-Only in /srv/off: log.conf
-Only in /srv/off: minion_log.conf
+Only in /srv/off/lib/ProductOpener: Config2.pm # done
+Only in /srv/off: log.conf # done
+Only in /srv/off: minion_log.conf # done
 
-Only in /srv/off/html/.well-known: apple-app-site-association
 Only in /srv/off/html/.well-known: apple-developer-merchantid-domain-association
-Only in /srv/off/html/.well-known: pki-validation
+
 ```
 
 # TODO link
 
 ```
-Only in /srv/off: Lang.openfoodfacts.org.sto
-Only in /srv/off: Lang_select_country_options.sto
 Only in /srv/off/lib/ProductOpener: SiteLang.pm
 Only in /srv/off/lib/ProductOpener: SiteQuality.pm
 Only in /srv/off: orgs_glns.sto
@@ -50,6 +47,8 @@ Only in /srv/off/lib/ProductOpener: SiteQuality_off.pm
 
 IMPORTANT: verify there are no private urls or keys ! (if yes put in Config2.pm)
 ```
+Only in /srv/off/html/.well-known: apple-app-site-association
+
 Only in /srv/off/scripts: import_carrefour.sh
 Only in /srv/off/scripts: import_carrefour_off1.sh
 Only in /srv/off/scripts: import_fleurymichon_old.pl
@@ -79,6 +78,10 @@ Only in /srv/off: missions  # sauvegarder ?
 Only in /srv/off: reverted_products # à mettre dans data…
 Only in /srv/off: translate # à mettre dans data…
 Only in /srv/off: spam_users # remove
+
+
+Only in /srv/off: Lang.openfoodfacts.org.sto  # it's now in data/
+Only in /srv/off: Lang_select_country_options.sto  # old stuff
 
 
 What to keep from logs ? (can keep all on ovh3)  # faire un volume logs --> vieux logs dans un dossier
@@ -174,6 +177,9 @@ Only in /srv/off/scripts: emails10_diff.txt
 Only in /srv/off/scripts: emails10_diff_plus_random.txt
 Only in /srv/off/scripts: emails10_old_format_sorted.txt
 Only in /srv/off/scripts: emails10_sorted.txt
+
+
+Only in /srv/off/html/.well-known: pki-validation # remove old globalsign validation
 ```
 
 

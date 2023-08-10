@@ -2,7 +2,7 @@
 
 We will follow closely what we did for [OPFF reinstall on off2](./2023-03-14-off2-opff-reinstall.md).
 Refer to it if you need more explanation on a step.
-Also following [OPF and OBF reinstall on off2](./2023-06-07-off2-opf-obf-reinstall.md).
+Also following [OPF and $SERVICE reinstall on off2](./2023-06-07-off2-opf-$SERVICE-reinstall.md).
 
 
 ## switching to right branch of off2 and ovh3
@@ -245,7 +245,7 @@ We can now sync them regularly by editing `/etc/sanoid/syncoid-args.conf`:
 # off
 --no-sync-snap zfs-hdd/opf root@ovh3.openfoodfacts.org:rpool/opf
 # off-pro
---no-sync-snap zfs-hdd/obf root@ovh3.openfoodfacts.org:rpool/obf
+--no-sync-snap zfs-hdd/$SERVICE root@ovh3.openfoodfacts.org:rpool/$SERVICE
 ```
 
 I also added it to `sanoid.conf` ovh3, but using synced template.
@@ -293,7 +293,7 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_i
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/
 # other
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images,data,exports,imports} /zfs-hdd/off/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_products,deleted_products_images,data,imports} /zfs-hdd/off-pro/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_products,deleted_products_images,imports} /zfs-hdd/off-pro/
 # html/data, took 158 and 214 mins for off, fast for off-pro
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{dump,files,exports} /zfs-hdd/off/html_data/
@@ -305,6 +305,10 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/files /zfs-hdd/off/html
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 
 And on ovh3 add them to `sanoid.conf` with `synced_data` template
+
+### FIXME: logs
+
+**FIXME** create a ZFS volume for log and mount it in `/var/log`
 
 
 ## Creating Containers
@@ -343,16 +347,16 @@ Test it:
 sudo systemctl start geoipupdate.service
 sudo systemctl status geoipupdate.service
 …
-juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Succeeded.
-juin 12 16:18:34 obf systemd[1]: Finished Weekly GeoIP update.
-juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Consumed 3.231s CPU time.
+juin 12 16:18:34 $SERVICE systemd[1]: geoipupdate.service: Succeeded.
+juin 12 16:18:34 $SERVICE systemd[1]: Finished Weekly GeoIP update.
+juin 12 16:18:34 $SERVICE systemd[1]: geoipupdate.service: Consumed 3.231s CPU time.
 …
 ```
 
 
 ### Clone off as off-pro
 
-I then shutdow the obf VM and clone it as off-pro.
+I then shutdow the $SERVICE VM and clone it as off-pro.
 
 After cloning I changes to 4 cores and 6 Gb memory. change network IP address settings before starting.
 
@@ -371,7 +375,7 @@ sudo apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl
 In our target production we will have everything in off2,
 so we cross mount their products and images volumes.
 
-We will change config for opff, opf and obf at migration time.
+We will change config for opff, opf and $SERVICE at migration time.
 
 ### changing lxc confs
 
@@ -386,8 +390,8 @@ mp3: /zfs-hdd/off/orgs,mp=/mnt/off/orgs
 mp4: /zfs-hdd/off/images,mp=/mnt/off/images
 mp5: /zfs-hdd/off/html_data,mp=/mnt/off/html_data
 mp6: /zfs-hdd/off/cache,mp=/mnt/off/cache
-mp7: /zfs-hdd/obf/products,mp=/mnt/obf/products
-mp8: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp7: /zfs-hdd/$SERVICE/products,mp=/mnt/$SERVICE/products
+mp8: /zfs-hdd/$SERVICE/images,mp=/mnt/$SERVICE/images
 mp9: /zfs-hdd/opff/products,mp=/mnt/opff/products
 mp10: /zfs-hdd/opff/images,mp=/mnt/opff/images
 mp11: /zfs-hdd/opf/products,mp=/mnt/opf/products
@@ -407,7 +411,8 @@ pct reboot 113
 ```
 
 
-for off-pro we don't need to cross mount the other platforms, editing `/etc/pve/lxc/114.conf`:
+for off-pro we don't need to cross mount the other platforms, but we need to share off/data folder !
+editing `/etc/pve/lxc/114.conf`:
 ```conf
 mp0: /zfs-hdd/off-pro,mp=/mnt/off-pro
 mp1: /zfs-nvme/off-pro/products,mp=/mnt/off-pro/products
@@ -416,6 +421,7 @@ mp3: /zfs-hdd/off/orgs,mp=/mnt/off-pro/orgs
 mp4: /zfs-hdd/off-pro/images,mp=/mnt/off-pro/images
 mp5: /zfs-hdd/off-pro/html_data,mp=/mnt/off-pro/html_data
 mp6: /zfs-hdd/off-pro/cache,mp=/mnt/off-pro/cache
+mp7: /zfs-hdd/off/data,mp=/mnt/off-pro/data
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
@@ -431,7 +437,7 @@ pct reboot 114
 
 **Warning**: after changing lxc idmap, the alex user which I already created, now as an id which is not mapped correctly. More over it was a mistake to create it immediatly as it have id 1000, which should be reserved to *off* user. This makes it impossible to log with ssh as .ssh/authorized_keys is not readable !
 
-To remedy that, on obf and opf, using pct enter 111/2, we will also create off user:
+To remedy that, on $SERVICE and opf, using pct enter 111/2, we will also create off user:
 ```bash
 usermod -u 1001 alex
 groupmod -g 1001 alex
@@ -538,6 +544,8 @@ time rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/produ
 # there are some permissions problems
 time sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro-old/
 ```
+
+
 ### Cloning off-server repository
 
 First I create a key for off to access off-server repo:
@@ -586,14 +594,17 @@ Do the same on off-pro.
 
 ### Finding git commit
 
-Contrary to obf, opf and opff we don't have to do this, as we know we are on the last version !
+Contrary to $SERVICE, opf and opff we don't have to do this, as we know we are on the last version !
 
 ### Finding difference with prod
 
 diff -r -u  --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude="html/illustrations" --exclude "html/files" --exclude "html/exports"  --exclude "scripts/*.csv" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" --exclude="debug" --exclude="node_modules" --exclude="node_modules.old" --exclude="users" --exclude="lists" --exclude="data" --exclude="orgs" --exclude="html/images/products" --exclude=".git" /home/off/openfoodfacts-server /srv/off > /tmp/off-diff.patch
 
+## Installing
+
 ### symlinks to mimic old structure
-Now we create symlinks to mimic old structure:
+
+Now we create symlinks to mimic old structure so that we can move products between instances:
 
 On off, as root:
 ```bash
@@ -609,12 +620,269 @@ ls -l /srv/o{b,p,pf}f/ /srv/o{b,p,pf}f/html/images
 We don't need it for off-pro
 
 
+### linking data
 
+Unless stated otherwise operation are done with user off.
+
+Create links for users, orgs and products
+
+```bash
+# off or off-pro
+SERVICE=off
+ln -s /mnt/$SERVICE/products /srv/$SERVICE/products
+ln -s /mnt/$SERVICE/users /srv/$SERVICE/users
+ln -s /mnt/$SERVICE/orgs /srv/$SERVICE/orgs
+# verify
+ls -l /srv/$SERVICE/products /srv/$SERVICE/users /srv/$SERVICE/orgs
+```
+
+Create links for data folders:
+
+```bash
+# off or off-pro
+SERVICE=off
+# html data
+mv /srv/$SERVICE/html/data/data-fields.* /mnt/$SERVICE/html_data/
+rmdir /srv/$SERVICE/html/data
+ln -s /mnt/$SERVICE/html_data /srv/$SERVICE/html/data
+# product images
+rmdir /srv/$SERVICE/html/images/products/
+# verify
+ln -s /mnt/$SERVICE/images/products  /srv/$SERVICE/html/images/products
+```
+
+some direct links:
+```bash
+# off or off-pro
+SERVICE=off
+# deleted.images
+ln -s  /{mnt,srv}/$SERVICE/deleted.images
+# verify
+ls -l /srv/$SERVICE/deleted.images
+```
+
+Create and link cache folders:
+
+```bash
+# off or off-pro
+SERVICE=off
+cd /srv/$SERVICE
+rm build-cache/taxonomies/README.md; rmdir build-cache/taxonomies; rmdir build-cache
+ln -s /mnt/$SERVICE/cache/build-cache /srv/$SERVICE/build-cache
+ln -s /mnt/$SERVICE/cache/tmp /srv/$SERVICE/tmp
+rm debug/.empty; rmdir debug
+ln -s /mnt/$SERVICE/cache/debug /srv/$SERVICE/debug
+ln -s /mnt/$SERVICE/cache/new_images /srv/$SERVICE/new_images
+# verify
+ls -l /srv/$SERVICE/tmp /srv/$SERVICE/debug /srv/$SERVICE/new_images /srv/$SERVICE/build-cache
+```
+
+We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
+```bash
+# off or off-pro
+SERVICE=off
+cd srv/$SERVICE
+mv html/data/data-field.txt html/data-field.txt
+ln -s ../data-fields.txt html/data/data-fields.txt
+```
+
+### Adding specific files
+
+Copying some well-known file on off (not off-pro):
+
+```
+mkdir /srv/off/conf/well-known
+cp /srv/off-old/html/.well-known/apple-app-site-association /srv/off/conf/well-known/off-apple-app-site-association
+ln -s /srv/off/conf/well-known/off-apple-app-site-association /srv/off/html/.well-known/apple-app-site-association
+cp /srv/off-old/html/.well-known/apple-developer-merchantid-domain-association /srv/off/conf/well-known/off-apple-developer-merchantid-domain-association
+ln -s /srv/off/conf/well-known/off-apple-developer-merchantid-domain-association /srv/off/html/.well-known/apple-developer-merchantid-domain-association
+# verify
+ls -l /srv/off/conf/well-known/off-apple-*
+```
+
+Then add `conf/well-known/off-apple-*` to git,
+and add `/html/.well-known/apple-*` to `.gitignore`.
+
+
+### linking logs
+
+We want logs to go in /var/logs.
+
+We will create a directory for instance (obf/opf) and also add links to nginx and apache2 logs.
+
+```bash
+# off or off-pro
+SERVICE=off
+
+sudo -u off rm -rf /srv/$SERVICE/logs/
+
+sudo mkdir /var/log/$SERVICE
+sudo chown off:off -R /var/log/$SERVICE
+sudo -u off ln -s /var/log/$SERVICE /srv/$SERVICE/logs
+sudo  -u off ln -s ../apache2 /var/log/$SERVICE
+sudo -u off ln -s ../nginx /var/log/$SERVICE
+
+# verify
+ls -l /srv/$SERVICE/logs /srv/$SERVICE/logs/
+```
+
+Copy original `log.conf` and `minion_log.conf` and make it a symlink.
+
+```bash
+# off or off-pro
+SERVICE=off
+
+mv /srv/$SERVICE-old/log.conf /srv/$SERVICE/conf/$SERVICE-log.conf
+rm /srv/$SERVICE/log.conf
+ln -s conf/$SERVICE-log.conf /srv/$SERVICE/log.conf
+mv /srv/$SERVICE-old/minion_log.conf /srv/$SERVICE/conf/$SERVICE-minion_log.conf
+rm /srv/$SERVICE/minion_log.conf
+ln -s conf/$SERVICE-minion_log.conf /srv/$SERVICE/minion_log.conf
+# verify
+ls -l /srv/$SERVICE/{,minion_}log.conf 
+```
+
+
+### copy and verify config links
+
+For $SERVICE:
+
+```bash
+# off or off-pro
+SERVICE=off
+
+cp /srv/$SERVICE-old/lib/ProductOpener/Config2.pm /srv/$SERVICE/lib/ProductOpener/Config2.pm
+ln -s Config_off.pm /srv/$SERVICE/lib/ProductOpener/Config.pm
+# verify
+ls -l /srv/$SERVICE/lib/ProductOpener/{Config,Config2}.pm
+```
+
+
+### Verify broken links
+
+`sudo find /srv/$SERVICE-old -xtype l | xargs ls -l`
+
+**FIXME:** On off-pro it reveals: `/srv/off-pro-old/index -> /srv/off/index` which should belong to data
+
+On off it reveals:
+```
+/srv/off-old/imports -> /srv2/off/imports
+/srv/off-old/html/dump -> /srv2/off/html/dump
+# lot of reverted_products links that are broken
+/srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
+(...)
+```
+
+
+### Adding dists
+
+Create folders for dist:
+```bash
+# off or off-pro
+declare -x SERVICE=off
+
+sudo -E mkdir /srv/$SERVICE-dist
+sudo -E chown off:off -R /srv/$SERVICE-dist
+```
+
+and unpack last dist release there (as user off):
+
+```bash
+wget https://github.com/openfoodfacts/openfoodfacts-server/releases/download/v2.15.0/frontend-dist.tgz -O /tmp/frontend-dist.tgz
+tar xzf /tmp/frontend-dist.tgz -C /srv/$SERVICE-dist
+```
+
+And use symbolic links in folders (as user off):
+
+```bash
+# first link for whole folder
+ln -s /srv/$SERVICE-dist /srv/$SERVICE/dist
+# relative links for the rest
+ln -s ../../../dist/icons /srv/$SERVICE/html/images/icons/dist
+ln -s ../../dist/css /srv/$SERVICE/html/css/dist
+ln -s ../../dist/js /srv/$SERVICE/html/js/dist
+# verify
+ls -l  /srv/$SERVICE/dist /srv/$SERVICE/html/{images/icons,css,js}/dist
+```
+
+
+
+### Adding openfoodfacts-web
+
+#### Cloning repo
+
+Note that I add to make two deploys keys as explained in [github documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#using-multiple-repositories-on-one-server) and use a specific ssh_config hostname for openfoodfacts-web:
+
+Create new key, as off:
+```bash
+# off or off-pro
+declare -x SERVICE=off
+
+# deploy key for openfoodfacts-web
+ssh-keygen -t ed25519 -C "off+off-web@$SERVICE.openfoodfacts.org" -f /home/off/.ssh/github_off-web
+```
+
+Add a specific host in ssh config
+```conf
+# /home/off/.ssh/config
+Host github.com-off-web
+    Hostname github.com
+    IdentityFile=/home/off/.ssh/github_off-web
+```
+
+In github add the `/home/off/.ssh/github_off-web.pub` to deploy keys for openfoodfacts-web.
+
+Cloning:
+```bash
+sudo mkdir /srv/openfoodfacts-web
+sudo chown off:off /srv/openfoodfacts-web
+sudo -u off git clone git@github.com-off-web:openfoodfacts/openfoodfacts-web.git /srv/openfoodfacts-web
+```
+
+#### Linking content
+
+We clearly want obf lang folder to come from off-web:
+
+for obf (as off):
+```bash
+rm -rf /srv/obf/lang/obf/
+ln -s /srv/openfoodfacts-web/lang/obf/ /srv/obf/lang/obf
+```
+
+for opf (as off):
+```bash
+rm -rf /srv/opf/lang/opf/
+ln -s /srv/openfoodfacts-web/lang/opf/ /srv/opf/lang/opf
+```
+
+We then will link press, contacts, term of use (as user off)
+```bash
+# USE WITH CARE !
+cd /srv/obf/lang
+for FNAME in contacts.html press.html terms-of-use.html; do \
+  for LANG in $(ls -d ?? ??_*); do \
+    FILE_PATH=$LANG/texts/$FNAME;
+    if [[ -e /srv/openfoodfacts-web/lang/$FILE_PATH ]]; then \
+        rm $FILE_PATH; \
+        ln -s /srv/openfoodfacts-web/lang/$FILE_PATH $FILE_PATH; \
+    fi; \
+  done; \
+done;
+```
+
+We can verify with:
+```bash
+ls -l */texts/{contacts,press,terms-of-use}.html
+```
+
+Same for opf.
+
+We keep the rest as is for now.
 
 ## Setting up services
 
 
-### NGINX for OBF and OPF (inside container)
+### NGINX for $SERVICE and OPF (inside container)
 
 
 Installed nginx `sudo apt install nginx`.
@@ -681,6 +949,8 @@ sudo nginx -t
 **WARNING**: finish writing it before running it !!!
 
 1. change TTL for openfoodfacts domains (including pro) to a low value in DNS
+
+1. Redeploy the dist of off and off-pro on off2
 
 1. shutdown:
    * off on **off2** `sudo systemctl stop apache2 nginx`
