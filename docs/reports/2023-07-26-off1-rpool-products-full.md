@@ -48,3 +48,7 @@ It seems illogical that the intermediary snapshots take so much disk space.
 We opened a bug to investigate why it is the case, because that might also be associated with a potential performance gain for the app: [Understand why zfs snapshots take so much place on products dataset bug](https://github.com/openfoodfacts/openfoodfacts-server/issues/8740)
 
 The high disk usage might also explain the poor performances of the server this week (with some 504 on product page visualization, which normally does not involve MongoDB). (EDIT: nope, poor performance continues…)
+
+### removal on august
+
+On the 2023-08-10 I manually removed snapshots from 20230702-0000 to 20230719-0000 to insure we do not go full again until off2 migration.
