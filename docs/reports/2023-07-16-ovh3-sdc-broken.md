@@ -177,6 +177,40 @@ action: Wait for the resilver to complete.
 
 ```
 
+Finally it ended on 21/07 at 13:43. an email was sent:
+```
+ZFS has finished a resilver:
+
+   eid: 36209
+ class: resilver_finish
+  host: ovh3
+  time: 2023-07-21 11:43:09+0000
+  pool: rpool
+ state: DEGRADED
+  scan: resilvered 5.65T in 3 days 19:15:21 with 0 errors on Fri Jul 21 11:43:09 2023
+config:
+
+	NAME                        STATE     READ WRITE CKSUM
+	rpool                       DEGRADED     0     0     0
+	  raidz2-0                  DEGRADED     0     0     0
+	    sda                     ONLINE       0     0     0
+	    sdb                     ONLINE       0     0     0
+	    replacing-2             DEGRADED     0     0     0
+	      17844476680277185950  OFFLINE      0     0     0  was /dev/sdc1/old
+	      sdc                   ONLINE       0     0     0
+	    sdd                     ONLINE       0     0     0
+	    sde                     ONLINE       0     0     0
+	    sdf                     ONLINE       0     0     0
+	logs	
+	  nvme0n1p4                 ONLINE       0     0     0
+	cache
+	  nvme0n1p5                 ONLINE       0     0     0
+
+errors: No known data errors
+```
+
+So it took about 3 days and 18 hours.
+
 ### Temporarily serving images with off2
 
 To leviate pressure on OVH3 we wanted to serve images with off2.
