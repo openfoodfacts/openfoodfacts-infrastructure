@@ -290,16 +290,26 @@ I rsync cache data and other data on ofF2:
 # cache
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_images} /zfs-hdd/off/cache/
 # for off-pro I don't copy new_images as it's really full and non working ! (takes 18m)
+# don't copy export_files it's really transient data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/
+mkdir /zfs-hdd/off-pro/cache/new_imaqes
+mkdir /zfs-hdd/off-pro/cache/export_files
+mkdir /zfs-hdd/off/cache/export_files
+# data folder (we do not copy data from off-pro for it's shared with off)
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/
 # other
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images,data,exports,imports} /zfs-hdd/off/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_products,deleted_products_images,imports} /zfs-hdd/off-pro/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images} /zfs-hdd/off/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/
+# imports are on srv2 and only for off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/
 # html/data, took 158 and 214 mins for off, fast for off-pro
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{dump,files,exports} /zfs-hdd/off/html_data/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/
+# dump is on srv2
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html_data/
 
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/files /zfs-hdd/off/html_data/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/
 ```
 
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
@@ -397,6 +407,7 @@ mp10: /zfs-hdd/opff/images,mp=/mnt/opff/images
 mp11: /zfs-hdd/opf/products,mp=/mnt/opf/products
 mp12: /zfs-hdd/opf/images,mp=/mnt/opf/images
 mp13: /zfs-hdd/off/logs,mp=/mnt/off/logs
+mp14: /zfs-hdd/off-pro/cache/export_files,mp=/mnt/off-pro/cache/export_files
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
@@ -645,20 +656,39 @@ SERVICE=off
 mv /srv/$SERVICE/html/data/data-fields.* /mnt/$SERVICE/html_data/
 rmdir /srv/$SERVICE/html/data
 ln -s /mnt/$SERVICE/html_data /srv/$SERVICE/html/data
+ln -s /mnt/$SERVICE/html_data/exports /srv/$SERVICE/html/exports
+ln -s /mnt/$SERVICE/html_data/dump /srv/$SERVICE/html/dump
+ln -s /mnt/$SERVICE/html_data/files /srv/$SERVICE/html/files
 # product images
-rmdir /srv/$SERVICE/html/images/products/
-# verify
+rm /srv/off/html/images/products/.empty; rmdir /srv/$SERVICE/html/images/products/
 ln -s /mnt/$SERVICE/images/products  /srv/$SERVICE/html/images/products
+# verify
+ls -ld /srv/$SERVICE/html/images/products /srv/$SERVICE/html/{data,exports,dump,files}
 ```
 
 some direct links:
 ```bash
 # off or off-pro
 SERVICE=off
-# deleted.images
+
 ln -s  /{mnt,srv}/$SERVICE/deleted.images
 # verify
 ls -l /srv/$SERVICE/deleted.images
+```
+
+some specific links for **off** only:
+```bash
+ln -s  /{mnt,srv}/$SERVICE/deleted_products
+ln -s  /{mnt,srv}/$SERVICE/deleted_products_images
+ln -s  /{mnt,srv}/$SERVICE/imports
+# verify
+ls -l /srv/$SERVICE/{deleted_products,deleted_products_images,imports}
+```
+some specific links for **off-pro** only:
+```bash
+ln -s  /{mnt,srv}/$SERVICE/deleted_private_products
+# verify
+ls -l  /srv/$SERVICE/deleted_private_products
 ```
 
 Create and link cache folders:
@@ -673,8 +703,19 @@ ln -s /mnt/$SERVICE/cache/tmp /srv/$SERVICE/tmp
 rm debug/.empty; rmdir debug
 ln -s /mnt/$SERVICE/cache/debug /srv/$SERVICE/debug
 ln -s /mnt/$SERVICE/cache/new_images /srv/$SERVICE/new_images
+ln -s /mnt/$SERVICE/cache/export_files /srv/$SERVICE/export_files
 # verify
-ls -l /srv/$SERVICE/tmp /srv/$SERVICE/debug /srv/$SERVICE/new_images /srv/$SERVICE/build-cache
+ls -l /srv/$SERVICE/{build-cache,tmp,debug,new_images,export_files}
+```
+
+And on off, we need to be able to reach off-pro `export_files`:
+```bash
+# only for off !
+sudo mkdir /srv/off-pro/
+sudo chown off:off /srv/off-pro/
+sudo -u off ln -s /mnt/off-pro/cache/export_files /srv/off-pro/export_files
+# verify
+ls -l /srv/$SERVICE/export_files
 ```
 
 We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
@@ -745,7 +786,7 @@ ls -l /srv/$SERVICE/{,minion_}log.conf
 
 ### copy and verify config links
 
-For $SERVICE:
+Config files:
 
 ```bash
 # off or off-pro
@@ -755,6 +796,11 @@ cp /srv/$SERVICE-old/lib/ProductOpener/Config2.pm /srv/$SERVICE/lib/ProductOpene
 ln -s Config_off.pm /srv/$SERVICE/lib/ProductOpener/Config.pm
 # verify
 ls -l /srv/$SERVICE/lib/ProductOpener/{Config,Config2}.pm
+```
+
+Specific translations:
+```bash
+ln -s openfoodfacts /srv/$SERVICE/po/site-specific
 ```
 
 
@@ -940,6 +986,16 @@ sudo nginx -t
 
 
 ## Production switch
+
+### TODO befor switch
+
+- **FIXME** create ZFS dataset for `/var/loq`
+- **FIXME** run cron for carrefour import on off-pro side
+- **FIXME** handle sftp server… for imports
+- **FIXME** handles html/files - should be in git
+- **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx
+- **FIXME** schedule gen feeds smartly
+
 
 
 ### Procedure for switch of off and off-pro from off1 to off2 (Still TODO)

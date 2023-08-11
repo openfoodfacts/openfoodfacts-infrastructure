@@ -9,66 +9,46 @@ Only in /srv/off/lib/ProductOpener: Config2.pm # done
 Only in /srv/off: log.conf # done
 Only in /srv/off: minion_log.conf # done
 
-Only in /srv/off/html/.well-known: apple-developer-merchantid-domain-association
-
 ```
 
 # TODO link
 
 ```
-Only in /srv/off/lib/ProductOpener: SiteLang.pm
-Only in /srv/off/lib/ProductOpener: SiteQuality.pm
-Only in /srv/off: orgs_glns.sto
-Only in /srv/off/po: site-specific
-Only in /srv/off: products
-Only in /srv/off: users_emails.sto
+Only in /srv/off/po: site-specific # done
+Only in /srv/off: products # done
 ```
 
 
 # Move to data or html_data and link ?
 ```
-Only in /srv/off/: files
-Only in /srv/off: new_images
-Only in /srv/off/html: dump  # bson est dans dump et pas dans data
+Only in /srv/off/: files # done
+Only in /srv/off: new_images  # done
 
-Only in /srv/off/html: exports
-Only in /srv/off: imports
+Only in /srv/off/html: dump  # done bson est dans dump et pas dans data
 
-Only in /srv/off: deleted_products
-Only in /srv/off: deleted_products_images
+Only in /srv/off/html: exports # done
 
-# put in git ?
-Only in /srv/off/lib/ProductOpener: SiteLang_obf.pm
-Only in /srv/off/lib/ProductOpener: SiteLang_off.pm
-Only in /srv/off/lib/ProductOpener: SiteQuality_off.pm
+Only in /srv/off: imports # done
+Only in /srv/off: deleted_products # done
+Only in /srv/off: deleted_products_images #done
+
+Only in /srv/off: export_files # done
 ```
 
 # Put in git
 
 IMPORTANT: verify there are no private urls or keys ! (if yes put in Config2.pm)
 ```
-Only in /srv/off/html/.well-known: apple-app-site-association
+Only in /srv/off/html/.well-known: apple-app-site-association # done
+Only in /srv/off/html/.well-known: apple-developer-merchantid-domain-association # done
 
 Only in /srv/off/scripts: import_carrefour.sh
-Only in /srv/off/scripts: import_carrefour_off1.sh
-Only in /srv/off/scripts: import_fleurymichon_old.pl
 
 In obsolete:
-Only in /srv/off/scripts: import_barilla.sh
-Only in /srv/off/scripts: import_baskalia_pechalou.sh
-Only in /srv/off/scripts: import_casino.sh
-Only in /srv/off/scripts: import_foodrepo.sh
-Only in /srv/off/scripts: import_harrys.sh
-Only in /srv/off/scripts: import_iglo.sh
 Only in /srv/off/scripts: import_ldc.sh
-Only in /srv/off/scripts: import_mxbot.sh
 Only in /srv/off/scripts: import_ocr_nutriscore.sh
-Only in /srv/off/scripts: import_openfood_ch.pl
-Only in /srv/off/scripts: import_openfood_ch_name_translations.pl
-Only in /srv/off/scripts: import_saintelucie.sh
-Only in /srv/off/scripts: import_sodebo.pl
 Only in /srv/off/scripts: import_stores_be_delhaize.sh
-Only in /srv/off/scripts: import_us_ndb.pl
+
 ```
 
 # ASK Stephane
@@ -91,16 +71,16 @@ Only in /srv/off/packager-codes: IT-merge.csv  # remove
 
 
 Only in /srv/off/conf/nginx/sites-available: labelme
-Only in /srv/off/conf/nginx/sites-available: off-fr  # à sauvegarder -- 
+Only in /srv/off/conf/nginx/sites-available: off-fr  # à sauvegarder -- done
 Only in /srv/off/conf/nginx/sites-available: off-preprod  # remove
-Only in /srv/off/conf/nginx/sites-available: whatsinmyshampoo  # historique - sauvegarder
-Only in /srv/off/conf/nginx/sites-available: whatsinmyyogurt  # historique - sauvegarder
+Only in /srv/off/conf/nginx/sites-available: whatsinmyshampoo  # historique - sauvegarder - useless: content no more there
+Only in /srv/off/conf/nginx/sites-available: whatsinmyyogurt  # historique - sauvegarder - useless: content no more there
 
 Only in /srv/off/html: 706f6c558c3ea05ed0cb6ec4f5cce053.html # remove
 Only in /srv/off/html: BingSiteAuth.xml?url=http:%2F%2Fopenfoodfacts.org%2F # remove
-Only in /srv/off/html: OpenFoodFacts-CCC201209.pdf # move to drive Computer Cooking Contest 2012 - Lyon – Sept. 3rd 2012
+Only in /srv/off/html: OpenFoodFacts-CCC201209.pdf # move to drive Computer Cooking Contest 2012 - Lyon – Sept. 3rd 2012 - done https://drive.google.com/file/d/1AxYDIgqvjgOfpZ8ImFzyIl5vqI_L8Isn/view?usp=sharing
 Only in /srv/off/html: android  # remove
-Only in /srv/off/html: apps  # move in drive
+Only in /srv/off/html: apps/off.apk  # move in drive - done - https://drive.google.com/file/d/1TgMoDTRtgA7LdkNSrOJGGyMp7wu3D0Em/view?usp=drive_link
 Only in /srv/off/html: ??.index.html  # lié aux version statiques --> to remove
 Only in /srv/off/html/js: hunger-game  # remove
 Only in /srv/off/html/js: lang  # remove
@@ -170,16 +150,16 @@ Only in /srv/off/scripts: update_one_product.pl  # remove
 Only in /srv/off/scripts: update_some_products.pl  # remove
 Only in /srv/off/scripts: update_texts_from_wiki.pl  # remove
 Only in /srv/off/scripts: update_users.pl  # remove
-Only in /srv/off/scripts: upload_photos.pl  # keep in git scripts/obsolete
+Only in /srv/off/scripts: upload_photos.pl  # already in scripts/obsolete
 
-# keep last emails exports to brevo
+# keep last emails exports to brevo - done but put in srv/off/data
 Only in /srv/off/scripts: emails10_diff.txt
 Only in /srv/off/scripts: emails10_diff_plus_random.txt
 Only in /srv/off/scripts: emails10_old_format_sorted.txt
 Only in /srv/off/scripts: emails10_sorted.txt
 
 
-Only in /srv/off/html/.well-known: pki-validation # remove old globalsign validation
+Only in /srv/off/html/.well-known: pki-validation # old globalsign validation - remove
 ```
 
 
@@ -187,7 +167,7 @@ Only in /srv/off/html/.well-known: pki-validation # remove old globalsign valida
 
 # ASK Pierre
 ```
-Only in /srv/off: crowdin-gic.yml  # remove 
+Only in /srv/off: crowdin-gic.yml  # remove
 ```
 
 
@@ -195,6 +175,30 @@ Only in /srv/off: crowdin-gic.yml  # remove
 # TO remove
 ```
 Only in /srv/off: tmp
+
+Only in /srv/off/lib/ProductOpener: SiteLang.pm # obsolete
+Only in /srv/off/lib/ProductOpener: SiteQuality.pm # obsolete
+Only in /srv/off/lib/ProductOpener: SiteLang_obf.pm # obsolete
+Only in /srv/off/lib/ProductOpener: SiteLang_off.pm # obsolete
+Only in /srv/off/lib/ProductOpener: SiteQuality_off.pm # obsolete
+
+Only in /srv/off: orgs_glns.sto # not needed any more
+Only in /srv/off: users_emails.sto # not needed any more
+
+Only in /srv/off/scripts: import_carrefour_off1.sh # it's import_carrefour_pro_off1.sh now
+Only in /srv/off/scripts: import_fleurymichon_old.pl # obsolete
+Only in /srv/off/scripts: import_barilla.sh # already in obsolete/
+Only in /srv/off/scripts: import_baskalia_pechalou.sh # already in obsolete/
+Only in /srv/off/scripts: import_casino.sh # already in obsolete/
+Only in /srv/off/scripts: import_foodrepo.sh # already in obsolete/
+Only in /srv/off/scripts: import_harrys.sh # already in obsolete/
+Only in /srv/off/scripts: import_iglo.sh # already in obsolete/
+Only in /srv/off/scripts: import_mxbot.sh # already in obsolete/
+Only in /srv/off/scripts: import_openfood_ch.pl # already in obsolete/
+Only in /srv/off/scripts: import_openfood_ch_name_translations.pl # already in obsolete/
+Only in /srv/off/scripts: import_saintelucie.sh # already in obsolete/
+Only in /srv/off/scripts: import_sodebo.pl # already in obsolete/
+Only in /srv/off/scripts: import_us_ndb.pl # already in obsolete/
 
 Only in /srv/off/cgi: README-IMAGE-DATA-SET.TXT
 Only in /srv/off/cgi: madenearme.pl
@@ -217,7 +221,6 @@ Only in /srv/off/docs: introduction
 Only in /srv/off/docs: reference
 Only in /srv/off/docs: tutorials
 Only in /srv/off: ecoscore
-Only in /srv/off: export_files
 Only in /srv/off: forest-footprint
 Only in /srv/off: gulpfile.js
 Only in /srv/off/html/.well-known: acme-challenge
