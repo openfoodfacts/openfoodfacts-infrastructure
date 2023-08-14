@@ -808,17 +808,8 @@ ln -s openfoodfacts /srv/$SERVICE/po/site-specific
 
 `sudo find /srv/$SERVICE-old -xtype l | xargs ls -l`
 
-**FIXME:** On off-pro it reveals: `/srv/off-pro-old/index -> /srv/off/index` which should belong to data
-
-On off it reveals:
-```
-/srv/off-old/imports -> /srv2/off/imports
-/srv/off-old/html/dump -> /srv2/off/html/dump
-# lot of reverted_products links that are broken
-/srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
-(...)
-```
-
+On off-pro it reveals: `/srv/off-pro-old/index -> /srv/off/index`
+but it's old stuff, it's now in `data/index`
 
 ### Adding dists
 
@@ -887,43 +878,32 @@ sudo -u off git clone git@github.com-off-web:openfoodfacts/openfoodfacts-web.git
 
 #### Linking content
 
-We clearly want obf lang folder to come from off-web:
+We clearly want off and off-pro lang folder to come from off-web:
 
-for obf (as off):
 ```bash
-rm -rf /srv/obf/lang/obf/
-ln -s /srv/openfoodfacts-web/lang/obf/ /srv/obf/lang/obf
+ln -s /srv/openfoodfacts-web/lang /srv/$SERVICE/
+
+# verify
+ls -ld /srv/$SERVICE/lang
 ```
 
-for opf (as off):
+### Installing CPAN
+
+First added `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile
+
 ```bash
-rm -rf /srv/opf/lang/opf/
-ln -s /srv/openfoodfacts-web/lang/opf/ /srv/opf/lang/opf
+cd /srv/obf
+sudo apt install libapache2-mod-perl2-dev
+sudo cpanm --notest --quiet --skip-satisfied --installdeps .
 ```
 
-We then will link press, contacts, term of use (as user off)
-```bash
-# USE WITH CARE !
-cd /srv/obf/lang
-for FNAME in contacts.html press.html terms-of-use.html; do \
-  for LANG in $(ls -d ?? ??_*); do \
-    FILE_PATH=$LANG/texts/$FNAME;
-    if [[ -e /srv/openfoodfacts-web/lang/$FILE_PATH ]]; then \
-        rm $FILE_PATH; \
-        ln -s /srv/openfoodfacts-web/lang/$FILE_PATH $FILE_PATH; \
-    fi; \
-  done; \
-done;
-```
+## Fixing directory problems
 
-We can verify with:
-```bash
-ls -l */texts/{contacts,press,terms-of-use}.html
-```
+We have a problem because some directory present in git are transformed to symlinks in production environement.
+So this disallow making simple git pull to update code. Where this was one of the goal to maintain a clean deployment.
 
-Same for opf.
+A solution to that is to remove those directory in the git. But to avoid complexifying usage, an idea is to centralize principal directory creation in the code itself.
 
-We keep the rest as is for now.
 
 ## Setting up services
 
@@ -989,13 +969,20 @@ sudo nginx -t
 
 ### TODO befor switch
 
-- **FIXME** create ZFS dataset for `/var/loq`
+- **FIXME** create ZFS dataset for `/var/log`
 - **FIXME** run cron for carrefour import on off-pro side
 - **FIXME** handle sftp server… for imports
 - **FIXME** handles html/files - should be in git
 - **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx
 - **FIXME** schedule gen feeds smartly
+- **FIXME** add import services on off-pro
+- **FIXME** what about /srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
+- **FIXME**: srv or srv2 /off-pro/codeonline-images-tmp, agena3000-data-tmp that is /off-pro/<producer>-{images,data}-tmp should be in cache
+- **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
+- **FIXME** are we writting to lang/ ?
+- **FIXME** move away things that are in html/files or do symlink for content that is in git ? Also files/debug for knowledge panels…
 
+- **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r
 
 
 ### Procedure for switch of off and off-pro from off1 to off2 (Still TODO)
