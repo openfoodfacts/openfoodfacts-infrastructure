@@ -281,6 +281,12 @@ I added it to root crontab on off1:
 48 * * * *	rsync -a /srv/off/users/ 10.0.0.2:/zfs-hdd/off/users/; rsync -a /srv/off/orgs/ 10.0.0.2:/zfs-hdd/off/orgs/
 ```
 
+### Copying off-pro images
+
+```bash
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/
+```
+
 ### Copying other data
 
 
@@ -295,6 +301,8 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} 
 mkdir /zfs-hdd/off-pro/cache/new_imaqes
 mkdir /zfs-hdd/off-pro/cache/export_files
 mkdir /zfs-hdd/off/cache/export_files
+chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
+
 # data folder (we do not copy data from off-pro for it's shared with off)
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/
 # other
@@ -310,7 +318,14 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html
 
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/
+# some folder that will be needed but are empty for now
+mkdir /zfs-hdd/off/deleted_private_products
+mkdir /zfs-hdd/off-pro/deleted_products
+mkdir /zfs-hdd/off-pro/deleted_products_images
+mkdir /zfs-hdd/off-pro/imports
+chown 1000:1000 /zfs-hdd/off/deleted_private_products /zfs-hdd/off-pro/{deleted_products,deleted_products_images,imports}
 ```
+
 
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 
@@ -373,10 +388,113 @@ After cloning I changes to 4 cores and 6 Gb memory. change network IP address se
 
 ### Installing packages
 
-On off and off-pro
+On off and off-pro (taken from Dockerfile)
 
 ```bash
-sudo apt install -y apache2 apt-utils cpanminus g++ gcc less libapache2-mod-perl2 make gettext wget imagemagick graphviz tesseract-ocr libtie-ixhash-perl libwww-perl libimage-magick-perl libxml-encoding-perl libtext-unaccent-perl libmime-lite-perl libcache-memcached-fast-perl libjson-pp-perl libclone-perl libcrypt-passwdmd5-perl libencode-detect-perl libgraphics-color-perl libbarcode-zbar-perl libxml-feedpp-perl liburi-find-perl libxml-simple-perl libexperimental-perl libapache2-request-perl libdigest-md5-perl libtime-local-perl libdbd-pg-perl libtemplate-perl liburi-escape-xs-perl libmath-random-secure-perl libfile-copy-recursive-perl libemail-stuffer-perl liblist-moreutils-perl libexcel-writer-xlsx-perl libpod-simple-perl liblog-any-perl liblog-log4perl-perl liblog-any-adapter-log4perl-perl libgeoip2-perl libemail-valid-perl libmath-fibonacci-perl libev-perl libprobe-perl-perl libmath-round-perl libsoftware-license-perl libtest-differences-perl libtest-exception-perl libmodule-build-pluggable-perl libclass-accessor-lite-perl libclass-singleton-perl libfile-sharedir-install-perl libnet-idn-encode-perl libtest-nowarnings-perl libfile-chmod-perl libdata-dumper-concise-perl libdata-printer-perl libdata-validate-ip-perl libio-compress-perl libjson-maybexs-perl liblist-allutils-perl liblist-someutils-perl libdata-section-simple-perl libfile-which-perl libipc-run3-perl liblog-handler-perl libtest-deep-perl libwant-perl libfile-find-rule-perl liblinux-usermod-perl liblocale-maketext-lexicon-perl liblog-any-adapter-tap-perl libcrypt-random-source-perl libmath-random-isaac-perl libtest-sharedfork-perl libtest-warn-perl libsql-abstract-perl libauthen-sasl-saslprep-perl libauthen-scram-perl libbson-perl libclass-xsaccessor-perl libconfig-autoconf-perl libdigest-hmac-perl libpath-tiny-perl libsafe-isa-perl libspreadsheet-parseexcel-perl libtest-number-delta-perl libdevel-size-perl gnumeric libreadline-dev libperl-dev
+sudo  apt install -y \
+   apache2 \
+   apt-utils \
+   cpanminus \
+   g++ \
+   gcc \
+   less \
+   libapache2-mod-perl2 \
+   make \
+   gettext \
+   wget \
+   imagemagick \
+   graphviz \
+   tesseract-ocr \
+   lftp \
+   gzip \
+   tar \
+   unzip \
+   zip \
+   libtie-ixhash-perl \
+   libwww-perl \
+   libimage-magick-perl \
+   libxml-encoding-perl  \
+   libtext-unaccent-perl \
+   libmime-lite-perl \
+   libcache-memcached-fast-perl \
+   libjson-pp-perl \
+   libclone-perl \
+   libcrypt-passwdmd5-perl \
+   libencode-detect-perl \
+   libgraphics-color-perl \
+   libbarcode-zbar-perl \
+   libxml-feedpp-perl \
+   liburi-find-perl \
+   libxml-simple-perl \
+   libexperimental-perl \
+   libapache2-request-perl \
+   libdigest-md5-perl \
+   libtime-local-perl \
+   libdbd-pg-perl \
+   libtemplate-perl \
+   liburi-escape-xs-perl \
+   libmath-random-secure-perl \
+   libfile-copy-recursive-perl \
+   libemail-stuffer-perl \
+   liblist-moreutils-perl \
+   libexcel-writer-xlsx-perl \
+   libpod-simple-perl \
+   liblog-any-perl \
+   liblog-log4perl-perl \
+   liblog-any-adapter-log4perl-perl \
+   libgeoip2-perl \
+   libemail-valid-perl \
+   libmath-fibonacci-perl \
+   libev-perl \
+   libprobe-perl-perl \
+   libmath-round-perl \
+   libsoftware-license-perl \
+   libtest-differences-perl \
+   libtest-exception-perl \
+   libmodule-build-pluggable-perl \
+   libclass-accessor-lite-perl \
+   libclass-singleton-perl \
+   libfile-sharedir-install-perl \
+   libnet-idn-encode-perl \
+   libtest-nowarnings-perl \
+   libfile-chmod-perl \
+   libdata-dumper-concise-perl \
+   libdata-printer-perl \
+   libdata-validate-ip-perl \
+   libio-compress-perl \
+   libjson-maybexs-perl \
+   liblist-allutils-perl \
+   liblist-someutils-perl \
+   libdata-section-simple-perl \
+   libfile-which-perl \
+   libipc-run3-perl \
+   liblog-handler-perl \
+   libtest-deep-perl \
+   libwant-perl \
+   libfile-find-rule-perl \
+   liblinux-usermod-perl \
+   liblocale-maketext-lexicon-perl \
+   liblog-any-adapter-tap-perl \
+   libcrypt-random-source-perl \
+   libmath-random-isaac-perl \
+   libtest-sharedfork-perl \
+   libtest-warn-perl \
+   libsql-abstract-perl \
+   libauthen-sasl-saslprep-perl \
+   libauthen-scram-perl \
+   libbson-perl \
+   libclass-xsaccessor-perl \
+   libconfig-autoconf-perl \
+   libdigest-hmac-perl \
+   libpath-tiny-perl \
+   libsafe-isa-perl \
+   libspreadsheet-parseexcel-perl \
+   libtest-number-delta-perl \
+   libdevel-size-perl \
+   gnumeric \
+   libreadline-dev \
+   libperl-dev \
+   libapache2-mod-perl2-dev
 ```
 
 
@@ -582,6 +700,7 @@ Then clone repository, on off:
 sudo mkdir /srv/$SERVICE
 sudo chown off:off /srv/$SERVICE
 sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/$SERVICE
+sudo -u off git config pull.ff only
 ```
 
 Make it shared:
@@ -660,7 +779,7 @@ ln -s /mnt/$SERVICE/html_data/exports /srv/$SERVICE/html/exports
 ln -s /mnt/$SERVICE/html_data/dump /srv/$SERVICE/html/dump
 ln -s /mnt/$SERVICE/html_data/files /srv/$SERVICE/html/files
 # product images
-rm /srv/off/html/images/products/.empty; rmdir /srv/$SERVICE/html/images/products/
+rm /srv/$SERVICE/html/images/products/.empty; rmdir /srv/$SERVICE/html/images/products/
 ln -s /mnt/$SERVICE/images/products  /srv/$SERVICE/html/images/products
 # verify
 ls -ld /srv/$SERVICE/html/images/products /srv/$SERVICE/html/{data,exports,dump,files}
@@ -671,24 +790,13 @@ some direct links:
 # off or off-pro
 SERVICE=off
 
-ln -s  /{mnt,srv}/$SERVICE/deleted.images
+ln -s  /mnt/$SERVICE/deleted.images /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_products_images /srv/$SERVICE
+ln -s  /mnt/$SERVICE/imports /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_private_products /srv/$SERVICE
 # verify
-ls -l /srv/$SERVICE/deleted.images
-```
-
-some specific links for **off** only:
-```bash
-ln -s  /{mnt,srv}/$SERVICE/deleted_products
-ln -s  /{mnt,srv}/$SERVICE/deleted_products_images
-ln -s  /{mnt,srv}/$SERVICE/imports
-# verify
-ls -l /srv/$SERVICE/{deleted_products,deleted_products_images,imports}
-```
-some specific links for **off-pro** only:
-```bash
-ln -s  /{mnt,srv}/$SERVICE/deleted_private_products
-# verify
-ls -l  /srv/$SERVICE/deleted_private_products
+ls -l /srv/$SERVICE/{deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products}
 ```
 
 Create and link cache folders:
@@ -718,6 +826,7 @@ sudo -u off ln -s /mnt/off-pro/cache/export_files /srv/off-pro/export_files
 ls -l /srv/$SERVICE/export_files
 ```
 
+
 We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
 ```bash
 # off or off-pro
@@ -726,24 +835,6 @@ cd srv/$SERVICE
 mv html/data/data-field.txt html/data-field.txt
 ln -s ../data-fields.txt html/data/data-fields.txt
 ```
-
-### Adding specific files
-
-Copying some well-known file on off (not off-pro):
-
-```
-mkdir /srv/off/conf/well-known
-cp /srv/off-old/html/.well-known/apple-app-site-association /srv/off/conf/well-known/off-apple-app-site-association
-ln -s /srv/off/conf/well-known/off-apple-app-site-association /srv/off/html/.well-known/apple-app-site-association
-cp /srv/off-old/html/.well-known/apple-developer-merchantid-domain-association /srv/off/conf/well-known/off-apple-developer-merchantid-domain-association
-ln -s /srv/off/conf/well-known/off-apple-developer-merchantid-domain-association /srv/off/html/.well-known/apple-developer-merchantid-domain-association
-# verify
-ls -l /srv/off/conf/well-known/off-apple-*
-```
-
-Then add `conf/well-known/off-apple-*` to git,
-and add `/html/.well-known/apple-*` to `.gitignore`.
-
 
 ### linking logs
 
@@ -889,11 +980,9 @@ ls -ld /srv/$SERVICE/lang
 
 ### Installing CPAN
 
-First added `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile
-
 ```bash
-cd /srv/obf
-sudo apt install libapache2-mod-perl2-dev
+cd /srv/off
+sudo cpanm --notest --quiet --skip-satisfied "Apache::Bootstrap"
 sudo cpanm --notest --quiet --skip-satisfied --installdeps .
 ```
 
@@ -908,48 +997,25 @@ A solution to that is to remove those directory in the git. But to avoid complex
 ## Setting up services
 
 
-### NGINX for $SERVICE and OPF (inside container)
-
+### NGINX for off and off-pro (inside their container)
 
 Installed nginx `sudo apt install nginx`.
 
 Removed default site `sudo unlink /etc/nginx/sites-enabled/default`
 
-On off2, Copied production nginx configuration of off1:
-```
-# base configs
-sudo scp 10.0.0.1:/etc/nginx/sites-enabled/off /zfs-hdd/pve/subvol-113-disk-0/srv/off/conf/nginx/sites-available/
-sudo scp 10.0.0.1:/etc/nginx/sites-enabled/off-pro /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro/conf/nginx/sites-available/
-# other config files
-sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-113-disk-0/srv/off/conf/nginx/snippets/
-sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro/conf/nginx/snipets/
-sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-113-disk-0/srv/off/conf/nginx/
-sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro/conf/nginx/
-sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-113-disk-0/srv/off/conf/
-sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-114-disk-0/srv/off-pro/conf
-```
-
-I added /srv/off/conf/nginx/conf.d/log_format_realip.conf (on off), same for off-pro, with same content as the one on off-prof (it's now in git).
+I added /srv/off/conf/nginx/conf.d/log_format_realip.conf (it's now in git).
 
 Then made symlinks:
-* For off:
-  ```bash
-  sudo ln -s /srv/off/conf/nginx/sites-available /etc/nginx/sites-enabled/off
-  sudo ln -s /srv/off/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
-  sudo ln -s /srv/off/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-  sudo ln -s /srv/off/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
-  sudo rm /etc/nginx/mime.types
-  sudo ln -s /srv/off/conf/nginx/mime.types /etc/nginx/
-  ```
-* For off-pro:
-  ```bash
-  sudo ln -s /srv/off-pro/conf/nginx/sites-available /etc/nginx/sites-enabled/off-pro
-  sudo ln -s /srv/off-pro/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
-  sudo ln -s /srv/off-pro/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-  sudo ln -s /srv/off-pro/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
-  sudo rm /etc/nginx/mime.types
-  sudo ln -s /srv/off-pro/conf/nginx/mime.types /etc/nginx/
-  ```
+```bash
+sudo ln -s /srv/$SERVICE/conf/nginx/sites-available /etc/nginx/sites-enabled/off
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+sudo ln -s /srv/$SERVICE/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+sudo rm /etc/nginx/mime.types
+sudo ln -s /srv/$SERVICE/conf/nginx/mime.types /etc/nginx/
+# verify
+ls -l /etc/nginx/sites-enabled/ /etc/nginx/snippets/ /etc/nginx/conf.d/log_format_realip.conf /etc/nginx/mime.types
+```
 
 On off and off-pro Modified their configuration to remove ssl section, change log path and access log format, and to set real_ip_resursive options (it's all in git)
 
@@ -972,7 +1038,14 @@ sudo nginx -t
 - **FIXME** create ZFS dataset for `/var/log`
 - **FIXME** run cron for carrefour import on off-pro side
 - **FIXME** handle sftp server… for imports
-- **FIXME** handles html/files - should be in git
+- **FIXME** handles html/files - should be in git ?
+  - keep files in data
+  - rename in git
+    - keep tagline ?
+    - keep ingredients analysis
+  - link needed files there
+  - move data/debug 
+  - 
 - **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx
 - **FIXME** schedule gen feeds smartly
 - **FIXME** add import services on off-pro
@@ -981,6 +1054,17 @@ sudo nginx -t
 - **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
 - **FIXME** are we writting to lang/ ?
 - **FIXME** move away things that are in html/files or do symlink for content that is in git ? Also files/debug for knowledge panels…
+- **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
+
+- **FIXME** imports
+  - auto: carrefour
+  - fleurymichon deactivated (no data since 2021 - to be relaunched)
+  - systemu is manual
+  - casino was manual
+  - import_csv_file.pl used by many
+  - genfeeds pour le reste - agena - equadis
+  - bayard is a wip
+  - intermarches is not auto but manual yet
 
 - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r
 
@@ -1003,8 +1087,8 @@ sudo nginx -t
 
 1. Rync all data (on off2):
   ```bash
+  # html/images/products/ is already in zfs dataset
   date && \
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/images/products/  /zfs-hdd/off/images/products/ && \
   sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/  /zfs-hdd/off/html_data/ && \
   sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/deleted.images/ /zfs-hdd/off/deleted.images/  && \
 
@@ -1078,10 +1162,12 @@ sudo nginx -t
 
 - check OCR is working
 - check syncs happens
+- check tag line is accessible (eg: https://world.openfoodfacts.org/files/tagline-off.json https://world.openfoodfacts.org/files/app/tagline/tagline-off-ios.json) even after removing those files from /srv/off/html/files/
 **FIXME**: add more
 
 ### Checks after five days
 
 - check OCR is working
 - check syncs happens
+- check sftp still happens
 **FIXME**: add more
