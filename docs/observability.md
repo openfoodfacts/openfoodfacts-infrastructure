@@ -1,8 +1,16 @@
 # Observability
 
-This document describes the observability stack used at Open Food Facts to monitor applications. 
+This document describes the observability stack used at Open Food Facts to monitor applications.
 
 Having a good observability stack is critical to spend less time when debugging failures, to have a comprehension of how applications behave over time, and to have the ability to compare a software version with the previously deployed one.
+
+## Munin
+
+See [Munin](./munin.md) a tool to monitor servers and services.
+
+## Influx / Prometheus / Grafana
+
+See [openfoodfacts-monitoring project on github](https://github.com/openfoodfacts/openfoodfacts-monitoring/)
 
 The observability stack used in the OFF stack is comprised of the following applications:
 
