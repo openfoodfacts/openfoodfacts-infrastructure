@@ -309,7 +309,7 @@ Using the web interface:
 
 Most of the time we use ssh to connect to containers and VM. See [how to create a user in a Container or VM](#how-to-create-a-user-in-a-container-or-vm)
 
-For the happy few sudoers on the host, they can attach to containers using `pct enter <num>` (or `lxc-attach -n <num>`) where `<num>` is the VM number. 
+For the happy few sudoers on the host, they can attach to containers using `pct enter <num>` (or `lxc-attach -n <num>`) where `<num>` is the VM number.
 This gives a root console in the container and has the advantage of not depending on the container network state.
 
 ## how to create a user in a Container or VM

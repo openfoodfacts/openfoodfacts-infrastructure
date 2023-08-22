@@ -16,6 +16,118 @@ git checkout off2-off-reinstall
 
 We will continuously push and pull on this branch.
 
+
+
+## installing a postgresql container
+
+### Created CT
+
+I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+
+It's 120 (off-postgres)
+
+I choosed a 20Gb disk on zfs-hdd, 0B swap, 2 Cores and 2 Gb memory.
+I added a disk on zfs-nvme mounted on /var/lib/postgresql/ with 5Gb size and noatime option.
+
+I did not create a user.
+
+I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+### Installed Postgres
+
+I simply used standard distribution package.
+
+```bash
+sudo apt install postgresql postgresql-contrib
+```
+
+### create off user
+
+On off1 we get user info:
+
+```bash
+sudo -u postgres pg_dumpall --globals-only   |less
+...
+CREATE ROLE off;
+ALTER ROLE off WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD '******';
+...
+```
+
+And we take relevant line to create off user in the container using `sudo -u postgres psql`.
+
+### testing database restore
+
+On off1, I did a dump of postgres minion database:
+
+```bash
+sudo -u postgres pg_dump -d minion --format=custom --file /tmp/$(date -Is -u)-minion.dump
+```
+
+On off2, we scp the file and restore it:
+
+```bash
+sudo scp 10.0.0.1:/tmp/2023-08-21T21:41:09+00:00-minion.dump /zfs-hdd/pve/subvol-120-disk-0/var/tmp/
+```
+
+and in the container:
+```bash
+sudo -u postgres pg_restore --create --clean -d postgres /var/tmp/2023-08-21T21:41:09+00:00-minion.dump
+```
+We have two errors, but they are expected.
+
+## installing a memcached container
+
+### Creating the container
+
+I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+
+It's 120 (off-postgres)
+I choosed a 15Gb disk on zfs-hdd, 0B swap, 2 Cores and 4 Gb memory.
+
+I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+I did not create a user.
+
+### installing memcached
+
+Inside container:
+
+```bash
+apt install memcached
+```
+
+### adding off-infrastructure repository
+
+```bash
+sudo ssh-keygen -f /root/.ssh/github_off-infra -t ed25519 -C "root-off-memcached-off-infra@openfoodfacts.org"
+sudo vim /root/.ssh/config
+…
+# deploy key for openfoodfacts-infra
+Host github.com-off-infra
+        Hostname github.com
+        IdentityFile=/root/.ssh/github_off-infra
+…
+cat /root/.ssh/github_off-infra.pub
+```
+
+Go to github add the off pub key for off to [off infra repository](https://github.com/openfoodfacts/openfoodfacts-infrastructure/settings/keys) with write access.
+
+Then clone repo in /opt:
+```bash
+git clone git@github.com-off-infra:openfoodfacts/openfoodfacts-infrastructure.git /opt/openfoodfacts-infrastructure
+```
+
+### configuring memcached
+
+We will use the file in git:
+
+```bash
+rm /etc/memcached.conf
+ln -s /opt/openfoodfacts-infrastructure/confs/off-memcached/memcached.conf /etc/
+systemctl restart memcached
+```
+
+
 ## Putting data in zfs datasets
 
 ### fixing a syslog bug
@@ -730,6 +842,7 @@ Contrary to $SERVICE, opf and opff we don't have to do this, as we know we are o
 
 diff -r -u  --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude="html/illustrations" --exclude "html/files" --exclude "html/exports"  --exclude "scripts/*.csv" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" --exclude="debug" --exclude="node_modules" --exclude="node_modules.old" --exclude="users" --exclude="lists" --exclude="data" --exclude="orgs" --exclude="html/images/products" --exclude=".git" /home/off/openfoodfacts-server /srv/off > /tmp/off-diff.patch
 
+
 ## Installing
 
 ### symlinks to mimic old structure
@@ -996,6 +1109,11 @@ A solution to that is to remove those directory in the git. But to avoid complex
 
 ## Setting up services
 
+### Modify settings for memcached and postgresql
+
+On off, edit `Config2.pm` to change:
+* `$memd_servers` to 10.1.0.121
+* `$server_options{minion_backend}{Pg}` to use 10.1.0.120 as the Postgres host
 
 ### NGINX for off and off-pro (inside their container)
 
@@ -1007,9 +1125,11 @@ I added /srv/off/conf/nginx/conf.d/log_format_realip.conf (it's now in git).
 
 Then made symlinks:
 ```bash
-sudo ln -s /srv/$SERVICE/conf/nginx/sites-available /etc/nginx/sites-enabled/off
+sudo ln -s /srv/$SERVICE/conf/nginx/sites-available/$SERVICE /etc/nginx/sites-enabled/
 sudo ln -s /srv/$SERVICE/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
 sudo ln -s /srv/$SERVICE/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/off.domain-redirects.include /etc/nginx/snippets
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/off.locations-redirects.include /etc/nginx/snippets
 sudo ln -s /srv/$SERVICE/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
 sudo rm /etc/nginx/mime.types
 sudo ln -s /srv/$SERVICE/conf/nginx/mime.types /etc/nginx/
@@ -1024,9 +1144,144 @@ test it:
 sudo nginx -t
 ```
 
-## installing a postgresql container
+### Apache
 
-## installing a memcached container
+We start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+```bash
+sudo unlink /etc/apache2/sites-enabled/000-default.conf
+sudo a2dismod mpm_event
+sudo a2enmod mpm_prefork
+sudo chown off:off -R /var/log/apache2 /var/run/apache2
+```
+and edit `/etc/apache2/envvars` to use off user:
+```
+#export APACHE_RUN_USER=www-data
+export APACHE_RUN_USER=off
+#export APACHE_RUN_GROUP=www-data
+export APACHE_RUN_GROUP=off
+```
+
+* Add configuration in sites enabled
+  ```bash
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/sites-available/$SERVICE.conf /etc/apache2/sites-enabled/
+  ```
+* link `mpm_prefork.conf` to a file in git, identical as the one in production
+  ```bash
+  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/$SERVICE-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  ```
+* use customized ports.conf (8004 and 8014)
+  ```bash
+  sudo rm /etc/apache2/ports.conf
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/$SERVICE-ports.conf /etc/apache2/ports.conf
+  ```
+
+
+test it in both container:
+```bash
+sudo apache2ctl configtest
+```
+
+We can restart apache2 then nginx:
+```bash
+sudo systemctl restart apache2
+sudo systemctl restart nginx
+```
+
+
+### creating systemd units for timers jobs and apache and nginx
+
+We install mailx
+
+```bash
+sudo apt install mailutils
+```
+
+We copy the units from opff branch in the current branch.
+
+```bash
+git checkout origin/opff-main conf/systemd/
+git add conf/systemd/
+git commit -a -m "build: added systemd units"
+```
+and link them at system level
+```bash
+# off or off-pro
+$SERVICE=off
+
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+# those are overides to get emails on failures
+sudo ln -s /srv/$SERVICE/conf/systemd/apache2.service.d /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/nginx.service.d /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/email-failures\@.service /etc/systemd/system
+# account for new services
+sudo systemctl daemon-reload
+```
+
+Test failure notification is working:
+
+```bash
+sudo systemctl start email-failures@gen_feeds__$SERVICE.service
+```
+
+**TODO** Test systemctl gen_feeds services are working:
+
+```bash
+sudo systemctl start gen_feeds_daily@$SERVICE.service
+sudo systemctl start gen_feeds@$SERVICE.service
+```
+
+**TODO** Activate systemd units:
+
+```bash
+sudo systemctl enable gen_feeds@$SERVICE.timer
+sudo systemctl enable gen_feeds_daily@$SERVICE.timer
+sudo systemctl daemon-reload
+```
+
+
+### log rotate perl logs
+
+```bash
+declare -x PROJ_NAME=obf
+```
+
+
+We get `conf/logrotate/apache` from opff in git repository:
+
+```bash
+cd /srv/$SERVICE
+sudo rm /etc/logrotate.d/apache2
+sudo ln -s /srv/$SERVICE/conf/logrotate/apache2 /etc/logrotate.d/apache2
+# logrotate needs root ownerships
+sudo chown root:root /srv/$SERVICE/conf/logrotate/apache2
+```
+
+We can test with:
+```bash
+sudo logrotate /etc/logrotate.conf --debug
+```
+
+### Installing mongodb client
+
+We need mongodb client to be able to export the database in gen_feeds.
+
+I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
+but we are on bullseye, and we just want to install tools.
+
+```bash
+curl -fsSL https://pgp.mongodb.com/server-4.4.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg \
+   --dearmor
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/4.4 main" | \
+  sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update
+sudo apt install -y  mongodb-database-tools
+```
+
 
 
 
@@ -1171,3 +1426,7 @@ sudo nginx -t
 - check syncs happens
 - check sftp still happens
 **FIXME**: add more
+
+### TODO after off1 re-install
+
+- add replications
