@@ -1242,6 +1242,15 @@ sudo systemctl enable gen_feeds_daily@$SERVICE.timer
 sudo systemctl daemon-reload
 ```
 
+### creating systemd units for minions and OCR
+
+For minions we simply link them
+```bash
+
+```
+
+**FIXME**: add images OCR service and minions
+
 
 ### log rotate perl logs
 

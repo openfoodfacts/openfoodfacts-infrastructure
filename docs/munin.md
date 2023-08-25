@@ -10,7 +10,11 @@ Munin also sends alerts messages to off@openfoodfacts.org.
 
 ## How to configure a server
 
-You must install the munin-node package on the server.
+You must install the munin-node package and extra plugins on the server:
+
+```
+sudo apt install munin-node munin-plugins-extra
+```
 
 You then configure in `/etc/munin/munin-node.conf`.
 The best is to have the config in this repository and symlink it:
