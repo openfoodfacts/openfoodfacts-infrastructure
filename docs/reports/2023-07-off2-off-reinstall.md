@@ -413,6 +413,9 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} 
 mkdir /zfs-hdd/off-pro/cache/new_imaqes
 mkdir /zfs-hdd/off-pro/cache/export_files
 mkdir /zfs-hdd/off/cache/export_files
+mkdir /zfs-hdd/off/cache/export_files
+mkdir /zfs-hdd/off/cache/export_files
+
 chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
 
 # data folder (we do not copy data from off-pro for it's shared with off)
@@ -422,6 +425,11 @@ time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_prod
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/
 # imports are on srv2 and only for off
 time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/
+# translations on off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/translate /zfs-hdd/off/
+# reverted_products on off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/reverted_products /zfs-hdd/off/
+
 # html/data, took 158 and 214 mins for off, fast for off-pro
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/
@@ -435,9 +443,11 @@ mkdir /zfs-hdd/off/deleted_private_products
 mkdir /zfs-hdd/off-pro/deleted_products
 mkdir /zfs-hdd/off-pro/deleted_products_images
 mkdir /zfs-hdd/off-pro/imports
+mkdir /zfs-hdd/off-pro/reverted_products
+mkdir /zfs-hdd/off-pro/translate
 chown 1000:1000 /zfs-hdd/off/deleted_private_products /zfs-hdd/off-pro/{deleted_products,deleted_products_images,imports}
 ```
-
+**FIXME** do we want to copy reverted_products ?
 
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 
@@ -876,7 +886,7 @@ ln -s /mnt/$SERVICE/products /srv/$SERVICE/products
 ln -s /mnt/$SERVICE/users /srv/$SERVICE/users
 ln -s /mnt/$SERVICE/orgs /srv/$SERVICE/orgs
 # verify
-ls -l /srv/$SERVICE/products /srv/$SERVICE/users /srv/$SERVICE/orgs
+ls -l /srv/$SERVICE/products /srv/$SERVICE/users /srv/$SERVICE/orgs /srv/$SERVICE/data
 ```
 
 Create links for data folders:
@@ -908,8 +918,13 @@ ln -s  /mnt/$SERVICE/deleted_products /srv/$SERVICE
 ln -s  /mnt/$SERVICE/deleted_products_images /srv/$SERVICE
 ln -s  /mnt/$SERVICE/imports /srv/$SERVICE
 ln -s  /mnt/$SERVICE/deleted_private_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/reverted_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/translate /srv/$SERVICE
+ln -s  /mnt/$SERVICE/cache/debug /srv/$SERVICE/
+ln -s  /mnt/$SERVICE/import_files /srv/$SERVICE/import_files
+ln -s /mnt/$SERVICE/data /srv/$SERVICE/data
 # verify
-ls -l /srv/$SERVICE/{deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products}
+ls -l /srv/$SERVICE/{deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products,reverted_products,translate,debug}
 ```
 
 Create and link cache folders:
@@ -1244,25 +1259,35 @@ sudo systemctl daemon-reload
 
 ### creating systemd units for minions and OCR
 
-For minions we simply link them
-```bash
+For minions and process that send images to OCR, we simply link them:
 
+```bash
+sudo ln -s /srv/$SERVICE/conf/minion\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/cloud_vision_ocr\@.service /etc/systemd/system
+sudo systemctl daemon-reload
 ```
 
-**FIXME**: add images OCR service and minions
 
+**TODO** Activate systemd units:
+
+```bash
+sudo systemctl enable minion@$SERVICE.timer
+sudo systemctl enable cloud_vision_ocr@$SERVICE.timer
+sudo systemctl daemon-reload
+```
+
+**TODO** Test it's working
 
 ### log rotate perl logs
 
 ```bash
-declare -x PROJ_NAME=obf
+declare -x SERVICE=off
 ```
 
 
 We get `conf/logrotate/apache` from opff in git repository:
 
 ```bash
-cd /srv/$SERVICE
 sudo rm /etc/logrotate.d/apache2
 sudo ln -s /srv/$SERVICE/conf/logrotate/apache2 /etc/logrotate.d/apache2
 # logrotate needs root ownerships
@@ -1291,6 +1316,120 @@ sudo apt update
 sudo apt install -y  mongodb-database-tools
 ```
 
+### Test with curl
+
+for off:
+```bash
+declare -x DOMAIN_NAME=openfoodfacts
+declare -x PORT_NUM=8004
+```
+
+for off-pro:
+```bash
+declare -x DOMAIN_NAME=pro.openfoodfacts
+declare -x PORT_NUM=8014
+```
+
+
+```bash
+sudo systemctl restart nginx apache2
+```
+
+
+```bash
+curl localhost:$PORT_NUM/cgi/display.pl --header "Host: fr.$DOMAIN_NAME.org"
+```
+
+Nginx call
+```bash
+curl localhost --header "Host: fr.$DOMAIN_NAME.org"
+curl localhost/css/dist/app-ltr.css --header "Host: static.$DOMAIN_NAME.org"
+```
+
+
+## Reverse proxy configuration
+
+### certbot wildcard certificates using OVH DNS
+
+**NOTE:** in reality a staging certificate was already generated when installing opff (by error).
+so I just report the procedure I would have done.
+
+We already install `python3-certbot-dns-ovh` so we just need to add credentials.
+
+```bash
+$ declare -x DOMAIN_NAME=openfoodfacts
+```
+
+off-pro use the same wildcard certificate as off given it's a subdomain of it.
+
+Generate credential, following https://eu.api.ovh.com/createToken/
+
+Using (for obf):
+* name: `off proxy openfoodfacts.org`
+* description: `nginx proxy on off2 for openfoodfacts.org`
+* validity: `unlimited`
+* GET `/domain/zone/`
+  (note: the last `/` is important !)
+* GET/PUT/POST/DELETE `/domain/zone/openfoodfacts.org/*`
+
+and we put config file in `/root/.ovhapi/openfoodfacts.org`
+```bash
+$ mkdir /root/.ovhapi
+$ vim /root/.ovhapi/$DOMAIN_NAME.org
+...
+$ cat /root/.ovhapi/$DOMAIN_NAME.org
+# OVH API credentials used by Certbot
+dns_ovh_endpoint = ovh-eu
+dns_ovh_application_key = ***********
+dns_ovh_application_secret = ***********
+dns_ovh_consumer_key = ***********
+
+# ensure no reading by others
+$ chmod og-rwx -R /root/.ovhapi
+```
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with `--test-cert`
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+```
+and then without `--test-cert`
+```bash
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+```
+
+### Create site config
+
+In the git repository, we copied the openpetfoodfacts config and changed names to the right domain.
+
+Then we linked them:
+```bash
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openfoodfacts.org /etc/nginx/sites-enabled/
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/pro.openfoodfacts.org /etc/nginx/sites-enabled/
+# test
+nginx -t
+systemctl restart nginx
+```
+
+## Testing
+
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openfoodfacts.org world-fr.openfoodfacts.org static.openfoodfacts.org images.openfoodfacts.org world.openfoodfacts.org
+213.36.253.214 fr.pro.openfoodfacts.org world-fr.pro.openfoodfacts.org static.pro.openfoodfacts.org images.pro.openfoodfacts.org world.pro.openfoodfacts.org
+```
+
+And it works at first try :tada: !
+
 
 
 
@@ -1299,7 +1438,9 @@ sudo apt install -y  mongodb-database-tools
 
 ### TODO befor switch
 
+- **FIXME** snapshot_purge should handle zfs/nvme !!!
 - **FIXME** create ZFS dataset for `/var/log`
+- **FIXME** do we want or ditch off.domain-redirects.include ?
 - **FIXME** run cron for carrefour import on off-pro side
 - **FIXME** handle sftp server… for imports
 - **FIXME** handles html/files - should be in git ?
