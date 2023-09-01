@@ -1419,6 +1419,123 @@ nginx -t
 systemctl restart nginx
 ```
 
+
+## Adding sftp to reverse proxy
+
+We want to add the sftp server on the reveres proxy so we can use it's public IP.
+
+
+### Add volume for data
+
+We want a shared ZFS dataset for sftp data between the reverse proxy and off-pro container.
+
+Create ZFS dataset, on off2:
+```bash
+sudo zfs create zfs-hdd/off-pro/sftp
+# make it accessible to root inside a container (where id 0 is mapped to 100000)
+chown 100000:100000 /zfs-hdd/off-pro/sftp/
+```
+
+We then change reverse proxy configuration (`/etc/pve/lxc/101.conf`) and off-pro (`/etc/pve/lxc/114.conf`) config to add a mount point. Somthing like `mp8: /zfs-hdd/off-pro/sftp,mp=/mnt/off-pro/sftp` (number after mp, depends on already existing one).
+
+But we also need to remap ids in 101 so that id above 1000 to keep their id on the host.
+So in `/etc/pve/lxc/101.conf`, we add similar sections as in the other containers.
+As we add more users for sftp, we will reserve for a big number of account (all above 1000).
+
+```conf
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 64536
+lxc.idmap: g 1000 1000 64536
+```
+I also had to change `/etc/subuid` and `/etc/subgid`  to enable this, and have
+
+```bash
+root:1000:64536
+```
+
+After that we have to reboot both containers.
+```bash
+sudo pct reboot 101
+sudo pct reboot 114
+```
+
+We verify it's working and we save config in off-infra project:
+```bash
+cd /opt/openfoodfacts-infrastructure/
+for ct in $(ls /etc/pve/lxc/*.conf)
+do
+  num=$(basename $ct .conf)
+  cp /etc/pve/lxc/$num.conf /opt/openfoodfacts-infrastructure/confs/off2/pve/lxc_$num.conf
+done
+cp /etc/pve/lxc/101.conf confs/off2/pve/lxc_101.conf
+cp /etc/pve/lxc/114.conf confs/off2/pve/lxc_114.conf
+git status 
+…
+```
+
+### Rsync existing data from off1
+
+on off2:
+```bash
+time rsync -a --info=progress2 10.0.0.1:/srv/sftp/ /zfs-hdd/off-pro/sftp/
+# change root dirs permission to correspond to root inside container
+chown 100000:100000 /zfs-hdd/off-pro/sftp/ /zfs-hdd/off-pro/sftp/*
+```
+it's quite fast.
+
+### Configure sftp
+
+In the reverse proxy container:
+We create a config file for sftp in our repository and link it:
+
+```bash
+mkdir /opt/openfoodfacts-infrastructure/confs/proxy-off/sshd_config
+touch /opt/openfoodfacts-infrastructure/confs/proxy-off/sshd_config/sftp
+ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/sshd_config/sftp /etc/ssh/sshd_config.d/
+```
+
+We then edit the file, the same way as on off1
+
+### Create sftp users
+
+We want to re-create sftp users as they where on off1.
+So instead of using command that creates them, we will copy them directly in /etc/passwd and /etc/groups in nginx proxy container. We also have to change their home directory.
+
+First, on off1, I did verify we have same users in our sshd config by using:
+
+```bash
+grep "^Match User" /etc/ssh/sshd_config | cut -d " " -f 3| sort
+grep /home/sftp /etc/passwd|cut -d ":" -f 1|sort
+```
+
+* sodebo is repeated in sshd_config, I fixed that.
+* test is in /etc/passwd but not in sshd_config, so I removed it.
+
+
+On off1:
+```bash
+grep /home/sftp /etc/passwd
+```
+
+I made a regexp to get all name and grep them from shadow and groups
+```bash
+exp=$(grep /home/sftp /etc/passwd|cut -d ":" -f 1|sort|tr  '\n' '|')
+exp="("$exp"nonexistinguser)"
+
+sudo grep -P "$exp" /etc/shadow
+sudo grep -P "$exp" /etc/groups
+```
+
+We add the corresponding result on the reverse proxy to `/etc/passwd` and `/etc/shadow`,
+using `vipw -p` and `vipw -s`.
+
+We also have to change their home directory in `/etc/passwd` to point to the shared directory. We do so using `vipw -p` (in vi: `:%s!\/home\/sftp!\/mnt/off-pro/sftp!g`)
+
+All those users are in sftponly group. So on reverse proxy we first add the group to `/etc/groups` using `vipw -g` (adding `sftponly:x:1006:`).
+As this is the primary group for all those users, it is already set in `/etc/passwd` by previous edit
+
+
 ## Testing
 
 
@@ -1428,9 +1545,6 @@ To test my installation I added this to `/etc/hosts` on my computer:
 213.36.253.214 fr.pro.openfoodfacts.org world-fr.pro.openfoodfacts.org static.pro.openfoodfacts.org images.pro.openfoodfacts.org world.pro.openfoodfacts.org
 ```
 
-And it works at first try :tada: !
-
-
 
 
 
@@ -1438,27 +1552,31 @@ And it works at first try :tada: !
 
 ### TODO befor switch
 
-- **FIXME** snapshot_purge should handle zfs/nvme !!!
-- **FIXME** create ZFS dataset for `/var/log`
-- **FIXME** do we want or ditch off.domain-redirects.include ?
-- **FIXME** run cron for carrefour import on off-pro side
-- **FIXME** handle sftp server… for imports
-- **FIXME** handles html/files - should be in git ?
+- **DONE** snapshot_purge should handle zfs/nvme !!!
+- **DONE** handle sftp server… for imports --> on proxy to have direct network
+- **DONE** handles html/files - should be in git ?
   - keep files in data
   - rename in git
     - keep tagline ?
     - keep ingredients analysis
   - link needed files there
-  - move data/debug 
-  - 
+  - move data/debug
+- **DONE** move away things that are in html/files or do symlink for content that is in git ? Also files/debug for knowledge panels…
+
+
+- **FIXME** create ZFS dataset for `/var/log`
+- **FIXME** add import services on off-pro
+- **FIXME** run cron for carrefour import on off-pro side
 - **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx
 - **FIXME** schedule gen feeds smartly
-- **FIXME** add import services on off-pro
 - **FIXME** what about /srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
 - **FIXME**: srv or srv2 /off-pro/codeonline-images-tmp, agena3000-data-tmp that is /off-pro/<producer>-{images,data}-tmp should be in cache
 - **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
 - **FIXME** are we writting to lang/ ?
-- **FIXME** move away things that are in html/files or do symlink for content that is in git ? Also files/debug for knowledge panels…
+  * Missions.pm does --> we don't use it anymore ? however change the code to be sure
+  * gen_sucres.pl and gen_sugar.pl do --> move it to another folder (files or data)
+  * gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
+- **FIXME** bug bandeau off
 - **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
 
 - **FIXME** imports
@@ -1472,6 +1590,9 @@ And it works at first try :tada: !
   - intermarches is not auto but manual yet
 
 - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r
+
+
+- **FIXME**: communicate on sftp IP change.
 
 
 ### Procedure for switch of off and off-pro from off1 to off2 (Still TODO)
