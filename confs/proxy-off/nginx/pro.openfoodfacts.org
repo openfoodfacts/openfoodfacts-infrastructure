@@ -15,9 +15,9 @@ server {
     server_name pro.openfoodfacts.org *.pro.openfoodfacts.org;
 
     # SSL/TLS settings
-    ssl_certificate /etc/letsencrypt/live/openfoodfacts.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/openfoodfacts.org/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/openfoodfacts.org/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/pro.openfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/pro.openfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/pro.openfoodfacts.org/chain.pem;
 
     # Harden SSL
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
