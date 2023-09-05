@@ -1,0 +1,73 @@
+# https redirect
+server {
+    listen 80;
+    listen [::]:80;
+    server_name madenear.me cestemballepresdechezvous.fr madenear.me.uk;
+
+    return 301 https://$host$request_uri;
+}
+# madenearme redirects
+server {
+        listen 80;
+        listen [::]:80;
+        server_name madenearme.com www.madenearme.com madenearme.org www.madenear.org madenear.com www.madenear.com www.madenear.me;
+        return 301 https://madenear.me$request_uri;
+}
+# madenearme-uk redirects
+server {
+        listen 80;
+        listen [::]:80;
+        server_name madenearme.uk www.madenearme.uk www.madenear.me.uk;
+        return 301 https://madenear.me.uk$request_uri;
+}
+# madenearme fr redirects
+server {
+        listen 80;
+        listen [::]:80;
+        server_name cestfabriquepresdechezvous.info www.cestemballepresdechezvous.fr www.cestemballepresdechezvous.info www.cestfabriquepresdechezvous.info;
+        return 301 https://cestemballepresdechezvous.fr$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name madenear.me cestemballepresdechezvous.fr madenear.me.uk;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/madenear.me/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/madenear.me/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/madenear.me/chain.pem;
+
+    # Harden SSL
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_ecdh_curve secp384r1;
+    #ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 9.9.9.9 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=63072000";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options DENY;
+
+    # logs location
+    access_log  /var/log/nginx/madenear.me.log  main;
+    error_log   /var/log/nginx/madenear.me.errors.log;
+
+    location / {
+        proxy_pass http://10.1.0.113:80/;
+        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+    }
+}
+
+
+
