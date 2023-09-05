@@ -17,7 +17,6 @@ git checkout off2-off-reinstall
 We will continuously push and pull on this branch.
 
 
-
 ## installing a postgresql container
 
 ### Created CT
@@ -1360,6 +1359,32 @@ curl localhost --header "Host: fr.$DOMAIN_NAME.org"
 curl localhost/css/dist/app-ltr.css --header "Host: static.$DOMAIN_NAME.org"
 ```
 
+### Nginx for madenearme on off
+
+We want to serve madenearme websites from the off container using nginx.
+
+It's the simplest way as it shares resources with off website.
+
+I first reworked the madenearme nginx configuration file to support uk and fr as well at once.
+
+Then linked config:
+
+```bash
+sudo ln -s /srv/off/conf/nginx/sites-available/madenearme /etc/nginx/sites-enabled/
+# test
+sudo nginx -t
+# restart
+sudo systemctl restart nginx
+```
+
+Test locally:
+
+```bash
+curl localhost --header "Host: madenear.me"
+curl localhost/ --header "Host: cestemballepresdechezvous.fr"
+curl localhost/ --header "Host: madenear.me.uk"
+```
+
 
 ## Reverse proxy configuration
 
@@ -1423,7 +1448,7 @@ For off-pro we use:
 $ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d pro.$DOMAIN_NAME.org -d "*.pro.$DOMAIN_NAME.org"
 ```
 
-### Create site config
+### Create site config for off and off-pro
 
 In the git repository, we copied the openpetfoodfacts config and changed names to the right domain.
 
@@ -1435,6 +1460,37 @@ sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/pro.openfoodf
 nginx -t
 systemctl restart nginx
 ```
+
+
+### Madenearme reverse proxy
+
+#### create site configuration
+
+We created the configuration without ssl, and activate it:
+
+```bash
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/madenear.me /etc/nginx/sites-enabled/
+# test
+sudo nginx -t
+# reload config
+sudo systemctl reload nginx
+```
+
+#### Generate certificates
+
+We can't generate certificates with certbot while madenearme does not resolve to the right server…
+and on old server, those are separate file, I don't want this here.
+But to test it, I did a copy of those of off1, only for madenearme domain.
+
+I tested it ok modifying my /etc/hosts to contain:
+`213.36.253.214 madenear.me`
+
+
+**FIXME** add other domain at migration time + activate SSL
+
+
+
+
 
 
 ## Adding sftp to reverse proxy
@@ -1582,16 +1638,17 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **DONE** create ZFS dataset for `/var/log`
 - **DONE** consider labelme deprecated. No data to recover it was on off2
 
-- **FIXME** is there anything to save for foodbattle ?
-  - code in /srv2/foodbattle
-  - data in mongodb
+- **DONE** is there anything to save for foodbattle ?
+  - (done) code in /srv2/foodbattle
+  - data in mongodb (none)
   - shared users folder with off
+- **DONE** do we need as same as /root/scripts/renew_wildcard_certificates.sh on VM 101 (reverse proxy) on ovh1 ?
+  - I don't think so, because certbot is able to handle this thanks to info in /etc/letsencrypt/renewal/openfoodfacts.org.conf
+
 
 - **FIXME** make a list of what we will rsync and what to backup from off1
 
 
-- **FIXME** add import services on off-pro
-- **FIXME** run cron for carrefour import on off-pro side
 - **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx - or just serve them with nginx in container ?
 - **FIXME** schedule gen feeds smartly
 - **FIXME** what about /srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
@@ -1604,8 +1661,10 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **FIXME** bug bandeau off --> update dist files
 - **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
 
-- **FIXME** imports
+- **FIXME** add systemd timer to launch export_producers_platform_data_to_public_database.sh on off-pro
+- **FIXME** imports (to run on off-pro side):
   - auto: carrefour
+    - modify to run on off-pro side
   - fleurymichon deactivated (no data since 2021 - to be relaunched)
   - systemu is manual
   - casino was manual
@@ -1712,7 +1771,9 @@ I look at the mongodb but did not find any foodbattle database.
 **WARNING**: finish writing it before running it !!!
 
 
-1. change TTL for openfoodfacts domains (including pro) to a low value in DNS
+1. change TTL to a low value in DNS
+  * for openfoodfacts domains (including pro)
+  * for madenear.me madenear.me.uk cestemballepresdechezvous and all other domains
 
 1. Redeploy the dist of off and off-pro on off2
 
@@ -1723,19 +1784,7 @@ I look at the mongodb but did not find any foodbattle database.
 1. on off1 comment users and orgs rsync in crontab
 
 1. Rync all data (on off2):
-  ```bash
-  # html/images/products/ is already in zfs dataset
-  date && \
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/  /zfs-hdd/off/html_data/ && \
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/deleted.images/ /zfs-hdd/off/deleted.images/  && \
-
-  **FIXME** add more !
-
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users/ /zfs-hdd/off/users/  && \
-  sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs/ /zfs-hdd/off/orgs/  && \
-  date
-  ```
-  off/cache is skipped, nothing of interest.
+   see above  [Rsync data](#rsync-data)
 
 4. products sync, on off1:
    - comment sto-products-sync.sh in root crontab
@@ -1752,7 +1801,7 @@ I look at the mongodb but did not find any foodbattle database.
    unlink /etc/nginx/sites-enabled/off && unlink /etc/nginx/sites-enabled/off-pro && systemctl reload nginx
    ```
 
-3. change DNS to point to new machine
+3. change DNS to point to new machine for openfoodfacts.org pro.openfoodfacts.org
 
 3. Rsync and zfs sync again (see above)
 
@@ -1775,6 +1824,17 @@ I look at the mongodb but did not find any foodbattle database.
    * off-pro  on container off2/114 (off-pro): `sudo systemctl start apache2 nginx`
 
 6. check it works (remember to also clean your /etc/hosts if you modified it for tests)
+
+7. change DNS for madenear.me cestemballepresdechezvous.fr madenear.me.uk
+
+7. regenerate the certificate for madenearme to have all domains:
+
+   ```bash
+   # test first
+   certbot certonly --test-cert -d madenear.me -d cestemballepresdechezvous.fr -d madenear.me.uk
+   # do it for real
+   certbot certonly -d madenear.me -d cestemballepresdechezvous.fr -d madenear.me.uk
+   ```
 
 6. disable off and off-pro service on off1:
    - `systemctl disable apache2@off`
