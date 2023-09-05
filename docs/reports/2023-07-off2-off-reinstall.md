@@ -81,7 +81,7 @@ We have two errors, but they are expected.
 
 I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
 
-It's 120 (off-postgres)
+It's 121 (off-memcached)
 I choosed a 15Gb disk on zfs-hdd, 0B swap, 2 Cores and 4 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
@@ -453,9 +453,11 @@ I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 
 And on ovh3 add them to `sanoid.conf` with `synced_data` template
 
-### FIXME: logs
+### logs
 
-**FIXME** create a ZFS volume for log and mount it in `/var/log`
+We rsync old logs in a separate files
+
+**FIXME** do it
 
 
 ## Creating Containers
@@ -966,24 +968,35 @@ ln -s ../data-fields.txt html/data/data-fields.txt
 
 ### linking logs
 
-We want logs to go in /var/logs.
+We want logs to go in /var/logs and really in /mnt/off/logs .
 
-We will create a directory for instance (obf/opf) and also add links to nginx and apache2 logs.
+We will create a directory for instance (off/off-pro) and also add links to nginx and apache2 logs.
 
 ```bash
 # off or off-pro
 SERVICE=off
 
+# be sure to avoid having apache2 or nginx writing
+
+sudo systemctl stop apache2 nginx
 sudo -u off rm -rf /srv/$SERVICE/logs/
 
-sudo mkdir /var/log/$SERVICE
+sudo mkdir /mnt/$SERVICE/logs/$SERVICE
+sudo ln -s /mnt/$SERVICE/logs/$SERVICE /var/log/
 sudo chown off:off -R /var/log/$SERVICE
-sudo -u off ln -s /var/log/$SERVICE /srv/$SERVICE/logs
+sudo -u off ln -s /mnt/$SERVICE/logs/$SERVICE /srv/$SERVICE/logs
+
+# also move nginx and apache logs
+sudo mv /var/log/nginx /mnt/$SERVICE/logs
+sudo mv /var/log/apache2 /mnt/$SERVICE/logs
+sudo ln -s /mnt/$SERVICE/logs/nginx /var/log
+sudo ln -s /mnt/$SERVICE/logs/apache2 /var/log
+
 sudo  -u off ln -s ../apache2 /var/log/$SERVICE
 sudo -u off ln -s ../nginx /var/log/$SERVICE
 
 # verify
-ls -l /srv/$SERVICE/logs /srv/$SERVICE/logs/
+ls -l /srv/$SERVICE/logs /srv/$SERVICE/logs/ /var/log/{$SERVICE,nginx,apache2}
 ```
 
 Copy original `log.conf` and `minion_log.conf` and make it a symlink.
@@ -1204,7 +1217,7 @@ sudo systemctl restart nginx
 ```
 
 
-### creating systemd units for timers jobs and apache and nginx
+### creating systemd units for timers gen feeds jobs and apache and nginx
 
 We install mailx
 
@@ -1262,8 +1275,8 @@ sudo systemctl daemon-reload
 For minions and process that send images to OCR, we simply link them:
 
 ```bash
-sudo ln -s /srv/$SERVICE/conf/minion\@.service /etc/systemd/system
-sudo ln -s /srv/$SERVICE/conf/cloud_vision_ocr\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/minion\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/cloud_vision_ocr\@.service /etc/systemd/system
 sudo systemctl daemon-reload
 ```
 
@@ -1271,9 +1284,10 @@ sudo systemctl daemon-reload
 **TODO** Activate systemd units:
 
 ```bash
-sudo systemctl enable minion@$SERVICE.timer
-sudo systemctl enable cloud_vision_ocr@$SERVICE.timer
-sudo systemctl daemon-reload
+sudo systemctl enable minion@$SERVICE.service
+sudo systemctl enable cloud_vision_ocr@$SERVICE.service
+sudo systemctl start minion@$SERVICE.service
+sudo systemctl start cloud_vision_ocr@$SERVICE.service
 ```
 
 **TODO** Test it's working
@@ -1351,20 +1365,17 @@ curl localhost/css/dist/app-ltr.css --header "Host: static.$DOMAIN_NAME.org"
 
 ### certbot wildcard certificates using OVH DNS
 
-**NOTE:** in reality a staging certificate was already generated when installing opff (by error).
-so I just report the procedure I would have done.
-
 We already install `python3-certbot-dns-ovh` so we just need to add credentials.
 
 ```bash
 $ declare -x DOMAIN_NAME=openfoodfacts
 ```
 
-off-pro use the same wildcard certificate as off given it's a subdomain of it.
+**Note:** off-pro does not use the same wildcard certificate as off because *.pro.openfoodfacts.org is not in *.openfoodfacts.org. But it can use the same OVH credentials.
 
 Generate credential, following https://eu.api.ovh.com/createToken/
 
-Using (for obf):
+Using (for off):
 * name: `off proxy openfoodfacts.org`
 * description: `nginx proxy on off2 for openfoodfacts.org`
 * validity: `unlimited`
@@ -1404,6 +1415,12 @@ $ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.or
  - Congratulations! Your certificate and chain have been saved at:
    /etc/letsencrypt/live/xxxxx.org/fullchain.pem
 ...
+```
+
+For off-pro we use:
+
+```bash
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d pro.$DOMAIN_NAME.org -d "*.pro.$DOMAIN_NAME.org"
 ```
 
 ### Create site config
@@ -1562,12 +1579,20 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - link needed files there
   - move data/debug
 - **DONE** move away things that are in html/files or do symlink for content that is in git ? Also files/debug for knowledge panels…
+- **DONE** create ZFS dataset for `/var/log`
+- **DONE** consider labelme deprecated. No data to recover it was on off2
+
+- **FIXME** is there anything to save for foodbattle ?
+  - code in /srv2/foodbattle
+  - data in mongodb
+  - shared users folder with off
+
+- **FIXME** make a list of what we will rsync and what to backup from off1
 
 
-- **FIXME** create ZFS dataset for `/var/log`
 - **FIXME** add import services on off-pro
 - **FIXME** run cron for carrefour import on off-pro side
-- **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx
+- **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx - or just serve them with nginx in container ?
 - **FIXME** schedule gen feeds smartly
 - **FIXME** what about /srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
 - **FIXME**: srv or srv2 /off-pro/codeonline-images-tmp, agena3000-data-tmp that is /off-pro/<producer>-{images,data}-tmp should be in cache
@@ -1576,7 +1601,7 @@ To test my installation I added this to `/etc/hosts` on my computer:
   * Missions.pm does --> we don't use it anymore ? however change the code to be sure
   * gen_sucres.pl and gen_sugar.pl do --> move it to another folder (files or data)
   * gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
-- **FIXME** bug bandeau off
+- **FIXME** bug bandeau off --> update dist files
 - **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
 
 - **FIXME** imports
@@ -1589,17 +1614,103 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - bayard is a wip
   - intermarches is not auto but manual yet
 
-- **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r
+- **FIXME** decide for howmanysugar
+
+
+- **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
 
 
 - **FIXME**: communicate on sftp IP change.
 
+
+### Rsync data
+
+This is the data rsync sequence:
+
+```bash
+date
+# users
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users  /zfs-hdd/off/users
+# orgs
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs  /zfs-hdd/off/orgs
+# pro images
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/
+# some cache folders
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_images} /zfs-hdd/off/cache/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/
+# data folders (shared with off-pro)
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/
+# other data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images} /zfs-hdd/off/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/
+# imports for off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/
+# translations for off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/translate /zfs-hdd/off/
+# reverted_products on off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/reverted_products /zfs-hdd/off/
+# html/data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html_data/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/
+# sftp
+time rsync -a --info=progress2 10.0.0.1:/srv/sftp/ /zfs-hdd/off-pro/sftp/
+
+date
+```
+
+Don't forget to also change ownership if needed
+
+```bash
+chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
+```
+
+### Backup data
+
+**FIXME**: list what we should backup
+
+html/illustrations
+scripts/*.csv
+/srv2/backup ?
+
+/home/off ?
+
+
+#### code
+
+ftpbackup ??? -- WARNING: security key inside
+remote_backup.sh ??? (viabloga and joueb)
+
+/home/scripts - already done in off-infrastructure
+
+lowdiskspace.pl ?
+mdstat
+
+#### users data
+
+rsync -a --info=progress2 -x 10.0.0.1:/srv2/stephane /zfs-hdd/backups/off1-2023/srv2-stephane
+rsync -a --info=progress2 -x 10.0.0.1:/srv2/teolemon /zfs-hdd/backups/off1-2023/srv2-teolemon
+
+
+
+#### foodbatle
+
+on off2:
+```bash
+mkdir /zfs-hdd/backups/off1-2023
+rsync -a --info=progress2 -x 10.0.0.1:/srv2/foodbattle /zfs-hdd/backups/off1-2023/
+```
+
+I look at the mongodb but did not find any foodbattle database.
 
 ### Procedure for switch of off and off-pro from off1 to off2 (Still TODO)
 
 **NOTE**: we do both in a row because we don't want to deal with NFS for off / off-pro communication
 
 **WARNING**: finish writing it before running it !!!
+
 
 1. change TTL for openfoodfacts domains (including pro) to a low value in DNS
 
@@ -1609,7 +1720,7 @@ To test my installation I added this to `/etc/hosts` on my computer:
    * off on **off2** `sudo systemctl stop apache2 nginx`
    * off-pro on **off2** `sudo systemctl stop apache2 nginx`
 
-1. on off1 comment users and orgs sync in crontab
+1. on off1 comment users and orgs rsync in crontab
 
 1. Rync all data (on off2):
   ```bash

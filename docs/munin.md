@@ -19,7 +19,7 @@ sudo apt install munin-node munin-plugins-extra
 You then configure in `/etc/munin/munin-node.conf`.
 The best is to have the config in this repository and symlink it:
 ```bash
-rm rm /etc/munin/munin-node.conf && \
+rm /etc/munin/munin-node.conf && \
 ln -s /opt/openfoodfacts-infrastructure/confs/<YOUR-SERVER>/munin/munin-node.conf /etc/munin/
 systemctl restart munin-node
 ```
