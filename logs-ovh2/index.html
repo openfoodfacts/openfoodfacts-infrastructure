@@ -444,6 +444,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ovh2 server logs
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -453,6 +464,32 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2023-09-04-cleaning-docker-monitoring-vm" class="md-nav__link">
+    2023-09-04 cleaning docker monitoring VM
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1404,6 +1441,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2023-09-04-cleaning-docker-monitoring-vm" class="md-nav__link">
+    2023-09-04 cleaning docker monitoring VM
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1423,6 +1475,14 @@
 <h1 id="ovh2-server-logs">ovh2 server logs<a class="headerlink" href="#ovh2-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on ovh2 server.
 Keep things short or write a report.</p>
+<h2 id="2023-09-04-cleaning-docker-monitoring-vm">2023-09-04 cleaning docker monitoring VM<a class="headerlink" href="#2023-09-04-cleaning-docker-monitoring-vm" title="Permanent link">#</a></h2>
+<p>In order to enable using off-query on staging (which will consume around 35G of data)</p>
+<ul>
+<li>removed the <code>monitoring/</code> docker containers and volumes (docker-compose down -v) and the folder
+  as they were moved to their own container (see <a href="../reports/2022-11-09-monitoring-move-to-own-vm/">2022-11 moving monitoring to its own machine</a>)</li>
+<li><code>docker volume prune</code>  reclaimed space.</li>
+<li>from 76G (out of 294) of free space we are back to 118G.</li>
+</ul>
 
 
 
