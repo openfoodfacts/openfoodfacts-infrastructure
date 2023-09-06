@@ -405,6 +405,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
+    2023-09-05 exim paniclog
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
     2023-07-25 Disk full on /rpool/off/products
   </a>
@@ -1448,6 +1455,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
+    2023-09-05 exim paniclog
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
     2023-07-25 Disk full on /rpool/off/products
   </a>
@@ -1475,6 +1489,13 @@
 <h1 id="off1-server-logs">off1 server logs<a class="headerlink" href="#off1-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on off1 server.
 Keep things short or write a report.</p>
+<h2 id="2023-09-05-exim-paniclog">2023-09-05 exim paniclog<a class="headerlink" href="#2023-09-05-exim-paniclog" title="Permanent link">#</a></h2>
+<p>We have an alert since 09-03 because <code>/var/log/exim4/paniclog</code> is not empty.
+Indeed it has a line saying <code>2023-09-03 04:17:57 daemon: fork of queue-runner process failed: Cannot allocate memory</code>
+But appart from this it's all ok. Alert will remain until this paniclog is empty.
+I did a:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/log/exim4<span class="p">;</span><span class="w"> </span>mv<span class="w"> </span>paniclog<span class="w"> </span>paniclog.1<span class="p">;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>exim4
+</code></pre></div></p>
 <h2 id="2023-07-25-disk-full-on-rpooloffproducts">2023-07-25 Disk full on /rpool/off/products<a class="headerlink" href="#2023-07-25-disk-full-on-rpooloffproducts" title="Permanent link">#</a></h2>
 <p>See <a href="reports/2023-07-26-rpool-off-products-full.md">2023-07-26 rpool/off/products dataset full on off1</a></p>
 
