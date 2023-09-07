@@ -500,6 +500,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-09-07-zfs-dataset-stalled" class="md-nav__link">
+    2023-09-07 ZFS dataset stalled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-07-16-disk-sdc-errors-on-ovh3" class="md-nav__link">
     2023-07-16 Disk sdc errors on OVH3
   </a>
@@ -1469,6 +1476,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-09-07-zfs-dataset-stalled" class="md-nav__link">
+    2023-09-07 ZFS dataset stalled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-07-16-disk-sdc-errors-on-ovh3" class="md-nav__link">
     2023-07-16 Disk sdc errors on OVH3
   </a>
@@ -1517,6 +1531,15 @@
 <h1 id="ovh3-server-logs">ovh3 server logs<a class="headerlink" href="#ovh3-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on ovh3 server.
 Keep things short or write a report.</p>
+<h2 id="2023-09-07-zfs-dataset-stalled">2023-09-07 ZFS dataset stalled<a class="headerlink" href="#2023-09-07-zfs-dataset-stalled" title="Permanent link">#</a></h2>
+<p>The day before, we switch back images.openfoodfacts.org to ovh3.
+Alert was images.openfoodfacts.org down.
+Trying to restart nginx, it failed and left behind zombie processes, that can't be killed even with <code>kill -9</code> (meaning there a stuck waiting an I/O).
+I could list a file (<code>ls /rpool/off/images/products/376/002/924/8001/1.100.jpg</code>)
+but getting content wait indefinitely (<code>cat /rpool/off/images/products/376/002/924/8001/1.json</code>).
+zpool status takes a lot of time to run and indicates 1 READ error on sdb.
+We did a hard reboot.
+see <a href="https://openfoodfacts.slack.com/archives/C01F18SQ8F7/p1694089024775499">Slack thread</a>.</p>
 <h2 id="2023-07-16-disk-sdc-errors-on-ovh3">2023-07-16 Disk sdc errors on OVH3<a class="headerlink" href="#2023-07-16-disk-sdc-errors-on-ovh3" title="Permanent link">#</a></h2>
 <p>See <a href="../reports/2023-07-16-ovh3-sdc-broken/"> 2023-07-16 Disk sdc errors on OVH3</a></p>
 <h2 id="2023-06-08-zfs-dataset-stalled">2023-06-08 ZFS dataset stalled<a class="headerlink" href="#2023-06-08-zfs-dataset-stalled" title="Permanent link">#</a></h2>
