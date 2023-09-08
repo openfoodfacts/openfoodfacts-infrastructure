@@ -13,6 +13,13 @@ It as a specific network configurations with two ethernet address:
 
 [^proxmox_multiple_gateway]: The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also [ovh reverse proxy incident of 2022-02-18](./reports/2022-02-18-ovh-reverse-proxy-down.md)
 
+## Banning bots
+
+We ban bots from the reverse proxy (more efficient and centralized).
+Most of the time this is a manual ban.
+
+See [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
+
 ## Configuring a new service
 
 To make a new service, hosted on Proxmox, available you need to:
