@@ -780,6 +780,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-useful-commands" class="md-nav__link">
+    Some useful commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox" class="md-nav__link">
     Proxmox
   </a>
@@ -1517,6 +1524,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-useful-commands" class="md-nav__link">
+    Some useful commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox" class="md-nav__link">
     Proxmox
   </a>
@@ -1590,6 +1604,21 @@
 <p>See also <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a> 
 and <a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device">Proxmox ZFS documentation</a></p>
 <p>Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview</p>
+<h2 id="some-useful-commands">Some useful commands<a class="headerlink" href="#some-useful-commands" title="Permanent link">#</a></h2>
+<ul>
+<li><code>zpool status</code> to see eventual errors</li>
+<li>
+<p><code>zpool list -v</code> to see all device</p>
+<p><strong>Note</strong>: there is a quirk with ALLOC which is different for mirror pools and raidz pools.
+On the first it's allocated space to datasets, on the second it's used space.</p>
+</li>
+</ul>
+<ul>
+<li><code>zfs list -r</code> to get all datasets and their mountpoints<ol>
+<li>zpool list -v list all devices</li>
+</ol>
+</li>
+</ul>
 <h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
 <p>Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.</p>
 <h2 id="using-sanoid">Using sanoid<a class="headerlink" href="#using-sanoid" title="Permanent link">#</a></h2>
