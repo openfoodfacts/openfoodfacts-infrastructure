@@ -13,6 +13,18 @@ and [Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadm
 
 Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 
+
+## Some useful commands
+
+* `zpool status` to see eventual errors
+* `zpool list -v` to see all device
+
+  **Note**: there is a quirk with ALLOC which is different for mirror pools and raidz pools.
+  On the first it's allocated space to datasets, on the second it's used space.
+
+* `zfs list -r` to get all datasets and their mountpoints
+  3. zpool list -v list all devices
+
 ## Proxmox
 
 Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.
