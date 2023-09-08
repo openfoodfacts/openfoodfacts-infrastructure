@@ -1645,14 +1645,39 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **DONE** do we need as same as /root/scripts/renew_wildcard_certificates.sh on VM 101 (reverse proxy) on ovh1 ?
   - I don't think so, because certbot is able to handle this thanks to info in /etc/letsencrypt/renewal/openfoodfacts.org.conf
 
+- **DOING** (alex): make agena and equadis imports run on off-pro side
+  - (alex) modify scripts
+  - (stephane) test xml_to_json.pl vs xml_to_json.js
+  - (alex) make a specific systemd task for producers imports
+  - **FIXME**: (alex) srv or srv2 /off-pro/codeonline-images-tmp, agena3000-data-tmp that is /off-pro/<producer>-{images,data}-tmp should be in cache
 
 - **FIXME** make a list of what we will rsync and what to backup from off1
+  - (done) list of what we will rsync
+  - (todo) what to backup from off1
+
+- **DOING** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx - or just serve them with nginx in container ?
+  - **FIXME** (alex) test map with reverse proxy
+  - **DOING**: (alex) make a specific systemd task for madenear.me generation
+
+- **DOING:** migrate ip tables rules
+  - on reverse proxy
+  - (done) use fail2ban instead of iptables
+  - (done) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
+
+- **FIXME:** review the VM limits configurations
+- **FIXME**  stress test VM on CPU and on Memory
+- **FIXME** what about zfs-old, can we add it to zfs-nvme ?
+
+- **FIXME** change my user uid/gid on off2 and create a off user with uid 1000
+  to avoid ps -elf giving misleading information
+
+- **FIXME** update all the documentation from install logs !
+
+- high fragmentation on ssd -- seems ok since it's not a problem for read and it will write back small files
 
 
-- **FIXME** move madenearme*.htm and cestemballe*.html in ZFS and serve with nginx - or just serve them with nginx in container ?
-- **FIXME** schedule gen feeds smartly
-- **FIXME** what about /srv/off-old/reverted_products/376_024_976_1717_product.sto -> 21.sto
-- **FIXME**: srv or srv2 /off-pro/codeonline-images-tmp, agena3000-data-tmp that is /off-pro/<producer>-{images,data}-tmp should be in cache
+
+
 - **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
 - **FIXME** are we writting to lang/ ?
   * Missions.pm does --> we don't use it anymore ? however change the code to be sure
@@ -1660,6 +1685,8 @@ To test my installation I added this to `/etc/hosts` on my computer:
   * gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
 - **FIXME** bug bandeau off --> update dist files
 - **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
+
+- **FIXME** schedule gen feeds smartly
 
 - **FIXME** add systemd timer to launch export_producers_platform_data_to_public_database.sh on off-pro
 - **FIXME** imports (to run on off-pro side):
@@ -1673,7 +1700,10 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - bayard is a wip
   - intermarches is not auto but manual yet
 
-- **FIXME** decide for howmanysugar
+- **FIXME** (alex) migrate howmanysugar
+  - put html in html/data
+  - it's ok if gen_sugar does not work
+  - sugar_random and sugar_check should work (to fix)
 
 
 - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
@@ -1735,17 +1765,15 @@ scripts/*.csv
 /srv2/backup ?
 
 /home/off ?
+/home/off ?
+/home/off ?
 
 
 #### code
 
-ftpbackup ??? -- WARNING: security key inside
-remote_backup.sh ??? (viabloga and joueb)
-
-/home/scripts - already done in off-infrastructure
-
-lowdiskspace.pl ?
-mdstat
+- /home/scripts - already done in off-infrastructure
+  - ftpbackup - obsolete (warning password inside)
+  - remote_backup.sh - obsolete
 
 #### users data
 
