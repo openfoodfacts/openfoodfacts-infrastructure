@@ -1,0 +1,11 @@
+# In practice we also use this to ban bots ip manually
+[nginx-botsearch]
+enabled = true
+filter = nginx-botsearch
+logpath = /var/log/nginx/*log
+port = 80,443
+# make bantime infinite, because we use it to manually ban bots IPs.
+bantime=-1
+
+
+

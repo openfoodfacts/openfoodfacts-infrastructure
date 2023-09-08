@@ -1,0 +1,2 @@
+[Init]
+nftables_table = fail2ban
