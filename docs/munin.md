@@ -26,3 +26,27 @@ systemctl restart munin-node
 
 
 Look at other conf for munin, eg. `confs/off2/munin/munin-node.conf`.
+
+### More plugins
+
+To get zfs plugins we have to install contrib plugins.
+
+Clone In `/opt`:
+```bash
+sudo git clone git@github.com:munin-monitoring/contrib.git munin-contrib
+```
+
+sudo mkdir -p /usr/local/munin/lib/plugins
+sudo ln -s /opt/munin-contrib/plugins /usr/local/munin/lib/
+
+
+### ZFS plugins
+
+
+
+Activate zfs by linking. We prefer to keep the standard directory as a link
+```bash
+# activate zfs_arcstats zfs_cache_efficiency zpool_capacity and zpool_iostat
+sudo ln -s /usr/local/munin/lib/plugins/zfs/{zfs_arcstats,zfs_cache_efficiency,zpool_capacity,zpool_iostat} /etc/munin/plugins/
+sudo systemctl restart munin-node
+```
