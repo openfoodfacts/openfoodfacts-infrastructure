@@ -446,7 +446,6 @@ mkdir /zfs-hdd/off-pro/reverted_products
 mkdir /zfs-hdd/off-pro/translate
 chown 1000:1000 /zfs-hdd/off/deleted_private_products /zfs-hdd/off-pro/{deleted_products,deleted_products_images,imports}
 ```
-**FIXME** do we want to copy reverted_products ?
 
 I already add them to `/etc/sanoid/syncoid-args.conf` so sync will happen.
 

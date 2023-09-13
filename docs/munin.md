@@ -40,13 +40,19 @@ sudo mkdir -p /usr/local/munin/lib/plugins
 sudo ln -s /opt/munin-contrib/plugins /usr/local/munin/lib/
 
 
-### ZFS plugins
-
-
+#### ZFS plugins
 
 Activate zfs by linking. We prefer to keep the standard directory as a link
 ```bash
 # activate zfs_arcstats zfs_cache_efficiency zpool_capacity and zpool_iostat
 sudo ln -s /usr/local/munin/lib/plugins/zfs/{zfs_arcstats,zfs_cache_efficiency,zpool_capacity,zpool_iostat} /etc/munin/plugins/
+sudo systemctl restart munin-node
+```
+
+#### NGINX plugins
+
+```bash
+# activate nginx-cache-hit-rate nginx_error nginx_memory nginx_connection_request
+sudo ln -s /usr/local/munin/lib/plugins/nginx/{nginx-cache-hit-rate,nginx_error,nginx_memory,nginx_connection_request} /etc/munin/plugins/
 sudo systemctl restart munin-node
 ```
