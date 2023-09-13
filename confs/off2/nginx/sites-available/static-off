@@ -3,6 +3,35 @@ log_format combined_upstream '$remote_addr - $remote_user [$time_local] '
                     '"$request" $status $body_bytes_sent '
                     '"$http_referer" "$http_user_agent" c=$upstream_cache_status u=$upstream_addr t=$request_time';
 
+# mapping to expected image size (approximately)
+# for smart rate limiting
+map $uri $response_size {
+	default small_size;
+	# full image either have full, or ar 1.jpg
+	"~*\.full\.jpg" big_size;
+	"~*/\d+\.jpg" big_size;
+}
+map $response_size $big_rate_key {
+	default $binary_remote_addr;
+	small_size '';  # skipped
+}
+map $response_size $small_rate_key {
+	default $binary_remote_addr;
+	big_size '';  # skipped
+}
+
+# rate limit, differentiate between small an full req
+# small (loading search page: 100 product images + burst for assets) * 10
+limit_req_zone $small_rate_key zone=small_size:10m rate=1000r/m;
+# some full image per minutes should be enough
+limit_req_zone $big_rate_key zone=big_size:10m rate=50r/m;
+
+# DRY RUN until we decide to activate it
+limit_req_dry_run on;
+
+# use a clear status
+limit_req_status 429;
+
 upstream openfoodfacts {
 	server 10.0.0.2:443 weight=100;
 	server off1.openfoodfacts.org:443;
@@ -48,6 +77,10 @@ server {
 	}
 
 	location / {
+		# rate limit based on size
+		limit_req zone=big_size burst=2 nodelay;
+		limit_req zone=small_size burst=100 nodelay;
+
 		# test en local, puis sur off1
 		try_files		$uri @off1;
 		sendfile		on;
