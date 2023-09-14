@@ -27,14 +27,17 @@ systemctl restart fail2ban
 ## Using it
 
 ### See banned ips
+
 ```bash
 sudo fail2ban-client status nginx-botsearch
 ```
 
 ### Ban an ip
+
 ```bash
 sudo fail2ban-client set nginx-botsearch banip <IP>
 ```
+Note that it support ip ranges, like `123.456.789.1/24`
 
 ### Unban an ip
 ```bash
