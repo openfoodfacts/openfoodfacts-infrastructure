@@ -18,9 +18,12 @@ ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/nftables.
 systemctl restart nftables
 ```
 
+
 Configure fail2ban to use nftables rule, and fail2ban table:
 ```bash
 ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/action.d/nftables-common.local /etc/fail2ban/action.d/
+# also override the fail2ban nftables action so that it handles ip interval like 10.0.0.0/24
+ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/action.d/nftables.local /etc/fail2ban/action.d/
 ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/jail.d/use-nftable.local /etc/fail2ban/jail.d/
 ```
 
@@ -30,4 +33,23 @@ ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/systemd/f
 
 systemctl daemon-reload
 systemctl restart fail2ban
+```
+
+## Seeing it in action
+
+If you have ip in a jail
+```bash
+fail2ban-client status
+fail2ban-client status <jail-name>
+```
+
+You should see it in the corresponding addr_set elements (`addr-set-<jainame>`):
+
+```bash
+# all rules
+nftable list ruleset
+# more precise: fail2ban table
+nft list table inet f2b-table
+# more precise: fail2ban addr_set
+nft list set inet f2b-table addr-set-<jail-name>
 ```

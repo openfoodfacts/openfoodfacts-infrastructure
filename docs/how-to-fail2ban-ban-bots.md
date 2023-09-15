@@ -8,16 +8,23 @@ sudo apt install fail2ban
 
 On debian 11, also follow [How to install fail2ban on debian 11+](./how-to-fail2ban-debian-11+.md)
 
+## Configuring some filters
 
-## Configuring nginx-botsearch.conf
+We normally install those filters, with standard configurations:
 
-We can use nginx-botsearch jail to ban bots to use our web services.
+`nginx-botsearch` (banning bots that blindly search for old software install)
+and `nginx-http-auth` (banning bots making too much failed auth attempts)
 
-In practice, we will use manual ban, with a permanent bantime.
+## Configuring a jail for manual ban
 
-Enable fail2ban nginx-botsearch with our specific configuration:
+We can create a new jail to ban bots from using our web services.
+
+In practice, we will use the nginx-botsearch filter on a fake log file,
+and add ips manually to the jail with a permanent bantime.
+
+Enable fail2ban nginx-manual-ban jail with our specific configuration:
 ```bash
-ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/jail.d/nginx-botsearch.local /etc/fail2ban/jail.d/
+ln -s /opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/jail.d/nginx-manual-ban.local /etc/fail2ban/jail.d/
 systemctl restart fail2ban
 ```
 
@@ -29,17 +36,20 @@ systemctl restart fail2ban
 ### See banned ips
 
 ```bash
-sudo fail2ban-client status nginx-botsearch
+sudo fail2ban-client status nginx-manual-ban
 ```
 
 ### Ban an ip
 
 ```bash
-sudo fail2ban-client set nginx-botsearch banip <IP>
+sudo fail2ban-client set nginx-manual-ban banip <IP>
 ```
-Note that it support ip ranges, like `123.456.789.1/24`
+
+Note that it supports ip ranges, like `123.456.789.1/24`
 
 ### Unban an ip
 ```bash
-sudo fail2ban-client set nginx-botsearch unbanip <IP>
+sudo fail2ban-client set nginx-manual-ban unbanip <IP>
 ```
+
+If ip is part of a range, the whole range must be unbanned.

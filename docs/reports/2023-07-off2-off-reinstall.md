@@ -1758,14 +1758,17 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
 - **FIXME** are we writting to lang/ ?
   * Missions.pm does --> we don't use it anymore ? however change the code to be sure
-  * gen_sucres.pl and gen_sugar.pl do --> move it to another folder (files or data)
+  * (done) added a fixme to gen_sucres.pl and gen_sugar.pl
   * gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
 - **FIXME** bug bandeau off --> update dist files
-- **FIXME** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2)
+
+- **DOING** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2) --> see [Copying secrets](#copying-secrets)
+  - ftp secrets (.netrc)
 
 - **FIXME** schedule gen feeds smartly
 
-- **FIXME** add systemd timer to launch export_producers_platform_data_to_public_database.sh on off-pro
+- (done) add export_producers_platform_data_to_public_database.sh to producers import task on off-pro (instead of a specific cron)
+
 - **FIXME** imports (to run on off-pro side):
   - auto: carrefour
     - modify to run on off-pro side
@@ -1991,3 +1994,10 @@ I look at the mongodb but did not find any foodbattle database.
 ### TODO after off1 re-install
 
 - add replications
+
+### TODO to have more things working
+- add prometheus exporters to all machines:
+  - for nginx on reverse proxy
+  - for memcached on memcached container
+  - for postgres on postgresql container
+  - for apache on off/obf/opf/opff/off-pro
