@@ -1,4 +1,4 @@
 [DEFAULT]
-banaction          = nftables-multiport
-banaction_allports = nftables-allports
+banaction          = nftables[type=multiport]
+banaction_allports = nftables[type=allports]
 chain              = input
