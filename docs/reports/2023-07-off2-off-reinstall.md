@@ -1737,11 +1737,19 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - (done) make a specific systemd task for madenear.me generation
   - (done) install and test it
 
+- **DONE** (alex) migrate howmanysugar
+  - put html in html/data
+  - it's ok if gen_sugar does not work
+  - sugar_random and sugar_check should work (to fix)
+
 - **DOING:** migrate ip tables rules
   - on reverse proxy
   - (done) use fail2ban instead of iptables - see [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
   - (done) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
   - NOTE: in parallel we are setting up rate limiting with nginx which could then be combined with fail2ban on 409 errors (easy to add to auth error bans)
+
+- **WONTFIX** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
+  - codeonline is obsolete --> moved to obsolete
 
 - **FIXME:** review the VM limits configurations
 - **FIXME**  stress test VM on CPU and on Memory
@@ -1754,13 +1762,10 @@ To test my installation I added this to `/etc/hosts` on my computer:
 
 - high fragmentation on ssd -- seems ok since it's not a problem for read and it will write back small files
 
-
-- **FIXME** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
-- **FIXME** are we writting to lang/ ?
-  * Missions.pm does --> we don't use it anymore ? however change the code to be sure
-  * (done) added a fixme to gen_sucres.pl and gen_sugar.pl
-  * gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
-- **FIXME** bug bandeau off --> update dist files
+- are we writting to lang/ ?
+  * **FIXME** Missions.pm does --> we don't use it anymore ? however change the code to be sure
+  * **WONTFIX** added a fixme to gen_sucres.pl and gen_sugar.pl
+  * **FIXME** gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
 
 - **DOING** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2) --> see [Copying secrets](#copying-secrets)
   - ftp secrets (.netrc)
@@ -1769,21 +1774,19 @@ To test my installation I added this to `/etc/hosts` on my computer:
 
 - (done) add export_producers_platform_data_to_public_database.sh to producers import task on off-pro (instead of a specific cron)
 
+- **FIXME** do we need /srv/off/imports where to put it in new layout (not yet in Paths.pm)
+
 - **FIXME** imports (to run on off-pro side):
-  - auto: carrefour
-    - modify to run on off-pro side
+  - **DOING** agena3000 (almost done - to test)
+  - **DOING** equadis (almost done - to test)
+  - **DOING** carrefour
+    - modify to run on off-pro side + convert to new syntax + avoid having script inside sftp folder
   - fleurymichon deactivated (no data since 2021 - to be relaunched)
   - systemu is manual
   - casino was manual
   - import_csv_file.pl used by many
-  - genfeeds pour le reste - agena - equadis
   - bayard is a wip
   - intermarches is not auto but manual yet
-
-- **FIXME** (alex) migrate howmanysugar
-  - put html in html/data
-  - it's ok if gen_sugar does not work
-  - sugar_random and sugar_check should work (to fix)
 
 
 - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
@@ -2001,3 +2004,5 @@ I look at the mongodb but did not find any foodbattle database.
   - for memcached on memcached container
   - for postgres on postgresql container
   - for apache on off/obf/opf/opff/off-pro
+
+- **FIXME** put logs on zfs dataset for obf / opf / opff
