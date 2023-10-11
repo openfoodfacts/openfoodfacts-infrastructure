@@ -53,6 +53,7 @@ server {
         server_name static.openfoodfacts.org images.openfoodfacts.org;
 
         access_log /zfs-hdd/logs-nginx/static-access.log combined_upstream buffer=256K flush=1s;
+        error_log /zfs-hdd/logs-nginx/static-error.log;
 
         ssl_certificate /etc/letsencrypt/live/images.openfoodfacts.org/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/images.openfoodfacts.org/privkey.pem; # managed by Certbot
