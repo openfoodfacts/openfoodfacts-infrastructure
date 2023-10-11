@@ -679,6 +679,7 @@ mp11: /zfs-hdd/opf/products,mp=/mnt/opf/products
 mp12: /zfs-hdd/opf/images,mp=/mnt/opf/images
 mp13: /zfs-hdd/off/logs,mp=/mnt/off/logs
 mp14: /zfs-hdd/off-pro/cache/export_files,mp=/mnt/off-pro/cache/export_files
+mp15: /zfs-hdd/off-pro/images,mp=/mnt/off-pro/images
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
@@ -975,14 +976,15 @@ ln -s /mnt/$SERVICE/cache/export_files /srv/$SERVICE/export_files
 ls -l /srv/$SERVICE/{build-cache,tmp,debug,new_images,export_files}
 ```
 
-And on off, we need to be able to reach off-pro `export_files`:
+And on off, we need to be able to reach off-pro `export_files` and images:
 ```bash
 # only for off !
 sudo mkdir /srv/off-pro/
 sudo chown off:off /srv/off-pro/
 sudo -u off ln -s /mnt/off-pro/cache/export_files /srv/off-pro/export_files
+sudo -u off ln -s /mnt/off-pro/images /srv/off-pro/images
 # verify
-ls -l /srv/$SERVICE/export_files
+ls -l /srv/off-pro/export_files{,/} /srv/off-pro/images{,/}
 ```
 
 
@@ -1723,11 +1725,11 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **DONE** do we need as same as /root/scripts/renew_wildcard_certificates.sh on VM 101 (reverse proxy) on ovh1 ?
   - I don't think so, because certbot is able to handle this thanks to info in /etc/letsencrypt/renewal/openfoodfacts.org.conf
 
-- **DOING** (alex): make agena and equadis imports run on off-pro side
+- **DONE** (alex): make agena and equadis imports run on off-pro side
   - (alex) modify scripts
   - (stephane) test xml_to_json.pl vs xml_to_json.js
   - (alex) make a specific systemd task for producers imports
-  - **TODO** (alex) test scripts (up to the maximum) 
+  - **DONE** (alex) test scripts (up to the maximum) 
 
 - **DONE** make a list of what we will rsync and what to backup from off1
   - we already have backup of /srv and /srv2 on ovh3 !
@@ -1745,8 +1747,9 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - **DOING:** migrate ip tables rules
   - on reverse proxy
   - (done) use fail2ban instead of iptables - see [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
-  - (done) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
+  - (wontfix) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
   - NOTE: in parallel we are setting up rate limiting with nginx which could then be combined with fail2ban on 409 errors (easy to add to auth error bans)
+  - **FIXME:** see how to have rules for images nginx which is directly on off2
 
 - **WONTFIX** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
   - codeonline is obsolete --> moved to obsolete
@@ -1775,6 +1778,8 @@ To test my installation I added this to `/etc/hosts` on my computer:
 - (done) add export_producers_platform_data_to_public_database.sh to producers import task on off-pro (instead of a specific cron)
 
 - **FIXME** do we need /srv/off/imports where to put it in new layout (not yet in Paths.pm)
+
+- **FIXME** backup problem on 114
 
 - **FIXME** imports (to run on off-pro side):
   - **DOING** agena3000 (almost done - to test)
