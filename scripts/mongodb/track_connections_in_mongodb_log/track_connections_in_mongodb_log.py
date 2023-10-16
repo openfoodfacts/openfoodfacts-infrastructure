@@ -35,10 +35,7 @@ def convert_log_line(logfile):
     # connections by remote address
     connectionsByIp = {}
 
-    # count = 0
     for line in log.readlines():
-        # count = count + 1
-        # print("line:{}".format(count))
         try:
             obj = json.loads(line)
         except Exception:
@@ -46,9 +43,7 @@ def convert_log_line(logfile):
         c = obj["c"]
         dt = obj['t']['$date']
         dt = re.sub('(\+\d\d):(\d\d)$',r'\1\2', dt)
-        s = obj['s']
-        ctx = obj['ctx']
-        attr = []
+
         if c == 'NETWORK' and 'msg' in obj and 'attr' in obj and 'remote' in obj['attr'] and 'connectionId' in obj['attr']:
             remote = obj['attr']
             # 'remote': '10.0.0.1:33784'
@@ -59,7 +54,7 @@ def convert_log_line(logfile):
             if msg == 'Connection accepted':
                 connections[connectionId] = ip
                 connectionsByIp[ip] = connectionsByIp.get(ip, 0) + 1
-            elif obj['msg'] == 'Connection ended':
+            elif msg == 'Connection ended':
                 # Skip connections that were not accepted (e.g. from before the log file starts)
                 if connectionId in connections:
                     remote = connections[connectionId]
