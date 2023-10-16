@@ -25,6 +25,8 @@ See https://github.com/openfoodfacts/openfoodfacts-server/blob/main/.github/work
 
 We installed the [MongoDB Community Edition Packages](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-debian/#std-label-debian-package-content) for Debian in version 4.4.x.
 
+Currently this is hosted on off3, a temporary server gracefully lended by OSM France, you can access it via ssh from off1 or off2 as root (`sudo ssh 10.0.0.3`).
+
 The configuration file is in `/etc/mongod.conf`.
 
 * `storage.dbPath` is set to a specific volume: `/mongo/db`
