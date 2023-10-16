@@ -1581,6 +1581,7 @@
 <p>See https://github.com/openfoodfacts/openfoodfacts-server/blob/main/.github/workflows/mongo-deploy.yml script.</p>
 <h2 id="prod-instance">Prod instance<a class="headerlink" href="#prod-instance" title="Permanent link">#</a></h2>
 <p>We installed the <a href="https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-debian/#std-label-debian-package-content">MongoDB Community Edition Packages</a> for Debian in version 4.4.x.</p>
+<p>Currently this is hosted on off3, a temporary server gracefully lended by OSM France, you can access it via ssh from off1 or off2 as root (<code>sudo ssh 10.0.0.3</code>).</p>
 <p>The configuration file is in <code>/etc/mongod.conf</code>.</p>
 <ul>
 <li><code>storage.dbPath</code> is set to a specific volume: <code>/mongo/db</code></li>
