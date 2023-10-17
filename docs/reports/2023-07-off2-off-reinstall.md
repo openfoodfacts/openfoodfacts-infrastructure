@@ -16,6 +16,21 @@ git checkout off2-off-reinstall
 
 We will continuously push and pull on this branch.
 
+## removing zfs-old and adding as cache to zfs-hdd
+
+`nvme3n1p2` is in zfs-old and has no utility right  now.
+
+```bash
+zpool destroy zfs-old
+```
+
+But as `zfs-nvme` is in mirror it's no use adding it as a new  device there.
+
+Instead we can add it as a cache to `zfs-hdd` to improve performance.
+
+```bash
+zpool add zfs-hdd cache nvme3n1p2
+```
 
 ## installing a postgresql container
 
@@ -1744,60 +1759,65 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - it's ok if gen_sugar does not work
   - sugar_random and sugar_check should work (to fix)
 
-- **DOING:** migrate ip tables rules
+- **DONE** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2) --> see [Copying secrets](#copying-secrets)
+  - ftp secrets (.netrc)
+
+- **WONTFIX** do we need /srv/off/imports where to put it in new layout (not yet in Paths.pm)
+  - We finally get rid of it
+
+- **DONE:** migrate ip tables rules
   - on reverse proxy
   - (done) use fail2ban instead of iptables - see [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
   - (wontfix) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
   - NOTE: in parallel we are setting up rate limiting with nginx which could then be combined with fail2ban on 409 errors (easy to add to auth error bans)
-  - **FIXME:** see how to have rules for images nginx which is directly on off2
 
 - **WONTFIX** fix all scripts (eg. split_gs1_codeonline_json.pl) which use /srv/codeonline/imports as input and /srv2/off/codeonline/imports as output !
   - codeonline is obsolete --> moved to obsolete
 
-- **FIXME:** review the VM limits configurations
-- **FIXME**  stress test VM on CPU and on Memory
-- **FIXME** what about zfs-old, can we add it to zfs-nvme ?
+- **DONE** what about zfs-old, can we add it to zfs-nvme ? (no)
+  * see [removing zfs-old and adding as cache to zfs-hdd](#removing-zfs-old-and-adding-as-cache-to-zfs-hdd)
 
-- **FIXME** change my user uid/gid on off2 and create a off user with uid 1000
-  to avoid ps -elf giving misleading information
+- **DONE** change my user uid/gid on off2 and create a off user with uid 1000
+  to avoid ps -elf giving misleading information.
+  * I ssh on off2 from off1 as root (because I will need to kill sshd process for alex)
+  * change name and description: `usermod  -c "OFF service account" -l off alex` (after killing some processes though)
+  * change group name `groupmod -n off alex` and remove from sudo `deluser off sudo`
+  * `mkdir /home/off; cp /etc/skel/.* /home/off/; chown -R off:off /home/off; usermod -d /home/off off`
+  * recreated my user `adduser alex` and change home owner `chown -R alex:alex /home/alex` and add to sudoers `adduser alex sudo`
 
-- **FIXME** update all the documentation from install logs !
-
-- high fragmentation on ssd -- seems ok since it's not a problem for read and it will write back small files
+- **WONTFIX** high fragmentation on ssd -- seems ok since it's not a problem for read and it will write back small files
 
 - are we writting to lang/ ?
-  * **FIXME** Missions.pm does --> we don't use it anymore ? however change the code to be sure
+  * **WONTFIX** Missions.pm does --> we don't use it anymore ? however change the code to be sure (dying)
   * **WONTFIX** added a fixme to gen_sucres.pl and gen_sugar.pl
-  * **FIXME** gen_top_tags_per_country does --> move it to another folder (data/stats) and change nginx config
-
-- **DOING** have a well identified secrets directory for various secrets used by sh scripts (for those of perl, use Config2) --> see [Copying secrets](#copying-secrets)
-  - ftp secrets (.netrc)
-
-- **FIXME** schedule gen feeds smartly
+  * **DONE** gen_top_tags_per_country does --> move it to another folder (data/stats) and change display.pm logic
 
 - (done) add export_producers_platform_data_to_public_database.sh to producers import task on off-pro (instead of a specific cron)
 
-- **FIXME** do we need /srv/off/imports where to put it in new layout (not yet in Paths.pm)
+- **DOING** backup problem on 114
+  - this seems to be a permission problem, fixed by Stephane
 
-- **FIXME** backup problem on 114
-
-- **FIXME** imports (to run on off-pro side):
-  - **DOING** agena3000 (almost done - to test)
-  - **DOING** equadis (almost done - to test)
-  - **DOING** carrefour
+- **DOING** imports (to run on off-pro side):
+  - **DONE** agena3000 (almost done - to test)
+  - **DONE** equadis (almost done - to test)
+  - **DONE** carrefour
     - modify to run on off-pro side + convert to new syntax + avoid having script inside sftp folder
   - fleurymichon deactivated (no data since 2021 - to be relaunched)
   - systemu is manual
   - casino was manual
-  - import_csv_file.pl used by many
   - bayard is a wip
   - intermarches is not auto but manual yet
 
+- docs:
+  - **FIXME** update all the documentation from install logs !
+  - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
 
-- **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
 
-
+- **FIXME** schedule gen feeds smartly
+- **FIXME:** review the VM limits configurations
+- **FIXME**  stress test VM on CPU and on Memory
 - **FIXME**: communicate on sftp IP change.
+- **FIXME:** see how to have rules to block ips for images nginx which is directly on off2
 
 
 ### Rsync data
