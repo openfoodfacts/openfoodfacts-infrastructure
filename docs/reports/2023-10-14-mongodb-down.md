@@ -95,7 +95,11 @@ From the mongodb logs, we can see that the corresponding client is written in Py
 
 `{"t":{"$date":"2023-10-15T01:17:54.641+02:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn39884","msg":"client metadata","attr":{"remote":"51.210.154.203:43260","client":"conn39884","doc":{"driver":{"name":"PyMongo","version":"3.12.3"},"os":{"type":"Linux","name":"Linux","architecture":"x86_64","version":"5.10.0-19-amd64"},"platform":"CPython 3.11.5.final.0"}}}`
 
+## Robotoff side investigation (Raphaël)
 
+After some investigation, it's not clear why there were so many connections attempts from pymongo. It's clear however that it tried to reconnect many times to MongoDB: [sentry issue](https://openfoodfacts.sentry.io/issues/4339801224/events/92bac62eb9ea4ad1a38cb207af088060/?project=1415205)
 
+Connection pooling is handled by Pymongo entirely, and we're currently respecting client creation best practices (not creating the client before forking).
+In Pymongo 4.0, one of the improvement is [a better connection management to avoid "connection storms"](https://pymongo.readthedocs.io/en/stable/changelog.html#breaking-changes-in-4-0), upgrading from 3.12 to 4.5 would possibly help.
 
-
+This was done in [robtooff PR #1267](https://github.com/openfoodfacts/robotoff/pull/1267)
