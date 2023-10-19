@@ -1718,7 +1718,7 @@ To test my installation I added this to `/etc/hosts` on my computer:
 
 ## Production switch
 
-### TODO befor switch
+### TODO before switch
 
 - **DONE** snapshot_purge should handle zfs/nvme !!!
 - **DONE** handle sftp server… for imports --> on proxy to have direct network
@@ -1813,12 +1813,27 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
 
 
-- **FIXME** schedule gen feeds smartly
-- **FIXME:** review the VM limits configurations
+- **DONE** schedule gen feeds smartly -- easy start off at 2am, the other platforms before
+- **FIXME** review the VM limits configurations
+  * see https://docs.google.com/spreadsheets/d/19RePmE_-1V_He73fpMJYukEMjPWNmav1610yjpGKfD0/edit#gid=28709804
 - **FIXME**  stress test VM on CPU and on Memory
 - **FIXME**: communicate on sftp IP change.
-- **FIXME:** see how to have rules to block ips for images nginx which is directly on off2
+- **FIXME** see how to have rules to block ips for images nginx which is directly on off2
 
+- **DOING** make a point on backup:
+  * see what is in the backups of vz_dump: only the container disks
+  + containers - on ZFS why don't we sync them on ovh3
+  + eg imagine a fire at free - can we re-install ?
+
+- **FIXME** logrotate problem on nginx logs on reverse proxy
+
+- **FIXME** add alerting on logrotate failing
+
+```
+service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+service: Failed at step NAMESPACE spawning /usr/sbin/logrotate: Permission denied
+
+```
 
 ### Rsync data
 
