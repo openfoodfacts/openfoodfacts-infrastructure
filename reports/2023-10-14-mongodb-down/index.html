@@ -1448,8 +1448,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#solving" class="md-nav__link">
-    Solving
+  <a href="#solving-charles" class="md-nav__link">
+    Solving (Charles)
   </a>
   
 </li>
@@ -1457,6 +1457,87 @@
         <li class="md-nav__item">
   <a href="#later-on" class="md-nav__link">
     Later on
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation-stephane" class="md-nav__link">
+    Investigation (Stéphane)
+  </a>
+  
+    <nav class="md-nav" aria-label="Investigation (Stéphane)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-connections-refused-too-many-active-connections-300" class="md-nav__link">
+    MongoDB connections refused: too many active connections (300)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting-connection-counts-with-mtools" class="md-nav__link">
+    Plotting connection counts with mtools
+  </a>
+  
+    <nav class="md-nav" aria-label="Plotting connection counts with mtools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saturday-14102023" class="md-nav__link">
+    Saturday 14/10/2023
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sunday-15102023" class="md-nav__link">
+    Sunday 15/10/2023
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monday-16102023" class="md-nav__link">
+    Monday 16/10/2023
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#determining-why-active-connections-are-climbing" class="md-nav__link">
+    Determining why active connections are climbing
+  </a>
+  
+    <nav class="md-nav" aria-label="Determining why active connections are climbing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#track_connections_in_mongodb_logpy" class="md-nav__link">
+    track_connections_in_mongodb_log.py
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#robotoff-side-investigation-raphael" class="md-nav__link">
+    Robotoff side investigation (Raphaël)
   </a>
   
 </li>
@@ -1511,8 +1592,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#solving" class="md-nav__link">
-    Solving
+  <a href="#solving-charles" class="md-nav__link">
+    Solving (Charles)
   </a>
   
 </li>
@@ -1520,6 +1601,87 @@
         <li class="md-nav__item">
   <a href="#later-on" class="md-nav__link">
     Later on
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation-stephane" class="md-nav__link">
+    Investigation (Stéphane)
+  </a>
+  
+    <nav class="md-nav" aria-label="Investigation (Stéphane)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-connections-refused-too-many-active-connections-300" class="md-nav__link">
+    MongoDB connections refused: too many active connections (300)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting-connection-counts-with-mtools" class="md-nav__link">
+    Plotting connection counts with mtools
+  </a>
+  
+    <nav class="md-nav" aria-label="Plotting connection counts with mtools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saturday-14102023" class="md-nav__link">
+    Saturday 14/10/2023
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sunday-15102023" class="md-nav__link">
+    Sunday 15/10/2023
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monday-16102023" class="md-nav__link">
+    Monday 16/10/2023
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#determining-why-active-connections-are-climbing" class="md-nav__link">
+    Determining why active connections are climbing
+  </a>
+  
+    <nav class="md-nav" aria-label="Determining why active connections are climbing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#track_connections_in_mongodb_logpy" class="md-nav__link">
+    track_connections_in_mongodb_log.py
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#robotoff-side-investigation-raphael" class="md-nav__link">
+    Robotoff side investigation (Raphaël)
   </a>
   
 </li>
@@ -1549,10 +1711,63 @@
 <li>API and core websites were working for product pages, eg. https://world.openfoodfacts.org/product/3168930010265/cruesli-melange-de-noix-quaker</li>
 <li>On off3, hosting mongodb, load were very high and 80+ of the ram was full.</li>
 </ul>
-<h2 id="solving">Solving<a class="headerlink" href="#solving" title="Permanent link">#</a></h2>
+<h2 id="solving-charles">Solving (Charles)<a class="headerlink" href="#solving-charles" title="Permanent link">#</a></h2>
 <p>Around 17:55 I just restarted mongodb -- <code>systemctl restart mongod</code>  --  and things get back to work: load get back to ~1, RAM was arround 50%, sites were working.</p>
 <h2 id="later-on">Later on<a class="headerlink" href="#later-on" title="Permanent link">#</a></h2>
 <p>Same issue occurs on Sunday at ~10:55, except server load and RAM were normal. I have also restarted mongod and things get back to work.</p>
+<h2 id="investigation-stephane">Investigation (Stéphane)<a class="headerlink" href="#investigation-stephane" title="Permanent link">#</a></h2>
+<h3 id="mongodb-connections-refused-too-many-active-connections-300">MongoDB connections refused: too many active connections (300)<a class="headerlink" href="#mongodb-connections-refused-too-many-active-connections-300" title="Permanent link">#</a></h3>
+<p>The MongoDB logs on off3 show a lot of connections refused:</p>
+<p>/var/log/mongodb/mongod.log.1:</p>
+<p><code>{"t":{"$date":"2023-10-15T10:54:09.661+02:00"},"s":"I",  "c":"NETWORK",  "id":22942,   "ctx":"listener","msg":"Connection refused because there are too many open connections","attr":{"connectionCount":301}}</code></p>
+<p>The current maximum number of connections is 300:</p>
+<p><code>off3:/var/log/mongodb# grep maxIncoming /etc/mongod.conf 
+  maxIncomingConnections: 300</code></p>
+<h3 id="plotting-connection-counts-with-mtools">Plotting connection counts with mtools<a class="headerlink" href="#plotting-connection-counts-with-mtools" title="Permanent link">#</a></h3>
+<p>The mplotqueries tool from mtools can be used to plot the number of connections being opened and closed and the current active connections. See: https://rueckstiess.github.io/mtools/mplotqueries.html#connection-churn-plot</p>
+<p>Note: mtools has not been updated in years, and it works with the very old (not JSON) MongoDB log format. The logs can be converted to the old format with https://github.com/ricojf-mongodb/convert-json-logs-to-legacy</p>
+<h4 id="saturday-14102023">Saturday 14/10/2023<a class="headerlink" href="#saturday-14102023" title="Permanent link">#</a></h4>
+<p>On Saturday we reached the 300 connections limit until Charles restarted MongoDB, but the connections then continued to pile up.</p>
+<p><a class="glightbox" href="../media/2023-10-14-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Saturday 14/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 14/10/2023 - MongodDB connection churn" src="../media/2023-10-14-mongodb-connections.png" /></a></p>
+<h4 id="sunday-15102023">Sunday 15/10/2023<a class="headerlink" href="#sunday-15102023" title="Permanent link">#</a></h4>
+<p>On Sunday morning, we reached the maximum again, until Charles again restarted MongoDB. The connections started to climb again, but then went back to normal in the early afternoon.</p>
+<p><a class="glightbox" href="../media/2023-10-15-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Saturday 15/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 15/10/2023 - MongodDB connection churn" src="../media/2023-10-15-mongodb-connections.png" /></a></p>
+<h4 id="monday-16102023">Monday 16/10/2023<a class="headerlink" href="#monday-16102023" title="Permanent link">#</a></h4>
+<p>On Monday everything is normal.</p>
+<p><a class="glightbox" href="../media/2023-10-16-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Monday 16/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Monday 16/10/2023 - MongodDB connection churn" src="../media/2023-10-16-mongodb-connections.png" /></a></p>
+<h3 id="determining-why-active-connections-are-climbing">Determining why active connections are climbing<a class="headerlink" href="#determining-why-active-connections-are-climbing" title="Permanent link">#</a></h3>
+<p>In the MongoDB logs we can see that MongoDB connections are coming from different IP addresses. e.g. with the Saturday logs:</p>
+<p>`grep -c 51.210.154.203  mongod.log.2.legacy
+119320</p>
+<p>grep -c 10.1.0.110 mongod.log.2.legacy
+11194</p>
+<p>grep -c 10.1.0.111 mongod.log.2.legacy
+42185</p>
+<p>grep -c 10.1.0.112 mongod.log.2.legacy
+10281</p>
+<p>grep -c 10.0.0.1 mongod.log.2.legacy
+129725`</p>
+<p>10.0.0.1 is off1 currently running off and off-pro, 10.1.0.* are the containers on off2 for obf, opf, and opff, and 51.210.154.203 is ovh2.</p>
+<h4 id="track_connections_in_mongodb_logpy">track_connections_in_mongodb_log.py<a class="headerlink" href="#track_connections_in_mongodb_logpy" title="Permanent link">#</a></h4>
+<p>What's relevant for this issue is not the number of connections, but the number of active connections.</p>
+<p>I created a script to track the number of active connections per client ip address: track_connections_in_mongodb_log.py</p>
+<p><code>track_connections_in_mongodb_log.py --log mongod.log.2
+[..]
+IP address: 10.0.0.1, Active connections: 14
+IP address: 10.1.0.112, Active connections: 3
+IP address: 10.1.0.111, Active connections: 4
+IP address: 51.210.154.203, Active connections: 433
+IP address: 10.1.0.110, Active connections: 11
+IP address: 127.0.0.1, Active connections: 0</code></p>
+<p>It appears that 51.210.154.203 (ovh2) is the remote that accumulates connections and makes us hit the maximum (300).</p>
+<p>Note: the number of active connections reported by the script is above 300 because it's a full day log and in the middle MongoDB was restarted.</p>
+<p>From the mongodb logs, we can see that the corresponding client is written in Python:</p>
+<p><code>{"t":{"$date":"2023-10-15T01:17:54.641+02:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn39884","msg":"client metadata","attr":{"remote":"51.210.154.203:43260","client":"conn39884","doc":{"driver":{"name":"PyMongo","version":"3.12.3"},"os":{"type":"Linux","name":"Linux","architecture":"x86_64","version":"5.10.0-19-amd64"},"platform":"CPython 3.11.5.final.0"}}}</code></p>
+<h2 id="robotoff-side-investigation-raphael">Robotoff side investigation (Raphaël)<a class="headerlink" href="#robotoff-side-investigation-raphael" title="Permanent link">#</a></h2>
+<p>After some investigation, it's not clear why there were so many connections attempts from pymongo. It's clear however that it tried to reconnect many times to MongoDB: <a href="https://openfoodfacts.sentry.io/issues/4339801224/events/92bac62eb9ea4ad1a38cb207af088060/?project=1415205">sentry issue</a></p>
+<p>Connection pooling is handled by Pymongo entirely, and we're currently respecting client creation best practices (not creating the client before forking).
+In Pymongo 4.0, one of the improvement is <a href="https://pymongo.readthedocs.io/en/stable/changelog.html#breaking-changes-in-4-0">a better connection management to avoid "connection storms"</a>, upgrading from 3.12 to 4.5 would possibly help.</p>
+<p>This was done in <a href="https://github.com/openfoodfacts/robotoff/pull/1267">robtooff PR #1267</a></p>
 
 
 
