@@ -144,6 +144,18 @@ There are also mounts of zfs storage from ovh3.
 
 **TODO** tell much more
 
+### Bind mounting ZFS Datasets
+
+You can bind mount folders on the host in the containers. This way you can also mount a zfs dataset in a container.
+
+You cannot add them through the web interface, you can instead edit `/etc/pve/lxc/<container_id>.lxc` and add lines like:
+`mp0 /absolute/path/on/host,mp=/absolute/path/in/container`.
+
+Note that this will be available only after a reboot of the container: `pct retboot <container_id>` (or `start` if it was stopped).
+
+See also [Proxmox documentation on mount points](https://pve.proxmox.com/pve-docs/chapter-pct.html#pct_mount_points)
+
+
 ### Adding space on a QEMU disk
 
 following https://pve.proxmox.com/wiki/Resize_disks
