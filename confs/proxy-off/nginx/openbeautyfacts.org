@@ -36,7 +36,7 @@ server {
     client_max_body_size 20M;
 
     # logs location
-    access_log  /var/log/nginx/openbeautyfacts.org.log  main;
+    access_log  /var/log/nginx/openbeautyfacts.org.log  main buffer=256K flush=1s;
     error_log   /var/log/nginx/openbeautyfacts.org.errors.log;
 
     location / {

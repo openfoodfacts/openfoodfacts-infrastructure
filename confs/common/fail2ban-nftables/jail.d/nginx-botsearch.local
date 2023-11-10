@@ -1,4 +1,3 @@
-# In practice we also use this to ban bots ip manually
 [nginx-botsearch]
 enabled = true
 filter = nginx-botsearch
