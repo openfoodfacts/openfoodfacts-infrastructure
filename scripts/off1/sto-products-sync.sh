@@ -60,8 +60,8 @@ do
     zfs destroy $OLD_SNAP
   done
 
-  # suppression des snapshots de mois -1 sauf le premier seulement apr√s le 7 du mois
-  if [[ $(date  +"%d") -gt 7 ]]
+  # suppression des snapshots de mois -1 sauf le premier seulement apr√És le 7 du mois
+  if [[ $(date  +"%e") -gt 7 ]]
   then
     OLD=$(zfs list -t snap -o name | grep "$DATASET@$(date -d '1 month ago' +%Y%m)" | tail -n +2)
     for OLD_SNAP in $OLD
