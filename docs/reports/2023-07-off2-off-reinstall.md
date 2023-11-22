@@ -55,6 +55,16 @@ I simply used standard distribution package.
 sudo apt install postgresql postgresql-contrib
 ```
 
+Change `/etc/postgresql/*/main/postgresql.conf` to set `listen_addresses` to `*` (listen on all ip).
+
+Change `/etc/postgresql/*/main/pg_hba.conf` to add:
+```conf
+# IPv4 local network connections:
+host    all             all             10.0.0.1/8            md5
+```
+
+and restart postgresql
+
 ### create off user
 
 On off1 we get user info:
@@ -1114,10 +1124,11 @@ And use symbolic links in folders (as user off):
 ln -s /srv/$SERVICE-dist /srv/$SERVICE/dist
 # relative links for the rest
 ln -s ../../../dist/icons /srv/$SERVICE/html/images/icons/dist
+ln -s ../../../dist/attributes /srv/$SERVICE/html/images/attributes/dist
 ln -s ../../dist/css /srv/$SERVICE/html/css/dist
 ln -s ../../dist/js /srv/$SERVICE/html/js/dist
 # verify
-ls -l  /srv/$SERVICE/dist /srv/$SERVICE/html/{images/icons,css,js}/dist
+ls -l  /srv/$SERVICE/dist /srv/$SERVICE/html/{images/icons,images/attributesoovaf0fieKe|yae",css,js}/dist
 ```
 
 
@@ -1812,22 +1823,27 @@ To test my installation I added this to `/etc/hosts` on my computer:
   - **FIXME** update all the documentation from install logs !
   - **TODO** migrate https://docs.google.com/document/d/1w5PpPB80knF0GR_nevWudz3zh7oNerJaQUJH0vIPjPQ/edit#heading=h.j4z4jdw3tr8r to this documentation
 
+- **WONTFIX**  stress test VM on CPU and on Memory
 
 - **DONE** schedule gen feeds smartly -- easy start off at 2am, the other platforms before
-- **FIXME** review the VM limits configurations
+
+- **DONE** review the VM limits configurations
   * see https://docs.google.com/spreadsheets/d/19RePmE_-1V_He73fpMJYukEMjPWNmav1610yjpGKfD0/edit#gid=28709804
-- **FIXME**  stress test VM on CPU and on Memory
 - **FIXME**: communicate on sftp IP change.
 - **FIXME** see how to have rules to block ips for images nginx which is directly on off2
+  - rate limit test running on off2
+  - fail2ban might be a good idea
 
 - **DOING** make a point on backup:
   * see what is in the backups of vz_dump: only the container disks
   + containers - on ZFS why don't we sync them on ovh3
   + eg imagine a fire at free - can we re-install ?
+  - **DOING** syncing PVE volumes to OVH3
 
-- **FIXME** logrotate problem on nginx logs on reverse proxy
+- **DONE** logrotate problem on nginx logs on reverse proxy
 
-- **FIXME** add alerting on logrotate failing
+- **DONE** add alerting on logrotate failing
+
 
 ```
 service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
@@ -1835,50 +1851,6 @@ service: Failed at step NAMESPACE spawning /usr/sbin/logrotate: Permission denie
 
 ```
 
-### Rsync data
-
-This is the data rsync sequence:
-
-```bash
-date
-# users
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users  /zfs-hdd/off/users
-# orgs
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs  /zfs-hdd/off/orgs
-# pro images
-time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/
-# some cache folders
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_images} /zfs-hdd/off/cache/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/
-# data folders (shared with off-pro)
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/
-# other data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images} /zfs-hdd/off/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/
-# imports for off
-time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/
-# translations for off
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/translate /zfs-hdd/off/
-# reverted_products on off
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/reverted_products /zfs-hdd/off/
-# html/data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html_data/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/
-# sftp
-time rsync -a --info=progress2 10.0.0.1:/srv/sftp/ /zfs-hdd/off-pro/sftp/
-# sugar
-time rsync -a 10.0.0.1:/srv/sugar/logs/sugar_log /zfs-hdd/off/data/sugar/old_sugar_log
-date
-```
-
-Don't forget to also change ownership if needed
-
-```bash
-chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
-```
 
 ### Backup data
 
@@ -1901,9 +1873,10 @@ scripts/*.csv
 
 #### users data
 
+```bash
 rsync -a --info=progress2 -x 10.0.0.1:/srv2/stephane /zfs-hdd/backups/off1-2023/srv2-stephane
 rsync -a --info=progress2 -x 10.0.0.1:/srv2/teolemon /zfs-hdd/backups/off1-2023/srv2-teolemon
-
+```
 
 
 #### foodbatle
@@ -1914,9 +1887,57 @@ mkdir /zfs-hdd/backups/off1-2023
 rsync -a --info=progress2 -x 10.0.0.1:/srv2/foodbattle /zfs-hdd/backups/off1-2023/
 ```
 
-I look at the mongodb but did not find any foodbattle database.
+I look at the mongodb but did not find any foodbattle databas
 
-### Procedure for switch of off and off-pro from off1 to off2 (Still TODO)
+
+### Rsync data
+
+This is the data rsync sequence:
+
+```bash
+date
+# users -- note: also done in crontab
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users  /zfs-hdd/off/users
+# orgs -- note: also done in crontab
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs  /zfs-hdd/off/orgs
+# pro images
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/
+# some cache folders
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_images} /zfs-hdd/off/cache/ ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/ ;\
+# data folders (shared with off-pro)
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/ ;\
+# other data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images} /zfs-hdd/off/ ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/ ;\
+# imports for off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/ ;\
+# translations for off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/translate /zfs-hdd/off/ ;\
+# reverted_products on off
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/reverted_products /zfs-hdd/off/ ;\
+# html/data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/ ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html_data/ ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data ;\
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/ ;\
+# sftp
+time rsync -a --info=progress2 10.0.0.1:/srv/sftp/ /zfs-hdd/off-pro/sftp/ ;\
+# sugar
+time rsync -a 10.0.0.1:/srv/sugar/logs/sugar_log /zfs-hdd/off/data/sugar/old_sugar_log ;\
+date
+```
+
+This took a bit more than 6 hours on 2023-11-22.
+
+Don't forget to also change ownership if needed
+
+```bash
+chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
+```
+
+### Procedure for switch of off and off-pro from off1 to off2
 
 **NOTE**: we do both in a row because we don't want to deal with NFS for off / off-pro communication
 
@@ -1924,11 +1945,27 @@ I look at the mongodb but did not find any foodbattle database.
 
 
 1. change TTL to a low value in DNS
-  * for openfoodfacts domains (including pro)
+  * **DONE** for openfoodfacts domains (including pro)
   * for madenear.me madenear.me.uk cestemballepresdechezvous and all other domains
   * for howmuchsugar.in combiendesucres.fr and all other domains
 
+1. update the product to latest changes in `/srv/off` or `/srv/off-pro` and `/srv/openfoodfacts-web`
+
 1. Redeploy the dist of off and off-pro on off2
+
+1. verify differences between Config2 files (for off and off-pro) between off1 and off
+   * I had to add `query_url` which is new
+
+1. restart:
+
+   * on off: `sudo systemctl restart apache2.service nginx.service cloud_vision_ocr@off.service minion@off.service`
+   * on off-pro: `sudo systemctl restart apache2.service nginx.service cloud_vision_ocr@off-pro.service minion@off-pro.service`
+
+1. do a last test:
+   * I had to redo a `sudo cpanm --notest --quiet --skip-satisfied --installdeps .`
+   * I forgot to run the build_lang and build_taxonomies scripts…
+   * problem on pro platform for products without barcode: `internal_code.sto` not accessible on pro platform
+
 
 1. shutdown:
    * off on **off2** `sudo systemctl stop apache2 nginx`
@@ -2046,3 +2083,5 @@ I look at the mongodb but did not find any foodbattle database.
   - for apache on off/obf/opf/opff/off-pro
 
 - **FIXME** put logs on zfs dataset for obf / opf / opff
+
+- **FIXME** internal_code.sto
