@@ -50,6 +50,12 @@ server {
         proxy_set_header X-Forwarded-Proto https;
         proxy_set_header Host $host;
         client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+    location ~* 502\.(html|jpg)  {
+       root /opt/openfoodfacts-infrastructure/html/;
     }
 }
 
