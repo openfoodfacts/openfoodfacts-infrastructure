@@ -719,17 +719,21 @@ pct reboot 113
 ```
 
 
-for off-pro we don't need to cross mount the other platforms, but we need to share off/data folder !
+for off-pro we don't need to cross mount the other platforms, but we need to share `off/data` folder !
+and also `off/products` (because of `internal_code.sto`)
 editing `/etc/pve/lxc/114.conf`:
 ```conf
 mp0: /zfs-hdd/off-pro,mp=/mnt/off-pro
 mp1: /zfs-nvme/off-pro/products,mp=/mnt/off-pro/products
+mp10: /zfs-nvme/off/products,mp=/mnt/off/products
 mp2: /zfs-hdd/off/users,mp=/mnt/off-pro/users
 mp3: /zfs-hdd/off/orgs,mp=/mnt/off-pro/orgs
 mp4: /zfs-hdd/off-pro/images,mp=/mnt/off-pro/images
 mp5: /zfs-hdd/off-pro/html_data,mp=/mnt/off-pro/html_data
 mp6: /zfs-hdd/off-pro/cache,mp=/mnt/off-pro/cache
 mp7: /zfs-hdd/off/data,mp=/mnt/off-pro/data
+mp8: /zfs-hdd/off-pro/sftp,mp=/mnt/off-pro/sftp
+mp9: /zfs-hdd/off-pro/logs,mp=/mnt/off-pro/logs
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
@@ -738,6 +742,7 @@ lxc.idmap: g 1000 1000 10
 lxc.idmap: u 1011 101011 64525
 lxc.idmap: g 1011 101011 64525
 ```
+
 
 ```bash
 pct reboot 114
@@ -982,6 +987,11 @@ ln -s  /mnt/$SERVICE/import_files /srv/$SERVICE/import_files
 ln -s /mnt/$SERVICE/data /srv/$SERVICE/data
 # verify
 ls -l /srv/$SERVICE/{deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products,reverted_products,translate,debug}
+```
+
+for off-pro we also need a link to `internal_code.sto`:
+```bash
+ln -s /mnt/off/products/internal_code.sto /srv/off-pro/products/
 ```
 
 Create and link cache folders:
@@ -2096,6 +2106,5 @@ see also: https://github.com/openfoodfacts/openfoodfacts-server/issues/9373
 
 - **FIXME** put logs on zfs dataset for obf / opf / opff
 
-- **FIXME** internal_code.sto
 
 - add go access report on reverse proxy
