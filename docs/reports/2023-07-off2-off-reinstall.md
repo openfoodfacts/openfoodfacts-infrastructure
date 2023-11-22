@@ -1894,37 +1894,49 @@ I look at the mongodb but did not find any foodbattle databas
 
 This is the data rsync sequence:
 
+off:
+
 ```bash
-date
-# users -- note: also done in crontab
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users  /zfs-hdd/off/users
-# orgs -- note: also done in crontab
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs  /zfs-hdd/off/orgs
-# pro images
-time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/
-# some cache folders
+date ; \
+echo "== users -- note: also done in crontab" ; \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/users  /zfs-hdd/off/users ; \
+echo "== orgs -- note: also done in crontab" ; \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/orgs  /zfs-hdd/off/orgs ; \
+echo "== some cache folders" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{build-cache,tmp,debug,new_images} /zfs-hdd/off/cache/ ;\
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/ ;\
-# data folders (shared with off-pro)
+echo "== data folders (shared with off-pro)" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/data /zfs-hdd/off/ ;\
-# other data
+echo "== other data" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/{deleted.images,deleted_products,deleted_products_images} /zfs-hdd/off/ ;\
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/ ;\
-# imports for off
+echo "== imports for off" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/imports /zfs-hdd/off/ ;\
-# translations for off
+echo "== translations for off" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/translate /zfs-hdd/off/ ;\
-# reverted_products on off
+echo "== reverted_products on off" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/reverted_products /zfs-hdd/off/ ;\
-# html/data
+echo "== html/data" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/data/ /zfs-hdd/off/html_data ;\
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off/html/{files,exports} /zfs-hdd/off/html_data/ ;\
 time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off/html/dump /zfs-hdd/off/html_data/ ;\
+date
+```
+
+off-pro:
+
+```bash
+date ; \
+echo "== pro images" ; \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv2/off-pro/html/images/products /zfs-hdd/off-pro/images/ ;\
+echo "== some cache folders" ; \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{build-cache,tmp,debug} /zfs-hdd/off-pro/cache/ ;\
+echo "== other data" ; \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/{deleted.images,deleted_private_products} /zfs-hdd/off-pro/ ;\
+echo "== html/data" ; \
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/data/ /zfs-hdd/off-pro/html_data ;\
 time rsync --info=progress2 -a -x 10.0.0.1:/srv/off-pro/html/files /zfs-hdd/off-pro/html_data/ ;\
-# sftp
+echo "== sftp" ; \
 time rsync -a --info=progress2 10.0.0.1:/srv/sftp/ /zfs-hdd/off-pro/sftp/ ;\
-# sugar
+echo "== sugar" ; \
 time rsync -a 10.0.0.1:/srv/sugar/logs/sugar_log /zfs-hdd/off/data/sugar/old_sugar_log ;\
 date
 ```
@@ -1995,15 +2007,6 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
 
 3. Rsync and zfs sync again (see above)
 
-   rsync took **FIXME** minutes
-
-4. avoid mistake by renaming dirs
-   ```bash
-   # move old prod
-   mv /srv/off /srv/off.old
-   mv /srv/off-pro /srv/off-pro.old
-   ```
-
 4. ensure migrations works using mounts for off2 apps, and point to new user folder:
    * edit 110 to 112 mount points to mount off volumes (products and users) instead of NFS shares, by editing `/etc/pve/lxc/11{0..2}.conf`
    * restart 110 to 112: `for num in 11{0..2}; do  pct reboot $num; done`
@@ -2026,6 +2029,7 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
    certbot certonly -d madenear.me -d cestemballepresdechezvous.fr -d madenear.me.uk
    ```
 
+   (note: we had to change nginx site configuration and use web root authenticator)
 
 7. change DNS for howmuchsugar.in combiendesucres.fr
 
@@ -2038,12 +2042,12 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
    certbot certonly -d howmuchsugar.in -d combiendesucres.fr
    ```
 
+   (note: we had to change nginx site configuration and use web root authenticator)
+
 6. disable off and off-pro service on off1:
    - `systemctl disable apache2@off`
    - `systemctl disable apache2@off-pro`
-   - `unlink /etc/nginx/sites-enabled/off && unlink /etc/nginx/sites-enabled/off-pro && sytemctl reload nginx` (if not already done)
-
-6. **FIXME** think what else to remove
+   - **TODO** `unlink /etc/nginx/sites-enabled/off && unlink /etc/nginx/sites-enabled/off-pro && sytemctl reload nginx` (if not already done)
 
 7. remove off and off-pro from snapshot-purge.sh on ovh3 (now handled by sanoid)
 8. on off2 and ovh3 modify sanoid configuration to have off/products and off-pro/products handled by sanoid and synced to ovh3
@@ -2064,6 +2068,8 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
 - check tag line is accessible (eg: https://world.openfoodfacts.org/files/tagline-off.json https://world.openfoodfacts.org/files/app/tagline/tagline-off-ios.json) even after removing those files from /srv/off/html/files/
 **FIXME**: add more
 
+see also: https://github.com/openfoodfacts/openfoodfacts-server/issues/9373
+
 ### Checks after five days
 
 - check OCR is working
@@ -2075,6 +2081,12 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
 
 - add replications
 
+- add a restart of nginx in the certbot thing (or at night)
+```
+# restart nginx to reload SSL certs
+0 11 * * * systemctl restart nginx
+```
+
 ### TODO to have more things working
 - add prometheus exporters to all machines:
   - for nginx on reverse proxy
@@ -2085,3 +2097,5 @@ chown -R 1000:1000 /zfs-hdd/off{,-pro}/cache
 - **FIXME** put logs on zfs dataset for obf / opf / opff
 
 - **FIXME** internal_code.sto
+
+- add go access report on reverse proxy
