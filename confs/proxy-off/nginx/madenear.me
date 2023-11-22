@@ -4,7 +4,13 @@ server {
     listen [::]:80;
     server_name madenear.me cestemballepresdechezvous.fr madenear.me.uk;
 
-    return 301 https://$host$request_uri;
+    location /.well-known {
+        root /var/www/html;
+        try_files $uri =404;
+    }
+    location / {
+        return 301 https://$host$request_uri;
+    }
 }
 # madenearme redirects
 server {
@@ -34,9 +40,9 @@ server {
     server_name madenear.me cestemballepresdechezvous.fr madenear.me.uk;
 
     # SSL/TLS settings
-    ssl_certificate /etc/letsencrypt/live/madenear.me/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/madenear.me/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/madenear.me/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/madenear.me-0001/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/madenear.me-0001/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/madenear.me-0001/chain.pem;
 
     # Harden SSL
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
@@ -67,6 +73,7 @@ server {
         proxy_set_header Host $host;
         client_max_body_size 512M;
     }
+
 }
 
 
