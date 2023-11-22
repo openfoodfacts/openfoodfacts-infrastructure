@@ -22,9 +22,9 @@ map $response_size $small_rate_key {
 
 # rate limit, differentiate between small an full req
 # small (loading search page: 100 product images + burst for assets) * 10
-limit_req_zone $small_rate_key zone=small_size:10m rate=1000r/m;
+limit_req_zone $small_rate_key zone=small_size:10m rate=6000r/m;
 # some full image per minutes should be enough
-limit_req_zone $big_rate_key zone=big_size:10m rate=50r/m;
+limit_req_zone $big_rate_key zone=big_size:10m rate=100r/m;
 
 # DRY RUN until we decide to activate it
 limit_req_dry_run on;
