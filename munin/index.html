@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../linux-server/">
+        <link rel="prev" href="../mongodb/">
       
       
-        <link rel="next" href="../logs-off2/">
+        <link rel="next" href="../nginx-reverse-proxy/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>off1 server logs - Open Food Facts Infrastructure documentation</title>
+        <title>Munin - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#off1-server-logs" class="md-skip">
+        <a href="#munin" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              off1 server logs
+              Munin
             
           </span>
         </div>
@@ -395,29 +395,9 @@
       
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    off1 server logs
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../logs-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -426,44 +406,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
-    <span class="md-ellipsis">
-      2023-09-05 exim paniclog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
-    <span class="md-ellipsis">
-      2023-07-25 Disk full on /rpool/off/products
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -624,9 +566,29 @@
       
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../munin/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Munin
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -635,6 +597,74 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-configure-a-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure a server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to configure a server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#more-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      More plugins
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More plugins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zfs-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS plugins
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nginx-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      NGINX plugins
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1637,20 +1667,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
+  <a href="#how-to-configure-a-server" class="md-nav__link">
     <span class="md-ellipsis">
-      2023-09-05 exim paniclog
+      How to configure a server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to configure a server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#more-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      More plugins
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More plugins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zfs-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS plugins
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#nginx-plugins" class="md-nav__link">
     <span class="md-ellipsis">
-      2023-07-25 Disk full on /rpool/off/products
+      NGINX plugins
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1672,18 +1732,40 @@
   
 
 
-<h1 id="off1-server-logs">off1 server logs<a class="headerlink" href="#off1-server-logs" title="Permanent link">#</a></h1>
-<p>Report here the timeline of incidents and interventions on off1 server.
-Keep things short or write a report.</p>
-<h2 id="2023-09-05-exim-paniclog">2023-09-05 exim paniclog<a class="headerlink" href="#2023-09-05-exim-paniclog" title="Permanent link">#</a></h2>
-<p>We have an alert since 09-03 because <code>/var/log/exim4/paniclog</code> is not empty.
-Indeed it has a line saying <code>2023-09-03 04:17:57 daemon: fork of queue-runner process failed: Cannot allocate memory</code>
-But appart from this it's all ok. Alert will remain until this paniclog is empty.
-I did a:
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/log/exim4<span class="p">;</span><span class="w"> </span>mv<span class="w"> </span>paniclog<span class="w"> </span>paniclog.1<span class="p">;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>exim4
+<h1 id="munin">Munin<a class="headerlink" href="#munin" title="Permanent link">#</a></h1>
+<p>We use munin to monitor some of our servers.</p>
+<p>It is available at https://www.computel.fr/munin/openfoodfacts</p>
+<p>It can help you understand problems that occurs on the server.</p>
+<p>Munin also sends alerts messages to off@openfoodfacts.org.</p>
+<h2 id="how-to-configure-a-server">How to configure a server<a class="headerlink" href="#how-to-configure-a-server" title="Permanent link">#</a></h2>
+<p>You must install the munin-node package and extra plugins on the server:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install munin-node munin-plugins-extra
+</code></pre></div>
+<p>You then configure in <code>/etc/munin/munin-node.conf</code>.
+The best is to have the config in this repository and symlink it:
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>/etc/munin/munin-node.conf<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/&lt;YOUR-SERVER&gt;/munin/munin-node.conf<span class="w"> </span>/etc/munin/
+systemctl<span class="w"> </span>restart<span class="w"> </span>munin-node
 </code></pre></div></p>
-<h2 id="2023-07-25-disk-full-on-rpooloffproducts">2023-07-25 Disk full on /rpool/off/products<a class="headerlink" href="#2023-07-25-disk-full-on-rpooloffproducts" title="Permanent link">#</a></h2>
-<p>See <a href="reports/2023-07-26-rpool-off-products-full.md">2023-07-26 rpool/off/products dataset full on off1</a></p>
+<p>Look at other conf for munin, eg. <code>confs/off2/munin/munin-node.conf</code>.</p>
+<h3 id="more-plugins">More plugins<a class="headerlink" href="#more-plugins" title="Permanent link">#</a></h3>
+<p>To get zfs plugins we have to install contrib plugins.</p>
+<p>Clone In <code>/opt</code>:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:munin-monitoring/contrib.git<span class="w"> </span>munin-contrib
+</code></pre></div></p>
+<p>sudo mkdir -p /usr/local/munin/lib/plugins
+sudo ln -s /opt/munin-contrib/plugins /usr/local/munin/lib/</p>
+<h4 id="zfs-plugins">ZFS plugins<a class="headerlink" href="#zfs-plugins" title="Permanent link">#</a></h4>
+<p>Activate zfs by linking. We prefer to keep the standard directory as a link
+<div class="highlight"><pre><span></span><code><span class="c1"># activate zfs_arcstats zfs_cache_efficiency zpool_capacity and zpool_iostat</span>
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/munin/lib/plugins/zfs/<span class="o">{</span>zfs_arcstats,zfs_cache_efficiency,zpool_capacity,zpool_iostat<span class="o">}</span><span class="w"> </span>/etc/munin/plugins/
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>munin-node
+</code></pre></div></p>
+<h4 id="nginx-plugins">NGINX plugins<a class="headerlink" href="#nginx-plugins" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># activate nginx-cache-hit-rate nginx_error nginx_memory nginx_connection_request</span>
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/munin/lib/plugins/nginx/<span class="o">{</span>nginx-cache-hit-rate,nginx_error,nginx_memory,nginx_connection_request<span class="o">}</span><span class="w"> </span>/etc/munin/plugins/
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>munin-node
+</code></pre></div>
 
 
 

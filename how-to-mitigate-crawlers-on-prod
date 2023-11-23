@@ -31,6 +31,16 @@ If the User-Agent has some indication on who is using the platform, try to conta
 
 ## Blacklist
 
+### On off2 reverse proxy
+
+```bash
+fail2ban-client set nginx-botsearch banip <IP>
+```
+
+see [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
+
+### On off1
+
 In case it's needed, blacklist the IP address using an iptables rule:
 
 `iptables -A INPUT -s <ip_address> -j DROP`
