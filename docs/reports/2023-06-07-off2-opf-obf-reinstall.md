@@ -156,7 +156,7 @@ Add them to `/etc/sanoid/syncoid-args.conf`
 And on ovh3 add them to `sanoid.conf` with `synced_data` template
 
 
-### Creating Containers
+## Creating Containers
 
 I created a CT for obf followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
@@ -165,7 +165,7 @@ I also [configure postfix](../mail#postfix-configuration) and tested it.
 
 **Important:** do not create any user until you changed id maping in lxc conf (see [Mounting volumes](#mounting-volumes)). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.
 
-#### Installing generic packages
+### Installing generic packages
 
 I also installed generic packages:
 
@@ -173,7 +173,7 @@ I also installed generic packages:
 sudo apt install -y apache2 apt-utils g++ gcc less make gettext wget vim
 ```
 
-#### Geoip with updates
+### Geoip with updates
 
 Installed geoip with updates, and copied `/etc/GeoIP.conf` from opff:
 ```bash
@@ -194,13 +194,13 @@ juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Consumed 3.231s CPU time.
 …
 ```
 
-#### Clone obf as opf
+### Clone obf as opf
 
 I then shutdow the obf VM and clone it as opf.
 
 After cloning I had to change network IP address settings before starting.
 
-#### Installing packages
+### Installing packages
 
 On obf and opf
 
@@ -297,21 +297,6 @@ systemd-logind.service: Failed to set up mount namespacing: /run/systemd/unit-ro
 Jun 13 13:35:19 obf systemd[734]: systemd-logind.service: Failed at step NAMESPACE spawning /lib/systemd/systemd-logind: Permission denied
 ```
 It seems to be related to recent versions of systemd needs nesting (see [here](https://forum.proxmox.com/threads/question-on-nested-option-lxc-container.86497/post-381450)) and so I enabled it by editing `/etc/pve/lxc/11{1,2}.conf`, adding `features: nesting=1`. It fixes the problem. (and indeed 110 was created with this setting on)
-
-### symlinks to mimic old structure
-Now we create symlinks to mimic old structure:
-
-On obf, as root:
-```bash
-for site in o{f,p,pf}f;do \
-  mkdir -p /srv/$site/html/images/ && \
-  chown -R off:off -R /srv/$site/ && \
-
-  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
-done
-ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
-```
-on opf, same with `o{f,b,pf}f`
 
 ## Getting the code
 
@@ -418,10 +403,25 @@ See [Annex files difference for opf in git vs server](#annex-files-difference-fo
 We have git cloned our repository in `/srv/o{b,p}f`.
 
 
+### symlinks to mimic old structure
+Now we create symlinks to mimic old structure:
+
+On obf, as root:
+```bash
+for site in o{f,p,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
+```
+on opf, same with `o{f,b,pf}f`
+
 
 ### linking data
 
-Unless stated operation are done with user off.
+Unless stated otherwise operation are done with user off.
 
 Create links for users and products
 

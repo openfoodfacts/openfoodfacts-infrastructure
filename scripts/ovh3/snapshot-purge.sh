@@ -1,6 +1,8 @@
 #! /bin/bash
 
 # obf, opf and opff are handled by sanoid
+echo "This is obsolete, sanoid handles it now"
+exit 1
 for D in off-pro off
 do
   # destroy old snapshots, keep last 100 (one full day) and the daily ones at midnight

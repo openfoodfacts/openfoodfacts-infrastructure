@@ -8,10 +8,10 @@ PROXY_CT=101
 # support fr locale
 lxc-attach -n $CT -- sed -i 's/# \(en_US\|fr_FR\).UTF-8 UTF-8/\1.UTF-8 UTF-8/' /etc/locale.gen
 pct exec $CT locale-gen
-pct exec $CT apt update
-lxc-attach -n $CT -- apt install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release
+pct exec $CT apt update 
+lxc-attach -n $CT -- apt install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release vim bsd-mailx tree screen
 lxc-attach -n $CT -- apt install -y munin-node
-pct exec $CT apt dist-upgrade
+pct exec $CT apt -y dist-upgrade
 pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
 # To allow function keys to work properly in bash sessions
 # https://forum.proxmox.com/threads/function-keys-with-lxc-and-xterm-js.61747/

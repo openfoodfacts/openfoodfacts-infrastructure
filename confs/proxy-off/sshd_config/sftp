@@ -1,0 +1,240 @@
+# Configuration of sftp users
+#
+# sftp is used by producers or other data providers to submit data to integrate to openfoodfacts
+#
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#	X11Forwarding no
+#	AllowTcpForwarding no
+#	PermitTTY no
+#	ForceCommand cvs server
+
+Match User carrefour
+	ChrootDirectory /home/sftp/carrefour
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User systemeu
+	ChrootDirectory /home/sftp/systemeu
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User daniel
+        ChrootDirectory /home/sftp/daniel
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+
+Match User fleurymichon
+        ChrootDirectory /home/sftp/fleurymichon
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+
+Match User casino
+        ChrootDirectory /home/sftp/casino
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User composcan
+        ChrootDirectory /home/sftp/composcan
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User ldc
+        ChrootDirectory /home/sftp/ldc
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User monoprix
+        ChrootDirectory /home/sftp/monoprix
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User scamark
+        ChrootDirectory /home/sftp/scamark
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User auchan
+        ChrootDirectory /home/sftp/auchan
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User foodvisor
+        ChrootDirectory /home/sftp/foodvisor
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User saintelucie
+        ChrootDirectory /home/sftp/saintelucie
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User sodiaal
+        ChrootDirectory /home/sftp/sodiaal
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User nsgroup
+        ChrootDirectory /home/sftp/nsgroup
+        X11Forwarding no
+        AllowTcpForwarding no
+        ForceCommand internal-sftp
+
+Match User sodebo
+	ChrootDirectory /home/sftp/sodebo
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User ppenmarch
+	ChrootDirectory /home/sftp/ppenmarch
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User auroremarket
+	ChrootDirectory /home/sftp/auroremarket
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User bonduelle
+	ChrootDirectory /home/sftp/bonduelle
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User sebleouf
+	ChrootDirectory /home/sftp/sebleouf
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User bonduellebr
+	ChrootDirectory /home/sftp/bonduellebr
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User crepebroceliande
+	ChrootDirectory /home/sftp/crepebroceliande
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User dacobello
+	ChrootDirectory /home/sftp/dacobello
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User lutti
+	ChrootDirectory /home/sftp/lutti
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User lafel
+	ChrootDirectory /home/sftp/lafel
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User noracdobrasil
+	ChrootDirectory /home/sftp/noracdobrasil
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User naturalia
+	ChrootDirectory /home/sftp/naturalia
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User amelie
+	ChrootDirectory /home/sftp/amelie
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User artinformatique
+	ChrootDirectory /home/sftp/artinformatique
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User danone
+	ChrootDirectory /home/sftp/danone
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User unilever
+	ChrootDirectory /home/sftp/unilever
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User delhaize
+	ChrootDirectory /home/sftp/delhaize
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User loue
+	ChrootDirectory /home/sftp/loue
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User franprix
+	ChrootDirectory /home/sftp/franprix
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User equadis
+	ChrootDirectory /home/sftp/equadis
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User traceone
+	ChrootDirectory /home/sftp/traceone
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User elcoco
+	ChrootDirectory /home/sftp/elcoco
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User carrefourespana
+	ChrootDirectory /home/sftp/carrefourespana
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp
+
+Match User bayard
+	ChrootDirectory /home/sftp/bayard
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand internal-sftp

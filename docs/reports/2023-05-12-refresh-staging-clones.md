@@ -54,7 +54,7 @@ I tried to bypass it using `umount -f /rpool/off/clones/images` but it failed wi
 I took some time trying to find the culprit process, but `lsof +D` is quite unusable due to the large amount of files.
 On off staging there were no more mounted clone nfs shares (`cat /etc/mtab`).
 
-Finally after some internet research, I stumble upon the `sudo shownount -a` command that shows which NFS shares are in use, and I found that `images` was still reported as mounted on `10.1.0.200`.
+Finally after some internet research, I stumble upon the `sudo showmount -a` command that shows which NFS shares are in use, and I found that `images` was still reported as mounted on `10.1.0.200`.
 I simply did a restart of NFS services (`sudo systemctl restart nfs-server.service`) and the information was correct again, with the umount finally working.
 
 ## Restarting dockers

@@ -1921,8 +1921,11 @@ $ find /srv/opff-old/ -xdev -type l -exec ls -l \{\} \;
 - verification of snapshot state on off2 and ovh3
 - use chattr +i on mountpoints, see https://serverfault.com/questions/313994/how-to-prevent-access-to-unmounted-mount-point
 
+- remove svg of leaderboard on OPFF
+
 
 ### TODO for off install
 - Generate JS assets via github action and add to release
 - Minions for off
 - pb madenearme - WONTFIX ?
+- 

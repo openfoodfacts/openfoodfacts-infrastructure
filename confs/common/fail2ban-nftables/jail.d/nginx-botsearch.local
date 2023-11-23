@@ -1,0 +1,8 @@
+[nginx-botsearch]
+enabled = true
+filter = nginx-botsearch
+logpath = /var/log/nginx/*log
+port = 80,443
+
+
+
