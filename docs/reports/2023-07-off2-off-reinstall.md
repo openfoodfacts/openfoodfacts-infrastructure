@@ -1017,7 +1017,8 @@ And on off, we need to be able to reach off-pro `export_files` and images:
 sudo mkdir /srv/off-pro/
 sudo chown off:off /srv/off-pro/
 sudo -u off ln -s /mnt/off-pro/cache/export_files /srv/off-pro/export_files
-sudo -u off ln -s /mnt/off-pro/images /srv/off-pro/images
+sudo -u off mkdir /srv/off-pro/html
+sudo -u off ln -s /mnt/off-pro/images /srv/off-pro/html/images
 # verify
 ls -l /srv/off-pro/export_files{,/} /srv/off-pro/images{,/}
 ```
