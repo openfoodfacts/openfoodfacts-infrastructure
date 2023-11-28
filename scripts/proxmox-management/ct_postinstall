@@ -11,7 +11,7 @@ pct exec $CT locale-gen
 pct exec $CT apt-cache update 
 lxc-attach -n $CT -- apt-get install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release vim bsd-mailx tree screen
 lxc-attach -n $CT -- apt-get install -y munin-node
-pct exec $CT apt-get dist-upgrade -y
+pct exec $CT apt-get dist-upgrade 
 pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
 # To allow function keys to work properly in bash sessions
 # https://forum.proxmox.com/threads/function-keys-with-lxc-and-xterm-js.61747/
