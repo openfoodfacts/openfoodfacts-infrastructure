@@ -58,7 +58,7 @@ my $password_hash = unix_md5_crypt($password, gensalt(8));
 
 my $user_dir = "$sftpdir/$user";
 
-# we just need to create the user and add it to the sftp group
+# we just need to create the user and add it to the sftponly group
 my @user_cmd = ("useradd", "$user", "-d", "$user_dir/data", "-g", "1006", "-M", "-N", "-p", $password_hash);
 print("running: ". join(" ", @user_cmd) . "\n");
 system(@user_cmd);
