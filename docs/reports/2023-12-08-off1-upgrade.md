@@ -4,7 +4,7 @@ This is the same operation as [# 2023-02-17 Off2 Upgrade](./2023-02-17-off2-upgr
 but for off1.
 
 We will:
-* add three 12T disks
+* add four 14T disks
 * add an adapter card for SSD
 * add two 2T nvme disk and one 14G optane, while keeping existing nvme
 * completely reinstall the system with Proxmox 7.4.1
