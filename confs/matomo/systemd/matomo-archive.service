@@ -3,7 +3,7 @@ Description=Archive matomo requests
 Requires=mariadb.service
 
 # email on failure
-OnFailure=email-failures@matomo-archive-%l.service
+OnFailure=email-failures@matomo-archive-%H.service
 
 [Service]
 Environment=TZ=UTC
