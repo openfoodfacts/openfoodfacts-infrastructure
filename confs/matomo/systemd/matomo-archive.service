@@ -9,6 +9,8 @@ OnFailure=email-failures@matomo-archive-%H.service
 Environment=TZ=UTC
 # oneshot because it is driven by a timer
 Type=oneshot
+User=www-data
+Group=www-data
 ExecStart=/usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ 
 StandardOutput=file:/var/log/matomo/matomo-archive.log
 StandardError=file:/var/log/matomo/matomo-archive-err.log
