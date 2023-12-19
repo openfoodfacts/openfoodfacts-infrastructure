@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Matomo archive process every 5 minutes
+
+[Timer]
+# every 5 minutes
+OnBootSec=5m
+OnUnitInactiveSec=5m
+
+[Install]
+WantedBy=timers.target
+

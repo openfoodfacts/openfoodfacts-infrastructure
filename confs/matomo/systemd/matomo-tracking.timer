@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Matomo tracking process every minutes
+
+[Timer]
+# every 1 minutes
+OnBootSec=60s
+OnUnitInactiveSec=60s
+
+[Install]
+WantedBy=timers.target
+
