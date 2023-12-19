@@ -1,4 +1,6 @@
 [Unit]
+# call this unit in the OnFailure directive
+# you can use %i if needed, or %l (%H on older systemd versions)
 Description=%i failure email notification 
 
 [Service]
