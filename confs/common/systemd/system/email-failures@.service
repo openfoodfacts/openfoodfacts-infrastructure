@@ -4,6 +4,6 @@ Description=%i failure email notification
 [Service]
 Type=oneshot
 # replace __ by @ in instance name to be able to call status on a specific instance
-# then use mailx to email status
+# then use mailx to email status (apt install bsd-mailx if needed)
 ExecStart=/bin/bash -c 'INSTANCE_NAME=%i; SERVICE_NAME=$${INSTANCE_NAME//__/@}; /bin/systemctl status $$SERVICE_NAME | /usr/bin/mailx -s "[$$SERVICE_NAME] failure notification" root'
 
