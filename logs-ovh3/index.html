@@ -555,6 +555,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-12-05-certificates-for-images-expired" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-12-05 certificates for images expired
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-09-12-logrotate-nginx" class="md-nav__link">
     <span class="md-ellipsis">
       2023-09-12 logrotate nginx
@@ -1742,6 +1751,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-12-05-certificates-for-images-expired" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-12-05 certificates for images expired
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-09-12-logrotate-nginx" class="md-nav__link">
     <span class="md-ellipsis">
       2023-09-12 logrotate nginx
@@ -1816,6 +1834,17 @@
 <h1 id="ovh3-server-logs">ovh3 server logs<a class="headerlink" href="#ovh3-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on ovh3 server.
 Keep things short or write a report.</p>
+<h2 id="2023-12-05-certificates-for-images-expired">2023-12-05 certificates for images expired<a class="headerlink" href="#2023-12-05-certificates-for-images-expired" title="Permanent link">#</a></h2>
+<p>Images not displaying anymore on the website due to SSL problem (signaled by Edouard, with alert by blackbox exporter)
+In syslog:
+<div class="highlight"><pre><span></span><code>Dec  5 13:12:58 off2 certbot[385770]: Failed to renew certificate images.openfoodfacts.org with error: The requested nginx plugin does not appear to be installed
+</code></pre></div>
+Checked <code>/etc/letsencrypt/renewal/images.openfoodfacts.org.conf</code> it uses nginx authenticator.
+To resolve:
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>python3-certbot-nginx
+certbot<span class="w"> </span>renew
+</code></pre></div>
+also <code>mv /etc/letsencrypt/renewal/ovh3.openfoodfacts.org.{conf,backup}</code> as the domain is not served anymore</p>
 <h2 id="2023-09-12-logrotate-nginx">2023-09-12 logrotate nginx<a class="headerlink" href="#2023-09-12-logrotate-nginx" title="Permanent link">#</a></h2>
 <p>Nginx has a big static-access.log file (52G).
 I changed <code>/etc/logrotate.d/nginx</code> to take into account <code>/rpool/logs-nginx/*.log</code> and launched <code>/usr/sbin/logrotate /etc/logrotate.conf</code>.</p>

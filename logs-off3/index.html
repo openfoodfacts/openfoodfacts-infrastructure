@@ -530,6 +530,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#2023-12-17-mongodb-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-12-17 Mongodb down
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1759,6 +1768,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#2023-12-17-mongodb-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-12-17 Mongodb down
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1790,6 +1808,12 @@ Keep things short or write a report.</p>
 <p>see <a href="../reports/2023-05-19-overload-of-osm-machine/">2023-05-18 Mongodb down</a></p>
 <h2 id="2023-05-05-mongodb-access-from-off2">2023-05-05 Mongodb access from off2<a class="headerlink" href="#2023-05-05-mongodb-access-from-off2" title="Permanent link">#</a></h2>
 <p>see <a href="docs/reports/2023-03-14-off2-opff-reinstall.md#mongodb-access"><em>Mongodb access</em> in 2023-03 OFF2 reinstall - opff migration</a></p>
+<h2 id="2023-12-17-mongodb-down">2023-12-17 Mongodb down<a class="headerlink" href="#2023-12-17-mongodb-down" title="Permanent link">#</a></h2>
+<p>Started at 6:25am.
+In mongodb logs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;t&quot;</span><span class="p">:{</span><span class="nt">&quot;$date&quot;</span><span class="p">:</span><span class="s2">&quot;2023-12-17T10:40:30.014+01:00&quot;</span><span class="p">},</span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="s2">&quot;I&quot;</span><span class="p">,</span><span class="w">  </span><span class="nt">&quot;c&quot;</span><span class="p">:</span><span class="s2">&quot;NETWORK&quot;</span><span class="p">,</span><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">22942</span><span class="p">,</span><span class="w">   </span><span class="nt">&quot;ctx&quot;</span><span class="p">:</span><span class="s2">&quot;listener&quot;</span><span class="p">,</span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="s2">&quot;Connection refused because there are too many open connections&quot;</span><span class="p">,</span><span class="nt">&quot;attr&quot;</span><span class="p">:{</span><span class="nt">&quot;connectionCount&quot;</span><span class="p">:</span><span class="mi">301</span><span class="p">}}</span>
+</code></pre></div>
+Restarted by Charles (on sunday).</p>
 
 
 
