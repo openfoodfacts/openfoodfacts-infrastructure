@@ -1,0 +1,11 @@
+[mysqld]
+# following https://matomo.org/faq/troubleshooting/faq_183/
+wait_timeout=28800
+innodb_log_file_size=500M
+
+# specific to use memory
+# 4G out of 6G (should be 80% of RAM, but DB is not alone)
+innodb_buffer_pool_size=4G
+# table size 64M / Go = 64*6
+max_heap_table_size=384M
+tmp_table_size=384M
