@@ -11,7 +11,7 @@ Ask for it to *contact* email.
 
 * nginx is used as a HTTP frontend
 * php7.3-fpm run the matomo software
-* mariadb is the main database for matomo
+* mariadb is the main database for matomo, some configurations are made for performance (see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` )
 * redis is used to fast track  matomo requests (see [Matomo setup for performance, below](#matomo-setup-for-performance))
 * Two systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see [Matomo setup for performance, below](#matomo-setup-for-performance))
 * prometheus exporters are installed for nginx and mysql (see [Prometheus exporters, below](#prometheus-exporters))
@@ -61,7 +61,8 @@ We setup matomo for performance (our websites requires it) with two main points:
 * on incoming update request (on a tracked website being visited), it does not immediately updates the database but goes in redis instead,
   then a cron job process redis entries every minute (see `confs/matomo/cront.d/matomo-tracking`).
   See also [official doc](https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/)
-* `MariaDB` has been tuned a bit toward performance (using more memory)
+* `MariaDB` has been tuned a bit toward performance (using more memory) see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` (linked to this repository)
+  * we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/
 
 Both cronjob logs to `/var/log/matomo`.
 
@@ -73,3 +74,7 @@ Nginx prometheus exporter is installed and needs the stub_status site, which exp
 
 Mysql server prometheus exporter is installed (for MariaDB), its `/etc/default` configuration file sets the connection string.
 The corresponding mysql user had to be manually created (instrutions in the config file).
+
+### Updating the Matomo version
+
+Just use the web administration to update the software.
