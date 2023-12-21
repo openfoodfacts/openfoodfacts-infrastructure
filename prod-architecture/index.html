@@ -1759,6 +1759,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-12-11 Matomo down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1926,7 +1947,7 @@
 Of course we should never commit any secret (but few files contains secrets).</p>
 <p>The server has the <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure">infrastructure git repository</a>
 cloned in <code>/opt/openfoodfacts-infrastructure</code> by root user.</p>
-<p>We symlink files in <code>/etc</code> to this directory, this enables updating the server with a simple <code>git pull</code> (but this still may needs services reload or restart).</p>
+<p>We symlink files in <code>/etc</code> to this directory, this enables updating the server with a simple <code>git pull</code> (but this still may needs services reload or restart, or a systemctl daemon-reload, etc.).</p>
 <p><code>/etc/pve</code> is a bit particular for it is only an image of Proxmox configuration (and not a real filesystem),
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.</p>
 <p><strong>TODO:</strong> we could consider automatizing the copy and sync of important (and secret less) <code>/etc/pve</code> files.</p>

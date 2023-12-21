@@ -595,6 +595,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#main-running-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main running services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#site-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Site setup
@@ -617,6 +626,57 @@
   <a href="#in-productopener" class="md-nav__link">
     <span class="md-ellipsis">
       In productopener
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matomo-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matomo install
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matomo install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      using git
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matomo-setup-for-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matomo setup for performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-exporters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prometheus exporters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-matomo-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the Matomo version
     </span>
   </a>
   
@@ -1687,6 +1747,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-12-11 Matomo down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1721,6 +1802,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#main-running-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main running services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#site-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Site setup
@@ -1743,6 +1833,57 @@
   <a href="#in-productopener" class="md-nav__link">
     <span class="md-ellipsis">
       In productopener
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matomo-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matomo install
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matomo install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      using git
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matomo-setup-for-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matomo setup for performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-exporters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prometheus exporters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-matomo-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the Matomo version
     </span>
   </a>
   
@@ -1776,7 +1917,17 @@
 <p>Available at: https://analytics.openfoodfacts.org/</p>
 <p>You must have a user account to access it (hopefully !). Ask for an admin to create you an account if you need it (Beware, there are personal information in the sense of GDPR like ip addresses).
 Ask for it to <em>contact</em> email.</p>
-<p>See also <a href="../reports/2021-02-22-matomo-install/">Install log</a></p>
+<h2 id="main-running-services">Main running services<a class="headerlink" href="#main-running-services" title="Permanent link">#</a></h2>
+<ul>
+<li>nginx is used as a HTTP frontend</li>
+<li>php7.3-fpm run the matomo software</li>
+<li>mariadb is the main database for matomo, some configurations are made for performance (see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> )</li>
+<li>redis is used to fast track  matomo requests (see <a href="#matomo-setup-for-performance">Matomo setup for performance, below</a>)</li>
+<li>Two systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see <a href="#matomo-setup-for-performance">Matomo setup for performance, below</a>)</li>
+<li>prometheus exporters are installed for nginx and mysql (see <a href="#prometheus-exporters">Prometheus exporters, below</a>)</li>
+</ul>
+<p>Most of those systemd services should email on failures.</p>
+<p>Important configuration files are linked to this git repository (see <a href="#using-git">using git, below</a>)</p>
 <h2 id="site-setup">Site setup<a class="headerlink" href="#site-setup" title="Permanent link">#</a></h2>
 <ul>
 <li>goto manage / websites and add a website</li>
@@ -1789,6 +1940,32 @@ Ask for it to <em>contact</em> email.</p>
 </ul>
 <h3 id="in-productopener">In productopener<a class="headerlink" href="#in-productopener" title="Permanent link">#</a></h3>
 <p>We use the <code>$google_analytics</code> variable in config to add the javascript snippet for Matomo.</p>
+<h2 id="matomo-install">Matomo install<a class="headerlink" href="#matomo-install" title="Permanent link">#</a></h2>
+<p>See also <a href="../reports/2021-02-22-matomo-install/">Install log</a> and <a href="../reports/2023-12-11-matomo-down/">2023-12-11 Matomo down</a></p>
+<h3 id="using-git">using git<a class="headerlink" href="#using-git" title="Permanent link">#</a></h3>
+<p>We use git to track some important configurations files in this repository.</p>
+<p>The repository is checked out in /opt/openfoodfacts-infrastructure and specific <code>/etc</code> configurations files are symlinked there (see <code>confs/matomo</code>).</p>
+<h3 id="matomo-setup-for-performance">Matomo setup for performance<a class="headerlink" href="#matomo-setup-for-performance" title="Permanent link">#</a></h3>
+<p>We setup matomo for performance (our websites requires it) with two main points:</p>
+<ul>
+<li>it does not process archives on incoming requests but instead on a cron job (see <code>confs/matomo/cront.d/matomo-archive</code>).
+  See also <a href="https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/">official doc</a>.</li>
+<li>on incoming update request (on a tracked website being visited), it does not immediately updates the database but goes in redis instead,
+  then a cron job process redis entries every minute (see <code>confs/matomo/cront.d/matomo-tracking</code>).
+  See also <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/">official doc</a></li>
+<li><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository)<ul>
+<li>we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/</li>
+</ul>
+</li>
+</ul>
+<p>Both cronjob logs to <code>/var/log/matomo</code>.</p>
+<p>See also <a href="../reports/2023-12-11-matomo-down/">2023-12-11 Matomo down</a></p>
+<h3 id="prometheus-exporters">Prometheus exporters<a class="headerlink" href="#prometheus-exporters" title="Permanent link">#</a></h3>
+<p>Nginx prometheus exporter is installed and needs the stub_status site, which exposes nginx metrics.</p>
+<p>Mysql server prometheus exporter is installed (for MariaDB), its <code>/etc/default</code> configuration file sets the connection string.
+The corresponding mysql user had to be manually created (instrutions in the config file).</p>
+<h3 id="updating-the-matomo-version">Updating the Matomo version<a class="headerlink" href="#updating-the-matomo-version" title="Permanent link">#</a></h3>
+<p>Just use the web administration to update the software.</p>
 <div class="footnote">
 <hr />
 <ol>
