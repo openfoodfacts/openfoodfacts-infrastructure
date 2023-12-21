@@ -1,0 +1,21 @@
+[Unit]
+Description=Process matomo tracking requests from Redis
+Requires=mariadb.service
+Requires=redis-server.service
+
+# email on failure
+OnFailure=email-failures@%H__matomo-archive.service
+
+[Service]
+Environment=TZ=UTC
+# oneshot because it is driven by a timer
+Type=oneshot
+User=www-data
+Group=www-data
+# see https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/
+ExecStart=/usr/bin/php /var/www/html/matomo/console queuedtracking:process --no-ansi 
+StandardOutput=file:/var/log/matomo/matomo-tracking.log
+StandardError=file:/var/log/matomo/matomo-tracking-err.log
+# place a timeout for bad cases
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+TimeoutStartSec=20m
