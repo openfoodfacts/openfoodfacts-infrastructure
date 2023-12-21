@@ -18,7 +18,7 @@ Of course we should never commit any secret (but few files contains secrets).
 The server has the [infrastructure git repository](https://github.com/openfoodfacts/openfoodfacts-infrastructure)
 cloned in `/opt/openfoodfacts-infrastructure` by root user.
 
-We symlink files in `/etc` to this directory, this enables updating the server with a simple `git pull` (but this still may needs services reload or restart).
+We symlink files in `/etc` to this directory, this enables updating the server with a simple `git pull` (but this still may needs services reload or restart, or a systemctl daemon-reload, etc.).
 
 `/etc/pve` is a bit particular for it is only an image of Proxmox configuration (and not a real filesystem),
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.
