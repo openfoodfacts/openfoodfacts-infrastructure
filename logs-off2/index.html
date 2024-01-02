@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -473,6 +473,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2023-01-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-01-02
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#2023-10-23-vm-101-openpetfoodfacts-ssl-certificate-expired" class="md-nav__link">
@@ -1745,6 +1754,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2023-01-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      2023-01-02
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-10-23-vm-101-openpetfoodfacts-ssl-certificate-expired" class="md-nav__link">
     <span class="md-ellipsis">
       2023-10-23 (VM 101) openpetfoodfacts SSL certificate expired
@@ -1801,6 +1819,11 @@
 <h1 id="off2-server-logs">off2 server logs<a class="headerlink" href="#off2-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on off2 server.
 Keep things short or write a report.</p>
+<h2 id="2023-01-02">2023-01-02<a class="headerlink" href="#2023-01-02" title="Permanent link">#</a></h2>
+<p>openpetfoodfats.org answers with a 502 bad gateway.
+<code>curl --header "Host: world.openpetfoodfacts.org" http://10.1.0.110:80/</code> does not work from proxy, while it works from off2.
+The problem solves as I launch a <code>ping 10.1.0.101</code> from opff (110)…
+I think it's an ARP problem.</p>
 <h2 id="2023-10-23-vm-101-openpetfoodfacts-ssl-certificate-expired">2023-10-23 (VM 101) openpetfoodfacts SSL certificate expired<a class="headerlink" href="#2023-10-23-vm-101-openpetfoodfacts-ssl-certificate-expired" title="Permanent link">#</a></h2>
 <p>The website https://fr.openpetfoodfacts.org use a certificate expired on 2023-10-20 and emited on july 22th.
 <code>certbot renew</code> says nothing is to be renewed.

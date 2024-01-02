@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -2004,13 +2004,13 @@
 <p>Note: mtools has not been updated in years, and it works with the very old (not JSON) MongoDB log format. The logs can be converted to the old format with https://github.com/ricojf-mongodb/convert-json-logs-to-legacy</p>
 <h4 id="saturday-14102023">Saturday 14/10/2023<a class="headerlink" href="#saturday-14102023" title="Permanent link">#</a></h4>
 <p>On Saturday we reached the 300 connections limit until Charles restarted MongoDB, but the connections then continued to pile up.</p>
-<p><a class="glightbox" href="../media/2023-10-14-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Saturday 14/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 14/10/2023 - MongodDB connection churn" src="../media/2023-10-14-mongodb-connections.png" /></a></p>
+<p><a class="glightbox" href="../media/2023-10-14-mongodb-connections.png" data-type="image" data-width="auto" data-height="auto" data-title="Saturday 14/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 14/10/2023 - MongodDB connection churn" src="../media/2023-10-14-mongodb-connections.png" /></a></p>
 <h4 id="sunday-15102023">Sunday 15/10/2023<a class="headerlink" href="#sunday-15102023" title="Permanent link">#</a></h4>
 <p>On Sunday morning, we reached the maximum again, until Charles again restarted MongoDB. The connections started to climb again, but then went back to normal in the early afternoon.</p>
-<p><a class="glightbox" href="../media/2023-10-15-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Saturday 15/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 15/10/2023 - MongodDB connection churn" src="../media/2023-10-15-mongodb-connections.png" /></a></p>
+<p><a class="glightbox" href="../media/2023-10-15-mongodb-connections.png" data-type="image" data-width="auto" data-height="auto" data-title="Saturday 15/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Saturday 15/10/2023 - MongodDB connection churn" src="../media/2023-10-15-mongodb-connections.png" /></a></p>
 <h4 id="monday-16102023">Monday 16/10/2023<a class="headerlink" href="#monday-16102023" title="Permanent link">#</a></h4>
 <p>On Monday everything is normal.</p>
-<p><a class="glightbox" href="../media/2023-10-16-mongodb-connections.png" data-type="image" data-width="100%" data-height="auto" data-title="Monday 16/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Monday 16/10/2023 - MongodDB connection churn" src="../media/2023-10-16-mongodb-connections.png" /></a></p>
+<p><a class="glightbox" href="../media/2023-10-16-mongodb-connections.png" data-type="image" data-width="auto" data-height="auto" data-title="Monday 16/10/2023 - MongodDB connection churn" data-desc-position="bottom"><img alt="Monday 16/10/2023 - MongodDB connection churn" src="../media/2023-10-16-mongodb-connections.png" /></a></p>
 <h3 id="determining-why-active-connections-are-climbing">Determining why active connections are climbing<a class="headerlink" href="#determining-why-active-connections-are-climbing" title="Permanent link">#</a></h3>
 <p>In the MongoDB logs we can see that MongoDB connections are coming from different IP addresses. e.g. with the Saturday logs:</p>
 <p>`grep -c 51.210.154.203  mongod.log.2.legacy

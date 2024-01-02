@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -1847,7 +1847,7 @@ can&#39;t write into /srv/off/products/805/325/960/8031/10.sto: No space left on
 <p>First step was to remove the opf obf and opff datasets, as they were already moved to off2 and weren't needed anymore
 But this gained 22 Go only, which does not seems to be a solution for more than the very short term.</p>
 <p>After that we investigate more thanks to Pierre and Raphaël. Looking at munin graphs, specially the yearly one, we saw that the /rpool/off/products dataset was growing fast, but in the past we saw the hard cut corresponding to snapshot deletion, making it loose 1/3 of the size (BTW it's not that easy <a href="https://www.computel.fr/munin/openfoodfacts/off1.openfoodfacts/df.html">to get to this yearly graphic</a>). It occured to me that I did a change to sto-products-sync.sh following incident on ovh3 synchronization (see <a href="../2023-06-08-stalled-zfs-sync-off-products/">2012-06-08 Stalled ZFS Sync for off products on ovh3</a>) to avoid removing snapshot too quickly… and the simple solution had been to keep more snapshots.</p>
-<p><a class="glightbox" href="../../img/2023-07-26-munin-off1-df-yearly.png" data-type="image" data-width="100%" data-height="auto" data-title="Yearly disk free space for off1" data-desc-position="bottom"><img alt="Yearly disk free space for off1" src="../../img/2023-07-26-munin-off1-df-yearly.png" title="Yearly disk free space for off1" /></a></p>
+<p><a class="glightbox" href="../../img/2023-07-26-munin-off1-df-yearly.png" data-type="image" data-width="auto" data-height="auto" data-title="Yearly disk free space for off1" data-desc-position="bottom"><img alt="Yearly disk free space for off1" src="../../img/2023-07-26-munin-off1-df-yearly.png" title="Yearly disk free space for off1" /></a></p>
 <p>As we are about to move to off2, a temporary solution is to just remove some of the daily snapshosts from last month.</p>
 <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/off/products@20230602-0000
 zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/off/products@20230603-0000

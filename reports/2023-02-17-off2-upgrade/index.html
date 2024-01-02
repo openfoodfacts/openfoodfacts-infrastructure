@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -2097,9 +2097,9 @@ The new 14Tb disks have exactly the same reference numbers as the old one.</p>
 <p>Then we put the new RAMs in the server. They are symmetric to the already existing one, on the other side of the CPU. The cover indicates in which orientation memories should be connected.</p>
 <p>We removed the card with the two SSDs on it to put a new card that support four SSD. We removed the box containing the card from the back of the server (next to ethernet ports) and plug the card out. The new card is a bit bigger than the previous so we have to remove a small piece of plastic to pull it into place. But first we put the three SSDs + the Optane disk (two on each sides). We miss one small screw for on of the SSD, but as it is blocked by the box bottom, it's not a problem.
 We put the card back into the server.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-card.jpg" data-type="image" data-width="100%" data-height="auto" data-title="SDD adpater card" data-desc-position="bottom"><img alt="SDD adpater card" src="../../img/2023-02-free-dc-ssd-pci-card.jpg" title="The SDD adapter card" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-card-insertion.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Inserting adpater card" data-desc-position="bottom"><img alt="Inserting adpater card" src="../../img/2023-02-free-dc-ssd-pci-card-insertion.jpg" title="Inserting SDD adapter card into the extension slot" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-setup.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Insert back slot in server" data-desc-position="bottom"><img alt="Insert back slot in server" src="../../img/2023-02-free-dc-ssd-pci-setup.jpg" title="Inserting the extension slot with the SDD adapter card back in the server" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-card.jpg" data-type="image" data-width="auto" data-height="auto" data-title="SDD adpater card" data-desc-position="bottom"><img alt="SDD adpater card" src="../../img/2023-02-free-dc-ssd-pci-card.jpg" title="The SDD adapter card" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-card-insertion.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Inserting adpater card" data-desc-position="bottom"><img alt="Inserting adpater card" src="../../img/2023-02-free-dc-ssd-pci-card-insertion.jpg" title="Inserting SDD adapter card into the extension slot" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-ssd-pci-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Insert back slot in server" data-desc-position="bottom"><img alt="Insert back slot in server" src="../../img/2023-02-free-dc-ssd-pci-setup.jpg" title="Inserting the extension slot with the SDD adapter card back in the server" width="50%" /></a></p>
 <p>Now we are ready for reboot.</p>
 <p>We plug the server again.</p>
 <p>We power on (small button on the right on the front of the server).</p>
@@ -2114,8 +2114,8 @@ We put the card back into the server.</p>
 <li>we choose: Auto discovery of bifurcation</li>
 </ul>
 <p>This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - slot bifurcation menu" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation menu" src="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" title="Getting to Slot bifurcation menu in BIOS" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - slot bifurcation" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation" src="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" title="Slot bifurcation set to Auto Discovery in BIOS" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - slot bifurcation menu" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation menu" src="../../img/2023-02-free-dc-bios-slot-bifurcation-menu.jpg" title="Getting to Slot bifurcation menu in BIOS" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - slot bifurcation" data-desc-position="bottom"><img alt="BIOS screen - slot bifurcation" src="../../img/2023-02-free-dc-bios-slot-bifurcation-auto.jpg" title="Slot bifurcation set to Auto Discovery in BIOS" width="50%" /></a></p>
 <h3 id="idrac-ipmi">IDRAC / IPMI<a class="headerlink" href="#idrac-ipmi" title="Permanent link">#</a></h3>
 <p>We go in Network settings to configure IDRAC / IPMI (which has its own ethernet card):</p>
 <ul>
@@ -2126,25 +2126,25 @@ We put the card back into the server.</p>
 <li>Static Prefered DNS: 213.36.253.10</li>
 <li>Static Alter: 213.36.252.131</li>
 </ul>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-idrac-settings.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - IDRAC" data-desc-position="bottom"><img alt="BIOS screen - IDRAC" src="../../img/2023-02-free-dc-bios-idrac-settings.jpg" title="IDRAC settings in BIOS" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-idrac-settings.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - IDRAC" data-desc-position="bottom"><img alt="BIOS screen - IDRAC" src="../../img/2023-02-free-dc-bios-idrac-settings.jpg" title="IDRAC settings in BIOS" width="50%" /></a></p>
 <p>These settings are given by our host provider (free)</p>
 <h3 id="perc-adapter">PERC adapter<a class="headerlink" href="#perc-adapter" title="Permanent link">#</a></h3>
 <p>We go reboot and go again in the BIOS to configure PERC Adapter Bios (Power Edge RAID Controller), and change configuration to be in HBA mode for disks.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-1.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - PERC - 1" data-desc-position="bottom"><img alt="BIOS screen - PERC - 1" src="../../img/2023-02-free-dc-bios-disks-perc-1.jpg" title="PERC settings in BIOS - first screen" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-2.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - PERC - 2" data-desc-position="bottom"><img alt="BIOS screen - PERC - 2" src="../../img/2023-02-free-dc-bios-disks-perc-2.jpg" title="PERC settings in BIOS - second screen" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-hba.jpg" data-type="image" data-width="100%" data-height="auto" data-title="BIOS screen - PERC - hba" data-desc-position="bottom"><img alt="BIOS screen - PERC - hba" src="../../img/2023-02-free-dc-bios-disks-perc-hba.jpg" title="PERC settings in BIOS - HBA mode screen" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-1.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - PERC - 1" data-desc-position="bottom"><img alt="BIOS screen - PERC - 1" src="../../img/2023-02-free-dc-bios-disks-perc-1.jpg" title="PERC settings in BIOS - first screen" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-2.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - PERC - 2" data-desc-position="bottom"><img alt="BIOS screen - PERC - 2" src="../../img/2023-02-free-dc-bios-disks-perc-2.jpg" title="PERC settings in BIOS - second screen" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-bios-disks-perc-hba.jpg" data-type="image" data-width="auto" data-height="auto" data-title="BIOS screen - PERC - hba" data-desc-position="bottom"><img alt="BIOS screen - PERC - hba" src="../../img/2023-02-free-dc-bios-disks-perc-hba.jpg" title="PERC settings in BIOS - HBA mode screen" width="50%" /></a></p>
 <h2 id="proxmox-install">Proxmox install<a class="headerlink" href="#proxmox-install" title="Permanent link">#</a></h2>
 <p>We plug the bootable USB stick with <a href="https://www.proxmox.com/en/proxmox-ve">Proxmox VE</a> iso for installation.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-usb-stick.jpg" data-type="image" data-width="100%" data-height="auto" data-title="USB stick plugged for install" data-desc-position="bottom"><img alt="USB stick plugged for install" src="../../img/2023-02-free-dc-usb-stick.jpg" title="The USB stick with iso of Proxmox VE ready to boot" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-usb-stick.jpg" data-type="image" data-width="auto" data-height="auto" data-title="USB stick plugged for install" data-desc-position="bottom"><img alt="USB stick plugged for install" src="../../img/2023-02-free-dc-usb-stick.jpg" title="The USB stick with iso of Proxmox VE ready to boot" width="50%" /></a></p>
 <p>As we re-start the server we go in boot setup (F11) and in boot option menu, we choose the USB key media to boot.</p>
 <p>We arrive on Proxmox install screen, and start installation.</p>
 <p>It discovers the network, and ask to validate EULA (End User License Agreement).</p>
 <p>We have to choose the target start disk. We can see all disks are there.
 We choose target ZFS. We choose RAID5, and we setup to only use the four 14TB disks. advanced config but keep the defaults.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-start.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Proxmox VE first screen" data-desc-position="bottom"><img alt="Proxmox VE first screen" src="../../img/2023-02-free-dc-pve-install-start.jpg" title="The first screen of install of Proxmox VE" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-choice-zfs.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Proxmox VE choosing ZFS" data-desc-position="bottom"><img alt="Proxmox VE choosing ZFS" src="../../img/2023-02-free-dc-pve-install-choice-zfs.jpg" title="We choose to install on ZFS" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-zfs-pool.jpg" data-type="image" data-width="100%" data-height="auto" data-title="ZFS pool choice screen" data-desc-position="bottom"><img alt="ZFS pool choice screen" src="../../img/2023-02-free-dc-pve-install-zfs-pool.jpg" title="We choose the disks to add in the ZFS pool" width="50%" /></a></p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-zfs-pool-advanced.jpg" data-type="image" data-width="100%" data-height="auto" data-title="ZFS advanced" data-desc-position="bottom"><img alt="ZFS advanced" src="../../img/2023-02-free-dc-pve-install-zfs-pool-advanced.jpg" title="We kept default for ZFS advanced options" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-start.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Proxmox VE first screen" data-desc-position="bottom"><img alt="Proxmox VE first screen" src="../../img/2023-02-free-dc-pve-install-start.jpg" title="The first screen of install of Proxmox VE" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-choice-zfs.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Proxmox VE choosing ZFS" data-desc-position="bottom"><img alt="Proxmox VE choosing ZFS" src="../../img/2023-02-free-dc-pve-install-choice-zfs.jpg" title="We choose to install on ZFS" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-zfs-pool.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS pool choice screen" data-desc-position="bottom"><img alt="ZFS pool choice screen" src="../../img/2023-02-free-dc-pve-install-zfs-pool.jpg" title="We choose the disks to add in the ZFS pool" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-zfs-pool-advanced.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS advanced" data-desc-position="bottom"><img alt="ZFS advanced" src="../../img/2023-02-free-dc-pve-install-zfs-pool-advanced.jpg" title="We kept default for ZFS advanced options" width="50%" /></a></p>
 <p>But maybe we did two errors:</p>
 <ul>
 <li>we should have changed the HDSize to have a bigger partition (Proxomx VE choose 13Gb because this was the size of the smallest disk)</li>
@@ -2158,9 +2158,9 @@ hostname: off2.openfoodfacts.org</p>
 <li>Gateway: 213.36.253.222</li>
 <li>DNS Server: 213.36.253.10</li>
 </ul>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-network.jpg" data-type="image" data-width="100%" data-height="auto" data-title="eno2 config" data-desc-position="bottom"><img alt="eno2 config" src="../../img/2023-02-free-dc-pve-install-network.jpg" title="Configuration for eno2 interface" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-network.jpg" data-type="image" data-width="auto" data-height="auto" data-title="eno2 config" data-desc-position="bottom"><img alt="eno2 config" src="../../img/2023-02-free-dc-pve-install-network.jpg" title="Configuration for eno2 interface" width="50%" /></a></p>
 <p>We are asked for confirmation:</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-summary.jpg" data-type="image" data-width="100%" data-height="auto" data-title="Install summary screen" data-desc-position="bottom"><img alt="Install summary screen" src="../../img/2023-02-free-dc-pve-install-summary.jpg" title="Summary of Proxmox install" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-install-summary.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Install summary screen" data-desc-position="bottom"><img alt="Install summary screen" src="../../img/2023-02-free-dc-pve-install-summary.jpg" title="Summary of Proxmox install" width="50%" /></a></p>
 <p>And we launch install. It takes time. At the end it reboots.
 We remove USB stick.</p>
 <h3 id="first-launch">first launch<a class="headerlink" href="#first-launch" title="Permanent link">#</a></h3>
@@ -2169,17 +2169,17 @@ We remove USB stick.</p>
 <p><code>zpool import -f rpool</code> does not work because we have more than one numeric pool for the same name (because the zpool).</p>
 <p>So we use <code>zpool list</code> and <code>zpool status</code> to get the numeric id.
 Then <code>zpool import -f &lt;numeric-id&gt;</code>.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool.jpg" data-type="image" data-width="100%" data-height="auto" data-title="import of rpool with numeric id" data-desc-position="bottom"><img alt="import of rpool with numeric id" src="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool.jpg" title="We had to use numeric id to import rpool because of name clash" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool.jpg" data-type="image" data-width="auto" data-height="auto" data-title="import of rpool with numeric id" data-desc-position="bottom"><img alt="import of rpool with numeric id" src="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool.jpg" title="We had to use numeric id to import rpool because of name clash" width="50%" /></a></p>
 <p><code>zpool list</code> show us the pool.</p>
 <p>We see the size of the pool is not what we wanted (it only took part of it), because we did not change HD Size parameter on install.</p>
 <p>We exit with crtl+D</p>
 <p>Now we have access to login.</p>
 <p>We use <code>zpool import</code> to get other id for the old rpool and off-zfs</p>
 <p><code>zpool import -f &lt;numeric id&gt; rpool2</code> to import old rpool with a new name (rpool2).</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool2.jpg" data-type="image" data-width="100%" data-height="auto" data-title="import of rpool2 with numeric id" data-desc-position="bottom"><img alt="import of rpool2 with numeric id" src="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool2.jpg" title="We had to use numeric id to import rpool2 because of name clash" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool2.jpg" data-type="image" data-width="auto" data-height="auto" data-title="import of rpool2 with numeric id" data-desc-position="bottom"><img alt="import of rpool2 with numeric id" src="../../img/2023-02-free-dc-pve-setup-zpool-import-rpool2.jpg" title="We had to use numeric id to import rpool2 because of name clash" width="50%" /></a></p>
 <p>And finally import the last zfs pool
 <code>zpool import -f off-zfs</code>. W still need the <code>-f</code> because ZFS knows it was part of another system, and thus ask confirmation to import it in this new system.</p>
-<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-off-zfs.jpg" data-type="image" data-width="100%" data-height="auto" data-title="final zfs pools" data-desc-position="bottom"><img alt="final zfs pools" src="../../img/2023-02-free-dc-pve-setup-zpool-import-off-zfs.jpg" title="Final ZFS pools" width="50%" /></a></p>
+<p><a class="glightbox" href="../../img/2023-02-free-dc-pve-setup-zpool-import-off-zfs.jpg" data-type="image" data-width="auto" data-height="auto" data-title="final zfs pools" data-desc-position="bottom"><img alt="final zfs pools" src="../../img/2023-02-free-dc-pve-setup-zpool-import-off-zfs.jpg" title="Final ZFS pools" width="50%" /></a></p>
 <h3 id="zfs-commands">zfs commands<a class="headerlink" href="#zfs-commands" title="Permanent link">#</a></h3>
 <p>History of commands made by install for rpool:
 <div class="highlight"><pre><span></span><code>2023-02-17.11:18:33 zpool create -f -o cachefile=none -o ashift=12 rpool mirror /dev/disk/by-id/ata-TOSHIBA_MG07ACA14TEY_X120A00LF9RG-part3 /dev/disk/by-id/ata-TOSHIBA_MG07ACA14TEY_X120A00PF9RG-part3 /dev/disk/by-id/ata-TOSHIBA_MG07ACA14TEY_X8F0A060F9RG-part3 /dev/disk/by-id/ata-TOSHIBA_MG07ACA14TEY_X8F0A0H8F9RG-part3

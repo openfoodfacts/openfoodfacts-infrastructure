@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -2086,7 +2086,7 @@
 <p>We use GitHub Actions to automatically run tests pull requests (unit / integration / lint / performance), but also to build and deploy Docker containers to pre-production and production environments.</p>
 <p>GitHub actions workflows are stored in <code>.github/workflows</code> in each repository.</p>
 <p>In order to ease the deployments of new repositories and have uniform deployments across OFF apps, 2 GitHub Actions workflow templates were created, which can be setup by going to the <code>Actions</code> tab on the GitHub repo and selecting the "Docker image build" and "Docker Compose Deployment" actions:</p>
-<p><a class="glightbox" href="../img/gh_workflows.png" data-type="image" data-width="100%" data-height="auto" data-title="GitHub Action Workflows" data-desc-position="bottom"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png" /></a></p>
+<p><a class="glightbox" href="../img/gh_workflows.png" data-type="image" data-width="auto" data-height="auto" data-title="GitHub Action Workflows" data-desc-position="bottom"><img alt="GitHub Action Workflows" src="../img/gh_workflows.png" /></a></p>
 <h4 id="github-bot">Github Bot<a class="headerlink" href="#github-bot" title="Permanent link">#</a></h4>
 <p>Some actions that needs their actions to trigger new actions, like <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/84">release-please</a>, needs a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">PAT (Personnal Access Token)</a> for that.</p>
 <p>We created <a href="https://github.com/openfoodfacts-bot">a bot account</a> for those cases. It's linked to <code>tech</code> mailing list.
@@ -2118,9 +2118,9 @@ around it. It shows the developers workflow to get a change into
 <ul>
 <li>No humans should have to worry about making releases. The process should be fully automated.</li>
 </ul>
-<p><a class="glightbox" href="../img/cd_process.png" data-type="image" data-width="100%" data-height="auto" data-title="GitOps deployment model" data-desc-position="bottom"><img alt="GitOps deployment model" src="../img/cd_process.png" /></a></p>
+<p><a class="glightbox" href="../img/cd_process.png" data-type="image" data-width="auto" data-height="auto" data-title="GitOps deployment model" data-desc-position="bottom"><img alt="GitOps deployment model" src="../img/cd_process.png" /></a></p>
 <p>The following diagram represents the same process, but seen from a persona perspective (Developer, Maintainer, Release Administrator):</p>
-<p><a class="glightbox" href="../img/cd_process_action.png" data-type="image" data-width="100%" data-height="auto" data-title="GitOps deployment model actions" data-desc-position="bottom"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png" /></a></p>
+<p><a class="glightbox" href="../img/cd_process_action.png" data-type="image" data-width="auto" data-height="auto" data-title="GitOps deployment model actions" data-desc-position="bottom"><img alt="GitOps deployment model actions" src="../img/cd_process_action.png" /></a></p>
 <p><strong>Summary:</strong></p>
 <ul>
 <li>On <strong>pull requests</strong>: run the <code>pull_request.yml</code> Github Action workflow that builds and runs unit / integration / load tests locally.</li>
