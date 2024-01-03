@@ -299,7 +299,7 @@ Then connect to the proxmox host:
   * Install useful package and do some other configurations:
     `sudo /root/cluster-scripts/ct_postinstall` (or `/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall`) choose the container ID when asked.
 
-    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
+    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
   * [create a user](#how-to-create-a-user-in-a-container-or-vm)
 
@@ -316,6 +316,7 @@ Using the web interface:
   * Target: ovh3
   * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
 
+Also think about [configuring email](./mail.md#postfix-configuration) in the container
 
 ## Logging in to a container or VM
 

@@ -284,3 +284,25 @@ zfs-nvme     zfspool     active      1885863288              96      1885863192 
 Also the backups dir automatically get on zfs-hdd, but I don't really know why !
 `cat /etc/pve/storage.cfg` helps see that.
 
+
+## Getting containers templates
+
+See [proxmox docs on container images](https://pve.proxmox.com/wiki/Linux_Container#pct_container_images)
+
+```bash
+pveam update
+pveam available|grep 'debian-.*-standard'
+pveam download local debian-11-standard_11.7-1_amd64.tar.zst
+pveam download local debian-12-standard_12.2-1_amd64.tar.zst
+```
+
+## Adding openfoodfacts-infrastructure repository
+
+Added root ssh pub key (`cat /root/.ssh/id_rsa.pub`) as a [deploy key to github infrastructure repository](https://github.com/openfoodfacts/openfoodfacts-infrastructure/settings/keys)
+
+
+
+```bash
+cd /opt
+git clone git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
+```
