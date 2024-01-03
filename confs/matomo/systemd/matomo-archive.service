@@ -12,8 +12,8 @@ Type=oneshot
 User=www-data
 Group=www-data
 ExecStart=/usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ 
-StandardOutput=file:/var/log/matomo/matomo-archive.log
-StandardError=file:/var/log/matomo/matomo-archive-err.log
+StandardOutput=append:/var/log/matomo/matomo-archive.log
+StandardError=append:/var/log/matomo/matomo-archive-err.log
 # place a timeout for bad cases as this process sometimes hangs
 # note: we have to use TimeoutStartSec as it's a Type=oneshot service
 TimeoutStartSec=1h
