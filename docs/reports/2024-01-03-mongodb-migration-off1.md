@@ -114,7 +114,7 @@ rsync 10.0.0.3:"/etc/logrotate.d/mongo*" /zfs-hdd/pve/subvol-102-disk-0/opt/open
 ```
 
 
-Linked the config: 
+Linked the config:
 ```bash
 mv /etc/mongod.conf{,.dist}
 ln -s /opt/openfoodfacts-infrastructure/confs/mongodb/mongod.conf /etc/mongod.conf
@@ -128,13 +128,96 @@ And check `systemctl start mongod`
 
 ### setting up cron jobs
 
+On off3 we launched some mongodb scripts (namely `refresh_products_tags.js`) but they now disapeared from the product opener repository as we don't need them any more thanks to openfoodfacts-query project (see [openfoodfacts-server commit 90180247f](https://github.com/openfoodfacts/openfoodfacts-server/commit/90180247fe23cedcdcc32249fdb9d7b25bf6051d))
+
+Still we need the product_tags collections for obf, opf and opff.
+
+**TODO:**
+The right solution is to add mongo shell on their respective containers and call `refresh_products_tags.js` with `gen_feeds_daily_*.sh`.
 
 
 
 
 ## Migrating data for a test
 
-We use rsync to get data from off3.
+### trying with a simple rsync (does not works)
 
-Then I 
+We stop mongodb in mongodb container.
+
+We use rsync from off2 to get data from off3:
+
+```bash
+# beware we are on zfs-nvme dataset
+# we also map off and mongodb username and groupname to 100108 and 100116
+# (corresponding to mongodb user/group in mongodb container)
+time rsync -a --delete-delay --usermap=mongodb:100108,off:100108 --groupmap=mongodb:100116,off:100116 10.0.0.3:/mongo/db/ /zfs-nvme/pve/subvol-102-disk-0/db/
+```
+(it took 15 min).
+
+
+Then I restarted mongodb.
+
+Got an error `variable MONGODB_CONFIG_OVERRIDE_NOFORK == 1, overriding \"processManagement.fork\" to false`.
+
+This [thread is interesting](https://stackoverflow.com/a/76293801/2886726).
+With `systemctl cat mongod` I can see that I have `MONGODB_CONFIG_OVERRIDE_NOFORK` set on new container and not on old VM.
+
+See also [MongoDB doc stating](https://www.mongodb.com/docs/manual/reference/configuration-options/#file-format):
+
+> The Linux package init scripts included in the official MongoDB packages depend on specific values for systemLog.path, storage.dbPath, and processManagement.fork. If you modify these settings in the default configuration file, mongod may not start.
+
+The MONGODB_CONFIG_OVERRIDE_NOFORK was introduced by https://jira.mongodb.org/browse/SERVER-74845
+
+Strangely in mongod.conf we keep default value which should be false...
+
+Finally I [saw in the code](https://github.com/mongodb/mongo/blob/r4.4.27/src/mongo/db/server_options_server_helpers.cpp#L132) that the message was just a log / warning not an error…
+
+But in `/var/log/mongodb/mongod.log` I found:
+```
+"msg":"ERROR: Cannot write pid file to {path_string}: {errAndStr_second}","attr":{"path_string":"/var/run/mongodb/mongod.pid","errAndStr_second":"No such file or directory"}
+```
+
+I removed the specific directive for pid file in mongod.conf and restarted mongodb.
+
+Now I can see:
+```json
+{"t":{"$date":"2024-01-04T16:33:33.069+00:00"},"s":"W",  "c":"STORAGE",  "id":22271,   "ctx":"initan
+dlisten","msg":"Detected unclean shutdown - Lock file is not empty","attr":{"lockFile":"/mongo/db/mo
+ngod.lock"}}
+{"t":{"$date":"2024-01-04T16:33:33.069+00:00"},"s":"I",  "c":"STORAGE",  "id":22270,   "ctx":"initan
+dlisten","msg":"Storage engine to use detected by data files","attr":{"dbpath":"/mongo/db","storageE
+ngine":"wiredTiger"}}
+{"t":{"$date":"2024-01-04T16:33:33.069+00:00"},"s":"W",  "c":"STORAGE",  "id":22302,   "ctx":"initan
+dlisten","msg":"Recovering data from the last clean checkpoint."}
+...
+file:WiredTigerHS.wt, hs_access: __wt_block_read_off, 286: WiredTigerHS.wt: potential hardware
+ corruption, read checksum error for 4096B block at offset 36864: block header checksum of 0xe91e380
+0 doesn't match expected checksum of 0xd10d51e"}}
+...
+lot of errors
+...
+```
+so thi is a problem of copy.
+
+Indeed it is [stated by documentation](https://www.mongodb.com/docs/manual/core/backups/#back-up-with-cp-or-rsync):
+> you can copy the files directly using cp, rsync, or a similar tool. Since copying multiple files is not an atomic operation, you must stop all writes to the mongod before copying the files.
+
+
+I'm not able to stop mongodb for just a test, so I will first setup other things like stunnel.
+
+## Setting up stunnel
+
+see [2024-01-04 Setting up stunnel](./2024-01-04-setting-up-stunnel.md)
+
+## Cron job for tags collection generation on opf / opff / obf
+
+Before we directly had a script on the crontab of mongodb server to generate tags collection.
+
+But it disappeared from off main version.
+
+We now will launch those tasks from the different servers, it is more logical and flexible.
+
+On each container: off, opf and opff
+
+* install mongosh: `sudo apt install mongodb-mongosh`
 
