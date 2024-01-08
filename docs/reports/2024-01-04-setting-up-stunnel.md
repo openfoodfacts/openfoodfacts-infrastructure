@@ -86,3 +86,24 @@ fi
 ```
 
 But as right now this is not needed (new mongo is in 10.1.0.102 which is reachable), **I didn't do it**.
+
+## 2023-01-08 MongoDB get hacked !
+
+I did change the configuration for the stunnel entrance not to be exposed on public IP, but it seems it was not taken into account (maybe I did not restart stunnel service correctly)… and thus our MongoDB stunnel access was expose to the wild web… where some hacker immediately take our database and drop it to ask for money against retrieval…
+
+Luckily Gala noticed rapidly and Stephane identified that mongo was exposed through our proxy1 ip address.
+
+We have the data in the sto, so it's not the end of the world but still it's very annoying.
+Unfortunately I did not already setup auto snapshotting (because I was seeing mongodb data as transient)
+
+I rsync data from off3 again (dating 3h before) and lose updates to the mongodb for 3h but got the mongodb up again quickly.
+
+But I took the decision:
+
+* to move client stunnel to a separate container with no risk of exposition
+* to snapshot mongodb data because restoring from sto would take long so it's a big annoyance
+
+**TODO:**
+* create stunnel client container
+* install stunnel and configure client on it
+* move config to that and change robotoff + off-query config to this
