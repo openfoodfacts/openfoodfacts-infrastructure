@@ -221,3 +221,30 @@ On each container: off, opf and opff
 
 * install mongosh: `sudo apt install mongodb-mongosh`
 
+## Migration procedure
+
+* stop mongodb on mongodb container: `systemctl stop mongodb`
+* rsync MongoDB data from off3 to mongodb container. On off1, as root:
+  ```bash
+  time rsync -a --delete-delay --usermap=mongodb:100108,off:100108 --groupmap=mongodb:100116,off:100116 10.0.0.3:/mongo/db/ /zfs-nvme/pve/subvol-102-disk-0/db/
+  ```
+  (took 15 min 56s)
+* warn slack users
+* stop mongodb on off3: `systemctl stop mongod`
+* rsync again (same command as above) (took 6 min 42s)
+* (during sync)
+  * change configuration for product opener
+    * on off, off-pro
+      * edit /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
+      * `sudo systemctl restart apache2.service cloud_vision_ocr@$HOSTNAME.service minion@HOSTNAME.service`
+    * on opf, opff, obf:
+      * edit /srv/$PROJECT/lib/ProductOpener/Config2.pm
+      * `sudo systemctl restart apache2.service`
+  * change configuration for off-query-org and robotoff-org to point to 10.1.0.101:27017 (ovh1 proxy):
+    * going to corresponding directory
+    * editing .env
+    * `sudo -u off docker-compose down && sudo -u off docker-compose up -d`
+* start mongodb on mongodb container (keep off3 down)
+* verify it's working on off
+* disable mongod on off3
+* merge PR to change mongodb configuration of off-query and robotoff
