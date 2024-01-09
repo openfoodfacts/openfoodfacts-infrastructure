@@ -160,6 +160,42 @@ See also [Proxmox documentation on mount points](https://pve.proxmox.com/pve-doc
 
 following https://pve.proxmox.com/wiki/Resize_disks
 
+#### Without swap
+
+Example: adding 90GB on VM for docker prod (201) and disk scsi0
+
+On host: `sudo qm resize 201 scsi0 +90G`
+
+On VM:
+```bash
+parted /dev/sda
+(parted) print
+...
+Number  Start   End    Size   Type     File system  Flags
+ 1      1049kB  557GB  557GB  primary  ext4         boot
+...
+(parted) resizepart 1 
+Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+Yes/No? y
+End?  [557GB]? 100%
+(parted) p
+...
+Number  Start   End    Size   Type     File system  Flags
+ 1      1049kB  672GB  672GB  primary  ext4         boot
+...
+(parted) quit
+
+sudo resize2fs /dev/sda1
+...
+The filesystem on /dev/sda1 is now 164101888 (4k) blocks long.
+
+df -h /
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       616G  363G  225G  62% /
+```
+
+#### When we have swap
+
 Example: adding 8GB on VM for monitoring (203) and disk scsi0
 
 On host: `sudo qm resize 203 scsi0 +8G`
