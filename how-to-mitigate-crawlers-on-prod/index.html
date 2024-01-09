@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../free-datacenter/">
+        <link rel="prev" href="../how-to-fail2ban-debian-11%2B/">
       
       
-        <link rel="next" href="../how-to-fail2ban-debian-11%2B/">
+        <link rel="next" href="../linux-server/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>How to use fail2ban to ban bots - Open Food Facts Infrastructure documentation</title>
+        <title>How to mitigate crawlers in case of too much traffic - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-use-fail2ban-to-ban-bots" class="md-skip">
+        <a href="#how-to-mitigate-crawlers-in-case-of-too-much-traffic" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              How to use fail2ban to ban bots
+              How to mitigate crawlers in case of too much traffic
             
           </span>
         </div>
@@ -346,30 +346,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    How to use fail2ban to ban bots
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../how-to-fail2ban-ban-bots/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -378,95 +358,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#configure-fail2ban" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure fail2ban
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-some-filters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuring some filters
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-a-jail-for-manual-ban" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuring a jail for manual ban
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using it
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using it">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#see-banned-ips" class="md-nav__link">
-    <span class="md-ellipsis">
-      See banned ips
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ban-an-ip" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ban an ip
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#unban-an-ip" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unban an ip
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -495,10 +386,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    How to mitigate crawlers in case of too much traffic
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -507,6 +418,86 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#find-disturbing-ips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Find disturbing IPs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#warn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Warn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blacklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blacklist
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blacklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-off2-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      On off2 reverse proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      On off1
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-it-better" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make it better
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1798,64 +1789,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configure-fail2ban" class="md-nav__link">
+  <a href="#find-disturbing-ips" class="md-nav__link">
     <span class="md-ellipsis">
-      Configure fail2ban
+      Find disturbing IPs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuring-some-filters" class="md-nav__link">
+  <a href="#warn" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuring some filters
+      Warn
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuring-a-jail-for-manual-ban" class="md-nav__link">
+  <a href="#blacklist" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuring a jail for manual ban
+      Blacklist
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using it
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using it">
+    <nav class="md-nav" aria-label="Blacklist">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#see-banned-ips" class="md-nav__link">
+  <a href="#on-off2-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
-      See banned ips
+      On off2 reverse proxy
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ban-an-ip" class="md-nav__link">
+  <a href="#on-off1" class="md-nav__link">
     <span class="md-ellipsis">
-      Ban an ip
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#unban-an-ip" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unban an ip
+      On off1
     </span>
   </a>
   
@@ -1863,6 +1836,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-it-better" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make it better
+    </span>
+  </a>
   
 </li>
       
@@ -1884,36 +1866,32 @@
   
 
 
-<h1 id="how-to-use-fail2ban-to-ban-bots">How to use fail2ban to ban bots<a class="headerlink" href="#how-to-use-fail2ban-to-ban-bots" title="Permanent link">#</a></h1>
-<h2 id="configure-fail2ban">Configure fail2ban<a class="headerlink" href="#configure-fail2ban" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>fail2ban
+<h1 id="how-to-mitigate-crawlers-in-case-of-too-much-traffic">How to mitigate crawlers in case of too much traffic<a class="headerlink" href="#how-to-mitigate-crawlers-in-case-of-too-much-traffic" title="Permanent link">#</a></h1>
+<p>It happens that some program is hammering Open Food Facts, causing serious latency and 504 problems to every users.</p>
+<p>Most of the time it's someone who is not aware data must be downloaded at https://world.openfoodfacts.org/data instead of harvesting.</p>
+<h2 id="find-disturbing-ips">Find disturbing IPs<a class="headerlink" href="#find-disturbing-ips" title="Permanent link">#</a></h2>
+<p>On prod server we have a script <code>concatenate_by_ip.pl</code>.</p>
+<p>Go to access log for your site.</p>
+<div class="highlight"><pre><span></span><code>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100000</span><span class="w"> </span>access_log<span class="w"> </span><span class="p">|</span><span class="w">  </span>./concatenate_by_ip.pl<span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
 </code></pre></div>
-<p>On debian 11, also follow <a href="../how-to-fail2ban-debian-11%2B/">How to install fail2ban on debian 11+</a></p>
-<h2 id="configuring-some-filters">Configuring some filters<a class="headerlink" href="#configuring-some-filters" title="Permanent link">#</a></h2>
-<p>We normally install those filters, with standard configurations:</p>
-<p><code>nginx-botsearch</code> (banning bots that blindly search for old software install)
-and <code>nginx-http-auth</code> (banning bots making too much failed auth attempts)</p>
-<h2 id="configuring-a-jail-for-manual-ban">Configuring a jail for manual ban<a class="headerlink" href="#configuring-a-jail-for-manual-ban" title="Permanent link">#</a></h2>
-<p>We can create a new jail to ban bots from using our web services.</p>
-<p>In practice, we will use the nginx-botsearch filter on a fake log file,
-and add ips manually to the jail with a permanent bantime.</p>
-<p>Enable fail2ban nginx-manual-ban jail with our specific configuration:
-<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/common/fail2ban-nftables/jail.d/nginx-manual-ban.local<span class="w"> </span>/etc/fail2ban/jail.d/
-systemctl<span class="w"> </span>restart<span class="w"> </span>fail2ban
-</code></pre></div></p>
-<p><strong>Note:</strong> fail2ban (in recent version) is naturally persistent across reboot. For that it uses a sqlite database in <code>/var/lib/fail2ban/</code>.</p>
-<h2 id="using-it">Using it<a class="headerlink" href="#using-it" title="Permanent link">#</a></h2>
-<h3 id="see-banned-ips">See banned ips<a class="headerlink" href="#see-banned-ips" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fail2ban-client<span class="w"> </span>status<span class="w"> </span>nginx-manual-ban
+<p>Shows you a list of IP addresses with a number of requests</p>
+<p><div class="highlight"><pre><span></span><code>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100000</span><span class="w"> </span>access_log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>&lt;ip_adress&gt;
 </code></pre></div>
-<h3 id="ban-an-ip">Ban an ip<a class="headerlink" href="#ban-an-ip" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fail2ban-client<span class="w"> </span><span class="nb">set</span><span class="w"> </span>nginx-manual-ban<span class="w"> </span>banip<span class="w"> </span>&lt;IP&gt;
+to see activity of a single ip address and try to understand what's going on.</p>
+<p>Search and facets requests are the most consuming.
+(Product read requests are just a read of a file)</p>
+<h2 id="warn">Warn<a class="headerlink" href="#warn" title="Permanent link">#</a></h2>
+<p>If the User-Agent has some indication on who is using the platform, try to contact them.</p>
+<h2 id="blacklist">Blacklist<a class="headerlink" href="#blacklist" title="Permanent link">#</a></h2>
+<h3 id="on-off2-reverse-proxy">On off2 reverse proxy<a class="headerlink" href="#on-off2-reverse-proxy" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>fail2ban-client<span class="w"> </span><span class="nb">set</span><span class="w"> </span>nginx-botsearch<span class="w"> </span>banip<span class="w"> </span>&lt;IP&gt;
 </code></pre></div>
-<p>Note that it supports ip ranges, like <code>123.456.789.1/24</code></p>
-<h3 id="unban-an-ip">Unban an ip<a class="headerlink" href="#unban-an-ip" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fail2ban-client<span class="w"> </span><span class="nb">set</span><span class="w"> </span>nginx-manual-ban<span class="w"> </span>unbanip<span class="w"> </span>&lt;IP&gt;
-</code></pre></div>
-<p>If ip is part of a range, the whole range must be unbanned.</p>
+<p>see <a href="../how-to-fail2ban-ban-bots/">How to use fail2ban to ban bots</a></p>
+<h3 id="on-off1">On off1<a class="headerlink" href="#on-off1" title="Permanent link">#</a></h3>
+<p>In case it's needed, blacklist the IP address using an iptables rule:</p>
+<p><code>iptables -A INPUT -s &lt;ip_address&gt; -j DROP</code></p>
+<h2 id="make-it-better">Make it better<a class="headerlink" href="#make-it-better" title="Permanent link">#</a></h2>
+<p>We could instead implement traffic rate limitation using NGINX.</p>
 
 
 
