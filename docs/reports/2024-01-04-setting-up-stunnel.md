@@ -103,7 +103,45 @@ But I took the decision:
 * to move client stunnel to a separate container with no risk of exposition
 * to snapshot mongodb data because restoring from sto would take long so it's a big annoyance
 
-**TODO:**
-* create stunnel client container
-* install stunnel and configure client on it
-* move config to that and change robotoff + off-query config to this
+
+## Creating stunnel client container
+
+We followed usual procedure to [create a proxmox container](../promox.md#how-to-create-a-new-container):
+* of id 113
+* choosed a debian 11
+* default storage on zfs-hdd (for system) 6Gb, noatime
+* 2 cores
+* memory 512 Mb, no swap
+
+I also [configured email](../mail.md#postfix-configuration) in the container.
+
+
+## Setting up stunnel on ovh1 stunnel-client
+
+Did the same as above to [set up stunnel on ovh1 proxy](./#setting-up-stunnel-on-off1-proxy).
+
+I created a key with `ssh-keygen -t ed25519 -C "off@stunnel-client.ovh.openfoodfacts.org"` 
+add it as a deploy key to this projects 
+and cloned the project in `/opt` so that I can use git for modified configuration files.
+
+I created my configs and symlinked them.
+Then:
+```bash
+systemctl daemon-reload
+systemctl start stunnel@off
+systemctl enable stunnel@off
+```
+
+I tested it from staging mongo container (see [Testing stunnel for mongodb](#testing-stunnel-for-mongodb))
+
+
+## Changing services config
+
+On VM docker-prod (200), I changed the .env for off-query-org and robotoff-org.
+Then for both services I did a "docker-compose down && docker-compose up -d".
+
+I also pushed a [commit to robotoff](https://github.com/openfoodfacts/robotoff/commit/ade67c21bab152afe64c33b9f540bf91b212efb0) and a [PR to off-query](https://github.com/openfoodfacts/openfoodfacts-query/pull/32) to change the configuration.
+
+## Removing stunnel client on ovh reverse proxy
+
+On the reverse proxy I kept stunnel but I removed the config for MongoDB.
