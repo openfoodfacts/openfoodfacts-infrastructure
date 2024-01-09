@@ -303,6 +303,16 @@ etckeeper commit -m "Configured my-service.openfoodfacts.net"
 
 Now we are done 🎉
 
+## Performance tips
+
+### Use a buffer for access log
+
+Use a buffer for access log for high traffic websites.
+eg (for off server nginx):
+```conf
+    access_log /var/log/nginx/off-access.log proxied_requests buffer=256K flush=1s;
+```
+
 ## Install
 
 Install was quite simple: we simply install nginx package, as well as stunnel4.
