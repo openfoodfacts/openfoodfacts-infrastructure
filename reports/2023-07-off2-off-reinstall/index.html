@@ -4907,8 +4907,8 @@ But to test it, I did a copy of those of off1, only for howmuchsugar.in domain.<
 <p>We want a shared ZFS dataset for sftp data between the reverse proxy and off-pro container.</p>
 <p>Create ZFS dataset, on off2:
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-pro/sftp
-<span class="c1"># make it accessible to root inside a container (where id 0 is mapped to 100000)</span>
-chown<span class="w"> </span><span class="m">100000</span>:100000<span class="w"> </span>/zfs-hdd/off-pro/sftp/
+<span class="c1"># make top folders accessible to root inside a container (where id 0 is mapped to 100000)</span>
+chown<span class="w"> </span><span class="m">100000</span>:100000<span class="w"> </span>/zfs-hdd/off-pro/sftp/<span class="w"> </span>/zfs-hdd/off-pro/sftp/*
 </code></pre></div></p>
 <p>We then change reverse proxy configuration (<code>/etc/pve/lxc/101.conf</code>) and off-pro (<code>/etc/pve/lxc/114.conf</code>) config to add a mount point. Somthing like <code>mp8: /zfs-hdd/off-pro/sftp,mp=/mnt/off-pro/sftp</code> (number after mp, depends on already existing one).</p>
 <p>But we also need to remap ids in 101 so that id above 1000 to keep their id on the host.
