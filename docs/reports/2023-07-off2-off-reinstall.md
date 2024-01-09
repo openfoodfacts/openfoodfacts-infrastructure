@@ -511,7 +511,7 @@ chown -R 1000:1000 /zfs-hdd/off/html_data/sugar /zfs-hdd/off/data/sugar/
 
 We rsync old logs in a separate files
 
-**FIXME** do it
+Old logs were copied to ovh3:/rpool/backups/off1/srv/off/logs
 
 
 ## Creating Containers
