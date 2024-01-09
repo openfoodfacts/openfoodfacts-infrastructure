@@ -1039,6 +1039,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#some-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Some errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#systemd-needs-nesting-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemd needs nesting capability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2199,6 +2223,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#some-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Some errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#systemd-needs-nesting-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemd needs nesting capability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2471,6 +2519,21 @@ Failed to activate service &#39;org.freedesktop.login1&#39;: timed out (service_
 </code></pre></div>
 <h2 id="proxmox-installation">Proxmox installation<a class="headerlink" href="#proxmox-installation" title="Permanent link">#</a></h2>
 <p>Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.</p>
+<h2 id="some-errors">Some errors<a class="headerlink" href="#some-errors" title="Permanent link">#</a></h2>
+<h3 id="systemd-needs-nesting-capability">Systemd needs nesting capability<a class="headerlink" href="#systemd-needs-nesting-capability" title="Permanent link">#</a></h3>
+<p>Some service of systemd might not work because it needs nesting capabilities (and AppArmor is blocking them).</p>
+<p>Using <code>systemctl list-units --failed</code>, one can see that <code>systemd-networkd</code> is down, might be same for <code>systemd-logind</code> and <code>systemd-resolved</code>.</p>
+<p>Some logs that may appear:
+<div class="highlight"><pre><span></span><code>systemd-networkd &quot;Failed to set up mount namespacing&quot; &quot;/run/systemd/unit-root/proc&quot; &quot;Permission denied&quot; lxc
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed at step NAMESPACE spawning /lib/systemd/systemd-networkd: Permission denied
+</code></pre></div></p>
+<p>On symptom is a slow time at login time, which is due to systemd-logind service being down:</p>
+<div class="highlight"><pre><span></span><code>Mar 29 10:37:53 proxy dbus-daemon[128]: [system] Failed to activate service &#39;org.freedesktop.login1&#39;: timed out (service_start_timeout=25000ms)
+Mar 29 10:42:43 proxy dbus-daemon[128]: [system] Failed to activate service &#39;org.freedesktop.login1&#39;: timed out (service_start_timeout=25000ms)
+</code></pre></div>
+<p>Just add nesting capability to the container and restart it.</p>
+<p>Thread on same issue : https://discuss.linuxcontainers.org/t/apparmor-blocks-systemd-services-in-container/9812</p>
 
 
 
