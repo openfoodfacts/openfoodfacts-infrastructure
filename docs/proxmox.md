@@ -349,3 +349,30 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 ## Proxmox installation
 
 Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.
+
+
+## Some errors
+
+### Systemd needs nesting capability
+
+Some service of systemd might not work because it needs nesting capabilities (and AppArmor is blocking them).
+
+Using `systemctl list-units --failed`, one can see that `systemd-networkd` is down, might be same for `systemd-logind` and `systemd-resolved`.
+
+Some logs that may appear:
+```log
+systemd-networkd "Failed to set up mount namespacing" "/run/systemd/unit-root/proc" "Permission denied" lxc
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed at step NAMESPACE spawning /lib/systemd/systemd-networkd: Permission denied
+```
+
+On symptom is a slow time at login time, which is due to systemd-logind service being down:
+
+```log
+Mar 29 10:37:53 proxy dbus-daemon[128]: [system] Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
+Mar 29 10:42:43 proxy dbus-daemon[128]: [system] Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
+```
+
+Just add nesting capability to the container and restart it.
+
+Thread on same issue : https://discuss.linuxcontainers.org/t/apparmor-blocks-systemd-services-in-container/9812
