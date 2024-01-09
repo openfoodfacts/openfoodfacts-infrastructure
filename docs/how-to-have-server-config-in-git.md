@@ -77,7 +77,7 @@ Try to isolate private file with as minimal content as possible (most services c
 
 If you have private files that you can't put in the repository, you have two situations:
 
-* if the file is easy to re-create (eg. a letsencrypt certificate, or an API key, or a password than can be reseted easily) just leave it to the server only
+* if the file is easy to re-create (eg. a letsencrypt certificate, or an API key, or a password than can be reset easily) just leave it to the server only
 * if it's not easy to re-create, put it in the shared KeepassX
 
 

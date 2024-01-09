@@ -34,6 +34,8 @@ Try not to forget any specific configurations !
 
 You are always encouraged to add comments in the configuration files to explain specific settings.
 
+See also: [How to have server config in git](./how-to-have-server-config-in-git.md)
+
 ## Limitations
 
 * there is no guarantee every needed configuration file are linked and monitored in git

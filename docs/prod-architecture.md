@@ -23,6 +23,9 @@ We symlink files in `/etc` to this directory, this enables updating the server w
 `/etc/pve` is a bit particular for it is only an image of Proxmox configuration (and not a real filesystem),
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.
 
+see [Explanation on server configuration with git](./explain-server-config-in-git.md)
+and  [How to have server config in git](./how-to-have-server-config-in-git.md)
+
 **TODO:** we could consider automatizing the copy and sync of important (and secret less) `/etc/pve` files.
 
 **TODO:** at the moment only off2 is fully configured using git, and ovh3 partially. We should do it also for ovh1 and ovh2.
