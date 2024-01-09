@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2023-05-12-refresh-staging-clones/">
+        <link rel="prev" href="../2023-12-11-matomo-down/">
       
-      
-        <link rel="next" href="../2023-05-23-move-images-to-zfs/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2023-05-18 Mongodb down - Open Food Facts Infrastructure documentation</title>
+        <title>2024-01-02 monitoring disk space - filebeat - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -73,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-05-18-mongodb-down" class="md-skip">
+        <a href="#2024-01-02-monitoring-disk-space-filebeat" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-05-18 Mongodb down
+              2024-01-02 monitoring disk space - filebeat
             
           </span>
         </div>
@@ -1346,30 +1344,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-05-18 Mongodb down
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1378,71 +1356,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#symptom" class="md-nav__link">
-    <span class="md-ellipsis">
-      Symptom
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Investigation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      Resolution
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conclusion
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mitigation-steps-taken" class="md-nav__link">
-    <span class="md-ellipsis">
-      Mitigation steps taken
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1746,10 +1659,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-01-02 monitoring disk space - filebeat
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1758,6 +1691,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      problem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      short term
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      long term
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1797,18 +1792,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#symptom" class="md-nav__link">
+  <a href="#problem" class="md-nav__link">
     <span class="md-ellipsis">
-      Symptom
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Investigation
+      problem
     </span>
   </a>
   
@@ -1821,23 +1807,29 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-term" class="md-nav__link">
     <span class="md-ellipsis">
-      Conclusion
+      short term
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#mitigation-steps-taken" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#long-term" class="md-nav__link">
     <span class="md-ellipsis">
-      Mitigation steps taken
+      long term
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1859,36 +1851,34 @@
   
 
 
-<h1 id="2023-05-18-mongodb-down">2023-05-18 Mongodb down<a class="headerlink" href="#2023-05-18-mongodb-down" title="Permanent link">#</a></h1>
-<h2 id="symptom">Symptom<a class="headerlink" href="#symptom" title="Permanent link">#</a></h2>
-<ul>
-<li>Symptom: Reported by users who could not edit. No databases responding, meaning that mongodb might be slow or down.</li>
-<li>@teolemon calls @alexgarel and they start debugging.</li>
-<li>off3 could be pinged it from off1, with 0,2 ms ping times, and 2 to 5 ms ping times from time to time, potentially hinting at CPU overload according to @alexgarel. ssh is not responding at this point.</li>
-<li>@teolemon calls @cq94 and @stephanegigandet to go further.</li>
-</ul>
-<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
-<ul>
-<li>@stephanegigandet noticed the SSH and the general command slowness mentionned above</li>
-<li>@cq94 noticed that the ZFS pool write time were abnormally high on the underlying physical machine.</li>
-<li>@cq94 restarted the virtual machine. </li>
-<li>@stephanegigandet restarted manually mongodb which had not been automatically restarted.</li>
-<li>It was mentionned that the newly available ressources granted by @cq94 were not visible by the virtual machine</li>
-<li>It was mentionned that it was not the first time that the var/?? designed to restart mongodb was wiped away on restart.</li>
-<li>@cq94 later mentionned that it might have been related to the use of reset vs restart parameter</li>
-<li>The root password has been changed by @stephanegigandet to give @cq94 access to the virtual machine.</li>
-</ul>
+<h1 id="2024-01-02-monitoring-disk-space-filebeat">2024-01-02 monitoring disk space - filebeat<a class="headerlink" href="#2024-01-02-monitoring-disk-space-filebeat" title="Permanent link">#</a></h1>
+<h2 id="problem">problem<a class="headerlink" href="#problem" title="Permanent link">#</a></h2>
+<p>We had an alert because free disk space on monitoring docker VM (203) was below 20%.</p>
+<p>After a quick look at docker volumes size, I saw that Elasticsearch was taking most of the space.</p>
+<p>Using Kibana, stack management, index management, I saw that the logs data stream was huge.
+It was expected since we have an index lifecycle management problem. See https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/199</p>
 <h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
-<ul>
-<li>Christian Quest (@cq94) has found the culprit (A VM related to Open Street Map taking all ressources) after shutting down other VMs on the same physical machine one by one. He reduced the resources for said VM (preventing the reocccurence of such an incident), and contacting its owner. </li>
-<li>Our VM was not at fault.</li>
-</ul>
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
-<h2 id="mitigation-steps-taken">Mitigation steps taken<a class="headerlink" href="#mitigation-steps-taken" title="Permanent link">#</a></h2>
-<ul>
-<li>Christian is migrating the OS of our VM to SSD (it was on hard drive, unlike mongodb) since it was the physical harddrives that had been saturated by the other container. </li>
-<li>The situation is unlikely to happen on the middle/long term since we have a plan to move the MongoDB database back to our own servers.</li>
-</ul>
+<h3 id="short-term">short term<a class="headerlink" href="#short-term" title="Permanent link">#</a></h3>
+<p>I abruptely removed all data stream (we don't use log so much, so it was an expeditive way).</p>
+<p>But as filebeat was still running, a logs-current was created, and we would run in the same problem again.</p>
+<h3 id="long-term">long term<a class="headerlink" href="#long-term" title="Permanent link">#</a></h3>
+<p>I logged to docker production VM (200), staging VM (201) and monitoring (203) and stopped filebeat docker on all those VMs.</p>
+<p>Then I removed logs-current index.</p>
+<p>As a tentative to repair ILM, I modified the filebeat/config.yml on monitoring to add add <code>setup.ilm.overwrite: true</code> directive</p>
+<p>But before I backup my policy by saving it as a new policy.</p>
+<p>I added KIBANA_URI to docker-compose.node.yml because it was missing (see <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/commit/7131f0c5a076d4e35bfd1c6a9f9da5c6bd070185">openfoodfacts-monitoring commit 7131f0c5</a>).</p>
+<p>Then in off monitoring VM, <code>/home/off/filebeat</code>, I run:
+<div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>filebeat<span class="w"> </span>bash
+$<span class="w"> </span>filebeat<span class="w"> </span>setup<span class="w"> </span>--index-management
+$<span class="w"> </span>filebeat<span class="w"> </span>setup<span class="w"> </span>--dashboards<span class="w"> </span><span class="c1"># does not work complains about kibana version</span>
+</code></pre></div>
+I don't care for now that dashboards did not work. The important is ILM setup.</p>
+<p>I then removed the <code>setup.ilm overwrite: true</code> directive</p>
+<p>I restarted all the filebeat in all VM.</p>
+<p>I can see the <code>logs-current-logs-2024.01.02-000001</code> index created in kibana. That's kind of a good sign.</p>
+<p>I can see in kibana that the Index lifecycle management <code>logs</code> was created, but it's not configured to remove files. So I changed it's setup, thanks to backup I made.</p>
+<p>If I see index templates, I'm not yet sure that everything is ok because there is a template for <code>logs-*-*-*, logs-*-*-*-*, logs-*.*.*, logs-*.*.*-*</code> and one for <code>logs-current-*</code>, so I'm not totally sure which one will apply (I think <code>logs-current-*</code> would be the good one). Let's see tomorrow.</p>
+<p>I also added the index life cycle management definition in the repository, so that next time it's correctly configured. (see <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/commit/234fd2daf9101a3e7f8fe0b94d4a6bab9fe3d57b">openfoodfacts-monitoring commit 234fd2da</a>.)</p>
 
 
 
