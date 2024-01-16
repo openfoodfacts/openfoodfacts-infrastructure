@@ -284,6 +284,15 @@ zfs-nvme     zfspool     active      1885863288              96      1885863192 
 Also the backups dir automatically get on zfs-hdd, but I don't really know why !
 `cat /etc/pve/storage.cfg` helps see that.
 
+## Adding ro_users group to proxmox
+
+We have a `ro_users` group for users to have read-only access to the proxmox interface.
+
+I created the group, going to cluster interface in proxmox and using `create`.
+
+I then go to `permissions` and give the PVEAuditor role to the group on `/` with *propagate*.
+
+![off2 proxmox group roles](./media/2024-01-proxmox-group-roles-off2.png "off2 proxmox group roles")
 
 ## Getting containers templates
 
