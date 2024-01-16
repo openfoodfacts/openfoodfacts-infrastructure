@@ -78,3 +78,27 @@ The corresponding mysql user had to be manually created (instrutions in the conf
 ### Updating the Matomo version
 
 Just use the web administration to update the software.
+
+
+## How to
+
+### How to test a command in php cli
+
+For example I wanted to determine if we support async in CliMulti (used by `core::archive`).
+
+The important thing is to go in the right directory and include the `console` script.
+
+```bash
+cd /var/www/html matomo/
+php -a
+
+php > include "console";
+...
+php > use Piwik\CliMulti\Process;
+php > echo Piwik\CliMulti\Process::isSupported();
+1
+php > use Piwik\CliMulti;
+php > $p = new Piwik\CliMulti();
+php > echo $p->supportsAsync();
+1
+```

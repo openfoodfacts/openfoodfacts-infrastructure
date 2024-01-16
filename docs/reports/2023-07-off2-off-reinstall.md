@@ -511,7 +511,7 @@ chown -R 1000:1000 /zfs-hdd/off/html_data/sugar /zfs-hdd/off/data/sugar/
 
 We rsync old logs in a separate files
 
-**FIXME** do it
+Old logs were copied to ovh3:/rpool/backups/off1/srv/off/logs
 
 
 ## Creating Containers
@@ -1622,8 +1622,8 @@ We want a shared ZFS dataset for sftp data between the reverse proxy and off-pro
 Create ZFS dataset, on off2:
 ```bash
 sudo zfs create zfs-hdd/off-pro/sftp
-# make it accessible to root inside a container (where id 0 is mapped to 100000)
-chown 100000:100000 /zfs-hdd/off-pro/sftp/
+# make top folders accessible to root inside a container (where id 0 is mapped to 100000)
+chown 100000:100000 /zfs-hdd/off-pro/sftp/ /zfs-hdd/off-pro/sftp/*
 ```
 
 We then change reverse proxy configuration (`/etc/pve/lxc/101.conf`) and off-pro (`/etc/pve/lxc/114.conf`) config to add a mount point. Somthing like `mp8: /zfs-hdd/off-pro/sftp,mp=/mnt/off-pro/sftp` (number after mp, depends on already existing one).

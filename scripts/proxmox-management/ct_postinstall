@@ -5,10 +5,12 @@ read -p 'which container ID (100..): ' CT
 MUNIN_CT=100
 PROXY_CT=101
 
+set -x
+
 # support fr locale
 lxc-attach -n $CT -- sed -i 's/# \(en_US\|fr_FR\).UTF-8 UTF-8/\1.UTF-8 UTF-8/' /etc/locale.gen
 pct exec $CT locale-gen
-pct exec $CT apt-cache update 
+pct exec $CT apt-get update 
 lxc-attach -n $CT -- apt-get install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release vim bsd-mailx tree screen
 lxc-attach -n $CT -- apt-get install -y munin-node
 pct exec $CT apt-get dist-upgrade 
@@ -24,4 +26,4 @@ lxc-attach -n $CT -- sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 #lxc-attach -n $MUNIN_CT -- bash -c "echo -e '\n[off$CT.ct.openfoodfacts.org]\n    address 10.1.0.$CT' >> /etc/munin/munin.conf"
 
 # add CT in reverse-proxy config
-lxc-attach -n $PROXY_CT -- bash -c ""
+#lxc-attach -n $PROXY_CT -- bash -c ""

@@ -1,7 +1,8 @@
 [mysqld]
 # following https://matomo.org/faq/troubleshooting/faq_183/
 wait_timeout=28800
-innodb_log_file_size=500M
+innodb_log_file_size=1024M
+max_allowed_packet=512M
 
 # specific to use memory
 # 4G out of 6G (should be 80% of RAM, but DB is not alone)
