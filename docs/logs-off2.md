@@ -3,6 +3,10 @@
 Report here the timeline of incidents and interventions on off2 server.
 Keep things short or write a report.
 
+## 2023-01-19
+
+see [2024-01-19 Certbot failure on off2 reverse proxy](./reports/2024-01-19-certbot-failure-off2-proxy)
+
 ## 2023-01-02
 
 openpetfoodfats.org answers with a 502 bad gateway.
