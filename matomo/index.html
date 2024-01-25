@@ -760,6 +760,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#setup-robotstxt-to-avoid-search-engine-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup robots.txt to avoid search engine indexing
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2012,6 +2021,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#setup-robotstxt-to-avoid-search-engine-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup robots.txt to avoid search engine indexing
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2113,11 +2131,16 @@ Ask for it to <em>contact</em> email.</p>
 The corresponding mysql user had to be manually created (instrutions in the config file).</p>
 <h3 id="updating-the-matomo-version">Updating the Matomo version<a class="headerlink" href="#updating-the-matomo-version" title="Permanent link">#</a></h3>
 <p>Just use the web administration to update the software.</p>
+<h3 id="setup-robotstxt-to-avoid-search-engine-indexing">Setup robots.txt to avoid search engine indexing<a class="headerlink" href="#setup-robotstxt-to-avoid-search-engine-indexing" title="Permanent link">#</a></h3>
+<p>Setup <code>/var/www/html/matomo/robots.txt</code> as is:
+<div class="highlight"><pre><span></span><code>User-agent: *
+Disallow: /
+</code></pre></div></p>
 <h2 id="how-to">How to<a class="headerlink" href="#how-to" title="Permanent link">#</a></h2>
 <h3 id="how-to-test-a-command-in-php-cli">How to test a command in php cli<a class="headerlink" href="#how-to-test-a-command-in-php-cli" title="Permanent link">#</a></h3>
 <p>For example I wanted to determine if we support async in CliMulti (used by <code>core::archive</code>).</p>
 <p>The important thing is to go in the right directory and include the <code>console</code> script.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/www/html<span class="w"> </span>matomo/
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/www/html/matomo/
 php<span class="w"> </span>-a
 
 php<span class="w"> </span>&gt;<span class="w"> </span>include<span class="w"> </span><span class="s2">&quot;console&quot;</span><span class="p">;</span>
