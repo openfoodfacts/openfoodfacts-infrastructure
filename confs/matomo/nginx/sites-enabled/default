@@ -57,7 +57,7 @@ server {
 	#	# With php-cgi (or other tcp sockets):
 	#	fastcgi_pass 127.0.0.1:9000;
 	#	increasing timeout so that API calls to export data do not timeout
-		fastcgi_read_timeout 600;
+		fastcgi_read_timeout 1200;
 	}
 
 

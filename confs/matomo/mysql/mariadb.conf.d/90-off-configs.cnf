@@ -1,12 +1,21 @@
 [mysqld]
 # following https://matomo.org/faq/troubleshooting/faq_183/
 wait_timeout=28800
-innodb_log_file_size=1024M
-max_allowed_packet=512M
+net_read_timeout=28800
+net_write_timeout=28800
+innodb_log_file_size=2048M
+max_allowed_packet=2048M
+
+# following https://matomo.org/faq/on-premise/how-to-configure-matomo-for-speed/
+# see also https://mariadb.com/resources/blog/10-database-tuning-tips-for-peak-workloads/
+innodb_flush_log_at_trx_commit=2
+# use tmpfs
+tmpdir=/run/mysqld
 
 # specific to use memory
-# 8G out of 16G (should be 80% of RAM, but DB is not alone)
-innodb_buffer_pool_size=8G
-# table size 64M / Go = 64*6
-max_heap_table_size=384M
-tmp_table_size=384M
+# 20G out of 32G (should be 80% of RAM, but DB is not alone)
+innodb_buffer_pool_size=20G
+innodb_log_buffer_size=2048M
+# table size 64M / Go = 64*20
+max_heap_table_size=1280M
+tmp_table_size=1280M
