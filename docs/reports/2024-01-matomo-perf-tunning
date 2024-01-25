@@ -1,0 +1,80 @@
+# 2024-01 Matomo performanc tunning
+
+We still have Matomo archive scripts failing…
+
+Trying to optimize it.
+
+**NOTE:** some of the changes documented here are in [commit 32c01fe796a1](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/32c01fe796a119b377d19e8bf14cd81534ce9795)
+
+## using mysqltunner
+
+In a screen as root: `mysqltuner`, it is advized to let it run for 48h
+
+## PHP settings
+
+Edited `/etc/php/7.3/fpm/php.ini` and set as seen on /etc/php/7.3/fpm/php.ini
+
+(I only had to change max_execution_time)
+```ini
+memory_limit = 2G
+max_execution_time = 0
+log_errors = On
+display_errors=Off
+```
+
+For `/etc/php/7.3/cli/php.ini` 
+```ini
+memory_limit = -1
+max_execution_time = 0
+log_errors = On
+display_errors=Off
+```
+
+I also add the `path/to/matomo/config/common.config.ini.php` as advised (but with a different log path)
+
+Then `systemctl restart php7.3-fpm.service`
+
+## More MariaDB Optimization
+
+Followed [article on tmpfs for mysql on 2bits.com](https://2bits.com/articles/reduce-your-servers-resource-usage-moving-mysql-temporary-directory-ram-disk.html) (cited by [Matomo docs](https://matomo.org/faq/on-premise/how-to-configure-matomo-for-speed/)) to add:
+
+```conf
+tmpdir=/run/mysqld
+innodb_flush_log_at_trx_commit=2
+```
+
+We could try to set `innodb_flush_method` to `O_DSYNC` but installed mariadb version does not support it.
+
+in `/etc/mysql/mariadb.conf.d/90-off-configs.cnf`
+
+Then `systemctl restart mariadb.service`
+
+Following https://mariadb.com/docs/server/ref/mdb/status-variables/Threads_created/
+
+I run:
+
+```bash
+MariaDB [(none)]> SELECT threads_created, connections,     (threads_created / connections) AS thread_cache_miss_rate  FROM     (SELECT gs1.VARIABLE_VALUE AS threads_created     FROM informat
+ion_schema.GLOBAL_STATUS gs1     WHERE gs1.VARIABLE_NAME LIKE 'Threads_created') tc JOIN     (SELECT gs2.VARIABLE_VALUE AS connections     FROM information_schema.GLOBAL_STATUS gs2     WHERE
+ gs2.VARIABLE_NAME LIKE 'Connections') c;
++-----------------+-------------+------------------------+
+| threads_created | connections | thread_cache_miss_rate |
++-----------------+-------------+------------------------+
+| 9               | 239         |    0.03765690376569038 |
++-----------------+-------------+------------------------+
+1 row in set (0.001 sec)
+```
+
+thread_cache_miss_rate is almost 0 which is a good sign.
+
+
+## Optimize the archiver launch
+
+Changed the exit time for `matomo-archive.service` to `5h`
+
+I use `/usr/bin/php /var/www/html/matomo/console core:archive --help` to see options.
+
+We could use `--force-idsites` to try to launch websites one by one, but I'm not sure it would help, for now (appart from launching archivers in parallel, but it may not help because bottleneck is certainly MariaDB).
+
+
+
