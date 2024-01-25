@@ -519,6 +519,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#no-color-in-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      No color in shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-autocompletion-for-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      No autocompletion for commands
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1841,6 +1859,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#no-color-in-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      No color in shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-autocompletion-for-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      No autocompletion for commands
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1886,6 +1922,14 @@ On off1, rules are in <code>/etc/iptables.up.rules</code></p>
 <p>Remember, that docker as it's own chains that are not affected by <code>INPUT</code> and <code>OUTPUT</code> rules.
 So it won't block a port exposed by docker. Use <code>DOCKER-USER</code> chain for that.
 see https://docs.docker.com/network/iptables/</p>
+<h2 id="no-color-in-shell">No color in shell<a class="headerlink" href="#no-color-in-shell" title="Permanent link">#</a></h2>
+<p>Check your TERM variable: <code>echo $TERM</code>, it should be <code>xterm-256color</code> or <code>linux</code></p>
+<p>Check .bashrc is the right one <code>diff $HOME/.bashrc /etc/skel/.bashrc</code>
+if not copy the one from <code>/etc/skel/.bashrc</code></p>
+<h2 id="no-autocompletion-for-commands">No autocompletion for commands<a class="headerlink" href="#no-autocompletion-for-commands" title="Permanent link">#</a></h2>
+<p>Check <code>bash-completion</code> is installed: <code>dpkg --verify bash-completion &amp;&amp; echo ok</code></p>
+<p>Check .bashrc is the right one <code>diff $HOME/.bashrc /etc/skel/.bashrc</code>
+if not copy the one from <code>/etc/skel/.bashrc</code></p>
 
 
 
