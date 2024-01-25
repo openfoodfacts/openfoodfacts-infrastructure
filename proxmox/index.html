@@ -367,6 +367,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to add disk space on a Qemu VM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../how-to-fail2ban-ban-bots/" class="md-nav__link">
         
   
@@ -1205,10 +1225,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
         
           
-          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1219,8 +1239,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_37">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -2406,67 +2426,7 @@ There are also mounts of zfs storage from ovh3.</p>
 <p>Note that this will be available only after a reboot of the container: <code>pct retboot &lt;container_id&gt;</code> (or <code>start</code> if it was stopped).</p>
 <p>See also <a href="https://pve.proxmox.com/pve-docs/chapter-pct.html#pct_mount_points">Proxmox documentation on mount points</a></p>
 <h3 id="adding-space-on-a-qemu-disk">Adding space on a QEMU disk<a class="headerlink" href="#adding-space-on-a-qemu-disk" title="Permanent link">#</a></h3>
-<p>following https://pve.proxmox.com/wiki/Resize_disks</p>
-<p>Example: adding 8GB on VM for monitoring (203) and disk scsi0</p>
-<p>On host: <code>sudo qm resize 203 scsi0 +8G</code></p>
-<p>On VM:
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sda
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>print
-Model:<span class="w"> </span>QEMU<span class="w"> </span>QEMU<span class="w"> </span>HARDDISK<span class="w"> </span><span class="o">(</span>scsi<span class="o">)</span>
-Disk<span class="w"> </span>/dev/sda:<span class="w"> </span><span class="m">42</span>,9GB
-Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span>512B/512B
-Partition<span class="w"> </span>Table:<span class="w"> </span>msdos
-Disk<span class="w"> </span>Flags:<span class="w"> </span>
-
-Number<span class="w">  </span>Start<span class="w">   </span>End<span class="w">     </span>Size<span class="w">    </span>Type<span class="w">      </span>File<span class="w"> </span>system<span class="w">     </span>Flags
-<span class="w"> </span><span class="m">1</span><span class="w">      </span>1049kB<span class="w">  </span><span class="m">33</span>,3GB<span class="w">  </span><span class="m">33</span>,3GB<span class="w">  </span>primary<span class="w">   </span>ext4<span class="w">            </span>boot
-<span class="w"> </span><span class="m">2</span><span class="w">      </span><span class="m">33</span>,3GB<span class="w">  </span><span class="m">34</span>,4GB<span class="w">  </span>1022MB<span class="w">  </span>extended
-<span class="w"> </span><span class="m">5</span><span class="w">      </span><span class="m">33</span>,3GB<span class="w">  </span><span class="m">34</span>,4GB<span class="w">  </span>1022MB<span class="w">  </span>logical<span class="w">   </span>linux-swap<span class="o">(</span>v1<span class="o">)</span>
-<span class="w"> </span><span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>quit
-</code></pre></div></p>
-<p>We have a problem because of swap. We must deactivate swap, remove swap partition and extended partition, augment our main partition, recreate extended and swap partition !</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># deactivate swap</span>
-$<span class="w"> </span>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
-<span class="c1"># remove partition in parted, augment main partition, recreate them</span>
-$<span class="w"> </span>sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sda
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>rm<span class="w"> </span><span class="m">5</span>
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>rm<span class="w"> </span><span class="m">2</span>
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>print
-...
-Number<span class="w">  </span>Start<span class="w">   </span>End<span class="w">     </span>Size<span class="w">    </span>Type<span class="w">     </span>File<span class="w"> </span>system<span class="w">  </span>Flags
-<span class="w"> </span><span class="m">1</span><span class="w">      </span>1049kB<span class="w">  </span><span class="m">33</span>,3GB<span class="w">  </span><span class="m">33</span>,3GB<span class="w">  </span>primary<span class="w">  </span>ext4<span class="w">         </span>boot
-...
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span><span class="nb">help</span><span class="w"> </span>resizepart
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>resizepart<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">41</span>,3GB
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>mkpart<span class="w"> </span>extended
-Start?<span class="w"> </span><span class="m">41</span>,3GB
-End?<span class="w"> </span><span class="m">100</span>%
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>mkpart<span class="w"> </span>logical<span class="w"> </span>linux-swap<span class="w"> </span><span class="m">41</span>,3GB<span class="w"> </span><span class="m">100</span>%
-<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>quit
-<span class="c1"># resize partition</span>
-$<span class="w"> </span>sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/sda1
-resize2fs<span class="w"> </span><span class="m">1</span>.46.2<span class="w"> </span><span class="o">(</span><span class="m">28</span>-Feb-2021<span class="o">)</span>
-Filesystem<span class="w"> </span>at<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>mounted<span class="w"> </span>on<span class="w"> </span>/<span class="p">;</span><span class="w"> </span>on-line<span class="w"> </span>resizing<span class="w"> </span>required
-<span class="nv">old_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>,<span class="w"> </span><span class="nv">new_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
-The<span class="w"> </span>filesystem<span class="w"> </span>on<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>now<span class="w"> </span><span class="m">10082751</span><span class="w"> </span><span class="o">(</span>4k<span class="o">)</span><span class="w"> </span>blocks<span class="w"> </span>long.
-</code></pre></div>
-<p>Now we have to re-enable swap, but UUID for partition have changed, so we have to edit <code>/etc/fstab</code> first.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># prepare swap</span>
-$<span class="w"> </span>sudo<span class="w"> </span>mkswap<span class="w"> </span>/dev/sda5
-Setting<span class="w"> </span>up<span class="w"> </span>swapspace<span class="w"> </span>version<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,5<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">1648357376</span><span class="w"> </span>bytes<span class="o">)</span>
-no<span class="w"> </span>label,<span class="w"> </span><span class="nv">UUID</span><span class="o">=</span>431b8e8e-0691-471c-be8b-2c1039321142
-<span class="c1"># edit /etc/fstab to point to new UUID</span>
-$<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/fstab
-...
-<span class="c1"># swap was on /dev/sda5 during installation</span>
-<span class="nv">UUID</span><span class="o">=</span>431b8e8e-0691-471c-be8b-2c1039321142<span class="w"> </span>none<span class="w">            </span>swap<span class="w">    </span>sw<span class="w">              </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>
-/dev/sr0<span class="w">        </span>/media/cdrom0<span class="w">   </span>udf,iso9660<span class="w"> </span>user,noauto<span class="w">     </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>
-...
-<span class="c1"># tell systemd</span>
-$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># remount swap</span>
-sudo<span class="w"> </span>swapon<span class="w"> </span>-a
-</code></pre></div>
+<p>see <a href="../how-to-add-disk-space-on-qemu/">How to add disk space on a qemu VM</a>.</p>
 <h2 id="proxmox-management-interface-access">Proxmox management interface access<a class="headerlink" href="#proxmox-management-interface-access" title="Permanent link">#</a></h2>
 <h3 id="create-a-proxmox-user">Create a proxmox user<a class="headerlink" href="#create-a-proxmox-user" title="Permanent link">#</a></h3>
 <p>This user will have the right to use proxmox administration.</p>
