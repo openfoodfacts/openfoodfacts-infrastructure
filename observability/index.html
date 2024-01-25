@@ -750,6 +750,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#prometheus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prometheus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prometheus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-target-exporter-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      multi-target exporter pattern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blackbox-exporter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blackbox exporter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blackbox exporter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-it-on-monitoring-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing it on monitoring container
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1823,6 +1871,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#prometheus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prometheus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prometheus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-target-exporter-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      multi-target exporter pattern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blackbox-exporter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blackbox exporter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blackbox exporter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-it-on-monitoring-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing it on monitoring container
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1875,6 +1971,36 @@
 </ul>
 <p>The observability stack diagram is as follows:</p>
 <p><a class="glightbox" href="../img/obs_stack.png" data-type="image" data-width="auto" data-height="auto" data-title="Observability stack" data-desc-position="bottom"><img alt="Observability stack" src="../img/obs_stack.png" /></a></p>
+<h2 id="prometheus">Prometheus<a class="headerlink" href="#prometheus" title="Permanent link">#</a></h2>
+<p>Some interesting pages of prometheus include:</p>
+<ul>
+<li>https://prometheus.openfoodfacts.org/alerts to show currently triggered alerts</li>
+<li>https://prometheus.openfoodfacts.org/targets where you can check the status of the targets (services observed by prometheus)</li>
+<li>https://prometheus.openfoodfacts.org/rules for alerting rules</li>
+</ul>
+<h3 id="multi-target-exporter-pattern">multi-target exporter pattern<a class="headerlink" href="#multi-target-exporter-pattern" title="Permanent link">#</a></h3>
+<p>We use the <a href="https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus">multi-target exporter pattern</a> on some configurations.</p>
+<p>This pattern helps writting a lot of targets that follow same rules in the same way.</p>
+<p>Some points that are not easy to understand:</p>
+<ul>
+<li>targets will be in <code>__address__</code> at the begining of the process</li>
+<li>the last rule overwrite <code>__address__</code> to put some static value, but it's ok as previous rules where already processed</li>
+<li>simple params like <code>instance</code>, <code>app</code> are parameters for the job configuration, not for the target url</li>
+<li>to add params to target url we use <code>__param_xxxx</code> (for exemple <code>__param_target</code> to add a <code>target</code> parameter to url)</li>
+<li><code>instance</code> is very important, as each job must have their separate instance name.</li>
+</ul>
+<p>You can look at https://prometheus.openfoodfacts.org/targets to see if your targets are processed correctly. 
+A mouse over in the "labels" column shows you parameter before processing.</p>
+<h2 id="blackbox-exporter">Blackbox exporter<a class="headerlink" href="#blackbox-exporter" title="Permanent link">#</a></h2>
+<p>Is a service that can be used by Prometheus to probe for websites. </p>
+<p>Prometheus will call the service as if it was a metric exporter with the appropriate target (that you set through <code>target</code> on <code>__param_target</code> in the configuration (if you use <a href="https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus">multi-target exporter pattern</a>)</p>
+<h3 id="testing-it-on-monitoring-container">Testing it on monitoring container<a class="headerlink" href="#testing-it-on-monitoring-container" title="Permanent link">#</a></h3>
+<p>Blackbox is on port 9105 so you can test it, for example using:
+<div class="highlight"><pre><span></span><code><span class="c1"># http probe</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:9115/probe?module=http_probe&amp;target=https%3A%2F%2Fsearch.openfoodfacts.org%2F&quot;</span>
+<span class="c1"># icmp probe</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:9115/probe?module=icmp&amp;app=ovh1&amp;target=ov1.openfoodfacts.org&quot;</span>
+</code></pre></div></p>
 
 
 
