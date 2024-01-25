@@ -1,4 +1,4 @@
-# NGINX Reverse proxy (OVH)
+# NGINX Reverse proxy
 
 At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications.
 
