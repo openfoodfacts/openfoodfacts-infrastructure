@@ -79,6 +79,14 @@ The corresponding mysql user had to be manually created (instrutions in the conf
 
 Just use the web administration to update the software.
 
+### Setup robots.txt to avoid search engine indexing
+
+Setup `/var/www/html/matomo/robots.txt` as is:
+```
+User-agent: *
+Disallow: /
+```
+
 
 ## How to
 
@@ -89,7 +97,7 @@ For example I wanted to determine if we support async in CliMulti (used by `core
 The important thing is to go in the right directory and include the `console` script.
 
 ```bash
-cd /var/www/html matomo/
+cd /var/www/html/matomo/
 php -a
 
 php > include "console";
