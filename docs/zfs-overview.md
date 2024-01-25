@@ -25,6 +25,19 @@ Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-s
 * `zfs list -r` to get all datasets and their mountpoints
   3. zpool list -v list all devices
 
+* `zpool iostat` to see stats about read / write. `zpool iostat -vl 5` is particularly useful.
+
+* `zpool history` list all operations done on a pool
+
+* `zpool list -o name,size,usedbysnapshots,allocated` see space allocated (equivalent to `df`)
+
+  **Note**: `df` on a dataset does not really work because free space is shared between the datasets.
+  You can still see datasets usage by using:
+  ```bash
+  zfs list -o zfs list -o name,used,usedbydataset,usedbysnapshots,available -r <pool_name>
+  ```
+
+
 ## Proxmox
 
 Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.
@@ -35,10 +48,50 @@ We use sanoid / syncoid to sync ZFS datasets between servers (also to back them 
 
 See [sanoid](./sanoid.md)
 
+
+## Replacing a disk
+
+To replace a disk in a zpool.
+
+* Get a list of devices using `zpool status <pool_name>`
+
+* Put the disk offline: `zpoool <pool_name> offline <device_name>` (eg `zpool rpool offline sdf`)
+
+* Replace the disk physically
+
+* Ask zpool to replace the drive: `zpool <pool_name> replace /dev/<device_name>` (eg `zpool rpool replace /dev/sdf`)
+
+* verify disk is back and being resilvered:
+  ```bash
+  zpool status <pool_name>
+  …
+   state: DEGRADED
+  status: One or more devices is currently being resilvered.  The pool will
+          continue to function, possibly in a degraded state.
+  action: Wait for the resilver to complete.
+    scan: resilver in progress since …
+  …
+              replacing-5  DEGRADED     0     0     0
+              old        OFFLINE      0     0     0
+              sdf        ONLINE       0     0     0  (resilvering)
+  ```
+
+* after resilver finishes, you can eventually run a scrub: `zpool scrub <pool_name>`
+
+
 ## Sync
+
 
 To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
 You then use [zfs-send](https://openzfs.github.io/openzfs-docs/man/8/zfs-send.8.html) an [zfs-recv](https://openzfs.github.io/openzfs-docs/man/8/zfs-recv.8.html) through ssh to sync the distant server (send snapshots).
+
+### Doing it automatically
+
+We normally do it using [sanoid and syncoid](./sanoid.md)
+
+Proxmox might also do it as part of corosync to replicate containers across cluster.
+
+### Doing it manually
 
 ```bash
 zfs send <previous-snap> <dataset_name>@$<last-snap> \
@@ -50,15 +103,10 @@ ZFS sync of sto files from off1 to off2:
 * see [sto-products-sync.sh](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/off1/sto-products-sync.sh)
 
 
-
-
-
 You also have to clean snapshots from time to time to avoid retaining too much useless data.
 
 On ovh3: [snapshot-purge.sh](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/ovh3/snapshot-purge.sh)
 
-
-**FIXME** explain sanoid
 
 ## Docker mount
 
@@ -69,7 +117,22 @@ For distant machines, ZFS datasets can be exposed as NFS partition. Docker as an
 
 ## Mounting datasets in a proxmox container
 
-To move dataset in a proxmox container you have to mount them as bind volumes.
+To mount dataset in a proxmox container you have:
+* to use a shared disk on proxmox
+* or to mount them as bind volumes
+
+### Use a shared disk on proxmox
+
+(not really experimented yet, but it could have the advantage to enable replication)
+
+On your VM/CT, in resource, add a disk.
+
+Add the mountpoint to your disk and declare it shared.
+
+In another VM/CT, add the same disk.
+
+
+### mount dataset  as bind volumes
 
 See: https://pve.proxmox.com/wiki/Linux_Container#_bind_mount_points
 
