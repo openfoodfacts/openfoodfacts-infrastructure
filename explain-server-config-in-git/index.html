@@ -9,20 +9,22 @@
       
       
       
+        <link rel="prev" href="../docker_onboarding/">
       
-        <link rel="next" href="cicd/">
+      
+        <link rel="next" href="../folksonomy/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.5">
     
     
       
-        <title>Open Food Facts Infrastructure documentation</title>
+        <title>Explanation on server configuration with git - Open Food Facts Infrastructure documentation</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
       
       
 
@@ -41,14 +43,14 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -57,7 +59,7 @@
     .gdesc-inner { font-size: 0.75rem; }
     body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
     body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="assets/javascripts/glightbox.min.js"></script></head>
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     <body dir="ltr">
@@ -69,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#openfoodfacts-infrastructure" class="md-skip">
+        <a href="#explanation-on-server-configuration-with-git" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +87,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -105,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              OpenFoodFacts Infrastructure
+              Explanation on server configuration with git
             
           </span>
         </div>
@@ -155,7 +157,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -182,6 +184,126 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenFoodFacts Infrastructure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cicd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Continous Integration and Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../discourse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Discourse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker at Open Food Facts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_onboarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Onboarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -198,18 +320,18 @@
           
   
   <span class="md-ellipsis">
-    OpenFoodFacts Infrastructure
+    Explanation on server configuration with git
   </span>
   
 
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    OpenFoodFacts Infrastructure
+    Explanation on server configuration with git
   </span>
   
 
@@ -231,46 +353,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-priorities" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      Current priorities
+      Implementation
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#incident-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Incident logs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documentation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#requests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Requests
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Requests">
+    <nav class="md-nav" aria-label="Implementation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#virtual-machines" class="md-nav__link">
+  <a href="#for-servers-and-most-services" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual Machines
+      For servers and most services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-services-with-their-own-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      For services with their own repository
     </span>
   </a>
   
@@ -278,6 +382,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best practice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitations
+    </span>
+  </a>
   
 </li>
       
@@ -296,127 +418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cicd/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Continous Integration and Continuous Delivery
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="discourse/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Discourse
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Docker at Open Food Facts
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docker_architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Docker architecture
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docker_onboarding/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Onboarding
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="explain-server-config-in-git/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Explanation on server configuration with git
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="folksonomy/" class="md-nav__link">
+      <a href="../folksonomy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -436,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="free-datacenter/" class="md-nav__link">
+      <a href="../free-datacenter/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -456,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to-fail2ban-ban-bots/" class="md-nav__link">
+      <a href="../how-to-fail2ban-ban-bots/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -476,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+      <a href="../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -496,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to-have-server-config-in-git/" class="md-nav__link">
+      <a href="../how-to-have-server-config-in-git/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -516,7 +518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+      <a href="../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,7 +538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="linux-server/" class="md-nav__link">
+      <a href="../linux-server/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -556,7 +558,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-off1/" class="md-nav__link">
+      <a href="../logs-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -576,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-off2/" class="md-nav__link">
+      <a href="../logs-off2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -596,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-off3/" class="md-nav__link">
+      <a href="../logs-off3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -616,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-ovh1/" class="md-nav__link">
+      <a href="../logs-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -636,7 +638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-ovh2/" class="md-nav__link">
+      <a href="../logs-ovh2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -656,7 +658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="logs-ovh3/" class="md-nav__link">
+      <a href="../logs-ovh3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -676,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mail/" class="md-nav__link">
+      <a href="../mail/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -696,7 +698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="matomo/" class="md-nav__link">
+      <a href="../matomo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -716,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mongodb/" class="md-nav__link">
+      <a href="../mongodb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -736,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="munin/" class="md-nav__link">
+      <a href="../munin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -756,7 +758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nginx-reverse-proxy/" class="md-nav__link">
+      <a href="../nginx-reverse-proxy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -776,7 +778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -796,7 +798,7 @@
   
   
     <li class="md-nav__item">
-      <a href="odoo/" class="md-nav__link">
+      <a href="../odoo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -816,7 +818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="open-pet-food-facts/" class="md-nav__link">
+      <a href="../open-pet-food-facts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -836,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="postgres/" class="md-nav__link">
+      <a href="../postgres/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -856,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="prod-architecture/" class="md-nav__link">
+      <a href="../prod-architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -876,7 +878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="producers_sftp/" class="md-nav__link">
+      <a href="../producers_sftp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -896,7 +898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="proxmox/" class="md-nav__link">
+      <a href="../proxmox/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -916,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sanoid/" class="md-nav__link">
+      <a href="../sanoid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -936,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="slackin/" class="md-nav__link">
+      <a href="../slackin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -956,7 +958,7 @@
   
   
     <li class="md-nav__item">
-      <a href="zammad/" class="md-nav__link">
+      <a href="../zammad/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -976,7 +978,7 @@
   
   
     <li class="md-nav__item">
-      <a href="zfs-overview/" class="md-nav__link">
+      <a href="../zfs-overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1033,7 +1035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2021-02-22-matomo-install/" class="md-nav__link">
+      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1054,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2021-10-03-network-down/" class="md-nav__link">
+      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1075,7 +1077,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2021-12-21-disk-extension/" class="md-nav__link">
+      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1096,7 +1098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2021-12-22-preprod-crash/" class="md-nav__link">
+      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1117,7 +1119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1138,7 +1140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1159,7 +1161,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1180,7 +1182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1201,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1222,7 +1224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1243,7 +1245,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-07-11-infra-workshop/" class="md-nav__link">
+      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1264,7 +1266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1285,7 +1287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1306,7 +1308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1327,7 +1329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-02-13-zammad-down/" class="md-nav__link">
+      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1348,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-02-16-off2-shutdown/" class="md-nav__link">
+      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1369,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-02-17-off2-upgrade/" class="md-nav__link">
+      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1390,7 +1392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-02-24-zfs-introduction/" class="md-nav__link">
+      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1411,7 +1413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1432,7 +1434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1453,7 +1455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1474,7 +1476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1495,7 +1497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-05-23-move-images-to-zfs/" class="md-nav__link">
+      <a href="../reports/2023-05-23-move-images-to-zfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1516,7 +1518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-05-off2-110-unreachable/" class="md-nav__link">
+      <a href="../reports/2023-05-off2-110-unreachable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1537,7 +1539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-06-01-robotoff-backups/" class="md-nav__link">
+      <a href="../reports/2023-06-01-robotoff-backups/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1558,7 +1560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+      <a href="../reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1579,7 +1581,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+      <a href="../reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1600,7 +1602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
+      <a href="../reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1621,7 +1623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+      <a href="../reports/2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1642,7 +1644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+      <a href="../reports/2023-07-26-off1-rpool-products-full/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1663,7 +1665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+      <a href="../reports/2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1684,7 +1686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-07-off2-off-reinstall/" class="md-nav__link">
+      <a href="../reports/2023-07-off2-off-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1705,7 +1707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+      <a href="../reports/2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1726,7 +1728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+      <a href="../reports/2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1747,7 +1749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-10-14-mongodb-down/" class="md-nav__link">
+      <a href="../reports/2023-10-14-mongodb-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1768,7 +1770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2023-12-11-matomo-down/" class="md-nav__link">
+      <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1789,7 +1791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
+      <a href="../reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1837,46 +1839,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-priorities" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      Current priorities
+      Implementation
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#incident-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Incident logs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documentation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#requests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Requests
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Requests">
+    <nav class="md-nav" aria-label="Implementation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#virtual-machines" class="md-nav__link">
+  <a href="#for-servers-and-most-services" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual Machines
+      For servers and most services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-services-with-their-own-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      For services with their own repository
     </span>
   </a>
   
@@ -1884,6 +1868,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best practice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitations
+    </span>
+  </a>
   
 </li>
       
@@ -1905,326 +1907,32 @@
   
 
 
-<h1 id="openfoodfacts-infrastructure">OpenFoodFacts Infrastructure<a class="headerlink" href="#openfoodfacts-infrastructure" title="Permanent link">#</a></h1>
-<p>Sysadmin repository for the various parts of the Open Food Facts infrastructure.
-We have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">specific repository regarding monitoring</a></p>
-<h2 id="current-priorities">Current priorities<a class="headerlink" href="#current-priorities" title="Permanent link">#</a></h2>
-<p>As of 2023 our current priorities are:</p>
+<h1 id="explanation-on-server-configuration-with-git">Explanation on server configuration with git<a class="headerlink" href="#explanation-on-server-configuration-with-git" title="Permanent link">#</a></h1>
+<p>For more and more services and servers, we use git to store the configuration files that are different from basic configuration.</p>
+<p>The idea is to be able to follow server configuration evolution without (for now) using tools like ansible or similar tools (which may require more work and are not always as declarative as they pretend)[^pyinfra].</p>
+<p>![^pyinfra]: By the way I would rather use <a href="https://docs.pyinfra.com/en/2.x/">pyinfra</a> which is faster and far more flexible</p>
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">#</a></h2>
+<h3 id="for-servers-and-most-services">For servers and most services<a class="headerlink" href="#for-servers-and-most-services" title="Permanent link">#</a></h3>
+<p>On every servers we have a <code>/opt/openfoodfacts-infrastructure</code> repository which is a clone of this projects by <code>root</code>.</p>
+<p>For each server, or container or VM, we have a folder in <code>/opt/openfoodfacts-infrastructure/confs</code>.</p>
+<p>Then as much as we can, we link the configuration files from the <code>/opt/openfoodfacts-infrastructure/confs</code> folder to the corresponding <code>/etc</code> folder of the server.</p>
+<p>We only commit files that differ from main distribution.</p>
+<p>We also try to commit minimal file, using includes and .d directories as much as possible.</p>
+<p>For example we use override definitions for existing systemd units (<a href="https://www.freedesktop.org/software/systemd/man/latest/systemctl.html#edit%20UNIT%E2%80%A6">use <code>systemctl edit</code></a>)</p>
+<h3 id="for-services-with-their-own-repository">For services with their own repository<a class="headerlink" href="#for-services-with-their-own-repository" title="Permanent link">#</a></h3>
+<p>For services with their own repository we might prefer to store corresponding files in the repository itself.</p>
+<p>This is the case for Product Opener (aka openfoodfacts-server), where we use the <a href="https://github.com/openfoodfacts/openfoodfacts-server/tree/main/conf">conf directory</a></p>
+<h2 id="best-practice">Best practice<a class="headerlink" href="#best-practice" title="Permanent link">#</a></h2>
+<p>Try not to forget any specific configurations !</p>
+<p>You are always encouraged to add comments in the configuration files to explain specific settings.</p>
+<p>See also: <a href="../how-to-have-server-config-in-git/">How to have server config in git</a></p>
+<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h2>
 <ul>
-<li>server migration with hardware upgrade and a clean containerized install - and zfs syncs</li>
-<li>better encrypted two-way communication between data centers  (stunnel + https)</li>
-<li>backups checks<ul>
-<li>testing backups through staging<ul>
-<li>with automated deployment of new clones</li>
+<li>there is no guarantee every needed configuration file are linked and monitored in git</li>
+<li>some (rare) services do not accept symlinks</li>
+<li>proxmox <code>/etc/pve</code> files are in fact a fuse mount of pve server configurations and not real files and can't be symlinked</li>
+<li>you must <strong>take attention not to push files which contains secrets !</strong></li>
 </ul>
-</li>
-<li>monitoring backups</li>
-</ul>
-</li>
-<li>better monitoring<ul>
-<li>more/better dashboards</li>
-<li>more active checks (monitoring - alerts)</li>
-<li>less false positives in alerts</li>
-</ul>
-</li>
-<li>GPU server for inference and possibly one for training (not hosted) - may</li>
-</ul>
-<h2 id="incident-logs">Incident logs<a class="headerlink" href="#incident-logs" title="Permanent link">#</a></h2>
-<p>We started logging incidents by server:</p>
-<ul>
-<li><a href="logs-off1/">off1 incident logs</a></li>
-<li><a href="logs-off2/">off2 incident logs</a></li>
-<li><a href="logs-off3/">off3 incident logs</a></li>
-<li><a href="logs-ovh1/">ovh1 incident logs</a></li>
-<li><a href="logs-ovh2/">ovh2 incident logs</a></li>
-<li><a href="logs-ovh3/">ovh3 incident logs</a></li>
-</ul>
-<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">#</a></h2>
-<p>Link to <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/">Github Page</a></p>
-<p>The infrastructure documentation is as follows:</p>
-<ul>
-<li><a href="free-datacenter/">Free Datacenter</a> - Data center with main production servers</li>
-</ul>
-<ul>
-<li><a href="linux-server/">Linux Server</a> - servers general setup</li>
-<li><a href="mail/">Mail</a> - servers mail setup</li>
-<li><a href="zfs-overview/">An introduction to ZFS</a> - ZFS is much used in our infrastructure</li>
-<li><a href="./promox.md">Proxmox</a> - about proxmox management</li>
-<li><a href="cicd/">CICD</a> - continuous integration and deployment</li>
-<li><a href="observability/">Observability</a> - doc on monitoring / logs / etc.</li>
-<li><a href="docker_onboarding/">Docker Onboarding</a></li>
-<li><a href="docker_architecture/">Docker Infrastructure</a></li>
-<li><a href="#virtual-machines">Virtual Machines</a></li>
-</ul>
-<p>The main services:</p>
-<ul>
-<li><a href="mongodb/">MongoDB</a> the MongoDB database</li>
-</ul>
-<p>Some services:</p>
-<ul>
-<li><a href="discourse/">Discourse</a> for forum</li>
-<li><a href="nginx-reverse-proxy/">NGINX reverse proxy</a> the reverse proxy for OVH services</li>
-<li><a href="folksonomy/">Folksonomy</a> user editable labels and values</li>
-<li><a href="matomo/">Matomo</a> for web analytics</li>
-<li><a href="producers_sftp/">Producers sftp</a> to push product updates on producer platform</li>
-<li><a href="zammad/">Zammad</a> for support</li>
-<li><a href="odoo/">Odoo</a> the CRM</li>
-</ul>
-<p>Also look at all install and post-mortem reports in <a href="./reports/">docs/reports</a></p>
-<details><summary><h2>Monthly meetings</h2></summary>
-
-
-* We e-meet monthly at [18:00 CET](https://dateful.com/convert/paris-france?t=6pm) the second Thuesday of the month
-* ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: meet.google.com/ybq-dwuk-pvi
-* Join by phone: https://tel.meet/nnw-qswu-hza?pin=2111028061202
-* Add the Event to your Calendar by [adding the Open Food Facts community calendar to your calendar](https://wiki.openfoodfacts.org/Events)
-* [Monthly Agenda](https://docs.google.com/document/d/18BNNqxL6MSLAMrwsQ9F-CaVBUojnUEilQmQuC7XdVks/edit?usp=sharing): please add the Agenda items as early as you can. 
-* Make sure to check the Agenda items in advance of the meeting, so that we have the most informed discussions possible. 
-* The meeting will handle Agenda items first, and if time permits, collaborative bug triage.
-</details>
-
-<h2 id="requests">Requests<a class="headerlink" href="#requests" title="Permanent link">#</a></h2>
-<h3 id="virtual-machines">Virtual Machines<a class="headerlink" href="#virtual-machines" title="Permanent link">#</a></h3>
-<!-- VM table -->
-<table>
-<thead>
-<tr>
-<th>Title</th>
-<th>State</th>
-<th>OS</th>
-<th>CPU #</th>
-<th>RAM</th>
-<th>SSD (Local)</th>
-<th>HDD (Remote)</th>
-<th>Services</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/200>Wordpress test CT [#200]</a></td>
-<td>open</td>
-<td>Debian last Stable.</td>
-<td>3</td>
-<td>[Explain if &gt; 4 Gb.]</td>
-<td>6 GB.</td>
-<td>0</td>
-<td>Apache, PHP, Wordpress.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/159>Monitoring - VM (QEMU host for docker) [#159]</a></td>
-<td>open</td>
-<td>Debian</td>
-<td>* 4 CPUs</td>
-<td>* 12G for we have influxdb and elastic-search that needs memory</td>
-<td>* 30 Go disk (it is currently around 14G, but this will grow because we want to harvest more logs and more metrics)</td>
-<td>* 50Go for ES backups</td>
-<td>Docker, docker-compose</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/80>CT for new blog engine [#80]</a></td>
-<td>open</td>
-<td>Debian stable.</td>
-<td>3 CPU.</td>
-<td>2 GB.</td>
-<td>10 GB</td>
-<td>--</td>
-<td>LAMP + wordpress.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/76>CT for Folksonomy Engine API dev [#76]</a></td>
-<td>open</td>
-<td>Default to Debian last Stable.</td>
-<td>2</td>
-<td>1 GB</td>
-<td>12 GB.</td>
-<td>-</td>
-<td>PostgreSQL, Python3.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/37> Wild School Eco-Score project [#37]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>4</td>
-<td>16 Gb</td>
-<td>30 Gb</td>
-<td>0</td>
-<td>MongoDB</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/36> slack-org [#36]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>1</td>
-<td>1 Gb</td>
-<td>10 Gb</td>
-<td>None</td>
-<td>Node.js</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/29> adminer-org [#29]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>2</td>
-<td>512 Mb.</td>
-<td>4 Gb or even less.</td>
-<td>0</td>
-<td>Nginx, PHP, Adminer.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/28>Containers (x2) to build a replica set for OFF database [#28]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>4</td>
-<td>32 GB</td>
-<td>50 GB (DB = 20 GB).</td>
-<td>0</td>
-<td>Mongodb.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/27> feedme-org [#27]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>3</td>
-<td>3 Gb.</td>
-<td>15 Gb.</td>
-<td>0</td>
-<td>PostgreSQL, Node.js, Nginx.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/21> off-wiki-org [#21]</a></td>
-<td>open</td>
-<td>Debian 10</td>
-<td>2</td>
-<td>3 Gb</td>
-<td>14 Gb.</td>
-<td>14 Gb</td>
-<td>Apache, PHP, MySQL, Mediawiki.</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/124>VM for the Community Portal [#124]</a></td>
-<td>closed</td>
-<td>Debian last Stable.</td>
-<td>[Explain if &gt; 4.]</td>
-<td>[Explain if &gt; 4 Gb.]</td>
-<td>[Explain if &gt; 32 Gb.]</td>
-<td>[Explain if &gt; 1 Tb.]</td>
-<td>Python/Django, probably PostgreSQL, probably Apache and all Dockerized</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/123>VM for the Taxonomy Editor [#123]</a></td>
-<td>closed</td>
-<td>Debian last Stable.</td>
-<td>[Explain if &gt; 4.]</td>
-<td>[Explain if &gt; 4 Gb.]</td>
-<td>[Explain if &gt; 32 Gb.]</td>
-<td>[Explain if &gt; 1 Tb.]</td>
-<td>Python, probably PostgreSQL, probably Apache for lightweight API serving from Docker</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/71>New VM QEMU for prod docker containers [#71]</a></td>
-<td>closed</td>
-<td>Debian 11 (stable)</td>
-<td>8</td>
-<td>24 GB</td>
-<td>256 GB.</td>
-<td>-</td>
-<td>Services deployed in production:</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/59> monitoring [#59]</a></td>
-<td>closed</td>
-<td>Debian 11</td>
-<td>4</td>
-<td>32GB</td>
-<td>64GB</td>
-<td>500GB (ovh3 mount)</td>
-<td>Docker: ElasticSearch (Kibana?, Logstash?), Grafana, InfluxDB, Prometheus, Alertmanager</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/55> impactestimator-net [#55]</a></td>
-<td>closed</td>
-<td>Debian 11</td>
-<td>1</td>
-<td>1GB</td>
-<td>1Gb</td>
-<td>0</td>
-<td>https://github.com/openfoodfacts/impactestimator</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/53> robotoff-ml [#53]</a></td>
-<td>closed</td>
-<td>Debian 11</td>
-<td>8</td>
-<td>96GB (Tensorflow, ANN)</td>
-<td>192GB [ML models]</td>
-<td>100GB</td>
-<td>Tensorflow + ElasticSearch</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/51> robotoff-net [#51]</a></td>
-<td>closed</td>
-<td>Debian 11</td>
-<td>4</td>
-<td>16GB (DB 4GB, Services 8GB)</td>
-<td>92GB</td>
-<td>0GB</td>
-<td>Robotoff API + Schedulers + Workers, PostgreSQL DB</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/45> mongo-dev [#45]</a></td>
-<td>closed</td>
-<td>Debian 10</td>
-<td>2</td>
-<td>16GB</td>
-<td>40GB</td>
-<td></td>
-<td>MongoDB running in Docker</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/41> off-net [#41]</a></td>
-<td>closed</td>
-<td>Debian 10</td>
-<td>4</td>
-<td>16GB (PO needs &gt; 6GB)</td>
-<td>192GB</td>
-<td>0GB</td>
-<td>ProductOpener frontend + backend, MongoDB, PostgreSQL, Memcached</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/40> robotoff-dev [#40]</a></td>
-<td>closed</td>
-<td>Debian 10</td>
-<td>4</td>
-<td>8 Gb</td>
-<td>32 Gb</td>
-<td>100 Gb</td>
-<td>robotoff, elastic search, tensorflow, postgresql</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/24> Matomo [#24]</a></td>
-<td>closed</td>
-<td>Debian 10</td>
-<td>No idea.</td>
-<td>No idea.</td>
-<td>No idea.</td>
-<td>No idea.</td>
-<td>LAMP</td>
-</tr>
-<tr>
-<td><a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/20> robotoff-org [#20]</a></td>
-<td>closed</td>
-<td>Debian 10</td>
-<td>4</td>
-<td>8 Gb</td>
-<td>32 Gb</td>
-<td>100 Gb</td>
-<td>robotoff, elastic search, tensorflow, postgresql</td>
-</tr>
-</tbody>
-</table>
-<!-- VM table -->
-
-<p><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/new?assignees=cquest&labels=container&template=vm-template.md&title="><a class="glightbox" href="./scripts/add.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./scripts/add.png" style="background: transparent; vertical-align: middle" width="30"/></a>&nbsp;&nbsp;Request a VM</img></a></p>
 
 
 
@@ -2271,10 +1979,10 @@ We have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring">sp
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.c18c5fb9.min.js"></script>
+      <script src="../assets/javascripts/bundle.c18c5fb9.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

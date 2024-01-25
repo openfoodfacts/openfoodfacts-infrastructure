@@ -307,6 +307,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../explain-server-config-in-git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Explanation on server configuration with git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../folksonomy/" class="md-nav__link">
         
   
@@ -372,6 +392,26 @@
   
   <span class="md-ellipsis">
     How to install fail2ban on debian 11+
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-to-have-server-config-in-git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to have server config in git
   </span>
   
 
@@ -1021,10 +1061,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_35" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_35" id="__nav_35_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1035,8 +1075,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_35_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_35">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -1989,6 +2029,8 @@ cloned in <code>/opt/openfoodfacts-infrastructure</code> by root user.</p>
 <p>We symlink files in <code>/etc</code> to this directory, this enables updating the server with a simple <code>git pull</code> (but this still may needs services reload or restart, or a systemctl daemon-reload, etc.).</p>
 <p><code>/etc/pve</code> is a bit particular for it is only an image of Proxmox configuration (and not a real filesystem),
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.</p>
+<p>see <a href="../explain-server-config-in-git/">Explanation on server configuration with git</a>
+and  <a href="../how-to-have-server-config-in-git/">How to have server config in git</a></p>
 <p><strong>TODO:</strong> we could consider automatizing the copy and sync of important (and secret less) <code>/etc/pve</code> files.</p>
 <p><strong>TODO:</strong> at the moment only off2 is fully configured using git, and ovh3 partially. We should do it also for ovh1 and ovh2.</p>
 <p>Configurations files for off2 server are in <code>confs/off2/</code> directory.</p>
