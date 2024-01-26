@@ -682,6 +682,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alerts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#site-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Site setup
@@ -783,6 +792,42 @@
   
     <nav class="md-nav" aria-label="How to">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-investigate-0-visit-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to investigate 0 visit problems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-tracking-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor tracking jobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-archive-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor archive jobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor database
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#how-to-test-a-command-in-php-cli" class="md-nav__link">
@@ -1943,6 +1988,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alerts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#site-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Site setup
@@ -2046,6 +2100,42 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-to-investigate-0-visit-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to investigate 0 visit problems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-tracking-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor tracking jobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-archive-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor archive jobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-monitor-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to monitor database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#how-to-test-a-command-in-php-cli" class="md-nav__link">
     <span class="md-ellipsis">
       How to test a command in php cli
@@ -2088,11 +2178,15 @@ Ask for it to <em>contact</em> email.</p>
 <li>php7.3-fpm run the matomo software</li>
 <li>mariadb is the main database for matomo, some configurations are made for performance (see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> )</li>
 <li>redis is used to fast track  matomo requests (see <a href="#matomo-setup-for-performance">Matomo setup for performance, below</a>)</li>
-<li>Two systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see <a href="#matomo-setup-for-performance">Matomo setup for performance, below</a>)</li>
+<li>different systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see <a href="#matomo-setup-for-performance">Matomo setup for performance, below</a>)</li>
 <li>prometheus exporters are installed for nginx and mysql (see <a href="#prometheus-exporters">Prometheus exporters, below</a>)</li>
 </ul>
 <p>Most of those systemd services should email on failures.</p>
 <p>Important configuration files are linked to this git repository (see <a href="#using-git">using git, below</a>)</p>
+<h2 id="alerts">Alerts<a class="headerlink" href="#alerts" title="Permanent link">#</a></h2>
+<p>You can setup alerts in matomo. In personal alerts.</p>
+<p>We have setup alerts for main website and app if there are 0 visits.</p>
+<p><a class="glightbox" href="../img/matomo-alerts.png" data-type="image" data-width="auto" data-height="auto" data-title="alerts settings" data-desc-position="bottom"><img alt="alerts settings" src="../img/matomo-alerts.png" title="Matomo alerts settings" /></a></p>
 <h2 id="site-setup">Site setup<a class="headerlink" href="#site-setup" title="Permanent link">#</a></h2>
 <ul>
 <li>goto manage / websites and add a website</li>
@@ -2113,17 +2207,20 @@ Ask for it to <em>contact</em> email.</p>
 <h3 id="matomo-setup-for-performance">Matomo setup for performance<a class="headerlink" href="#matomo-setup-for-performance" title="Permanent link">#</a></h3>
 <p>We setup matomo for performance (our websites requires it) with two main points:</p>
 <ul>
-<li>it does not process archives on incoming requests but instead on a cron job (see <code>confs/matomo/cront.d/matomo-archive</code>).
+<li>it does not process archives on incoming requests but instead on a systemd timer (see <code>confs/matomo/systemd/matomo-archive.{service,timer}</code>).
   See also <a href="https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/">official doc</a>.</li>
-<li>on incoming update request (on a tracked website being visited), it does not immediately updates the database but goes in redis instead,
-  then a cron job process redis entries every minute (see <code>confs/matomo/cront.d/matomo-tracking</code>).
+<li>on incoming update request (on a tracked website being visited),
+  it does not immediately updates the database but goes in redis instead, 
+  we configured it with 4 queues.
+  then are systemd timers jobs to process redis entries every minute (see <code>confs/matomo/systemd/matomo-tracking@.{timer,service}</code>).
+  And we have an instance 0, 1, 2 and 3, to process each queue.
   See also <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/">official doc</a></li>
-<li><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository)<ul>
+<li><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository <code>confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf</code>)<ul>
 <li>we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/</li>
 </ul>
 </li>
 </ul>
-<p>Both cronjob logs to <code>/var/log/matomo</code>.</p>
+<p>Both tracking and archiving logs to <code>/var/log/matomo</code>.</p>
 <p>See also <a href="../reports/2023-12-11-matomo-down/">2023-12-11 Matomo down</a></p>
 <h3 id="prometheus-exporters">Prometheus exporters<a class="headerlink" href="#prometheus-exporters" title="Permanent link">#</a></h3>
 <p>Nginx prometheus exporter is installed and needs the stub_status site, which exposes nginx metrics.</p>
@@ -2137,6 +2234,62 @@ The corresponding mysql user had to be manually created (instrutions in the conf
 Disallow: /
 </code></pre></div></p>
 <h2 id="how-to">How to<a class="headerlink" href="#how-to" title="Permanent link">#</a></h2>
+<h3 id="how-to-investigate-0-visit-problems">How to investigate 0 visit problems<a class="headerlink" href="#how-to-investigate-0-visit-problems" title="Permanent link">#</a></h3>
+<ol>
+<li>
+<p>You first have to see if the request made by a browser to matomo returns a <code>204 No Content</code> response (use the network panel of developer tools).</p>
+<p>Also verify that the site_id is correct.</p>
+</li>
+<li>
+<p>If it's ok but you don't see the visit, you may look at real time visits of your website.
+   If there is no data it may means the tracking jobs are not running correctly.</p>
+<p>You can log on the server and use <code>mysql matomo_db</code> to look at the database,
+ in particular <code>matomo_log_visit</code> table contains visit logs.</p>
+<p>Beware that it's a huge table, try to limit your query with something like
+ <code>WHERE idsite=5 AND visit_last_action_time &gt; '2024-01-16'</code></p>
+<p>You can also see section below <a href="#how-to-monitor-tracking-jobs">How to monitor tracking jobs</a>.</p>
+</li>
+<li>
+<p>incomplete graph might also come from archive processing.</p>
+<p>See <a href="#how-to-monitor-archive-jobs">How to monitor archive jobs</a>.</p>
+</li>
+</ol>
+<h3 id="how-to-monitor-tracking-jobs">How to monitor tracking jobs<a class="headerlink" href="#how-to-monitor-tracking-jobs" title="Permanent link">#</a></h3>
+<p>When a request arrive, it is logged into redis.
+We then have matomo-tracking systemd services to process the redis queue.</p>
+<p>To see status:
+<div class="highlight"><pre><span></span><code><span class="c1"># see jobs status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">1</span>..3<span class="o">}</span>.service
+<span class="c1"># see timers status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">1</span>..3<span class="o">}</span>.timer
+</code></pre></div></p>
+<p>Matomo also offers some commands to follow the status of the tracking jobs:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/www/html/matomo
+./console<span class="w"> </span>queuedtracking:monitor
+
+<span class="c1"># you might also look at lock status</span>
+./console<span class="w"> </span>queuedtracking:lock-status
+</code></pre></div>
+use <code>--help</code> for more options.</p>
+<p>Logs are in <code>/var/log/matomo</code></p>
+<h3 id="how-to-monitor-archive-jobs">How to monitor archive jobs<a class="headerlink" href="#how-to-monitor-archive-jobs" title="Permanent link">#</a></h3>
+<p>To see status:
+<div class="highlight"><pre><span></span><code><span class="c1"># see jobs status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive.service
+<span class="c1"># see timers status</span>
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive.timer
+</code></pre></div></p>
+<p>Logs are in <code>/var/log/matomo</code></p>
+<h3 id="how-to-monitor-database">How to monitor database<a class="headerlink" href="#how-to-monitor-database" title="Permanent link">#</a></h3>
+<p><code>diagnostics:analyze-archive-table</code> can help see informations about tables.</p>
+<p>Use it with <code>YYYY_MM</code> argument.</p>
+<p>Eg.
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/www/html/matomo
+./console<span class="w"> </span>diagnostics:analyze-archive-table<span class="w"> </span>2023_12
+</code></pre></div></p>
+<p><code>database:optimize-archive-tables</code> can optimize tables if needed. Do it on old tables that are not moving any more. Use with a <code>YYYY-MM-DD</code> argument.</p>
+<div class="highlight"><pre><span></span><code>./console<span class="w"> </span>database:optimize-archive-table<span class="w"> </span><span class="m">2023</span>-12-01
+</code></pre></div>
 <h3 id="how-to-test-a-command-in-php-cli">How to test a command in php cli<a class="headerlink" href="#how-to-test-a-command-in-php-cli" title="Permanent link">#</a></h3>
 <p>For example I wanted to determine if we support async in CliMulti (used by <code>core::archive</code>).</p>
 <p>The important thing is to go in the right directory and include the <code>console</code> script.</p>
