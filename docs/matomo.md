@@ -26,7 +26,7 @@ You can setup alerts in matomo. In personal alerts.
 
 We have setup alerts for main website and app if there are 0 visits.
 
-![alerts settings](./img/matomo-alerts.png "Matomo aletrs settings")
+![alerts settings](./img/matomo-alerts.png "Matomo alerts settings")
 
 
 ## Site setup
