@@ -315,3 +315,87 @@ Added root ssh pub key (`cat /root/.ssh/id_rsa.pub`) as a [deploy key to github 
 cd /opt
 git clone git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
 ```
+
+## Adding Munin monitoring
+
+Simply following [our Munin doc on how to configure a server](../munin.md#how-to-configure-a-server)
+
+## Configuring snapshots and syncoid
+
+I first installed sanoid following [install instructions](../sanoid.md#building-sanoid-deb)
+
+We want to pull snapshots from off1 and to let ovh3 pull our snapshots.
+
+
+### Enabling sanoid
+
+```bash
+for unit in email-failures@.service sanoid_check.service sanoid_check.timer sanoid.service.d; \
+  do ln -s /opt/openfoodfacts-infrastructure/confs/off1/systemd/system/$unit /etc/systemd/system ; \
+done
+systemctl daemon-reload
+systemctl enable --now  sanoid_check.timer
+systemctl enable --now  sanoid.service
+```
+
+### creating off2operator on off1
+
+```bash
+adduser off2operator
+
+mkdir /home/off2operator/.ssh
+vim /home/off2operator/.ssh/authorized_keys
+# copy off2 public key
+
+chown off2operator:off2operator -R /home/off2operator
+chmod go-rwx -R /home/off2operator/.ssh
+```
+
+Adding needed permissions to pull zfs syncs
+```bash
+zfs allow off2operator hold,send zfs-hdd
+zfs allow off2operator hold,send zfs-nvme
+zfs allow off2operator hold,send rpool
+
+```
+
+On off2, test ssh connection:
+
+```bash
+ssh off1operator@10.0.0.2
+```
+
+### sync from off2 to off1
+
+Create conf for syncoid
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off1/sanoid/syncoid-args.conf /etc/sanoid/
+```
+
+On off1 enable syncoid service:
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off1/systemd/system/syncoid.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable --now  syncoid.service
+```
+
+
+### creating off1operator on off2
+
+Similar as off2operator on off1
+
+```bash
+adduser off1operator
+... add ssh pub key ...
+
+zfs allow off1operator hold,send zfs-hdd
+zfs allow off1operator hold,send zfs-nvme
+zfs allow off2operator hold,send rpool
+```
+
+On off1, test ssh connection
+```bash
+ssh off1operator@10.0.0.2
+```
+
