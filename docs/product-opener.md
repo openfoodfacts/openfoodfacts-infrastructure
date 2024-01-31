@@ -14,6 +14,7 @@ Each flavor of Open Food Facts (OFF, OBF, OPF...) is deployed in its own proxmox
 | OBF  | 111 |
 | OPF  | 112 |
 | OFF  | 113 |
+| OFF-PRO | 114 |
 
 The internal IP of the VMs is `10.1.0.{VMID}`.
 Once connected on the off2 server,  OFF can therefore be accessed on `10.1.0.113`.
