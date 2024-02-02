@@ -160,3 +160,5 @@ you will have to also grand snapshot creation to $OPERATOR user on $PROD_SERVER)
 Use `--recursive` to also backup subdatasets.
 
 Don't forget to create a sane retention policy (with `autosnap=no`) in sanoid on $BACKUP_SERVER to remove old data.
+
+**Note:** because of the 6h timeout, if you have big datasets, you may want to do the first synchronization before enabling the service.

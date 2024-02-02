@@ -330,6 +330,7 @@ cd sanoid
 # checkout latest stable release or stay on master for bleeding edge stuff (but expect bugs!)
 git checkout $(git tag | grep "^v" | tail -n 1)
 ln -s packages/debian .
+apt install debhelper libcapture-tiny-perl libconfig-inifiles-perl pv lzop mbuffer build-essential git
 dpkg-buildpackage -uc -us
 sudo apt install ../sanoid_*_all.deb
 ```

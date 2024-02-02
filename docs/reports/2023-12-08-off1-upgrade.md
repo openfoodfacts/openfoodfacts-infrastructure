@@ -373,6 +373,15 @@ Create conf for syncoid
 ln -s /opt/openfoodfacts-infrastructure/confs/off1/sanoid/syncoid-args.conf /etc/sanoid/
 ```
 
+Do first sync by hand in a screen (because it will take a very long time):
+
+```bash
+set -x; \
+grep -v "^#" /etc/sanoid/syncoid-args.conf | \
+while read -a sync_args; \
+do syncoid "${sync_args[@]}" </dev/null || echo FAILED; done
+```
+
 On off1 enable syncoid service:
 ```bash
 ln -s /opt/openfoodfacts-infrastructure/confs/off1/systemd/system/syncoid.service /etc/systemd/system
