@@ -37,6 +37,7 @@ Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-s
   zfs list -o zfs list -o name,used,usedbydataset,usedbysnapshots,available -r <pool_name>
   ```
 
+* `zdb` is also worth knowing (`zfd -s` for example)
 
 ## Proxmox
 
