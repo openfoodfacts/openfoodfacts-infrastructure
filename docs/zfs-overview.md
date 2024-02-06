@@ -13,6 +13,8 @@ and [Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadm
 
 Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 
+A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
+
 
 ## Some useful commands
 
