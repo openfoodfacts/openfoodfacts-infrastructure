@@ -2478,7 +2478,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <p>Then connect to the proxmox host:</p>
 <p>* Install useful package and do some other configurations:
     <code>sudo /root/cluster-scripts/ct_postinstall</code> (or <code>/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall</code>) choose the container ID when asked.</p>
-<div class="highlight"><pre><span></span><code>See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
+<div class="highlight"><pre><span></span><code>See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 </code></pre></div>
 <p>* <a href="#how-to-create-a-user-in-a-container-or-vm">create a user</a></p>
 <p>Then you can login to the machine (see <a href="#logging-in-to-a-container-or-vm">logging in to a container or VM</a>).</p>
@@ -2491,7 +2491,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 </li>
 </ul>
 <ul>
-<li>Add replication to ovh3 or off1/2<ul>
+<li>Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)<ul>
 <li>In the Replication menu of the container, "Add" one</li>
 <li>Target: ovh3</li>
 <li>Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)</li>

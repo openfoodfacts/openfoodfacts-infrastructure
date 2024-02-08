@@ -2040,7 +2040,7 @@
 <p>Main web server is hosted on off1 and off2 at <a href="../free-datacenter/">Free Datacenter</a></p>
 <p>Some other services are hosted on OVH servers.</p>
 <h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
-<p>We use the <a href="./promox.md">Proxmox open-source virtualization platform</a></p>
+<p>We use the <a href="../proxmox/">Proxmox open-source virtualization platform</a></p>
 <h2 id="server-configuration-in-git">Server configuration in git<a class="headerlink" href="#server-configuration-in-git" title="Permanent link">#</a></h2>
 <p>We try to keep as much as possible the specific configurations of the server in the git repository.
 Of course we should never commit any secret (but few files contains secrets).</p>
@@ -2117,7 +2117,7 @@ We have different <a href="https://openzfs.github.io/openzfs-docs/man/7/zfsconce
 <li>other data (<code>/mnt/&lt;flavor&gt;/*</code>) <sup id="fnref:other-data-details"><a class="footnote-ref" href="#fn:other-data-details">3</a></sup> <sup id="fnref:data-refactor3"><a class="footnote-ref" href="#fn:data-refactor3">4</a></sup></li>
 </ul>
 <p>The datasets are mounted in the different container using a bind mount.
-In proxmox, this is done by adding Mount point, <code>mp&lt;number&gt;</code>, entries to the container configuration, see <a href="./promox.md#bind-mounting-zfs-datasets">Bind mounting ZFS Datasets in proxmox</a>.</p>
+In proxmox, this is done by adding Mount point, <code>mp&lt;number&gt;</code>, entries to the container configuration, see <a href="../proxmox/#bind-mounting-zfs-datasets">Bind mounting ZFS Datasets in proxmox</a>.</p>
 <!-- You can test it here https://mermaid.live/ -->
 <pre class="mermaid"><code>---
 title: Storage on ZFS Datasets and mounting in containers (principle)

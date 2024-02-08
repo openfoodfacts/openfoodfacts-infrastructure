@@ -3864,7 +3864,7 @@ git<span class="w"> </span>checkout<span class="w"> </span>off2-off-reinstall
 </code></pre></div>
 <h2 id="installing-a-postgresql-container">installing a postgresql container<a class="headerlink" href="#installing-a-postgresql-container" title="Permanent link">#</a></h2>
 <h3 id="created-ct">Created CT<a class="headerlink" href="#created-ct" title="Permanent link">#</a></h3>
-<p>I created a CT for OFF followings <a href="../promox.md#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.</p>
+<p>I created a CT for OFF followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.</p>
 <p>It's 120 (off-postgres)</p>
 <p>I choosed a 20Gb disk on zfs-hdd, 0B swap, 2 Cores and 2 Gb memory.
 I added a disk on zfs-nvme mounted on /var/lib/postgresql/ with 5Gb size and noatime option.</p>
@@ -3902,7 +3902,7 @@ ALTER<span class="w"> </span>ROLE<span class="w"> </span>off<span class="w"> </s
 We have two errors, but they are expected.</p>
 <h2 id="installing-a-memcached-container">installing a memcached container<a class="headerlink" href="#installing-a-memcached-container" title="Permanent link">#</a></h2>
 <h3 id="creating-the-container">Creating the container<a class="headerlink" href="#creating-the-container" title="Permanent link">#</a></h3>
-<p>I created a CT for OFF followings <a href="../promox.md#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.</p>
+<p>I created a CT for OFF followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.</p>
 <p>It's 121 (off-memcached)
 I choosed a 15Gb disk on zfs-hdd, 0B swap, 2 Cores and 4 Gb memory.</p>
 <p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
@@ -4178,7 +4178,7 @@ chown<span class="w"> </span>-R<span class="w"> </span><span class="m">1000</spa
 <p>We rsync old logs in a separate files</p>
 <p>Old logs were copied to ovh3:/rpool/backups/off1/srv/off/logs</p>
 <h2 id="creating-containers">Creating Containers<a class="headerlink" href="#creating-containers" title="Permanent link">#</a></h2>
-<p>I created a CT for OFF followings <a href="../promox.md#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.
+<p>I created a CT for OFF followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.
 I choosed a 30Gb disk, 0B swap, 8 Cores and 40 Gb memory.</p>
 <p>Note that my first container creation failed because unable to mount the ZFS volume ("zfs dataset is busy"…), I had to destroy the dataset and re-create the container.</p>
 <p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
