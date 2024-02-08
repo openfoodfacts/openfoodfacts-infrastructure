@@ -14,7 +14,7 @@ On the reverse proxy container:
   * specify pid file according to systemd unit RuntimeDirectory
   * added a mongodb service, for first tests.
 * created `/etc/stunnel/psk/mongodb-psk.txt`
-  * and made it private `chown -R go-rwx /etc/stunnel/psk/`
+  * and made it private `chmod -R go-rwx /etc/stunnel/psk/`
   * To create a password I used `pwgen 32` on my laptop
 
 * enable and start service:
