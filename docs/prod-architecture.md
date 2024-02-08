@@ -8,7 +8,7 @@ Some other services are hosted on OVH servers.
 
 ## Proxmox
 
-We use the [Proxmox open-source virtualization platform](./promox.md)
+We use the [Proxmox open-source virtualization platform](./proxmox.md)
 
 ## Server configuration in git
 
@@ -114,7 +114,7 @@ Some specific to each flavor:
 * other data (`/mnt/<flavor>/*`) [^other-data-details] [^data-refactor3]
 
 The datasets are mounted in the different container using a bind mount.
-In proxmox, this is done by adding Mount point, `mp<number>`, entries to the container configuration, see [Bind mounting ZFS Datasets in proxmox](./promox.md#bind-mounting-zfs-datasets).
+In proxmox, this is done by adding Mount point, `mp<number>`, entries to the container configuration, see [Bind mounting ZFS Datasets in proxmox](./proxmox.md#bind-mounting-zfs-datasets).
 
 [^other-data-details]:
     The other data contains:

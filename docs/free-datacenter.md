@@ -74,7 +74,7 @@ Optane disk are as fast as flash drives but without being sensitive to rewrites 
 
 The 14Tb disks are in a ZFS pool mounted as RAID 1 (rpool)
 
-Since Feb. 2023, off2 uses [Proxmox](./promox.md).
+Since Feb. 2023, off2 uses [Proxmox](./proxmox.md).
 
 
 ### BIOS settings

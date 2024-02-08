@@ -228,7 +228,7 @@ Then connect to the proxmox host:
   * Install useful package and do some other configurations:
     `sudo /root/cluster-scripts/ct_postinstall` (or `/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall`) choose the container ID when asked.
 
-    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
+    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
   * [create a user](#how-to-create-a-user-in-a-container-or-vm)
 
@@ -240,7 +240,7 @@ Using the web interface:
   * Start at boot: Yes
   * Protection: Yes (to avoid deleting it by mistake)
 
-* Add replication to ovh3 or off1/2
+* Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)
   * In the Replication menu of the container, "Add" one
   * Target: ovh3
   * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)

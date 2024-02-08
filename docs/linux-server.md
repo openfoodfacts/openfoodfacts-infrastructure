@@ -3,7 +3,7 @@
 Here are some guidelines for linux servers.
 
 Note that we have some servers (which are bare metal installs.
-While others are [proxmox hosts](./promox.md).
+While others are [proxmox hosts](./proxmox.md).
 On proxmox some VM are lxc containers, while other are QEMU VM.
 
 Every server is referenced in 

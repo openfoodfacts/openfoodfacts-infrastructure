@@ -36,7 +36,7 @@ zpool add zfs-hdd cache nvme3n1p2
 
 ### Created CT
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 
 It's 120 (off-postgres)
 
@@ -103,7 +103,7 @@ We have two errors, but they are expected.
 
 ### Creating the container
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 
 It's 121 (off-memcached)
 I choosed a 15Gb disk on zfs-hdd, 0B swap, 2 Cores and 4 Gb memory.
@@ -516,7 +516,7 @@ Old logs were copied to ovh3:/rpool/backups/off1/srv/off/logs
 
 ## Creating Containers
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 8 Cores and 40 Gb memory.
 
 Note that my first container creation failed because unable to mount the ZFS volume ("zfs dataset is busy"…), I had to destroy the dataset and re-create the container.

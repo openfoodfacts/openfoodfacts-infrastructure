@@ -41,7 +41,7 @@ The infrastructure documentation is as follows:
 - [Linux Server](./docs/linux-server.md) - servers general setup
 - [Mail](./docs/mail.md) - servers mail setup
 - [An introduction to ZFS](./docs/zfs-overview.md) - ZFS is much used in our infrastructure
-- [Proxmox](./docs/promox.md) - about proxmox management
+- [Proxmox](./docs/proxmox.md) - about proxmox management
 - [CICD](./docs/cicd.md) - continuous integration and deployment
 - [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
 - [Docker Onboarding](./docs/docker_onboarding.md)
