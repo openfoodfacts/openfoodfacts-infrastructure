@@ -284,6 +284,11 @@ zfs-nvme     zfspool     active      1885863288              96      1885863192 
 Also the backups dir automatically get on zfs-hdd, but I don't really know why !
 `cat /etc/pve/storage.cfg` helps see that.
 
+I still have to create it:
+```bash
+zfs create zfs-hdd/backups
+```
+
 ## Adding ro_users group to proxmox
 
 We have a `ro_users` group for users to have read-only access to the proxmox interface.
@@ -338,59 +343,9 @@ systemctl enable --now  sanoid_check.timer
 systemctl enable --now  sanoid.service
 ```
 
-### creating off2operator on off1
-
-```bash
-adduser off2operator
-
-mkdir /home/off2operator/.ssh
-vim /home/off2operator/.ssh/authorized_keys
-# copy off2 public key
-
-chown off2operator:off2operator -R /home/off2operator
-chmod go-rwx -R /home/off2operator/.ssh
-```
-
-Adding needed permissions to pull zfs syncs
-```bash
-zfs allow off2operator hold,send zfs-hdd
-zfs allow off2operator hold,send zfs-nvme
-zfs allow off2operator hold,send rpool
-
-```
-
-On off2, test ssh connection:
-
-```bash
-ssh off1operator@10.0.0.2
-```
-
 ### sync from off2 to off1
 
-Create conf for syncoid
-
-```bash
-ln -s /opt/openfoodfacts-infrastructure/confs/off1/sanoid/syncoid-args.conf /etc/sanoid/
-```
-
-Do first sync by hand in a screen (because it will take a very long time):
-
-```bash
-set -x; \
-grep -v "^#" /etc/sanoid/syncoid-args.conf | \
-while read -a sync_args; \
-do syncoid "${sync_args[@]}" </dev/null || echo FAILED; done
-```
-
-On off1 enable syncoid service:
-```bash
-ln -s /opt/openfoodfacts-infrastructure/confs/off1/systemd/system/syncoid.service /etc/systemd/system
-systemctl daemon-reload
-systemctl enable --now  syncoid.service
-```
-
-
-### creating off1operator on off2
+#### creating off1operator on off2
 
 Similar as off2operator on off1
 
@@ -408,3 +363,91 @@ On off1, test ssh connection
 ssh off1operator@10.0.0.2
 ```
 
+#### Doing first sync
+
+Create conf for syncoid on off1
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off1/sanoid/syncoid-args.conf /etc/sanoid/
+```
+
+Do first sync by hand in a screen (because it will take a very long time):
+
+```bash
+set -x; \
+grep -v "^#" /etc/sanoid/syncoid-args.conf | \
+while read -a sync_args; \
+do syncoid "${sync_args[@]}" </dev/null || echo FAILED; done
+```
+
+#### Enabling syncoid
+
+On off1 enable syncoid service:
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off1/systemd/system/syncoid.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable syncoid.service
+```
+
+### sync from off1 to off2
+
+
+#### creating off2operator on off1
+
+(using env variable for easy copy/paste)
+```bash
+OP_USER=off2operator
+adduser $OP_USER
+
+mkdir /home/$OP_USER/.ssh
+vim /home/$OP_USER/.ssh/authorized_keys
+# copy off2 public key
+
+chown $OP_USER:$OP_USER -R /home/$OP_USER
+chmod go-rwx -R /home/$OP_USER/.ssh
+```
+
+Adding needed permissions to pull zfs syncs
+```bash
+zfs allow $OP_USER hold,send zfs-hdd
+zfs allow $OP_USER hold,send zfs-nvme
+zfs allow $OP_USER hold,send rpool
+
+```
+
+On off2, test ssh connection:
+
+```bash
+ssh off1operator@10.0.0.2
+```
+
+#### Doing first sync
+
+I did the sync manually issuing commands one by one.
+
+Like: `syncoid --no-sync-snap --no-privilege-elevation off2operator@10.0.0.1:zfs-nvme/pve/subvol-102-disk-0 zfs-hdd/backups/mongodb`
+
+and copying relevant part to `syncoid.conf` just after
+
+
+#### Adding entries to sanoid.conf
+
+Entries were added to `/etc/sanoid/syncoid.conf`.
+
+Also newly created backup datasets to `/etc/sanoid/sanoid.conf`
+
+Commit changes in `/opt/openfoodfacts-infrastructure`.
+
+Monitor next sanoid / syncoid run.
+
+
+### sync from ovh3 to off1
+
+* I created ovh3operator on off1 with ovh3 root public key
+* I created ovh3operator on off2 with ovh3 root public key
+
+* I created the syncoid.conf file
+
+* I did off1 syncs by hand (copy/pasting from the syncoid.conf)
+* I modified the sanoid.conf file to add the new datasets and the related policy for snapshot management
+* then created `/etc/systemd/system/syncoid.service` as a link definition to the service in this repository, same for `/etc/sanoid/syncoid.conf`, did a `systemctl daemon-reload` and activated the service: `systemctl enable syncoid.service`
