@@ -30,3 +30,5 @@ for f in $(zfs list  -r zfs-nvme/off/products -t snap -o name);do [[ $f == *"@20
 ```
 
 I did it for off, off-pro, opf, opff and obf.
+
+I then disable snapshot_purge from crontab.
