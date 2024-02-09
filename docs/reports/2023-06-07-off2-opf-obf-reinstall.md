@@ -158,7 +158,7 @@ And on ovh3 add them to `sanoid.conf` with `synced_data` template
 
 ## Creating Containers
 
-I created a CT for obf followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for obf followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.

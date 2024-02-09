@@ -158,78 +158,7 @@ See also [Proxmox documentation on mount points](https://pve.proxmox.com/pve-doc
 
 ### Adding space on a QEMU disk
 
-following https://pve.proxmox.com/wiki/Resize_disks
-
-Example: adding 8GB on VM for monitoring (203) and disk scsi0
-
-On host: `sudo qm resize 203 scsi0 +8G`
-
-On VM:
-```bash
-sudo parted /dev/sda
-(parted) print
-Model: QEMU QEMU HARDDISK (scsi)
-Disk /dev/sda: 42,9GB
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags: 
-
-Number  Start   End     Size    Type      File system     Flags
- 1      1049kB  33,3GB  33,3GB  primary   ext4            boot
- 2      33,3GB  34,4GB  1022MB  extended
- 5      33,3GB  34,4GB  1022MB  logical   linux-swap(v1)
- (parted) quit
-```
-
-We have a problem because of swap. We must deactivate swap, remove swap partition and extended partition, augment our main partition, recreate extended and swap partition !
-
-```bash
-# deactivate swap
-$ sudo swapoff -a
-# remove partition in parted, augment main partition, recreate them
-$ sudo parted /dev/sda
-(parted) rm 5
-(parted) rm 2
-(parted) print
-...
-Number  Start   End     Size    Type     File system  Flags
- 1      1049kB  33,3GB  33,3GB  primary  ext4         boot
-...
-(parted) help resizepart
-(parted) resizepart 1 41,3GB
-(parted) mkpart extended
-Start? 41,3GB
-End? 100%
-(parted) mkpart logical linux-swap 41,3GB 100%
-(parted) quit
-# resize partition
-$ sudo resize2fs /dev/sda1
-resize2fs 1.46.2 (28-Feb-2021)
-Filesystem at /dev/sda1 is mounted on /; on-line resizing required
-old_desc_blocks = 4, new_desc_blocks = 5
-The filesystem on /dev/sda1 is now 10082751 (4k) blocks long.
-```
-
-Now we have to re-enable swap, but UUID for partition have changed, so we have to edit `/etc/fstab` first.
-
-```bash
-# prepare swap
-$ sudo mkswap /dev/sda5
-Setting up swapspace version 1, size = 1,5 GiB (1648357376 bytes)
-no label, UUID=431b8e8e-0691-471c-be8b-2c1039321142
-# edit /etc/fstab to point to new UUID
-$ sudo vim /etc/fstab
-...
-# swap was on /dev/sda5 during installation
-UUID=431b8e8e-0691-471c-be8b-2c1039321142 none            swap    sw              0       0
-/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0
-...
-# tell systemd
-$ sudo systemctl daemon-reload
-# remount swap
-sudo swapon -a
-
-```
+see [How to add disk space on a qemu VM](./how-to-add-disk-space-on-qemu.md).
 
 ## Proxmox management interface access
 
@@ -299,7 +228,7 @@ Then connect to the proxmox host:
   * Install useful package and do some other configurations:
     `sudo /root/cluster-scripts/ct_postinstall` (or `/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall`) choose the container ID when asked.
 
-    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/637405791d49abe03f667dae22bd89399ec3c53e/scripts/proxmox-management/ct_postinstall)
+    See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
   * [create a user](#how-to-create-a-user-in-a-container-or-vm)
 
@@ -311,7 +240,7 @@ Using the web interface:
   * Start at boot: Yes
   * Protection: Yes (to avoid deleting it by mistake)
 
-* Add replication to ovh3 or off1/2
+* Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)
   * In the Replication menu of the container, "Add" one
   * Target: ovh3
   * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
@@ -349,3 +278,30 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 ## Proxmox installation
 
 Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.
+
+
+## Some errors
+
+### Systemd needs nesting capability
+
+Some service of systemd might not work because it needs nesting capabilities (and AppArmor is blocking them).
+
+Using `systemctl list-units --failed`, one can see that `systemd-networkd` is down, might be same for `systemd-logind` and `systemd-resolved`.
+
+Some logs that may appear:
+```log
+systemd-networkd "Failed to set up mount namespacing" "/run/systemd/unit-root/proc" "Permission denied" lxc
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+nov. 28 18:40:57 proxy systemd[123]: systemd-networkd.service: Failed at step NAMESPACE spawning /lib/systemd/systemd-networkd: Permission denied
+```
+
+On symptom is a slow time at login time, which is due to systemd-logind service being down:
+
+```log
+Mar 29 10:37:53 proxy dbus-daemon[128]: [system] Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
+Mar 29 10:42:43 proxy dbus-daemon[128]: [system] Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
+```
+
+Just add nesting capability to the container and restart it.
+
+Thread on same issue : https://discuss.linuxcontainers.org/t/apparmor-blocks-systemd-services-in-container/9812

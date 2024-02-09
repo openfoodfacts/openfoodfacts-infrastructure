@@ -11,15 +11,17 @@ SNAP_MIN_DATE="7 hours ago"
 SANOID_MIN_DATE="7 hours ago"
 ERRORS=()
 
-function get_zfs_volumes {
- # get all sections but templates and remove brackets
- ZFS_VOLUMES=( \
-   $( \
-     cat /etc/sanoid/sanoid.conf | \
-     grep  '^\[.\+\]' | grep -v '\[template_' | \
-     sed -e 's/\[\(.\+\)\]/\1/' \
-   ) \
- );
+function get_zfs_datasets {
+ # list all zfs datasets
+ ZFS_POOLS=$(zpool list -o name -H)
+ ZFS_DATASETS=$(zfs list -o name -H -r $ZFS_POOLS)
+ # search for excluded datasests in sanoid.conf
+ # this is no_sanoid_checks:dataset/path/1:dataset/path/2
+ # we transform to :path1:path2:path3: for easy check if a value is inside
+ # it might be on several line
+ # Note: the line return in last tr is intentional to transform spaces and line return to ':'
+ EXCLUDED_DATASETS=":"$(grep -i  "no_sanoid_checks:" /etc/sanoid/sanoid.conf|tr -d " "|cut -d ":" --output-delimiter=" " -f 2-|tr " 
+" "::")":"
 }
 
 function check_last_snap_date {
@@ -52,10 +54,13 @@ function check_sanoid_run_date {
 # first check sanoid
 check_sanoid_run_date
 # then each volume
-get_zfs_volumes
-for volume in "${ZFS_VOLUMES[@]}"
+get_zfs_datasets
+for volume in $ZFS_DATASETS
 do
-  check_last_snap_date "$volume"
+  if [[ ! $EXCLUDED_DATASESTS =~ :$volume: ]]
+  then
+    check_last_snap_date "$volume"
+  fi
 done
 
 # if errors send email

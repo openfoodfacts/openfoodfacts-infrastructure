@@ -21,7 +21,7 @@ map $response_size $small_rate_key {
 }
 
 # rate limit, differentiate between small an full req
-# small (loading search page: 100 product images + burst for assets) * 10
+# small (loading search page: 100 product images + burst for assets) * 60
 limit_req_zone $small_rate_key zone=small_size:10m rate=6000r/m;
 # some full image per minutes should be enough
 limit_req_zone $big_rate_key zone=big_size:10m rate=100r/m;
@@ -79,8 +79,12 @@ server {
 
 	location / {
 		# rate limit based on size
-		limit_req zone=big_size burst=2 nodelay;
-		limit_req zone=small_size burst=100 nodelay;
+		# NGINX actually tracks requests at millisecond granularity
+		# so eg 6000r/m means 100r/s which means 1r each 10 ms,
+		# but requests tends to come simultaneously
+		# The simple way to avoid caring about this is to have burst=rate
+		limit_req zone=big_size burst=100 nodelay;
+		limit_req zone=small_size burst=6000 nodelay;
 
 		# test en local, puis sur off1
 		try_files		$uri @off1;

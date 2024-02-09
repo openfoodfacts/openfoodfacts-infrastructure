@@ -1,0 +1,18 @@
+[Unit]
+Description=TLS tunnel for network daemons - per-config-file service
+Documentation=man:stunnel4(8)
+PartOf=stunnel.target
+
+[Service]
+ExecStart=/usr/bin/stunnel4 /etc/stunnel/%i.conf
+PrivateTmp=yes
+
+# we need to enable putting pit file in runtime directory, with right permissions
+# while still starting as root (needed by stunnel)
+Group=stunnel4
+RuntimeDirectory=stunnel-%i
+RuntimeDirectoryMode=0775
+
+
+[Install]
+WantedBy=multi-user.target

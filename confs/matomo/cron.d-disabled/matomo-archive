@@ -1,0 +1,4 @@
+MAILTO="root@openfoodfacts.org"
+# see https://fr.matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/
+# only start if no process is already running
+5 * * * * www-data ps -elf|grep "core:archive"|grep -v grep || /usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ >> /var/log/matomo/matomo-archive.log 2>>/var/log/matomo/matomo-archive-err.log

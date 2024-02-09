@@ -36,7 +36,7 @@ zpool add zfs-hdd cache nvme3n1p2
 
 ### Created CT
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 
 It's 120 (off-postgres)
 
@@ -103,7 +103,7 @@ We have two errors, but they are expected.
 
 ### Creating the container
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 
 It's 121 (off-memcached)
 I choosed a 15Gb disk on zfs-hdd, 0B swap, 2 Cores and 4 Gb memory.
@@ -511,12 +511,12 @@ chown -R 1000:1000 /zfs-hdd/off/html_data/sugar /zfs-hdd/off/data/sugar/
 
 We rsync old logs in a separate files
 
-**FIXME** do it
+Old logs were copied to ovh3:/rpool/backups/off1/srv/off/logs
 
 
 ## Creating Containers
 
-I created a CT for OFF followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for OFF followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 8 Cores and 40 Gb memory.
 
 Note that my first container creation failed because unable to mount the ZFS volume ("zfs dataset is busy"…), I had to destroy the dataset and re-create the container.
@@ -1622,8 +1622,8 @@ We want a shared ZFS dataset for sftp data between the reverse proxy and off-pro
 Create ZFS dataset, on off2:
 ```bash
 sudo zfs create zfs-hdd/off-pro/sftp
-# make it accessible to root inside a container (where id 0 is mapped to 100000)
-chown 100000:100000 /zfs-hdd/off-pro/sftp/
+# make top folders accessible to root inside a container (where id 0 is mapped to 100000)
+chown 100000:100000 /zfs-hdd/off-pro/sftp/ /zfs-hdd/off-pro/sftp/*
 ```
 
 We then change reverse proxy configuration (`/etc/pve/lxc/101.conf`) and off-pro (`/etc/pve/lxc/114.conf`) config to add a mount point. Somthing like `mp8: /zfs-hdd/off-pro/sftp,mp=/mnt/off-pro/sftp` (number after mp, depends on already existing one).
