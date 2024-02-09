@@ -16,4 +16,4 @@ cd /var/log/exim4; mv paniclog paniclog.1; systemctl reload exim4
 
 ## 2023-07-25 Disk full on /rpool/off/products
 
-See [2023-07-26 rpool/off/products dataset full on off1](reports/2023-07-26-rpool-off-products-full.md)
+See [2023-07-26 rpool/off/products dataset full on off1](reports/2023-07-26-off1-rpool-products-full.md)
