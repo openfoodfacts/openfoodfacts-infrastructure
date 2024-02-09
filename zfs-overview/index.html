@@ -247,6 +247,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../disks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Disks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../docker/" class="md-nav__link">
         
   
@@ -1134,10 +1154,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
         
           
-          <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1148,8 +1168,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_39">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_40">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -1897,6 +1917,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Post-mortem 2023-11-28 Disk sdf errors on OVH3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
         
   
@@ -2201,6 +2242,9 @@ You can still see datasets usage by using:
 <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-o<span class="w"> </span>zfs<span class="w"> </span>list<span class="w"> </span>-o<span class="w"> </span>name,used,usedbydataset,usedbysnapshots,available<span class="w"> </span>-r<span class="w"> </span>&lt;pool_name&gt;
 </code></pre></div></p>
 </li>
+</ul>
+<ul>
+<li><code>zdb</code> is also worth knowing (<code>zfd -s</code> for example)</li>
 </ul>
 <h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
 <p>Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.</p>

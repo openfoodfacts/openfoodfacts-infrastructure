@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../slackin/">
+        <link rel="prev" href="../discourse/">
       
       
-        <link rel="next" href="../zfs-overview/">
+        <link rel="next" href="../docker/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Zammad - Open Food Facts Infrastructure documentation</title>
+        <title>Disks - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#zammad" class="md-skip">
+        <a href="#disks" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Zammad
+              Disks
             
           </span>
         </div>
@@ -244,10 +244,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../disks/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Disks
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -256,6 +276,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#some-good-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some good practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disk-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smartctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smartctl
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -924,19 +1000,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../zammad/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -945,7 +1012,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1874,6 +1940,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#some-good-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some good practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disk-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smartctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smartctl
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1890,17 +2000,30 @@
   
 
 
-<h1 id="zammad">Zammad<a class="headerlink" href="#zammad" title="Permanent link">#</a></h1>
-<p><a href="https://zammad.org/">Zammad</a> is a tool for support.</p>
-<p>It is installed in a VM at CQuest home (we should migrate it), in an LXC container.
-To get into it you have to ssh <code>freebox.computel.fr</code> on port <code>12922</code>.</p>
-<p>It is exposed at https://support.openfoodfacts.org/</p>
-<p>It was setup using zammad package (see <a href="https://docs.zammad.org/en/latest/install/package.html">install docs</a>).</p>
-<p>It has different services, all begining with the name <code>zammad-</code>. It uses postgresql.
-The real services are the one with <code>-1</code> at the end, the others are just placeholders launching <code>sleep infinity</code>:
-<code>zammad-web-1.service</code>, <code>zammad-websocket-1.service</code>, <code>zammad-worker-1.service</code>.</p>
-<p>It also uses Elasticsearch. Because we are in a container, heap memory size has to be configured manually through a file in <code>/etc/elasticsearch/jvm.options.d/memory.options</code>.<br />
-<code>600m</code> seems like a good size.</p>
+<h1 id="disks">Disks<a class="headerlink" href="#disks" title="Permanent link">#</a></h1>
+<h2 id="some-good-practices">Some good practices<a class="headerlink" href="#some-good-practices" title="Permanent link">#</a></h2>
+<p>Always try to separate: primary data, cache data (data generated from primary data), configuration data, and system.
+This makes data management (backup, recovery, day to day maintenance) easier.</p>
+<p>In ZFS use different datasets for that.</p>
+<p>For backup data or large data with few I/O operations eventually use NFS mount from a separate server.</p>
+<h2 id="zfs">ZFS<a class="headerlink" href="#zfs" title="Permanent link">#</a></h2>
+<p>we extensively use ZFS, see <a href="../zfs-overview/">ZFS overview</a></p>
+<h2 id="disk-space">Disk space<a class="headerlink" href="#disk-space" title="Permanent link">#</a></h2>
+<p>See <a href="../how-to-add-disk-space-on-qemu/">How to add disk space on a Qemu VM</a></p>
+<h2 id="smartctl">Smartctl<a class="headerlink" href="#smartctl" title="Permanent link">#</a></h2>
+<p>Some useful command:</p>
+<div class="highlight"><pre><span></span><code>smartctl<span class="w"> </span>-x
+</code></pre></div>
+<p>gives you every informations about a system.</p>
+<p>Be attentive to <code>SMART overall-health self-assessment test result</code>.</p>
+<p>Also verify <code>Device Error Count</code>. (you can see errors with <code>smartctl -l error</code>)</p>
+<p>Verify that tests under <code>SMART Extended Self-test</code> finished. (you can see tests with <code>smartctl -l selftest</code>)</p>
+<p>Use <code>smartctl -t short /dev/sdX</code> to test a single device. (or <code>-t long</code>)</p>
+<p>Resources: </p>
+<ul>
+<li>(fr) https://www.malekal.com/smartctl-verifier-son-disque-en-ligne-de-commandes-linux/ </li>
+<li>about unreadable sectors https://www.truenas.com/community/threads/is-this-a-bad-sign-smartd-1-currently-unreadable-pending-sectors.9824/#post-42966</li>
+</ul>
 
 
 
