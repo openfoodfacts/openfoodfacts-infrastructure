@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2023-08-31-off2-products-snapshots-clean/">
+        <link rel="prev" href="../2024-01-02-monitoring-disk-space/">
       
-      
-        <link rel="next" href="../2023-10-14-mongodb-down/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2 - Open Food Facts Infrastructure documentation</title>
+        <title>2024-02-08 Production Redis install - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2" class="md-skip">
+        <a href="#2024-02-08-production-redis-install" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+              2024-02-08 Production Redis install
             
           </span>
         </div>
@@ -1676,30 +1674,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1708,53 +1686,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-happened" class="md-nav__link">
-    <span class="md-ellipsis">
-      What happened
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Investigation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solving-temporarily" class="md-nav__link">
-    <span class="md-ellipsis">
-      Solving (temporarily)
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1827,10 +1758,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-02-08 Production Redis install
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1839,6 +1790,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#created-ct" class="md-nav__link">
+    <span class="md-ellipsis">
+      Created CT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installed-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installed Redis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding access for OVH through stunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications-on-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications on failure
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1878,27 +1885,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-happened" class="md-nav__link">
+  <a href="#created-ct" class="md-nav__link">
     <span class="md-ellipsis">
-      What happened
+      Created CT
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
+  <a href="#installed-redis" class="md-nav__link">
     <span class="md-ellipsis">
-      Investigation
+      Installed Redis
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#solving-temporarily" class="md-nav__link">
+  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
     <span class="md-ellipsis">
-      Solving (temporarily)
+      Adding access for OVH through stunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications-on-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications on failure
     </span>
   </a>
   
@@ -1922,27 +1938,56 @@
   
 
 
-<h1 id="2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2">2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2<a class="headerlink" href="#2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2" title="Permanent link">#</a></h1>
-<h2 id="what-happened">What happened<a class="headerlink" href="#what-happened" title="Permanent link">#</a></h2>
-<p>The SSL certificate expired the day before.</p>
-<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
-<p>We temporarily moved images.openfoodfacts.org from ovh3 to off2, but not the renewal of the corresponding certificate.</p>
-<h2 id="solving-temporarily">Solving (temporarily)<a class="headerlink" href="#solving-temporarily" title="Permanent link">#</a></h2>
-<p>As we are likely to move back images.openfoodfacts.org to ovh3 soon, we just copied the newer Let's Encrypt files from ovh3 to off2, and restarted nginx.
-The certificate was renewed on Sept 6 2023, it will expire on December 5 2023.</p>
-<div class="highlight"><pre><span></span><code>root@off2:/etc/letsencrypt# ls -lrt
-total 42
--rw-r--r-- 1 root root  121 May 26  2018 cli.ini
-drwxr-xr-x 5 root root    5 Jun 18  2021 renewal-hooks
--rw-r--r-- 1 root root  424 Jun 18  2021 ssl-dhparams.pem
--rw-r--r-- 1 root root 1143 Jun 18  2021 options-ssl-nginx.conf
-drwxr-xr-x 3 root root    3 Jun 18  2021 accounts
-drwx------ 4 root root    5 Jul  5  2021 live
-drwx------ 4 root root    4 Jul  5  2021 archive
-drwx------ 2 root root   52 Sep  6 22:32 keys
-drwxr-xr-x 2 root root   52 Sep  6 22:32 csr
-drwxr-xr-x 2 root root    4 Sep  6 22:32 renewal
-drwxr-xr-x 9 root root   12 Sep 27 09:24 old
+<h1 id="2024-02-08-production-redis-install">2024-02-08 Production Redis install<a class="headerlink" href="#2024-02-08-production-redis-install" title="Permanent link">#</a></h1>
+<h2 id="created-ct">Created CT<a class="headerlink" href="#created-ct" title="Permanent link">#</a></h2>
+<p>I created a CT on off2 followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a>:</p>
+<ul>
+<li>id 122 (off-redis)</li>
+<li>20Gb disk on zfs-hdd, noatime</li>
+<li>added a disk on zfs-nvme mounted on /var/lib/redis/ with 5Gb size and noatime option.</li>
+<li>2 Cores</li>
+<li>2 Gb memory, 0B swap</li>
+</ul>
+<p>I did not create a user.</p>
+<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and <a href="../mail#testing-that-the-gateway-is-well-configured">tested it</a>.</p>
+<p>Cloned this repository in <a href="../../how-to-have-server-config-in-git/">/opt using a root key as deploy key</a></p>
+<h2 id="installed-redis">Installed Redis<a class="headerlink" href="#installed-redis" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis
+</code></pre></div>
+<p>Then I changed <code>/etc/redis/redis.conf</code> to use not protected mode and bind on all interfaces.
+I also moved the redis.conf file to the git repository and did a symlink in <code>/etc/redis</code> instead.</p>
+<p>Restarted redis: <code>systemctl restart redis.service</code></p>
+<h2 id="adding-access-for-ovh-through-stunnel">Adding access for OVH through stunnel<a class="headerlink" href="#adding-access-for-ovh-through-stunnel" title="Permanent link">#</a></h2>
+<p>On off2 reverse proxy added configuration to join redis in <code>/etc/stunnel/off.conf</code>:
+<div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to redis on off2</span>
+<span class="k">[OffRedis]</span>
+<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
+<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">6379</span>
+<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.122:6379</span>
+<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
+<span class="c1"># this file and directory are private</span>
+<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
+</code></pre></div></p>
+<p>create psk: <code>echo ovh-proxy-redis:$(pwgen 32 1) &gt; /etc/stunnel/psk/redis-psk.txt</code></p>
+<p>On 113 container (stunnel-client) on ovh1, created the client side in <code>/etc/stunnel/off.conf</code>:
+<div class="highlight"><pre><span></span><code><span class="c1"># connecting to mongodb on off1</span>
+<span class="k">[OffRedis]</span>
+<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">yes</span>
+<span class="c1"># expose only in private network</span>
+<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.113:6379</span>
+<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">proxy2.openfoodfacts.org:6379</span>
+<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
+<span class="c1"># this file and directory are private</span>
+<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
+</code></pre></div>
+The psk file contains same content as the one on off2 proxy.</p>
+<h2 id="notifications-on-failure">Notifications on failure<a class="headerlink" href="#notifications-on-failure" title="Permanent link">#</a></h2>
+<p>I added the <code>email-failures@redis.service</code>, and override redis configuration to send email on failure:</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system/
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/redis.service.d/<span class="w"> </span>/etc/systemd/system/
+systemctl<span class="w"> </span>daemon-reload
+<span class="c1"># just to be sure</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>redis
 </code></pre></div>
 
 
