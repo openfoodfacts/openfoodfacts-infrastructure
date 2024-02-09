@@ -50,6 +50,7 @@ The infrastructure documentation is as follows:
 
 The main services:
 - [MongoDB](./docs/mongodb.md) the MongoDB database
+- [Redis](./docs/redis.md) we also use Redis
 
 Some services:
 
