@@ -57,7 +57,17 @@ PSKsecrets = /etc/stunnel/psk/redis-psk.txt
 The psk file contains same content as the one on off2 proxy.
 
 
+## Notifications on failure
 
+I added the `email-failures@redis.service`, and override redis configuration to send email on failure:
+
+```bash
+ln -s /opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/email-failures\@.service /etc/systemd/system/
+ln -s /opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/redis.service.d/ /etc/systemd/system/
+systemctl daemon-reload
+# just to be sure
+systemctl restart redis
+```
 
 
 
