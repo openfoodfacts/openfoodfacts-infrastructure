@@ -184,7 +184,7 @@ ZFS datastest are replicated snapshoted (backups) and synced.
 
 We use [sanoid](./sanoid.md) to manage snapshot (create them and handle retention policy).
 
-We use [syncoid](./syncoid.md), a companion tool of sanoid to synchronize snapshots on other servers.
+We use [syncoid](./sanoid.md#syncoid-service-and-configuration), a companion tool of sanoid to synchronize snapshots on other servers.
 
 Also some snapshot are used through clones to provide data for staging. (see `/opt/openfoodfacts-infrastructure/scripts/ovh3/maj-clones-nfs-VM-dockers.sh`).
 
