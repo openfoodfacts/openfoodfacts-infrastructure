@@ -21,6 +21,21 @@ There are generally two kind of templates:
 
 We then have different retention strategies based on the type of data.
 
+## sanoid checks
+
+We have a timer/service sanoid_check that checks that we have recent snapshots for datasets.
+This is useful to verify sanoid is running, or syncoid is doing it's job.
+
+The default is to check every ZFS datasets, but the one you list with `no_sanoid_checks:` 
+in the comments of your `sanoid.conf` file.
+You can put more than one dataset per line, by separating them with ":".
+
+For example:
+```conf
+# no_sanoid_checks:rpool/logs-nginx:
+# no_sanoid_checks:rpool/obf-old:rpool/opf-old:
+```
+
 
 ## syncoid service and configuration
 
@@ -71,10 +86,7 @@ dpkg-buildpackage -uc -us
 sudo apt install ../sanoid_*_all.deb
 ```
 
-And enabled it:
-```bash
-sudo systemctl enable --now sanoid.timer
-```
+then [enable sanoid service](#how-to-enable-sanoid-service)
 
 ### How to enable sanoid service
 
