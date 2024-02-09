@@ -14,7 +14,7 @@ ERRORS=()
 function get_zfs_datasets {
  # list all zfs datasets
  ZFS_POOLS=$(zpool list -o name -H)
- ZFS_CANDIDATES_DATASETS=$(zfs list -o name -H -r $ZFS_POOLS)
+ ZFS_DATASETS=$(zfs list -o name -H -r $ZFS_POOLS)
  # search for excluded datasests in sanoid.conf
  # this is no_sanoid_checks:dataset/path/1:dataset/path/2
  # we transform to :path1:path2:path3: for easy check if a value is inside
