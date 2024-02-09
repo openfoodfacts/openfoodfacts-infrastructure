@@ -62,7 +62,7 @@ Prepared:
 
     ```
 	root@proxy:/etc/nginx/conf.d# cat pmg.openfoodfacts.org.conf
-	# PMG stands for Promox Mail Gateway
+	# PMG stands for Proxmox Mail Gateway
 	# We need to redirect port 80, for letsencrypt's certificate management
 	server {
 	

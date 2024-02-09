@@ -106,7 +106,7 @@ But I took the decision:
 
 ## Creating stunnel client container
 
-We followed usual procedure to [create a proxmox container](../promox.md#how-to-create-a-new-container):
+We followed usual procedure to [create a proxmox container](../proxmox.md#how-to-create-a-new-container):
 * of id 113
 * choosed a debian 11
 * default storage on zfs-hdd (for system) 6Gb, noatime

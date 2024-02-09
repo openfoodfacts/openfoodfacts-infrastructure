@@ -6,11 +6,11 @@ To [upgrade off2](./2023-02-17-off2-upgrade.md), we moved MongoDB to a VM kindly
 
 We Then moved all the stuff from off1 to off2. We then [upgrade off1](./2023-12-08-off1-upgrade.md).
 
-It's now time to move back MongoDB instance to the upgraded off1 server. It will be installed in a container as we now use [proxmox](../promox.md)
+It's now time to move back MongoDB instance to the upgraded off1 server. It will be installed in a container as we now use [proxmox](../proxmox.md)
 
 ## Creating a container
 
-We followed usual procedure to [create a proxmox container](../promox.md#how-to-create-a-new-container):
+We followed usual procedure to [create a proxmox container](../proxmox.md#how-to-create-a-new-container):
 * of id 102
 * choosed a debian 10 (**important**: org version of mongodb 4.4 is not available in newly debian versions)
 * default storage on zfs-hdd (for system) 30Gb, noatime
