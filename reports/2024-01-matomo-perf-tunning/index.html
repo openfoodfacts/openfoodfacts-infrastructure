@@ -1,0 +1,1830 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2024-01-24-move-old-productopener-folders-to-backup/">
+      
+      
+        <link rel="next" href="../2024-02-06-cleanup-products-snapshots/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.20">
+    
+    
+      
+        <title>2024-01 Matomo performance tunning - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2024-01-matomo-performance-tunning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2024-01 Matomo performance tunning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../disks/" class="md-nav__link">
+        Disks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
+        Explanation on server configuration with git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        Free Datacenter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        How to add disk space on a Qemu VM
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
+        How to use fail2ban to ban bots
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+        How to install fail2ban on debian 11+
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
+        How to have server config in git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+        How to mitigate crawlers in case of too much traffic
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        off1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        off2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        off3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        ovh1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        ovh2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        ovh3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        MongoDB
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../munin/" class="md-nav__link">
+        Munin
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgres/" class="md-nav__link">
+        PostgreSQL
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        Production architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-opener/" class="md-nav__link">
+        Product Opener
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proxmox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/" class="md-nav__link">
+        Redis
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        auto Slack invitation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
+        Stunnel
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        ZFS overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        2022-11 moving monitoring to its own machine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        2023-02-13 Zammad down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        2023 02 16 off2 shutdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        2023-02-17 Off2 Upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        2023 02 24 zfs introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        2023-05-23 move Images to ZFS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        2023-05-23 off2 - container 110 unreachable from 101
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        2023-06-01 Robotoff backups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+        Post-mortem 2023-07-16 Disk sdc errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+        2023-07-26 rpool/off/products dataset full on off1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+        2023 07 off reinstall  prod files diff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
+        2023-06-07 OFF and OFF-pro reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+        2023-08-31 OFF2 products snapshots clean
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+        2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
+        2023-10-14: mongodb-down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        Post-mortem 2023-11-28 Disk sdf errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
+        2023-12-11 Matomo down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+        2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+        2024-01-19 Certbot failure on off2 reverse proxy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+        2024-01-24 Move old Product Opener folders to backup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2024-01 Matomo performance tunning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2024-01 Matomo performance tunning
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-mysqltunner" class="md-nav__link">
+    using mysqltunner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#php-settings" class="md-nav__link">
+    PHP settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-mariadb-optimization" class="md-nav__link">
+    More MariaDB Optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimize-the-archiver-launch" class="md-nav__link">
+    Optimize the archiver launch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-see-whats-in-redis" class="md-nav__link">
+    Trying to see what's in redis
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-useful-commands" class="md-nav__link">
+    Some useful commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-launch-the-service-by-hand" class="md-nav__link">
+    Trying to launch the service by hand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#augmenting-the-service-max-execution-time" class="md-nav__link">
+    Augmenting the service max execution time
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#going-to-4-tracker-queues" class="md-nav__link">
+    Going to 4 tracker queues
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+        2024-02-06 cleanup of products ssnapshots on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        2024-02-08 Production Redis install
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-mysqltunner" class="md-nav__link">
+    using mysqltunner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#php-settings" class="md-nav__link">
+    PHP settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-mariadb-optimization" class="md-nav__link">
+    More MariaDB Optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimize-the-archiver-launch" class="md-nav__link">
+    Optimize the archiver launch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-see-whats-in-redis" class="md-nav__link">
+    Trying to see what's in redis
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-useful-commands" class="md-nav__link">
+    Some useful commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trying-to-launch-the-service-by-hand" class="md-nav__link">
+    Trying to launch the service by hand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#augmenting-the-service-max-execution-time" class="md-nav__link">
+    Augmenting the service max execution time
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#going-to-4-tracker-queues" class="md-nav__link">
+    Going to 4 tracker queues
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="2024-01-matomo-performance-tunning">2024-01 Matomo performance tunning<a class="headerlink" href="#2024-01-matomo-performance-tunning" title="Permanent link">#</a></h1>
+<p>We still have Matomo archive scripts failing…</p>
+<p>Trying to optimize it.</p>
+<p><strong>NOTE:</strong> some of the changes documented here are in <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/32c01fe796a119b377d19e8bf14cd81534ce9795">commit 32c01fe796a1</a></p>
+<h2 id="using-mysqltunner">using mysqltunner<a class="headerlink" href="#using-mysqltunner" title="Permanent link">#</a></h2>
+<p>In a screen as root: <code>mysqltuner</code>, it is advized to let it run for 48h</p>
+<h2 id="php-settings">PHP settings<a class="headerlink" href="#php-settings" title="Permanent link">#</a></h2>
+<p>Edited <code>/etc/php/7.3/fpm/php.ini</code> and set as seen on /etc/php/7.3/fpm/php.ini</p>
+<p>(I only had to change max_execution_time)
+<div class="highlight"><pre><span></span><code><span class="na">memory_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2G</span>
+<span class="na">max_execution_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">log_errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+<span class="na">display_errors</span><span class="o">=</span><span class="s">Off</span>
+</code></pre></div></p>
+<p>For <code>/etc/php/7.3/cli/php.ini</code>
+<div class="highlight"><pre><span></span><code><span class="na">memory_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
+<span class="na">max_execution_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">log_errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+<span class="na">display_errors</span><span class="o">=</span><span class="s">Off</span>
+</code></pre></div></p>
+<p>I also add the <code>path/to/matomo/config/common.config.ini.php</code> as advised (but with a different log path)</p>
+<p>Then <code>systemctl restart php7.3-fpm.service</code></p>
+<h2 id="more-mariadb-optimization">More MariaDB Optimization<a class="headerlink" href="#more-mariadb-optimization" title="Permanent link">#</a></h2>
+<p>Followed <a href="https://2bits.com/articles/reduce-your-servers-resource-usage-moving-mysql-temporary-directory-ram-disk.html">article on tmpfs for mysql on 2bits.com</a> (cited by <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-for-speed/">Matomo docs</a>) to add:</p>
+<div class="highlight"><pre><span></span><code>tmpdir=/run/mysqld
+innodb_flush_log_at_trx_commit=2
+</code></pre></div>
+<p>We could try to set <code>innodb_flush_method</code> to <code>O_DSYNC</code> but installed mariadb version does not support it.</p>
+<p>in <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code></p>
+<p>Then <code>systemctl restart mariadb.service</code></p>
+<p>Following https://mariadb.com/docs/server/ref/mdb/status-variables/Threads_created/</p>
+<p>I run:</p>
+<div class="highlight"><pre><span></span><code>MariaDB<span class="w"> </span><span class="o">[(</span>none<span class="o">)]</span>&gt;<span class="w"> </span>SELECT<span class="w"> </span>threads_created,<span class="w"> </span>connections,<span class="w">     </span><span class="o">(</span>threads_created<span class="w"> </span>/<span class="w"> </span>connections<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>thread_cache_miss_rate<span class="w">  </span>FROM<span class="w">     </span><span class="o">(</span>SELECT<span class="w"> </span>gs1.VARIABLE_VALUE<span class="w"> </span>AS<span class="w"> </span>threads_created<span class="w">     </span>FROM<span class="w"> </span>informat
+ion_schema.GLOBAL_STATUS<span class="w"> </span>gs1<span class="w">     </span>WHERE<span class="w"> </span>gs1.VARIABLE_NAME<span class="w"> </span>LIKE<span class="w"> </span><span class="s1">&#39;Threads_created&#39;</span><span class="o">)</span><span class="w"> </span>tc<span class="w"> </span>JOIN<span class="w">     </span><span class="o">(</span>SELECT<span class="w"> </span>gs2.VARIABLE_VALUE<span class="w"> </span>AS<span class="w"> </span>connections<span class="w">     </span>FROM<span class="w"> </span>information_schema.GLOBAL_STATUS<span class="w"> </span>gs2<span class="w">     </span>WHERE
+<span class="w"> </span>gs2.VARIABLE_NAME<span class="w"> </span>LIKE<span class="w"> </span><span class="s1">&#39;Connections&#39;</span><span class="o">)</span><span class="w"> </span>c<span class="p">;</span>
++-----------------+-------------+------------------------+
+<span class="p">|</span><span class="w"> </span>threads_created<span class="w"> </span><span class="p">|</span><span class="w"> </span>connections<span class="w"> </span><span class="p">|</span><span class="w"> </span>thread_cache_miss_rate<span class="w"> </span><span class="p">|</span>
++-----------------+-------------+------------------------+
+<span class="p">|</span><span class="w"> </span><span class="m">9</span><span class="w">               </span><span class="p">|</span><span class="w"> </span><span class="m">239</span><span class="w">         </span><span class="p">|</span><span class="w">    </span><span class="m">0</span>.03765690376569038<span class="w"> </span><span class="p">|</span>
++-----------------+-------------+------------------------+
+<span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.001<span class="w"> </span>sec<span class="o">)</span>
+</code></pre></div>
+<p>thread_cache_miss_rate is almost 0 which is a good sign.</p>
+<h2 id="optimize-the-archiver-launch">Optimize the archiver launch<a class="headerlink" href="#optimize-the-archiver-launch" title="Permanent link">#</a></h2>
+<p>Changed the exit time for <code>matomo-archive.service</code> to <code>5h</code></p>
+<p>I use <code>/usr/bin/php /var/www/html/matomo/console core:archive --help</code> to see options.</p>
+<p>We could use <code>--force-idsites</code> to try to launch websites one by one, but I'm not sure it would help, for now (appart from launching archivers in parallel, but it may not help because bottleneck is certainly MariaDB).</p>
+<h2 id="trying-to-see-whats-in-redis">Trying to see what's in redis<a class="headerlink" href="#trying-to-see-whats-in-redis" title="Permanent link">#</a></h2>
+<p>Exploring with redis:
+<div class="highlight"><pre><span></span><code>root@analytics:/var/log/matomo#<span class="w"> </span>redis-cli
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="m">0</span>
+OK
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>keys<span class="w"> </span>*
+<span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1&quot;</span>
+<span class="m">2</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;QueuedTrackingLock0&quot;</span>
+<span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;fooList&quot;</span>
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>llen<span class="w"> </span>trackingQueueV1
+<span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">3886031</span>
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>get<span class="w"> </span>QueuedTrackingLock0
+<span class="s2">&quot;f8e0ba116e18&quot;</span>
+<span class="o">(</span>...<span class="o">)</span>
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>get<span class="w"> </span>QueuedTrackingLock0
+<span class="s2">&quot;340aa64aebd3&quot;</span>
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>ttl<span class="w"> </span>QueuedTrackingLock0
+<span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">1910</span>
+</code></pre></div></p>
+<p>So we have a trackingQueueV1 with a lot of tracking records to process. (so it seems we didn't loose anything…)
+Also we have a have a lock with a uuid, which changes after some time, and has a quite high ttl.</p>
+<h2 id="some-useful-commands">Some useful commands<a class="headerlink" href="#some-useful-commands" title="Permanent link">#</a></h2>
+<p>Reading at the <a href="https://github.com/matomo-org/plugin-QueuedTracking">source code</a>,
+I also discovered some commands:</p>
+<p>There is a lock-status command
+<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:lock-status<span class="w"> </span>--help
+Usage:
+<span class="w"> </span>queuedtracking:lock-status<span class="w"> </span><span class="o">[</span>--unlock<span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">]</span>
+
+Options:
+<span class="w"> </span>--unlock<span class="w">              </span>If<span class="w"> </span><span class="nb">set</span><span class="w"> </span>will<span class="w"> </span>unlock<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>queue.
+<span class="w"> </span>--help<span class="w"> </span><span class="o">(</span>-h<span class="o">)</span><span class="w">           </span>Display<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message
+<span class="w"> </span>--quiet<span class="w"> </span><span class="o">(</span>-q<span class="o">)</span><span class="w">          </span>Do<span class="w"> </span>not<span class="w"> </span>output<span class="w"> </span>any<span class="w"> </span>message
+<span class="w"> </span>--verbose<span class="w"> </span><span class="o">(</span>-v<span class="p">|</span>vv<span class="p">|</span>vvv<span class="o">)</span><span class="w"> </span>Increase<span class="w"> </span>the<span class="w"> </span>verbosity<span class="w"> </span>of<span class="w"> </span>messages:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>normal<span class="w"> </span>output,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>verbose<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>debug
+<span class="w"> </span>--version<span class="w"> </span><span class="o">(</span>-V<span class="o">)</span><span class="w">        </span>Display<span class="w"> </span>this<span class="w"> </span>application<span class="w"> </span>version
+<span class="w"> </span>--ansi<span class="w">                </span>Force<span class="w"> </span>ANSI<span class="w"> </span>output
+<span class="w"> </span>--no-ansi<span class="w">             </span>Disable<span class="w"> </span>ANSI<span class="w"> </span>output
+<span class="w"> </span>--no-interaction<span class="w"> </span><span class="o">(</span>-n<span class="o">)</span><span class="w"> </span>Do<span class="w"> </span>not<span class="w"> </span>ask<span class="w"> </span>any<span class="w"> </span>interactive<span class="w"> </span>question
+<span class="w"> </span>--matomo-domain<span class="w">       </span>Matomo<span class="w"> </span>URL<span class="w"> </span><span class="o">(</span>protocol<span class="w"> </span>and<span class="w"> </span>domain<span class="o">)</span><span class="w"> </span>eg.<span class="w"> </span><span class="s2">&quot;http://matomo.example.org&quot;</span>
+<span class="w"> </span>--xhprof<span class="w">              </span>Enable<span class="w"> </span>profiling<span class="w"> </span>with<span class="w"> </span>XHProf
+<span class="w"> </span>--ignore-warn<span class="w">         </span>Return<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span>even<span class="w"> </span><span class="k">if</span><span class="w"> </span>there<span class="w"> </span>are<span class="w"> </span>warning<span class="w"> </span>logs<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span>logs<span class="w"> </span>detected<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+</code></pre></div></p>
+<p>and a monitoring command:
+<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:monitor<span class="w"> </span>--help
+Usage:
+<span class="w"> </span>queuedtracking:monitor<span class="w"> </span><span class="o">[</span>--iterations<span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">]</span>
+
+Options:
+<span class="w"> </span>--iterations<span class="w">          </span>If<span class="w"> </span>set,<span class="w"> </span>will<span class="w"> </span>limit<span class="w"> </span>the<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>monitoring<span class="w"> </span>iterations<span class="w"> </span><span class="k">done</span>.
+<span class="w"> </span>--help<span class="w"> </span><span class="o">(</span>-h<span class="o">)</span><span class="w">           </span>Display<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message
+<span class="w"> </span>--quiet<span class="w"> </span><span class="o">(</span>-q<span class="o">)</span><span class="w">          </span>Do<span class="w"> </span>not<span class="w"> </span>output<span class="w"> </span>any<span class="w"> </span>message
+<span class="w"> </span>--verbose<span class="w"> </span><span class="o">(</span>-v<span class="p">|</span>vv<span class="p">|</span>vvv<span class="o">)</span><span class="w"> </span>Increase<span class="w"> </span>the<span class="w"> </span>verbosity<span class="w"> </span>of<span class="w"> </span>messages:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>normal<span class="w"> </span>output,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>verbose<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>debug
+<span class="w"> </span>--version<span class="w"> </span><span class="o">(</span>-V<span class="o">)</span><span class="w">        </span>Display<span class="w"> </span>this<span class="w"> </span>application<span class="w"> </span>version
+<span class="w"> </span>--ansi<span class="w">                </span>Force<span class="w"> </span>ANSI<span class="w"> </span>output
+<span class="w"> </span>--no-ansi<span class="w">             </span>Disable<span class="w"> </span>ANSI<span class="w"> </span>output
+<span class="w"> </span>--no-interaction<span class="w"> </span><span class="o">(</span>-n<span class="o">)</span><span class="w"> </span>Do<span class="w"> </span>not<span class="w"> </span>ask<span class="w"> </span>any<span class="w"> </span>interactive<span class="w"> </span>question
+<span class="w"> </span>--matomo-domain<span class="w">       </span>Matomo<span class="w"> </span>URL<span class="w"> </span><span class="o">(</span>protocol<span class="w"> </span>and<span class="w"> </span>domain<span class="o">)</span><span class="w"> </span>eg.<span class="w"> </span><span class="s2">&quot;http://matomo.example.org&quot;</span>
+<span class="w"> </span>--xhprof<span class="w">              </span>Enable<span class="w"> </span>profiling<span class="w"> </span>with<span class="w"> </span>XHProf
+<span class="w"> </span>--ignore-warn<span class="w">         </span>Return<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span>even<span class="w"> </span><span class="k">if</span><span class="w"> </span>there<span class="w"> </span>are<span class="w"> </span>warning<span class="w"> </span>logs<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span>logs<span class="w"> </span>detected<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+</code></pre></div></p>
+<h2 id="trying-to-launch-the-service-by-hand">Trying to launch the service by hand<a class="headerlink" href="#trying-to-launch-the-service-by-hand" title="Permanent link">#</a></h2>
+<p>Stop current and verify it's not running
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>stop<span class="w"> </span>matomo-tracking.timer
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking.service
+...<span class="w"> </span>dead
+</code></pre></div></p>
+<p>Start manually in a screen:
+<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:process<span class="w"> </span>-v
+</code></pre></div></p>
+<p>It seems to be processing. To verify let's look at the database.</p>
+<p>When we started, in mysql we had:
+<div class="highlight"><pre><span></span><code><span class="n">MariaDB</span><span class="w"> </span><span class="p">[</span><span class="n">matomo_db</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">matomo_log_visit</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">visit_last_action_time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-1</span>
+<span class="s1">6&#39;</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+</span>
+<span class="o">|</span><span class="w">    </span><span class="mi">44581</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+</span>
+<span class="o">``````</span>
+
+<span class="mi">1</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">after</span><span class="p">:</span>
+<span class="o">```</span><span class="k">SQL</span>
+<span class="n">MariaDB</span><span class="w"> </span><span class="p">[</span><span class="n">matomo_db</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">matomo_log_visit</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">visit_last_action_time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-16&#39;</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+</span>
+<span class="o">|</span><span class="w">    </span><span class="mi">47785</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+</span>
+</code></pre></div></p>
+<p>So it's working but it's quite slow (~3000 / h).</p>
+<h2 id="augmenting-the-service-max-execution-time">Augmenting the service max execution time<a class="headerlink" href="#augmenting-the-service-max-execution-time" title="Permanent link">#</a></h2>
+<p>The problem with current service settings is that the TimeoutStartSec is maybe too low.
+When a tracking service is stopped, it might leave the lock behind it, with a ttl that might be a bit high, so it then restart a lot of time without doing anything because of the lock.</p>
+<h2 id="going-to-4-tracker-queues">Going to 4 tracker queues<a class="headerlink" href="#going-to-4-tracker-queues" title="Permanent link">#</a></h2>
+<p>Matomo propose to use more than one queue to handle incoming requests. This is what we will do.</p>
+<p>Modification of <a href="https://analytics.openfoodfacts.org/index.php?module=CoreAdminHome&amp;action=generalSettings&amp;idSite=1&amp;period=day&amp;date=yesterday&amp;activated=#/QueuedTracking">matomo Queuetracker plugin settings</a> to have 4 queues.</p>
+<p>Modification of matomo-tracking service to run 4 services and queues (using instance name).</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/matomo/systemd/matomo-tracking@.service<span class="w"> </span>/etc/systemd/system
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/matomo/systemd/matomo-tracking@.timer<span class="w"> </span>/etc/systemd/system
+systemctl<span class="w"> </span>disable<span class="w"> </span>matomo-tracking.timer
+unlink<span class="w"> </span>/etc/systemd/system/matomo-tracking.service
+unlink<span class="w"> </span>/etc/systemd/system/matomo-tracking.timer
+systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>.timer
+systemctl<span class="w"> </span>start<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>.timer
+</code></pre></div>
+<p>See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/640895428351826b22f571327de3df2ee6f6e76c">commit 640895428</a></p>
+<p>We can see it's running:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>..3<span class="o">}</span>.timer
+</code></pre></div></p>
+<p>In redis we see the different queues that have been created:
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>redis-cli
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>keys<span class="w"> </span>*
+<span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;QueuedTrackingLock0&quot;</span>
+<span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1_2&quot;</span>
+<span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1&quot;</span>
+<span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1_3&quot;</span>
+<span class="m">6</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;fooList&quot;</span>
+</code></pre></div></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
