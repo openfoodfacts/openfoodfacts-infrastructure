@@ -39,6 +39,7 @@ A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
   zfs list -o zfs list -o name,used,usedbydataset,usedbysnapshots,available -r <pool_name>
   ```
 
+* `zdb` is also worth knowing (`zfd -s` for example)
 
 ## Proxmox
 
