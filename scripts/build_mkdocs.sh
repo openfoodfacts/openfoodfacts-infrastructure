@@ -33,6 +33,10 @@ docker run --rm \
   $DOCKER_ARGS \
   -v $(pwd):/app -w /app \
   minidocks/mkdocs build --strict
+# get exit code !
+ERROR=$?
 # cleanup
 rm $PIP_INSTALL docs/index.md
 if [[ -n $TMP_BUILD_DIR ]]; then rm -rf $TMP_BUILD_DIR; fi
+
+exit $ERROR
