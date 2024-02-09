@@ -3,7 +3,7 @@
 Here are some guidelines for linux servers.
 
 Note that we have some servers (which are bare metal installs.
-While others are [proxmox hosts](./promox.md).
+While others are [proxmox hosts](./proxmox.md).
 On proxmox some VM are lxc containers, while other are QEMU VM.
 
 Every server is referenced in 
@@ -41,3 +41,17 @@ On off1, rules are in `/etc/iptables.up.rules`
 Remember, that docker as it's own chains that are not affected by `INPUT` and `OUTPUT` rules.
 So it won't block a port exposed by docker. Use `DOCKER-USER` chain for that.
 see https://docs.docker.com/network/iptables/
+
+## No color in shell
+
+Check your TERM variable: `echo $TERM`, it should be `xterm-256color` or `linux`
+
+Check .bashrc is the right one `diff $HOME/.bashrc /etc/skel/.bashrc`
+if not copy the one from `/etc/skel/.bashrc`
+
+## No autocompletion for commands
+
+Check `bash-completion` is installed: `dpkg --verify bash-completion && echo ok`
+
+Check .bashrc is the right one `diff $HOME/.bashrc /etc/skel/.bashrc`
+if not copy the one from `/etc/skel/.bashrc`

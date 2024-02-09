@@ -42,7 +42,7 @@ flowchart TB
 
 ### Installing Container
 
-I followed [How to create a new Container](../promox.md#how-to-create-a-new-container)
+I followed [How to create a new Container](../proxmox.md#how-to-create-a-new-container)
 
 I add a problem running `ct_postinstall` as it wasn't able to fetch debian archives. Indeed there was no network in the CT.
 
@@ -151,7 +151,7 @@ Using:
 * GET/PUT/POST/DELETE /domain/zone/openfoodfacts.org/*
 
 ![token creation at form at OVH](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation at form at OVH"){width=50%}
-![token creation result](img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
+![token creation result](../img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
 
 and we put config file in `/root/.ovhapi/openpetfoodfacts.org`
 ```bash
@@ -501,7 +501,7 @@ I also did it for the data and cache dataset:
 
 ### Creating Container
 
-I created a CT followings [How to create a new Container](../promox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.

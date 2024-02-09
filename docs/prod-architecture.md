@@ -8,7 +8,7 @@ Some other services are hosted on OVH servers.
 
 ## Proxmox
 
-We use the [Proxmox open-source virtualization platform](./promox.md)
+We use the [Proxmox open-source virtualization platform](./proxmox.md)
 
 ## Server configuration in git
 
@@ -22,6 +22,9 @@ We symlink files in `/etc` to this directory, this enables updating the server w
 
 `/etc/pve` is a bit particular for it is only an image of Proxmox configuration (and not a real filesystem),
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.
+
+see [Explanation on server configuration with git](./explain-server-config-in-git.md)
+and  [How to have server config in git](./how-to-have-server-config-in-git.md)
 
 **TODO:** we could consider automatizing the copy and sync of important (and secret less) `/etc/pve` files.
 
@@ -111,7 +114,7 @@ Some specific to each flavor:
 * other data (`/mnt/<flavor>/*`) [^other-data-details] [^data-refactor3]
 
 The datasets are mounted in the different container using a bind mount.
-In proxmox, this is done by adding Mount point, `mp<number>`, entries to the container configuration, see [Bind mounting ZFS Datasets in proxmox](./promox.md#bind-mounting-zfs-datasets).
+In proxmox, this is done by adding Mount point, `mp<number>`, entries to the container configuration, see [Bind mounting ZFS Datasets in proxmox](./proxmox.md#bind-mounting-zfs-datasets).
 
 [^other-data-details]:
     The other data contains:
@@ -181,7 +184,7 @@ ZFS datastest are replicated snapshoted (backups) and synced.
 
 We use [sanoid](./sanoid.md) to manage snapshot (create them and handle retention policy).
 
-We use [syncoid](./syncoid.md), a companion tool of sanoid to synchronize snapshots on other servers.
+We use [syncoid](./sanoid.md#syncoid-service-and-configuration), a companion tool of sanoid to synchronize snapshots on other servers.
 
 Also some snapshot are used through clones to provide data for staging. (see `/opt/openfoodfacts-infrastructure/scripts/ovh3/maj-clones-nfs-VM-dockers.sh`).
 

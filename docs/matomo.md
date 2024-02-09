@@ -13,12 +13,20 @@ Ask for it to *contact* email.
 * php7.3-fpm run the matomo software
 * mariadb is the main database for matomo, some configurations are made for performance (see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` )
 * redis is used to fast track  matomo requests (see [Matomo setup for performance, below](#matomo-setup-for-performance))
-* Two systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see [Matomo setup for performance, below](#matomo-setup-for-performance))
+* different systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see [Matomo setup for performance, below](#matomo-setup-for-performance))
 * prometheus exporters are installed for nginx and mysql (see [Prometheus exporters, below](#prometheus-exporters))
 
 Most of those systemd services should email on failures.
 
 Important configuration files are linked to this git repository (see [using git, below](#using-git))
+
+## Alerts
+
+You can setup alerts in matomo. In personal alerts.
+
+We have setup alerts for main website and app if there are 0 visits.
+
+![alerts settings](./img/matomo-alerts.png "Matomo alerts settings")
 
 
 ## Site setup
@@ -56,15 +64,18 @@ The repository is checked out in /opt/openfoodfacts-infrastructure and specific 
 
 We setup matomo for performance (our websites requires it) with two main points:
 
-* it does not process archives on incoming requests but instead on a cron job (see `confs/matomo/cront.d/matomo-archive`).
+* it does not process archives on incoming requests but instead on a systemd timer (see `confs/matomo/systemd/matomo-archive.{service,timer}`).
   See also [official doc](https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/).
-* on incoming update request (on a tracked website being visited), it does not immediately updates the database but goes in redis instead,
-  then a cron job process redis entries every minute (see `confs/matomo/cront.d/matomo-tracking`).
+* on incoming update request (on a tracked website being visited),
+  it does not immediately updates the database but goes in redis instead, 
+  we configured it with 4 queues.
+  then are systemd timers jobs to process redis entries every minute (see `confs/matomo/systemd/matomo-tracking@.{timer,service}`).
+  And we have an instance 0, 1, 2 and 3, to process each queue.
   See also [official doc](https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/)
-* `MariaDB` has been tuned a bit toward performance (using more memory) see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` (linked to this repository)
+* `MariaDB` has been tuned a bit toward performance (using more memory) see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` (linked to this repository `confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf`)
   * we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/
 
-Both cronjob logs to `/var/log/matomo`.
+Both tracking and archiving logs to `/var/log/matomo`.
 
 See also [2023-12-11 Matomo down](./reports/2023-12-11-matomo-down.md)
 
@@ -79,8 +90,94 @@ The corresponding mysql user had to be manually created (instrutions in the conf
 
 Just use the web administration to update the software.
 
+### Setup robots.txt to avoid search engine indexing
+
+Setup `/var/www/html/matomo/robots.txt` as is:
+```
+User-agent: *
+Disallow: /
+```
+
 
 ## How to
+
+### How to investigate 0 visit problems
+
+1. You first have to see if the request made by a browser to matomo returns a `204 No Content` response (use the network panel of developer tools).
+
+   Also verify that the site_id is correct.
+
+2. If it's ok but you don't see the visit, you may look at real time visits of your website.
+   If there is no data it may means the tracking jobs are not running correctly.
+
+   You can log on the server and use `mysql matomo_db` to look at the database,
+   in particular `matomo_log_visit` table contains visit logs.
+
+   Beware that it's a huge table, try to limit your query with something like
+   `WHERE idsite=5 AND visit_last_action_time > '2024-01-16'`
+
+   You can also see section below [How to monitor tracking jobs](#how-to-monitor-tracking-jobs).
+
+3. incomplete graph might also come from archive processing.
+
+   See [How to monitor archive jobs](#how-to-monitor-archive-jobs).
+
+
+### How to monitor tracking jobs
+
+When a request arrive, it is logged into redis.
+We then have matomo-tracking systemd services to process the redis queue.
+
+To see status:
+```bash
+# see jobs status
+systemctl status matomo-tracking@{1..3}.service
+# see timers status
+systemctl status matomo-tracking@{1..3}.timer
+```
+
+Matomo also offers some commands to follow the status of the tracking jobs:
+
+```bash
+cd /var/www/html/matomo
+./console queuedtracking:monitor
+
+# you might also look at lock status
+./console queuedtracking:lock-status
+```
+use `--help` for more options.
+
+Logs are in `/var/log/matomo`
+
+### How to monitor archive jobs
+
+To see status:
+```bash
+# see jobs status
+systemctl status matomo-archive.service
+# see timers status
+systemctl status matomo-archive.timer
+```
+
+Logs are in `/var/log/matomo`
+
+### How to monitor database
+
+`diagnostics:analyze-archive-table` can help see informations about tables.
+
+Use it with `YYYY_MM` argument.
+
+Eg.
+```bash
+cd /var/www/html/matomo
+./console diagnostics:analyze-archive-table 2023_12
+```
+
+`database:optimize-archive-tables` can optimize tables if needed. Do it on old tables that are not moving any more. Use with a `YYYY-MM-DD` argument.
+
+```bash
+./console database:optimize-archive-table 2023-12-01
+```
 
 ### How to test a command in php cli
 
@@ -89,7 +186,7 @@ For example I wanted to determine if we support async in CliMulti (used by `core
 The important thing is to go in the right directory and include the `console` script.
 
 ```bash
-cd /var/www/html matomo/
+cd /var/www/html/matomo/
 php -a
 
 php > include "console";
@@ -102,3 +199,4 @@ php > $p = new Piwik\CliMulti();
 php > echo $p->supportsAsync();
 1
 ```
+
