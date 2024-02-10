@@ -18,6 +18,145 @@ We will:
 
 ## 2023-12-18 server physical upgrade at free datacenter
 
+We arrived in the morning, and go to server room, thanks to our hosts.
+
+### Physical changes
+
+We disconnected off1 cables, after taking a photo, to be sure to put ethernet cables to the right position when pluging them back.
+
+As off2 was above off1, we inverted their positions by moving off1 on top.
+
+We unplug the server.
+
+We removed off1 cover by pulling on the handle above the case.
+
+We put memories arranging them symmetrically to the existing one.
+
+We put HDDs in place on the front.
+
+We dismount the card on the back to replace it for a 4 slot cards, with our new SSDs and optane.
+
+We plug a monitor and a keyboard on off1 (on the rear).
+
+For more details, see also [Hardware in 2023-02-17 Off2 Upgrade](./2023-02-17-off2-upgrade.md#hardware)
+
+### Configuring BIOS
+
+We then close the machine and reboot to get the bios.
+
+#### Slot bifurcation
+
+This is for the SSD card.
+
+We go in:
+* System BIOS
+* Integrated devices
+* Slot bifurcation
+* we choose: Auto discovery of bifurcation
+
+
+#### IDRAC / IPMI
+
+We go in Network settings to configure IDRAC / IPMI (which has its own ethernet card):
+* disable DHCP and auto-discovery
+* Static IP address: 213.36.253.207
+* Gateway: 213.36.253.222
+* Subnet Mask: 255.255.255.224
+* Static Prefered DNS: 213.36.253.10
+* Static Alter: 213.36.252.131
+
+
+#### PERC adapter
+
+We go reboot and go again in the BIOS to configure PERC Adapter Bios (Power Edge RAID Controller), and change configuration to be in HBA mode for disks.
+
+
+We had some problem setting up the disks, because they were part of a RAID.
+
+First boot we saw only 3 disks, but after a reboot we saw 4.
+
+In main menu, physical disk management, we use "Convert to non RAID Disks" for both disks.
+
+![Convert to non RAID Disk](media/2023-12-18-off1-bios-disk-remove-raid.jpg Bios screen showing convert to non RAID Disks)
+
+As we start we still have an error:
+![Error on startup](media/2023-12-18-off1-bios-UEFI-error.jpg "Screen showing UEFI Error at startup")
+
+Indeed at boot we see there is One virtual drive and two non raid disk (we should have 4).
+![Virtual disks on startup screen](media/2023-12-18-off1-bios-virtual-disk-on-startup-screen.jpg)
+
+We had to delete this virtual disk in the BIOS, in virtual disks management.
+
+![Delete virtual disk](media/2023-12-18-off1-bios-remove-virtual-disk.jpg)
+
+We then put the disks in HBA mode (in control management)
+
+### Firmware updates first try
+
+At this point we were stuck with the same error as before. It suggested to update the PCIe firmware, so we decided to try this.
+
+F10 (lifecycle controller) brings us to a screen for that.
+
+After a long consultation of HP website, we get to the lifecycle wizard.
+
+We get to Firmware updates, lifecycle manager, launch firmware update.
+
+* At step 3 out of 5 we had to configure the Network. We did the error to not use the right address several time, at the end, the idea is to use the public IP of the server (and neither the private, nor the IPMI one)
+* we choose FTP Server but it was not the good one, neither was HTTPS server responding
+
+We also tried to use a program through USB stick, but it did not work.
+
+![Firmware update through USB stick failure](media/2023-12-18-off1-firmware-update-usb-stick.jpg)
+
+We saw that disabling SSD card we were able to boot.
+
+We decided to disable the SSD card and continue installation.
+
+### Installing Proxmox
+
+We boot on the USB key that we had brought with promox install CD on it.
+
+For Hard disk options, we choose ZFS - RAID1, ashift 12, compress an checksum on, disk size 64G
+
+![ZFS RAID1 basic setup for system partition](media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg)
+
+![ZFS RAID1 advanced setup for system](media/2023-12-18-off1-proxmox-raid1-setup.jpg)
+
+We choose a good password for root.
+
+We configure eno1 network
+
+![Network setup](media/2023-12-18-off1-proxmox-network-setup.jpg)
+
+![Install summary screen](media/2023-12-18-off1-proxmox-install-summary.jpg)
+
+### Firmware updates again
+
+After install and adding openssh-server, we were being able to log as root.
+
+We found a USB boot disk for HP servers. We mounted it on the server.
+
+We tried to use `suu --import-public-keys` it does something.
+
+We where able to upgrade the lifecycle controller, but not the bios.
+
+After a lot of trying, where addresses provided on HP website to upgrade were not working, Stéphane finally found a forum post that gave us the right URL to put in lifecycle manager to get updates.
+
+We used 143.166.28.19 in place of downloads.dell.com and it worked !
+
+![Bios is upgrading (tears of nervous joy)](media/2023-12-18-off1-bios-upgrade.jpg)
+
+We finally get BIOS 2.19.1.
+
+### SSDs again
+
+Even after upgrading BIOS, SSD is not working. By removing SSDs one by one, we found the culprit.
+So we mount back all SSDs but one.
+
+When we restarted the server, we got an error, because there is a conflict with existing old rpool (which was on SSD).
+
+We resolved this by force importing the right pool using it's ID (that we get with `zpool status`) and destroying the other. (or something like that !)...
+
 ## 2023-12-21 continuing server install
 
 ### First ssh connexion
