@@ -57,7 +57,7 @@ check_sanoid_run_date
 get_zfs_datasets
 for volume in $ZFS_DATASETS
 do
-  if [[ ! $EXCLUDED_DATASESTS =~ :$volume: ]]
+  if [[ ! $EXCLUDED_DATASETS =~ :$volume: ]]
   then
     check_last_snap_date "$volume"
   fi
