@@ -77,7 +77,7 @@ First boot we saw only 3 disks, but after a reboot we saw 4.
 
 In main menu, physical disk management, we use "Convert to non RAID Disks" for both disks.
 
-![Convert to non RAID Disk](media/2023-12-18-off1-bios-disk-remove-raid.jpg Bios screen showing convert to non RAID Disks)
+![Convert to non RAID Disk](media/2023-12-18-off1-bios-disk-remove-raid.jpg "Bios screen showing convert to non RAID Disks")
 
 As we start we still have an error:
 ![Error on startup](media/2023-12-18-off1-bios-UEFI-error.jpg "Screen showing UEFI Error at startup")
