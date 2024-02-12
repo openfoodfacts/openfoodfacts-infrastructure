@@ -79,6 +79,15 @@ We use proxmox firewall on host. **FIXME** to be completed.
 
 We have a masquerading rule for 10.1.0.1/24.
 
+## Users and groups
+
+We have a minimal set of users and groups.
+
+*admin* group is for proxmox admins (*Administrator Role*). *ro_users* gives a read only access to the interface (*PVEAuditor* Role)
+
+We put users (see users in proxmox interface) in groups (see groups in proxmox interface),
+and give roles to users (see permissions in proxmox interface).
+
 ## Some Proxmox post-install thing
 
 Remove enterprise repository and add the no-subscription one
@@ -245,6 +254,7 @@ Using the web interface:
   * Target: ovh3
   * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
 
+Also think about [configuring email](./mail.md#postfix-configuration) in the container
 
 ## Logging in to a container or VM
 
