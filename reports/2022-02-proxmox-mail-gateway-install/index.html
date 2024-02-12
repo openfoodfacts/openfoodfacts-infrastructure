@@ -1424,6 +1424,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
+        2023-12-18 off1 upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2023-12-11-matomo-down/" class="md-nav__link">
         2023-12-11 Matomo down
       </a>
@@ -1440,6 +1454,34 @@
     <li class="md-nav__item">
       <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
         2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        2024 01 04 setting up stunnel
       </a>
     </li>
   
@@ -1684,7 +1726,7 @@ see bug <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=3879">https://bugz
 <li>In <a href="https://www.ovh.com/manager/web/#/domain/openfoodfacts.org/zone">ovh web DNS</a>, 
   I registered <code>pmg.openfoodfacts.org</code> as a <code>CNAME</code> to <code>ovh1.openfoodfacts.org</code></li>
 <li>I changed the configuration on nginx proxy (lxc 101) to redirect to pmg (so that certbot could work) :<div class="highlight"><pre><span></span><code>root@proxy:/etc/nginx/conf.d# cat pmg.openfoodfacts.org.conf
-# PMG stands for Promox Mail Gateway
+# PMG stands for Proxmox Mail Gateway
 # We need to redirect port 80, for letsencrypt&#39;s certificate management
 server {
 

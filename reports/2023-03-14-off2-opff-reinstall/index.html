@@ -1904,6 +1904,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
+        2023-12-18 off1 upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2023-12-11-matomo-down/" class="md-nav__link">
         2023-12-11 Matomo down
       </a>
@@ -1920,6 +1934,34 @@
     <li class="md-nav__item">
       <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
         2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        2024 01 04 setting up stunnel
       </a>
     </li>
   
@@ -2834,6 +2876,7 @@ I exactly follow the instructions.</p>
 <span class="c1"># checkout latest stable release or stay on master for bleeding edge stuff (but expect bugs!)</span>
 git<span class="w"> </span>checkout<span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>tag<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;^v&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
 ln<span class="w"> </span>-s<span class="w"> </span>packages/debian<span class="w"> </span>.
+apt<span class="w"> </span>install<span class="w"> </span>debhelper<span class="w"> </span>libcapture-tiny-perl<span class="w"> </span>libconfig-inifiles-perl<span class="w"> </span>pv<span class="w"> </span>lzop<span class="w"> </span>mbuffer<span class="w"> </span>build-essential<span class="w"> </span>git
 dpkg-buildpackage<span class="w"> </span>-uc<span class="w"> </span>-us
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>../sanoid_*_all.deb
 </code></pre></div>

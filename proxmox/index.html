@@ -752,6 +752,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#users-and-groups" class="md-nav__link">
+    Users and groups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#some-proxmox-post-install-thing" class="md-nav__link">
     Some Proxmox post-install thing
   </a>
@@ -1546,6 +1553,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2023-12-08-off1-upgrade/" class="md-nav__link">
+        2023-12-18 off1 upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
         2023-12-11 Matomo down
       </a>
@@ -1562,6 +1583,34 @@
     <li class="md-nav__item">
       <a href="../reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
         2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        2024 01 04 setting up stunnel
       </a>
     </li>
   
@@ -1708,6 +1757,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-groups" class="md-nav__link">
+    Users and groups
+  </a>
   
 </li>
       
@@ -1946,6 +2002,11 @@ iface vmbr1 inet static
 <h3 id="firewall">Firewall<a class="headerlink" href="#firewall" title="Permanent link">#</a></h3>
 <p>We use proxmox firewall on host. <strong>FIXME</strong> to be completed.</p>
 <p>We have a masquerading rule for 10.1.0.1/24.</p>
+<h2 id="users-and-groups">Users and groups<a class="headerlink" href="#users-and-groups" title="Permanent link">#</a></h2>
+<p>We have a minimal set of users and groups.</p>
+<p><em>admin</em> group is for proxmox admins (<em>Administrator Role</em>). <em>ro_users</em> gives a read only access to the interface (<em>PVEAuditor</em> Role)</p>
+<p>We put users (see users in proxmox interface) in groups (see groups in proxmox interface),
+and give roles to users (see permissions in proxmox interface).</p>
 <h2 id="some-proxmox-post-install-thing">Some Proxmox post-install thing<a class="headerlink" href="#some-proxmox-post-install-thing" title="Permanent link">#</a></h2>
 <p>Remove enterprise repository and add the no-subscription one
 <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>/etc/apt/sources.list.d/pve-enterprise.list
@@ -2062,6 +2123,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 </ul>
 </li>
 </ul>
+<p>Also think about <a href="../mail/#postfix-configuration">configuring email</a> in the container</p>
 <h2 id="logging-in-to-a-container-or-vm">Logging in to a container or VM<a class="headerlink" href="#logging-in-to-a-container-or-vm" title="Permanent link">#</a></h2>
 <p>Most of the time we use ssh to connect to containers and VM. See <a href="#how-to-create-a-user-in-a-container-or-vm">how to create a user in a Container or VM</a></p>
 <p>For the happy few sudoers on the host, they can attach to containers using <code>pct enter &lt;num&gt;</code> (or <code>lxc-attach -n &lt;num&gt;</code>) where <code>&lt;num&gt;</code> is the VM number.

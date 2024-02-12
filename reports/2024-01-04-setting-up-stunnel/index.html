@@ -1,0 +1,1830 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2024-01-03-mongodb-migration-off1/">
+      
+      
+        <link rel="next" href="../2024-01-19-certbot-failure-off2-proxy/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.20">
+    
+    
+      
+        <title>2024 01 04 setting up stunnel - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2024-01-04-setting-up-stunnel" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2024 01 04 setting up stunnel
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../disks/" class="md-nav__link">
+        Disks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
+        Explanation on server configuration with git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        Free Datacenter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        How to add disk space on a Qemu VM
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
+        How to use fail2ban to ban bots
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+        How to install fail2ban on debian 11+
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
+        How to have server config in git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+        How to mitigate crawlers in case of too much traffic
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        off1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        off2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        off3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        ovh1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        ovh2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        ovh3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        MongoDB
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../munin/" class="md-nav__link">
+        Munin
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgres/" class="md-nav__link">
+        PostgreSQL
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        Production architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-opener/" class="md-nav__link">
+        Product Opener
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proxmox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/" class="md-nav__link">
+        Redis
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        auto Slack invitation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
+        Stunnel
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        ZFS overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        2022-11 moving monitoring to its own machine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        2023-02-13 Zammad down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        2023 02 16 off2 shutdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        2023-02-17 Off2 Upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        2023 02 24 zfs introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        2023-05-23 move Images to ZFS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        2023-05-23 off2 - container 110 unreachable from 101
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        2023-06-01 Robotoff backups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+        Post-mortem 2023-07-16 Disk sdc errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+        2023-07-26 rpool/off/products dataset full on off1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+        2023 07 off reinstall  prod files diff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
+        2023-06-07 OFF and OFF-pro reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+        2023-08-31 OFF2 products snapshots clean
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+        2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
+        2023-10-14: mongodb-down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        Post-mortem 2023-11-28 Disk sdf errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
+        2023-12-18 off1 upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
+        2023-12-11 Matomo down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+        2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2024 01 04 setting up stunnel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2024 01 04 setting up stunnel
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2024-01-04-setting-up-stunnel" class="md-nav__link">
+    2024-01-04 Setting up stunnel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-off1-proxy" class="md-nav__link">
+    Setting up stunnel on off1 proxy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-ovh1-proxy" class="md-nav__link">
+    Setting up stunnel on ovh1 proxy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-stunnel-for-mongodb" class="md-nav__link">
+    Testing stunnel for mongodb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-problem-reaching-10003-from-off2-proxy-not-useful-right-now" class="md-nav__link">
+    Note: problem reaching 10.0.0.3 from off2 proxy (not useful right now)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-01-08-mongodb-get-hacked" class="md-nav__link">
+    2023-01-08 MongoDB get hacked !
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-stunnel-client-container" class="md-nav__link">
+    Creating stunnel client container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-ovh1-stunnel-client" class="md-nav__link">
+    Setting up stunnel on ovh1 stunnel-client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-services-config" class="md-nav__link">
+    Changing services config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-stunnel-client-on-ovh-reverse-proxy" class="md-nav__link">
+    Removing stunnel client on ovh reverse proxy
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+        2024-01-19 Certbot failure on off2 reverse proxy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+        2024-01-24 Move old Product Opener folders to backup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
+        2024-01 Matomo performance tunning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+        2024-02-06 cleanup of products ssnapshots on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        2024-02-08 Production Redis install
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2024-01-04-setting-up-stunnel" class="md-nav__link">
+    2024-01-04 Setting up stunnel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-off1-proxy" class="md-nav__link">
+    Setting up stunnel on off1 proxy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-ovh1-proxy" class="md-nav__link">
+    Setting up stunnel on ovh1 proxy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-stunnel-for-mongodb" class="md-nav__link">
+    Testing stunnel for mongodb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-problem-reaching-10003-from-off2-proxy-not-useful-right-now" class="md-nav__link">
+    Note: problem reaching 10.0.0.3 from off2 proxy (not useful right now)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-01-08-mongodb-get-hacked" class="md-nav__link">
+    2023-01-08 MongoDB get hacked !
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-stunnel-client-container" class="md-nav__link">
+    Creating stunnel client container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-on-ovh1-stunnel-client" class="md-nav__link">
+    Setting up stunnel on ovh1 stunnel-client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-services-config" class="md-nav__link">
+    Changing services config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-stunnel-client-on-ovh-reverse-proxy" class="md-nav__link">
+    Removing stunnel client on ovh reverse proxy
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>2024 01 04 setting up stunnel</h1>
+
+<h2 id="2024-01-04-setting-up-stunnel">2024-01-04 Setting up stunnel<a class="headerlink" href="#2024-01-04-setting-up-stunnel" title="Permanent link">#</a></h2>
+<p>Robotoff and openfoodfacts-query needs access to mongodb to get data. But we want to secure access to it.</p>
+<h2 id="setting-up-stunnel-on-off1-proxy">Setting up stunnel on off1 proxy<a class="headerlink" href="#setting-up-stunnel-on-off1-proxy" title="Permanent link">#</a></h2>
+<p>On the reverse proxy container:</p>
+<ul>
+<li>installed stunnel package (which is a proxy to stunnel4)</li>
+<li>I had to override the systemd unit file to add RuntimeDirectory, Group and RuntimeDirectoryMode so that pid file could be added correctly by users of group stunnel4</li>
+<li>created <code>/etc/stunnel/off.conf</code> - we will only have one instance for many services, no need of specific services<ul>
+<li>run in foreground, so that systemd handles the process</li>
+<li>specify user and group stunnel4</li>
+<li>specify pid file according to systemd unit RuntimeDirectory</li>
+<li>added a mongodb service, for first tests.</li>
+</ul>
+</li>
+<li>created <code>/etc/stunnel/psk/mongodb-psk.txt</code><ul>
+<li>and made it private <code>chmod -R go-rwx /etc/stunnel/psk/</code></li>
+<li>To create a password I used <code>pwgen 32</code> on my laptop</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>enable and start service:
+  <div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>stunnel@off.service
+systemctl<span class="w"> </span>start<span class="w"> </span>stunnel@off.service
+</code></pre></div></li>
+</ul>
+<p>All (but the psk files which are not to be committed) is part of <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/d797e7c7329c3c789ff21dc63ebbf1753aa4a376">commit d797e7c73</a></p>
+<p>Note: <code>dpkg-query -L stunnel4</code> helps me locate <code>/usr/share/doc/stunnel4/README.Debian</code> that I read to better understand the systemd working. Also <code>/usr/share/doc/stunnel4/examples/stunnel.conf-sample</code> is a good read for the global section, while configuration example with PSK is available here: https://www.stunnel.org/auth.html</p>
+<h2 id="setting-up-stunnel-on-ovh1-proxy">Setting up stunnel on ovh1 proxy<a class="headerlink" href="#setting-up-stunnel-on-ovh1-proxy" title="Permanent link">#</a></h2>
+<p>On the reverse proxy container:</p>
+<ul>
+<li>installed stunnel package (which is a proxy to stunnel4)</li>
+</ul>
+<ul>
+<li>This is a older version of the package than on so systemd is not integrated, so I added systemd units myself</li>
+</ul>
+<ul>
+<li>created <code>/etc/stunnel/off.conf</code> - we will only have one instance for many services, no need of specific services
+  added a mongodb service, for first tests.</li>
+<li>created <code>/etc/stunnel/psk/mongodb-psk.txt</code><ul>
+<li>and made it private <code>chown -R go-rwx /etc/stunnel/psk/</code></li>
+<li>with the user / password created on off1 proxy</li>
+</ul>
+</li>
+<li>enable and start service:
+  <div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>stunnel@off.service
+systemctl<span class="w"> </span>start<span class="w"> </span>stunnel@off.service
+</code></pre></div></li>
+</ul>
+<p>All (but the psk files which are not to be committed) is part of <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/086439230a41f4d94755276610cbab838ad96f4a">commit 086439230</a></p>
+<h2 id="testing-stunnel-for-mongodb">Testing stunnel for mongodb<a class="headerlink" href="#testing-stunnel-for-mongodb" title="Permanent link">#</a></h2>
+<p>On each server, I can use : <code>journalctl -f -u stunnel@off</code> to monitor activity.hostname()</p>
+<p>On off staging VM:
+<div class="highlight"><pre><span></span><code>cd /home/off/mongo-dev
+sudo -u off docker-compose exec mongodb bash
+mongo 10.1.0.101
+&gt; db.hostInfo()[&quot;system&quot;][&quot;hostname&quot;]
+mongodb
+</code></pre></div></p>
+<p>and (after a lot of tribulations…) it worked !!!</p>
+<h2 id="note-problem-reaching-10003-from-off2-proxy-not-useful-right-now">Note: problem reaching 10.0.0.3 from off2 proxy (not useful right now)<a class="headerlink" href="#note-problem-reaching-10003-from-off2-proxy-not-useful-right-now" title="Permanent link">#</a></h2>
+<p>At a certain point, by mistake, I used 10.0.0.3 server for mongodb target.</p>
+<p>But from the proxy this is unreachable… this is because there is no route to this host.</p>
+<p>To add the route we can do
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">10</span>.0.0.0/24<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>proto<span class="w"> </span>kernel<span class="w"> </span>scope<span class="w"> </span>link<span class="w"> </span>src<span class="w"> </span><span class="m">10</span>.1.0.101
+</code></pre></div>
+To make it permanent we can add an executable <code>/etc/network/if-up.d/off-servers-route.sh</code> file, with:
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$IFACE</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;eth0&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="c1"># we want to access off1 and off2 from this machine</span>
+<span class="w">      </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">10</span>.0.0.0/24<span class="w"> </span>dev<span class="w"> </span><span class="nv">$IFACE</span><span class="w"> </span>proto<span class="w"> </span>kernel<span class="w"> </span>scope<span class="w"> </span>link<span class="w"> </span>src<span class="w"> </span><span class="m">10</span>.1.0.101
+<span class="k">fi</span>
+</code></pre></div></p>
+<p>But as right now this is not needed (new mongo is in 10.1.0.102 which is reachable), <strong>I didn't do it</strong>.</p>
+<h2 id="2023-01-08-mongodb-get-hacked">2023-01-08 MongoDB get hacked !<a class="headerlink" href="#2023-01-08-mongodb-get-hacked" title="Permanent link">#</a></h2>
+<p>I did change the configuration for the stunnel entrance not to be exposed on public IP, but it seems it was not taken into account (maybe I did not restart stunnel service correctly)… and thus our MongoDB stunnel access was expose to the wild web… where some hacker immediately take our database and drop it to ask for money against retrieval…</p>
+<p>Luckily Gala noticed rapidly and Stephane identified that mongo was exposed through our proxy1 ip address.</p>
+<p>We have the data in the sto, so it's not the end of the world but still it's very annoying.
+Unfortunately I did not already setup auto snapshotting (because I was seeing mongodb data as transient)</p>
+<p>I rsync data from off3 again (dating 3h before) and lose updates to the mongodb for 3h but got the mongodb up again quickly.</p>
+<p>But I took the decision:</p>
+<ul>
+<li>to move client stunnel to a separate container with no risk of exposition</li>
+<li>to snapshot mongodb data because restoring from sto would take long so it's a big annoyance</li>
+</ul>
+<h2 id="creating-stunnel-client-container">Creating stunnel client container<a class="headerlink" href="#creating-stunnel-client-container" title="Permanent link">#</a></h2>
+<p>We followed usual procedure to <a href="../../proxmox/#how-to-create-a-new-container">create a proxmox container</a>:</p>
+<ul>
+<li>of id 113</li>
+<li>choosed a debian 11</li>
+<li>default storage on zfs-hdd (for system) 6Gb, noatime</li>
+<li>2 cores</li>
+<li>memory 512 Mb, no swap</li>
+</ul>
+<p>I also <a href="../../mail/#postfix-configuration">configured email</a> in the container.</p>
+<h2 id="setting-up-stunnel-on-ovh1-stunnel-client">Setting up stunnel on ovh1 stunnel-client<a class="headerlink" href="#setting-up-stunnel-on-ovh1-stunnel-client" title="Permanent link">#</a></h2>
+<p>Did the same as above to <a href="./#setting-up-stunnel-on-off1-proxy">set up stunnel on ovh1 proxy</a>.</p>
+<p>I created a key with <code>ssh-keygen -t ed25519 -C "off@stunnel-client.ovh.openfoodfacts.org"</code> 
+add it as a deploy key to this projects 
+and cloned the project in <code>/opt</code> so that I can use git for modified configuration files.</p>
+<p>I created my configs and symlinked them.
+Then:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span>start<span class="w"> </span>stunnel@off
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>stunnel@off
+</code></pre></div></p>
+<p>I tested it from staging mongo container (see <a href="#testing-stunnel-for-mongodb">Testing stunnel for mongodb</a>)</p>
+<h2 id="changing-services-config">Changing services config<a class="headerlink" href="#changing-services-config" title="Permanent link">#</a></h2>
+<p>On VM docker-prod (200), I changed the .env for off-query-org and robotoff-org.
+Then for both services I did a "docker-compose down &amp;&amp; docker-compose up -d".</p>
+<p>I also pushed a <a href="https://github.com/openfoodfacts/robotoff/commit/ade67c21bab152afe64c33b9f540bf91b212efb0">commit to robotoff</a> and a <a href="https://github.com/openfoodfacts/openfoodfacts-query/pull/32">PR to off-query</a> to change the configuration.</p>
+<h2 id="removing-stunnel-client-on-ovh-reverse-proxy">Removing stunnel client on ovh reverse proxy<a class="headerlink" href="#removing-stunnel-client-on-ovh-reverse-proxy" title="Permanent link">#</a></h2>
+<p>On the reverse proxy I kept stunnel but I removed the config for MongoDB.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

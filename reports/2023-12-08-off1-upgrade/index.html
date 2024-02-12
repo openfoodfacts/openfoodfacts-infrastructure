@@ -1,0 +1,2632 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2023-11-28-ovh3-sdf-broken/">
+      
+      
+        <link rel="next" href="../2023-12-11-matomo-down/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.20">
+    
+    
+      
+        <title>2023-12-18 off1 upgrade - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2023-12-18-off1-upgrade" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2023-12-18 off1 upgrade
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        OpenFoodFacts Infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        Continous Integration and Continuous Delivery
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        Discourse
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../disks/" class="md-nav__link">
+        Disks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        Docker at Open Food Facts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        Docker architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        Onboarding
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
+        Explanation on server configuration with git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        Folksonomy API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        Free Datacenter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        How to add disk space on a Qemu VM
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
+        How to use fail2ban to ban bots
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+        How to install fail2ban on debian 11+
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
+        How to have server config in git
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+        How to mitigate crawlers in case of too much traffic
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        Linux server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        off1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        off2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        off3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        ovh1 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        ovh2 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        ovh3 server logs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        Mail on Open Food Facts infrastructure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        Matomo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        MongoDB
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../munin/" class="md-nav__link">
+        Munin
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        NGINX Reverse proxy
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        Odoo: our relationship management (connect.openfoodfacts.org)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgres/" class="md-nav__link">
+        PostgreSQL
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        Production architecture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        Producers SFTP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-opener/" class="md-nav__link">
+        Product Opener
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proxmox/" class="md-nav__link">
+        Proxmox
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/" class="md-nav__link">
+        Redis
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        Sanoid
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        auto Slack invitation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
+        Stunnel
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        Zammad
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        ZFS overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          Reports
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          Reports
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        Matomo install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        [Postmortem] OpenFoodFacts.net down (#1)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        Disk extension for preprod and containers prod (ovh2)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        Preprod crash 2021 12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        [Postmortem] Reverse proxy down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        Install of proxmox gateway server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        2022-02 Removing some containers on ovh1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        Elasticsearch not running on Zammad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        2022-03 Problem with PCI supporting NVMe
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        Deploying openfoodfacts-search to staging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        Infrastructure future - workshop on 11th July 2022
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        Kibana down because of Elasticsearch circuit_breaking_exception
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        2022-08-17 openfoodfacts.net unreachable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        2022-11 moving monitoring to its own machine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        2023-02-13 Zammad down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        2023 02 16 off2 shutdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        2023-02-17 Off2 Upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        2023 02 24 zfs introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        2023-03 OFF2 reinstall - opff migration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        2023-04-27 moving docker staging to OVH1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        2022-05-12 refresh staging clones
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        2023-05-18 Mongodb down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        2023-05-23 move Images to ZFS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        2023-05-23 off2 - container 110 unreachable from 101
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        2023-06-01 Robotoff backups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        2023-06-07 OPF and OBF reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        2012-06-08 Stalled ZFS Sync for off products on ovh3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        2023-06-30 Sanoid checks install
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+        Post-mortem 2023-07-16 Disk sdc errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+        2023-07-26 rpool/off/products dataset full on off1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+        2023 07 off reinstall  prod files diff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
+        2023-06-07 OFF and OFF-pro reinstall on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+        2023-08-31 OFF2 products snapshots clean
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+        2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
+        2023-10-14: mongodb-down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        Post-mortem 2023-11-28 Disk sdf errors on OVH3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2023-12-18 off1 upgrade
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2023-12-18 off1 upgrade
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2023-12-18-server-physical-upgrade-at-free-datacenter" class="md-nav__link">
+    2023-12-18 server physical upgrade at free datacenter
+  </a>
+  
+    <nav class="md-nav" aria-label="2023-12-18 server physical upgrade at free datacenter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-changes" class="md-nav__link">
+    Physical changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-bios" class="md-nav__link">
+    Configuring BIOS
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring BIOS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slot-bifurcation" class="md-nav__link">
+    Slot bifurcation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idrac-ipmi" class="md-nav__link">
+    IDRAC / IPMI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perc-adapter" class="md-nav__link">
+    PERC adapter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firmware-updates-first-try" class="md-nav__link">
+    Firmware updates first try
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-proxmox" class="md-nav__link">
+    Installing Proxmox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firmware-updates-again" class="md-nav__link">
+    Firmware updates again
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssds-again" class="md-nav__link">
+    SSDs again
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-12-21-continuing-server-install" class="md-nav__link">
+    2023-12-21 continuing server install
+  </a>
+  
+    <nav class="md-nav" aria-label="2023-12-21 continuing server install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-ssh-connexion" class="md-nav__link">
+    First ssh connexion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-and-add-some-base-packages" class="md-nav__link">
+    Update and add some base packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-locale" class="md-nav__link">
+    Configure locale
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    Network configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-users" class="md-nav__link">
+    Creating users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-pools" class="md-nav__link">
+    Creating ZFS pools
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating ZFS pools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partition-disks" class="md-nav__link">
+    Partition disks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-pools_1" class="md-nav__link">
+    Creating zfs pools
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#joining-pve-cluster" class="md-nav__link">
+    Joining PVE cluster
+  </a>
+  
+    <nav class="md-nav" aria-label="Joining PVE cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-etchosts" class="md-nav__link">
+    preparing /etc/hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-cluster-on-off2" class="md-nav__link">
+    creating the cluster on off2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#joining-the-cluster-from-off1" class="md-nav__link">
+    joining the cluster from off1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-systemd-timesyncd" class="md-nav__link">
+    Using systemd-timesyncd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-storages" class="md-nav__link">
+    adding the storages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-ro_users-group-to-proxmox" class="md-nav__link">
+    Adding ro_users group to proxmox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-containers-templates" class="md-nav__link">
+    Getting containers templates
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-openfoodfacts-infrastructure-repository" class="md-nav__link">
+    Adding openfoodfacts-infrastructure repository
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-munin-monitoring" class="md-nav__link">
+    Adding Munin monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-snapshots-and-syncoid" class="md-nav__link">
+    Configuring snapshots and syncoid
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring snapshots and syncoid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-sanoid" class="md-nav__link">
+    Enabling sanoid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-off2-to-off1" class="md-nav__link">
+    sync from off2 to off1
+  </a>
+  
+    <nav class="md-nav" aria-label="sync from off2 to off1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-off1operator-on-off2" class="md-nav__link">
+    creating off1operator on off2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doing-first-sync" class="md-nav__link">
+    Doing first sync
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-syncoid" class="md-nav__link">
+    Enabling syncoid
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-off1-to-off2" class="md-nav__link">
+    sync from off1 to off2
+  </a>
+  
+    <nav class="md-nav" aria-label="sync from off1 to off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-off2operator-on-off1" class="md-nav__link">
+    creating off2operator on off1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doing-first-sync_1" class="md-nav__link">
+    Doing first sync
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-entries-to-sanoidconf" class="md-nav__link">
+    Adding entries to sanoid.conf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-ovh3-to-off1" class="md-nav__link">
+    sync from ovh3 to off1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
+        2023-12-11 Matomo down
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+        2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        2024 01 04 setting up stunnel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+        2024-01-19 Certbot failure on off2 reverse proxy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+        2024-01-24 Move old Product Opener folders to backup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
+        2024-01 Matomo performance tunning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+        2024-02-06 cleanup of products ssnapshots on off2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        2024-02-08 Production Redis install
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2023-12-18-server-physical-upgrade-at-free-datacenter" class="md-nav__link">
+    2023-12-18 server physical upgrade at free datacenter
+  </a>
+  
+    <nav class="md-nav" aria-label="2023-12-18 server physical upgrade at free datacenter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-changes" class="md-nav__link">
+    Physical changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-bios" class="md-nav__link">
+    Configuring BIOS
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring BIOS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slot-bifurcation" class="md-nav__link">
+    Slot bifurcation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idrac-ipmi" class="md-nav__link">
+    IDRAC / IPMI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perc-adapter" class="md-nav__link">
+    PERC adapter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firmware-updates-first-try" class="md-nav__link">
+    Firmware updates first try
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-proxmox" class="md-nav__link">
+    Installing Proxmox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firmware-updates-again" class="md-nav__link">
+    Firmware updates again
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssds-again" class="md-nav__link">
+    SSDs again
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2023-12-21-continuing-server-install" class="md-nav__link">
+    2023-12-21 continuing server install
+  </a>
+  
+    <nav class="md-nav" aria-label="2023-12-21 continuing server install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-ssh-connexion" class="md-nav__link">
+    First ssh connexion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-and-add-some-base-packages" class="md-nav__link">
+    Update and add some base packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-locale" class="md-nav__link">
+    Configure locale
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    Network configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-users" class="md-nav__link">
+    Creating users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-pools" class="md-nav__link">
+    Creating ZFS pools
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating ZFS pools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partition-disks" class="md-nav__link">
+    Partition disks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-pools_1" class="md-nav__link">
+    Creating zfs pools
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#joining-pve-cluster" class="md-nav__link">
+    Joining PVE cluster
+  </a>
+  
+    <nav class="md-nav" aria-label="Joining PVE cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-etchosts" class="md-nav__link">
+    preparing /etc/hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-cluster-on-off2" class="md-nav__link">
+    creating the cluster on off2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#joining-the-cluster-from-off1" class="md-nav__link">
+    joining the cluster from off1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-systemd-timesyncd" class="md-nav__link">
+    Using systemd-timesyncd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-storages" class="md-nav__link">
+    adding the storages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-ro_users-group-to-proxmox" class="md-nav__link">
+    Adding ro_users group to proxmox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-containers-templates" class="md-nav__link">
+    Getting containers templates
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-openfoodfacts-infrastructure-repository" class="md-nav__link">
+    Adding openfoodfacts-infrastructure repository
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-munin-monitoring" class="md-nav__link">
+    Adding Munin monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-snapshots-and-syncoid" class="md-nav__link">
+    Configuring snapshots and syncoid
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring snapshots and syncoid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-sanoid" class="md-nav__link">
+    Enabling sanoid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-off2-to-off1" class="md-nav__link">
+    sync from off2 to off1
+  </a>
+  
+    <nav class="md-nav" aria-label="sync from off2 to off1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-off1operator-on-off2" class="md-nav__link">
+    creating off1operator on off2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doing-first-sync" class="md-nav__link">
+    Doing first sync
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-syncoid" class="md-nav__link">
+    Enabling syncoid
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-off1-to-off2" class="md-nav__link">
+    sync from off1 to off2
+  </a>
+  
+    <nav class="md-nav" aria-label="sync from off1 to off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-off2operator-on-off1" class="md-nav__link">
+    creating off2operator on off1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doing-first-sync_1" class="md-nav__link">
+    Doing first sync
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-entries-to-sanoidconf" class="md-nav__link">
+    Adding entries to sanoid.conf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-from-ovh3-to-off1" class="md-nav__link">
+    sync from ovh3 to off1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="2023-12-18-off1-upgrade">2023-12-18 off1 upgrade<a class="headerlink" href="#2023-12-18-off1-upgrade" title="Permanent link">#</a></h1>
+<p>This is the same operation as <a href="../2023-02-17-off2-upgrade/"># 2023-02-17 Off2 Upgrade</a>
+but for off1.</p>
+<p>We will:</p>
+<ul>
+<li>add four 14T disks</li>
+<li>add an adapter card for SSD</li>
+<li>add two 2T nvme disk and one 14G optane, while keeping existing nvme</li>
+<li>completely reinstall the system with Proxmox 7.4.1<ul>
+<li>rpool in mirror-0 for the system<ul>
+<li>using a 70Gb part on all hdd disks</li>
+</ul>
+</li>
+<li>zfs-hdd in raidz1-0 for the data<ul>
+<li>using a 14T-70G par on all hdd disks</li>
+</ul>
+</li>
+<li>zfs-nvme in raidz1-0 for data that needs to be fast<ul>
+<li>using the two 2T nvme</li>
+<li>using 8G part on octane for logs</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2023-12-18-server-physical-upgrade-at-free-datacenter">2023-12-18 server physical upgrade at free datacenter<a class="headerlink" href="#2023-12-18-server-physical-upgrade-at-free-datacenter" title="Permanent link">#</a></h2>
+<p>We arrived in the morning, and go to server room, thanks to our hosts.</p>
+<h3 id="physical-changes">Physical changes<a class="headerlink" href="#physical-changes" title="Permanent link">#</a></h3>
+<p>We disconnected off1 cables, after taking a photo, to be sure to put ethernet cables to the right position when pluging them back.</p>
+<p>As off2 was above off1, we inverted their positions by moving off1 on top.</p>
+<p>We unplug the server.</p>
+<p>We removed off1 cover by pulling on the handle above the case.</p>
+<p>We put memories arranging them symmetrically to the existing one.</p>
+<p>We put HDDs in place on the front.</p>
+<p>We dismount the card on the back to replace it for a 4 slot cards, with our new SSDs and optane.</p>
+<p>We plug a monitor and a keyboard on off1 (on the rear).</p>
+<p>For more details, see also <a href="../2023-02-17-off2-upgrade/#hardware">Hardware in 2023-02-17 Off2 Upgrade</a></p>
+<h3 id="configuring-bios">Configuring BIOS<a class="headerlink" href="#configuring-bios" title="Permanent link">#</a></h3>
+<p>We then close the machine and reboot to get the bios.</p>
+<h4 id="slot-bifurcation">Slot bifurcation<a class="headerlink" href="#slot-bifurcation" title="Permanent link">#</a></h4>
+<p>This is for the SSD card.</p>
+<p>We go in:</p>
+<ul>
+<li>System BIOS</li>
+<li>Integrated devices</li>
+<li>Slot bifurcation</li>
+<li>we choose: Auto discovery of bifurcation</li>
+</ul>
+<h4 id="idrac-ipmi">IDRAC / IPMI<a class="headerlink" href="#idrac-ipmi" title="Permanent link">#</a></h4>
+<p>We go in Network settings to configure IDRAC / IPMI (which has its own ethernet card):</p>
+<ul>
+<li>disable DHCP and auto-discovery</li>
+<li>Static IP address: 213.36.253.207</li>
+<li>Gateway: 213.36.253.222</li>
+<li>Subnet Mask: 255.255.255.224</li>
+<li>Static Prefered DNS: 213.36.253.10</li>
+<li>Static Alter: 213.36.252.131</li>
+</ul>
+<h4 id="perc-adapter">PERC adapter<a class="headerlink" href="#perc-adapter" title="Permanent link">#</a></h4>
+<p>We go reboot and go again in the BIOS to configure PERC Adapter Bios (Power Edge RAID Controller), and change configuration to be in HBA mode for disks.</p>
+<p>We had some problem setting up the disks, because they were part of a RAID.</p>
+<p>First boot we saw only 3 disks, but after a reboot we saw 4.</p>
+<p>In main menu, physical disk management, we use "Convert to non RAID Disks" for both disks.</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-bios-disk-remove-raid.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Convert to non RAID Disk" data-desc-position="bottom"><img alt="Convert to non RAID Disk" src="../media/2023-12-18-off1-bios-disk-remove-raid.jpg" title="Bios screen showing convert to non RAID Disks" /></a></p>
+<p>As we start we still have an error:
+<a class="glightbox" href="../media/2023-12-18-off1-bios-UEFI-error.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Error on startup" data-desc-position="bottom"><img alt="Error on startup" src="../media/2023-12-18-off1-bios-UEFI-error.jpg" title="Screen showing UEFI Error at startup" /></a></p>
+<p>Indeed at boot we see there is One virtual drive and two non raid disk (we should have 4).
+<a class="glightbox" href="../media/2023-12-18-off1-bios-virtual-disk-on-startup-screen.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Virtual disks on startup screen" data-desc-position="bottom"><img alt="Virtual disks on startup screen" src="../media/2023-12-18-off1-bios-virtual-disk-on-startup-screen.jpg" /></a></p>
+<p>We had to delete this virtual disk in the BIOS, in virtual disks management.</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-bios-remove-virtual-disk.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Delete virtual disk" data-desc-position="bottom"><img alt="Delete virtual disk" src="../media/2023-12-18-off1-bios-remove-virtual-disk.jpg" /></a></p>
+<p>We then put the disks in HBA mode (in control management)</p>
+<h3 id="firmware-updates-first-try">Firmware updates first try<a class="headerlink" href="#firmware-updates-first-try" title="Permanent link">#</a></h3>
+<p>At this point we were stuck with the same error as before. It suggested to update the PCIe firmware, so we decided to try this.</p>
+<p>F10 (lifecycle controller) brings us to a screen for that.</p>
+<p>After a long consultation of HP website, we get to the lifecycle wizard.</p>
+<p>We get to Firmware updates, lifecycle manager, launch firmware update.</p>
+<ul>
+<li>At step 3 out of 5 we had to configure the Network. We did the error to not use the right address several time, at the end, the idea is to use the public IP of the server (and neither the private, nor the IPMI one)</li>
+<li>we choose FTP Server but it was not the good one, neither was HTTPS server responding</li>
+</ul>
+<p>We also tried to use a program through USB stick, but it did not work.</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-firmware-update-usb-stick.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Firmware update through USB stick failure" data-desc-position="bottom"><img alt="Firmware update through USB stick failure" src="../media/2023-12-18-off1-firmware-update-usb-stick.jpg" /></a></p>
+<p>We saw that disabling SSD card we were able to boot.</p>
+<p>We decided to disable the SSD card and continue installation.</p>
+<h3 id="installing-proxmox">Installing Proxmox<a class="headerlink" href="#installing-proxmox" title="Permanent link">#</a></h3>
+<p>We boot on the USB key that we had brought with promox install CD on it.</p>
+<p>For Hard disk options, we choose ZFS - RAID1, ashift 12, compress an checksum on, disk size 64G</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS RAID1 basic setup for system partition" data-desc-position="bottom"><img alt="ZFS RAID1 basic setup for system partition" src="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg" /></a></p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-raid1-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS RAID1 advanced setup for system" data-desc-position="bottom"><img alt="ZFS RAID1 advanced setup for system" src="../media/2023-12-18-off1-proxmox-raid1-setup.jpg" /></a></p>
+<p>We choose a good password for root.</p>
+<p>We configure eno1 network</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-network-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Network setup" data-desc-position="bottom"><img alt="Network setup" src="../media/2023-12-18-off1-proxmox-network-setup.jpg" /></a></p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-install-summary.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Install summary screen" data-desc-position="bottom"><img alt="Install summary screen" src="../media/2023-12-18-off1-proxmox-install-summary.jpg" /></a></p>
+<h3 id="firmware-updates-again">Firmware updates again<a class="headerlink" href="#firmware-updates-again" title="Permanent link">#</a></h3>
+<p>After install and adding openssh-server, we were being able to log as root.</p>
+<p>We found a USB boot disk for HP servers. We mounted it on the server.</p>
+<p>We tried to use <code>suu --import-public-keys</code> it does something.</p>
+<p>We where able to upgrade the lifecycle controller, but not the bios.</p>
+<p>After a lot of trying, where addresses provided on HP website to upgrade were not working, Stéphane finally found a forum post that gave us the right URL to put in lifecycle manager to get updates.</p>
+<p>We used 143.166.28.19 in place of downloads.dell.com and it worked !</p>
+<p><a class="glightbox" href="../media/2023-12-18-off1-bios-upgrade.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Bios is upgrading (tears of nervous joy)" data-desc-position="bottom"><img alt="Bios is upgrading (tears of nervous joy)" src="../media/2023-12-18-off1-bios-upgrade.jpg" /></a></p>
+<p>We finally get BIOS 2.19.1.</p>
+<h3 id="ssds-again">SSDs again<a class="headerlink" href="#ssds-again" title="Permanent link">#</a></h3>
+<p>Even after upgrading BIOS, SSD is not working. By removing SSDs one by one, we found the culprit.
+So we mount back all SSDs but one.</p>
+<p>When we restarted the server, we got an error, because there is a conflict with existing old rpool (which was on SSD).</p>
+<p>We resolved this by force importing the right pool using it's ID (that we get with <code>zpool status</code>) and destroying the other. (or something like that !)...</p>
+<h2 id="2023-12-21-continuing-server-install">2023-12-21 continuing server install<a class="headerlink" href="#2023-12-21-continuing-server-install" title="Permanent link">#</a></h2>
+<h3 id="first-ssh-connexion">First ssh connexion<a class="headerlink" href="#first-ssh-connexion" title="Permanent link">#</a></h3>
+<p>Using root: <code>ssh root@off1 -o PubkeyAuthentication=no</code></p>
+<h3 id="update-and-add-some-base-packages">Update and add some base packages<a class="headerlink" href="#update-and-add-some-base-packages" title="Permanent link">#</a></h3>
+<p>Change <code>/etc/apt/sources.list.d/pve-enterprise.list</code> for <code>/etc/apt/sources.list.d/pve-install-repo.list</code>,
+with inside: </p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>update
+apt<span class="w"> </span>upgrade
+apt<span class="w"> </span>install<span class="w"> </span>munin-node<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>parted<span class="w"> </span>tree<span class="w"> </span>etckeeper<span class="w"> </span>rsync<span class="w"> </span>screen<span class="w"> </span>fail2ban<span class="w"> </span>git<span class="w"> </span>curl<span class="w"> </span>htop<span class="w"> </span>lsb-release<span class="w"> </span>bsd-mailx
+</code></pre></div>
+<h3 id="configure-locale">Configure locale<a class="headerlink" href="#configure-locale" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>vim<span class="w"> </span>/etc/locale.gen
+<span class="c1"># uncomment fr_FR.UTF-8, and exit</span>
+locale-gen
+</code></pre></div>
+<h3 id="network-configuration">Network configuration<a class="headerlink" href="#network-configuration" title="Permanent link">#</a></h3>
+<p>In <code>/etc/network/interfaces</code> added the <code>vmbr1</code> bridge interface (on eno2):
+<div class="highlight"><pre><span></span><code>auto vmbr1
+iface vmbr1 inet static
+        address 10.0.0.1/8
+        bridge-ports eno2
+        bridge-stp off
+        bridge-fd 0
+        post-up echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+        post-up   iptables -t nat -A POSTROUTING -s &#39;10.1.0.0/16&#39; -o vmbr0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s &#39;10.1.0.0/16&#39; -o vmbr0 -j MASQUERADE
+</code></pre></div></p>
+<p>Then <code>systemctl restart networking</code></p>
+<p>And verify with <code>ip address list</code> and <code>ip route list</code>
+<div class="highlight"><pre><span></span><code>default via 213.36.253.222 dev vmbr0 proto kernel onlink 
+10.0.0.0/8 dev vmbr1 proto kernel scope link src 10.0.0.1 
+213.36.253.192/27 dev vmbr0 proto kernel scope link src 213.36.253.206 
+</code></pre></div></p>
+<h3 id="creating-users">Creating users<a class="headerlink" href="#creating-users" title="Permanent link">#</a></h3>
+<p>First created off user (to ensure it have 1000 id):</p>
+<div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>off
+</code></pre></div>
+<p>Then add other sudo users, like:
+<div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>alex
+...
+adduser<span class="w"> </span>alex<span class="w"> </span>sudo
+</code></pre></div>
+and copy ssh keys.</p>
+<p>I also copied password hash for off2 to off1 (user can then decide to change their password altogether).</p>
+<h3 id="creating-zfs-pools">Creating ZFS pools<a class="headerlink" href="#creating-zfs-pools" title="Permanent link">#</a></h3>
+<p>We already have rpool where the distribution is installed.</p>
+<h4 id="partition-disks">Partition disks<a class="headerlink" href="#partition-disks" title="Permanent link">#</a></h4>
+<p>First we need to create partitions on our four HDD to be part of <code>zfs-hdd</code>.
+They already have a partition for the system (participating in <code>rpool</code>)</p>
+<p>Running:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>name<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>c<span class="w"> </span>d<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>parted<span class="w"> </span>/dev/sd<span class="nv">$name</span><span class="w"> </span>print<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+show us the same pattern for all disks:
+<div class="highlight"><pre><span></span><code>Model: ATA TOSHIBA MG07ACA1 (scsi)
+Disk /dev/sdd: 14,0TB
+Sector size (logical/physical): 512B/4096B
+Partition Table: gpt
+Disk Flags: 
+Number  Start   End     Size    File system  Name  Flags
+ 1      17,4kB  1049kB  1031kB                     bios_grub
+ 2      1049kB  1075MB  1074MB  fat32              boot, esp
+ 3      1075MB  69,8GB  68,7GB  zfs
+</code></pre></div></p>
+<p>We can print sectors to know where to start next partition more precisely:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>name<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>c<span class="w"> </span>d<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>parted<span class="w"> </span>/dev/sd<span class="nv">$name</span><span class="w"> </span><span class="s1">&#39;unit s print&#39;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+
+...
+Number<span class="w">  </span>Start<span class="w">     </span>End<span class="w">         </span>Size<span class="w">        </span>File<span class="w"> </span>system<span class="w">  </span>Name<span class="w">  </span>Flags
+...
+<span class="w"> </span><span class="m">3</span><span class="w">      </span>2099200s<span class="w">  </span>136314880s<span class="w">  </span>134215681s<span class="w">  </span>zfs
+</code></pre></div>
+<p>We add 2048 to 136314880 to be better aligned.</p>
+<p>So now we create the partitions on the remaining space:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>name<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>c<span class="w"> </span>d<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>parted<span class="w"> </span>/dev/sd<span class="nv">$name</span><span class="w"> </span>mkpart<span class="w"> </span>zfs-hdd<span class="w"> </span>zfs<span class="w"> </span>136316928s<span class="w"> </span><span class="m">100</span>%<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div></p>
+<p>We also want to partition the SSDs and octane.</p>
+<p>Listing them to know which is which:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev/nvme?<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$device</span><span class="w"> </span><span class="s2">&quot;--------&quot;</span><span class="p">;</span>smartctl<span class="w"> </span>-a<span class="w"> </span><span class="nv">$device</span><span class="p">|</span>grep<span class="w"> </span>-P<span class="w"> </span><span class="s1">&#39;(Model|Size/Capacity)&#39;</span><span class="p">;</span><span class="k">done</span>
+
+/dev/nvme0<span class="w"> </span>--------
+Model<span class="w"> </span>Number:<span class="w">                       </span>WD_BLACK<span class="w"> </span>SN770<span class="w"> </span>2TB
+Namespace<span class="w"> </span><span class="m">1</span><span class="w"> </span>Size/Capacity:<span class="w">          </span><span class="m">2</span><span class="w"> </span><span class="m">000</span><span class="w"> </span><span class="m">398</span><span class="w"> </span><span class="m">934</span><span class="w"> </span><span class="m">016</span><span class="w"> </span><span class="o">[</span><span class="m">2</span>,00<span class="w"> </span>TB<span class="o">]</span>
+/dev/nvme1<span class="w"> </span>--------
+Model<span class="w"> </span>Number:<span class="w">                       </span>INTEL<span class="w"> </span>MEMPEK1J016GA
+Namespace<span class="w"> </span><span class="m">1</span><span class="w"> </span>Size/Capacity:<span class="w">          </span><span class="m">14</span><span class="w"> </span><span class="m">403</span><span class="w"> </span><span class="m">239</span><span class="w"> </span><span class="m">936</span><span class="w"> </span><span class="o">[</span><span class="m">14</span>,4<span class="w"> </span>GB<span class="o">]</span>
+/dev/nvme2<span class="w"> </span>--------
+Model<span class="w"> </span>Number:<span class="w">                       </span>Samsung<span class="w"> </span>SSD<span class="w"> </span><span class="m">970</span><span class="w"> </span>EVO<span class="w"> </span>Plus<span class="w"> </span>1TB
+Namespace<span class="w"> </span><span class="m">1</span><span class="w"> </span>Size/Capacity:<span class="w">          </span><span class="m">1</span><span class="w"> </span><span class="m">000</span><span class="w"> </span><span class="m">204</span><span class="w"> </span><span class="m">886</span><span class="w"> </span><span class="m">016</span><span class="w"> </span><span class="o">[</span><span class="m">1</span>,00<span class="w"> </span>TB<span class="o">]</span>
+</code></pre></div>
+(at the time of install, one 2TB SSD is missing because it was impossible to boot with it).</p>
+<p>So:</p>
+<ul>
+<li>/dev/nvme0 is the 2TB SSD</li>
+<li>/dev/nvme1 is the octane (14,4 GB)</li>
+<li>/dev/nvme2 is the (old) 1TB SSD</li>
+</ul>
+<p>I follow the partitioning of off2:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 2TB SSD is devoted entirely to zfs-nvme</span>
+parted<span class="w"> </span>/dev/nvme0n1<span class="w"> </span>mklabel<span class="w"> </span>gpt
+parted<span class="w"> </span>/dev/nvme0n1<span class="w"> </span>mkpart<span class="w"> </span>zfs-nvme<span class="w"> </span>zfs<span class="w"> </span>2048s<span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># Octane is divided as log for zfs-hdd and zfs-nvme</span>
+parted<span class="w"> </span>/dev/nvme1n1<span class="w"> </span>mklabel<span class="w"> </span>gpt
+parted<span class="w"> </span>/dev/nvme1n1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkpart<span class="w"> </span>log-zfs-nvme<span class="w"> </span>zfs<span class="w"> </span>2048s<span class="w"> </span><span class="m">50</span>%<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkpart<span class="w"> </span>log-zfs-hdd<span class="w"> </span>zfs<span class="w"> </span><span class="m">50</span>%<span class="w"> </span><span class="m">100</span>%
+
+<span class="c1"># 1TB SSD will be cache for zfs-hdd</span>
+parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span>mklabel<span class="w"> </span>gpt
+<span class="c1"># we need to have a xfs partition, I don&#39;t know exactly why !</span>
+<span class="c1"># but without it, the zfs partition is changed to a xfs one…</span>
+parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkpart<span class="w"> </span>xfs<span class="w"> </span>2048s<span class="w"> </span>64G<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkpart<span class="w"> </span>zfs-hdd-cache<span class="w"> </span>zfs<span class="w"> </span>64G<span class="w"> </span><span class="m">100</span>%
+</code></pre></div>
+<p>We can see all our partition on the disk:
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/dev/sd??<span class="w"> </span>/dev/nvme?n1p?
+
+lsblk
+</code></pre></div></p>
+<h4 id="creating-zfs-pools_1">Creating zfs pools<a class="headerlink" href="#creating-zfs-pools_1" title="Permanent link">#</a></h4>
+<p>We creates a zfs-hdd pool with partitions mounted as zraid1 and (sda4, sdb4, sdc4 and sdd4) and a partition on the octane disk as log and some properties.</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>zfs-hdd<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>raidz1<span class="w"> </span>sda4<span class="w"> </span>sdb4<span class="w"> </span>sdc4<span class="w"> </span>sdd4
+zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">compress</span><span class="o">=</span>on<span class="w"> </span><span class="nv">xattr</span><span class="o">=</span>sa<span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd
+zpool<span class="w"> </span>add<span class="w"> </span>zfs-hdd<span class="w"> </span>log<span class="w"> </span>nvme1n1p2
+zpool<span class="w"> </span>add<span class="w"> </span>zfs-hdd<span class="w"> </span>cache<span class="w"> </span>nvme2n1p2
+</code></pre></div>
+<p>Note:
+Doing the later I got: <code>/dev/nvme1n1p2 is part of potentially active pool 'zfs-hdd'</code>
+This is because octane was used in a previous install on off2.
+I just did: <code>zpool labelclear -f nvme1n1</code>, <code>zpool labelclear -f nvme1n1p2</code> and <code>zpool labelclear -f nvme2n1p2</code>
+(for real, tried to clear the label on any not yet used partition).</p>
+<p>We creates a zfs-nvme pool but with only nvme0n1p1, as it's the only SSD and a partition on the octane disk as log and some properties. It can't be a mirror yet because there is only one device… we will have to backup, destroy and re-create it with new nvme to be able to have a mirror.</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>zfs-nvme<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>nvme0n1p1
+zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">compress</span><span class="o">=</span>on<span class="w"> </span><span class="nv">xattr</span><span class="o">=</span>sa<span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-nvme
+zpool<span class="w"> </span>add<span class="w"> </span>zfs-nvme<span class="w"> </span>log<span class="w"> </span>nvme1n1p1
+</code></pre></div>
+<h2 id="joining-pve-cluster">Joining PVE cluster<a class="headerlink" href="#joining-pve-cluster" title="Permanent link">#</a></h2>
+<p>It's time to join the cluster. We will join it using internal ip !</p>
+<h3 id="preparing-etchosts">preparing /etc/hosts<a class="headerlink" href="#preparing-etchosts" title="Permanent link">#</a></h3>
+<p>I edited /etc/hosts on off1 to have:</p>
+<div class="highlight"><pre><span></span><code>127.0.0.1 localhost.localdomain localhost
+# 213.36.253.206 off1.openfoodfacts.org off1
+10.0.0.1 off1.openfoodfacts.org off1 pve-localhost
+10.0.0.2 off2.openfoodfacts.org off2
+...
+</code></pre></div>
+<p>And on off2:
+<div class="highlight"><pre><span></span><code>127.0.0.1 localhost.localdomain localhost
+10.0.0.2 off2.openfoodfacts.org off2 pve-localhost
+#213.36.253.208 off2.openfoodfacts.org off2
+10.0.0.1 off1.openfoodfacts.org off1
+...
+</code></pre></div></p>
+<h3 id="creating-the-cluster-on-off2">creating the cluster on off2<a class="headerlink" href="#creating-the-cluster-on-off2" title="Permanent link">#</a></h3>
+<p>See <a href="https://pve.proxmox.com/pve-docs-6/chapter-pvecm.html">official docs</a></p>
+<p>On off2:
+<div class="highlight"><pre><span></span><code>pvecm<span class="w"> </span>create<span class="w"> </span>off-free
+pvecm<span class="w"> </span>status
+</code></pre></div></p>
+<h3 id="joining-the-cluster-from-off1">joining the cluster from off1<a class="headerlink" href="#joining-the-cluster-from-off1" title="Permanent link">#</a></h3>
+<p>On off1
+<div class="highlight"><pre><span></span><code>pvecm<span class="w"> </span>add<span class="w"> </span><span class="m">10</span>.0.0.2<span class="w"> </span>--fingerprint<span class="w"> </span><span class="s2">&quot;43:B6:2A:DC:BF:17:C8:70:8F:3C:A4:A8:2D:D5:F8:24:18:6B:78:6D:24:8A:65:DA:71:04:A3:FE:E0:45:DE:B6&quot;</span>
+</code></pre></div></p>
+<p>Note: first time I did it without <code>--fingerprint</code> option.
+I verified the fingerprint by looking at the certificate of proxmox manager in firefox.</p>
+<h3 id="using-systemd-timesyncd">Using systemd-timesyncd<a class="headerlink" href="#using-systemd-timesyncd" title="Permanent link">#</a></h3>
+<p>As it's <a href="https://pve.proxmox.com/pve-docs-6/pve-admin-guide.html#_time_synchronization">proposed by Proxmox guide</a>
+I installed <code>systemd-timesyncd</code> on off1 and off2.</p>
+<h3 id="adding-the-storages">adding the storages<a class="headerlink" href="#adding-the-storages" title="Permanent link">#</a></h3>
+<p>We create pve pools:</p>
+<p><div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/pve
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-nvme/pve
+</code></pre></div>
+They are immediatly availabe in proxmox !</p>
+<div class="highlight"><pre><span></span><code>pvesm status
+Name            Type     Status           Total            Used       Available        %
+backups          dir     active     39396965504             256     39396965248    0.00%
+local            dir     active        64475008        11079168        53395840   17.18%
+zfs-hdd      zfspool     active     39396965446             139     39396965307    0.00%
+zfs-nvme     zfspool     active      1885863288              96      1885863192    0.00%
+</code></pre></div>
+<p>Also the backups dir automatically get on zfs-hdd, but I don't really know why !
+<code>cat /etc/pve/storage.cfg</code> helps see that.</p>
+<p>I still have to create it:
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/backups
+</code></pre></div></p>
+<h2 id="adding-ro_users-group-to-proxmox">Adding ro_users group to proxmox<a class="headerlink" href="#adding-ro_users-group-to-proxmox" title="Permanent link">#</a></h2>
+<p>We have a <code>ro_users</code> group for users to have read-only access to the proxmox interface.</p>
+<p>I created the group, going to cluster interface in proxmox and using <code>create</code>.</p>
+<p>I then go to <code>permissions</code> and give the PVEAuditor role to the group on <code>/</code> with <em>propagate</em>.</p>
+<p><a class="glightbox" href="../media/2024-01-proxmox-group-roles-off2.png" data-type="image" data-width="auto" data-height="auto" data-title="off2 proxmox group roles" data-desc-position="bottom"><img alt="off2 proxmox group roles" src="../media/2024-01-proxmox-group-roles-off2.png" title="off2 proxmox group roles" /></a></p>
+<h2 id="getting-containers-templates">Getting containers templates<a class="headerlink" href="#getting-containers-templates" title="Permanent link">#</a></h2>
+<p>See <a href="https://pve.proxmox.com/wiki/Linux_Container#pct_container_images">proxmox docs on container images</a></p>
+<div class="highlight"><pre><span></span><code>pveam<span class="w"> </span>update
+pveam<span class="w"> </span>available<span class="p">|</span>grep<span class="w"> </span><span class="s1">&#39;debian-.*-standard&#39;</span>
+pveam<span class="w"> </span>download<span class="w"> </span><span class="nb">local</span><span class="w"> </span>debian-11-standard_11.7-1_amd64.tar.zst
+pveam<span class="w"> </span>download<span class="w"> </span><span class="nb">local</span><span class="w"> </span>debian-12-standard_12.2-1_amd64.tar.zst
+</code></pre></div>
+<h2 id="adding-openfoodfacts-infrastructure-repository">Adding openfoodfacts-infrastructure repository<a class="headerlink" href="#adding-openfoodfacts-infrastructure-repository" title="Permanent link">#</a></h2>
+<p>Added root ssh pub key (<code>cat /root/.ssh/id_rsa.pub</code>) as a <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/settings/keys">deploy key to github infrastructure repository</a></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
+</code></pre></div>
+<h2 id="adding-munin-monitoring">Adding Munin monitoring<a class="headerlink" href="#adding-munin-monitoring" title="Permanent link">#</a></h2>
+<p>Simply following <a href="../../munin/#how-to-configure-a-server">our Munin doc on how to configure a server</a></p>
+<h2 id="configuring-snapshots-and-syncoid">Configuring snapshots and syncoid<a class="headerlink" href="#configuring-snapshots-and-syncoid" title="Permanent link">#</a></h2>
+<p>I first installed sanoid following <a href="../../sanoid/#building-sanoid-deb">install instructions</a></p>
+<p>We want to pull snapshots from off1 and to let ovh3 pull our snapshots.</p>
+<h3 id="enabling-sanoid">Enabling sanoid<a class="headerlink" href="#enabling-sanoid" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>unit<span class="w"> </span><span class="k">in</span><span class="w"> </span>email-failures@.service<span class="w"> </span>sanoid_check.service<span class="w"> </span>sanoid_check.timer<span class="w"> </span>sanoid.service.d<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">do</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off1/systemd/system/<span class="nv">$unit</span><span class="w"> </span>/etc/systemd/system<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w">  </span>sanoid_check.timer
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w">  </span>sanoid.service
+</code></pre></div>
+<h3 id="sync-from-off2-to-off1">sync from off2 to off1<a class="headerlink" href="#sync-from-off2-to-off1" title="Permanent link">#</a></h3>
+<h4 id="creating-off1operator-on-off2">creating off1operator on off2<a class="headerlink" href="#creating-off1operator-on-off2" title="Permanent link">#</a></h4>
+<p>Similar as off2operator on off1</p>
+<div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>off1operator
+...<span class="w"> </span>add<span class="w"> </span>ssh<span class="w"> </span>pub<span class="w"> </span>key<span class="w"> </span>...
+
+zfs<span class="w"> </span>allow<span class="w"> </span>off1operator<span class="w"> </span>hold,send<span class="w"> </span>zfs-hdd
+zfs<span class="w"> </span>allow<span class="w"> </span>off1operator<span class="w"> </span>hold,send<span class="w"> </span>zfs-nvme
+zfs<span class="w"> </span>allow<span class="w"> </span>off2operator<span class="w"> </span>hold,send<span class="w"> </span>rpool
+</code></pre></div>
+<p>On off1, test ssh connection
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>off1operator@10.0.0.2
+</code></pre></div></p>
+<h4 id="doing-first-sync">Doing first sync<a class="headerlink" href="#doing-first-sync" title="Permanent link">#</a></h4>
+<p>Create conf for syncoid on off1</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off1/sanoid/syncoid-args.conf<span class="w"> </span>/etc/sanoid/
+</code></pre></div>
+<p>Do first sync by hand in a screen (because it will take a very long time):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">set</span><span class="w"> </span>-x<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;^#&quot;</span><span class="w"> </span>/etc/sanoid/syncoid-args.conf<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-a<span class="w"> </span>sync_args<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span>syncoid<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">sync_args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&lt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>FAILED<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<h4 id="enabling-syncoid">Enabling syncoid<a class="headerlink" href="#enabling-syncoid" title="Permanent link">#</a></h4>
+<p>On off1 enable syncoid service:
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off1/systemd/system/syncoid.service<span class="w"> </span>/etc/systemd/system
+systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>syncoid.service
+</code></pre></div></p>
+<h3 id="sync-from-off1-to-off2">sync from off1 to off2<a class="headerlink" href="#sync-from-off1-to-off2" title="Permanent link">#</a></h3>
+<h4 id="creating-off2operator-on-off1">creating off2operator on off1<a class="headerlink" href="#creating-off2operator-on-off1" title="Permanent link">#</a></h4>
+<p>(using env variable for easy copy/paste)
+<div class="highlight"><pre><span></span><code><span class="nv">OP_USER</span><span class="o">=</span>off2operator
+adduser<span class="w"> </span><span class="nv">$OP_USER</span>
+
+mkdir<span class="w"> </span>/home/<span class="nv">$OP_USER</span>/.ssh
+vim<span class="w"> </span>/home/<span class="nv">$OP_USER</span>/.ssh/authorized_keys
+<span class="c1"># copy off2 public key</span>
+
+chown<span class="w"> </span><span class="nv">$OP_USER</span>:<span class="nv">$OP_USER</span><span class="w"> </span>-R<span class="w"> </span>/home/<span class="nv">$OP_USER</span>
+chmod<span class="w"> </span>go-rwx<span class="w"> </span>-R<span class="w"> </span>/home/<span class="nv">$OP_USER</span>/.ssh
+</code></pre></div></p>
+<p>Adding needed permissions to pull zfs syncs
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OP_USER</span><span class="w"> </span>hold,send<span class="w"> </span>zfs-hdd
+zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OP_USER</span><span class="w"> </span>hold,send<span class="w"> </span>zfs-nvme
+zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OP_USER</span><span class="w"> </span>hold,send<span class="w"> </span>rpool
+</code></pre></div></p>
+<p>On off2, test ssh connection:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>off1operator@10.0.0.2
+</code></pre></div>
+<h4 id="doing-first-sync_1">Doing first sync<a class="headerlink" href="#doing-first-sync_1" title="Permanent link">#</a></h4>
+<p>I did the sync manually issuing commands one by one.</p>
+<p>Like: <code>syncoid --no-sync-snap --no-privilege-elevation off2operator@10.0.0.1:zfs-nvme/pve/subvol-102-disk-0 zfs-hdd/backups/mongodb</code></p>
+<p>and copying relevant part to <code>syncoid.conf</code> just after</p>
+<h4 id="adding-entries-to-sanoidconf">Adding entries to sanoid.conf<a class="headerlink" href="#adding-entries-to-sanoidconf" title="Permanent link">#</a></h4>
+<p>Entries were added to <code>/etc/sanoid/syncoid.conf</code>.</p>
+<p>Also newly created backup datasets to <code>/etc/sanoid/sanoid.conf</code></p>
+<p>Commit changes in <code>/opt/openfoodfacts-infrastructure</code>.</p>
+<p>Monitor next sanoid / syncoid run.</p>
+<h3 id="sync-from-ovh3-to-off1">sync from ovh3 to off1<a class="headerlink" href="#sync-from-ovh3-to-off1" title="Permanent link">#</a></h3>
+<ul>
+<li>I created ovh3operator on off1 with ovh3 root public key</li>
+<li>I created ovh3operator on off2 with ovh3 root public key</li>
+</ul>
+<ul>
+<li>I created the syncoid.conf file</li>
+</ul>
+<ul>
+<li>I did off1 syncs by hand (copy/pasting from the syncoid.conf)</li>
+<li>I modified the sanoid.conf file to add the new datasets and the related policy for snapshot management</li>
+<li>then created <code>/etc/systemd/system/syncoid.service</code> as a link definition to the service in this repository, same for <code>/etc/sanoid/syncoid.conf</code>, did a <code>systemctl daemon-reload</code> and activated the service: <code>systemctl enable syncoid.service</code></li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

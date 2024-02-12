@@ -69,6 +69,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#stunnel" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -738,10 +743,84 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Stunnel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Stunnel
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#client-vs-server" class="md-nav__link">
+    Client vs Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location-and-serverclient" class="md-nav__link">
+    Location and server/client
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psk" class="md-nav__link">
+    PSK
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-configuration-before-restarting-service" class="md-nav__link">
+    Test configuration before restarting service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    Systemd service
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1316,6 +1395,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2023-12-08-off1-upgrade/" class="md-nav__link">
+        2023-12-18 off1 upgrade
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
         2023-12-11 Matomo down
       </a>
@@ -1332,6 +1425,34 @@
     <li class="md-nav__item">
       <a href="../reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
         2024-01-02 monitoring disk space - filebeat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        2024-01-03 MongoDB migration on off3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        2024 01 04 setting up stunnel
       </a>
     </li>
   
@@ -1431,6 +1552,64 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#client-vs-server" class="md-nav__link">
+    Client vs Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location-and-serverclient" class="md-nav__link">
+    Location and server/client
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psk" class="md-nav__link">
+    PSK
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-configuration-before-restarting-service" class="md-nav__link">
+    Test configuration before restarting service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    Systemd service
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1448,9 +1627,65 @@
   
 
 
-  <h1>Stunnel</h1>
-
-
+<h1 id="stunnel">Stunnel<a class="headerlink" href="#stunnel" title="Permanent link">#</a></h1>
+<p>Stunnel enables us to secure (TCP) connection between distant servers.</p>
+<p>It encrypts traffic with openssl.</p>
+<p>It is installed on the reverse proxy of off2 and ovh1.</p>
+<p>Illustration:
+<pre class="mermaid"><code>sequenceDiagram
+    box  Private Network 1
+      Participant Cli as Client
+      Participant Scli as Stunnel Server 1 (client)
+    End
+    box Private Network 2
+      Participant Sserv as Stunnel Server 2 (server)
+      Participant Mongo as MongoDB Server
+    End
+    Note over Scli,Sserv: The wild web
+    Cli-&gt;&gt;Scli: Query MongoDB
+    Scli-&gt;&gt;Sserv: Encrypted
+    Sserv-&gt;&gt;Mongo: Query MongoDB
+    Mongo-&gt;&gt;Sserv: MongoDB response
+    Sserv-&gt;&gt;Scli: Encrypted
+    Scli-&gt;&gt;Cli: MongoDB response</code></pre></p>
+<h2 id="client-vs-server">Client vs Server<a class="headerlink" href="#client-vs-server" title="Permanent link">#</a></h2>
+<p>When we configure stunnel, there are two side:</p>
+<ul>
+<li>the side, where connection happens (<em>Stunnel Server 1</em> on the diagram)  is called <strong>client side</strong></li>
+<li>the other side accepts connections only from other stunnel instances and forward them to the exposed service, it is the <strong>server side</strong></li>
+</ul>
+<p><strong>VERY IMPORTANT</strong></p>
+<p>Whereas the <strong>server side</strong> port needs to be exposed publicly on the web, we want to avoid <strong>client side</strong> to be exposed on a public IP even inadvertently.</p>
+<p>That's why we:</p>
+<ul>
+<li>use <strong>reverse proxy</strong> for stunnel <strong>server</strong> services, and only those</li>
+<li>use a <strong>specific internal container</strong> for stunnel <strong>client</strong> entrypoints, with only a private IP exposed.</li>
+</ul>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">#</a></h2>
+<h3 id="location-and-serverclient">Location and server/client<a class="headerlink" href="#location-and-serverclient" title="Permanent link">#</a></h3>
+<p>Configuration is in <code>/etc/stunnel/off.conf</code> this is the <code>off</code> instance (and meant to be the only one for now),
+we can add as many entries to serve different services as we want.</p>
+<p>When you configure stunnel, on the side, where connection happens (<em>Stunnel Server 1</em> on the diagram) you have to specify <code>client=yes</code>. On the other side it's <code>client=no</code> (server side), it accepts connections only from other stunnel instances and forward them to the exposed service.</p>
+<p><strong>IMPORTANT</strong> always double check to only use client=yes on the internal container (on private network), never on the proxy</p>
+<h3 id="psk">PSK<a class="headerlink" href="#psk" title="Permanent link">#</a></h3>
+<p>We use psk (Private Shared Key) for security (easier and more performant than setting up certificates).</p>
+<p>The psk file must be in /etc/stunnel/psk/ and must not be commited in this repository, but remain on the servers only, and be private (<code>chmod -R go-rwx /etc/stunnel/psk/</code>)</p>
+<p>To generate a psk, use <code>pwgen 32</code>.</p>
+<p>Keep each username really unique for each server, but also for each services (otherwise it will conflict !).</p>
+<h3 id="test-configuration-before-restarting-service">Test configuration before restarting service<a class="headerlink" href="#test-configuration-before-restarting-service" title="Permanent link">#</a></h3>
+<p>BEWARE that stunnel is used for other services !</p>
+<p>So don't restart the service without first testing your configuration.</p>
+<p>On way to test is to try to start another instance of stunnel. It will fail because it's unable to bind to already occupied ports, but you will be able to see if configuration was parsed correctly: <code>stunnel /etc/stunnel/off.conf</code></p>
+<p>When you are ready, you can use: <code>systemctl restart stunnel@off</code></p>
+<h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h2>
+<p>The stunnel@off service is the one that correspond to  <code>/etc/stunnel/off.conf</code></p>
+<p>We had to override the systemctl service a bit for pid file to work:</p>
+<ul>
+<li>stunnel needs to be launch as <code>root</code> to get some privilege (and then change user)</li>
+<li>but pid file is created with running user</li>
+<li>so we use group stunnel4 in service definition and add group write permission to runtime directory to ensure stunnel can create the pid file</li>
+</ul>
+<p>Also note that it is launched in foreground for we let systemd handle the process.</p>
 
 
 
