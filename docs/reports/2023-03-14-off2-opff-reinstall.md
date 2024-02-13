@@ -151,7 +151,7 @@ Using:
 * GET/PUT/POST/DELETE /domain/zone/openfoodfacts.org/*
 
 ![token creation at form at OVH](../img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation at form at OVH"){width=50%}
-![token creation result](img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
+![token creation result](../img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
 
 and we put config file in `/root/.ovhapi/openpetfoodfacts.org`
 ```bash
@@ -330,6 +330,7 @@ cd sanoid
 # checkout latest stable release or stay on master for bleeding edge stuff (but expect bugs!)
 git checkout $(git tag | grep "^v" | tail -n 1)
 ln -s packages/debian .
+apt install debhelper libcapture-tiny-perl libconfig-inifiles-perl pv lzop mbuffer build-essential git
 dpkg-buildpackage -uc -us
 sudo apt install ../sanoid_*_all.deb
 ```
