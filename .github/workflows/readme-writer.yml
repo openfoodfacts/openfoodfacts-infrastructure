@@ -14,7 +14,7 @@ jobs:
         # we use a personal access token of openfoodfacts-bot to allow bypassing branch protection rules
         token: "${{ secrets.README_WRITER_PAT }}"
     - name: Set up python
-      uses: actions/setup-python@v4.3.0
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
     - run: |
