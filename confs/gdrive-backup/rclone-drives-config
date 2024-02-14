@@ -1,0 +1,13 @@
+[off-gdrive]
+type = drive
+client_id = XXX
+client_secret = XXX
+scope = drive.readonly
+root_folder_id = 
+token = XXX
+team_drive = XXX
+copy_shortcut_content = false
+skip_shortcuts = true
+buffer_size = 256M
+fast_list = true
+### Double check the config for sensitive info before posting publicly
