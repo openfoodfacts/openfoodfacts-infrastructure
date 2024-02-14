@@ -58,7 +58,7 @@ dpkg -i grive_0.5.3_amd64.deb
 
 Following https://yourcmc.ru/wiki/Grive2#Usage
 
-I go to `/mnt/gdrive-backup/`
+I go to `/mnt/gdrive-backup/`
 
 Start a screen: `screen -S grive`
 
@@ -92,7 +92,7 @@ or to have localhost:58043 redirecting to the container.
 
 ### It does not work for us
 
-Finally I get those problems after testing:
+Finally I get those problems after testing:
 
 1. grive does not synchronize google documents ! (while that's what we need ! To sync google docs)
 2. It does not seem to support synchronizing shared drive (and here again, that's what we need)
@@ -289,7 +289,7 @@ I look at properties of the drive in Google drive, and it says it was 105G of da
 I then issue a  `du -sh *|sort -h` in `/mnt/gdrive-backup/Open-Food-Facts` and saw `Community Management` folder taking a lot of space !
 After investigation, it was dowloading several time because there is a shortcut of the same folder inside the folder.
 
-I though I configured the drive to not download linked content, but it seems not to be the case !
+I though I configured the drive to not 250000download linked content, but it seems not to be the case !
 
 https://rclone.org/flags/ helps me get the flag I want to edit: `--drive-copy-shortcut-content`
 
@@ -300,11 +300,34 @@ rclone config update off-gdrive copy_shortcut_content=false config_refresh_token
 
 ```bash
 rclone config update  off-gdrive copy_shortcut_content=0 config_refresh_token=false
+```
+
+I also changed some other flags for efficiency:
+```bash
+rclone config update off-gdrive  buffer_size=256M fast_list=true config_refresh_token=false
+```
 
 I did a research on the drive and found a lot of shorcuts, so instead of cleaning the mess,
 I removed all content and did the sync again !
 
+But it was not enough !
+
+So I tried to use skip shortcuts option:
+
+```bash
+rclone config update off-gdrive   config_refresh_token=false
+```
+
 
 ### Systemd service
 
-**FIXME**
+I created `rclone_backup@.{service,timer}` and linked it.
+
+I renamed `/mnt/gdrive-backup/Open Food Facts` to `/mnt/gdrive-backup/off-gdrive` to be consistent
+
+Then activate:
+
+```
+systemctl daemon-reload
+systemctl enable --now rclone_backup@off-gdrive
+```
