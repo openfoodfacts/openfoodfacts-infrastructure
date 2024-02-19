@@ -13,9 +13,11 @@ Type=oneshot
 User=www-data
 Group=www-data
 # see https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/
-ExecStart=/usr/bin/php /var/www/html/matomo/console queuedtracking:process --queue-id=%i --no-ansi 
+ExecStart=/usr/bin/php /var/www/html/matomo/console queuedtracking:process --queue-id=%i --no-ansi -n
 StandardOutput=append:/var/log/matomo/matomo-tracking-%i.log
 StandardError=append:/var/log/matomo/matomo-tracking-%i-err.log
 # place a timeout for bad cases
 # note: we have to use TimeoutStartSec as it's a Type=oneshot service
 TimeoutStartSec=2h
+# clean lock (usefull in case of bad exit)
+ExecStopPost=/usr/bin/php /var/www/html/matomo/console queuedtracking:lock-status --unlock=QueuedTrackingLock%i -n --ignore-warn
