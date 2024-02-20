@@ -11,7 +11,7 @@ Environment=TZ=UTC
 Type=oneshot
 User=www-data
 Group=www-data
-ExecStart=/usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ 
+ExecStart=/usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ -n --ignore-warn
 StandardOutput=append:/var/log/matomo/matomo-archive.log
 StandardError=append:/var/log/matomo/matomo-archive-err.log
 # place a timeout for bad cases as this process sometimes hangs
