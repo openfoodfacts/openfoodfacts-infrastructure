@@ -1,0 +1,11 @@
+/var/log/mongodb/refresh_products_tags_*.log
+{
+  rotate 7
+  weekly
+  size 100M
+  missingok
+  # we don't know when logrotate will happen
+  # script might be working, so only compress previous files
+  delaycompress
+  compress
+}
