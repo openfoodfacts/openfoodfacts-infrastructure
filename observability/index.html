@@ -659,7 +659,14 @@
     Blackbox exporter
   </a>
   
-    <nav class="md-nav" aria-label="Blackbox exporter">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-metrics-behind-a-proxy" class="md-nav__link">
+    Exposing metrics behind a proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="Exposing metrics behind a proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1535,6 +1542,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
+        2024-02-20 Installing a prometheus exporter on mongodb container
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1606,7 +1627,14 @@
     Blackbox exporter
   </a>
   
-    <nav class="md-nav" aria-label="Blackbox exporter">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-metrics-behind-a-proxy" class="md-nav__link">
+    Exposing metrics behind a proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="Exposing metrics behind a proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1696,6 +1724,11 @@ A mouse over in the "labels" column shows you parameter before processing.</p>
 <h2 id="blackbox-exporter">Blackbox exporter<a class="headerlink" href="#blackbox-exporter" title="Permanent link">#</a></h2>
 <p>Is a service that can be used by Prometheus to probe for websites. </p>
 <p>Prometheus will call the service as if it was a metric exporter with the appropriate target (that you set through <code>target</code> on <code>__param_target</code> in the configuration (if you use <a href="https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus">multi-target exporter pattern</a>)</p>
+<h2 id="exposing-metrics-behind-a-proxy">Exposing metrics behind a proxy<a class="headerlink" href="#exposing-metrics-behind-a-proxy" title="Permanent link">#</a></h2>
+<p>Prometheus server is in OVH datacenter.
+To expose metrics from Free datacenter through the internet,
+we use the nginx reverse proxy.</p>
+<p>See free-exporters site configuration, and scraper configuration.</p>
 <h3 id="testing-it-on-monitoring-container">Testing it on monitoring container<a class="headerlink" href="#testing-it-on-monitoring-container" title="Permanent link">#</a></h3>
 <p>Blackbox is on port 9105 so you can test it, for example using:
 <div class="highlight"><pre><span></span><code><span class="c1"># http probe</span>
