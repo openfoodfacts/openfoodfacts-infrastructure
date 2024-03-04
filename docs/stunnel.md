@@ -4,7 +4,7 @@ Stunnel enables us to secure (TCP) connection between distant servers.
 
 It encrypts traffic with openssl.
 
-It is installed on the reverse proxy of off2 and ovh1.
+It is installed on the reverse proxy of off2, and on a specific VM (113) on ovh1. For more details about why we use a new VM for the client (ovh), see [the install report](./reports/2024-01-04-setting-up-stunnel.md).
 
 Illustration:
 ```mermaid
