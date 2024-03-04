@@ -1436,8 +1436,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2023-01-08-mongodb-get-hacked" class="md-nav__link">
-    2023-01-08 MongoDB get hacked !
+  <a href="#2023-02-08-mongodb-get-hacked" class="md-nav__link">
+    2023-02-08 MongoDB get hacked!
   </a>
   
 </li>
@@ -1615,8 +1615,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2023-01-08-mongodb-get-hacked" class="md-nav__link">
-    2023-01-08 MongoDB get hacked !
+  <a href="#2023-02-08-mongodb-get-hacked" class="md-nav__link">
+    2023-02-08 MongoDB get hacked!
   </a>
   
 </li>
@@ -1744,7 +1744,7 @@ To make it permanent we can add an executable <code>/etc/network/if-up.d/off-ser
 <span class="k">fi</span>
 </code></pre></div></p>
 <p>But as right now this is not needed (new mongo is in 10.1.0.102 which is reachable), <strong>I didn't do it</strong>.</p>
-<h2 id="2023-01-08-mongodb-get-hacked">2023-01-08 MongoDB get hacked !<a class="headerlink" href="#2023-01-08-mongodb-get-hacked" title="Permanent link">#</a></h2>
+<h2 id="2023-02-08-mongodb-get-hacked">2023-02-08 MongoDB get hacked!<a class="headerlink" href="#2023-02-08-mongodb-get-hacked" title="Permanent link">#</a></h2>
 <p>I did change the configuration for the stunnel entrance not to be exposed on public IP, but it seems it was not taken into account (maybe I did not restart stunnel service correctly)… and thus our MongoDB stunnel access was expose to the wild web… where some hacker immediately take our database and drop it to ask for money against retrieval…</p>
 <p>Luckily Gala noticed rapidly and Stephane identified that mongo was exposed through our proxy1 ip address.</p>
 <p>We have the data in the sto, so it's not the end of the world but still it's very annoying.

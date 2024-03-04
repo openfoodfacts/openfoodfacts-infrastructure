@@ -752,6 +752,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#related-reports" class="md-nav__link">
+    Related reports
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1567,6 +1574,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#related-reports" class="md-nav__link">
+    Related reports
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1591,14 +1605,20 @@
 <h2 id="production-instance-for-off">Production Instance for OFF<a class="headerlink" href="#production-instance-for-off" title="Permanent link">#</a></h2>
 <p>We have a production instance of Redis dedicated to OFF.</p>
 <p>It is currently use for the event stream function to enable other services like off-queries, robotoff and search-a-licious to update their data.</p>
+<p>It is proxied between ovh and free datacenter through <a href="../stunnel/">stunnel</a>.
+To use it from ovh1/ovh2, connect to stunnel client server on standard Redis port: <code>10.1.0.113:6379</code>.</p>
 <h3 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h3>
-<p>It's on a container on the off proxmox cluster, on container 113.</p>
+<p>It's on a container on the off proxmox cluster, on container 122.</p>
 <p><code>/var/lib/redis</code> is in a specific dataset.</p>
 <p>This is a simple debian deployment (specific configurations are in <code>confs/off-redis</code>),
 we override systemd service to send emails on failure.</p>
-<p>It is proxied between ovh and free datacenter through <a href="../stunnel/">stunnel</a></p>
 <h2 id="matomo">Matomo<a class="headerlink" href="#matomo" title="Permanent link">#</a></h2>
 <p><a href="../matomo/">Matomo also uses Redis Queues</a> to be able to manage the traffic.</p>
+<h2 id="related-reports">Related reports<a class="headerlink" href="#related-reports" title="Permanent link">#</a></h2>
+<ul>
+<li><a href="../reports/2024-01-04-setting-up-stunnel/">Setting up Stunnel</a></li>
+<li><a href="../reports/2024-02-08-prod-redis-install/">Prod Redis install</a></li>
+</ul>
 
 
 
