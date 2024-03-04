@@ -64,6 +64,14 @@ Is a service that can be used by Prometheus to probe for websites.
 
 Prometheus will call the service as if it was a metric exporter with the appropriate target (that you set through `target` on `__param_target` in the configuration (if you use [multi-target exporter pattern](https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus))
 
+## Exposing metrics behind a proxy
+
+Prometheus server is in OVH datacenter.
+To expose metrics from Free datacenter through the internet,
+we use the nginx reverse proxy.
+
+See free-exporters site configuration, and scraper configuration.
+
 ### Testing it on monitoring container
 
 Blackbox is on port 9105 so you can test it, for example using:
