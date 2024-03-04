@@ -70,7 +70,7 @@ Prometheus server is in OVH datacenter.
 To expose metrics from Free datacenter through the internet,
 we use the nginx reverse proxy.
 
-See free-exporters site configuration, and scapper configuration.
+See free-exporters site configuration, and scraper configuration.
 
 ### Testing it on monitoring container
 
