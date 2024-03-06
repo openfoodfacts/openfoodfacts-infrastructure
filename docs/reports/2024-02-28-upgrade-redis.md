@@ -36,3 +36,9 @@ I fetched the [sample configuration file from the new version](https://github.co
 - I changed the `dir` option to `/var/lib/redis`
 
 Restarting the service worked fine.
+
+## Post systemd fix
+
+It happens that redis service was continuously restarting, making the searcha-licious updater fails and restart on it's side. It was visible thanks to sentry.
+We looked into this and it turns out, it was systemd not getting that the service was started. We modified the redis.conf to add `supervised systemd` (because service type is "notify", so redis must acknowledge startup through systemd socket) and also change `pidfile` directive to match the one in the service definition.
+After that redis is working fine.
