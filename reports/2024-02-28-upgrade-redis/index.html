@@ -2063,6 +2063,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#post-systemd-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post systemd fix
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2114,6 +2123,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#post-systemd-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post systemd fix
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2158,6 +2176,10 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 <li>I changed the <code>dir</code> option to <code>/var/lib/redis</code></li>
 </ul>
 <p>Restarting the service worked fine.</p>
+<h2 id="post-systemd-fix">Post systemd fix<a class="headerlink" href="#post-systemd-fix" title="Permanent link">#</a></h2>
+<p>It happens that redis service was continuously restarting, making the searcha-licious updater fails and restart on it's side. It was visible thanks to sentry.
+We looked into this and it turns out, it was systemd not getting that the service was started. We modified the redis.conf to add <code>supervised systemd</code> (because service type is "notify", so redis must acknowledge startup through systemd socket) and also change <code>pidfile</code> directive to match the one in the service definition.
+After that redis is working fine.</p>
 
 
 
