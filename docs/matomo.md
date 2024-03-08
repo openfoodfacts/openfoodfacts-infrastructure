@@ -28,6 +28,24 @@ We have setup alerts for main website and app if there are 0 visits.
 
 ![alerts settings](./img/matomo-alerts.png "Matomo alerts settings")
 
+## Important: temporary patch
+
+
+Because of [Queue id should try to be more random #231](https://github.com/matomo-org/plugin-QueuedTracking/issues/231) and [Set a random visitor ID at each requests instead of using 0000000… for anonymous analytics](https://github.com/openfoodfacts/smooth-app/issues/5095)
+
+until enough mobile app are deployed, I manually patched `plugins/QueuedTracking/Queue/Manager.php`:
+
+```php
+    protected function getQueueIdForVisitor($visitorId)
+    {
+        # 2024-03-08 patch from ALEX
+        if ($visitorId === '0000000000000000') {
+            $visitorId = chr(rand(ord('a'), ord('z')));
+        }
+        $visitorId = strtolower(substr($visitorId, 0, 1));
+      ...
+```
+
 
 ## Site setup
 
