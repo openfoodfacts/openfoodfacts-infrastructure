@@ -86,9 +86,9 @@ We setup matomo for performance (our websites requires it) with two main points:
   See also [official doc](https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/).
 * on incoming update request (on a tracked website being visited),
   it does not immediately updates the database but goes in redis instead, 
-  we configured it with 4 queues.
+  we configured it with 8 queues.
   then are systemd timers jobs to process redis entries every minute (see `confs/matomo/systemd/matomo-tracking@.{timer,service}`).
-  And we have an instance 0, 1, 2 and 3, to process each queue.
+  And we have an instance 0, 1, 2,… 7, to process each queue.
   See also [official doc](https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/)
 * `MariaDB` has been tuned a bit toward performance (using more memory) see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` (linked to this repository `confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf`)
   * we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/

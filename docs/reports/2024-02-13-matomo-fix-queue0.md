@@ -93,3 +93,15 @@ I edit plugins/QueuedTracking/Queue/Manager.php:
 
 and restart matomo:
 `systemctl restart php7.3-fpm.service`
+
+## Adding more workers
+
+After some times, I saw that all queues are going up now… after the week-end they have between 45000 and 125000 items late !
+
+
+So I decided to change the number of workers to 8:
+* I first moved my queue 4 that I used for coping with old entries to be queue 16 (strangely queue 17 does not work…).
+* going in matomo, change tracking queues configuration to 8
+* create and start corresponding timers:
+  * `systemctl enable matomo-tracking@{4,5,6,7}.timer`
+  * `systemctl start matomo-tracking@{4,5,6,7}.timer`
