@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-02-06-cleanup-products-snapshots/">
+        <link rel="prev" href="../2024-02-08-prod-redis-install/">
       
       
-        <link rel="next" href="../2024-02-13-chatwoot-translation/">
+        <link rel="next" href="../2024-02-20-exporter-on-mongodb-ct/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-02-08 Production Redis install - Open Food Facts Infrastructure documentation</title>
+        <title>2024-02-13 Chatwoot translation - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-02-08-production-redis-install" class="md-skip">
+        <a href="#2024-02-13-chatwoot-translation" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-02-08 Production Redis install
+              2024-02-13 Chatwoot translation
             
           </span>
         </div>
@@ -1966,6 +1966,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-08 Production Redis install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1982,7 +2003,7 @@
           
   
   <span class="md-ellipsis">
-    2024-02-08 Production Redis install
+    2024-02-13 Chatwoot translation
   </span>
   
 
@@ -1993,7 +2014,7 @@
         
   
   <span class="md-ellipsis">
-    2024-02-08 Production Redis install
+    2024-02-13 Chatwoot translation
   </span>
   
 
@@ -2015,36 +2036,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
+  <a href="#configure-a-google-account" class="md-nav__link">
     <span class="md-ellipsis">
-      Created CT
+      Configure a google account
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
+  <a href="#configure-chatwoot" class="md-nav__link">
     <span class="md-ellipsis">
-      Installed Redis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adding access for OVH through stunnel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notifications on failure
+      Configure Chatwoot
     </span>
   </a>
   
@@ -2054,27 +2057,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2024-02-13-chatwoot-translation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    2024-02-13 Chatwoot translation
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -2156,36 +2138,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
+  <a href="#configure-a-google-account" class="md-nav__link">
     <span class="md-ellipsis">
-      Created CT
+      Configure a google account
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
+  <a href="#configure-chatwoot" class="md-nav__link">
     <span class="md-ellipsis">
-      Installed Redis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adding access for OVH through stunnel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notifications on failure
+      Configure Chatwoot
     </span>
   </a>
   
@@ -2209,57 +2173,45 @@
   
 
 
-<h1 id="2024-02-08-production-redis-install">2024-02-08 Production Redis install<a class="headerlink" href="#2024-02-08-production-redis-install" title="Permanent link">#</a></h1>
-<h2 id="created-ct">Created CT<a class="headerlink" href="#created-ct" title="Permanent link">#</a></h2>
-<p>I created a CT on off2 followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a>:</p>
+<h1 id="2024-02-13-chatwoot-translation">2024-02-13 Chatwoot translation<a class="headerlink" href="#2024-02-13-chatwoot-translation" title="Permanent link">#</a></h1>
+<p>Adding translation to chatwoot.</p>
+<p>See https://www.chatwoot.com/docs/product/features/google-translate/</p>
+<h2 id="configure-a-google-account">Configure a google account<a class="headerlink" href="#configure-a-google-account" title="Permanent link">#</a></h2>
+<p>Following https://cloud.google.com/translate/docs/setup</p>
+<p>I wanted to create a specific project in Google Cloud Platform but I'm not able to link it to the invoice account that we use for robotoff. We have two project using this account.
+I will add my API key to <em>openfoodfacts</em> (under no organization).</p>
+<p>First Activate translation API:</p>
 <ul>
-<li>id 122 (off-redis)</li>
-<li>20Gb disk on zfs-hdd, noatime</li>
-<li>added a disk on zfs-nvme mounted on /var/lib/redis/ with 5Gb size and noatime option.</li>
-<li>2 Cores</li>
-<li>2 Gb memory, 0B swap</li>
+<li>From project home page</li>
+<li>API and services --&gt; Activated API and services --&gt; + activate API and services button</li>
+<li>search translation</li>
+<li>choose cloud translation API</li>
+<li>activate</li>
 </ul>
-<p>I did not create a user.</p>
-<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and <a href="../mail#testing-that-the-gateway-is-well-configured">tested it</a>.</p>
-<p>Cloned this repository in <a href="../../how-to-have-server-config-in-git/">/opt using a root key as deploy key</a></p>
-<h2 id="installed-redis">Installed Redis<a class="headerlink" href="#installed-redis" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis
-</code></pre></div>
-<p>Then I changed <code>/etc/redis/redis.conf</code> to use not protected mode and bind on all interfaces.
-I also moved the redis.conf file to the git repository and did a symlink in <code>/etc/redis</code> instead.</p>
-<p>Restarted redis: <code>systemctl restart redis.service</code></p>
-<h2 id="adding-access-for-ovh-through-stunnel">Adding access for OVH through stunnel<a class="headerlink" href="#adding-access-for-ovh-through-stunnel" title="Permanent link">#</a></h2>
-<p>On off2 reverse proxy added configuration to join redis in <code>/etc/stunnel/off.conf</code>:
-<div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to redis on off2</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.122:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
-</code></pre></div></p>
-<p>create psk: <code>echo ovh-proxy-redis:$(pwgen 32 1) &gt; /etc/stunnel/psk/redis-psk.txt</code></p>
-<p>On 113 container (stunnel-client) on ovh1, created the client side in <code>/etc/stunnel/off.conf</code>:
-<div class="highlight"><pre><span></span><code><span class="c1"># connecting to mongodb on off1</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">yes</span>
-<span class="c1"># expose only in private network</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.113:6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">proxy2.openfoodfacts.org:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
-</code></pre></div>
-The psk file contains same content as the one on off2 proxy.</p>
-<h2 id="notifications-on-failure">Notifications on failure<a class="headerlink" href="#notifications-on-failure" title="Permanent link">#</a></h2>
-<p>I added the <code>email-failures@redis.service</code>, and override redis configuration to send email on failure:</p>
-<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system/
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/redis.service.d/<span class="w"> </span>/etc/systemd/system/
-systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># just to be sure</span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>redis
-</code></pre></div>
+<p>(in my case it was already activated !)</p>
+<p>Create identifier:</p>
+<ul>
+<li>From project home page</li>
+<li>API and services --&gt; Identifier</li>
+<li>click create identifiers / Service account</li>
+<li>Add a sensible name and description to the account (here chatwoot translation)</li>
+<li>
+<p>Enable it to access to google translation as a user</p>
+<p><a class="glightbox" href="../media/2024-02-13-google-chatwoot-account-role.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../media/2024-02-13-google-chatwoot-account-role.png" /></a></p>
+</li>
+</ul>
+<ul>
+<li>and create</li>
+<li>then go to this account,</li>
+<li>go to keys tab and add a key, json</li>
+<li>it creates a key and a json file is downloaded</li>
+</ul>
+<h2 id="configure-chatwoot">Configure Chatwoot<a class="headerlink" href="#configure-chatwoot" title="Permanent link">#</a></h2>
+<p>Go in parameters / applications / configure Google Translate</p>
+<ul>
+<li>Paste project ID (you get it in google cloud console, on project home page)</li>
+<li>Paste the content of the JSON file uploaded as key was created in google cloud</li>
+</ul>
 
 
 
