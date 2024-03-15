@@ -106,7 +106,10 @@ And for the rest I just continued adding pull configs and testing them manually.
 
 ## Instable NFS
 
+
 After this NFS server seems instable, and staging gets stuck while reading at files.
+
+### Moving off backups to their own folder
 
 It might be because a lot of datasets are exposed,
 as they are under *backups* and inherit its *sharenfs* property (which is needed on backups for proxmox to push files).
@@ -173,4 +176,33 @@ zfs unshare -a
 zfs share -a
 # it's down so start
 systemctl restart nfs-server
+```
+
+### Moving clones out of rpool/off
+
+The above operation did not solve the problem.
+It appears that indeed the problem might not be the NFS server,
+but instead the clones folders are unmounted after some times.
+It might be linked to syncoid / sanoid being run.
+
+So I decided to move those folders outside of off/rpool,
+this way they are out of sanoid recursive directives.
+
+I have to:
+* rename `rpool/off/clone` to `rpool/staging-clones`
+  also this is an occasion to add off/ prefix to clones,
+  to prepare having more clones for opf/obf/opff etc. staging.
+  (not for orgs and users as they are shared)
+* change volumes on staging to point to those
+
+On ovh3 renaming:
+```bash
+zfs rename rpool/off/clones rpool/staging-clones
+zfs rename rpool/staging-clones/images rpool/staging-clones/off-images
+zfs rename rpool/staging-clones/{,off-}products
+# reset nfs shares, I'm not sure but it seems the only way to remove old shares
+# is to remove this file
+rm /etc/exports.d/zfs.exports
+zfs share -a
+systemctl reload nfs-server.service
 ```
