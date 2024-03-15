@@ -29,6 +29,8 @@ Filesystem      Size  Used Avail Use% Mounted on
 ```
 So I need a 80 to 100G file system for system (better put a bit more so 96Gb is a good idea).
 
+**Important**: At this point I should have snapshoted ! (sadly, I didn't)
+
 First I changed SCSI controller to "VirtIO SCSI single".
 
 Added a disk that will become the root fs:
@@ -90,14 +92,53 @@ lsblk -o NAME,UUID
 vim /etc/fstab
 ...
 UUID=082b4523-f4d6-4d39-b5dd-48c5bdba2541 /var/lib/docker/volumes               ext4    errors=remount-ro 0       1
-UUID=0735de86-3c78-417f-b097-125585008b23 /   ext4 errors=remount-ro 0 1
+UUID=d011de06-4050-473e-b322-a7fddeb5e369 /   ext4 errors=remount-ro 0 1
 ...
 ```
 
 and the boot option on ovh1:
 ```bash
 # note: this could also be done in the interface
-sudo qm set 200 --boot order="scsi2;ide2;net0"
+sudo qm set 200 --boot order="scsi2;ide0;net0"
 ```
 
-Ask also the VM to boot on /dev/sdb1
+Also (and I learned that the hard way), We have to remove the boot label to disk sda1,
+otherwise grub will choose to boot on it, and with a contrary `/etc/fstab`, it will be a mess [^incident_on_boot]
+
+```bash
+parted /dev/sda toggle 1 boot
+```
+
+A final rsync
+```bash
+rsync --info=progress2 -a -x --exclude=/var/lib/docker/volumes --exclude=/mnt / /mnt/new-root/
+```
+
+NOW we should have snapshoted again !
+
+**Reboot !**
+
+Just after reboot, we have to quickly move around volumes data so that docker can find them again. As root:
+```bash
+cd /var/lib/docker/volumes
+mkdir oldsys
+mv * oldsys
+mv oldsys/var/lib/docker/volumes/* .
+# a docker daemon restart can't harm
+systemctl restart docker
+```
+
+Now better **reboot** again.
+
+Then verify every service is restarted or restart them…
+
+On ovh1 I can verify my snapshot is there: `zfs list -t snap  rpool/vm-200-disk-0`
+
+Then we can clean up everything in `/var/lib/docker/volumes/oldsys/`.
+
+
+
+[^incident_on_boot] First time I reboot, I had /dev/sda1 with boot flag.
+When I ssh on the VM, I wanted to move things to oldsys in the new /var/lib/docker/volumes disk.
+But this immediatly remove me all /bin executables !
+I had to reboot on a debian CD, use proxmox console and launch rescue mode to fix it. I was able to mount on /dev/sdb1 as it was ready, and put back things where they were, then snapshot (because I haven't before…), and try again…
