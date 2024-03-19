@@ -3,7 +3,8 @@ Description=Archive matomo requests
 Requires=mariadb.service
 
 # email on failure
-OnFailure=email-failures@matomo-archive.service
+# 2024-03-14 AlexG: disabled temporarily because it's really too much emails
+#OnFailure=email-failures@matomo-archive.service
 
 [Service]
 Environment=TZ=UTC

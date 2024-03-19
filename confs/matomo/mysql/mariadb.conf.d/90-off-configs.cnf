@@ -12,10 +12,20 @@ innodb_flush_log_at_trx_commit=2
 # use tmpfs
 tmpdir=/run/mysqld
 
+# from sqltunner, boosting high above to avoid disk hit
+sort_buffer_size=268435456 # 256M
+read_rnd_buffer_size=268435456 # 256M
+innodb_buffer_pool_instances=20
+
+
+
 # specific to use memory
-# 20G out of 32G (should be 80% of RAM, but DB is not alone)
-innodb_buffer_pool_size=20G
+# 45G out of 62G (should be 80% of RAM, but DB is not alone)
+innodb_buffer_pool_size=45G
 innodb_log_buffer_size=2048M
 # table size 64M / Go = 64*20
 max_heap_table_size=1280M
 tmp_table_size=1280M
+
+# enable better perfs analysis
+performance_schema = ON
