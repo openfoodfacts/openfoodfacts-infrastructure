@@ -55,9 +55,14 @@ See [sanoid](./sanoid.md)
 
 ZFS directly integrate to NFS server.
 
-To have a dataset shared in NFS, 
+To have a dataset shared in NFS, you have to set sharenf property to allowed addresses and other options.
 
-Very important: always filter on a internal sub network, otherwise your Dataset is exposed to the internet !!!
+Example:
+* `zfs set sharenfs="rw=@10.0.0.0/28,no_root_squash" <pool_name>/<dataset_name>`
+* `zfs set sharenfs="rw=@10.0.0.1/32,rw=@10.1.0.200/32,no_root_squash" <pool_name>/<dataset_name>`
+
+
+**Very important**: always filter on a internal sub network, otherwise your Dataset is exposed to the internet !!!
 
 Beware that all descendant inherit the property and will also be shared.
 
