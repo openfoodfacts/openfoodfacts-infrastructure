@@ -711,6 +711,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#important-temporary-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important: temporary patch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#site-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Site setup
@@ -2261,6 +2270,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-02-13-matomo-fix-queue0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2014-02-13 Matomo fix Queue0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
         
   
@@ -2405,6 +2435,15 @@
   <a href="#alerts" class="md-nav__link">
     <span class="md-ellipsis">
       Alerts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-temporary-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important: temporary patch
     </span>
   </a>
   
@@ -2601,6 +2640,18 @@ Ask for it to <em>contact</em> email.</p>
 <p>You can setup alerts in matomo. In personal alerts.</p>
 <p>We have setup alerts for main website and app if there are 0 visits.</p>
 <p><a class="glightbox" href="../img/matomo-alerts.png" data-type="image" data-width="auto" data-height="auto" data-title="alerts settings" data-desc-position="bottom"><img alt="alerts settings" src="../img/matomo-alerts.png" title="Matomo alerts settings" /></a></p>
+<h2 id="important-temporary-patch">Important: temporary patch<a class="headerlink" href="#important-temporary-patch" title="Permanent link">#</a></h2>
+<p>Because of <a href="https://github.com/matomo-org/plugin-QueuedTracking/issues/231">Queue id should try to be more random #231</a> and <a href="https://github.com/openfoodfacts/smooth-app/issues/5095">Set a random visitor ID at each requests instead of using 0000000… for anonymous analytics</a></p>
+<p>until enough mobile app are deployed, I manually patched <code>plugins/QueuedTracking/Queue/Manager.php</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="x">    protected function getQueueIdForVisitor($visitorId)</span>
+<span class="x">    {</span>
+<span class="x">        # 2024-03-08 patch from ALEX</span>
+<span class="x">        if ($visitorId === &#39;0000000000000000&#39;) {</span>
+<span class="x">            $visitorId = chr(rand(ord(&#39;a&#39;), ord(&#39;z&#39;)));</span>
+<span class="x">        }</span>
+<span class="x">        $visitorId = strtolower(substr($visitorId, 0, 1));</span>
+<span class="x">      ...</span>
+</code></pre></div>
 <h2 id="site-setup">Site setup<a class="headerlink" href="#site-setup" title="Permanent link">#</a></h2>
 <ul>
 <li>goto manage / websites and add a website</li>
@@ -2625,9 +2676,9 @@ Ask for it to <em>contact</em> email.</p>
   See also <a href="https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/">official doc</a>.</li>
 <li>on incoming update request (on a tracked website being visited),
   it does not immediately updates the database but goes in redis instead, 
-  we configured it with 4 queues.
+  we configured it with 8 queues.
   then are systemd timers jobs to process redis entries every minute (see <code>confs/matomo/systemd/matomo-tracking@.{timer,service}</code>).
-  And we have an instance 0, 1, 2 and 3, to process each queue.
+  And we have an instance 0, 1, 2,… 7, to process each queue.
   See also <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/">official doc</a></li>
 <li><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository <code>confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf</code>)<ul>
 <li>we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/</li>
