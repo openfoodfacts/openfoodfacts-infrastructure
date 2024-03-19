@@ -39,6 +39,27 @@ while true; do /var/www/html/matomo/console queuedtracking:process --queue-id=4 
 
 Monitoring progress
 
+Using:
+```bash
+while true; do data=$(redis-cli </home/alex/redis-cmp.txt|tr "
+" ";"); echo $(date +"%Y-%m-%d-%H-%M")";"$data |tee -a matomo-queues.csv ; sleep 600 ; done
+2024-03-11-09-32;87121;120871;45993;112289;59;145;48;83;586841;
+```
+where `/home/alex/redis-cmp.txt` is
+
+```bash
+llen trackingQueueV1
+llen trackingQueueV1_1
+llen trackingQueueV1_2
+llen trackingQueueV1_3
+llen trackingQueueV1_4
+llen trackingQueueV1_5
+llen trackingQueueV1_6
+llen trackingQueueV1_7
+llen trackingQueueV1_8
+```
+
+
 | Date/Time | queue 0 | queue 1 | queue 2 | queue 3 | queue 4 |
 |--|--|--|--|--|--|
 | 02-13 11:56| 1674 | 485 | 958 | 598 | 616998 |
