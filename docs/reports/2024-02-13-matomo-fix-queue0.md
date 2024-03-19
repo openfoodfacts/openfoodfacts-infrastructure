@@ -105,3 +105,33 @@ So I decided to change the number of workers to 8:
 * create and start corresponding timers:
   * `systemctl enable matomo-tracking@{4,5,6,7}.timer`
   * `systemctl start matomo-tracking@{4,5,6,7}.timer`
+
+
+## Avoid lock lost
+
+Maybe because mariadb is a bit slow on the server, there are a lot of lock lost, leading each time to the matomo tracking service to fail…
+eg:
+```
+Rolled back during processing as we no longer have lock or the lock was never acquired. So far tracker processed 0 requests
+```
+
+I decided to patch the code once again… in `plugins/QueuedTracking/Queue/Processor.php`:
+
+```php
+    private function extendLockExpireToMakeSureWeCanProcessARequestSet(RequestSet $requestSet)
+    {
+        // 2 seconds per tracking request should give it enough time to process it
+        // 2024-03-15 ALEX try 15 s per requests instead of 2s
+        $ttl = $requestSet->getNumberOfRequests() * 150;
+        $ttl = max($ttl, 30); // lock for at least 30 seconds
+
+        return $this->queueManager->expireLock($ttl);
+    }
+```
+
+## Perf tunning on mariadb
+
+Since it was under control, but queues were still a bit high (around 3500 items per queue) I launched `mysqltuner` 
+and followed some of its proposals to tune mariadb.
+
+See [commit 0018356592f2](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/0018356592f23ee494ea7d0581d012a1ea95fcdf)
