@@ -51,8 +51,22 @@ We use sanoid / syncoid to sync ZFS datasets between servers (also to back them 
 
 See [sanoid](./sanoid.md)
 
+## How to NFS mount a zfs dataset
 
-## Replacing a disk
+ZFS directly integrate to NFS server.
+
+To have a dataset shared in NFS, you have to set sharenf property to allowed addresses and other options.
+
+Example:
+* `zfs set sharenfs="rw=@10.0.0.0/28,no_root_squash" <pool_name>/<dataset_name>`
+* `zfs set sharenfs="rw=@10.0.0.1/32,rw=@10.1.0.200/32,no_root_squash" <pool_name>/<dataset_name>`
+
+
+**Very important**: always filter on a internal sub network, otherwise your Dataset is exposed to the internet !!!
+
+Beware that all descendant inherit the property and will also be shared.
+
+## How to replace a disk in zpool
 
 To replace a disk in a zpool.
 
@@ -82,7 +96,7 @@ To replace a disk in a zpool.
 * after resilver finishes, you can eventually run a scrub: `zpool scrub <pool_name>`
 
 
-## Sync
+## How to Sync ZFS datasets
 
 
 To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
@@ -111,14 +125,14 @@ You also have to clean snapshots from time to time to avoid retaining too much u
 On ovh3: [snapshot-purge.sh](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/ovh3/snapshot-purge.sh)
 
 
-## Docker mount
+## How to Docker mount a zfs dataset
 
 If ZFS dataset is on same machine we can use bind mounts to mount a folder in a ZFS partition.
 
 For distant machines, ZFS datasets can be exposed as NFS partition. Docker as an integrated driver to mount distant NFS as volumes.
 
 
-## Mounting datasets in a proxmox container
+## How to Mount datasets in a proxmox container
 
 To mount dataset in a proxmox container you have:
 * to use a shared disk on proxmox

@@ -1,4 +1,4 @@
-# 2023-12-18 off1 upgrade
+# 2023-12-08 off1 upgrade
 
 This is the same operation as [# 2023-02-17 Off2 Upgrade](./2023-02-17-off2-upgrade.md)
 but for off1.
