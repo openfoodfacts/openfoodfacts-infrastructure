@@ -1078,22 +1078,31 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#replacing-a-disk" class="md-nav__link">
+  <a href="#how-to-nfs-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      Replacing a disk
+      How to NFS mount a zfs dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#sync" class="md-nav__link">
+  <a href="#how-to-replace-a-disk-in-zpool" class="md-nav__link">
     <span class="md-ellipsis">
-      Sync
+      How to replace a disk in zpool
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sync">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-sync-zfs-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Sync ZFS datasets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Sync ZFS datasets">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1120,22 +1129,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-mount" class="md-nav__link">
+  <a href="#how-to-docker-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      Docker mount
+      How to Docker mount a zfs dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mounting-datasets-in-a-proxmox-container" class="md-nav__link">
+  <a href="#how-to-mount-datasets-in-a-proxmox-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Mounting datasets in a proxmox container
+      How to Mount datasets in a proxmox container
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Mounting datasets in a proxmox container">
+    <nav class="md-nav" aria-label="How to Mount datasets in a proxmox container">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2001,7 +2010,7 @@
         
   
   <span class="md-ellipsis">
-    2023-12-18 off1 upgrade
+    2023-12-08 off1 upgrade
   </span>
   
 
@@ -2291,6 +2300,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-03-restructure-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-03 Restructure backups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-03-separate-hdd-docker-vms/" class="md-nav__link">
         
   
@@ -2384,22 +2414,31 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#replacing-a-disk" class="md-nav__link">
+  <a href="#how-to-nfs-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      Replacing a disk
+      How to NFS mount a zfs dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#sync" class="md-nav__link">
+  <a href="#how-to-replace-a-disk-in-zpool" class="md-nav__link">
     <span class="md-ellipsis">
-      Sync
+      How to replace a disk in zpool
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sync">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-sync-zfs-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Sync ZFS datasets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Sync ZFS datasets">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2426,22 +2465,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-mount" class="md-nav__link">
+  <a href="#how-to-docker-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      Docker mount
+      How to Docker mount a zfs dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mounting-datasets-in-a-proxmox-container" class="md-nav__link">
+  <a href="#how-to-mount-datasets-in-a-proxmox-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Mounting datasets in a proxmox container
+      How to Mount datasets in a proxmox container
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Mounting datasets in a proxmox container">
+    <nav class="md-nav" aria-label="How to Mount datasets in a proxmox container">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2541,7 +2580,17 @@ You can still see datasets usage by using:
 <h2 id="using-sanoid">Using sanoid<a class="headerlink" href="#using-sanoid" title="Permanent link">#</a></h2>
 <p>We use sanoid / syncoid to sync ZFS datasets between servers (also to back them up).</p>
 <p>See <a href="../sanoid/">sanoid</a></p>
-<h2 id="replacing-a-disk">Replacing a disk<a class="headerlink" href="#replacing-a-disk" title="Permanent link">#</a></h2>
+<h2 id="how-to-nfs-mount-a-zfs-dataset">How to NFS mount a zfs dataset<a class="headerlink" href="#how-to-nfs-mount-a-zfs-dataset" title="Permanent link">#</a></h2>
+<p>ZFS directly integrate to NFS server.</p>
+<p>To have a dataset shared in NFS, you have to set sharenf property to allowed addresses and other options.</p>
+<p>Example:</p>
+<ul>
+<li><code>zfs set sharenfs="rw=@10.0.0.0/28,no_root_squash" &lt;pool_name&gt;/&lt;dataset_name&gt;</code></li>
+<li><code>zfs set sharenfs="rw=@10.0.0.1/32,rw=@10.1.0.200/32,no_root_squash" &lt;pool_name&gt;/&lt;dataset_name&gt;</code></li>
+</ul>
+<p><strong>Very important</strong>: always filter on a internal sub network, otherwise your Dataset is exposed to the internet !!!</p>
+<p>Beware that all descendant inherit the property and will also be shared.</p>
+<h2 id="how-to-replace-a-disk-in-zpool">How to replace a disk in zpool<a class="headerlink" href="#how-to-replace-a-disk-in-zpool" title="Permanent link">#</a></h2>
 <p>To replace a disk in a zpool.</p>
 <ul>
 <li>Get a list of devices using <code>zpool status &lt;pool_name&gt;</code></li>
@@ -2573,7 +2622,7 @@ action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</
 <ul>
 <li>after resilver finishes, you can eventually run a scrub: <code>zpool scrub &lt;pool_name&gt;</code></li>
 </ul>
-<h2 id="sync">Sync<a class="headerlink" href="#sync" title="Permanent link">#</a></h2>
+<h2 id="how-to-sync-zfs-datasets">How to Sync ZFS datasets<a class="headerlink" href="#how-to-sync-zfs-datasets" title="Permanent link">#</a></h2>
 <p>To Sync ZFS you just take snapshots on the source at specific intervals (we use cron jobs).
 You then use <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-send.8.html">zfs-send</a> an <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-recv.8.html">zfs-recv</a> through ssh to sync the distant server (send snapshots).</p>
 <h3 id="doing-it-automatically">Doing it automatically<a class="headerlink" href="#doing-it-automatically" title="Permanent link">#</a></h3>
@@ -2589,10 +2638,10 @@ You then use <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs-send.8.ht
 </ul>
 <p>You also have to clean snapshots from time to time to avoid retaining too much useless data.</p>
 <p>On ovh3: <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/ovh3/snapshot-purge.sh">snapshot-purge.sh</a></p>
-<h2 id="docker-mount">Docker mount<a class="headerlink" href="#docker-mount" title="Permanent link">#</a></h2>
+<h2 id="how-to-docker-mount-a-zfs-dataset">How to Docker mount a zfs dataset<a class="headerlink" href="#how-to-docker-mount-a-zfs-dataset" title="Permanent link">#</a></h2>
 <p>If ZFS dataset is on same machine we can use bind mounts to mount a folder in a ZFS partition.</p>
 <p>For distant machines, ZFS datasets can be exposed as NFS partition. Docker as an integrated driver to mount distant NFS as volumes.</p>
-<h2 id="mounting-datasets-in-a-proxmox-container">Mounting datasets in a proxmox container<a class="headerlink" href="#mounting-datasets-in-a-proxmox-container" title="Permanent link">#</a></h2>
+<h2 id="how-to-mount-datasets-in-a-proxmox-container">How to Mount datasets in a proxmox container<a class="headerlink" href="#how-to-mount-datasets-in-a-proxmox-container" title="Permanent link">#</a></h2>
 <p>To mount dataset in a proxmox container you have:</p>
 <ul>
 <li>to use a shared disk on proxmox</li>

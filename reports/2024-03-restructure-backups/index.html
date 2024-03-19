@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-06-08-stalled-zfs-sync-off-products/">
+        <link rel="prev" href="../2024-03-17-ovh1-down/">
       
       
-        <link rel="next" href="../2023-07-16-ovh3-sdc-broken/">
+        <link rel="next" href="../2024-03-separate-hdd-docker-vms/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-06-30 Sanoid checks install - Open Food Facts Infrastructure documentation</title>
+        <title>2024-03 Restructure backups - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-06-30-sanoid-checks-install" class="md-skip">
+        <a href="#2024-03-restructure-backups" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-06-30 Sanoid checks install
+              2024-03 Restructure backups
             
           </span>
         </div>
@@ -1608,30 +1608,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-06-30 Sanoid checks install
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1640,62 +1620,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
-    <span class="md-ellipsis">
-      Goal
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      Creating check
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#onfailure-for-sanoid-and-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      OnFailure for sanoid and syncoid
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2188,10 +2112,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-03-restructure-backups/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-03 Restructure backups
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2200,6 +2144,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pull-off2-from-ovh3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull off2 from ovh3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instable-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instable NFS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instable NFS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#moving-off-backups-to-their-own-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving off backups to their own folder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-clones-out-of-rpooloff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving clones out of rpool/off
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2260,38 +2266,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
+  <a href="#pull-off2-from-ovh3" class="md-nav__link">
     <span class="md-ellipsis">
-      Goal
+      Pull off2 from ovh3
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-check" class="md-nav__link">
+  <a href="#instable-nfs" class="md-nav__link">
     <span class="md-ellipsis">
-      Creating check
+      Instable NFS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instable NFS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#moving-off-backups-to-their-own-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving off backups to their own folder
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#installing" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#moving-clones-out-of-rpooloff" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing
+      Moving clones out of rpool/off
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#onfailure-for-sanoid-and-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      OnFailure for sanoid and syncoid
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2313,37 +2325,164 @@
   
 
 
-<h1 id="2023-06-30-sanoid-checks-install">2023-06-30 Sanoid checks install<a class="headerlink" href="#2023-06-30-sanoid-checks-install" title="Permanent link">#</a></h1>
-<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">#</a></h2>
-<p>Be able to monitor if sanoid is running correctly, by running a regular check.</p>
-<h2 id="creating-check">Creating check<a class="headerlink" href="#creating-check" title="Permanent link">#</a></h2>
-<p>I created and tested sanoid_check.sh</p>
-<p>I then created the systemd unit and timer.</p>
-<h2 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">#</a></h2>
-<p>On off2:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/system/email-failures@.service<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/system/sanoid_check.*<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>sanoid_check.timer
+<h1 id="2024-03-restructure-backups">2024-03 Restructure backups<a class="headerlink" href="#2024-03-restructure-backups" title="Permanent link">#</a></h1>
+<h2 id="pull-off2-from-ovh3">Pull off2 from ovh3<a class="headerlink" href="#pull-off2-from-ovh3" title="Permanent link">#</a></h2>
+<p>We already started having better backups,
+see <a href="../2023-12-08-off1-upgrade/#configuring-snapshots-and-syncoid">Configuring snapshots and syncoid in 2023-12-08 off1 upgrade</a>.</p>
+<p>But we are still pushing synchronizations from off2 to ovh3 as root, which is bad in term of permissions.</p>
+<p>We already have the ovh3operator created on off2.</p>
+<p>On ovh3, test connecting with ssh:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>ovh3operator@off2.openfoodfacts.org
 </code></pre></div>
-<p>Test the check:
-<div class="highlight"><pre><span></span><code><span class="c1"># check not already running</span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sanoid_check.service
-sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>sanoid_check.service
-sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sanoid_check.service
+it works.</p>
+<p>Verify delegation to ovh3operator
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>zfs<span class="w"> </span>allow<span class="w"> </span>zfs-hdd
+----<span class="w"> </span>Permissions<span class="w"> </span>on<span class="w"> </span>zfs-hdd<span class="w"> </span>------------------------------------------
+Local+Descendent<span class="w"> </span>permissions:
+<span class="w">        </span>user<span class="w"> </span>off1operator<span class="w"> </span>hold,send
+<span class="w">        </span>user<span class="w"> </span>ovh3operator<span class="w"> </span>hold,send
+$<span class="w"> </span>zfs<span class="w"> </span>allow<span class="w"> </span>zfs-nvme
+----<span class="w"> </span>Permissions<span class="w"> </span>on<span class="w"> </span>zfs-nvme<span class="w"> </span>-----------------------------------------
+Local+Descendent<span class="w"> </span>permissions:
+<span class="w">        </span>user<span class="w"> </span>off1operator<span class="w"> </span>hold,send
+<span class="w">        </span>user<span class="w"> </span>ovh3operator<span class="w"> </span>hold,send
+$<span class="w"> </span>zfs<span class="w"> </span>allow<span class="w"> </span>rpool
+----<span class="w"> </span>Permissions<span class="w"> </span>on<span class="w"> </span>rpool<span class="w"> </span>--------------------------------------------
+Local+Descendent<span class="w"> </span>permissions:
+<span class="w">        </span>user<span class="w"> </span>off1operator<span class="w"> </span>hold,send
+<span class="w">        </span>user<span class="w"> </span>ovh3operator<span class="w"> </span>hold,send
 </code></pre></div></p>
-<p>It worked !</p>
-<p>Same operation on ovh3 (but with ovh3 folder).</p>
-<h2 id="onfailure-for-sanoid-and-syncoid">OnFailure for sanoid and syncoid<a class="headerlink" href="#onfailure-for-sanoid-and-syncoid" title="Permanent link">#</a></h2>
-<p>While installing sanoid check, I realized <code>email-failures@.service</code> did not exists already,
-and that sanoid and syncoid did not email their failures !</p>
-<p>So I override sanoid.service and modify syncoid.service to add it.</p>
-<p>After adding relevant files to git,</p>
-<p>On off2:
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/sanoid.service.d/override.conf<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<p>It's all we need.</p>
+<p>I then in /etc/sanoid/syncoid-args.conf,</p>
+<ul>
+<li>I comment some lines on off2</li>
+<li>Wait for syncoid service to finish</li>
+<li>test the command manually from ovh3</li>
+<li>I create the lines on ovh3 syncoid-args.conf</li>
+<li>I wait for the sync to verify it's working</li>
+</ul>
+<p>off dataset was not synced, so we have a problem, we have to sync it in a new location,
+move sub datasets to it, and rename it.</p>
+<div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>ovh3operator@off2.openfoodfacts.org:zfs-hdd/off<span class="w"> </span>rpool/off-new
+<span class="k">for</span><span class="w"> </span>sub<span class="w"> </span><span class="k">in</span><span class="w"> </span>cache<span class="w"> </span>html_data<span class="w"> </span>images<span class="w"> </span>logs<span class="w"> </span>orgs<span class="w"> </span>products<span class="w"> </span>users<span class="p">;</span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off/<span class="nv">$sub</span><span class="w"> </span>rpool/off-new/<span class="nv">$sub</span><span class="p">;</span><span class="k">done</span>
+<span class="c1"># after stopping docker compose off-net on staging</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>nfs-server<span class="w">  </span><span class="c1"># because it might hinder moving clones</span>
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off/clones<span class="w"> </span>rpool/off-new/clones
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off<span class="w"> </span>rpool/off-old
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off-new<span class="w"> </span>rpool/off
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>rpool/off-old<span class="w">  </span><span class="c1"># verify</span>
+<span class="c1"># resync manually, all folders</span>
+syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>ovh3operator@off2.openfoodfacts.org:zfs-hdd/off<span class="w"> </span>rpool/off
+</code></pre></div>
+<p>I have a problem with products as there was a old dataset of products in zfs-hdd/off/products
+which have been synchronized… so I'm not able to sync again with zfs-nvme/off/products.
+I will destroy the old products dataset on off2, and resync it completely on ovh3.
+Before destroy I will move it temporarily to be sure !</p>
+<p>On off2
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off/products<span class="w"> </span>zfs-hdd/off-products-old
 </code></pre></div></p>
-<p>same on ovh3 (but with ovh3 folder).</p>
+<p><strong>NOTE:</strong> strangely this brings <code>/mnt/off/products</code> (mount point of <code>zfs-nvme/off/products</code>)
+to be unavailable in off container…
+leading to open food facts being unavailable…
+I had to reboot the Container.
+It does not bring the same problem in obf/opf/opff where folder was mounted…
+I think the problem might be because <code>/zfs-hdd/off</code> was mounted in off container
+and <code>zfs rename</code> touched a subdirectory that was mounted over in off container…</p>
+<p>On ovh3
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off/products<span class="w"> </span>rpool/off-products-old
+</code></pre></div></p>
+<p>I then did the sync on ovh3:
+<div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>ovh3operator@off2.openfoodfacts.org:zfs-nvme/off/products<span class="w"> </span>rpool/off/products
+</code></pre></div></p>
+<p>As for off-pro we have to move off-pro root:</p>
+<div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>ovh3operator@off2.openfoodfacts.org:zfs-hdd/off-pro<span class="w"> </span>rpool/off-pro-new
+<span class="k">for</span><span class="w"> </span>sub<span class="w"> </span><span class="k">in</span><span class="w"> </span>cache<span class="w"> </span>html_data<span class="w"> </span>images<span class="w"> </span>logs<span class="w"> </span>products<span class="w"> </span><span class="p">;</span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off-pro/<span class="nv">$sub</span><span class="w"> </span>rpool/off-pro-new/<span class="nv">$sub</span><span class="p">;</span><span class="k">done</span>
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off-pro<span class="w"> </span>rpool/off-pro-old
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off-pro-new<span class="w"> </span>rpool/off-pro
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>rpool/off-pro-old<span class="w">  </span><span class="c1"># verify</span>
+
+<span class="c1"># resync manually, all folders</span>
+syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>ovh3operator@off2.openfoodfacts.org:zfs-hdd/off-pro<span class="w"> </span>rpool/off-pro
+</code></pre></div>
+<p>And for the rest I just continued adding pull configs and testing them manually.</p>
+<h2 id="instable-nfs">Instable NFS<a class="headerlink" href="#instable-nfs" title="Permanent link">#</a></h2>
+<p>After this NFS server seems instable, and staging gets stuck while reading at files.</p>
+<h3 id="moving-off-backups-to-their-own-folder">Moving off backups to their own folder<a class="headerlink" href="#moving-off-backups-to-their-own-folder" title="Permanent link">#</a></h3>
+<p>It might be because a lot of datasets are exposed,
+as they are under <em>backups</em> and inherit its <em>sharenfs</em> property (which is needed on backups for proxmox to push files).</p>
+<p>So I decided to create a new dataset (acting as a parent only) off-backups and move our datasets there. I will do this on every server off1/off2/ovh3 to be consistent.
+(another option was to create a backups/pve dataset, but I prefer to keep proxmox as vanilla as possible).</p>
+<p>I comment all line in <code>/etc/sanoid/syncoid-arg.conf</code> on ovh3/off2/off1 referring to backups.</p>
+<p>Wait for current running syncoid services to finish on all server.</p>
+<p>Move around things on all servers:</p>
+<p>off1:
+<div class="highlight"><pre><span></span><code><span class="c1"># see what to move</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span>zfs-hdd/backups
+<span class="c1"># create parent</span>
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups
+<span class="c1"># move</span>
+<span class="k">for</span><span class="w"> </span>DS<span class="w"> </span><span class="k">in</span><span class="w"> </span>off2-pve<span class="w"> </span>off2-pve-nvme<span class="w"> </span>off2-rpool<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/backups/<span class="nv">$DS</span><span class="w"> </span>zfs-hdd/off-backups/<span class="nv">$DS</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<span class="c1"># verify</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>zfs-hdd/off-backups
+</code></pre></div></p>
+<p>off2:
+<div class="highlight"><pre><span></span><code><span class="c1"># see what to move</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span>zfs-hdd/backups
+<span class="c1"># create parent</span>
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups
+<span class="c1"># move</span>
+<span class="k">for</span><span class="w"> </span>DS<span class="w"> </span><span class="k">in</span><span class="w"> </span>mongodb<span class="w"> </span>off1-pve<span class="w"> </span>off1-pve-nvme<span class="w"> </span>off1-rpool<span class="w"> </span>off2<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/backups/<span class="nv">$DS</span><span class="w"> </span>zfs-hdd/off-backups/<span class="nv">$DS</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<span class="c1"># verify</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>zfs-hdd/off-backups
+</code></pre></div></p>
+<p>ovh3:
+<div class="highlight"><pre><span></span><code><span class="c1"># see what to move</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span>rpool/backups
+<span class="c1"># create parent</span>
+zfs<span class="w"> </span>create<span class="w"> </span>rpool/off-backups
+<span class="c1"># move</span>
+<span class="c1"># note: keep monitoring-volumes and robotoff under backups as they need sharenfs</span>
+<span class="k">for</span><span class="w"> </span>DS<span class="w"> </span><span class="k">in</span><span class="w"> </span>off1-pve<span class="w"> </span>off1-pve-nvme<span class="w"> </span>off1-raphael<span class="w"> </span>off1-rpool<span class="w"> </span>off2-nvme-pve<span class="w"> </span>off2-pve<span class="w"> </span>off2-rpool<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$DS</span><span class="p">;</span><span class="w"> </span>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/backups/<span class="nv">$DS</span><span class="w"> </span>rpool/off-backups/<span class="nv">$DS</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<span class="c1"># verify</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>filesystem<span class="w"> </span>rpool/off-backups
+</code></pre></div></p>
+<p>On off1, off2 and ovh3 add off-backups to sanoid.conf.</p>
+<p>Then wait for off-backups to have snapshots:
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/off-backups
+</code></pre></div></p>
+<p>And change syncoid config to use off-backups on all servers.
+See commits <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/compare/1b38ff513f8c85aa6e8e3250b0f5e1929ce5ebf7..a8210a6303bf70ea3debe8a1f4d80e3638cc6711"><code>a8210a6303bf70ea3debe8a1f4d80e3638cc6711</code> , <code>1ea7e6a2b19f53f2d7cdc56dd983faa86ed2cb8c</code> and <code>b1232edfc861b91ae39ed33461a4a298ab5c8a95</code></a></p>
+<p>Finally on ovh3 update nfs shares:
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>unshare<span class="w"> </span>-a
+zfs<span class="w"> </span>share<span class="w"> </span>-a
+<span class="c1"># it&#39;s down so start</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>nfs-server
+</code></pre></div></p>
+<h3 id="moving-clones-out-of-rpooloff">Moving clones out of rpool/off<a class="headerlink" href="#moving-clones-out-of-rpooloff" title="Permanent link">#</a></h3>
+<p>The above operation did not solve the problem.
+It appears that indeed the problem might not be the NFS server,
+but instead the clones folders are unmounted after some times.
+It might be linked to syncoid / sanoid being run.</p>
+<p>So I decided to move those folders outside of off/rpool,
+this way they are out of sanoid recursive directives.</p>
+<p>I have to:</p>
+<ul>
+<li>rename <code>rpool/off/clone</code> to <code>rpool/staging-clones</code>
+  also this is an occasion to add off/ prefix to clones,
+  to prepare having more clones for opf/obf/opff etc. staging.
+  (not for orgs and users as they are shared)</li>
+<li>change volumes on staging to point to those</li>
+</ul>
+<p>On ovh3 renaming:
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off/clones<span class="w"> </span>rpool/staging-clones
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/staging-clones/images<span class="w"> </span>rpool/staging-clones/off-images
+zfs<span class="w"> </span>rename<span class="w"> </span>rpool/staging-clones/<span class="o">{</span>,off-<span class="o">}</span>products
+<span class="c1"># reset nfs shares, I&#39;m not sure but it seems the only way to remove old shares</span>
+<span class="c1"># is to remove this file</span>
+rm<span class="w"> </span>/etc/exports.d/zfs.exports
+zfs<span class="w"> </span>share<span class="w"> </span>-a
+systemctl<span class="w"> </span>reload<span class="w"> </span>nfs-server.service
+</code></pre></div></p>
 
 
 
