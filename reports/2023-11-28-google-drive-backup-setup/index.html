@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-03-14-off2-opff-reinstall/">
+        <link rel="prev" href="../2023-10-14-mongodb-down/">
       
       
-        <link rel="next" href="../2023-05-12-refresh-staging-clones/">
+        <link rel="next" href="../2023-11-28-ovh3-sdf-broken/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-04-27 moving docker staging to OVH1 - Open Food Facts Infrastructure documentation</title>
+        <title>2023-11-28 setup a google drive backup - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-04-27-moving-docker-staging-to-ovh1" class="md-skip">
+        <a href="#2023-11-28-setup-a-google-drive-backup" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-04-27 moving docker staging to OVH1
+              2023-11-28 setup a google drive backup
             
           </span>
         </div>
@@ -1440,30 +1440,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-04-27 moving docker staging to OVH1
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1472,62 +1452,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#the-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      The task
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#proposal" class="md-nav__link">
-    <span class="md-ellipsis">
-      Proposal
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#doing-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Doing it
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#changing-route" class="md-nav__link">
-    <span class="md-ellipsis">
-      Changing route
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1852,10 +1776,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2023-11-28 setup a google drive backup
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1864,6 +1808,176 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a container
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#techbot-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Techbot account
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Techbot account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trying-grive2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trying grive2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-grive2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building grive2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-sync-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      First sync - authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#it-does-not-work-for-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      It does not work for us
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      rclone
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rclone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Config
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-an-oauth-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating an OAuth profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding drive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      First sync
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="First sync">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-in-first-think" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem in first think
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemd service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2239,38 +2353,152 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-task" class="md-nav__link">
+  <a href="#create-a-container" class="md-nav__link">
     <span class="md-ellipsis">
-      The task
+      Create a container
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#proposal" class="md-nav__link">
+  <a href="#techbot-account" class="md-nav__link">
     <span class="md-ellipsis">
-      Proposal
+      Techbot account
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Techbot account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trying-grive2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trying grive2
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#doing-it" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#building-grive2" class="md-nav__link">
     <span class="md-ellipsis">
-      Doing it
+      Building grive2
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#changing-route" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#first-sync-authentication" class="md-nav__link">
     <span class="md-ellipsis">
-      Changing route
+      First sync - authentication
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#it-does-not-work-for-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      It does not work for us
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      rclone
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rclone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Config
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-an-oauth-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating an OAuth profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding drive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      First sync
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="First sync">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-in-first-think" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem in first think
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemd service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2292,60 +2520,262 @@
   
 
 
-<h1 id="2023-04-27-moving-docker-staging-to-ovh1">2023-04-27 moving docker staging to OVH1<a class="headerlink" href="#2023-04-27-moving-docker-staging-to-ovh1" title="Permanent link">#</a></h1>
-<p>See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/217">issue #217</a></p>
-<h2 id="the-task">The task<a class="headerlink" href="#the-task" title="Permanent link">#</a></h2>
-<p>We have latency problems from ovh2 to ovh3 which makes using nfs mounts for off-net impractical.
-I though we could move the datasets clones to ovh2 (#216) but it's not feasible: disks are 1T too small and the products dataset is 1,5 T (I did misread the size).</p>
-<p>But while ovh2 is 10 ms away from ovh3, ovh1 is only 0,12 ms away (this is a 100 fold), so if we move the 200 VM to ovh1, we would be able to use nfs volumes from ovh3.</p>
-<p>The task: move some services from ovh1 to ovh2 and move the 200 VM to ovh1.</p>
-<h2 id="proposal">Proposal<a class="headerlink" href="#proposal" title="Permanent link">#</a></h2>
-<p>Initial proposal to make the switch and keep disk space well dispatched:</p>
-<ul>
-<li>
-<p>We move from ovh2 -&gt; ovh1</p>
-<ul>
-<li>200 (294G) dockers-staging</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>
-<p>We could move ovh2 -&gt; ovh1 (for a total of 234G !)</p>
-<ul>
-<li>111 (96G) wild ecoscore &lt;-- shan't we remove instead ?</li>
-<li>120 (64G) mongo-test &lt;-- to be removed isn't it ? YES</li>
-<li>108 (32G) folksonomy</li>
-<li>112 (42G) connect-stagging</li>
-</ul>
-</li>
-</ul>
-<h2 id="doing-it">Doing it<a class="headerlink" href="#doing-it" title="Permanent link">#</a></h2>
-<p>I did synchronize storage of 200 on ovh1 before migration but now disk is full !</p>
-<p>I underestimated the size (as it's a block storage, I should have considered max size (322G) instead of real size… (294G)).</p>
-<p>Also I got a difference between what proxmox console shows on ovh1 (Usage 98.23% (940.04 GB of 956.97 G)) and <code>zpool list</code> command:
-<div class="highlight"><pre><span></span><code>rpool   920G   886G  33.8G        -         -    76%    96%  1.00x    ONLINE  -
-</code></pre></div></p>
-<p>I did move more containers:</p>
-<ul>
-<li>106 (51,54G) mirabelle</li>
-<li>110 (45G) crm</li>
-<li>103 (34G) mastodon</li>
-</ul>
-<p>Still after that, monitoring was in bad shape, and also ZFS on ovh1 was too high.</p>
-<p>So I moved monitoring VM 203 to ovh2.</p>
-<p>Although I'm a bit sad that now monitoring is on same machine as prod dockers (200).</p>
-<h2 id="changing-route">Changing route<a class="headerlink" href="#changing-route" title="Permanent link">#</a></h2>
-<p>(Update on 2023-05-12)</p>
-<p>Something was missing ! In fact we were still using the original host has gateway, thus having latency even higher !</p>
-<p>I had to manually change the default route for VM that I moved (staging and monitoring):</p>
-<ul>
-<li>Edited <code>/etc/network/interfaces</code> to change gateway to the new host internal address (<code>10.0.0.x</code>)</li>
-<li>In a screen (to prevent ssh connexion loss between commands !):
-  <div class="highlight"><pre><span></span><code>ip<span class="w"> </span>route<span class="w"> </span>del<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.2<span class="w"> </span>dev<span class="w"> </span>ens18<span class="w"> </span>onlink<span class="w"> </span><span class="p">;</span><span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>dev<span class="w"> </span>ens18<span class="w"> </span>onlink
+<h1 id="2023-11-28-setup-a-google-drive-backup">2023-11-28 setup a google drive backup<a class="headerlink" href="#2023-11-28-setup-a-google-drive-backup" title="Permanent link">#</a></h1>
+<h2 id="create-a-container">Create a container<a class="headerlink" href="#create-a-container" title="Permanent link">#</a></h2>
+<p>On ovh3 I created a container 150.
+I runned the postinstall scrpit</p>
+<p>I put a small size for the main disk (50G) it's only for the system.</p>
+<p>But after VM creation I added a disk of 500G through proxmox interface.</p>
+<p>I also made a user for me for I will need to connect with ssh (using mkuseralias script).</p>
+<h2 id="techbot-account">Techbot account<a class="headerlink" href="#techbot-account" title="Permanent link">#</a></h2>
+<p>I created a techbot account on google openfoodfacts.</p>
+<p>I gave it the reader right on whole google drive.</p>
+<h3 id="trying-grive2">Trying grive2<a class="headerlink" href="#trying-grive2" title="Permanent link">#</a></h3>
+<h3 id="building-grive2">Building grive2<a class="headerlink" href="#building-grive2" title="Permanent link">#</a></h3>
+<p>Following instructions on https://yourcmc.ru/wiki/Grive2#Build_debian_package</p>
+<p>Inside container, I clone the repository and build the deb package:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vitalif/grive2.git
+<span class="nb">cd</span><span class="w"> </span>grive2/
+git<span class="w"> </span>log<span class="p">|</span>head
+<span class="w">    </span>Author:<span class="w"> </span>Vitaliy<span class="w"> </span>Filippov<span class="w"> </span>&lt;vitalif@yourcmc.ru&gt;
+<span class="w">    </span>Date:<span class="w">   </span>Sat<span class="w"> </span>Dec<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">13</span>:20:39<span class="w"> </span><span class="m">2022</span><span class="w"> </span>+0300
+
+<span class="w">        </span>Cache<span class="w"> </span>layers<span class="w"> </span>during<span class="w"> </span>Docker<span class="w"> </span>build,<span class="w"> </span>take<span class="w"> </span><span class="nb">source</span><span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>dir<span class="w"> </span>instead<span class="w"> </span>of<span class="w"> </span>cloning
+
+<span class="w">    </span>commit<span class="w"> </span>eb82bfe28b9e796721ffdffc7426684350f71a8a
+
+apt<span class="w"> </span>install<span class="w"> </span>dpkg-dev
+<span class="c1"># note I get this list by a first run of dpkg-buildpackage</span>
+<span class="c1"># There is a &#39;|&#39; in the output to tell you to choose between two libraries for libcurl4</span>
+apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>build-essential<span class="w">  </span>debhelper<span class="w"> </span>pkg-config<span class="w"> </span>zlib1g-dev<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libboost-filesystem-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libboost-test-dev<span class="w"> </span>libboost-regex-dev<span class="w"> </span>libexpat1-dev<span class="w"> </span>libgcrypt-dev<span class="w"> </span>libyajl-dev
+<span class="c1"># I did not use -j4 because it&#39;s harder to read output of parrallel compilations, and also because of limited memory</span>
+dpkg-buildpackage
+<span class="nb">cd</span><span class="w"> </span>..
 </code></pre></div>
-   (or the other way around for VM 203)</li>
+<p>and install:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt
+dpkg<span class="w"> </span>-i<span class="w"> </span>grive_0.5.3_amd64.deb
+</code></pre></div>
+<h3 id="first-sync-authentication">First sync - authentication<a class="headerlink" href="#first-sync-authentication" title="Permanent link">#</a></h3>
+<p>Following https://yourcmc.ru/wiki/Grive2#Usage</p>
+<p>I go to <code>/mnt/gdrive-backup/</code></p>
+<p>Start a screen: <code>screen -S grive</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/mnt/gdrive-backup/
+grive<span class="w"> </span>-a
+-----------------------
+Please<span class="w"> </span>open<span class="w"> </span>this<span class="w"> </span>URL<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>browser<span class="w"> </span>to<span class="w"> </span>authenticate<span class="w"> </span>Grive2:
+...
+</code></pre></div>
+<p>You get a url that you must open in a browser.
+But this url have a redirect_uri parameter which redirect to localhost with a specific port.
+In my case the port is 57125 (but it changes).</p>
+<p>To have auth work, I have to redirect this local port to the container local port thanks to ssh.</p>
+<p>On my machine:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>gdrive-backup<span class="w"> </span>-L<span class="w"> </span><span class="m">57125</span>:1217.0.0.1:57125
+</code></pre></div></p>
+<p>I can then copy paste the url in a browser tab where I am authenticated as techbot,
+after going through the google auth wizard, I get redirected and got the message:
+<div class="highlight"><pre><span></span><code>Authenticated<span class="w"> </span>successfully.<span class="w"> </span>Please<span class="w"> </span>close<span class="w"> </span>the<span class="w"> </span>page
+</code></pre></div></p>
+<p>To be able to use google auth, we either need to use w3m
+or to have localhost:58043 redirecting to the container.</p>
+<h3 id="it-does-not-work-for-us">It does not work for us<a class="headerlink" href="#it-does-not-work-for-us" title="Permanent link">#</a></h3>
+<p>Finally I get those problems after testing:</p>
+<ol>
+<li>grive does not synchronize google documents ! (while that's what we need ! To sync google docs)</li>
+<li>It does not seem to support synchronizing shared drive (and here again, that's what we need)</li>
+</ol>
+<h2 id="rclone">rclone<a class="headerlink" href="#rclone" title="Permanent link">#</a></h2>
+<h3 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h3>
+<p>We need unzip installed.
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>unzip
+</code></pre></div></p>
+<p>Then following https://rclone.org/install/</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-v<span class="w"> </span><span class="p">;</span><span class="w"> </span>curl<span class="w"> </span>https://rclone.org/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash
+</code></pre></div>
+<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">#</a></h2>
+<h3 id="creating-an-oauth-profile">Creating an OAuth profile<a class="headerlink" href="#creating-an-oauth-profile" title="Permanent link">#</a></h3>
+<p>I prefer to do that as a backup of many file can lead to many requests.</p>
+<p>I followed https://rclone.org/drive/#making-your-own-client-idX</p>
+<ul>
+<li>logged into https://console.developers.google.com/</li>
+<li>select projects --&gt; create new<ul>
+<li>name: "drive backup"</li>
+<li>org and zone: openfoodfacts.org</li>
 </ul>
+</li>
+<li>"ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API".</li>
+<li>Click "Credentials" in the left-side panel (not "Create credentials", which opens the wizard).</li>
+<li>"CONFIGURE CONSENT SCREEN"<ul>
+<li>first step (creation):<ul>
+<li>user type: external --&gt; no ! use internal (see below)</li>
+<li>click create</li>
+</ul>
+</li>
+<li>second step (app config):
+     * app name: rclone
+     * assistance email: tech - at - openfoodfacts.org
+     * dev email: tech - at -  openfoodfacts.org
+     * click save</li>
+<li>third step (scopes) :
+     * click on add and remove application scope
+     * select: .../auth/docs, .../auth/drive,  ../auth/drive.metadata.readonly 
+     * click update
+     * click save and continue<ul>
+<li>4th step (tests users):<ul>
+<li>click add user</li>
+<li>add techbot@openfoodfacts.org</li>
+<li>click save and continue</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>I first use application type external,
+but finally I decided to go for internal app (this is fine for our use)
+So in OAuth consent screen, I changed type to "Internal".
+So above scenario might have some unecessary step.</p>
+<p>Add an 0Auth account:</p>
+<ul>
+<li>click on "credentials" on the right panel, to come back to it</li>
+<li>click on "+ CREATE CREDENTIALS" button at the top of the screen, then select "OAuth client ID".<ul>
+<li>Choose an application type of "Desktop app", name "rclone backup drive on ovh3" and click "Create"</li>
+</ul>
+</li>
+</ul>
+<h3 id="adding-drive">Adding drive<a class="headerlink" href="#adding-drive" title="Permanent link">#</a></h3>
+<p>following https://rclone.org/drive/</p>
+<p>I will first create the drive corresponding to Open Food Facts.</p>
+<p>I get the drive id in the url of the drive (after folders/)</p>
+<div class="highlight"><pre><span></span><code>rclone config
+...
+No remotes found, make a new one?
+n) New remote
+s) Set configuration password
+q) Quit config
+n/s/q&gt; n
+
+Enter name for new remote.
+name&gt; off-gdrive
+
+Option Storage.
+Type of storage to configure.
+Choose a number from below, or type in your own value.
+...
+18 / Google Drive
+   \ (drive)
+...
+Storage&gt; drive
+
+Option client_id.
+Google Application Client Id
+Setting your own is recommended.
+See https://rclone.org/drive/#making-your-own-client-id for how to create your own.
+If you leave this blank, it will use an internal key which is low performance.
+Enter a value. Press Enter to leave empty.
+client_id&gt; ***********.apps.googleusercontent.com
+
+Option client_secret.
+OAuth Client Secret.
+Leave blank normally.
+Enter a value. Press Enter to leave empty.
+client_secret&gt; ********************
+
+Option scope.
+Comma separated list of scopes that rclone should use when requesting access from drive.
+Choose a number from below, or type in your own value.
+Press Enter to leave empty.
+...
+scope&gt; drive.readonly
+
+Option service_account_file.
+Service Account Credentials JSON file path.
+...
+service_account_file&gt; 
+
+Edit advanced config?
+...
+y/n&gt; n
+... (all the rest is default)
+</code></pre></div>
+<p>We then come to authorization:</p>
+<div class="highlight"><pre><span></span><code>2023/11/28 15:15:21 NOTICE: Make sure your Redirect URL is set to &quot;http://127.0.0.1:53682/&quot; in your custom config.
+2023/11/28 15:15:21 NOTICE: If your browser doesn&#39;t open automatically go to the following link: http://127.0.0.1:53682/auth?state=******
+2023/11/28 15:15:21 NOTICE: Log in and authorize rclone for access
+</code></pre></div>
+<p>So I first did a port redirection with ssh from my machine:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>gdrive-backup<span class="w"> </span>-L<span class="w"> </span><span class="m">53682</span>:127.0.0.1:53682
+</code></pre></div>
+and opened the url on my machine, but in a tab where I am authenticated as techbot.
+I followed the auth screen and finally got a:
+<div class="highlight"><pre><span></span><code>Success!
+All done. Please go back to rclone.
+</code></pre></div></p>
+<p>It proceed on the server:
+<div class="highlight"><pre><span></span><code>Configure this as a Shared Drive (Team Drive)?
+
+y) Yes
+n) No (default)
+y/n&gt; y
+
+Option config_team_drive.
+Shared Drive
+Choose a number from below, or type in your own string value.
+Press Enter for the default (0AHYW2qKn7jMpUk9PVA).
+ 1 / OFF Fellowship drive
+   \ (*******)
+ 2 / Open Food Facts
+   \ (*******)
+config_team_drive&gt; 2
+
+...
+
+Keep this &quot;off-gdrive&quot; remote?
+y) Yes this is OK (default)
+e) Edit this remote
+d) Delete this remote
+y/e/d&gt; y
+</code></pre></div></p>
+<p><strong>FIXME</strong> add second drive.</p>
+<h3 id="first-sync">First sync<a class="headerlink" href="#first-sync" title="Permanent link">#</a></h3>
+<p>see https://rclone.org/commands/rclone_copy/</p>
+<p>As simple as:
+<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>sync<span class="w"> </span>off-gdrive:<span class="w"> </span>/mnt/gdrive-backup/Open-Food-Facts/
+</code></pre></div></p>
+<p>We use sync and not copy because sync also remove files deleted on remotes.
+We will however keep old files through the ZFS snpashots mechanism.</p>
+<h4 id="problem-in-first-think">Problem in first think<a class="headerlink" href="#problem-in-first-think" title="Permanent link">#</a></h4>
+<p>Looking at the process after a while, it did stop because the disk was full with 500 G of data</p>
+<p>I augment the zfs dataset size with <code>pct resize mp0 2T</code> but I was supsicious.</p>
+<p>I look at properties of the drive in Google drive, and it says it was 105G of data.</p>
+<p>I then issue a  <code>du -sh *|sort -h</code> in <code>/mnt/gdrive-backup/Open-Food-Facts</code> and saw <code>Community Management</code> folder taking a lot of space !
+After investigation, it was dowloading several time because there is a shortcut of the same folder inside the folder.</p>
+<p>I though I configured the drive to not 250000download linked content, but it seems not to be the case !</p>
+<p>https://rclone.org/flags/ helps me get the flag I want to edit: <code>--drive-copy-shortcut-content</code></p>
+<p>So I did a <a href="https://rclone.org/commands/rclone_config_update/"><code>rclone config update</code></a>:
+<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w"> </span><span class="nv">copy_shortcut_content</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w">  </span>off-gdrive<span class="w"> </span><span class="nv">copy_shortcut_content</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>I also changed some other flags for efficiency:
+<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w">  </span><span class="nv">buffer_size</span><span class="o">=</span>256M<span class="w"> </span><span class="nv">fast_list</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div></p>
+<p>I did a research on the drive and found a lot of shorcuts, so instead of cleaning the mess,
+I removed all content and did the sync again !</p>
+<p>But it was not enough !</p>
+<p>So I tried to use skip shortcuts option:</p>
+<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w">   </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<h3 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h3>
+<p>I created <code>rclone_backup@.{service,timer}</code> and linked it.</p>
+<p>I renamed <code>/mnt/gdrive-backup/Open Food Facts</code> to <code>/mnt/gdrive-backup/off-gdrive</code> to be consistent</p>
+<p>Then activate:</p>
+<div class="highlight"><pre><span></span><code>systemctl daemon-reload
+systemctl enable --now rclone_backup@off-gdrive
+</code></pre></div>
 
 
 

@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../linux-server/">
+        <link rel="prev" href="../proxmox/">
       
       
-        <link rel="next" href="../logs-off2/">
+        <link rel="next" href="../redis/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>off1 server logs - Open Food Facts Infrastructure documentation</title>
+        <title>Rclone - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#off1-server-logs" class="md-skip">
+        <a href="#rclone" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              off1 server logs
+              Rclone
             
           </span>
         </div>
@@ -504,30 +504,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    off1 server logs
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../logs-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,44 +516,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
-    <span class="md-ellipsis">
-      2023-09-05 exim paniclog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
-    <span class="md-ellipsis">
-      2023-07-25 Disk full on /rpool/off/products
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -922,10 +864,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../rclone/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Rclone
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -934,6 +896,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemd service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-a-new-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup a new drive
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2219,18 +2228,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#2023-09-05-exim-paniclog" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      2023-09-05 exim paniclog
+      Usage
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2023-07-25-disk-full-on-rpooloffproducts" class="md-nav__link">
+  <a href="#systemd-service" class="md-nav__link">
     <span class="md-ellipsis">
-      2023-07-25 Disk full on /rpool/off/products
+      Systemd service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-a-new-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup a new drive
     </span>
   </a>
   
@@ -2254,18 +2272,17 @@
   
 
 
-<h1 id="off1-server-logs">off1 server logs<a class="headerlink" href="#off1-server-logs" title="Permanent link">#</a></h1>
-<p>Report here the timeline of incidents and interventions on off1 server.
-Keep things short or write a report.</p>
-<h2 id="2023-09-05-exim-paniclog">2023-09-05 exim paniclog<a class="headerlink" href="#2023-09-05-exim-paniclog" title="Permanent link">#</a></h2>
-<p>We have an alert since 09-03 because <code>/var/log/exim4/paniclog</code> is not empty.
-Indeed it has a line saying <code>2023-09-03 04:17:57 daemon: fork of queue-runner process failed: Cannot allocate memory</code>
-But appart from this it's all ok. Alert will remain until this paniclog is empty.
-I did a:
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/log/exim4<span class="p">;</span><span class="w"> </span>mv<span class="w"> </span>paniclog<span class="w"> </span>paniclog.1<span class="p">;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>exim4
-</code></pre></div></p>
-<h2 id="2023-07-25-disk-full-on-rpooloffproducts">2023-07-25 Disk full on /rpool/off/products<a class="headerlink" href="#2023-07-25-disk-full-on-rpooloffproducts" title="Permanent link">#</a></h2>
-<p>See <a href="../reports/2023-07-26-off1-rpool-products-full/">2023-07-26 rpool/off/products dataset full on off1</a></p>
+<h1 id="rclone">Rclone<a class="headerlink" href="#rclone" title="Permanent link">#</a></h1>
+<p>We use rclone to backup our google data.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>The Container 150 on ovh3 is setup to backup the Google Drive.</p>
+<p>It has a separate drive for the backups mounted in <code>/mnt/gdrive-backup</code>.</p>
+<p>The configuration for the drive (without password !) is in the git. Use <code>rclone config redacted &gt; confs/gdrive/rclone-drives-config</code> to update it, verify before committing that there are no passwords.</p>
+<h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h2>
+<p>We use a timer and service to launch rclone.</p>
+<p>The instance name must correspond to the rclone driver name and to the folder where we backup.</p>
+<h2 id="setup-a-new-drive">Setup a new drive<a class="headerlink" href="#setup-a-new-drive" title="Permanent link">#</a></h2>
+<p>see <a href="../reports/2023-11-28-google-drive-backup-setup/">2023-11-28 setup a google drive backup</a></p>
 
 
 
