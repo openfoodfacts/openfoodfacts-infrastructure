@@ -1,0 +1,6 @@
+# Note that this conf is for the https://github.com/percona/mongodb_exporter/ fork (the one maintained)
+# It was installed using the release .deb package
+OPTIONS="--mongodb.uri=mongodb://127.0.0.1:27017/admin \
+         --collector.dbstats \
+         --collector.diagnosticdata \
+         "

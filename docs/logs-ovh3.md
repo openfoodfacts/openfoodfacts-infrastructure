@@ -3,6 +3,21 @@
 Report here the timeline of incidents and interventions on ovh3 server.
 Keep things short or write a report.
 
+## 2023-12-05 certificates for images expired
+
+Images not displaying anymore on the website due to SSL problem (signaled by Edouard, with alert by blackbox exporter)
+In syslog:
+```log
+Dec  5 13:12:58 off2 certbot[385770]: Failed to renew certificate images.openfoodfacts.org with error: The requested nginx plugin does not appear to be installed
+```
+Checked `/etc/letsencrypt/renewal/images.openfoodfacts.org.conf` it uses nginx authenticator.
+To resolve:
+```bash
+apt install python3-certbot-nginx
+certbot renew
+```
+also `mv /etc/letsencrypt/renewal/ovh3.openfoodfacts.org.{conf,backup}` as the domain is not served anymore
+
 ## 2023-09-12 logrotate nginx
 
 Nginx has a big static-access.log file (52G).

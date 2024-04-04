@@ -34,10 +34,10 @@ To get zfs plugins we have to install contrib plugins.
 Clone In `/opt`:
 ```bash
 sudo git clone git@github.com:munin-monitoring/contrib.git munin-contrib
-```
 
-sudo mkdir -p /usr/local/munin/lib/plugins
+sudo mkdir -p /usr/local/munin/lib/
 sudo ln -s /opt/munin-contrib/plugins /usr/local/munin/lib/
+```
 
 
 #### ZFS plugins

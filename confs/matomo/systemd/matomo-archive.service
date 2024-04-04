@@ -1,0 +1,21 @@
+[Unit]
+Description=Archive matomo requests
+Requires=mariadb.service
+
+# email on failure
+# 2024-03-14 AlexG: disabled temporarily because it's really too much emails
+#OnFailure=email-failures@matomo-archive.service
+
+[Service]
+Environment=TZ=UTC
+# oneshot because it is driven by a timer
+Type=oneshot
+User=www-data
+Group=www-data
+ExecStart=/usr/bin/php /var/www/html/matomo/console core:archive --url=http://analytics.openfoodfacts.org/ -n --ignore-warn
+StandardOutput=append:/var/log/matomo/matomo-archive.log
+StandardError=append:/var/log/matomo/matomo-archive-err.log
+# place a timeout for bad cases as this process sometimes hangs
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+TimeoutStartSec=5h
+

@@ -17,7 +17,7 @@ If a producer want's to connect with a key, put the public key in a file named `
 
 ## Adding a new sftp user
 
-Use the script [`add_sftp_user.pl`](../scripts/off1/add_sftp_user.pl) (present in `script/off-proxy`) with user root in the reverse proxy container.
+Use the script `add_sftp_user.pl` (present in `script/off-proxy`) with user root in the reverse proxy container.
 
 **:fire: IMPORTANT :fire::** every user **must be in `sftponly` group** and only in this one.
 

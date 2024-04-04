@@ -1,0 +1,4 @@
+MAILTO="root@openfoodfacts.org"
+# see https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/
+# only start if no process is already running
+* * * * * www-data ps -elf|grep "queuedtracking:process"|grep -v grep || /usr/bin/php /var/www/html/matomo/console queuedtracking:process --no-ansi >> /var/log/matomo/matomo-tracking.log 2>>/var/log/matomo/matomo-tracking-err.log

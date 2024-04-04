@@ -1,4 +1,4 @@
-# NGINX Reverse proxy (OVH)
+# NGINX Reverse proxy
 
 At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications.
 
@@ -302,6 +302,16 @@ etckeeper commit -m "Configured my-service.openfoodfacts.net"
 ```
 
 Now we are done 🎉
+
+## Performance tips
+
+### Use a buffer for access log
+
+Use a buffer for access log for high traffic websites.
+eg (for off server nginx):
+```conf
+    access_log /var/log/nginx/off-access.log proxied_requests buffer=256K flush=1s;
+```
 
 ## Install
 

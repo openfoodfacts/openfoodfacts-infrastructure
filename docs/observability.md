@@ -33,3 +33,51 @@ The observability stack used in the OFF stack is comprised of the following appl
 The observability stack diagram is as follows:
 
 ![Observability stack](./img/obs_stack.png)
+
+## Prometheus
+
+Some interesting pages of prometheus include:
+* https://prometheus.openfoodfacts.org/alerts to show currently triggered alerts
+* https://prometheus.openfoodfacts.org/targets where you can check the status of the targets (services observed by prometheus)
+* https://prometheus.openfoodfacts.org/rules for alerting rules
+
+### multi-target exporter pattern
+
+We use the [multi-target exporter pattern](https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus) on some configurations.
+
+This pattern helps writting a lot of targets that follow same rules in the same way.
+
+Some points that are not easy to understand:
+* targets will be in `__address__` at the begining of the process
+* the last rule overwrite `__address__` to put some static value, but it's ok as previous rules where already processed
+* simple params like `instance`, `app` are parameters for the job configuration, not for the target url
+* to add params to target url we use `__param_xxxx` (for exemple `__param_target` to add a `target` parameter to url)
+* `instance` is very important, as each job must have their separate instance name.
+
+You can look at https://prometheus.openfoodfacts.org/targets to see if your targets are processed correctly. 
+A mouse over in the "labels" column shows you parameter before processing.
+
+
+## Blackbox exporter
+
+Is a service that can be used by Prometheus to probe for websites. 
+
+Prometheus will call the service as if it was a metric exporter with the appropriate target (that you set through `target` on `__param_target` in the configuration (if you use [multi-target exporter pattern](https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus))
+
+## Exposing metrics behind a proxy
+
+Prometheus server is in OVH datacenter.
+To expose metrics from Free datacenter through the internet,
+we use the nginx reverse proxy.
+
+See free-exporters site configuration, and scraper configuration.
+
+### Testing it on monitoring container
+
+Blackbox is on port 9105 so you can test it, for example using:
+```bash
+# http probe
+curl "http://localhost:9115/probe?module=http_probe&target=https%3A%2F%2Fsearch.openfoodfacts.org%2F"
+# icmp probe
+curl "http://localhost:9115/probe?module=icmp&app=ovh1&target=ov1.openfoodfacts.org"
+```

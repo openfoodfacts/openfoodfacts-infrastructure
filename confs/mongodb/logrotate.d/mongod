@@ -1,0 +1,24 @@
+/var/log/mongodb/mongod.log
+{
+   # keep 7 files (one week)
+   rotate 7
+   # every day
+   daily
+   # min file size
+   size 100M
+   # no problem if it does not yet exists
+   missingok
+   # create it if needed with owner mongodb
+   create 0600 mongodb mongodb
+   # compress only old file (as switch is not immediate)
+   delaycompress
+   # but compress old archives
+   compress
+   # the postrotate tells mongo to change log
+   # Be sure to have processManagement.pidFilePath set to this path in mongod.conf
+   # and that folder exists and is owned by mongodb
+   sharedscripts
+   postrotate
+     /bin/kill -SIGUSR1 $(cat /var/run/mongodb/mongod.pid)
+   endscript
+}
