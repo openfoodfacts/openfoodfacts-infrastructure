@@ -127,6 +127,29 @@ I can test it from the reverse proxy with: `curl 10.1.0.115:5511/health`.
 
 I can test it from my machine using my `/etc/hosts` with `213.36.253.214  query.openfoodfacts.org`, and then https://
 
+## setup ZFS sync
+Because my volumes are regular PVE volumes, I had nothing to do.
+I just checked they already have snapshots on off1, and are replicated on off2 and ovh3.
+
+```bash
+# off1
+zfs list -t snap zfs-hdd/pve/subvol-115-disk-{0,1}
+...
+zfs-hdd/pve/subvol-115-disk-0@autosnap_2024-04-12_16:00:11_hourly    186K      -     1.33G  -
+...
+zfs-hdd/pve/subvol-115-disk-1@autosnap_2024-04-12_16:00:12_hourly   1.23M      -     27.3M  -
+```
+
+```bash
+# off2
+zfs list -t snap zfs-hdd/off-backups/off1-pve/subvol-115-disk-{0,1}
+```
+
+```bash
+# ovh3
+zfs list -t snap rpool/off-backups/off1-pve/subvol-115-disk-{0,1}
+```
+
 ## Moving data
 
 **TODO**
