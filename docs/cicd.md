@@ -169,7 +169,7 @@ You can also re-trigger a deployment in the repo's `Actions` tab, assuming you a
 
 Go to the `Actions` tab and click on `New workflow`: scroll down to `Workflows created by Open Food Facts` and click on `Set up this workflow` for both `Docker image build` and `Docker Compose Deployment` workflows. It will generate pre-configured workflow files in `.github/workflows` that you can then tweak to your needs and commit to the repository.
 
-You will also need to create two GitHub environments (in Settings > Environments) and set up a few secrets needed by the deployment, mainly `HOST`, `SSH_PRIVATE_KEY`, `PROXY_HOST` and `USERNAME`.
+You will also need to create two GitHub environments (in Settings > Environments) and set up a few secrets needed by the deployment, mainly `SSH_PRIVATE_KEY`  (`HOST`, `PROXY_HOST` and `USERNAME` are better setup as simple env variables).
 
 
 ### What do I do if the deployment fails after merging my PR to the `main` or `master` branch ?
