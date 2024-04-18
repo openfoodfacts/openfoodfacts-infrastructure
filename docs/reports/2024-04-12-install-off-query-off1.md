@@ -238,5 +238,10 @@ nginx -t
 systemctl reload nginx
 ```
 
-* generate certificates with certbot and change config back to normal
+## Removing old install
 
+After moving, I did a `docker compose down` on the container VM where the old install was.
+
+After some time, seeing all was ok in production, I just did a `docker compose down -v`.
+
+I then renamed the folder, (to avoid confusions).
