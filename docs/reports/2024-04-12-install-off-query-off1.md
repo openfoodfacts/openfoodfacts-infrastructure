@@ -128,8 +128,9 @@ I can test it from the reverse proxy with: `curl 10.1.0.115:5511/health`.
 I can test it from my machine using my `/etc/hosts` with `213.36.253.214  query.openfoodfacts.org`, and then https://
 
 ## setup ZFS sync
+
 Because my volumes are regular PVE volumes, I had nothing to do.
-I just checked they already have snapshots on off1, and are replicated on off2 and ovh3.
+I just checked they already have snapshots on off1, and are replicated on off2 and ovh3.
 
 ```bash
 # off1
@@ -150,13 +151,92 @@ zfs list -t snap zfs-hdd/off-backups/off1-pve/subvol-115-disk-{0,1}
 zfs list -t snap rpool/off-backups/off1-pve/subvol-115-disk-{0,1}
 ```
 
+## Testing it's working
+
+
+In the container itself:
+```bash
+curl http://10.1.0.115:5511/health
+# {"status":"ok","info":{"postgres":{"status":"up"},"mongodb":{"status":"up"}},"error":{},"details":{"postgres":{"status":"up"},"mongodb":{"status":"up"}}}
+```
+
+In the reverse proxy container:
+```bash
+curl http://10.1.0.115:5511/health
+# {"status":"ok","info":{"postgres":{"status":"up"},"mongodb":{"status":"up"}},"error":{},"details":{"postgres":{"status":"up"},"mongodb":{"status":"up"}}}
+```
+
+From my computer:
+```bash
+$ curl https://proxy2.openfoodfacts.org/health -H "Host: query.openfoodfacts.org"
+{"status":"ok","info":{"postgres":{"status":"up"},"mongodb":{"status":"up"}},"error":{},"details":{"postgres":{"status":"up"},"mongodb":{"status":"up"}}}
+}}}
+```
+
 ## Moving data
 
-**TODO**
+There was nothing to do !
+Upon start, our new instance did see it have an empty data and started getting data from MongoDB,
+and then plugged to the redis stream.
+
+After two day it's ok.
 
 ## Moving domain name
 
-**TODO:**
-* change DNS CNAME entry
+On off container, `QUERY_URL` is defined in `Config2.pm` using the domain name.
+
+So to test it's ok, I first edit `/etc/hosts` on off container !
+```conf
+# TESTING off-query new instance
+213.36.253.214 query.openfoodfacts.org
+```
+And goes to https://world.openfoodfacts.org/allergens
+
+It works.
+
+I then go to OVH console to change query CNAME from `proxy1.openfoodfacts.org` to `proxy2.openfoodfacts.org`.
+
+After verifying name propagated to configured DNS on off `dig query.openfoodfacts.org @213.36.253.10`
+I removed my line in `/etc/hosts`
+
+### Regenerating certificate with certbot
+
+On free reverse proxy:
+```bash
+certbot certonly -d "query.openfoodfacts.org"  --nginx
+```
+Does not work and ends with `live directory exists for query.openfoodfacts.org`.
+
+So I did:
+```bash
+mv /etc/letsencrypt/live/query.openfoodfacts.org{,-old} 
+# edit nginx conf to use this directory
+vim /etc/nginx/sites-enabled/query.openfoodfacts.org
+...
+    ssl_certificate /etc/letsencrypt/live/query.openfoodfacts.org-old/fullchain-tmp.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/query.openfoodfacts.org-old/privkey-tmp.pem; # managed by Certbot
+...
+# restart nginx
+nginx -t
+systemctl reload nginx
+```
+
+Now I can run:
+```bash
+certbot certonly -d "query.openfoodfacts.org"  --nginx
+```
+
+Finally I manually changed `/etc/nginx/sites-enabled/query.openfoodfacts.org` to point to new certifcates:
+
+```conf
+    ssl_certificate /etc/letsencrypt/live/query.openfoodfacts.org-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/query.openfoodfacts.org-0001/privkey.pem; # managed by Certbot
+```
+
+```bash
+nginx -t
+systemctl reload nginx
+```
+
 * generate certificates with certbot and change config back to normal
 
