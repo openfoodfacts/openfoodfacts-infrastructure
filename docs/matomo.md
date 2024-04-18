@@ -84,14 +84,26 @@ We setup matomo for performance (our websites requires it) with two main points:
 
 * it does not process archives on incoming requests but instead on a systemd timer (see `confs/matomo/systemd/matomo-archive.{service,timer}`).
   See also [official doc](https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/).
+
 * on incoming update request (on a tracked website being visited),
-  it does not immediately updates the database but goes in redis instead, 
+  it does not immediately updates the database but goes in redis instead,
   we configured it with 8 queues.
   then are systemd timers jobs to process redis entries every minute (see `confs/matomo/systemd/matomo-tracking@.{timer,service}`).
   And we have an instance 0, 1, 2,… 7, to process each queue.
   See also [official doc](https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/)
+
 * `MariaDB` has been tuned a bit toward performance (using more memory) see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` (linked to this repository `confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf`)
+
   * we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/
+
+* Archiving is splet in more than one systemctl timer / service, by using `matomo-archive@<name>.timer/service`
+  which correspond to different options it `/etc/matomo/archive-<name>.env`, so that:
+
+  * there is one archiver specialized for the openfoodfacts.org website
+  * one specialized for the mobile app
+  * one for all the other websites
+
+  ( all this thanks to `--skip-idsites`/`--force-idsites` options)
 
 Both tracking and archiving logs to `/var/log/matomo`.
 
@@ -137,6 +149,8 @@ Disallow: /
    You can also see section below [How to monitor tracking jobs](#how-to-monitor-tracking-jobs).
 
 3. incomplete graph might also come from archive processing.
+   Sometimes, in this case, scaling down to days might show you right results, 
+   whereas you get incomplete result at the week or month level.
 
    See [How to monitor archive jobs](#how-to-monitor-archive-jobs).
 
@@ -172,9 +186,9 @@ Logs are in `/var/log/matomo`
 To see status:
 ```bash
 # see jobs status
-systemctl status matomo-archive.service
+systemctl status matomo-archive@{main,2,5}.service
 # see timers status
-systemctl status matomo-archive.timer
+systemctl status matomo-archive@{main,2,5}.timer
 ```
 
 Logs are in `/var/log/matomo`
