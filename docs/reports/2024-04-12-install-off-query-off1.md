@@ -199,6 +199,7 @@ I then go to OVH console to change query CNAME from `proxy1.openfoodfacts.org` t
 After verifying name propagated to configured DNS on off `dig query.openfoodfacts.org @213.36.253.10`
 I removed my line in `/etc/hosts`
 
+
 ### Regenerating certificate with certbot
 
 On free reverse proxy:
@@ -245,3 +246,8 @@ After moving, I did a `docker compose down` on the container VM where the old in
 After some time, seeing all was ok in production, I just did a `docker compose down -v`.
 
 I then renamed the folder, (to avoid confusions).
+
+I also restored values of envs in my PR, and merged it.
+
+I removed the temporary env in github configuration and changes secrets for off-query-org.
+
