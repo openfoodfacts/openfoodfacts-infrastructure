@@ -1,0 +1,120 @@
+# définition d'une liste d'upstream (priorité au début)
+log_format combined_upstream '$remote_addr - $remote_user [$time_local] '
+                    '"$request" $status $body_bytes_sent '
+                    '"$http_referer" "$http_user_agent" c=$upstream_cache_status u=$upstream_addr t=$request_time';
+
+# mapping to expected image size (approximately)
+# for smart rate limiting
+map $uri $response_size {
+	default small_size;
+	# full image either have full, or ar 1.jpg
+	"~*\.full\.jpg" big_size;
+	"~*/\d+\.jpg" big_size;
+}
+map $response_size $big_rate_key {
+	default $binary_remote_addr;
+	small_size '';  # skipped
+}
+map $response_size $small_rate_key {
+	default $binary_remote_addr;
+	big_size '';  # skipped
+}
+
+# rate limit, differentiate between small an full req
+# small (loading search page: 100 product images + burst for assets) * 60
+limit_req_zone $small_rate_key zone=small_size:10m rate=6000r/m;
+# some full image per minutes should be enough
+limit_req_zone $big_rate_key zone=big_size:10m rate=100r/m;
+
+# DRY RUN until we decide to activate it
+limit_req_dry_run on;
+
+# use a clear status
+limit_req_status 429;
+
+upstream openfoodfacts {
+	server 10.0.0.2:443 weight=100;
+	server proxy2.openfoodfacts.org:443;
+
+	keepalive 16;
+}
+
+proxy_cache_path
+	/dev/shm/off-static
+	keys_zone=off-static:10m
+	levels=1:2
+	inactive=24h
+	max_size=4G;
+
+# https://static.openfoodfacts.org
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+        server_name static.openfoodfacts.org images.openfoodfacts.org;
+
+        access_log /zfs-hdd/logs-nginx/static-access.log combined_upstream buffer=256K flush=1s;
+        error_log /zfs-hdd/logs-nginx/static-error.log;
+
+        ssl_certificate /etc/letsencrypt/live/images.openfoodfacts.org/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/images.openfoodfacts.org/privkey.pem; # managed by Certbot
+	ssl_trusted_certificate /etc/nginx/acme.sh/live/openfoodfacts.org/ca.pem;
+
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+	ssl_prefer_server_ciphers on;
+	ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+	ssl_ecdh_curve secp384r1;
+	#ssl_session_cache shared:SSL:10m;
+	ssl_session_tickets off;
+	ssl_stapling on;
+	ssl_stapling_verify on;
+	resolver 9.9.9.9 8.8.8.8 valid=300s;
+	resolver_timeout 5s;
+
+	root	/zfs-hdd/off/ ;
+
+
+	if ($http_referer ~* (jobothoniel.com) ) {
+	     return 403;
+	}
+
+	location / {
+		# rate limit based on size
+		# NGINX actually tracks requests at millisecond granularity
+		# so eg 6000r/m means 100r/s which means 1r each 10 ms,
+		# but requests tends to come simultaneously
+		# The simple way to avoid caring about this is to have burst=rate
+		limit_req zone=big_size burst=100 nodelay;
+		limit_req zone=small_size burst=6000 nodelay;
+
+		# test en local, puis sur l'original
+		try_files		$uri @proxy2;
+		sendfile		on;
+		sendfile_max_chunk	1m;
+		tcp_nopush		on;
+
+	        add_header Link "<http://creativecommons.org/licenses/by-sa/3.0/>; rel='license'; title='CC-BY-SA 3.0'";
+	        add_header Access-Control-Allow-Origin *;
+	        add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+	        add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,If-None-Match';
+	        add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
+	}
+
+	location @proxy2 {
+		proxy_pass		https://proxy2.openfoodfacts.org;
+#		proxy_next_upstream	error	 http_404;
+		proxy_http_version	1.1;
+		proxy_set_header	Connection	"";
+
+		proxy_cache		off-static;
+		proxy_cache_valid	200  1d;
+		proxy_cache_key		$request_uri;
+		add_header		X-Cache-Status	$upstream_cache_status;
+		add_header		X-From		$upstream_addr;
+
+		proxy_set_header	Host		cache.openfoodfacts.org;
+
+		# évite un double accès disque pour le cache
+		proxy_temp_path		off;
+	}
+
+}

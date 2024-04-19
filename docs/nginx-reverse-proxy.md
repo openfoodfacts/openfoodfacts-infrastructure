@@ -1,6 +1,8 @@
-# NGINX Reverse proxy (OVH)
+# NGINX Reverse proxy
 
-At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications. It serves applications that are located in servers at the same provider (and same Proxmox cluster).
+At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications.
+
+It serves applications that are located in servers at the same provider (and same Proxmox cluster).
 
 ## Network specific interface
 
@@ -13,6 +15,13 @@ It as a specific network configurations with two ethernet address:
 
 [^proxmox_multiple_gateway]: The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also [ovh reverse proxy incident of 2022-02-18](./reports/2022-02-18-ovh-reverse-proxy-down.md)
 
+## Banning bots
+
+We ban bots from the reverse proxy (more efficient and centralized).
+Most of the time this is a manual ban.
+
+See [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
+
 ## Configuring a new service
 
 To make a new service, hosted on Proxmox, available you need to:
@@ -20,7 +29,7 @@ To make a new service, hosted on Proxmox, available you need to:
 * have this service available on proxmox internal network
 * in the DNS, CNAME you service name to
   * `proxy1.openfoodfacts.org` for OVH (ovh1..3)
-  * `proxy2.openfoodfacts.org` for Free (off1..2)
+  * `off-proxy.openfoodfacts.org` for Free (off1..2)
 * write a configuration on nginx for this service
 * eventually add https
 
@@ -89,7 +98,7 @@ Otherwise jump to [EtcKeeper](#etc-keeper)
 
 [^test-nginx]: the nginx script will normally do the check before trying to restart nginx, but this way you are able to also see warnings.
 
-### Adding https
+### How to add https
 
 Most of the time https certificates are managed on the nginx reverse proxy VM. Here is how to configure them to enable https.
 
@@ -182,6 +191,107 @@ certbot -d ui.my-site.openfoodfacts.net -d api.my-site.openfoodfacts.net -d my-s
 
 If a certificate already exists for a domain, certbot will propose to extend it with the other domains.
 
+### Wildcard certificates
+
+Certbot can deliver wildcard certificates for domains based on DNS challenges. So you need a plugin for your DNS provider.
+
+In our case, this is the plugin for ovh. Installing `python3-certbot-dns-ovh` did works in our case.
+
+Access tokens are stored in /root/.ovhapi/<domain-name> and are only readable by root (0600).
+
+#### How to add wildcard certificates
+
+Official documentation: https://certbot-dns-ovh.readthedocs.io/en/stable/ and https://certbot.eff.org/instructions?ws=nginx&os=debianbuster
+Official documentation requires snapd… we are not keen on that, and moreover, in a lxc container [it does not seems to work well](https://forum.proxmox.com/threads/cant-install-snap-in-lxc-container.68708/).
+So we go the alternate way, using the debian package.
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-dns-ovh
+```
+
+Here we will use openpetfoodfacts.org as the domain name.
+
+Generate credential, following https://eu.api.ovh.com/createToken/
+
+(useful resource for [OVH keys management](https://gandrille.github.io/linux-notes/Web_API/OVH_API/OVH_API_Keys_management.html))
+
+Using:
+* GET `/domain/zone/`
+  (Note: the trailing slash is important !)
+* GET/PUT/POST/DELETE `/domain/zone/openpetfoodfacts.org/*`
+
+![token creation at form at OVH](img/2023-05-ovh-create-token-openfoodfacts.org-form.png "token creation at form at OVH"){width=50%}
+![token creation result](img/2023-05-ovh-create-token-openfoodfacts.org-result.png "token creation result"){width=50%}
+
+and we put config file in `/root/.ovhapi/openpetfoodfacts.org`
+```bash
+$ mkdir /root/.ovhapi
+$ vim /root/.ovhapi/openpetfoodfacts.org
+...
+$ cat /root/.ovhapi/openpetfoodfacts.org
+# OVH API credentials used by Certbot
+dns_ovh_endpoint = ovh-eu
+dns_ovh_application_key = ***********
+dns_ovh_application_secret = ***********
+dns_ovh_consumer_key = ***********
+
+# ensure no reading by others
+$ chmod og-rwx -R /root/.ovhapi
+```
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
+...
+Plugins selected: Authenticator dns-ovh, Installer None
+Requesting a certificate for openpetfoodfacts.org and *.openpetfoodfacts.org
+Performing the following challenges:
+dns-01 challenge for openpetfoodfacts.org
+dns-01 challenge for openpetfoodfacts.org
+Waiting 30 seconds for DNS changes to propagate
+Waiting for verification...
+Cleaning up challenges
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+```
+
+Mow we can do a real certificate, by removing the `--test-cert` option. We will ask to renew & replace the existing certificate (as ith was a test one), when you are asked, choose to replace existing certificate:
+
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/openpetfoodfacts.org -d openpetfoodfacts.org -d "*.openpetfoodfacts.org"
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem
+...
+```
+
+Now we install it on our website, we did it manually…
+```conf
+server {
+    listen 80;
+    listen [::]:80;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name openpetfoodfacts.org *.openpetfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openpetfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openpetfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openpetfoodfacts.org/chain.pem;
+
+…
+}
+```
+
+
 ### Etc Keeper
 
 We use [etckeeper](./linux-server.md#etckeeper)
@@ -192,3 +302,17 @@ etckeeper commit -m "Configured my-service.openfoodfacts.net"
 ```
 
 Now we are done 🎉
+
+## Performance tips
+
+### Use a buffer for access log
+
+Use a buffer for access log for high traffic websites.
+eg (for off server nginx):
+```conf
+    access_log /var/log/nginx/off-access.log proxied_requests buffer=256K flush=1s;
+```
+
+## Install
+
+Install was quite simple: we simply install nginx package, as well as stunnel4.

@@ -4,6 +4,33 @@ Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 
 We also have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
+## Current priorities
+
+As of 2023 our current priorities are:
+
+* server migration with hardware upgrade and a clean containerized install - and zfs syncs
+* better encrypted two-way communication between data centers  (stunnel + https)
+* backups checks
+  * testing backups through staging
+    * with automated deployment of new clones
+  * monitoring backups
+* better monitoring
+  * more/better dashboards
+  * more active checks (monitoring - alerts)
+  * less false positives in alerts
+* GPU server for inference and possibly one for training (not hosted) - may
+
+## Incident logs
+
+We started logging incidents by server:
+
+* [off1 incident logs](./docs/logs-off1.md)
+* [off2 incident logs](./docs/logs-off2.md)
+* [off3 incident logs](./docs/logs-off3.md)
+* [ovh1 incident logs](./docs/logs-ovh1.md)
+* [ovh2 incident logs](./docs/logs-ovh2.md)
+* [ovh3 incident logs](./docs/logs-ovh3.md)
+
 ## Documentation
 
 Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
@@ -13,13 +40,20 @@ The infrastructure documentation is as follows:
 - [Overview](./docs/overview.md)
 
 - [Mail](./docs/mail.md) - servers mail setup
+- [Free Datacenter](./docs/free-datacenter.md) - Data center with main production servers
 - [Linux Server](./docs/linux-server.md) - servers general setup
-- [Proxmox](./docs/promox.md) - about proxmox management
+- [Mail](./docs/mail.md) - servers mail setup
+- [An introduction to ZFS](./docs/zfs-overview.md) - ZFS is much used in our infrastructure
+- [Proxmox](./docs/proxmox.md) - about proxmox management
 - [CICD](./docs/cicd.md) - continuous integration and deployment
 - [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
 - [Docker Onboarding](./docs/docker_onboarding.md)
 - [Docker Infrastructure](./docs/docker_architecture.md)
 - [Virtual Machines](#virtual-machines)
+
+The main services:
+- [MongoDB](./docs/mongodb.md) the MongoDB database
+- [Redis](./docs/redis.md) we also use Redis
 
 Some services:
 
@@ -29,20 +63,19 @@ Some services:
 - [Matomo](./docs/matomo.md) for web analytics
 - [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
 - [Zammad](./docs/zammad.md) for support
+- [Odoo](./docs/odoo.md) the CRM
 
 Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
-<details><summary><h2>Weekly meetings</h2></summary>
+<details><summary><h2>Monthly meetings</h2></summary>
 
-* We e-meet monthly at 16:00 Paris Time (15:00 London Time, 20:30 IST, 07:00 AM PT)
-* ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: https://meet.google.com/nnw-qswu-hza
+* We e-meet monthly at [18:00 CET](https://dateful.com/convert/paris-france?t=6pm) the second Thuesday of the month
+* ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: meet.google.com/ybq-dwuk-pvi
 * Join by phone: https://tel.meet/nnw-qswu-hza?pin=2111028061202
 * Add the Event to your Calendar by [adding the Open Food Facts community calendar to your calendar](https://wiki.openfoodfacts.org/Events)
-* [Weekly Agenda](https://drive.google.com/open?id=1LL8-aiSF482xaJ1o0AKmhXB5QWfVE0_jzvYakq3VXys): please add the Agenda items as early as you can. 
+* [Monthly Agenda](https://docs.google.com/document/d/18BNNqxL6MSLAMrwsQ9F-CaVBUojnUEilQmQuC7XdVks/edit?usp=sharing): please add the Agenda items as early as you can. 
 * Make sure to check the Agenda items in advance of the meeting, so that we have the most informed discussions possible. 
 * The meeting will handle Agenda items first, and if time permits, collaborative bug triage.
-* We strive to timebox the core of the meeting (decision making) to 30 minutes, with an optional free discussion/live debugging afterwards.
-* We take comprehensive notes in the Weekly Agenda of agenda item discussions and of decisions taken.
 </details>
 
 ## Requests
@@ -53,6 +86,7 @@ Also look at all install and post-mortem reports in [docs/reports](./docs/report
 <!-- VM table -->
 |                                                                      Title                                                                      |State |              OS              |      CPU #      |                              RAM                              |                                                    SSD (Local)                                                    |    HDD (Remote)     |                                       Services                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|------|------------------------------|-----------------|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|---------------------|---------------------------------------------------------------------------------------|
+|<a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/200>Wordpress test CT [#200]</a>                                    |open  |Debian last Stable.           |                3|[Explain if > 4 Gb.]                                           |6 GB.                                                                                                              |                    0|Apache, PHP, Wordpress.                                                                |
 |<a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/159>Monitoring - VM (QEMU host for docker) [#159]</a>               |open  |Debian                        |* 4 CPUs         |* 12G for we have influxdb and elastic-search that needs memory|* 30 Go disk (it is currently around 14G, but this will grow because we want to harvest more logs and more metrics)|* 50Go for ES backups|Docker, docker-compose                                                                 |
 |<a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/80>CT for new blog engine [#80]</a>                                 |open  |Debian stable.                |3 CPU.           |2 GB.                                                          |10 GB                                                                                                              |--                   |LAMP + wordpress.                                                                      |
 |<a href=https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/76>CT for Folksonomy Engine API dev [#76]</a>                       |open  |Default to Debian last Stable.|2                |1 GB                                                           |12 GB.                                                                                                             |-                    |PostgreSQL, Python3.                                                                   |

@@ -8,21 +8,21 @@ jobs:
     name: Write README.md
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: develop
+        # we use a personal access token of openfoodfacts-bot to allow bypassing branch protection rules
+        token: "${{ secrets.README_WRITER_PAT }}"
     - name: Set up python
-      uses: actions/setup-python@v4.3.0
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
     - run: |
         pip install -r scripts/readme-writer/requirements.txt
         python scripts/readme-writer/readme_writer.py
         cat README.md
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     - name: Commit README.md
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: develop
         repository: .

@@ -8,6 +8,21 @@ No server receive mail, but they should be able to send them.
 
 **📝Note:** We ONLY support emails address on primary domain (`openfoodfacts.org`) and we DO NOT support emails on sub domains (aka `xxx.openfoodfacts.org`).
 
+
+## Google Workspace
+
+We use Gmail for email boxes and groups.
+
+We have a DKIM record configured for google domain and sub-domains in the DNS, we also take into account in SPF rule.
+You can find the public key in google workspace admin console, under gmail.
+
+## Brevo
+
+We use Brevo to send newsletters.
+
+We have a DKIM record configured for the Brevo domain in the DNS, we also take into account in SPF rule.
+You can find the public key if you are logged as admin in Brevo.
+
 ## Proxmox Mail Gateway
 
 This is the `pmg`  lxc VM (aka `102`) currently on `ovh1.openfoodfacts.org`.
@@ -123,7 +138,7 @@ Run: `dpkg-reconfigure postfix`:
 * mail name: openfoodfacts.org
 * relayhost: pmg.openfoodfacts.org
 
-  (with an exception for ovh1: 10.1.0.2)
+  (with an exception for ovh1/ovh2/ovh3: 10.1.0.2)
 
 * mail for root: tech@openfoodfacts.org
 * other dest: blank
@@ -131,6 +146,11 @@ Run: `dpkg-reconfigure postfix`:
 * local network: leave default
 * use procmail: no
 * default for the rest
+
+**IMPORTANT:**
+On some system, the real daemon is not `postfix.service` but `postfix@-.service`
+
+(so eg., if you touch `/etc/alias` (with after `sudo newaliases`) you need to `systemctl reload  postfix@-.service`
 
 ### Exim4 configuration
 
@@ -154,10 +174,10 @@ To test that mail is well configured, you can use:
 echo "Subject: sendmail test xxx" | sudo sendmail -f alex@openfoodfacts.org -v root
 ```
 
-or, with the `mailutils` package installed:
+or, with the `bsd-mailx` package installed [^bsd-mailx]:
 
 ```bash
-echo "test message from xxx" |mail.mailutils -s "test root xxx" -r alex@openfoodfacts.org root
+echo "test message from xxx" |mailx -s "test root xxx" -r alex@openfoodfacts.org root
 ```
 
 If you do not receive the email on expected group, here are some checks:
@@ -177,6 +197,10 @@ If you do not receive the email on expected group, here are some checks:
 * `/etc/mailname` contains `openfoodfacts.org` (see also [debian wiki](https://wiki.debian.org/EtcMailName))
 * check `/etc/aliases` and `/etc/email-adresses` if you use exim4
 
+
+[^bsd-mailx]:
+  Note that we use bsd-mailx and not the alias from mailutils as it does not behave the same.
+  Noticabely it won't use /etc/mailname to complete email address which leads to problems.
 
 ### References
 

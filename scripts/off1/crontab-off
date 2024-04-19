@@ -1,3 +1,4 @@
+# IF YOU MODIFY PLEASE UPDATE openfoodfacts-infrastructure repository
 # m h  dom mon dow   command
 35 */2 * * * /srv/off/scripts/gen_all_feeds.sh > /dev/null 2>&1
 15 2 * * * /srv/off/scripts/gen_all_feeds_daily.sh > /dev/null 2>&1
@@ -5,7 +6,8 @@
 15 7 * * * /srv/off/cron/import_fleurymichon.sh > /dev/null
 30 6 * * * /srv/off-pro/scripts/export_producers_platform_data_to_public_database.sh
 
-*/20 * * * * /srv/opff/scripts/gen_opff_leaderboard.sh > /dev/null
+# 2023-05-07 opff moved to off2
+#*/20 * * * * /srv/opff/scripts/gen_opff_leaderboard.sh > /dev/null
 #35 */5 * * * /srv/opff/scripts/gen_feeds_opff.sh > /dev/null
 #15 4 * * * /srv/opff/scripts/gen_feeds_daily_opff.sh > /dev/null
 
@@ -16,3 +18,5 @@
 
 #45 */7 * * * /srv/obf/scripts/gen_feeds_obf.sh > /dev/null
 #45 4 * * * /srv/obf/scripts/gen_feeds_daily_obf.sh > /dev/null
+
+

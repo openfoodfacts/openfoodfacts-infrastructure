@@ -21,22 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - name: Install mkdocs requirements
+        uses: actions/checkout@v4
+      - name: Checks
         run: |
-          pip install mkdocs-material mdx_truly_sane_lists mkdocs-glightbox
+          make check_docs
       - name: Generate documentation
         run: |
-          bash scripts/build_mkdocs.sh
-          mkdocs build
+          make build_docs
       - name: Deploy documentation to Github Pages 🚀
         # we only deploy on push to main
         if: |
           github.event_name == 'push' && github.event.ref == 'refs/heads/develop'
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.

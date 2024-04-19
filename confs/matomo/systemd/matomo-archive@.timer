@@ -1,0 +1,13 @@
+[Unit]
+Description=Run Matomo archive process every 6h
+
+[Timer]
+# every 6h
+OnBootSec=5m
+# relaunch every 6h after activating
+# this is correlated to a 5h40 timeout in the service
+OnUnitActiveSec=6h
+
+[Install]
+WantedBy=timers.target
+

@@ -1,0 +1,13 @@
+[Unit]
+Description=Backup a remote drive thanks to rclone, instance name must be the drive name in rclone
+# email on failure
+OnFailure=email-failures@rclone_backup__%i.service
+
+[Service]
+Environment=TZ=UTC
+Type=oneshot
+ExecStart=rclone sync %i: /mnt/gdrive-backup/%i
+# place a timeout for bad cases
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+TimeoutStartSec=3h
+

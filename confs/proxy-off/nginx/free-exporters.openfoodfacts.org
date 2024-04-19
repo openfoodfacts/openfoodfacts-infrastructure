@@ -1,0 +1,60 @@
+# https redirect
+server {
+    if ($host = free-exporters.openfoodfacts.org) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    listen [::]:80;
+    server_name free-exporters.openfoodfacts.org;
+
+    location /.well-known {
+        root /var/www/html;
+        try_files $uri =404;
+    }
+
+
+}
+
+# map from service to exporter
+map $uri $exporter {
+    "/mongo/mongodb/metrics" 10.1.0.102:9216;
+}
+
+# https server
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name free-exporters.openfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/free-exporters.openfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/free-exporters.openfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/free-exporters.openfoodfacts.org/chain.pem;
+
+    # logs location
+    access_log  /var/log/nginx/free-exporters.log  main;
+    error_log   /var/log/nginx/free-exporters.errors.log;
+
+    # protect
+    auth_basic "Exporter metrics";
+    auth_basic_user_file "/etc/nginx/.htpasswd/free-exporters";
+
+    # mongodb exporter
+    location / {
+
+        if ($exporter = "") {
+            return 404;
+        }
+        proxy_pass http://$exporter/metrics;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+    }
+}
+
+
+

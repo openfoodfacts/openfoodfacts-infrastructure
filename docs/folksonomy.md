@@ -29,3 +29,20 @@ See service logs:
 ```bash
 sudo journalctl -u folksonomy
 ```
+
+## Upgrade
+
+Before every upgrade, make a snapshot of the Proxmox container. Then:
+
+```bash
+# Switch to "folksonomy" user
+su folksonomy
+# Upgrade from git repository
+git pull
+# Install new depencies if any
+pip install -r requirements.txt
+# DB migration process
+yoyo apply --database postgresql:///folksonomy
+# Finally, restart the service (with root user or root rights or sudo rights)
+systemctl restart folksonomy
+```

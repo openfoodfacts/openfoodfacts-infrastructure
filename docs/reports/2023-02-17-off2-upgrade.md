@@ -278,6 +278,28 @@ We set some properties and rename it from off-zfs to zfs-nvme and create the zfs
 2023-02-17.19:42:19 zfs create zfs-nvme/pve
 ```
 
+**EDIT:** on 2023-06-13, I re-created the zpool (it was lost in between, until we changed nvme disks).
+```bash
+$ zpool destroy testnvme
+$ zpool create -o ashift=12 zfs-nvme mirror nvme1n1 nvme0n1
+$ zpool add zfs-nvme log nvme2n1
+zpool status zfs-nvme
+  pool: zfs-nvme
+ state: ONLINE
+config:
+
+        NAME         STATE     READ WRITE CKSUM
+        zfs-nvme     ONLINE       0     0     0
+          mirror-0   ONLINE       0     0     0
+            nvme0n1  ONLINE       0     0     0
+            nvme1n1  ONLINE       0     0     0
+        logs
+          nvme2n1    ONLINE       0     0     0
+
+errors: No known data errors
+```
+
+
 we also receive the data from rpool2 back here:
 
 ```bash
@@ -286,7 +308,7 @@ we also receive the data from rpool2 back here:
 
 ### zfs-hdd pool
 
-First we create partitions for those rpool.
+First we create partitions for this new pool.
 For each sda/sdb/sdc/sdd:
 ```bash
 parted /dev/sdX mkpart zfs-hdd zfs 70g 100%
@@ -339,4 +361,10 @@ Copied my user .bashrc to /root/ (as the root .bashrc was almost empty)
 
 ## Still TODO ?
 
-1. install  iptables-persistent
+1. install iptables-persistent
+1. install etckeeper
+1. install rsync
+1. install screen
+1. removed nginx (why was it there ?)
+
+
