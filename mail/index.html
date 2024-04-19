@@ -673,6 +673,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#google-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google Workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brevo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brevo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-mail-gateway" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox Mail Gateway
@@ -2341,6 +2359,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04-18 Setup DKIM on Google Workspace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2373,6 +2412,24 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#google-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google Workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brevo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brevo
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#proxmox-mail-gateway" class="md-nav__link">
@@ -2508,6 +2565,14 @@
 <p>No server receive mail, but they should be able to send them.</p>
 <p><a id="only-domain"></a></p>
 <p><strong>📝Note:</strong> We ONLY support emails address on primary domain (<code>openfoodfacts.org</code>) and we DO NOT support emails on sub domains (aka <code>xxx.openfoodfacts.org</code>).</p>
+<h2 id="google-workspace">Google Workspace<a class="headerlink" href="#google-workspace" title="Permanent link">#</a></h2>
+<p>We use Gmail for email boxes and groups.</p>
+<p>We have a DKIM record configured for google domain and sub-domains in the DNS, we also take into account in SPF rule.
+You can find the public key in google workspace admin console, under gmail.</p>
+<h2 id="brevo">Brevo<a class="headerlink" href="#brevo" title="Permanent link">#</a></h2>
+<p>We use Brevo to send newsletters.</p>
+<p>We have a DKIM record configured for the Brevo domain in the DNS, we also take into account in SPF rule.
+You can find the public key if you are logged as admin in Brevo.</p>
 <h2 id="proxmox-mail-gateway">Proxmox Mail Gateway<a class="headerlink" href="#proxmox-mail-gateway" title="Permanent link">#</a></h2>
 <p>This is the <code>pmg</code>  lxc VM (aka <code>102</code>) currently on <code>ovh1.openfoodfacts.org</code>.
 The install follows
@@ -2597,6 +2662,9 @@ Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etck
 <li>use procmail: no</li>
 <li>default for the rest</li>
 </ul>
+<p><strong>IMPORTANT:</strong>
+On some system, the real daemon is not <code>postfix.service</code> but <code>postfix@-.service</code></p>
+<p>(so eg., if you touch <code>/etc/alias</code> (with after <code>sudo newaliases</code>) you need to <code>systemctl reload  postfix@-.service</code></p>
 <h3 id="exim4-configuration">Exim4 configuration<a class="headerlink" href="#exim4-configuration" title="Permanent link">#</a></h3>
 <p>Run: <code>dpkg-reconfigure exim4-config</code>:</p>
 <ul>

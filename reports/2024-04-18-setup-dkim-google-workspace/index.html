@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2024-02-20-exporter-on-mongodb-ct/">
+        <link rel="prev" href="../2024-04-03-moving-opf-obf-opff-logs/">
       
-      
-        <link rel="next" href="../2024-03-17-ovh1-down/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-02-28 Upgrade Redis - Open Food Facts Infrastructure documentation</title>
+        <title>2024-04-18 Setup DKIM on Google Workspace - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-02-28-upgrade-redis" class="md-skip">
+        <a href="#2024-04-18-setup-dkim-on-google-workspace" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-02-28 Upgrade Redis
+              2024-04-18 Setup DKIM on Google Workspace
             
           </span>
         </div>
@@ -2091,30 +2089,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2024-02-28 Upgrade Redis
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-02-28-upgrade-redis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2123,44 +2101,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#upgrade-of-redis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrade of Redis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#post-systemd-fix" class="md-nav__link">
-    <span class="md-ellipsis">
-      Post systemd fix
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2254,10 +2194,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2266,6 +2215,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -2298,32 +2248,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#upgrade-of-redis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrade of Redis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#post-systemd-fix" class="md-nav__link">
-    <span class="md-ellipsis">
-      Post systemd fix
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -2340,36 +2264,21 @@
   
 
 
-<h1 id="2024-02-28-upgrade-redis">2024-02-28 Upgrade Redis<a class="headerlink" href="#2024-02-28-upgrade-redis" title="Permanent link">#</a></h1>
-<p>I (Raphaël) noticed that the Redis server (v5.X) did not support some feature we were relying on (some specific XREAD syntax).
-I therefore decided to upgrade it to the latest version (v7.2.4 at the time of writing).</p>
-<h2 id="upgrade-of-redis">Upgrade of Redis<a class="headerlink" href="#upgrade-of-redis" title="Permanent link">#</a></h2>
-<p>Following the <a href="https://redis.io/docs/install/install-redis/install-redis-on-linux/">official documentation</a>, I launched:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>lsb-release<span class="w"> </span>curl<span class="w"> </span>gpg
-curl<span class="w"> </span>-fsSL<span class="w"> </span>https://packages.redis.io/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/usr/share/keyrings/redis-archive-keyring.gpg
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/redis.list
-
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>redis
-</code></pre></div>
-<p>I then restarted the service:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>redis
-</code></pre></div>
-<p>The command was however unresponsive, and the service was not restarted. I had to kill the process and restart the service manually.</p>
-<p>It still did not work, and I had to reboot the VM. It didn't work either.</p>
-<p>Checking the logs, we noticed that the configuration file (v5 syntax) was not compatible with v7.</p>
-<p>I fetched the <a href="https://github.com/redis/redis/blob/7.2.4/redis.conf">sample configuration file from the new version</a> and updated the configuration file accordingly:</p>
+<h1 id="2024-04-18-setup-dkim-on-google-workspace">2024-04-18 Setup DKIM on Google Workspace<a class="headerlink" href="#2024-04-18-setup-dkim-on-google-workspace" title="Permanent link">#</a></h1>
+<p>Since I put dmarc record to <code>reject</code> policy, we had a weird bug on Google Calendar, invitations did refuse to deliver because of DKIM signature. (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/339">bug #339</a>)</p>
+<p>After digging a bit, it appears that we didn't have setup DKIM on google workspace as it should be.
+Google was signing our email, but it was doing so with a generic key, which is not conventional.</p>
+<p>So following https://support.google.com/a/answer/180504?hl=fr,
+I did go to workspace admin console, gmail, and added DKIM keys for domain openfoodfacts.org, volunteers.openfoodfacts.org and ambassadors.openfoodfacts.org
+I then add TXT records in OVH, and activate.</p>
+<p>Beware, that you have to add the TXT record on the subdomains. So I have the following keys:</p>
 <ul>
-<li>I set <code>protected-mode</code> option to <code>no</code></li>
-<li>I bind to all interfaces (necessary for stunnel)</li>
-<li>I changed the <code>dir</code> option to <code>/var/lib/redis</code></li>
+<li><code>google._domainkey.openfoodfacts.org.</code></li>
+<li><code>google-volunteers._domainkey.volunteers.openfoodfacts.org</code></li>
+<li><code>google-ambassadors._domainkey.ambassadors.openfoodfacts.org</code></li>
 </ul>
-<p>Restarting the service worked fine.</p>
-<h2 id="post-systemd-fix">Post systemd fix<a class="headerlink" href="#post-systemd-fix" title="Permanent link">#</a></h2>
-<p>It happens that redis service was continuously restarting, making the searcha-licious updater fails and restart on it's side. It was visible thanks to sentry.
-We looked into this and it turns out, it was systemd not getting that the service was started. We modified the redis.conf to add <code>supervised systemd</code> (because service type is "notify", so redis must acknowledge startup through systemd socket) and also change <code>pidfile</code> directive to match the one in the service definition.
-After that redis is working fine.</p>
+<p>I then tested by sending emails from my account to an external account, and verified (without having to dig in source, thanks to <a href="https://addons.thunderbird.net/fr/thunderbird/addon/dkim-verifier/">dkim verifier</a>)</p>
+<p>That's all folks.</p>
 
 
 
