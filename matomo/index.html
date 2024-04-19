@@ -2417,6 +2417,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-04-18-matomo-multi-archival/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04-18 Matomo multi archival
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
         
   
@@ -2716,15 +2737,33 @@ Ask for it to <em>contact</em> email.</p>
 <ul>
 <li>it does not process archives on incoming requests but instead on a systemd timer (see <code>confs/matomo/systemd/matomo-archive.{service,timer}</code>).
   See also <a href="https://matomo.org/faq/on-premise/how-to-set-up-auto-archiving-of-your-reports/">official doc</a>.</li>
+</ul>
+<ul>
 <li>on incoming update request (on a tracked website being visited),
-  it does not immediately updates the database but goes in redis instead, 
+  it does not immediately updates the database but goes in redis instead,
   we configured it with 8 queues.
   then are systemd timers jobs to process redis entries every minute (see <code>confs/matomo/systemd/matomo-tracking@.{timer,service}</code>).
   And we have an instance 0, 1, 2,… 7, to process each queue.
   See also <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-to-handle-unexpected-peak-in-traffic/">official doc</a></li>
-<li><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository <code>confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf</code>)<ul>
+</ul>
+<ul>
+<li>
+<p><code>MariaDB</code> has been tuned a bit toward performance (using more memory) see <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code> (linked to this repository <code>confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf</code>)</p>
+<ul>
 <li>we also tried to avoid "2006 MySQL server has gone away" following https://matomo.org/faq/troubleshooting/faq_183/</li>
 </ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>Archiving is splet in more than one systemctl timer / service, by using <code>matomo-archive@&lt;name&gt;.timer/service</code>
+  which correspond to different options it <code>/etc/matomo/archive-&lt;name&gt;.env</code>, so that:</p>
+<ul>
+<li>there is one archiver specialized for the openfoodfacts.org website</li>
+<li>one specialized for the mobile app</li>
+<li>one for all the other websites</li>
+</ul>
+<p>( all this thanks to <code>--skip-idsites</code>/<code>--force-idsites</code> options)</p>
 </li>
 </ul>
 <p>Both tracking and archiving logs to <code>/var/log/matomo</code>.</p>
@@ -2757,7 +2796,9 @@ Disallow: /
 <p>You can also see section below <a href="#how-to-monitor-tracking-jobs">How to monitor tracking jobs</a>.</p>
 </li>
 <li>
-<p>incomplete graph might also come from archive processing.</p>
+<p>incomplete graph might also come from archive processing.
+   Sometimes, in this case, scaling down to days might show you right results, 
+   whereas you get incomplete result at the week or month level.</p>
 <p>See <a href="#how-to-monitor-archive-jobs">How to monitor archive jobs</a>.</p>
 </li>
 </ol>
@@ -2782,9 +2823,9 @@ use <code>--help</code> for more options.</p>
 <h3 id="how-to-monitor-archive-jobs">How to monitor archive jobs<a class="headerlink" href="#how-to-monitor-archive-jobs" title="Permanent link">#</a></h3>
 <p>To see status:
 <div class="highlight"><pre><span></span><code><span class="c1"># see jobs status</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive.service
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive@<span class="o">{</span>main,2,5<span class="o">}</span>.service
 <span class="c1"># see timers status</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive.timer
+systemctl<span class="w"> </span>status<span class="w"> </span>matomo-archive@<span class="o">{</span>main,2,5<span class="o">}</span>.timer
 </code></pre></div></p>
 <p>Logs are in <code>/var/log/matomo</code></p>
 <h3 id="how-to-monitor-database">How to monitor database<a class="headerlink" href="#how-to-monitor-database" title="Permanent link">#</a></h3>
