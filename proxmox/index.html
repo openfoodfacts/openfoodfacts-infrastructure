@@ -2495,6 +2495,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-04-12-install-off-query-off1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04 install off-query on off1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-04-18-matomo-multi-archival/" class="md-nav__link">
         
   
@@ -2981,7 +3002,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <li>Use a "Hostname" to let people know what it is about. Eg. "robotoff", "wiki", "proxy"...</li>
 <li>set Nesting option (systemd recent versions needs it)</li>
 <li>keep "Unprivileged container" option checked… unless you know what you do.</li>
-<li>Password: put something complex and forget it, as we will connect through SSH and not the web interface</li>
+<li>Password: put something complex and forget it, as we will connect through SSH and not the web interface (<code>pwgen 20 20</code> is your friend)</li>
 <li>Create a root password - forget about it also (you will use <code>pct enter</code> or <code>lxc-attach</code>)</li>
 <li>Choose template (normally debian)</li>
 <li>Disk: try to keep a tight disk space and to avoid using nvme if it's not useful.</li>
@@ -3001,7 +3022,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
     <code>sudo /root/cluster-scripts/ct_postinstall</code> (or <code>/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall</code>) choose the container ID when asked.</p>
 <div class="highlight"><pre><span></span><code>See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 </code></pre></div>
-<p>* <a href="#how-to-create-a-user-in-a-container-or-vm">create a user</a></p>
+<p>* <a href="#how-to-create-a-user-in-a-container-or-vm">create a user</a>, most of the time you prefer off to have id 1000.</p>
 <p>Then you can login to the machine (see <a href="#logging-in-to-a-container-or-vm">logging in to a container or VM</a>).</p>
 <p>Using the web interface:</p>
 <ul>
@@ -3025,6 +3046,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <p>For the happy few sudoers on the host, they can attach to containers using <code>pct enter &lt;num&gt;</code> (or <code>lxc-attach -n &lt;num&gt;</code>) where <code>&lt;num&gt;</code> is the VM number.
 This gives a root console in the container and has the advantage of not depending on the container network state.</p>
 <h2 id="how-to-create-a-user-in-a-container-or-vm">how to create a user in a Container or VM<a class="headerlink" href="#how-to-create-a-user-in-a-container-or-vm" title="Permanent link">#</a></h2>
+<p>If you add a user which is not a person that needs ssh account (eg. the off service account), just open the console and the <code>adduser</code> command.</p>
 <p>The <code>sudo /root/cluster-scripts/mkuser</code> (see script <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser">mkuser</a>)  helps you create users using github keys.</p>
 <p>Alternatively <code>sudo /root/cluster-scripts/mkuseralias</code> can be used if the username on server is different from the GitHub username.</p>
 <h2 id="how-to-resolve-slow-ssh-login-time-in-container">How to resolve slow ssh login time in container<a class="headerlink" href="#how-to-resolve-slow-ssh-login-time-in-container" title="Permanent link">#</a></h2>

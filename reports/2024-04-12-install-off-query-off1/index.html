@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-01-24-move-old-productopener-folders-to-backup/">
+        <link rel="prev" href="../2024-04-03-moving-opf-obf-opff-logs/">
       
       
-        <link rel="next" href="../2024-02-06-cleanup-products-snapshots/">
+        <link rel="next" href="../2024-04-18-matomo-multi-archival/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-01 Matomo performance tunning - Open Food Facts Infrastructure documentation</title>
+        <title>2024-04 install off-query on off1 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-01-matomo-performance-tunning" class="md-skip">
+        <a href="#2024-04-install-off-query-on-off1" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-01 Matomo performance tunning
+              2024-04 install off-query on off1
             
           </span>
         </div>
@@ -1965,30 +1965,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2024-01 Matomo performance tunning
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1997,107 +1977,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#using-mysqltunner" class="md-nav__link">
-    <span class="md-ellipsis">
-      using mysqltunner
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#php-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      PHP settings
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#more-mariadb-optimization" class="md-nav__link">
-    <span class="md-ellipsis">
-      More MariaDB Optimization
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optimize-the-archiver-launch" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optimize the archiver launch
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trying-to-see-whats-in-redis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Trying to see what's in redis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#some-useful-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      Some useful commands
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trying-to-launch-the-service-by-hand" class="md-nav__link">
-    <span class="md-ellipsis">
-      Trying to launch the service by hand
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#augmenting-the-service-max-execution-time" class="md-nav__link">
-    <span class="md-ellipsis">
-      Augmenting the service max execution time
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#going-to-4-tracker-queues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Going to 4 tracker queues
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2317,10 +2196,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-04-12-install-off-query-off1/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-04 install off-query on off1
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2329,6 +2228,149 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-overlay-kernel-module-on-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding overlay kernel module on off1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the container
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparing-for-docker-in-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparing for docker in container
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-for-off-ssh-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prepare for off SSH connections
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-off-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install off-query
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup reverse proxy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-zfs-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      setup ZFS sync
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-its-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing it's working
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-domain-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving domain name
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving domain name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regenerating-certificate-with-certbot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regenerating certificate with certbot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-old-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing old install
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2410,81 +2452,123 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#using-mysqltunner" class="md-nav__link">
+  <a href="#adding-overlay-kernel-module-on-off1" class="md-nav__link">
     <span class="md-ellipsis">
-      using mysqltunner
+      Adding overlay kernel module on off1
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#php-settings" class="md-nav__link">
+  <a href="#creating-the-container" class="md-nav__link">
     <span class="md-ellipsis">
-      PHP settings
+      Creating the container
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#more-mariadb-optimization" class="md-nav__link">
+  <a href="#preparing-for-docker-in-container" class="md-nav__link">
     <span class="md-ellipsis">
-      More MariaDB Optimization
+      Preparing for docker in container
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optimize-the-archiver-launch" class="md-nav__link">
+  <a href="#installing-docker" class="md-nav__link">
     <span class="md-ellipsis">
-      Optimize the archiver launch
+      Installing docker
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trying-to-see-whats-in-redis" class="md-nav__link">
+  <a href="#prepare-for-off-ssh-connections" class="md-nav__link">
     <span class="md-ellipsis">
-      Trying to see what's in redis
+      Prepare for off SSH connections
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#some-useful-commands" class="md-nav__link">
+  <a href="#install-off-query" class="md-nav__link">
     <span class="md-ellipsis">
-      Some useful commands
+      Install off-query
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trying-to-launch-the-service-by-hand" class="md-nav__link">
+  <a href="#setup-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
-      Trying to launch the service by hand
+      Setup reverse proxy
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#augmenting-the-service-max-execution-time" class="md-nav__link">
+  <a href="#setup-zfs-sync" class="md-nav__link">
     <span class="md-ellipsis">
-      Augmenting the service max execution time
+      setup ZFS sync
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#going-to-4-tracker-queues" class="md-nav__link">
+  <a href="#testing-its-working" class="md-nav__link">
     <span class="md-ellipsis">
-      Going to 4 tracker queues
+      Testing it's working
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-domain-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving domain name
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving domain name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regenerating-certificate-with-certbot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regenerating certificate with certbot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-old-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing old install
     </span>
   </a>
   
@@ -2508,172 +2592,187 @@
   
 
 
-<h1 id="2024-01-matomo-performance-tunning">2024-01 Matomo performance tunning<a class="headerlink" href="#2024-01-matomo-performance-tunning" title="Permanent link">#</a></h1>
-<p>We still have Matomo archive scripts failing…</p>
-<p>Trying to optimize it.</p>
-<p><strong>NOTE:</strong> some of the changes documented here are in <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/32c01fe796a119b377d19e8bf14cd81534ce9795">commit 32c01fe796a1</a></p>
-<h2 id="using-mysqltunner">using mysqltunner<a class="headerlink" href="#using-mysqltunner" title="Permanent link">#</a></h2>
-<p>In a screen as root: <code>mysqltuner</code>, it is advized to let it run for 48h</p>
-<h2 id="php-settings">PHP settings<a class="headerlink" href="#php-settings" title="Permanent link">#</a></h2>
-<p>Edited <code>/etc/php/7.3/fpm/php.ini</code> and set as seen on /etc/php/7.3/fpm/php.ini</p>
-<p>(I only had to change max_execution_time)
-<div class="highlight"><pre><span></span><code><span class="na">memory_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2G</span>
-<span class="na">max_execution_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
-<span class="na">log_errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
-<span class="na">display_errors</span><span class="o">=</span><span class="s">Off</span>
-</code></pre></div></p>
-<p>For <code>/etc/php/7.3/cli/php.ini</code>
-<div class="highlight"><pre><span></span><code><span class="na">memory_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
-<span class="na">max_execution_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
-<span class="na">log_errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
-<span class="na">display_errors</span><span class="o">=</span><span class="s">Off</span>
-</code></pre></div></p>
-<p>I also add the <code>path/to/matomo/config/common.config.ini.php</code> as advised (but with a different log path)</p>
-<p>Then <code>systemctl restart php7.3-fpm.service</code></p>
-<h2 id="more-mariadb-optimization">More MariaDB Optimization<a class="headerlink" href="#more-mariadb-optimization" title="Permanent link">#</a></h2>
-<p>Followed <a href="https://2bits.com/articles/reduce-your-servers-resource-usage-moving-mysql-temporary-directory-ram-disk.html">article on tmpfs for mysql on 2bits.com</a> (cited by <a href="https://matomo.org/faq/on-premise/how-to-configure-matomo-for-speed/">Matomo docs</a>) to add:</p>
-<div class="highlight"><pre><span></span><code>tmpdir=/run/mysqld
-innodb_flush_log_at_trx_commit=2
+<h1 id="2024-04-install-off-query-on-off1">2024-04 install off-query on off1<a class="headerlink" href="#2024-04-install-off-query-on-off1" title="Permanent link">#</a></h1>
+<p>I want to install in a unpriviledge LXC container and will follow https://du.nkel.dev/blog/2021-03-25_proxmox_docker/</p>
+<h2 id="adding-overlay-kernel-module-on-off1">Adding overlay kernel module on off1<a class="headerlink" href="#adding-overlay-kernel-module-on-off1" title="Permanent link">#</a></h2>
+<ul>
+<li>check modules overlay (not aufs as it is deprecated)</li>
+</ul>
+<p><div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;overlay&quot;</span><span class="w"> </span>/etc/modules-load.d/
+lsmod<span class="p">|</span>grep<span class="w"> </span><span class="s2">&quot;overlay&quot;</span>
 </code></pre></div>
-<p>We could try to set <code>innodb_flush_method</code> to <code>O_DSYNC</code> but installed mariadb version does not support it.</p>
-<p>in <code>/etc/mysql/mariadb.conf.d/90-off-configs.cnf</code></p>
-<p>Then <code>systemctl restart mariadb.service</code></p>
-<p>Following https://mariadb.com/docs/server/ref/mdb/status-variables/Threads_created/</p>
-<p>I run:</p>
-<div class="highlight"><pre><span></span><code>MariaDB<span class="w"> </span><span class="o">[(</span>none<span class="o">)]</span>&gt;<span class="w"> </span>SELECT<span class="w"> </span>threads_created,<span class="w"> </span>connections,<span class="w">     </span><span class="o">(</span>threads_created<span class="w"> </span>/<span class="w"> </span>connections<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>thread_cache_miss_rate<span class="w">  </span>FROM<span class="w">     </span><span class="o">(</span>SELECT<span class="w"> </span>gs1.VARIABLE_VALUE<span class="w"> </span>AS<span class="w"> </span>threads_created<span class="w">     </span>FROM<span class="w"> </span>informat
-ion_schema.GLOBAL_STATUS<span class="w"> </span>gs1<span class="w">     </span>WHERE<span class="w"> </span>gs1.VARIABLE_NAME<span class="w"> </span>LIKE<span class="w"> </span><span class="s1">&#39;Threads_created&#39;</span><span class="o">)</span><span class="w"> </span>tc<span class="w"> </span>JOIN<span class="w">     </span><span class="o">(</span>SELECT<span class="w"> </span>gs2.VARIABLE_VALUE<span class="w"> </span>AS<span class="w"> </span>connections<span class="w">     </span>FROM<span class="w"> </span>information_schema.GLOBAL_STATUS<span class="w"> </span>gs2<span class="w">     </span>WHERE
-<span class="w"> </span>gs2.VARIABLE_NAME<span class="w"> </span>LIKE<span class="w"> </span><span class="s1">&#39;Connections&#39;</span><span class="o">)</span><span class="w"> </span>c<span class="p">;</span>
-+-----------------+-------------+------------------------+
-<span class="p">|</span><span class="w"> </span>threads_created<span class="w"> </span><span class="p">|</span><span class="w"> </span>connections<span class="w"> </span><span class="p">|</span><span class="w"> </span>thread_cache_miss_rate<span class="w"> </span><span class="p">|</span>
-+-----------------+-------------+------------------------+
-<span class="p">|</span><span class="w"> </span><span class="m">9</span><span class="w">               </span><span class="p">|</span><span class="w"> </span><span class="m">239</span><span class="w">         </span><span class="p">|</span><span class="w">    </span><span class="m">0</span>.03765690376569038<span class="w"> </span><span class="p">|</span>
-+-----------------+-------------+------------------------+
-<span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.001<span class="w"> </span>sec<span class="o">)</span>
+both return nothing, so we add to load it.
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>modprobe<span class="w"> </span>overlay
+$<span class="w"> </span>lsmod<span class="p">|</span>grep<span class="w"> </span>overlay
+overlay<span class="w">               </span><span class="m">147456</span><span class="w">  </span><span class="m">0</span>
+$<span class="w"> </span>vim<span class="w"> </span>/etc/modules-load.d/modules.conf
+...
+overlay
+...
+</code></pre></div></p>
+<h2 id="creating-the-container">Creating the container<a class="headerlink" href="#creating-the-container" title="Permanent link">#</a></h2>
+<p>Created a container following usual steps on <a href="../../proxmox/#how-to-create-a-new-container">creating a container</a></p>
+<p>I used:</p>
+<ul>
+<li>number 115</li>
+<li>hostname "off-query"</li>
+<li>template debian 11</li>
+<li>storage: root disk of 40Gb and a mp0 of 200G mounted on /var/lib/docker/volumes</li>
+<li>32GB RAM</li>
+<li>12 vCPU</li>
+</ul>
+<p>I did the post install and create user off with adduser.</p>
+<h2 id="preparing-for-docker-in-container">Preparing for docker in container<a class="headerlink" href="#preparing-for-docker-in-container" title="Permanent link">#</a></h2>
+<p>In the container, I removed the systemd-networkd service: <code>systemctl stop systemd-networkd &amp;&amp; systemctl disable systemd-networkd</code></p>
+<p>as proxmox <a href="https://pve.proxmox.com/wiki/Linux_Container">documentation on Linux Containers config</a> mentions about <code>keyctl</code> activation:</p>
+<blockquote>
+<p>keyctl=<boolean> (default = 0)</p>
+<p>For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged
+containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error 
+when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.</p>
+</blockquote>
+<p>I then added the <code>keyctl=1</code> options (not able to do it in web admin, in Options &gt; Features, so I did it with the CLI):
+<div class="highlight"><pre><span></span><code>pct<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">115</span><span class="w"> </span>-feature<span class="w"> </span><span class="nv">nesting</span><span class="o">=</span><span class="m">1</span>,keyctl<span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-<p>thread_cache_miss_rate is almost 0 which is a good sign.</p>
-<h2 id="optimize-the-archiver-launch">Optimize the archiver launch<a class="headerlink" href="#optimize-the-archiver-launch" title="Permanent link">#</a></h2>
-<p>Changed the exit time for <code>matomo-archive.service</code> to <code>5h</code></p>
-<p>I use <code>/usr/bin/php /var/www/html/matomo/console core:archive --help</code> to see options.</p>
-<p>We could use <code>--force-idsites</code> to try to launch websites one by one, but I'm not sure it would help, for now (appart from launching archivers in parallel, but it may not help because bottleneck is certainly MariaDB).</p>
-<h2 id="trying-to-see-whats-in-redis">Trying to see what's in redis<a class="headerlink" href="#trying-to-see-whats-in-redis" title="Permanent link">#</a></h2>
-<p>Exploring with redis:
-<div class="highlight"><pre><span></span><code>root@analytics:/var/log/matomo#<span class="w"> </span>redis-cli
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="m">0</span>
-OK
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>keys<span class="w"> </span>*
-<span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1&quot;</span>
-<span class="m">2</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;QueuedTrackingLock0&quot;</span>
-<span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;fooList&quot;</span>
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>llen<span class="w"> </span>trackingQueueV1
-<span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">3886031</span>
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>get<span class="w"> </span>QueuedTrackingLock0
-<span class="s2">&quot;f8e0ba116e18&quot;</span>
-<span class="o">(</span>...<span class="o">)</span>
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>get<span class="w"> </span>QueuedTrackingLock0
-<span class="s2">&quot;340aa64aebd3&quot;</span>
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>ttl<span class="w"> </span>QueuedTrackingLock0
-<span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">1910</span>
+and reboot:
+<div class="highlight"><pre><span></span><code>pct<span class="w"> </span>stop<span class="w"> </span><span class="m">115</span>
+pct<span class="w"> </span>start<span class="w"> </span><span class="m">115</span>
 </code></pre></div></p>
-<p>So we have a trackingQueueV1 with a lot of tracking records to process. (so it seems we didn't loose anything…)
-Also we have a have a lock with a uuid, which changes after some time, and has a quite high ttl.</p>
-<h2 id="some-useful-commands">Some useful commands<a class="headerlink" href="#some-useful-commands" title="Permanent link">#</a></h2>
-<p>Reading at the <a href="https://github.com/matomo-org/plugin-QueuedTracking">source code</a>,
-I also discovered some commands:</p>
-<p>There is a lock-status command
-<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:lock-status<span class="w"> </span>--help
-Usage:
-<span class="w"> </span>queuedtracking:lock-status<span class="w"> </span><span class="o">[</span>--unlock<span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">]</span>
-
-Options:
-<span class="w"> </span>--unlock<span class="w">              </span>If<span class="w"> </span><span class="nb">set</span><span class="w"> </span>will<span class="w"> </span>unlock<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>queue.
-<span class="w"> </span>--help<span class="w"> </span><span class="o">(</span>-h<span class="o">)</span><span class="w">           </span>Display<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message
-<span class="w"> </span>--quiet<span class="w"> </span><span class="o">(</span>-q<span class="o">)</span><span class="w">          </span>Do<span class="w"> </span>not<span class="w"> </span>output<span class="w"> </span>any<span class="w"> </span>message
-<span class="w"> </span>--verbose<span class="w"> </span><span class="o">(</span>-v<span class="p">|</span>vv<span class="p">|</span>vvv<span class="o">)</span><span class="w"> </span>Increase<span class="w"> </span>the<span class="w"> </span>verbosity<span class="w"> </span>of<span class="w"> </span>messages:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>normal<span class="w"> </span>output,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>verbose<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>debug
-<span class="w"> </span>--version<span class="w"> </span><span class="o">(</span>-V<span class="o">)</span><span class="w">        </span>Display<span class="w"> </span>this<span class="w"> </span>application<span class="w"> </span>version
-<span class="w"> </span>--ansi<span class="w">                </span>Force<span class="w"> </span>ANSI<span class="w"> </span>output
-<span class="w"> </span>--no-ansi<span class="w">             </span>Disable<span class="w"> </span>ANSI<span class="w"> </span>output
-<span class="w"> </span>--no-interaction<span class="w"> </span><span class="o">(</span>-n<span class="o">)</span><span class="w"> </span>Do<span class="w"> </span>not<span class="w"> </span>ask<span class="w"> </span>any<span class="w"> </span>interactive<span class="w"> </span>question
-<span class="w"> </span>--matomo-domain<span class="w">       </span>Matomo<span class="w"> </span>URL<span class="w"> </span><span class="o">(</span>protocol<span class="w"> </span>and<span class="w"> </span>domain<span class="o">)</span><span class="w"> </span>eg.<span class="w"> </span><span class="s2">&quot;http://matomo.example.org&quot;</span>
-<span class="w"> </span>--xhprof<span class="w">              </span>Enable<span class="w"> </span>profiling<span class="w"> </span>with<span class="w"> </span>XHProf
-<span class="w"> </span>--ignore-warn<span class="w">         </span>Return<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span>even<span class="w"> </span><span class="k">if</span><span class="w"> </span>there<span class="w"> </span>are<span class="w"> </span>warning<span class="w"> </span>logs<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span>logs<span class="w"> </span>detected<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+<h2 id="installing-docker">Installing docker<a class="headerlink" href="#installing-docker" title="Permanent link">#</a></h2>
+<p>In the container:</p>
+<ol>
+<li>
+<p>Installed docker.io (<a href="https://docs.docker.com/engine/install/debian/#install-using-the-repository">official doc</a>)
+   <div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>ca-certificates<span class="w"> </span>curl
+install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>-d<span class="w"> </span>/etc/apt/keyrings
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/debian/gpg<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.asc
+chmod<span class="w"> </span>a+r<span class="w"> </span>/etc/apt/keyrings/docker.asc
+<span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \</span>
+<span class="s2"> </span><span class="k">$(</span>.<span class="w"> </span>/etc/os-release<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VERSION_CODENAME</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="c1"># verify</span>
+cat<span class="w"> </span>/etc/apt/sources.list.d/docker.list
+apt<span class="w"> </span>update
+apt<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-buildx-plugin<span class="w"> </span>docker-compose-plugin
+docker<span class="w"> </span>run<span class="w"> </span>hello-world
 </code></pre></div></p>
-<p>and a monitoring command:
-<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:monitor<span class="w"> </span>--help
-Usage:
-<span class="w"> </span>queuedtracking:monitor<span class="w"> </span><span class="o">[</span>--iterations<span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">]</span>
-
-Options:
-<span class="w"> </span>--iterations<span class="w">          </span>If<span class="w"> </span>set,<span class="w"> </span>will<span class="w"> </span>limit<span class="w"> </span>the<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>monitoring<span class="w"> </span>iterations<span class="w"> </span><span class="k">done</span>.
-<span class="w"> </span>--help<span class="w"> </span><span class="o">(</span>-h<span class="o">)</span><span class="w">           </span>Display<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message
-<span class="w"> </span>--quiet<span class="w"> </span><span class="o">(</span>-q<span class="o">)</span><span class="w">          </span>Do<span class="w"> </span>not<span class="w"> </span>output<span class="w"> </span>any<span class="w"> </span>message
-<span class="w"> </span>--verbose<span class="w"> </span><span class="o">(</span>-v<span class="p">|</span>vv<span class="p">|</span>vvv<span class="o">)</span><span class="w"> </span>Increase<span class="w"> </span>the<span class="w"> </span>verbosity<span class="w"> </span>of<span class="w"> </span>messages:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>normal<span class="w"> </span>output,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>verbose<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>debug
-<span class="w"> </span>--version<span class="w"> </span><span class="o">(</span>-V<span class="o">)</span><span class="w">        </span>Display<span class="w"> </span>this<span class="w"> </span>application<span class="w"> </span>version
-<span class="w"> </span>--ansi<span class="w">                </span>Force<span class="w"> </span>ANSI<span class="w"> </span>output
-<span class="w"> </span>--no-ansi<span class="w">             </span>Disable<span class="w"> </span>ANSI<span class="w"> </span>output
-<span class="w"> </span>--no-interaction<span class="w"> </span><span class="o">(</span>-n<span class="o">)</span><span class="w"> </span>Do<span class="w"> </span>not<span class="w"> </span>ask<span class="w"> </span>any<span class="w"> </span>interactive<span class="w"> </span>question
-<span class="w"> </span>--matomo-domain<span class="w">       </span>Matomo<span class="w"> </span>URL<span class="w"> </span><span class="o">(</span>protocol<span class="w"> </span>and<span class="w"> </span>domain<span class="o">)</span><span class="w"> </span>eg.<span class="w"> </span><span class="s2">&quot;http://matomo.example.org&quot;</span>
-<span class="w"> </span>--xhprof<span class="w">              </span>Enable<span class="w"> </span>profiling<span class="w"> </span>with<span class="w"> </span>XHProf
-<span class="w"> </span>--ignore-warn<span class="w">         </span>Return<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span>even<span class="w"> </span><span class="k">if</span><span class="w"> </span>there<span class="w"> </span>are<span class="w"> </span>warning<span class="w"> </span>logs<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span>logs<span class="w"> </span>detected<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>output.
+</li>
+<li>
+<p>install make : <code>apt install make</code> (needed for deployments)</p>
+</li>
+<li>
+<p>added user off to docker group:
+   <div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>off<span class="w"> </span>docker
 </code></pre></div></p>
-<h2 id="trying-to-launch-the-service-by-hand">Trying to launch the service by hand<a class="headerlink" href="#trying-to-launch-the-service-by-hand" title="Permanent link">#</a></h2>
-<p>Stop current and verify it's not running
-<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>stop<span class="w"> </span>matomo-tracking.timer
-systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking.service
-...<span class="w"> </span>dead
+</li>
+</ol>
+<h2 id="prepare-for-off-ssh-connections">Prepare for off SSH connections<a class="headerlink" href="#prepare-for-off-ssh-connections" title="Permanent link">#</a></h2>
+<p>Created a private key: <code>ssh-keygen -t ed25519 -C "off@off-query-org" -f off-query-org-ssh-key</code>
+And put the key content in our keepassX file as an attachment while removing the file from my hard drive.</p>
+<p>Then I ensured off user exists on off1 with nologin as shell
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span>/etc/passwd<span class="w"> </span><span class="p">|</span>grep<span class="w"> </span>off
+off:x:1000:1000:OFF<span class="w"> </span>user,,,:/home/off:/usr/sbin/nologin
+...
 </code></pre></div></p>
-<p>Start manually in a screen:
-<div class="highlight"><pre><span></span><code>/usr/bin/php<span class="w"> </span>/var/www/html/matomo/console<span class="w"> </span>queuedtracking:process<span class="w"> </span>-v
+<p>On off1 and in the container I added the public key in authorized_keys for user off.
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/home/off/.ssh
+vim<span class="w"> </span>/home/off/.ssh/authorized_keys<span class="w"> </span><span class="c1"># and paste the public key there</span>
+chown<span class="w"> </span>-R<span class="w"> </span>off:off<span class="w">  </span>/home/off/.ssh
+chmod<span class="w"> </span>go-rwx<span class="w"> </span>-R<span class="w"> </span>/home/off/.ssh
 </code></pre></div></p>
-<p>It seems to be processing. To verify let's look at the database.</p>
-<p>When we started, in mysql we had:
-<div class="highlight"><pre><span></span><code><span class="n">MariaDB</span><span class="w"> </span><span class="p">[</span><span class="n">matomo_db</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">matomo_log_visit</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">visit_last_action_time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-1</span>
-<span class="s1">6&#39;</span><span class="p">;</span>
-<span class="o">+</span><span class="c1">----------+</span>
-<span class="o">|</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">|</span>
-<span class="o">+</span><span class="c1">----------+</span>
-<span class="o">|</span><span class="w">    </span><span class="mi">44581</span><span class="w"> </span><span class="o">|</span>
-<span class="o">+</span><span class="c1">----------+</span>
-<span class="o">``````</span>
-
-<span class="mi">1</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">after</span><span class="p">:</span>
-<span class="o">```</span><span class="k">SQL</span>
-<span class="n">MariaDB</span><span class="w"> </span><span class="p">[</span><span class="n">matomo_db</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">matomo_log_visit</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">visit_last_action_time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-16&#39;</span><span class="p">;</span>
-<span class="o">+</span><span class="c1">----------+</span>
-<span class="o">|</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">|</span>
-<span class="o">+</span><span class="c1">----------+</span>
-<span class="o">|</span><span class="w">    </span><span class="mi">47785</span><span class="w"> </span><span class="o">|</span>
-<span class="o">+</span><span class="c1">----------+</span>
-</code></pre></div></p>
-<p>So it's working but it's quite slow (~3000 / h).</p>
-<h2 id="augmenting-the-service-max-execution-time">Augmenting the service max execution time<a class="headerlink" href="#augmenting-the-service-max-execution-time" title="Permanent link">#</a></h2>
-<p>The problem with current service settings is that the TimeoutStartSec is maybe too low.
-When a tracking service is stopped, it might leave the lock behind it, with a ttl that might be a bit high, so it then restart a lot of time without doing anything because of the lock.</p>
-<h2 id="going-to-4-tracker-queues">Going to 4 tracker queues<a class="headerlink" href="#going-to-4-tracker-queues" title="Permanent link">#</a></h2>
-<p>Matomo propose to use more than one queue to handle incoming requests. This is what we will do.</p>
-<p>Modification of <a href="https://analytics.openfoodfacts.org/index.php?module=CoreAdminHome&amp;action=generalSettings&amp;idSite=1&amp;period=day&amp;date=yesterday&amp;activated=#/QueuedTracking">matomo Queuetracker plugin settings</a> to have 4 queues.</p>
-<p>Modification of matomo-tracking service to run 4 services and queues (using instance name).</p>
-<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/matomo/systemd/matomo-tracking@.service<span class="w"> </span>/etc/systemd/system
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/matomo/systemd/matomo-tracking@.timer<span class="w"> </span>/etc/systemd/system
-systemctl<span class="w"> </span>disable<span class="w"> </span>matomo-tracking.timer
-unlink<span class="w"> </span>/etc/systemd/system/matomo-tracking.service
-unlink<span class="w"> </span>/etc/systemd/system/matomo-tracking.timer
-systemctl<span class="w"> </span>daemon-reload
-systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>.timer
-systemctl<span class="w"> </span>start<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>,1,2,3<span class="o">}</span>.timer
+<h2 id="install-off-query">Install off-query<a class="headerlink" href="#install-off-query" title="Permanent link">#</a></h2>
+<p>In github settings / environment I created my temporary environment <code>off-query-new-org</code> and added the SSH_PRIVATE_KEY secret
+as well as a random POSTGRES_PASSWORD.</p>
+<p>I then cloned the repo.
+I made a <a href="https://github.com/openfoodfacts/openfoodfacts-query/pull/40">new branch deploy-new-ct</a> and modify the container-deploy workflow,
+with a new (temporary) "off-query-new-org" environment and right settings for new container.</p>
+<p>I then just push my branch to trigger the action.</p>
+<p>After some iterations, it's deploying.</p>
+<h2 id="setup-reverse-proxy">Setup reverse proxy<a class="headerlink" href="#setup-reverse-proxy" title="Permanent link">#</a></h2>
+<p>I setup the reverse proxy on off2 to <a href="../../nginx-reverse-proxy/#configuring-a-new-service">configure a new service</a>
+copying the file we have on ovh1 reverse proxy, but adding a -tmp to certificates names, and copying corresponding certs from ovh1 reverse proxy and add them with "-tmp" suffix, and changing proxying ip !</p>
+<p>I can test it from the reverse proxy with: <code>curl 10.1.0.115:5511/health</code>.</p>
+<p>I can test it from my machine using my <code>/etc/hosts</code> with <code>213.36.253.214  query.openfoodfacts.org</code>, and then https://</p>
+<h2 id="setup-zfs-sync">setup ZFS sync<a class="headerlink" href="#setup-zfs-sync" title="Permanent link">#</a></h2>
+<p>Because my volumes are regular PVE volumes, I had nothing to do.
+I just checked they already have snapshots on off1, and are replicated on off2 and ovh3.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># off1</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/pve/subvol-115-disk-<span class="o">{</span><span class="m">0</span>,1<span class="o">}</span>
+...
+zfs-hdd/pve/subvol-115-disk-0@autosnap_2024-04-12_16:00:11_hourly<span class="w">    </span>186K<span class="w">      </span>-<span class="w">     </span><span class="m">1</span>.33G<span class="w">  </span>-
+...
+zfs-hdd/pve/subvol-115-disk-1@autosnap_2024-04-12_16:00:12_hourly<span class="w">   </span><span class="m">1</span>.23M<span class="w">      </span>-<span class="w">     </span><span class="m">27</span>.3M<span class="w">  </span>-
 </code></pre></div>
-<p>See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/640895428351826b22f571327de3df2ee6f6e76c">commit 640895428</a></p>
-<p>We can see it's running:
-<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>matomo-tracking@<span class="o">{</span><span class="m">0</span>..3<span class="o">}</span>.timer
+<div class="highlight"><pre><span></span><code><span class="c1"># off2</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/off-backups/off1-pve/subvol-115-disk-<span class="o">{</span><span class="m">0</span>,1<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ovh3</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>rpool/off-backups/off1-pve/subvol-115-disk-<span class="o">{</span><span class="m">0</span>,1<span class="o">}</span>
+</code></pre></div>
+<h2 id="testing-its-working">Testing it's working<a class="headerlink" href="#testing-its-working" title="Permanent link">#</a></h2>
+<p>In the container itself:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://10.1.0.115:5511/health
+<span class="c1"># {&quot;status&quot;:&quot;ok&quot;,&quot;info&quot;:{&quot;postgres&quot;:{&quot;status&quot;:&quot;up&quot;},&quot;mongodb&quot;:{&quot;status&quot;:&quot;up&quot;}},&quot;error&quot;:{},&quot;details&quot;:{&quot;postgres&quot;:{&quot;status&quot;:&quot;up&quot;},&quot;mongodb&quot;:{&quot;status&quot;:&quot;up&quot;}}}</span>
 </code></pre></div></p>
-<p>In redis we see the different queues that have been created:
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>redis-cli
-<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>keys<span class="w"> </span>*
-<span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;QueuedTrackingLock0&quot;</span>
-<span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1_2&quot;</span>
-<span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1&quot;</span>
-<span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;trackingQueueV1_3&quot;</span>
-<span class="m">6</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;fooList&quot;</span>
+<p>In the reverse proxy container:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://10.1.0.115:5511/health
+<span class="c1"># {&quot;status&quot;:&quot;ok&quot;,&quot;info&quot;:{&quot;postgres&quot;:{&quot;status&quot;:&quot;up&quot;},&quot;mongodb&quot;:{&quot;status&quot;:&quot;up&quot;}},&quot;error&quot;:{},&quot;details&quot;:{&quot;postgres&quot;:{&quot;status&quot;:&quot;up&quot;},&quot;mongodb&quot;:{&quot;status&quot;:&quot;up&quot;}}}</span>
 </code></pre></div></p>
+<p>From my computer:
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>curl<span class="w"> </span>https://proxy2.openfoodfacts.org/health<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: query.openfoodfacts.org&quot;</span>
+<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;ok&quot;</span>,<span class="s2">&quot;info&quot;</span>:<span class="o">{</span><span class="s2">&quot;postgres&quot;</span>:<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;up&quot;</span><span class="o">}</span>,<span class="s2">&quot;mongodb&quot;</span>:<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;up&quot;</span><span class="o">}}</span>,<span class="s2">&quot;error&quot;</span>:<span class="o">{}</span>,<span class="s2">&quot;details&quot;</span>:<span class="o">{</span><span class="s2">&quot;postgres&quot;</span>:<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;up&quot;</span><span class="o">}</span>,<span class="s2">&quot;mongodb&quot;</span>:<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;up&quot;</span><span class="o">}}}</span>
+<span class="o">}}}</span>
+</code></pre></div></p>
+<h2 id="moving-data">Moving data<a class="headerlink" href="#moving-data" title="Permanent link">#</a></h2>
+<p>There was nothing to do !
+Upon start, our new instance did see it have an empty data and started getting data from MongoDB,
+and then plugged to the redis stream.</p>
+<p>After two day it's ok.</p>
+<h2 id="moving-domain-name">Moving domain name<a class="headerlink" href="#moving-domain-name" title="Permanent link">#</a></h2>
+<p>On off container, <code>QUERY_URL</code> is defined in <code>Config2.pm</code> using the domain name.</p>
+<p>So to test it's ok, I first edit <code>/etc/hosts</code> on off container !
+<div class="highlight"><pre><span></span><code># TESTING off-query new instance
+213.36.253.214 query.openfoodfacts.org
+</code></pre></div>
+And goes to https://world.openfoodfacts.org/allergens</p>
+<p>It works.</p>
+<p>I then go to OVH console to change query CNAME from <code>proxy1.openfoodfacts.org</code> to <code>proxy2.openfoodfacts.org</code>.</p>
+<p>After verifying name propagated to configured DNS on off <code>dig query.openfoodfacts.org @213.36.253.10</code>
+I removed my line in <code>/etc/hosts</code></p>
+<h3 id="regenerating-certificate-with-certbot">Regenerating certificate with certbot<a class="headerlink" href="#regenerating-certificate-with-certbot" title="Permanent link">#</a></h3>
+<p>On free reverse proxy:
+<div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>certonly<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;query.openfoodfacts.org&quot;</span><span class="w">  </span>--nginx
+</code></pre></div>
+Does not work and ends with <code>live directory exists for query.openfoodfacts.org</code>.</p>
+<p>So I did:
+<div class="highlight"><pre><span></span><code>mv<span class="w"> </span>/etc/letsencrypt/live/query.openfoodfacts.org<span class="o">{</span>,-old<span class="o">}</span><span class="w"> </span>
+<span class="c1"># edit nginx conf to use this directory</span>
+vim<span class="w"> </span>/etc/nginx/sites-enabled/query.openfoodfacts.org
+...
+<span class="w">    </span>ssl_certificate<span class="w"> </span>/etc/letsencrypt/live/query.openfoodfacts.org-old/fullchain-tmp.pem<span class="p">;</span><span class="w"> </span><span class="c1"># managed by Certbot</span>
+<span class="w">    </span>ssl_certificate_key<span class="w"> </span>/etc/letsencrypt/live/query.openfoodfacts.org-old/privkey-tmp.pem<span class="p">;</span><span class="w"> </span><span class="c1"># managed by Certbot</span>
+...
+<span class="c1"># restart nginx</span>
+nginx<span class="w"> </span>-t
+systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</code></pre></div></p>
+<p>Now I can run:
+<div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>certonly<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;query.openfoodfacts.org&quot;</span><span class="w">  </span>--nginx
+</code></pre></div></p>
+<p>Finally I manually changed <code>/etc/nginx/sites-enabled/query.openfoodfacts.org</code> to point to new certifcates:</p>
+<div class="highlight"><pre><span></span><code>    ssl_certificate /etc/letsencrypt/live/query.openfoodfacts.org-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/query.openfoodfacts.org-0001/privkey.pem; # managed by Certbot
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>nginx<span class="w"> </span>-t
+systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</code></pre></div>
+<h2 id="removing-old-install">Removing old install<a class="headerlink" href="#removing-old-install" title="Permanent link">#</a></h2>
+<p>After moving, I did a <code>docker compose down</code> on the container VM where the old install was.</p>
+<p>After some time, seeing all was ok in production, I just did a <code>docker compose down -v</code>.</p>
+<p>I then renamed the folder, (to avoid confusions).</p>
+<p>I also restored values of envs in my PR, and merged it.</p>
+<p>I removed the temporary env in github configuration and changes secrets for off-query-org.</p>
 
 
 

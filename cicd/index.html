@@ -2405,6 +2405,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-04-12-install-off-query-off1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04 install off-query on off1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-04-18-matomo-multi-archival/" class="md-nav__link">
         
   
@@ -2838,7 +2859,7 @@ next deployment.</p>
 You can also re-trigger a deployment in the repo's <code>Actions</code> tab, assuming you are a repo maintainer.</p>
 <h3 id="how-do-i-set-up-a-deployment-on-a-new-repository">How do I set up a deployment on a new repository ?<a class="headerlink" href="#how-do-i-set-up-a-deployment-on-a-new-repository" title="Permanent link">#</a></h3>
 <p>Go to the <code>Actions</code> tab and click on <code>New workflow</code>: scroll down to <code>Workflows created by Open Food Facts</code> and click on <code>Set up this workflow</code> for both <code>Docker image build</code> and <code>Docker Compose Deployment</code> workflows. It will generate pre-configured workflow files in <code>.github/workflows</code> that you can then tweak to your needs and commit to the repository.</p>
-<p>You will also need to create two GitHub environments (in Settings &gt; Environments) and set up a few secrets needed by the deployment, mainly <code>HOST</code>, <code>SSH_PRIVATE_KEY</code>, <code>PROXY_HOST</code> and <code>USERNAME</code>.</p>
+<p>You will also need to create two GitHub environments (in Settings &gt; Environments) and set up a few secrets needed by the deployment, mainly <code>SSH_PRIVATE_KEY</code>  (<code>HOST</code>, <code>PROXY_HOST</code> and <code>USERNAME</code> are better setup as simple env variables).</p>
 <h3 id="what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch">What do I do if the deployment fails after merging my PR to the <code>main</code> or <code>master</code> branch ?<a class="headerlink" href="#what-do-i-do-if-the-deployment-fails-after-merging-my-pr-to-the-main-or-master-branch" title="Permanent link">#</a></h3>
 <p>Contact an OFF administrator to analyze why it is failing: the admin might have 
 to revert your PR to restore the previous working version in pre-production; you 
