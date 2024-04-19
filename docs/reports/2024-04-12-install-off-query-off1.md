@@ -90,7 +90,7 @@ In the container:
 Created a private key: `ssh-keygen -t ed25519 -C "off@off-query-org" -f off-query-org-ssh-key`
 And put the key content in our keepassX file as an attachment while removing the file from my hard drive.
 
-Then I ensured off1 user exists on off1 with nologin as shell
+Then I ensured off user exists on off1 with nologin as shell
 ```bash
 $ cat /etc/passwd |grep off
 off:x:1000:1000:OFF user,,,:/home/off:/usr/sbin/nologin
