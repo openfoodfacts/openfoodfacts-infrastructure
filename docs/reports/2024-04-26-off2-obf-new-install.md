@@ -1,0 +1,1073 @@
+# 2023-06-07 OPF and OBF reinstall on off2
+
+We will follow closely what we did for [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md).
+Refer to it if you need more explanation on a step.
+
+
+## Putting data in zfs datasets
+
+### creating datasets
+
+Products dataset are already there, we create the other datasets.
+
+```bash
+zfs create zfs-hdd/obf/cache
+zfs create zfs-hdd/obf/html_data
+zfs create zfs-hdd/obf/images
+zfs create zfs-hdd/opf/cache
+zfs create zfs-hdd/opf/html_data
+zfs create zfs-hdd/opf/images
+```
+
+and change permissions:
+
+```bash
+sudo chown 1000:1000  /zfs-hdd/o{b,p}f/{,html_data,images,cache}
+```
+
+### adding to sanoid conf
+
+We do it asap, as we need some snapshots to be able to use syncoid.
+
+We edit sanoid.conf to put our new datasets with `use_template=prod_data`.
+
+We can launch the service immediately if we want: `systemctl start sanoid.service`
+
+
+### migrating root datasets on ovh3
+
+If we want to synchronize opf and obf root dataset, they have to be created by syncing from off2.
+But as they already exists on ovh3, we have to create them, move products in them, and swap the old and the new one (avoiding doing so during a sync).
+
+#### prepare
+
+verify which datasets exists under the old root datasets on ovh3:
+
+```bash
+$ zfs list -r rpool/opf rpool/obf
+NAME                 USED  AVAIL     REFER  MOUNTPOINT
+rpool/obf           12.2G  23.9T      208K  /rpool/obf
+rpool/obf/products  12.2G  23.9T     2.92G  /rpool/obf/products
+rpool/opf           4.20G  23.9T      208K  /rpool/opf
+rpool/opf/products  4.20G  23.9T     1.12G  /rpool/opf/products
+```
+
+as expected, only products have to be moved.
+
+#### create new target datasets
+On off2:
+
+```bash
+sudo syncoid --no-sync-snap zfs-hdd/opf  root@ovh3.openfoodfacts.org:rpool/opf-new
+sudo syncoid --no-sync-snap zfs-hdd/obf  root@ovh3.openfoodfacts.org:rpool/obf-new
+```
+it's very fast.
+
+#### move products to new dataset and swap datasets
+
+```bash
+zfs rename rpool/opf{,-new}/products && \
+zfs rename rpool/opf{,-old} && \
+zfs rename rpool/opf{-new,}
+
+zfs rename rpool/obf{,-new}/products && \
+zfs rename rpool/obf{,-old} && \
+zfs rename rpool/obf{-new,}
+```
+
+#### setup sync
+
+We can now sync them regularly by editing `/etc/sanoid/syncoid-args.conf`:
+
+```conf
+# opf
+--no-sync-snap zfs-hdd/opf root@ovh3.openfoodfacts.org:rpool/opf
+# obf
+--no-sync-snap zfs-hdd/obf root@ovh3.openfoodfacts.org:rpool/obf
+```
+
+I also added it to `sanoid.conf` ovh3, but using synced template.
+
+
+### Products
+
+They already are synced (cf. [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md#products-for-all-flavors))
+
+### Users
+
+We have nfs mount of the users folder of off1, and will use it
+
+
+### Products images
+
+We will do a rsync, that we will have to repeat when putting in production.
+
+On off2 (in a screen), as root:
+
+```bash
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/images/products  /zfs-hdd/obf/images && \
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/images/products  /zfs-hdd/opf/images
+```
+this took 80 and 30 minutes.
+
+
+Then sync to ovh3:
+
+```bash
+time syncoid --no-sync-snap zfs-hdd/obf/images root@ovh3.openfoodfacts.org:rpool/obf/images
+time syncoid --no-sync-snap zfs-hdd/opf/images root@ovh3.openfoodfacts.org:rpool/opf/images
+```
+
+After first sync (which took took 31 and 38 min),
+
+I added it to /etc/syncoid-args.conf
+```bash
+--no-sync-snap zfs-hdd/obf/images root@ovh3.openfoodfacts.org:rpool/obf/images
+--no-sync-snap zfs-hdd/opf/images root@ovh3.openfoodfacts.org:rpool/opf/images
+```
+
+I also added it to `sanoid.conf` ovh3, but using synced template.
+
+
+### Other data
+
+I rsync cache data and other data on ofF2:
+
+```bash
+# cache
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/{build-cache,tmp,debug,new_images} /zfs-hdd/opf/cache
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{build-cache,tmp,debug,new_images} /zfs-hdd/obf/cache
+# other
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/{deleted.images,data} /zfs-hdd/opf/
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{deleted.images,data} /zfs-hdd/obf/
+# html/data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/data/ /zfs-hdd/opf/html_data
+time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/data/ /zfs-hdd/obf/html_data
+```
+It took less than 3 min.
+
+Then start the sync for cache and html_data:
+```bash
+for target in {opf,obf}/{cache,html_data}; do time syncoid --no-sync-snap zfs-hdd/$target root@ovh3.openfoodfacts.org:rpool/$target; done
+```
+
+Add them to `/etc/sanoid/syncoid-args.conf`
+
+And on ovh3 add them to `sanoid.conf` with `synced_data` template
+
+
+## Creating Containers
+
+I created a CT for obf followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
+I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
+
+I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+**Important:** do not create any user until you changed id maping in lxc conf (see [Mounting volumes](#mounting-volumes)). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.
+
+## Mounting volumes
+
+In production we have off, obf, opf and opff in off2, so we cross mount their products and images volumes.
+
+### changing lxc confs
+
+On off2, we edit /etc/pve/lxc/116.conf.
+We want the same mounts as the current obf container (111), so we copy the mp*: lines from /etc/pve/lxc/111.conf
+and we also add the lxc.idmap: lines:
+
+We also need the *orgs* directory, so we add a new line:
+```conf
+mp12: /zfs-hdd/off/orgs,mp=/mnt/obf/orgs
+```
+
+Resulting in:
+
+```conf
+mp0: /zfs-hdd/obf,mp=/mnt/obf
+mp1: /zfs-hdd/obf/products/,mp=/mnt/obf/products
+mp10: /zfs-hdd/opf/products/,mp=/mnt/opf/products
+mp11: /zfs-hdd/opf/images,mp=/mnt/opf/images
+mp12: /zfs-hdd/off/orgs,mp=/mnt/obf/orgs
+mp2: /zfs-hdd/off/users,mp=/mnt/obf/users
+mp3: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp4: /zfs-hdd/obf/html_data,mp=/mnt/obf/html_data
+mp5: /zfs-hdd/obf/cache,mp=/mnt/obf/cache
+mp6: /zfs-nvme/off/products,mp=/mnt/off/products
+mp7: /zfs-hdd/off/images,mp=/mnt/off/images
+mp8: /zfs-hdd/opff/products,mp=/mnt/opff/products
+mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
+…
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 10
+lxc.idmap: g 1000 1000 10
+```
+
+Also adding lines to start the container on boot and to make it protected (can also be done in proxmox web interface):
+
+```
+onboot: 1
+protection: 1
+```
+
+Reboot and enter the container:
+
+```bash
+pct reboot 116
+pct enter 116
+```
+
+### Create off user in the container
+
+On obf-new:
+
+The first user created should be the *off* user with id 1000:
+
+```bash
+adduser --uid 1000 off
+```
+
+I also create a user *stephane*:
+
+```bash
+adduser stephane
+```
+
+### Install sudo, add your user to sudo group
+
+```bash
+apt-get update
+apt-get install sudo
+usermod -aG sudo stephane
+```
+
+### Installing generic packages
+
+I also installed generic packages:
+
+```bash
+sudo apt install -y apache2 apt-utils g++ gcc less make gettext wget vim
+```
+
+### Geoip with updates
+
+Installed geoip with updates, and copied `/etc/GeoIP.conf` from opff:
+```bash
+sudo apt install geoipupdate
+vim /etc/GeoIP.conf
+…
+sudo chmod o-rwx /etc/GeoIP.conf
+```
+
+Test it:
+```bash
+sudo systemctl start geoipupdate.service
+sudo systemctl status geoipupdate.service
+…
+juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Succeeded.
+juin 12 16:18:34 obf systemd[1]: Finished Weekly GeoIP update.
+juin 12 16:18:34 obf systemd[1]: geoipupdate.service: Consumed 3.231s CPU time.
+…
+```
+
+
+### Installing packages
+
+On obf-new:
+
+Packages taken from Dockerfile:
+
+
+```bash
+sudo  apt install -y \
+   apache2 \
+   apt-utils \
+   cpanminus \
+   g++ \
+   gcc \
+   less \
+   libapache2-mod-perl2 \
+   make \
+   gettext \
+   wget \
+   imagemagick \
+   graphviz \
+   tesseract-ocr \
+   lftp \
+   gzip \
+   tar \
+   unzip \
+   zip \
+   libtie-ixhash-perl \
+   libwww-perl \
+   libimage-magick-perl \
+   libxml-encoding-perl  \
+   libtext-unaccent-perl \
+   libmime-lite-perl \
+   libcache-memcached-fast-perl \
+   libjson-pp-perl \
+   libclone-perl \
+   libcrypt-passwdmd5-perl \
+   libencode-detect-perl \
+   libgraphics-color-perl \
+   libbarcode-zbar-perl \
+   libxml-feedpp-perl \
+   liburi-find-perl \
+   libxml-simple-perl \
+   libexperimental-perl \
+   libapache2-request-perl \
+   libdigest-md5-perl \
+   libtime-local-perl \
+   libdbd-pg-perl \
+   libtemplate-perl \
+   liburi-escape-xs-perl \
+   libmath-random-secure-perl \
+   libfile-copy-recursive-perl \
+   libemail-stuffer-perl \
+   liblist-moreutils-perl \
+   libexcel-writer-xlsx-perl \
+   libpod-simple-perl \
+   liblog-any-perl \
+   liblog-log4perl-perl \
+   liblog-any-adapter-log4perl-perl \
+   libgeoip2-perl \
+   libemail-valid-perl \
+   libmath-fibonacci-perl \
+   libev-perl \
+   libprobe-perl-perl \
+   libmath-round-perl \
+   libsoftware-license-perl \
+   libtest-differences-perl \
+   libtest-exception-perl \
+   libmodule-build-pluggable-perl \
+   libclass-accessor-lite-perl \
+   libclass-singleton-perl \
+   libfile-sharedir-install-perl \
+   libnet-idn-encode-perl \
+   libtest-nowarnings-perl \
+   libfile-chmod-perl \
+   libdata-dumper-concise-perl \
+   libdata-printer-perl \
+   libdata-validate-ip-perl \
+   libio-compress-perl \
+   libjson-maybexs-perl \
+   liblist-allutils-perl \
+   liblist-someutils-perl \
+   libdata-section-simple-perl \
+   libfile-which-perl \
+   libipc-run3-perl \
+   liblog-handler-perl \
+   libtest-deep-perl \
+   libwant-perl \
+   libfile-find-rule-perl \
+   liblinux-usermod-perl \
+   liblocale-maketext-lexicon-perl \
+   liblog-any-adapter-tap-perl \
+   libcrypt-random-source-perl \
+   libmath-random-isaac-perl \
+   libtest-sharedfork-perl \
+   libtest-warn-perl \
+   libsql-abstract-perl \
+   libauthen-sasl-saslprep-perl \
+   libauthen-scram-perl \
+   libbson-perl \
+   libclass-xsaccessor-perl \
+   libconfig-autoconf-perl \
+   libdigest-hmac-perl \
+   libpath-tiny-perl \
+   libsafe-isa-perl \
+   libspreadsheet-parseexcel-perl \
+   libtest-number-delta-perl \
+   libdevel-size-perl \
+   gnumeric \
+   libreadline-dev \
+   libperl-dev \
+   libapache2-mod-perl2-dev
+```
+
+
+## Getting the code
+
+### Copying production code
+
+We copy the current obf code from container 111, while avoiding data. I put code in `/srv/obf-old/` so that I can easily compare to git code later on.
+
+On off2 as root:
+```bash
+mkdir /zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+rsync -x -a --info=progress2 --exclude "logs/" --exclude "html/images/products/" --exclude "html/data" --exclude "deleted.images" --exclude "tmp/" --exclude "new_images/" --exclude="build-cache" /zfs-hdd/pve/subvol-111-disk-0/srv/obf/ /zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+# there are some permissions problems
+sudo chown 1000:1000 -R /zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+
+```
+### Cloning off-server repository
+
+On obf-new:
+
+First I create a key for off to access off-server repo:
+```bash
+sudo -u off ssh-keygen -f /home/off/.ssh/github_off-server -t ed25519 -C "off+off-server@obf-new.openfoodfacts.org"
+sudo -u off vim /home/off/.ssh/config
+…
+# deploy key for openfoodfacts-server
+Host github.com-off-server
+        Hostname github.com
+        IdentityFile=/home/off/.ssh/github_off-server
+…
+sudo cat /home/off/.ssh/github_off-server.pub
+```
+Go to github add the obf pub key for off to [productopener repository](https://github.com/openfoodfacts/openfoodfacts-server/settings/keys) with write access:
+
+Then clone repository, on obf-new:
+
+```bash
+sudo apt-get install git
+sudo mkdir /srv/obf
+sudo chown off:off /srv/obf
+sudo -u off git clone git@github.com-off-server:openfoodfacts/openfoodfacts-server.git /srv/obf
+```
+
+Make it shared:
+```bash
+cd /srv/obf
+sudo -u off git config core.sharedRepository true
+sudo chmod g+rwX -R .
+```
+
+I will generaly work to modify / commit to the repository using my user alex, while using off only to push.
+So as stephane on obf:
+```
+git config --global --add safe.directory /srv/obf
+git config --global --add author.name "Stéphane Gigandet"
+git config --global --add author.email "stephane@openfoodfacts.org"
+git config --global --add user.name "Stéphane Gigandet"
+git config --global --add user.email "stephane@openfoodfacts.org"
+```
+
+
+### Finding git commit for obf
+
+On the off-new container, we will deploy the current main branch.
+
+
+## Installing
+
+We have git cloned our repository in `/srv/obf`.
+
+
+### symlinks to mimic old structure
+Now we create symlinks to mimic old structure:
+
+On obf, as root:
+```bash
+for site in o{f,p,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
+```
+
+### linking data
+
+Unless stated otherwise operation are done with user off.
+
+Create links for users, orgs and products
+
+```bash
+# set the instance as obf
+SERVICE=obf
+ln -s /mnt/$SERVICE/products /srv/$SERVICE/products
+ln -s /mnt/$SERVICE/users /srv/$SERVICE/users
+ln -s /mnt/$SERVICE/orgs /srv/$SERVICE/orgs
+# verify
+ls -l /srv/$SERVICE/products /srv/$SERVICE/users /srv/$SERVICE/orgs /srv/$SERVICE/data
+```
+
+Create links for data folders:
+
+```bash
+# set the instance as obf
+SERVICE=obf
+# html data
+ln -s /mnt/$SERVICE/html_data /srv/$SERVICE/html/data
+ln -s /mnt/$SERVICE/html_data/exports /srv/$SERVICE/html/exports
+ln -s /mnt/$SERVICE/html_data/dump /srv/$SERVICE/html/dump
+ln -s /mnt/$SERVICE/html_data/files /srv/$SERVICE/html/files
+# product images
+ln -s /mnt/$SERVICE/images/products  /srv/$SERVICE/html/images/products
+# verify
+ls -ld /srv/$SERVICE/html/images/products /srv/$SERVICE/html/{data,exports,dump,files}
+```
+
+Note:
+The directories */mnt/obf/html_data/{export,dump,files}* do not currently exist in the old production.
+
+some direct links:
+```bash
+# set the instance as obf
+SERVICE=obf
+
+ln -s  /mnt/$SERVICE/deleted.images /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_products_images /srv/$SERVICE
+ln -s  /mnt/$SERVICE/imports /srv/$SERVICE
+ln -s  /mnt/$SERVICE/deleted_private_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/reverted_products /srv/$SERVICE
+ln -s  /mnt/$SERVICE/translate /srv/$SERVICE
+ln -s  /mnt/$SERVICE/cache/debug /srv/$SERVICE/
+ln -s  /mnt/$SERVICE/import_files /srv/$SERVICE/import_files
+ln -s /mnt/$SERVICE/data /srv/$SERVICE/data
+# verify
+ls -l /srv/$SERVICE/{deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products,reverted_products,translate,debug}
+```
+
+Note: some directories do not currently exist in the old production.
+
+we also need a link to `internal_code.sto`:
+```bash
+# set the instance as obf
+SERVICE=obf
+ln -s /mnt/off/products/internal_code.sto /srv/$SERVICE/products/
+```
+
+TODO: current old production already has a internal_code.sto, used for products created without a barcode.
+It is likely that we created products with the same barcode on off, obf, opf and opff. We will need to change the barcode
+of those products in order to have distinct barcodes for all products, and then we should use the same sequence number.
+
+Create and link cache folders:
+
+```bash
+# set the instance as obf
+SERVICE=obf
+cd /srv/$SERVICE
+rm build-cache/taxonomies/README.md; rmdir build-cache/taxonomies; rmdir build-cache
+ln -s /mnt/$SERVICE/cache/build-cache /srv/$SERVICE/build-cache
+ln -s /mnt/$SERVICE/cache/tmp /srv/$SERVICE/tmp
+rm debug/.empty; rmdir debug
+ln -s /mnt/$SERVICE/cache/debug /srv/$SERVICE/debug
+ln -s /mnt/$SERVICE/cache/new_images /srv/$SERVICE/new_images
+ln -s /mnt/$SERVICE/cache/export_files /srv/$SERVICE/export_files
+# verify
+ls -l /srv/$SERVICE/{build-cache,tmp,debug,new_images,export_files}
+```
+
+We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
+```bash
+# set the instance as obf
+SERVICE=obf
+cd /srv/$SERVICE
+mv html/data/data-fields.txt html/data-fields.txt
+ln -s ../data-fields.txt html/data/data-fields.txt
+```
+
+### linking logs
+
+We want logs to go in /var/logs and really in /mnt/obf/logs .
+
+/mnt/obf/logs already contains logs from the current production container (111),
+so we will use directories obf-new, apache-new and nginx-new to differentiate them.
+
+```bash
+# set the instance as obf
+SERVICE=obf
+
+# be sure to avoid having apache2 or nginx writing
+
+sudo systemctl stop apache2 nginx
+sudo -u off rm -rf /srv/$SERVICE/logs/
+
+sudo mkdir /mnt/$SERVICE/logs/$SERVICE-new
+sudo ln -s /mnt/$SERVICE/logs/$SERVICE-new /var/log/$SERVICE
+sudo chown off:off -R /var/log/$SERVICE
+sudo -u off ln -s /mnt/$SERVICE/logs/$SERVICE-new /srv/$SERVICE/logs
+
+# also move nginx and apache logs
+sudo mv /var/log/nginx /mnt/$SERVICE/logs/nginx-new
+sudo mv /var/log/apache2 /mnt/$SERVICE/logs/apache2-new
+sudo ln -s /mnt/$SERVICE/logs/nginx-new /var/log/nginx
+sudo ln -s /mnt/$SERVICE/logs/apache2-new /var/log/apache2
+
+sudo -u off ln -s ../apache2 /var/log/$SERVICE
+sudo -u off ln -s ../nginx /var/log/$SERVICE
+
+# verify
+ls -l /srv/$SERVICE/logs /srv/$SERVICE/logs/ /var/log/{$SERVICE,nginx,apache2}
+```
+
+Copy original `log.conf` and `minion_log.conf` and make it a symlink.
+
+```bash
+# set the instance as obf
+SERVICE=obf
+
+mv /srv/$SERVICE-old/log.conf /srv/$SERVICE/conf/$SERVICE-log.conf
+rm /srv/$SERVICE/log.conf
+ln -s conf/$SERVICE-log.conf /srv/$SERVICE/log.conf
+mv /srv/$SERVICE-old/minion_log.conf /srv/$SERVICE/conf/$SERVICE-minion_log.conf
+rm /srv/$SERVICE/minion_log.conf
+ln -s conf/$SERVICE-minion_log.conf /srv/$SERVICE/minion_log.conf
+# verify
+ls -l /srv/$SERVICE/{,minion_}log.conf 
+```
+
+
+### copy and verify config links
+
+Config files:
+
+```bash
+# set the instance as obf
+SERVICE=obf
+
+cp /srv/$SERVICE-old/lib/ProductOpener/Config2.pm /srv/$SERVICE/lib/ProductOpener/Config2.pm
+# verify
+ls -l /srv/$SERVICE/lib/ProductOpener/{Config,Config2}.pm
+```
+
+Note: Config.pm now loads Config_{off,obf,opf,opff}.pm based on the value of the PRODUCT_OPENER_FLAVOR_SHORT environment variable.
+
+### Verify broken links
+
+`sudo find /srv/$SERVICE-old -xtype l | xargs ls -l`
+
+It shows broken links for dists and lang files that will be added below.
+
+### Adding dists
+
+Create folders for dist:
+```bash
+# set the instance as obf
+declare -x SERVICE=obf
+
+sudo -E mkdir /srv/$SERVICE-dist
+sudo -E chown off:off -R /srv/$SERVICE-dist
+```
+
+and unpack last dist release there (as user off):
+
+```bash
+wget https://github.com/openfoodfacts/openfoodfacts-server/releases/download/v2.30.0/frontend-dist.tgz -O /tmp/frontend-dist.tgz
+tar xzf /tmp/frontend-dist.tgz -C /srv/$SERVICE-dist
+```
+
+And use symbolic links in folders (as user off):
+
+```bash
+# first link for whole folder
+ln -s /srv/$SERVICE-dist /srv/$SERVICE/dist
+# relative links for the rest
+ln -s ../../../dist/icons /srv/$SERVICE/html/images/icons/dist
+ln -s ../../../dist/attributes /srv/$SERVICE/html/images/attributes/dist
+ln -s ../../dist/css /srv/$SERVICE/html/css/dist
+ln -s ../../dist/js /srv/$SERVICE/html/js/dist
+# verify
+ls -l  /srv/$SERVICE/dist /srv/$SERVICE/html/{images/icons,images/attributes,css,js}/dist
+```
+
+
+
+### Adding openfoodfacts-web
+
+#### Cloning repo
+
+Note that I add to make two deploys keys as explained in [github documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#using-multiple-repositories-on-one-server) and use a specific ssh_config hostname for openfoodfacts-web:
+
+Create new key, as off:
+```bash
+# set the instance as obf
+declare -x SERVICE=obf
+
+# deploy key for openfoodfacts-web
+ssh-keygen -t ed25519 -C "off+off-web@$SERVICE.openfoodfacts.org" -f /home/off/.ssh/github_off-web
+```
+
+Add a specific host in ssh config
+```conf
+# /home/off/.ssh/config
+Host github.com-off-web
+    Hostname github.com
+    IdentityFile=/home/off/.ssh/github_off-web
+```
+
+In github add the `/home/off/.ssh/github_off-web.pub` to deploy keys for openfoodfacts-web.
+
+Cloning:
+```bash
+sudo mkdir /srv/openfoodfacts-web
+sudo chown off:off /srv/openfoodfacts-web
+sudo -u off git clone git@github.com-off-web:openfoodfacts/openfoodfacts-web.git /srv/openfoodfacts-web
+```
+
+#### Linking content
+
+We clearly want obf lang folder to come from off-web:
+
+```bash
+ln -s /srv/openfoodfacts-web/lang /srv/$SERVICE/
+
+# verify
+ls -ld /srv/$SERVICE/lang
+```
+
+Note: the current obf production has specific contact.html press.html and terms-of-use.html
+linked to /srv/obf/lang/
+
+TODO: We don't create links to those, and we will need to have another solution if we want flavor specific texts.
+
+
+### TO BE CONTINUED
+
+
+TODO --- Everything below not done yet
+
+
+### Installing CPAN
+
+First add `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile
+
+```bash
+cd /srv/obf
+sudo apt install libapache2-mod-perl2-dev
+sudo cpanm --notest --quiet --skip-satisfied --installdeps .
+```
+
+
+## Setting up services
+
+
+### NGINX for OBF and OPF (inside container)
+
+Installed nginx `sudo apt install nginx`.
+
+Removed default site `sudo unlink /etc/nginx/sites-enabled/default`
+
+On off2, Copied production nginx configuration of off1:
+```
+# base configs
+sudo scp 10.0.0.1:/etc/nginx/sites-enabled/obf /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/sites-available/
+sudo scp 10.0.0.1:/etc/nginx/sites-enabled/opf /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/sites-available/
+# other config files
+sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/snippets/
+sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/snipets/
+sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/
+sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/
+sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/
+sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf
+```
+
+I added /srv/obf/conf/nginx/conf.d/log_format_realip.conf (on obf), same for opf, with same content as the one on opff (it's now in git).
+
+Then made symlinks:
+* For obf:
+  ```bash
+  sudo ln -s /srv/obf/conf/nginx/sites-available /etc/nginx/sites-enabled/obf
+  sudo ln -s /srv/obf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+  sudo ln -s /srv/obf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+  sudo ln -s /srv/obf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+  sudo rm /etc/nginx/mime.types
+  sudo ln -s /srv/obf/conf/nginx/mime.types /etc/nginx/
+  ```
+* For opf:
+  ```bash
+  sudo ln -s /srv/opf/conf/nginx/sites-available /etc/nginx/sites-enabled/opf
+  sudo ln -s /srv/opf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
+  sudo ln -s /srv/opf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
+  sudo ln -s /srv/opf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+  sudo rm /etc/nginx/mime.types
+  sudo ln -s /srv/opf/conf/nginx/mime.types /etc/nginx/
+  ```
+
+On obf and opf Modified their configuration to remove ssl section, change log path and access log format, and to set real_ip_resursive options (it's all in git)
+
+test it:
+```bash
+sudo nginx -t
+```
+
+
+### Apache
+
+On obf and opf we start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+```bash
+sudo unlink /etc/apache2/sites-enabled/000-default.conf
+sudo a2dismod mpm_event
+sudo a2enmod mpm_prefork
+sudo chown off:off -R /var/log/apache2 /var/run/apache2
+```
+and edit `/etc/apache2/envvars` to use off user:
+```
+#export APACHE_RUN_USER=www-data
+export APACHE_RUN_USER=off
+#export APACHE_RUN_GROUP=www-data
+export APACHE_RUN_GROUP=off
+```
+
+
+On obf:
+* Add configuration for obf in sites enabled
+  ```bash
+  sudo ln -s /srv/obf/conf/apache-2.4/sites-available/obf.conf /etc/apache2/sites-enabled/
+  ```
+* link `mpm_prefork.conf` to a file in git, identical as the one in production
+  ```bash
+  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/obf/conf/apache-2.4/obf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  ```
+* use customized ports.conf for obf (8002)
+  ```bash
+  sudo rm /etc/apache2/ports.conf
+  sudo ln -s /srv/obf/conf/apache-2.4/obf-ports.conf /etc/apache2/ports.conf
+  ```
+
+On opf:
+* Add configuration for opf in sites enabled
+  ```bash
+  sudo ln -s /srv/opf/conf/apache-2.4/sites-available/opf.conf /etc/apache2/sites-enabled/
+  ```
+* link `mpm_prefork.conf` to a file in git, identical as the one in production
+  ```bash
+  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/opf/conf/apache-2.4/opf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  ```
+* use customized ports.conf for opf (8003)
+  ```bash
+  sudo rm /etc/apache2/ports.conf
+  sudo ln -s /srv/opf/conf/apache-2.4/opf-ports.conf /etc/apache2/ports.conf
+  ```
+
+test it in both container:
+```bash
+sudo apache2ctl configtest
+```
+
+We can restart apache2 then nginx:
+```bash
+sudo systemctl restart apache2
+sudo systemctl restart nginx
+```
+
+#### Problem when restarting apache2 on obf
+
+In `/var/log/apache2/error.log`
+```
+Could not load taxonomy: /srv/obf/taxonomies/inci_functions.result.sto
+```
+repairing:
+```bash
+cp /srv/obf-old/taxonomies/inci_functions* /srv/obf/taxonomies/
+```
+
+### creating systemd units for timers jobs
+
+We install mailx
+
+```bash
+sudo apt install mailutils
+```
+
+We copy the units from opff branch.
+
+```bash
+git checkout origin/opff-main conf/systemd/
+git add conf/systemd/
+git commit -a -m "build: added systemd units"
+```
+and link them at system level
+```bash
+declare -x PROJ_NAME=opf
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.service /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/email-failures\@.service /etc/systemd/system
+# account for new services
+sudo systemctl daemon-reload
+```
+
+Test failure notification is working:
+
+```bash
+sudo systemctl start email-failures@gen_feeds__$PROJ_NAME.service
+```
+
+Test systemctl gen_feeds services are working:
+
+```bash
+sudo systemctl start gen_feeds_daily@$PROJ_NAME.service
+sudo systemctl start gen_feeds@$PROJ_NAME.service
+```
+
+Activate systemd units:
+
+```bash
+sudo systemctl enable gen_feeds@$PROJ_NAME.timer
+sudo systemctl enable gen_feeds_daily@$PROJ_NAME.timer
+sudo systemctl daemon-reload
+```
+
+
+### Adding failure notification for apache and nginx in systemd
+
+We can add the on failure notification we created for timers to apache2.service and nginx.service.
+We can get them from opff (at the time of writting it's on a specific branch)
+
+```bash
+declare -x PROJ_NAME=obf
+cd /srv/$PROJ_NAME
+sudo -u off git checkout origin/opff-reinstall-fixes -- conf/systemd/{apache2.service.d,nginx.service.d}
+sudo ln -s /srv/opff/conf/systemd/nginx.service.d /etc/systemd/system/
+sudo ln -s /srv/opff/conf/systemd/apache2.service.d /etc/systemd/system/
+sudo systemctl daemon-reload
+```
+
+
+### log rotate perl logs
+
+```bash
+declare -x PROJ_NAME=obf
+```
+
+
+We get `conf/logrotate/apache` from opff and install it:
+
+```bash
+cd /srv/$PROJ_NAME
+sudo -u off git checkout origin/opff-main -- conf/logrotate/apache2
+sudo rm /etc/logrotate.d/apache2
+sudo ln -s /srv/$PROJ_NAME/conf/logrotate/apache2 /etc/logrotate.d/apache2
+# logrotate needs root ownerships
+sudo chown root:root /srv/$PROJ_NAME/conf/logrotate/apache2
+```
+
+We can test with:
+```bash
+sudo logrotate /etc/logrotate.conf --debug
+```
+
+### Installing mongodb client
+
+We need mongodb client to be able to export the database in gen_feeds.
+
+I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
+but we are on bullseye, and we just want to install tools.
+
+```bash
+curl -fsSL https://pgp.mongodb.com/server-4.4.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg \
+   --dearmor
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/4.4 main" | \
+  sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update
+sudo apt install  mongodb-database-tools
+```
+
+### Test with curl
+
+for obf:
+```bash
+declare -x DOMAIN_NAME=openbeautyfacts
+declare -x PORT_NUM=8002
+```
+
+for opf:
+```bash
+declare -x DOMAIN_NAME=openproductsfacts
+declare -x PORT_NUM=8003
+```
+
+
+```bash
+curl localhost:$PORT_NUM/cgi/display.pl --header "Host: fr.$DOMAIN_NAME.org"
+```
+
+Nginx call
+```bash
+curl localhost --header "Host: fr.$DOMAIN_NAME.org"
+```
+
+### Using Matomo instead of google analytics
+
+Copied configuration from OPFF and adapted with site id after creation of sites in Matomo.
+
+
+
+## Reverse proxy configuration
+
+### certbot wildcard certificates using OVH DNS
+
+We already install `python3-certbot-dns-ovh` so we just need to add credentials.
+
+```bash
+$ declare -x DOMAIN_NAME=openbeautyfacts
+```
+
+Generate credential, following https://eu.api.ovh.com/createToken/
+
+Using (for obf):
+* name: `off proxy openbeautyfacts.org`
+* description: `nginx proxy on off2 for openbeautyfacts.org`
+* validity: `unlimited`
+* GET `/domain/zone/`
+  (note: the last `/` is important !)
+* GET/PUT/POST/DELETE `/domain/zone/openbeautyfacts.org/*`
+
+and we put config file in `/root/.ovhapi/openbeautyfacts.org` and `/root/.ovhapi/openproductsfacts.org`
+```bash
+$ mkdir /root/.ovhapi
+$ vim /root/.ovhapi/$DOMAIN_NAME.org
+...
+$ cat /root/.ovhapi/$DOMAIN_NAME.org
+# OVH API credentials used by Certbot
+dns_ovh_endpoint = ovh-eu
+dns_ovh_application_key = ***********
+dns_ovh_application_secret = ***********
+dns_ovh_consumer_key = ***********
+
+# ensure no reading by others
+$ chmod og-rwx -R /root/.ovhapi
+```
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with `--test-cert`
+```bash
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+```
+and then without `--test-cert`
+```bash
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+```
+
+### Create site config
+
+In the git repository, we copied the openpetfoodfacts config and changed names to the right domain.
+
+Then we linked them:
+```bash
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openbeautyfacts.org /etc/nginx/sites-enabled/
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openproductsfacts.org /etc/nginx/sites-enabled/
+# test
+nginx -t
+systemctl restart nginx
+```
+
+## Testing
+
+
+To test my installation I added this to `/etc/hosts` on my computer:
+```conf
+213.36.253.214 fr.openbeautyfacts.org world-fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org world.openbeautyfacts.org
+213.36.253.214 fr.openproductsfacts.org world-fr.openproductsfacts.org static.openproductsfacts.org images.openproductsfacts.org world.openproductsfacts.org
+```
+
+And it works at first try :tada: !
+
