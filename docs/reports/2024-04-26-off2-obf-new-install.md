@@ -1,164 +1,23 @@
-# 2023-06-07 OPF and OBF reinstall on off2
+# 2023-06-07 New install of OBF on OFF2 with new generic code
 
-We will follow closely what we did for [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md).
+## Introduction
+
+OBF, OPF and OPFF currently use very old code (more than 2 years old). An effort is underway to make the current "main" code of Product Opener (currently used for OFF) able to power OBF, OPF and OPFF, so that we can have unified code and features on all platforms.
+
+To test the new code, we will create a new container obf-new (116) that will run in parallel to the current container for obf (116).
+Both containers will use the same data (.sto files and MongoDB database and collection).
+
+Once we are satisfied with the new code, we can transform obf-new in the new production container for OBF, and retire the old container.
+
+## Install logs
+
+The obf-new install is done by Stéphane, following closely what Alex did and documented for [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md).
+
 Refer to it if you need more explanation on a step.
-
-
-## Putting data in zfs datasets
-
-### creating datasets
-
-Products dataset are already there, we create the other datasets.
-
-```bash
-zfs create zfs-hdd/obf/cache
-zfs create zfs-hdd/obf/html_data
-zfs create zfs-hdd/obf/images
-zfs create zfs-hdd/opf/cache
-zfs create zfs-hdd/opf/html_data
-zfs create zfs-hdd/opf/images
-```
-
-and change permissions:
-
-```bash
-sudo chown 1000:1000  /zfs-hdd/o{b,p}f/{,html_data,images,cache}
-```
-
-### adding to sanoid conf
-
-We do it asap, as we need some snapshots to be able to use syncoid.
-
-We edit sanoid.conf to put our new datasets with `use_template=prod_data`.
-
-We can launch the service immediately if we want: `systemctl start sanoid.service`
-
-
-### migrating root datasets on ovh3
-
-If we want to synchronize opf and obf root dataset, they have to be created by syncing from off2.
-But as they already exists on ovh3, we have to create them, move products in them, and swap the old and the new one (avoiding doing so during a sync).
-
-#### prepare
-
-verify which datasets exists under the old root datasets on ovh3:
-
-```bash
-$ zfs list -r rpool/opf rpool/obf
-NAME                 USED  AVAIL     REFER  MOUNTPOINT
-rpool/obf           12.2G  23.9T      208K  /rpool/obf
-rpool/obf/products  12.2G  23.9T     2.92G  /rpool/obf/products
-rpool/opf           4.20G  23.9T      208K  /rpool/opf
-rpool/opf/products  4.20G  23.9T     1.12G  /rpool/opf/products
-```
-
-as expected, only products have to be moved.
-
-#### create new target datasets
-On off2:
-
-```bash
-sudo syncoid --no-sync-snap zfs-hdd/opf  root@ovh3.openfoodfacts.org:rpool/opf-new
-sudo syncoid --no-sync-snap zfs-hdd/obf  root@ovh3.openfoodfacts.org:rpool/obf-new
-```
-it's very fast.
-
-#### move products to new dataset and swap datasets
-
-```bash
-zfs rename rpool/opf{,-new}/products && \
-zfs rename rpool/opf{,-old} && \
-zfs rename rpool/opf{-new,}
-
-zfs rename rpool/obf{,-new}/products && \
-zfs rename rpool/obf{,-old} && \
-zfs rename rpool/obf{-new,}
-```
-
-#### setup sync
-
-We can now sync them regularly by editing `/etc/sanoid/syncoid-args.conf`:
-
-```conf
-# opf
---no-sync-snap zfs-hdd/opf root@ovh3.openfoodfacts.org:rpool/opf
-# obf
---no-sync-snap zfs-hdd/obf root@ovh3.openfoodfacts.org:rpool/obf
-```
-
-I also added it to `sanoid.conf` ovh3, but using synced template.
-
-
-### Products
-
-They already are synced (cf. [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md#products-for-all-flavors))
-
-### Users
-
-We have nfs mount of the users folder of off1, and will use it
-
-
-### Products images
-
-We will do a rsync, that we will have to repeat when putting in production.
-
-On off2 (in a screen), as root:
-
-```bash
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/images/products  /zfs-hdd/obf/images && \
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/images/products  /zfs-hdd/opf/images
-```
-this took 80 and 30 minutes.
-
-
-Then sync to ovh3:
-
-```bash
-time syncoid --no-sync-snap zfs-hdd/obf/images root@ovh3.openfoodfacts.org:rpool/obf/images
-time syncoid --no-sync-snap zfs-hdd/opf/images root@ovh3.openfoodfacts.org:rpool/opf/images
-```
-
-After first sync (which took took 31 and 38 min),
-
-I added it to /etc/syncoid-args.conf
-```bash
---no-sync-snap zfs-hdd/obf/images root@ovh3.openfoodfacts.org:rpool/obf/images
---no-sync-snap zfs-hdd/opf/images root@ovh3.openfoodfacts.org:rpool/opf/images
-```
-
-I also added it to `sanoid.conf` ovh3, but using synced template.
-
-
-### Other data
-
-I rsync cache data and other data on ofF2:
-
-```bash
-# cache
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/{build-cache,tmp,debug,new_images} /zfs-hdd/opf/cache
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{build-cache,tmp,debug,new_images} /zfs-hdd/obf/cache
-# other
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/{deleted.images,data} /zfs-hdd/opf/
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/{deleted.images,data} /zfs-hdd/obf/
-# html/data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/opf/html/data/ /zfs-hdd/opf/html_data
-time rsync --info=progress2 -a -x 10.0.0.1:/srv/obf/html/data/ /zfs-hdd/obf/html_data
-```
-It took less than 3 min.
-
-Then start the sync for cache and html_data:
-```bash
-for target in {opf,obf}/{cache,html_data}; do time syncoid --no-sync-snap zfs-hdd/$target root@ovh3.openfoodfacts.org:rpool/$target; done
-```
-
-Add them to `/etc/sanoid/syncoid-args.conf`
-
-And on ovh3 add them to `sanoid.conf` with `synced_data` template
-
 
 ## Creating Containers
 
-I created a CT for obf followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
+I created a CT for obf-new followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
@@ -382,7 +241,17 @@ sudo  apt install -y \
    gnumeric \
    libreadline-dev \
    libperl-dev \
-   libapache2-mod-perl2-dev
+   cmake \
+   pkg-config \
+   libapache2-mod-perl2-dev \
+   libavif-dev \
+   libde265-dev \
+   libheif-dev \
+   libjpeg-dev \
+   libpng-dev \
+   libwebp-dev \
+   libx265-dev
+
 ```
 
 
@@ -434,7 +303,7 @@ sudo -u off git config core.sharedRepository true
 sudo chmod g+rwX -R .
 ```
 
-I will generaly work to modify / commit to the repository using my user alex, while using off only to push.
+I will generaly work to modify / commit to the repository using my user stephane, while using off only to push.
 So as stephane on obf:
 ```
 git config --global --add safe.directory /srv/obf
@@ -717,10 +586,6 @@ linked to /srv/obf/lang/
 TODO: We don't create links to those, and we will need to have another solution if we want flavor specific texts.
 
 
-### TO BE CONTINUED
-
-
-TODO --- Everything below not done yet
 
 
 ### Installing CPAN
@@ -733,6 +598,33 @@ sudo apt install libapache2-mod-perl2-dev
 sudo cpanm --notest --quiet --skip-satisfied --installdeps .
 ```
 
+cpan gives an error:
+
+```
+! Configure failed for Imager-File-PNG-0.99. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-zxing-1.001. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-HEIF-0.005. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-WEBP-0.005. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-AVIF-0.002. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-JPEG-0.97. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Installing the dependencies failed: Module 'Imager::File::AVIF' is not installed, Module 'Imager::File::JPEG' is not installed, Module 'Imager::File::PNG' is not installed, Module 'Imager::zxing' is not installed, Module 'Imager::File::WEBP' is not installed, Module 'Imager::File::HEIF' is not installed
+! Bailing out the installation for ..
+
+```
+
+JPEG: building independently
+JPEG: main: includes not found - libraries not found
+JPEG: Checking if the compiler can find them on its own
+OS unsupported: JPEG libraries or headers not found
+JPEG: Test code failed: Can't link/include 'jpeglib.h', 'jpeg'
+
+Just missing some of the new libraries added recently to Dockerfile, installing them.
+
+
+### TO BE CONTINUED
+
+
+TODO --- Everything below not done yet
 
 ## Setting up services
 
