@@ -46,7 +46,7 @@ server {
     # Cache small static assets that are frequently requested
 
 
-    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|logos|misc)/|.wellknown/assetlinks.json) {
+    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
     	proxy_cache_key $request_uri;
         proxy_cache_valid any 1m;
