@@ -24,11 +24,27 @@ I also [configure postfix](../mail#postfix-configuration) and tested it.
 
 **Important:** do not create any user until you changed id maping in lxc conf (see [Mounting volumes](#mounting-volumes)). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.
 
+## Creating en_US.UTF-8 UTF-8 locale
+
+Perl was complaining about the locale:
+
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+        LANGUAGE = (unset),
+        LC_ALL = (unset),
+        LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+
+Edited /etc/locale.gen to uncomment the line en_US.UTF-8 UTF-8
+sudo locale-gen
+
+
 ## Mounting volumes
 
 In production we have off, obf, opf and opff in off2, so we cross mount their products and images volumes.
 
-### changing lxc confs
+### Changing lxc confs
 
 On off2, we edit /etc/pve/lxc/116.conf.
 We want the same mounts as the current obf container (111), so we copy the mp*: lines from /etc/pve/lxc/111.conf
@@ -586,9 +602,27 @@ linked to /srv/obf/lang/
 TODO: We don't create links to those, and we will need to have another solution if we want flavor specific texts.
 
 
+### Installing CPAN modules
 
+#### Install zxing-cpp from source until 2.1 or higher is available in Debian: 
+https://github.com/openfoodfacts/openfoodfacts-server/pull/8911/files#r1322987464
 
-### Installing CPAN
+```bash
+  set -x && \
+    cd /tmp && \
+    wget https://github.com/zxing-cpp/zxing-cpp/archive/refs/tags/v2.1.0.tar.gz && \
+    tar xfz v2.1.0.tar.gz && \
+    cmake -S zxing-cpp-2.1.0 -B zxing-cpp.release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_WRITERS=OFF -DBUILD_READERS=ON -DBUILD_EXAMPLES=OFF && \
+    cmake --build zxing-cpp.release -j8 && \
+    cmake --install zxing-cpp.release && \
+    cd / && \
+    rm -rf /tmp/v2.1.0.tar.gz /tmp/zxing-cpp*
+```
+
+#### Install CPAN modules
 
 First add `Apache2::Connection::XForwardedFor` and `Apache::Bootstrap` to cpanfile
 
@@ -621,67 +655,52 @@ JPEG: Test code failed: Can't link/include 'jpeglib.h', 'jpeg'
 Just missing some of the new libraries added recently to Dockerfile, installing them.
 
 
-### TO BE CONTINUED
-
-
-TODO --- Everything below not done yet
 
 ## Setting up services
 
-
-### NGINX for OBF and OPF (inside container)
+### nginx for OBF (inside container)
 
 Installed nginx `sudo apt install nginx`.
 
 Removed default site `sudo unlink /etc/nginx/sites-enabled/default`
 
-On off2, Copied production nginx configuration of off1:
-```
-# base configs
-sudo scp 10.0.0.1:/etc/nginx/sites-enabled/obf /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/sites-available/
-sudo scp 10.0.0.1:/etc/nginx/sites-enabled/opf /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/sites-available/
-# other config files
-sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/snippets/
-sudo scp 10.0.0.1:/etc/nginx/{expires-no-json-xml.conf,snippets/off.cors-headers.include} /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/snipets/
-sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/nginx/
-sudo scp 10.0.0.1:/etc/nginx/mime.types /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf/nginx/
-sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-111-disk-0/srv/obf/conf/
-sudo chown 1000:1000 -R  /zfs-hdd/pve/subvol-112-disk-0/srv/opf/conf
-```
-
-I added /srv/obf/conf/nginx/conf.d/log_format_realip.conf (on obf), same for opf, with same content as the one on opff (it's now in git).
+We are going to mimick the setup that we have in the off container.
 
 Then made symlinks:
 * For obf:
   ```bash
-  sudo ln -s /srv/obf/conf/nginx/sites-available /etc/nginx/sites-enabled/obf
-  sudo ln -s /srv/obf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
-  sudo ln -s /srv/obf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-  sudo ln -s /srv/obf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
+  sudo ln -s /srv/obf/conf/nginx/sites-available/obf /etc/nginx/sites-enabled/obf
+  sudo ln -s /srv/obf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets/
+  sudo ln -s /srv/obf/conf/nginx/snippets/expiry-headers.include /etc/nginx/snippets/
+  sudo ln -s /srv/obf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets/
+  sudo rm -rf /etc/nginx/conf.d
+  sudo ln -s /srv/obf/conf/nginx/conf.d /etc/nginx/
   sudo rm /etc/nginx/mime.types
   sudo ln -s /srv/obf/conf/nginx/mime.types /etc/nginx/
   ```
-* For opf:
-  ```bash
-  sudo ln -s /srv/opf/conf/nginx/sites-available /etc/nginx/sites-enabled/opf
-  sudo ln -s /srv/opf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets
-  sudo ln -s /srv/opf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets
-  sudo ln -s /srv/opf/conf/nginx/conf.d/log_format_realip.conf /etc/nginx/conf.d
-  sudo rm /etc/nginx/mime.types
-  sudo ln -s /srv/opf/conf/nginx/mime.types /etc/nginx/
-  ```
 
-On obf and opf Modified their configuration to remove ssl section, change log path and access log format, and to set real_ip_resursive options (it's all in git)
+I then copied the off config file to obf, as lots of things have changed:
 
-test it:
 ```bash
-sudo nginx -t
+sudo cp /srv/obf/conf/nginx/sites-available/off /srv/obf/conf/nginx/sites-available/obf
 ```
+
+And edited the file to change openfoodfacts.org to openbeautyfacts.org, the name of the log files etc. The result is in git.
+
+I create an empty /srv/obf/conf/nginx/snippets/obf.domain-redirects.include + obf.locations-redirects.include , they might be used if we want to create subdomains shortcuts or redirects on OBF as we have on OFF.
+
+```bash
+sudo ln -s /srv/obf/conf/nginx/snippets/obf.domain-redirects.include /etc/nginx/snippets/
+sudo ln -s /srv/obf/conf/nginx/snippets/obf.locations-redirects.include /etc/nginx/snippets/
+```
+
+
+
 
 
 ### Apache
 
-On obf and opf we start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+>e start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
 ```bash
 sudo unlink /etc/apache2/sites-enabled/000-default.conf
 sudo a2dismod mpm_event
@@ -696,6 +715,8 @@ export APACHE_RUN_USER=off
 export APACHE_RUN_GROUP=off
 ```
 
+QUESTION: we currently use different ports for Apache for each instance. But as we are on different containers, we could just use a single port like 8000, unless it causes issues for development or if we want to deploy multiple instances in the same container.
+I will keep a different port for now.
 
 On obf:
 * Add configuration for obf in sites enabled
@@ -739,6 +760,11 @@ We can restart apache2 then nginx:
 sudo systemctl restart apache2
 sudo systemctl restart nginx
 ```
+
+### TO BE CONTINUED
+
+
+TODO --- Everything below not done yet
 
 #### Problem when restarting apache2 on obf
 
