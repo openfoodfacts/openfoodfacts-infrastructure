@@ -481,35 +481,33 @@ sudo -u off ln -s ../nginx /var/log/$SERVICE
 ls -l /srv/$SERVICE/logs /srv/$SERVICE/logs/ /var/log/{$SERVICE,nginx,apache2}
 ```
 
-Copy original `log.conf` and `minion_log.conf` and make it a symlink.
+Create obf-log.conf and symlink it:
+
 
 ```bash
 # set the instance as obf
 SERVICE=obf
 
-mv /srv/$SERVICE-old/log.conf /srv/$SERVICE/conf/$SERVICE-log.conf
 rm /srv/$SERVICE/log.conf
-ln -s conf/$SERVICE-log.conf /srv/$SERVICE/log.conf
-mv /srv/$SERVICE-old/minion_log.conf /srv/$SERVICE/conf/$SERVICE-minion_log.conf
+ln -s /srv/$SERVICE/conf/$SERVICE-log.conf /srv/$SERVICE/log.conf
 rm /srv/$SERVICE/minion_log.conf
-ln -s conf/$SERVICE-minion_log.conf /srv/$SERVICE/minion_log.conf
+ln -s srv/$SERVICE/conf/$SERVICE-minion_log.conf /srv/$SERVICE/minion_log.conf
 # verify
 ls -l /srv/$SERVICE/{,minion_}log.conf 
 ```
-
 
 ### copy and verify config links
 
 Config files:
 
-```bash
-# set the instance as obf
-SERVICE=obf
+I copy the off Config2.pm file to obf
 
-cp /srv/$SERVICE-old/lib/ProductOpener/Config2.pm /srv/$SERVICE/lib/ProductOpener/Config2.pm
-# verify
-ls -l /srv/$SERVICE/lib/ProductOpener/{Config,Config2}.pm
+```bash
+root@off2:/home/stephane# cp /zfs-hdd/pve/subvol-113-disk-0/srv/off/lib/ProductOpener/Config2.pm /zfs-hdd/pve/subvol-116-disk-0/srv/obf/lib/ProductOpener/
+
 ```
+
+Then edit the file.
 
 Note: Config.pm now loads Config_{off,obf,opf,opff}.pm based on the value of the PRODUCT_OPENER_FLAVOR_SHORT environment variable.
 
@@ -733,24 +731,12 @@ On obf:
   sudo rm /etc/apache2/ports.conf
   sudo ln -s /srv/obf/conf/apache-2.4/obf-ports.conf /etc/apache2/ports.conf
   ```
-
-On opf:
-* Add configuration for opf in sites enabled
+* modperl environment variables
   ```bash
-  sudo ln -s /srv/opf/conf/apache-2.4/sites-available/opf.conf /etc/apache2/sites-enabled/
-  ```
-* link `mpm_prefork.conf` to a file in git, identical as the one in production
-  ```bash
-  sudo rm /etc/apache2/mods-available/mpm_prefork.conf
-  sudo ln -s /srv/opf/conf/apache-2.4/opf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
-  ```
-* use customized ports.conf for opf (8003)
-  ```bash
-  sudo rm /etc/apache2/ports.conf
-  sudo ln -s /srv/opf/conf/apache-2.4/opf-ports.conf /etc/apache2/ports.conf
+  ln -s /srv/obf/conf/apache-2.4/modperl.conf /etc/apache2/conf-enabled/
   ```
 
-test it in both container:
+test it in container:
 ```bash
 sudo apache2ctl configtest
 ```
@@ -768,13 +754,61 @@ TODO --- Everything below not done yet
 
 #### Problem when restarting apache2 on obf
 
+##### apache2.service: Failed to load environment files: No such file
+
+This is because I named the host obf-new, and we use the host name in the environment file:
+/etc/systemd/system/apache2.service.d/override.conf
+
+[Service]
+# Apache needs some environment variables like PRODUCT_OPENER_FLAVOR_SHORT
+# %l is the short host name (e.g. off, obf, off-pro)
+EnvironmentFile=/srv/%l/env/env.%l
+
+Hack to fix it:
+
+```bash
+cd /srv/
+mkdir obf-new
+mkdir obf-new/env/
+ln -s /srv/obf/env/env.obf /srv/obf-new/env/env.obf-new
+```
+
+##### Taxonomies
+
 In `/var/log/apache2/error.log`
 ```
 Could not load taxonomy: /srv/obf/taxonomies/inci_functions.result.sto
 ```
-repairing:
+To build taxonomies:
 ```bash
-cp /srv/obf-old/taxonomies/inci_functions* /srv/obf/taxonomies/
+export PERL5LIB=/srv/obf/lib
+cd /srv/obf
+source env/setenv.sh obf
+./scripts/taxonomies/build_tags_taxonomy.pl 
+
+```
+
+##### Create missing directories
+
+FATAL: Some important directories are missing: /srv/obf/deleted_private_products:/srv/obf/html/files/debug:/srv/obf/export_files:/srv/obf/orgs:/srv/obf/html/files:/srv/obf/deleted_products:/srv/obf/import_files:/srv/obf/html/exports:/srv/obf/translate:/srv/obf/deleted_products_images:/srv/obf/reverted_products:/srv/obf/html/dump at /srv/obf/lib/startup_apache2.pl line 159.\nCompilation failed in require at (eval 2) line 1.\n
+
+```bash
+# set the instance as obf
+SERVICE=obf
+mkdir /mnt/$SERVICE/debug
+mkdir /mnt/$SERVICE/deleted_private_products
+mkdir /mnt/$SERVICE/deleted_products
+mkdir /mnt/$SERVICE/deleted_products_images
+mkdir /mnt/$SERVICE/imports
+mkdir /mnt/$SERVICE/import_files
+mkdir /mnt/$SERVICE/reverted_products
+mkdir /mnt/$SERVICE/translate
+mkdir /mnt/$SERVICE/exports
+mkdir /mnt/$SERVICE/html_data/dump
+mkdir /mnt/$SERVICE/html_data/exports
+mkdir /mnt/$SERVICE/html_data/files
+mkdir /mnt/$SERVICE/html_data/files/debug
+mkdir /mnt/$SERVICE/cache/export_files
 ```
 
 ### creating systemd units for timers jobs
@@ -785,16 +819,11 @@ We install mailx
 sudo apt install mailutils
 ```
 
-We copy the units from opff branch.
-
-```bash
-git checkout origin/opff-main conf/systemd/
-git add conf/systemd/
-git commit -a -m "build: added systemd units"
-```
 and link them at system level
 ```bash
-declare -x PROJ_NAME=opf
+declare -x PROJ_NAME=obf
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/nginx.service.d /etc/systemd/system
+sudo ln -s /srv/$PROJ_NAME/conf/systemd/apache2.service.d /etc/systemd/system
 sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.timer /etc/systemd/system
 sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.service /etc/systemd/system
 sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
