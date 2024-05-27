@@ -43,9 +43,60 @@ server {
     access_log  /var/log/nginx/openfoodfacts.org.log  main buffer=256K flush=1s;
     error_log   /var/log/nginx/openfoodfacts.org.errors.log;
 
+    # Cache small static assets that are frequently requested
+
+
+    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
+    	proxy_cache mycache;
+    	proxy_cache_key $request_uri;
+        proxy_cache_valid any 1m;
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.113:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+
+    # Cache GET /api/ requests for 5s
+    # This is useful in particular for broken apps who request 100s of times the same product
+    
+    location /api/ {
+    	proxy_cache mycache;
+    	proxy_cache_key $host$request_uri$cookie_user;
+        proxy_cache_valid any 5s;
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.113:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+
     location / {
+#    	proxy_cache mycache;
+#    	proxy_cache_key $host$request_uri$cookie_user;
+#        proxy_cache_valid any 5s;
+	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
+        # cache.
+        # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
+        # Eg. X-Cache-Status: HIT
+        add_header X-Cache-Status $upstream_cache_status;  
         proxy_pass http://10.1.0.113:80/;
-        proxy_buffering off;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
