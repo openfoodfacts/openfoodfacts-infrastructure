@@ -747,11 +747,6 @@ sudo systemctl restart apache2
 sudo systemctl restart nginx
 ```
 
-### TO BE CONTINUED
-
-
-TODO --- Everything below not done yet
-
 #### Problem when restarting apache2 on obf
 
 ##### apache2.service: Failed to load environment files: No such file
@@ -810,6 +805,12 @@ mkdir /mnt/$SERVICE/html_data/files
 mkdir /mnt/$SERVICE/html_data/files/debug
 mkdir /mnt/$SERVICE/cache/export_files
 ```
+
+### TO BE CONTINUED
+
+
+TODO --- Everything below not done yet
+
 
 ### creating systemd units for timers jobs
 
@@ -926,12 +927,12 @@ declare -x PORT_NUM=8003
 
 
 ```bash
-curl localhost:$PORT_NUM/cgi/display.pl --header "Host: fr.$DOMAIN_NAME.org"
+curl localhost:$PORT_NUM/cgi/display.pl --header "Host: fr.$DOMAIN_NAME_EXT"
 ```
 
 Nginx call
 ```bash
-curl localhost --header "Host: fr.$DOMAIN_NAME.org"
+curl localhost --header "Host: fr.$DOMAIN_NAME_EXT"
 ```
 
 ### Using Matomo instead of google analytics
@@ -940,14 +941,16 @@ Copied configuration from OPFF and adapted with site id after creation of sites 
 
 
 
-## Reverse proxy configuration
+## Reverse proxy configuration on container 101
 
 ### certbot wildcard certificates using OVH DNS
 
-We already install `python3-certbot-dns-ovh` so we just need to add credentials.
+Note: we are using openbeautyfacts.com temporarily for obf-new
+
+We already installed `python3-certbot-dns-ovh` so we just need to add credentials.
 
 ```bash
-$ declare -x DOMAIN_NAME=openbeautyfacts
+$ declare -x DOMAIN_NAME_EXT=openbeautyfacts.com
 ```
 
 Generate credential, following https://eu.api.ovh.com/createToken/
@@ -963,9 +966,9 @@ Using (for obf):
 and we put config file in `/root/.ovhapi/openbeautyfacts.org` and `/root/.ovhapi/openproductsfacts.org`
 ```bash
 $ mkdir /root/.ovhapi
-$ vim /root/.ovhapi/$DOMAIN_NAME.org
+$ vim /root/.ovhapi/$DOMAIN_NAME_EXT
 ...
-$ cat /root/.ovhapi/$DOMAIN_NAME.org
+$ cat /root/.ovhapi/$DOMAIN_NAME_EXT
 # OVH API credentials used by Certbot
 dns_ovh_endpoint = ovh-eu
 dns_ovh_application_key = ***********
@@ -978,7 +981,7 @@ $ chmod og-rwx -R /root/.ovhapi
 
 Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with `--test-cert`
 ```bash
-$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME_EXT -d $DOMAIN_NAME_EXT -d "*.$DOMAIN_NAME_EXT"
 ...
 ...
  - Congratulations! Your certificate and chain have been saved at:
@@ -986,7 +989,7 @@ $ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DO
 ```
 and then without `--test-cert`
 ```bash
-$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME.org -d $DOMAIN_NAME.org -d "*.$DOMAIN_NAME.org"
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME_EXT -d $DOMAIN_NAME_EXT -d "*.$DOMAIN_NAME_EXT"
 ...
 ...
  - Congratulations! Your certificate and chain have been saved at:
@@ -1000,8 +1003,7 @@ In the git repository, we copied the openpetfoodfacts config and changed names t
 
 Then we linked them:
 ```bash
-sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openbeautyfacts.org /etc/nginx/sites-enabled/
-sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openproductsfacts.org /etc/nginx/sites-enabled/
+sudo ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openbeautyfacts.com /etc/nginx/sites-enabled/
 # test
 nginx -t
 systemctl restart nginx
