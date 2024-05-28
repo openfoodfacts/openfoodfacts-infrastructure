@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.18">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
       
 
@@ -767,6 +767,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../postgres/" class="md-nav__link">
         
   
@@ -1016,10 +1036,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" checked>
         
           
-          <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1030,8 +1050,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_42">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_43">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -1301,6 +1321,27 @@
   
   <span class="md-ellipsis">
     2022-08-17 openfoodfacts.net unreachable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup of Odoo for pro platform
   </span>
   
 
@@ -3247,7 +3288,7 @@ but for off1.</p>
 <p>We saw that disabling SSD card we were able to boot.</p>
 <p>We decided to disable the SSD card and continue installation.</p>
 <h3 id="installing-proxmox">Installing Proxmox<a class="headerlink" href="#installing-proxmox" title="Permanent link">#</a></h3>
-<p>We boot on the USB key that we had brought with promox install CD on it.</p>
+<p>We boot on the USB key that we had brought with proxmox install CD on it.</p>
 <p>For Hard disk options, we choose ZFS - RAID1, ashift 12, compress an checksum on, disk size 64G</p>
 <p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS RAID1 basic setup for system partition" data-desc-position="bottom"><img alt="ZFS RAID1 basic setup for system partition" src="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg" /></a></p>
 <p><a class="glightbox" href="../media/2023-12-18-off1-proxmox-raid1-setup.jpg" data-type="image" data-width="auto" data-height="auto" data-title="ZFS RAID1 advanced setup for system" data-desc-position="bottom"><img alt="ZFS RAID1 advanced setup for system" src="../media/2023-12-18-off1-proxmox-raid1-setup.jpg" /></a></p>
@@ -3476,7 +3517,7 @@ git<span class="w"> </span>clone<span class="w"> </span>git@github.com:openfoodf
 <h2 id="adding-munin-monitoring">Adding Munin monitoring<a class="headerlink" href="#adding-munin-monitoring" title="Permanent link">#</a></h2>
 <p>Simply following <a href="../../munin/#how-to-configure-a-server">our Munin doc on how to configure a server</a></p>
 <h2 id="configuring-snapshots-and-syncoid">Configuring snapshots and syncoid<a class="headerlink" href="#configuring-snapshots-and-syncoid" title="Permanent link">#</a></h2>
-<p>I first installed sanoid following <a href="../../sanoid/#building-sanoid-deb">install instructions</a></p>
+<p>I first installed sanoid following <a href="../../sanoid/#how-to-build-and-install-sanoid-deb">install instructions</a></p>
 <p>We want to pull snapshots from off1 and to let ovh3 pull our snapshots.</p>
 <h3 id="enabling-sanoid">Enabling sanoid<a class="headerlink" href="#enabling-sanoid" title="Permanent link">#</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>unit<span class="w"> </span><span class="k">in</span><span class="w"> </span>email-failures@.service<span class="w"> </span>sanoid_check.service<span class="w"> </span>sanoid_check.timer<span class="w"> </span>sanoid.service.d<span class="p">;</span><span class="w"> </span><span class="se">\</span>
@@ -3607,8 +3648,10 @@ zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OP_USE
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.3220b9d7.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
-  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

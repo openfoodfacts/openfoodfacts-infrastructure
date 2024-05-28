@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.18">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
       
 
@@ -767,6 +767,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../postgres/" class="md-nav__link">
         
   
@@ -1016,10 +1036,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" checked>
         
           
-          <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1030,8 +1050,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_42">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_43">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -1301,6 +1321,27 @@
   
   <span class="md-ellipsis">
     2022-08-17 openfoodfacts.net unreachable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup of Odoo for pro platform
   </span>
   
 
@@ -3785,7 +3826,7 @@ flowchart TB
 <li>I also had to reboot the host</li>
 </ol>
 <p>I then simply install <code>nginx</code> and <code>stunnel4</code> using apt.</p>
-<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
+<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and tested it.</p>
 <h3 id="adding-the-ip">Adding the IP<a class="headerlink" href="#adding-the-ip" title="Permanent link">#</a></h3>
 <p>Using proxmox interface, on container 110, I add net1, on vmbr0, IP 213.36.253.214/27, Gateway 213.36.253.222 (copied from Host config).</p>
 <p><strong>Important</strong>: I removed the gateway on net0 (see <a href="../../nginx-reverse-proxy/#network-specific-interface">here</a>).</p>
@@ -3940,7 +3981,7 @@ real<span class="w">    </span>5m59.378s
 <p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rsync<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>-x<span class="w"> </span><span class="m">10</span>.0.0.1:/srv/opff/html/images/products<span class="w">  </span>/zfs-hdd/opff/images
 </code></pre></div>
 this took 12 minutes.</p>
-<p>Then I sync to ovh3 (see also below <a href="#sanoid">sanoid usage</a>):</p>
+<p>Then I sync to ovh3 (see also below <a href="#snapshots-and-syncs-with-sanoid">sanoid usage</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>sudo<span class="w">  </span>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>zfs-hdd/opff/images<span class="w"> </span>root@ovh3.openfoodfacts.org:rpool/opff/images
 </code></pre></div>
 <p>After first sync (which took 44 min), I also added it to sanoid.conf ovh3, but using synced template.</p>
@@ -4094,7 +4135,7 @@ Then changed <code>/etc/sanoid/sanoid.conf</code> and <code>/etc/sanoid/syncoid_
 <h3 id="creating-container">Creating Container<a class="headerlink" href="#creating-container" title="Permanent link">#</a></h3>
 <p>I created a CT followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.</p>
-<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
+<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and tested it.</p>
 <h3 id="installing-packages">Installing packages<a class="headerlink" href="#installing-packages" title="Permanent link">#</a></h3>
 <p>Then I installed needed package following docker container:</p>
 <div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apache2<span class="w"> </span>apt-utils<span class="w"> </span>cpanminus<span class="w"> </span>g++<span class="w"> </span>gcc<span class="w"> </span>less<span class="w"> </span>libapache2-mod-perl2<span class="w"> </span>make<span class="w"> </span>gettext<span class="w"> </span>wget<span class="w"> </span>imagemagick<span class="w"> </span>graphviz<span class="w"> </span>tesseract-ocr<span class="w"> </span>libtie-ixhash-perl<span class="w"> </span>libwww-perl<span class="w"> </span>libimage-magick-perl<span class="w"> </span>libxml-encoding-perl<span class="w"> </span>libtext-unaccent-perl<span class="w"> </span>libmime-lite-perl<span class="w"> </span>libcache-memcached-fast-perl<span class="w"> </span>libjson-pp-perl<span class="w"> </span>libclone-perl<span class="w"> </span>libcrypt-passwdmd5-perl<span class="w"> </span>libencode-detect-perl<span class="w"> </span>libgraphics-color-perl<span class="w"> </span>libbarcode-zbar-perl<span class="w"> </span>libxml-feedpp-perl<span class="w"> </span>liburi-find-perl<span class="w"> </span>libxml-simple-perl<span class="w"> </span>libexperimental-perl<span class="w"> </span>libapache2-request-perl<span class="w"> </span>libdigest-md5-perl<span class="w"> </span>libtime-local-perl<span class="w"> </span>libdbd-pg-perl<span class="w"> </span>libtemplate-perl<span class="w"> </span>liburi-escape-xs-perl<span class="w"> </span>libmath-random-secure-perl<span class="w"> </span>libfile-copy-recursive-perl<span class="w"> </span>libemail-stuffer-perl<span class="w"> </span>liblist-moreutils-perl<span class="w"> </span>libexcel-writer-xlsx-perl<span class="w"> </span>libpod-simple-perl<span class="w"> </span>liblog-any-perl<span class="w"> </span>liblog-log4perl-perl<span class="w"> </span>liblog-any-adapter-log4perl-perl<span class="w"> </span>libgeoip2-perl<span class="w"> </span>libemail-valid-perl<span class="w"> </span>libmath-fibonacci-perl<span class="w"> </span>libev-perl<span class="w"> </span>libprobe-perl-perl<span class="w"> </span>libmath-round-perl<span class="w"> </span>libsoftware-license-perl<span class="w"> </span>libtest-differences-perl<span class="w"> </span>libtest-exception-perl<span class="w"> </span>libmodule-build-pluggable-perl<span class="w"> </span>libclass-accessor-lite-perl<span class="w"> </span>libclass-singleton-perl<span class="w"> </span>libfile-sharedir-install-perl<span class="w"> </span>libnet-idn-encode-perl<span class="w"> </span>libtest-nowarnings-perl<span class="w"> </span>libfile-chmod-perl<span class="w"> </span>libdata-dumper-concise-perl<span class="w"> </span>libdata-printer-perl<span class="w"> </span>libdata-validate-ip-perl<span class="w"> </span>libio-compress-perl<span class="w"> </span>libjson-maybexs-perl<span class="w"> </span>liblist-allutils-perl<span class="w"> </span>liblist-someutils-perl<span class="w"> </span>libdata-section-simple-perl<span class="w"> </span>libfile-which-perl<span class="w"> </span>libipc-run3-perl<span class="w"> </span>liblog-handler-perl<span class="w"> </span>libtest-deep-perl<span class="w"> </span>libwant-perl<span class="w"> </span>libfile-find-rule-perl<span class="w"> </span>liblinux-usermod-perl<span class="w"> </span>liblocale-maketext-lexicon-perl<span class="w"> </span>liblog-any-adapter-tap-perl<span class="w"> </span>libcrypt-random-source-perl<span class="w"> </span>libmath-random-isaac-perl<span class="w"> </span>libtest-sharedfork-perl<span class="w"> </span>libtest-warn-perl<span class="w"> </span>libsql-abstract-perl<span class="w"> </span>libauthen-sasl-saslprep-perl<span class="w"> </span>libauthen-scram-perl<span class="w"> </span>libbson-perl<span class="w"> </span>libclass-xsaccessor-perl<span class="w"> </span>libconfig-autoconf-perl<span class="w"> </span>libdigest-hmac-perl<span class="w"> </span>libpath-tiny-perl<span class="w"> </span>libsafe-isa-perl<span class="w"> </span>libspreadsheet-parseexcel-perl<span class="w"> </span>libtest-number-delta-perl<span class="w"> </span>libdevel-size-perl<span class="w"> </span>gnumeric<span class="w"> </span>libreadline-dev<span class="w"> </span>libperl-dev
@@ -5242,8 +5283,10 @@ So I prefered to go for the same version on all servers, and install the 2.1.0 d
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.3220b9d7.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
-  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

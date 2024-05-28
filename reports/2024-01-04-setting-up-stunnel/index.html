@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.18">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
       
 
@@ -767,6 +767,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../postgres/" class="md-nav__link">
         
   
@@ -1016,10 +1036,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" checked>
         
           
-          <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1030,8 +1050,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_42">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_43">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -1301,6 +1321,27 @@
   
   <span class="md-ellipsis">
     2022-08-17 openfoodfacts.net unreachable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup of Odoo for pro platform
   </span>
   
 
@@ -2619,7 +2660,7 @@ Unfortunately I did not already setup auto snapshotting (because I was seeing mo
 </ul>
 <p>I also <a href="../../mail/#postfix-configuration">configured email</a> in the container.</p>
 <h2 id="setting-up-stunnel-on-ovh1-stunnel-client">Setting up stunnel on ovh1 stunnel-client<a class="headerlink" href="#setting-up-stunnel-on-ovh1-stunnel-client" title="Permanent link">#</a></h2>
-<p>Did the same as above to <a href="./#setting-up-stunnel-on-off1-proxy">set up stunnel on ovh1 proxy</a>.</p>
+<p>Did the same as above to <a href="#setting-up-stunnel-on-off1-proxy">set up stunnel on ovh1 proxy</a>.</p>
 <p>I created a key with <code>ssh-keygen -t ed25519 -C "off@stunnel-client.ovh.openfoodfacts.org"</code> 
 add it as a deploy key to this projects 
 and cloned the project in <code>/opt</code> so that I can use git for modified configuration files.</p>
@@ -2685,8 +2726,10 @@ Then for both services I did a "docker-compose down &amp;&amp; docker-compose up
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.3220b9d7.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
-  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>
