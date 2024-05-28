@@ -2400,6 +2400,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#important-post-install-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMPORTANT POST Install fix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removing-old-install" class="md-nav__link">
     <span class="md-ellipsis">
       Removing old install
@@ -2607,6 +2616,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#important-post-install-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMPORTANT POST Install fix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removing-old-install" class="md-nav__link">
     <span class="md-ellipsis">
       Removing old install
@@ -2808,6 +2826,15 @@ systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
 <div class="highlight"><pre><span></span><code>nginx<span class="w"> </span>-t
 systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
 </code></pre></div>
+<h2 id="important-post-install-fix">IMPORTANT POST Install fix<a class="headerlink" href="#important-post-install-fix" title="Permanent link">#</a></h2>
+<p>Open Food Facts Produc Opener instance was using off-query public address to access the service.
+But due to a limitation on routing in proxmox,
+<a href="../../nginx-reverse-proxy/#never-call-an-internal-service-using-reverse-proxy">we can't access services hosted on same proxmox cluster using the off2 reverse proxy</a>.</p>
+<p>So in fact Product Opener was expecting a response that did not came, until timeout.
+This had the bad side effect of monopolizing workers…</p>
+<p>The fix was to change in Config2.pm,
+<code>$query_url="https://query.openfoodfacts.org";</code>
+to <code>$query_url = "http://10.1.0.115:5511";</code></p>
 <h2 id="removing-old-install">Removing old install<a class="headerlink" href="#removing-old-install" title="Permanent link">#</a></h2>
 <p>After moving, I did a <code>docker compose down</code> on the container VM where the old install was.</p>
 <p>After some time, seeing all was ok in production, I just did a <code>docker compose down -v</code>.</p>

@@ -762,6 +762,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#never-call-an-internal-service-using-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Never call an internal service using reverse proxy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#banning-bots" class="md-nav__link">
     <span class="md-ellipsis">
       Banning bots
@@ -2509,6 +2518,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#never-call-an-internal-service-using-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Never call an internal service using reverse proxy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#banning-bots" class="md-nav__link">
     <span class="md-ellipsis">
       Banning bots
@@ -2659,6 +2677,11 @@
 <li>one which is bridged on host network card, with ip fail over mechanism.</li>
 </ul>
 <p><strong>Important</strong>: only the public ip should have a gateway <sup id="fnref:proxmox_multiple_gateway"><a class="footnote-ref" href="#fn:proxmox_multiple_gateway">1</a></sup></p>
+<h2 id="never-call-an-internal-service-using-reverse-proxy">Never call an internal service using reverse proxy<a class="headerlink" href="#never-call-an-internal-service-using-reverse-proxy" title="Permanent link">#</a></h2>
+<p><strong>Important</strong>: Because of above limitation <sup id="fnref2:proxmox_multiple_gateway"><a class="footnote-ref" href="#fn:proxmox_multiple_gateway">1</a></sup>,
+if a service use another service which is on the same proxmox cluster,
+it should use it's internal address and not the public / reverse proxy address,
+otherwise packets routing will be broken, and request will never land.</p>
 <h2 id="banning-bots">Banning bots<a class="headerlink" href="#banning-bots" title="Permanent link">#</a></h2>
 <p>We ban bots from the reverse proxy (more efficient and centralized).
 Most of the time this is a manual ban.</p>
@@ -2893,7 +2916,7 @@ eg (for off server nginx):
 <hr />
 <ol>
 <li id="fn:proxmox_multiple_gateway">
-<p>The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also <a href="../reports/2022-02-18-ovh-reverse-proxy-down/">ovh reverse proxy incident of 2022-02-18</a>&#160;<a class="footnote-backref" href="#fnref:proxmox_multiple_gateway" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also <a href="../reports/2022-02-18-ovh-reverse-proxy-down/">ovh reverse proxy incident of 2022-02-18</a>&#160;<a class="footnote-backref" href="#fnref:proxmox_multiple_gateway" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:proxmox_multiple_gateway" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:test-nginx">
 <p>the nginx script will normally do the check before trying to restart nginx, but this way you are able to also see warnings.&#160;<a class="footnote-backref" href="#fnref:test-nginx" title="Jump back to footnote 2 in the text">&#8617;</a></p>
