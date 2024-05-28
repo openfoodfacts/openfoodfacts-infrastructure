@@ -20,4 +20,3 @@ StandardError=append:/var/log/matomo/matomo-archive-%i-err.log
 # place a timeout for bad cases as this process sometimes hangs
 # note: we have to use TimeoutStartSec as it's a Type=oneshot service
 TimeoutStartSec=5h40m
-
