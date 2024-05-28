@@ -64,7 +64,7 @@ I add a problem running `ct_postinstall` as it wasn't able to fetch debian archi
 
 I then simply install `nginx` and `stunnel4` using apt.
 
-I also [configure postfix](../mail#postfix-configuration) and tested it.
+I also [configure postfix](../mail.md#postfix-configuration) and tested it.
 
 ### Adding the IP
 
@@ -288,7 +288,7 @@ sudo rsync --info=progress2 -a -x 10.0.0.1:/srv/opff/html/images/products  /zfs-
 ```
 this took 12 minutes.
 
-Then I sync to ovh3 (see also below [sanoid usage](#sanoid)):
+Then I sync to ovh3 (see also below [sanoid usage](#snapshots-and-syncs-with-sanoid)):
 
 ```bash
 time sudo  syncoid --no-sync-snap zfs-hdd/opff/images root@ovh3.openfoodfacts.org:rpool/opff/images
@@ -504,7 +504,7 @@ I also did it for the data and cache dataset:
 I created a CT followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 
-I also [configure postfix](../mail#postfix-configuration) and tested it.
+I also [configure postfix](../mail.md#postfix-configuration) and tested it.
 
 
 ### Installing packages

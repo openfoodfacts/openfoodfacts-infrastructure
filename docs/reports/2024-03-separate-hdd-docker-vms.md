@@ -1,7 +1,7 @@
 # 2024-03 separate HDD on docker VMs
 
 We have docker VMs for staging and production.
-Disk are quite big. They use ext4 over a zfs in block mode (as proposed by promox).
+Disk are quite big. They use ext4 over a zfs in block mode (as proposed by proxmox).
 To keep things manageable, in case we have to switch server,
 I propose to split data from system. It might also help with backups.
 
