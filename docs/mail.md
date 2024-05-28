@@ -83,7 +83,7 @@ To add a new machine
 ```
 sudo iptables -t nat -A PREROUTING -s 213.36.253.206,213.36.253.208,146.59.148.140,51.210.154.203,1.210.32.79 -d pmg.openfoodfacts.org -p tcp  --dport 25 -j DNAT --to 10.1.0.102:25
 ```
-don't forget [to save iptables](./linux-servers.md#iptables)
+don't forget [to save iptables](./linux-server.md#iptables)
 
 (a generic masquerading rule for VM also exists)
 
