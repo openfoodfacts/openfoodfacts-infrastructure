@@ -11,7 +11,7 @@ I created a CT on off2 followings [How to create a new Container](../proxmox.md#
 
 I did not create a user.
 
-I also [configure postfix](../mail#postfix-configuration) and [tested it](../mail#testing-that-the-gateway-is-well-configured).
+I also [configure postfix](../mail.md#postfix-configuration) and [tested it](../mail#testing-that-the-gateway-is-well-configured).
 
 Cloned this repository in [/opt using a root key as deploy key](../how-to-have-server-config-in-git.md)
 

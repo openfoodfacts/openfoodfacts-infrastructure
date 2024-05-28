@@ -114,7 +114,7 @@ We decided to disable the SSD card and continue installation.
 
 ### Installing Proxmox
 
-We boot on the USB key that we had brought with promox install CD on it.
+We boot on the USB key that we had brought with proxmox install CD on it.
 
 For Hard disk options, we choose ZFS - RAID1, ashift 12, compress an checksum on, disk size 64G
 
@@ -466,7 +466,7 @@ Simply following [our Munin doc on how to configure a server](../munin.md#how-to
 
 ## Configuring snapshots and syncoid
 
-I first installed sanoid following [install instructions](../sanoid.md#building-sanoid-deb)
+I first installed sanoid following [install instructions](../sanoid.md#how-to-build-and-install-sanoid-deb)
 
 We want to pull snapshots from off1 and to let ovh3 pull our snapshots.
 
