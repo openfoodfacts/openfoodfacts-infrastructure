@@ -2489,8 +2489,7 @@
 
 <h1 id="explanation-on-server-configuration-with-git">Explanation on server configuration with git<a class="headerlink" href="#explanation-on-server-configuration-with-git" title="Permanent link">#</a></h1>
 <p>For more and more services and servers, we use git to store the configuration files that are different from basic configuration.</p>
-<p>The idea is to be able to follow server configuration evolution without (for now) using tools like ansible or similar tools (which may require more work and are not always as declarative as they pretend)[^pyinfra].</p>
-<p>![^pyinfra]: By the way I would rather use <a href="https://docs.pyinfra.com/en/2.x/">pyinfra</a> which is faster and far more flexible</p>
+<p>The idea is to be able to follow server configuration evolution without (for now) using tools like ansible or similar tools (which may require more work and are not always as declarative as they pretend)<sup id="fnref:pyinfra"><a class="footnote-ref" href="#fn:pyinfra">1</a></sup>.</p>
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">#</a></h2>
 <h3 id="for-servers-and-most-services">For servers and most services<a class="headerlink" href="#for-servers-and-most-services" title="Permanent link">#</a></h3>
 <p>On every servers we have a <code>/opt/openfoodfacts-infrastructure</code> repository which is a clone of this projects by <code>root</code>.</p>
@@ -2513,6 +2512,14 @@
 <li>proxmox <code>/etc/pve</code> files are in fact a fuse mount of pve server configurations and not real files and can't be symlinked</li>
 <li>you must <strong>take attention not to push files which contains secrets !</strong></li>
 </ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:pyinfra">
+<p>By the way I would rather use <a href="https://docs.pyinfra.com/en/2.x/">pyinfra</a> which is faster and far more flexible&#160;<a class="footnote-backref" href="#fnref:pyinfra" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
