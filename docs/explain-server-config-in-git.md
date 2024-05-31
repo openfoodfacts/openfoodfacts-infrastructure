@@ -4,7 +4,7 @@ For more and more services and servers, we use git to store the configuration fi
 
 The idea is to be able to follow server configuration evolution without (for now) using tools like ansible or similar tools (which may require more work and are not always as declarative as they pretend)[^pyinfra].
 
-![^pyinfra]: By the way I would rather use [pyinfra](https://docs.pyinfra.com/en/2.x/) which is faster and far more flexible
+[^pyinfra]: By the way I would rather use [pyinfra](https://docs.pyinfra.com/en/2.x/) which is faster and far more flexible
 
 ## Implementation
 
