@@ -44,7 +44,6 @@ cat /root/.ssh/id_ed25519.pub
 ```
 and add it as [authorized key in openfoodfacts-infrastructure](https://github.com/openfoodfacts/openfoodfacts-infrastructure/settings/keys) with write authorization (as it will be mainly modified directly in the container).
 
-
 Then I cloned the repository in /opt
 ```
 cd /opt
@@ -74,10 +73,12 @@ and add:
 
 mp0: /zfs-hdd/off/images,mp=/mnt/off/images
 mp1: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp2: /zfs-hdd/opf/images,mp=/mnt/opf/images
 mp3: /zfs-hdd/opff/images,mp=/mnt/opff/images
 
-TODO: For some reason /zfs-hdd/opf does not exist on the off1 host.
-
+Initially /zfs-hdd/opf did not exist on the off1 host, because of a typo in /etc/sanoid/syncoid-args.conf on off1.
+Fixed the config and ran a first sync manually:
+syncoid --no-sync-snap --no-privilege-elevation --recursive off1operator@10.0.0.2:zfs-hdd/opf zfs-hdd/opf
 
 ### SSL certificates
 
@@ -155,6 +156,5 @@ Which works.
 ### TODO
 
 - Also do the setup for OBF, OPF, OPFF: nginx configuration, SSL certificates etc.
-- Check why we don't have /zfs-hdd/opf on off1
 - Verify that off1 can renew the images.openfoodfacts.org SSL certificate
 - Export proxy logs and static logs to prometheus?
