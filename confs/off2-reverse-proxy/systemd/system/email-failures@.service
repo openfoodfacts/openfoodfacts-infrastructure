@@ -1,1 +1,1 @@
-confs/common/systemd/system/email-failures@.service
+../../../common/systemd/system/email-failures@.service
