@@ -125,7 +125,7 @@ It's in the git repository, so then:
 ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/log_format.conf /etc/nginx/conf.d/log_format.conf
 ```
 
-From off2 static-off configuration, I create a similar images-off site, and put it into git.
+From off2 static-off configuration, I create a similar images-off site, and [put it into git](../confs/off1-reverse-proxy/nginx/sites-available/images-off).
 
 ```bash
 ln -s /opt/openfoodfacts-infrastructure/confs/off1-reverse-proxy/nginx/sites-available/images-off /etc/nginx/sites-enabled/
