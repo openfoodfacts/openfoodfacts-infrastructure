@@ -260,3 +260,25 @@ The nginx dashboards works immediately.
 - Also do the setup for OBF, OPF, OPFF: nginx configuration, SSL certificates etc.
 - Verify that off1 can renew the images.openfoodfacts.org SSL certificate
 - Export proxy logs and static logs to prometheus?
+
+## 2024/06/06 - Performance issues
+
+We are seeing performance issues with serving images on the off1 proxy in container 100.
+Some images can take 10 seconds to be served back by nginx, and it can clearly be seen when loading lists of products on the website.
+
+Private message thread: https://openfoodfacts.slack.com/archives/C074EACK8TH/p1717687142646649
+
+### Trying to serve images directly from the off1 host instead of a container
+
+We suspect that the slowness is due to the bind mount of the zfs pool with images.
+So we will try to serve images directly from the off1 host instead of the 100 container (like we currently do on off2)
+
+apt-get install nginx
+
+ln -s /opt/openfoodfacts-infrastructure/confs/off1/nginx/sites-available/images-off /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default 
+rm /etc/nginx/nginx.conf 
+ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/nginx.conf /etc/nginx/
+cp -a /zfs-hdd/pve/subvol-100-disk-0/etc/letsencrypt /etc/
+
+TODO: properly install letsencrypt if it works and we want to keep serving images on the host.
