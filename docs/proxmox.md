@@ -218,7 +218,7 @@ Using web interface:
 * Use a "Hostname" to let people know what it is about. Eg. "robotoff", "wiki", "proxy"...
 * set Nesting option (systemd recent versions needs it)
 * keep "Unprivileged container" option checked… unless you know what you do.
-* Password: put something complex and forget it, as we will connect through SSH and not the web interface
+* Password: put something complex and forget it, as we will connect through SSH and not the web interface (`pwgen 20 20` is your friend)
 * Create a root password - forget about it also (you will use `pct enter` or `lxc-attach`)
 * Choose template (normally debian)
 * Disk: try to keep a tight disk space and to avoid using nvme if it's not useful.
@@ -239,7 +239,7 @@ Then connect to the proxmox host:
 
     See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
-  * [create a user](#how-to-create-a-user-in-a-container-or-vm)
+  * [create a user](#how-to-create-a-user-in-a-container-or-vm), most of the time you prefer off to have id 1000.
 
 Then you can login to the machine (see [logging in to a container or VM](#logging-in-to-a-container-or-vm)).
 
@@ -265,6 +265,7 @@ This gives a root console in the container and has the advantage of not dependin
 
 ## how to create a user in a Container or VM
 
+If you add a user which is not a person that needs ssh account (eg. the off service account), just open the console and the `adduser` command.
 
 The `sudo /root/cluster-scripts/mkuser` (see script [mkuser](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser))  helps you create users using github keys.
 

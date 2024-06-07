@@ -12,6 +12,13 @@ It as a specific network configurations with two ethernet address:
 
 **Important**: only the public ip should have a gateway [^proxmox_multiple_gateway]
 
+## Never call an internal service using reverse proxy
+
+**Important**: Because of above limitation [^proxmox_multiple_gateway],
+if a service use another service which is on the same proxmox cluster,
+it should use it's internal address and not the public / reverse proxy address,
+otherwise packets routing will be broken, and request will never land.
+
 
 [^proxmox_multiple_gateway]: The default proxmox interface does not offer options to indicate which gateway should be the default gateway, and the public ip needs to have its gateway as the default one, and there is no trivial way to achieve this reliably and elegantly, thus the best solution is to have only one gateway. See also [ovh reverse proxy incident of 2022-02-18](./reports/2022-02-18-ovh-reverse-proxy-down.md)
 

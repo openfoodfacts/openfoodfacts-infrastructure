@@ -34,7 +34,7 @@ limit_req_status 429;
 
 upstream openfoodfacts {
 	server 10.0.0.2:443 weight=100;
-	server off1.openfoodfacts.org:443;
+	server proxy2.openfoodfacts.org:443;
 
 	keepalive 16;
 }
@@ -86,8 +86,8 @@ server {
 		limit_req zone=big_size burst=100 nodelay;
 		limit_req zone=small_size burst=6000 nodelay;
 
-		# test en local, puis sur off1
-		try_files		$uri @off1;
+		# test en local, puis sur l'original
+		try_files		$uri @proxy2;
 		sendfile		on;
 		sendfile_max_chunk	1m;
 		tcp_nopush		on;
@@ -99,8 +99,8 @@ server {
 	        add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
 	}
 
-	location @off1 {
-		proxy_pass		https://off1.openfoodfacts.org;
+	location @proxy2 {
+		proxy_pass		https://proxy2.openfoodfacts.org;
 #		proxy_next_upstream	error	 http_404;
 		proxy_http_version	1.1;
 		proxy_set_header	Connection	"";
