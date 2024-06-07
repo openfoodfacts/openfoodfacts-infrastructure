@@ -698,7 +698,7 @@ sudo ln -s /srv/obf/conf/nginx/snippets/obf.locations-redirects.include /etc/ngi
 
 ### Apache
 
->e start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+We start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
 ```bash
 sudo unlink /etc/apache2/sites-enabled/000-default.conf
 sudo a2dismod mpm_event
