@@ -21,7 +21,9 @@ mp1: zfs-nvme:subvol-115-disk-0,mp=/var/lib/docker/volumes-copy,backup=1,size=20
 
 While off-query is running, we do a first initial copy:
 
+```bash
 root@off-query:/var/lib/docker# time rsync -av volumes/ volumes-copy/ --delete
+```
 
 It takes 25 minutes to copy 29 Gb, which seems very slow...
 
@@ -33,6 +35,7 @@ In the minutes following the end of the copy, the off1 host rebooted by itself!
 
 We stop off-query on container 115:
 
+```bash
 root@off-query:/home/off/off-query-org# docker ps
 CONTAINER ID   IMAGE                                                                                    COMMAND                  CREATED      STATUS          PORTS                                       NAMES
 fc762df2e0d9   ghcr.io/openfoodfacts/openfoodfacts-query:sha-7347d944245cc17af4a87b3e704e01c1d0aa7575   "docker-entrypoint.s…"   6 days ago   Up 40 minutes   0.0.0.0:5511->5510/tcp, :::5511->5510/tcp   off-query-query-1
@@ -43,9 +46,11 @@ root@off-query:/home/off/off-query-org# docker compose stop
  ✔ Container off-query-query_postgres-1  Stopped                                                           0.4s
 root@off-query:/home/off/off-query-org# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
 
 Then we rsync the files again, and it still takes 24 minutes...
 
+```bash
 root@off-query:/var/lib/docker# time rsync -av volumes/ volumes-copy/ --delete
 
 sent 95,432,268,044 bytes  received 6,940 bytes  66,111,724.96 bytes/sec
@@ -54,6 +59,7 @@ total size is 95,464,577,931  speedup is 1.00
 real 24m3.366s
 user 1m16.587s
 sys 3m11.589s
+```
 
 ## Second unwanted reboot of off1
 
@@ -73,10 +79,12 @@ mp1: zfs-nvme:subvol-115-disk-0,mp=/var/lib/docker/volumes,backup=1,size=200G
 
 ## Reboot the container
 
-I reboot the container, and verify that off-query works:
+I reboot the container, and verify that off-query works, from my laptop:
 
+```bash
 curl -d '[{"$match": {"countries_tags": "en:north-korea"}},{"$group":{"_id":"$brands_tags"}}]' -H "Content-Type: application/json" https://query.openfoodfacts.org/aggregate
 [{"_id":"alnatura","count":"1"},{"_id":"balconi","count":"1"},{"_id":"beretta","count":"1"},{"_id":"frankly-juice","count":"1"},{"_id":"great-value","count":"1"},{"_id":"hungry-planet","count":"1"},{"_id":"jinga","count":"1"},{"_id":"tost","count":"1"},{"_id":"u","count":"1"}]
+```
 
 ## Detach old volume on zfs-hdd
 
