@@ -10,6 +10,7 @@ We want to move it to use NVME instead.
 
 I use the Proxmox web interface, in the Resources tab, I click "Add" and "Mount point"
 I set the storage to zfs-nvme and put the same size (200 Gb) as the existing volume on zfs-hdd (although most of it is unused, so we could reduce it).
+It is initially mounted at `/var/lib/docker/volumes-copy` to be able to copy the old data at `/var/lib/docker/volumes`
 
 Note: to add a mount point, we first need to remove the protection in the Options tab.
 
