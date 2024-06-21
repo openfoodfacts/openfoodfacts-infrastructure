@@ -147,9 +147,12 @@ DECISION: change the Product Opener code (split_code function) so that if the ol
 
 1. Move OBF, OPF, OPFF to new code (before the PR https://github.com/openfoodfacts/openfoodfacts-server/pull/10472 is merged)
 2. Migrate OFF
+- Ask moderators not to move products
 - Deploy https://github.com/openfoodfacts/openfoodfacts-server/pull/10472 on OFF
 - Stop and start Apache, so that Product Opener can read and write products on both the old path (if it exists) and the new path
 - Run the migration script to migrate products from the old paths to the new paths
+3. Migrate OBF, OPF, OPFF
+4. Create a PR to remove the code that checks if the old path exists.
 
 
 
