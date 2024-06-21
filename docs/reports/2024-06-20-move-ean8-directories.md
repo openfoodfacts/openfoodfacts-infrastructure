@@ -93,12 +93,63 @@ Except when leading 0s can be removed in order to have only 8 digits.
 Need to:
 - remove old code from MongoDB
 - notify REDIS of removal of old code
-- update new code in .sto file
+- update new code in .sto file (in a new revision, for better traceability, and possible rollback)
 - update mongodb
 
 ### Test
 
 Tested locally in dev environment with 10k products.
+
+## What to do with conflicting products?
+
+### Products that already exist on the new path, but also on the old path
+
+This is possible when products were also created with extra leading 0s (e.g. if a scanner or a producer added 0s).
+
+DECISION: assume the old path is more likely to contain better data. Move the new path to a backup folder, and the old path to the new path.
+
+On OFF we have 5942 products with conflicts (that exist in multiple paths).
+
+## Migration plan
+
+### Move OBF, OPF, OPFF to new code first
+
+Otherwise we would need to make similar changes to the normalization on the old code.
+
+### Risks of race conditions
+
+#### Old path from a not yet migrated flavor moved to an already migrated flavor
+
+If OBF / OPF / OPFF / OFF is updated while another flavor is not, and we move an old path to a flavor that has already been updated:
+
+- If the product does not exist on the target flavor, it gets an old path. We could run again the migration scripts on all flavors one more time, once all flavors have been updated once.
+- If the product exists on the target flavor, we will miss it.
+
+If we do the moves of all flavors on the same day, the risk is rather small.
+
+One way to avoid it could be to disable moving products while we migrate. But it's more steps for a rather small benefit.
+
+DECISIONS:
+- Migrate OFF first, as most products get moved from OFF to other flavors. Then move other flavors.
+- Ask moderators not to move products during the migration.
+
+#### New normalization / path generation code live, but products not yet migrated
+
+When we update one flavor, the new normalization and path generation code will be live, but the products will take time to migrate. In the mean time, those products will appear to be non-existing if someone tries to access their product page (or call the API).
+
+One option could be to stop the service while we run the migration script (but it might take hours, especially on OFF where we need to move 250k products.
+
+Or we could change the code to make it work with both old paths and new paths.
+
+DECISION: change the Product Opener code (split_code function) so that if the old normalized path exist (which means the product has not been migrated), we use it.
+
+### Steps:
+
+1. Move OBF, OPF, OPFF to new code (before the PR https://github.com/openfoodfacts/openfoodfacts-server/pull/10472 is merged)
+2. Migrate OFF
+- Deploy https://github.com/openfoodfacts/openfoodfacts-server/pull/10472 on OFF
+- Stop and start Apache, so that Product Opener can read and write products on both the old path (if it exists) and the new path
+- Run the migration script to migrate products from the old paths to the new paths
 
 
 
