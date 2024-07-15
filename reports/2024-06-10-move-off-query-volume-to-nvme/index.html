@@ -9,22 +9,20 @@
       
       
       
-        <link rel="prev" href="../logs-off3/">
+        <link rel="prev" href="../2024-05-27-nginx-exporter-off2-proxy/">
       
       
-        <link rel="next" href="../logs-ovh2/">
       
-      
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
     
     
       
-        <title>ovh1 server logs - Open Food Facts Infrastructure documentation</title>
+        <title>Move off query volume to NVME - Open Food Facts Infrastructure documentation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.76a95c52.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.76a95c52.min.css">
       
       
 
@@ -43,14 +41,14 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -59,7 +57,7 @@
     .gdesc-inner { font-size: 0.75rem; }
     body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
     body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     <body dir="ltr">
@@ -71,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ovh1-server-logs" class="md-skip">
+        <a href="#move-off-query-volume-to-nvme" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +85,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ovh1 server logs
+              Move off query volume to NVME
             
           </span>
         </div>
@@ -157,7 +155,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -187,7 +185,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -207,7 +205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cicd/" class="md-nav__link">
+      <a href="../../cicd/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -227,7 +225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../discourse/" class="md-nav__link">
+      <a href="../../discourse/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -247,7 +245,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../disks/" class="md-nav__link">
+      <a href="../../disks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -267,7 +265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker/" class="md-nav__link">
+      <a href="../../docker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -287,7 +285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker_architecture/" class="md-nav__link">
+      <a href="../../docker_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -307,7 +305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker_onboarding/" class="md-nav__link">
+      <a href="../../docker_onboarding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -327,7 +325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../explain-server-config-in-git/" class="md-nav__link">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -347,7 +345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../folksonomy/" class="md-nav__link">
+      <a href="../../folksonomy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -367,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../free-datacenter/" class="md-nav__link">
+      <a href="../../free-datacenter/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -387,7 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -407,7 +405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-fail2ban-ban-bots/" class="md-nav__link">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -427,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -447,7 +445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-have-server-config-in-git/" class="md-nav__link">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -467,7 +465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -487,7 +485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux-server/" class="md-nav__link">
+      <a href="../../linux-server/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -507,7 +505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off1/" class="md-nav__link">
+      <a href="../../logs-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -527,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off2/" class="md-nav__link">
+      <a href="../../logs-off2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -547,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off3/" class="md-nav__link">
+      <a href="../../logs-off3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -564,19 +562,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -585,7 +574,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -597,7 +585,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-ovh2/" class="md-nav__link">
+      <a href="../../logs-ovh2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-ovh3/" class="md-nav__link">
+      <a href="../../logs-ovh3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -637,7 +625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mail/" class="md-nav__link">
+      <a href="../../mail/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -657,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../matomo/" class="md-nav__link">
+      <a href="../../matomo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -677,7 +665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mongodb/" class="md-nav__link">
+      <a href="../../mongodb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -697,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../munin/" class="md-nav__link">
+      <a href="../../munin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -717,7 +705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../nginx-reverse-proxy/" class="md-nav__link">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -737,7 +725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../observability/" class="md-nav__link">
+      <a href="../../observability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -757,7 +745,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../odoo/" class="md-nav__link">
+      <a href="../../odoo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -777,7 +765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -797,7 +785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../postgres/" class="md-nav__link">
+      <a href="../../postgres/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -817,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../prod-architecture/" class="md-nav__link">
+      <a href="../../prod-architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -837,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../producers_sftp/" class="md-nav__link">
+      <a href="../../producers_sftp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../product-opener/" class="md-nav__link">
+      <a href="../../product-opener/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -877,7 +865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../proxmox/" class="md-nav__link">
+      <a href="../../proxmox/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -897,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rclone/" class="md-nav__link">
+      <a href="../../rclone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -917,7 +905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../redis/" class="md-nav__link">
+      <a href="../../redis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -937,7 +925,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sanoid/" class="md-nav__link">
+      <a href="../../sanoid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -957,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slackin/" class="md-nav__link">
+      <a href="../../slackin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -977,7 +965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../stunnel/" class="md-nav__link">
+      <a href="../../stunnel/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -997,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zammad/" class="md-nav__link">
+      <a href="../../zammad/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1017,7 +1005,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zfs-overview/" class="md-nav__link">
+      <a href="../../zfs-overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1034,17 +1022,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" checked>
         
           
           <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
@@ -1058,7 +1048,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_43">
             <span class="md-nav__icon md-icon"></span>
             Reports
@@ -1072,7 +1062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1093,7 +1083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1114,7 +1104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1135,7 +1125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1156,7 +1146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1177,7 +1167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1198,7 +1188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1219,7 +1209,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1240,7 +1230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1261,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1282,7 +1272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1303,7 +1293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1324,7 +1314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1345,7 +1335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1366,7 +1356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1387,7 +1377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1408,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1429,7 +1419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1450,7 +1440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1471,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1492,7 +1482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1513,7 +1503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1534,7 +1524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1555,7 +1545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-23-move-images-to-zfs/" class="md-nav__link">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1576,7 +1566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-off2-110-unreachable/" class="md-nav__link">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1597,7 +1587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-01-robotoff-backups/" class="md-nav__link">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1618,7 +1608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1639,7 +1629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1660,7 +1650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1681,7 +1671,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1702,7 +1692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1723,7 +1713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1744,7 +1734,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-off2-off-reinstall/" class="md-nav__link">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1765,7 +1755,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1786,7 +1776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1807,7 +1797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-10-14-mongodb-down/" class="md-nav__link">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1828,7 +1818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-11-28-google-drive-backup-setup/" class="md-nav__link">
+      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1849,7 +1839,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1870,7 +1860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-12-08-off1-upgrade/" class="md-nav__link">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1891,7 +1881,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1912,7 +1902,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1933,7 +1923,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1954,7 +1944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-04-setting-up-stunnel/" class="md-nav__link">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1975,7 +1965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1996,7 +1986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2017,7 +2007,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-matomo-perf-tunning/" class="md-nav__link">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2038,7 +2028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2059,7 +2049,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-08-prod-redis-install/" class="md-nav__link">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2080,7 +2070,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-13-chatwoot-translation/" class="md-nav__link">
+      <a href="../2024-02-13-chatwoot-translation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2101,7 +2091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-13-matomo-fix-queue0/" class="md-nav__link">
+      <a href="../2024-02-13-matomo-fix-queue0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2122,7 +2112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
+      <a href="../2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2143,7 +2133,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-28-upgrade-redis/" class="md-nav__link">
+      <a href="../2024-02-28-upgrade-redis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2164,7 +2154,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-17-ovh1-down/" class="md-nav__link">
+      <a href="../2024-03-17-ovh1-down/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2185,7 +2175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-restructure-backups/" class="md-nav__link">
+      <a href="../2024-03-restructure-backups/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2206,7 +2196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-separate-hdd-docker-vms/" class="md-nav__link">
+      <a href="../2024-03-separate-hdd-docker-vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2227,7 +2217,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
+      <a href="../2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2248,7 +2238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-12-install-off-query-off1/" class="md-nav__link">
+      <a href="../2024-04-12-install-off-query-off1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2269,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-18-matomo-multi-archival/" class="md-nav__link">
+      <a href="../2024-04-18-matomo-multi-archival/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2290,7 +2280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+      <a href="../2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2311,7 +2301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
+      <a href="../2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2329,10 +2319,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../reports/2024-06-10-move-off-query-volume-to-nvme/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Move off query volume to NVME
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2341,6 +2351,107 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-mount-point-on-zfs-nvme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a mount point on zfs-nvme
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-copy-of-docker-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial copy of docker volume
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unwanted-reboot-of-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unwanted reboot of off1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-copy-of-docker-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second copy of docker volume
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-unwanted-reboot-of-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second unwanted reboot of off1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Switch volumes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reboot-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reboot the container
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detach-old-volume-on-zfs-hdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detach old volume on zfs-hdd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-back-the-protection-on-container-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add back the protection on container 115
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2373,6 +2484,95 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-mount-point-on-zfs-nvme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a mount point on zfs-nvme
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-copy-of-docker-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial copy of docker volume
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unwanted-reboot-of-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unwanted reboot of off1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-copy-of-docker-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second copy of docker volume
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-unwanted-reboot-of-off1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second unwanted reboot of off1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Switch volumes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reboot-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reboot the container
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detach-old-volume-on-zfs-hdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detach old volume on zfs-hdd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-back-the-protection-on-container-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add back the protection on container 115
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2389,9 +2589,64 @@
   
 
 
-<h1 id="ovh1-server-logs">ovh1 server logs<a class="headerlink" href="#ovh1-server-logs" title="Permanent link">#</a></h1>
-<p>Report here the timeline of incidents and interventions on ovh1 server.
-Keep things short or write a report.</p>
+<h1 id="move-off-query-volume-to-nvme">Move off query volume to NVME<a class="headerlink" href="#move-off-query-volume-to-nvme" title="Permanent link">#</a></h1>
+<p>On off1, the off-query container (115) has a docker volume mounted on the zfs-hdd:</p>
+<p>mp0: zfs-hdd:subvol-115-disk-1,mp=/var/lib/docker/volumes,backup=1,size=200G</p>
+<p>We want to move it to use NVME instead.</p>
+<h2 id="adding-a-mount-point-on-zfs-nvme">Adding a mount point on zfs-nvme<a class="headerlink" href="#adding-a-mount-point-on-zfs-nvme" title="Permanent link">#</a></h2>
+<p>I use the Proxmox web interface, in the Resources tab, I click "Add" and "Mount point"
+I set the storage to zfs-nvme and put the same size (200 Gb) as the existing volume on zfs-hdd (although most of it is unused, so we could reduce it).
+It is initially mounted at <code>/var/lib/docker/volumes-copy</code> to be able to copy the old data at <code>/var/lib/docker/volumes</code></p>
+<p>Note: to add a mount point, we first need to remove the protection in the Options tab.</p>
+<p>This results in this mount point:</p>
+<p>mp1: zfs-nvme:subvol-115-disk-0,mp=/var/lib/docker/volumes-copy,backup=1,size=200G</p>
+<h2 id="initial-copy-of-docker-volume">Initial copy of docker volume<a class="headerlink" href="#initial-copy-of-docker-volume" title="Permanent link">#</a></h2>
+<p>While off-query is running, we do a first initial copy:</p>
+<div class="highlight"><pre><span></span><code>root@off-query:/var/lib/docker#<span class="w"> </span><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>volumes/<span class="w"> </span>volumes-copy/<span class="w"> </span>--delete
+</code></pre></div>
+<p>It takes 25 minutes to copy 29 Gb, which seems very slow...</p>
+<h2 id="unwanted-reboot-of-off1">Unwanted reboot of off1<a class="headerlink" href="#unwanted-reboot-of-off1" title="Permanent link">#</a></h2>
+<p>In the minutes following the end of the copy, the off1 host rebooted by itself!</p>
+<h2 id="second-copy-of-docker-volume">Second copy of docker volume<a class="headerlink" href="#second-copy-of-docker-volume" title="Permanent link">#</a></h2>
+<p>We stop off-query on container 115:</p>
+<div class="highlight"><pre><span></span><code>root@off-query:/home/off/off-query-org#<span class="w"> </span>docker<span class="w"> </span>ps
+CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">                                                                                    </span>COMMAND<span class="w">                  </span>CREATED<span class="w">      </span>STATUS<span class="w">          </span>PORTS<span class="w">                                       </span>NAMES
+fc762df2e0d9<span class="w">   </span>ghcr.io/openfoodfacts/openfoodfacts-query:sha-7347d944245cc17af4a87b3e704e01c1d0aa7575<span class="w">   </span><span class="s2">&quot;docker-entrypoint.s…&quot;</span><span class="w">   </span><span class="m">6</span><span class="w"> </span>days<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">40</span><span class="w"> </span>minutes<span class="w">   </span><span class="m">0</span>.0.0.0:5511-&gt;5510/tcp,<span class="w"> </span>:::5511-&gt;5510/tcp<span class="w">   </span>off-query-query-1
+a009d86d0656<span class="w">   </span>postgres:12-alpine<span class="w">                                                                       </span><span class="s2">&quot;docker-entrypoint.s…&quot;</span><span class="w">   </span><span class="m">6</span><span class="w"> </span>days<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">50</span><span class="w"> </span>minutes<span class="w">   </span><span class="m">5432</span>/tcp<span class="w">                                    </span>off-query-query_postgres-1
+root@off-query:/home/off/off-query-org#<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>stop
+<span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Stopping<span class="w"> </span><span class="m">2</span>/2
+<span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>off-query-query-1<span class="w">           </span>Stopped<span class="w">                                                          </span><span class="m">10</span>.7s
+<span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>off-query-query_postgres-1<span class="w">  </span>Stopped<span class="w">                                                           </span><span class="m">0</span>.4s
+root@off-query:/home/off/off-query-org#<span class="w"> </span>docker<span class="w"> </span>ps
+CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">     </span>COMMAND<span class="w">   </span>CREATED<span class="w">   </span>STATUS<span class="w">    </span>PORTS<span class="w">     </span>NAMES
+</code></pre></div>
+<p>Then we rsync the files again, and it still takes 24 minutes...</p>
+<div class="highlight"><pre><span></span><code>root@off-query:/var/lib/docker#<span class="w"> </span><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>volumes/<span class="w"> </span>volumes-copy/<span class="w"> </span>--delete
+
+sent<span class="w"> </span><span class="m">95</span>,432,268,044<span class="w"> </span>bytes<span class="w">  </span>received<span class="w"> </span><span class="m">6</span>,940<span class="w"> </span>bytes<span class="w">  </span><span class="m">66</span>,111,724.96<span class="w"> </span>bytes/sec
+total<span class="w"> </span>size<span class="w"> </span>is<span class="w"> </span><span class="m">95</span>,464,577,931<span class="w">  </span>speedup<span class="w"> </span>is<span class="w"> </span><span class="m">1</span>.00
+
+real<span class="w"> </span>24m3.366s
+user<span class="w"> </span>1m16.587s
+sys<span class="w"> </span>3m11.589s
+</code></pre></div>
+<h2 id="second-unwanted-reboot-of-off1">Second unwanted reboot of off1<a class="headerlink" href="#second-unwanted-reboot-of-off1" title="Permanent link">#</a></h2>
+<p>In the minutes following the end of the copy, the off1 host rebooted by itself again!</p>
+<h2 id="switch-volumes">Switch volumes<a class="headerlink" href="#switch-volumes" title="Permanent link">#</a></h2>
+<p>On the off1 host, I edit /etc/pve/lxc/115.conf to switch the volumes</p>
+<p>mp0: zfs-hdd:subvol-115-disk-1,mp=/var/lib/docker/volumes,backup=1,size=200G
+mp1: zfs-nvme:subvol-115-disk-0,mp=/var/lib/docker/volumes-copy,backup=1,size=200G</p>
+<p>becomes:</p>
+<p>mp0: zfs-hdd:subvol-115-disk-1,mp=/var/lib/docker/volumes-old,backup=1,size=200G
+mp1: zfs-nvme:subvol-115-disk-0,mp=/var/lib/docker/volumes,backup=1,size=200G</p>
+<h2 id="reboot-the-container">Reboot the container<a class="headerlink" href="#reboot-the-container" title="Permanent link">#</a></h2>
+<p>I reboot the container, and verify that off-query works, from my laptop:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;[{&quot;$match&quot;: {&quot;countries_tags&quot;: &quot;en:north-korea&quot;}},{&quot;$group&quot;:{&quot;_id&quot;:&quot;$brands_tags&quot;}}]&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>https://query.openfoodfacts.org/aggregate
+<span class="o">[{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;alnatura&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;balconi&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;beretta&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;frankly-juice&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;great-value&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;hungry-planet&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;jinga&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;tost&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;_id&quot;</span>:<span class="s2">&quot;u&quot;</span>,<span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;1&quot;</span><span class="o">}]</span>
+</code></pre></div>
+<h2 id="detach-old-volume-on-zfs-hdd">Detach old volume on zfs-hdd<a class="headerlink" href="#detach-old-volume-on-zfs-hdd" title="Permanent link">#</a></h2>
+<p>In the Proxmox interface, I detach the old volume, reboot the container, and check that off-query works fine.</p>
+<h2 id="add-back-the-protection-on-container-115">Add back the protection on container 115<a class="headerlink" href="#add-back-the-protection-on-container-115" title="Permanent link">#</a></h2>
 
 
 
@@ -2438,10 +2693,10 @@ Keep things short or write a report.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
