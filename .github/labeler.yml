@@ -8,3 +8,7 @@ GitHub Actions:
 postmortems:
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
+
+🧴 Open Beauty Facts:
+- changed-files:
+  - any-glob-to-any-file: 'docs/reports/2024-04-26-off2-obf-new-install.md'
