@@ -12,3 +12,23 @@ postmortems:
 argilla:
 - changed-files:
   - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
+
+off2:
+- changed-files:
+  - any-glob-to-any-file: ''
+
+off1:
+- changed-files:
+  - any-glob-to-any-file: ''
+
+ovh2:
+- changed-files:
+  - any-glob-to-any-file: ''
+
+ovh3:
+- changed-files:
+  - any-glob-to-any-file: ''
+
+moji:
+- changed-files:
+  - any-glob-to-any-file: ''
