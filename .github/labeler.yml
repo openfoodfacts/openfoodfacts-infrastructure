@@ -13,6 +13,6 @@ argilla:
 - changed-files:
   - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
 
-📨 email
+📨 email:
 - changed-files:
   - any-glob-to-any-file: 'docs/mail.md'
