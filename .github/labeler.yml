@@ -9,7 +9,6 @@ postmortems:
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
 
-
 argilla:
 - changed-files:
   - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
