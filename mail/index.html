@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.18">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.76a95c52.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
       
       
 
@@ -2687,6 +2687,9 @@
 
 <h1 id="mail-on-open-food-facts-infrastructure">Mail on Open Food Facts infrastructure<a class="headerlink" href="#mail-on-open-food-facts-infrastructure" title="Permanent link">#</a></h1>
 <p>Because mail is difficult to setup, we use <a href="https://www.proxmox.com/en/proxmox-mail-gateway">Proxmox Mail Gateway</a> as a relay to all servers. It ensure correct SPF, but also it adds DKIM signature.</p>
+<p>The DKIM and spf records are configured on main domain <em>openfoodfacts.org</em>.</p>
+<p>While DKIM is specific (because Brevo and Google keys are distinct by construction), 
+main SPF rule includes brevo and google servers.</p>
 <p>No server receive mail, but they should be able to send them.</p>
 <p><a id="only-domain"></a></p>
 <p><strong>📝Note:</strong> We ONLY support emails address on primary domain (<code>openfoodfacts.org</code>) and we DO NOT support emails on sub domains (aka <code>xxx.openfoodfacts.org</code>).</p>
@@ -2697,7 +2700,9 @@ You can find the public key in google workspace admin console, under gmail.</p>
 <h2 id="brevo">Brevo<a class="headerlink" href="#brevo" title="Permanent link">#</a></h2>
 <p>We use Brevo to send newsletters.</p>
 <p>We have a DKIM record configured for the Brevo domain in the DNS, we also take into account in SPF rule.
-You can find the public key if you are logged as admin in Brevo.</p>
+They use the <strong>hello.openfoodfacts.org</strong> subdomain.</p>
+<p>You can find the public key if you are logged as admin in Brevo, in the top right corner menu, going in "Senders, domains and dedicated IPs".
+Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records. </p>
 <h2 id="proxmox-mail-gateway">Proxmox Mail Gateway<a class="headerlink" href="#proxmox-mail-gateway" title="Permanent link">#</a></h2>
 <p>This is the <code>pmg</code>  lxc VM (aka <code>102</code>) currently on <code>ovh1.openfoodfacts.org</code>.
 The install follows
@@ -2895,7 +2900,7 @@ On some system, the real daemon is not <code>postfix.service</code> but <code>po
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.3220b9d7.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
