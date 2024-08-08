@@ -1,14 +1,17 @@
 # 2024-08-07-wordpress-off-contents-fresh-install
 
-## Wiping the old wordpress 
+We had a contents container on OVH with a wordpress install.
+But we wanted to wipe it out and install it again.
+
+## Wiping the old wordpress
 
 ```bash
-cd /var/www/html 
+cd /var/www/html
 wp db clean --yes
 rm -rf /var/www/html
 ```
 
-## Change mariadb root password 
+## Change mariadb root password
 
 ```bash
 sudo systemctl stop mariadb
@@ -43,3 +46,5 @@ sudo -u www-data wp core download
 
 Settings > Reading > Search engine visibility > tick "Discourage search engine from indexing this site"<br>
 Settings > Permalinks > Permalink structure > chose 'Post name'
+
+Later on we also added a basic auth on reverse proxy with off:off just in case.
