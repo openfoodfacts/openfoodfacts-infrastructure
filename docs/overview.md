@@ -20,7 +20,7 @@ We have servers hosted by two providers:
 ### web traffic proxies
 
 - Most services are hosted on ovh,
-  and pass through an nginx proxy (see [promox - HTTP Reverse Proxy](./promox.md#http-reverse-proxy)) 
+  and pass through an nginx proxy (see [proxmox - HTTP Reverse Proxy](./proxmox.md#http-reverse-proxy)) 
   hosted on 101 VM on ovh1 which has a bridge with it's own ip.
 
 - product opener instances (openfoodfacts.org and its cousins) have their own proxy on [off1](#off1)
@@ -70,12 +70,12 @@ Main services:
 
 Located at ovh Strasbourg (sbg3)
 
-Uses [proxmox](./promox.md)
+Uses [proxmox](./proxmox.md)
 
-Part of [proxmox](./promox.md) cluster.
+Part of [proxmox](./proxmox.md) cluster.
 
 Contains lots of small services, as proxmox containers:
-- [http reverse proxy](./promox.md#http-reverse-proxy)
+- [http reverse proxy](./proxmox.md#http-reverse-proxy)
 - [Proxmox mail gateway](./mail.md)
 - blog
 - [odoo (connect)](./odoo.md)
@@ -85,7 +85,7 @@ Contains lots of small services, as proxmox containers:
 
 Located at ovh Roubaix (rbx8)
 
-Part of [proxmox](./promox.md) cluster.
+Part of [proxmox](./proxmox.md) cluster.
 
 Contains two big QEMU VMs hosting lots of docker services.
 One for staging, one for production.

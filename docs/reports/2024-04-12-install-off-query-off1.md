@@ -239,6 +239,20 @@ nginx -t
 systemctl reload nginx
 ```
 
+## IMPORTANT POST Install fix
+
+Open Food Facts Produc Opener instance was using off-query public address to access the service.
+But due to a limitation on routing in proxmox,
+[we can't access services hosted on same proxmox cluster using the off2 reverse proxy](../nginx-reverse-proxy.md#never-call-an-internal-service-using-reverse-proxy).
+
+So in fact Product Opener was expecting a response that did not came, until timeout.
+This had the bad side effect of monopolizing workers…
+
+The fix was to change in Config2.pm,
+`$query_url="https://query.openfoodfacts.org";`
+to `$query_url = "http://10.1.0.115:5511";`
+
+
 ## Removing old install
 
 After moving, I did a `docker compose down` on the container VM where the old install was.

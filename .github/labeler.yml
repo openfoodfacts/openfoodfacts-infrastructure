@@ -8,3 +8,12 @@ GitHub Actions:
 postmortems:
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
+
+argilla:
+- changed-files:
+  - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
+
+📨 email:
+- changed-files:
+  - any-glob-to-any-file: 'docs/mail.md'
+  - any-glob-to-any-file: 'confs/common/systemd/system/email-failures@.service'

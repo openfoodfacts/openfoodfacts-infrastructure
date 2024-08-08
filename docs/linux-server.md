@@ -27,7 +27,7 @@ We use either postfix or exim as a satellite of a smart_host.
 Every outgoing mail must pass through the proxmox mail gateway,
 which is registered in spf record and adds DKIM signature.
 
-For configuration, see [mail - Servers](./mail.md#Servers)
+For configuration, see [mail - Servers](./mail.md#servers)
 
 ## Iptables
 
