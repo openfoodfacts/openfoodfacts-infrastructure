@@ -21,10 +21,14 @@ server {
 map $uri $exporter {
     # mongodb
     "/mongo/mongodb/metrics" 10.1.0.102:9216;
+    # nginx on the off1 proxy
+    "/off1-proxy/nginx/metrics" 10.1.0.100:9113;
     # nginx on this proxy
     "/proxy/nginx/metrics" 127.0.0.1:9113;
-    # nginx on off
+    # nginx on off container
     "/off/nginx/metrics" 10.1.0.113:9113;
+    # apache on off container
+    "/off/apache/metrics" 10.1.0.113:9117;
 }
 
 #log_format debug_exporter "$time_local $scheme://$host:$server_port$request_uri $exporter";

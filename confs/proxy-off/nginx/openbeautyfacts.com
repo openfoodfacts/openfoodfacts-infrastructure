@@ -1,3 +1,6 @@
+# Test instance for the new code of Open Beauty Facts
+# openbeautyfacts.com -> container obf-new 116
+
 # This part allow to create a specific log for rate limiting
 map $status $rate_limited {
 	default 0;
@@ -5,16 +8,16 @@ map $status $rate_limited {
 }
 
 # create zone "off" for rate limiting 
-limit_req_zone $binary_remote_addr zone=off:10m rate=240r/m;
+limit_req_zone $binary_remote_addr zone=obf:10m rate=240r/m;
 
 
 server {
     listen 80;
     listen [::]:80;
-    # note that *.pro.openfoodfacts.org query are served by pro.openfoodfacts.org
+    # note that *.pro.openbeautyfacts.com query are served by pro.openbeautyfacts.com
     # this works because nginx is smart about server_name matching
     # see https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name
-    server_name openfoodfacts.org *.openfoodfacts.org;
+    server_name openbeautyfacts.com *.openbeautyfacts.com;
 
     return 301 https://$host$request_uri;
 }
@@ -22,12 +25,12 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name openfoodfacts.org *.openfoodfacts.org;
+    server_name openbeautyfacts.com *.openbeautyfacts.com;
 
     # SSL/TLS settings
-    ssl_certificate /etc/letsencrypt/live/openfoodfacts.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/openfoodfacts.org/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/openfoodfacts.org/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/openbeautyfacts.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openbeautyfacts.com/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openbeautyfacts.com/chain.pem;
 
     # Harden SSL
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
@@ -50,20 +53,30 @@ server {
     client_max_body_size 20M;
 
     # logs location
-    access_log  /var/log/nginx/openfoodfacts.org.log  main buffer=256K flush=1s;
-    error_log   /var/log/nginx/openfoodfacts.org.errors.log;
+    access_log  /var/log/nginx/openbeautyfacts.com.log  main buffer=256K flush=1s;
+    error_log   /var/log/nginx/openbeautyfacts.com.errors.log;
 
     #access_log /dev/shm/rate_limited.log main if=$rate_limited;
+        #limit_req zone=obf burst=1 nodelay; # burst=120 means you can do 240+120 requests
+                                              # before experimenting a 444 error
+        #limit_req_log_level warn;   # not sure if necessary
+        #limit_req_status 444; # allows a specific http status code to clearly
+                              # identify rate limiting
+        #limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the 
+                              # shared memory zone, the number of excessive requests 
+                              # is accounted as usual.
 
 
     # Cache small static assets that are frequently requested
+
+
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
     	proxy_cache_key $request_uri;
         proxy_cache_valid any 1m;
         add_header X-Cache-Status $upstream_cache_status;  
-
-        proxy_pass http://10.1.0.113:80;
+        proxy_pass http://10.1.0.116:80;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -84,7 +97,7 @@ server {
     	proxy_cache_key $host$request_uri$cookie_user;
         proxy_cache_valid any 5s;
         add_header X-Cache-Status $upstream_cache_status;  
-        proxy_pass http://10.1.0.113:80;
+        proxy_pass http://10.1.0.116:80;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -106,8 +119,7 @@ server {
         # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
         # Eg. X-Cache-Status: HIT
         add_header X-Cache-Status $upstream_cache_status;  
-
-        proxy_pass http://10.1.0.113:80/;
+        proxy_pass http://10.1.0.116:80/;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -119,8 +131,7 @@ server {
  	proxy_intercept_errors on;
         error_page 502 /502.html;
 
-        # Rate limiting
-        limit_req zone=off burst=120 nodelay; # burst=120 means you can do 240+120 requests
+        limit_req zone=obf burst=120 nodelay; # burst=120 means you can do 240+120 requests
                                               # before experimenting a 444 error
         #limit_req_log_level warn;   # not sure if necessary
         limit_req_status 444; # allows a specific http status code to clearly
