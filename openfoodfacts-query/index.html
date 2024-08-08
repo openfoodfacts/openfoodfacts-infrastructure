@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../how-to-have-server-config-in-git/">
+        <link rel="prev" href="../odoo/">
       
       
-        <link rel="next" href="../linux-server/">
+        <link rel="next" href="../overview/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>How to mitigate crawlers in case of too much traffic - Open Food Facts Infrastructure documentation</title>
+        <title>Open Food Facts Query - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-mitigate-crawlers-in-case-of-too-much-traffic" class="md-skip">
+        <a href="#open-food-facts-query" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              How to mitigate crawlers in case of too much traffic
+              Open Food Facts Query
             
           </span>
         </div>
@@ -464,30 +464,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    How to mitigate crawlers in case of too much traffic
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -496,86 +476,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#find-disturbing-ips" class="md-nav__link">
-    <span class="md-ellipsis">
-      Find disturbing IPs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#warn" class="md-nav__link">
-    <span class="md-ellipsis">
-      Warn
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#blacklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      Blacklist
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Blacklist">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#on-off2-reverse-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      On off2 reverse proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#on-off1" class="md-nav__link">
-    <span class="md-ellipsis">
-      On off1
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#make-it-better" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make it better
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -864,10 +764,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../openfoodfacts-query/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Open Food Facts Query
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -876,6 +796,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staging-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Staging deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2532,60 +2499,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#find-disturbing-ips" class="md-nav__link">
+  <a href="#production-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Find disturbing IPs
+      Production deployment
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#warn" class="md-nav__link">
+  <a href="#staging-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Warn
+      Staging deployment
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#blacklist" class="md-nav__link">
+  <a href="#testing" class="md-nav__link">
     <span class="md-ellipsis">
-      Blacklist
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Blacklist">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#on-off2-reverse-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      On off2 reverse proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#on-off1" class="md-nav__link">
-    <span class="md-ellipsis">
-      On off1
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#make-it-better" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make it better
+      Testing
     </span>
   </a>
   
@@ -2609,32 +2543,21 @@
   
 
 
-<h1 id="how-to-mitigate-crawlers-in-case-of-too-much-traffic">How to mitigate crawlers in case of too much traffic<a class="headerlink" href="#how-to-mitigate-crawlers-in-case-of-too-much-traffic" title="Permanent link">#</a></h1>
-<p>It happens that some program is hammering Open Food Facts, causing serious latency and 504 problems to every users.</p>
-<p>Most of the time it's someone who is not aware data must be downloaded at https://world.openfoodfacts.org/data instead of harvesting.</p>
-<h2 id="find-disturbing-ips">Find disturbing IPs<a class="headerlink" href="#find-disturbing-ips" title="Permanent link">#</a></h2>
-<p>On prod server we have a script <code>concatenate_by_ip.pl</code>.</p>
-<p>Go to access log for your site.</p>
-<div class="highlight"><pre><span></span><code>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100000</span><span class="w"> </span>access_log<span class="w"> </span><span class="p">|</span><span class="w">  </span>./concatenate_by_ip.pl<span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
-</code></pre></div>
-<p>Shows you a list of IP addresses with a number of requests</p>
-<p><div class="highlight"><pre><span></span><code>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100000</span><span class="w"> </span>access_log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>&lt;ip_adress&gt;
-</code></pre></div>
-to see activity of a single ip address and try to understand what's going on.</p>
-<p>Search and facets requests are the most consuming.
-(Product read requests are just a read of a file)</p>
-<h2 id="warn">Warn<a class="headerlink" href="#warn" title="Permanent link">#</a></h2>
-<p>If the User-Agent has some indication on who is using the platform, try to contact them.</p>
-<h2 id="blacklist">Blacklist<a class="headerlink" href="#blacklist" title="Permanent link">#</a></h2>
-<h3 id="on-off2-reverse-proxy">On off2 reverse proxy<a class="headerlink" href="#on-off2-reverse-proxy" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>fail2ban-client<span class="w"> </span><span class="nb">set</span><span class="w"> </span>nginx-botsearch<span class="w"> </span>banip<span class="w"> </span>&lt;IP&gt;
-</code></pre></div>
-<p>see <a href="../how-to-fail2ban-ban-bots/">How to use fail2ban to ban bots</a></p>
-<h3 id="on-off1">On off1<a class="headerlink" href="#on-off1" title="Permanent link">#</a></h3>
-<p>In case it's needed, blacklist the IP address using an iptables rule:</p>
-<p><code>iptables -A INPUT -s &lt;ip_address&gt; -j DROP</code></p>
-<h2 id="make-it-better">Make it better<a class="headerlink" href="#make-it-better" title="Permanent link">#</a></h2>
-<p>We could instead implement traffic rate limitation using NGINX.</p>
+<h1 id="open-food-facts-query">Open Food Facts Query<a class="headerlink" href="#open-food-facts-query" title="Permanent link">#</a></h1>
+<p>The Open Food Facts Query project compute aggreations requests that are visible on the website as the user use the option "Explore products by".
+It avoid using MongoDB for such tasks, giving faster results.</p>
+<p>The repository is at : https://github.com/openfoodfacts/openfoodfacts-query/</p>
+<h2 id="production-deployment">Production deployment<a class="headerlink" href="#production-deployment" title="Permanent link">#</a></h2>
+<p>It is deployed in a specific Proxmox container (CT 115) on off1, using docker-compose.</p>
+<p>Specific options are applyed to the container to host a docker. See [2024-02-12</p>
+<h2 id="staging-deployment">Staging deployment<a class="headerlink" href="#staging-deployment" title="Permanent link">#</a></h2>
+<p>It is deployed on the staging dockers VM as a docker-compose project. And available at https://query.openfoodfacts.net/</p>
+<p>The <code>/var/lib/docker/volumes</code> is mounted on a specific ZFS dataset to host it on the NVME pool.</p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
+<p>The app is a replacement to mongodb aggregations queries, so it accepts such aggregations.</p>
+<p>You can test it's working using:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;[{&quot;$match&quot;: {&quot;countries_tags&quot;: &quot;en:france&quot;}},{&quot;$group&quot;:{&quot;_id&quot;:&quot;$brands_tags&quot;}}]&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>https://query.openfoodfacts.org/aggregate
+</code></pre></div></p>
 
 
 
