@@ -1,8 +1,9 @@
-# OpenFoodFacts Infrastructure
+# Open Food Facts Infrastructure
 
 Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 
-We also have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
+* We have a status page at https://status.openfoodfacts.org/, driven by https://github.com/openfoodfacts/openfoodfacts-upptime
+* We also have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
 ## Current priorities
 
