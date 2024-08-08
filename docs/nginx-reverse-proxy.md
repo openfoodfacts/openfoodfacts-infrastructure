@@ -320,6 +320,12 @@ eg (for off server nginx):
     access_log /var/log/nginx/off-access.log proxied_requests buffer=256K flush=1s;
 ```
 
+
+
 ## Install
 
 Install was quite simple: we simply install nginx package, as well as stunnel4.
+
+Along with nginx, some other tools can be installed:
+* apachetop: to analyze realtime web traffic
+* [lnav](https://lnav.org/): to analyze logs
