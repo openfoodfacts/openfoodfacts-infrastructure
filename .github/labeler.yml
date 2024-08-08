@@ -9,6 +9,10 @@ postmortems:
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
 
+openfoodfacts-query:
+- changed-files:
+  - any-glob-to-any-file: 'docs/openfoodfacts-query.md'
+
 argilla:
 - changed-files:
   - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
