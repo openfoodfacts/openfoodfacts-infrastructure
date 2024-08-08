@@ -86,7 +86,7 @@ saying it was a VM Ware virtual MAC.
 #### Changing the IP
 
 Using proxmox admin, I changed the IP of the container.
-I add no way of knowing the gateway, so I had to guess it (OVH considers you have to use DHCP, but we hardcode IP, and proxmox does not let you use DHCP only for part of the configuration[^proxmox_dhcp_gateway] ).
+I had no way of knowing the gateway, so I had to guess it (OVH considers you have to use DHCP, but we hardcode IP, and proxmox does not let you use DHCP only for part of the configuration[^proxmox_dhcp_gateway] ).
 Trying 1 and 254, I was able to get it correctly (it was the same IP as the one we have, changing last part to 254).
 `ip neigh` helped me to check reachability.
 
