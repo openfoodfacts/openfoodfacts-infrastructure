@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-07-off2-off-reinstall/">
+        <link rel="prev" href="../2024-06-10-move-off-query-volume-to-nvme/">
       
       
-        <link rel="next" href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/">
+        <link rel="next" href="../2024-08-07-wordpress-off-contents-fresh-install/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-08-31 OFF2 products snapshots clean - Open Food Facts Infrastructure documentation</title>
+        <title>2024-08-03 OVH Reverse proxy IP lost - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-08-31-off2-products-snapshots-clean" class="md-skip">
+        <a href="#2024-08-03-ovh-reverse-proxy-ip-lost" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-08-31 OFF2 products snapshots clean
+              2024-08-03 OVH Reverse proxy IP lost
             
           </span>
         </div>
@@ -1774,30 +1774,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-08-31 OFF2 products snapshots clean
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1806,53 +1786,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#modifying-the-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      Modifying the script
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#purging-snapshots-for-opf-and-obf" class="md-nav__link">
-    <span class="md-ellipsis">
-      Purging snapshots for opf and obf
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removing-atime" class="md-nav__link">
-    <span class="md-ellipsis">
-      Removing atime
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2450,10 +2383,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-08-03-ovh-reverse-proxy-ip-lost/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-08-03 OVH Reverse proxy IP lost
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2462,6 +2415,143 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Investigation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asking-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asking support
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a new IP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#putting-our-secondary-ovh-account-as-technical-contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Putting our secondary OVH account as technical contact
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#purchasing-an-additional-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purchasing an additional IP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-ip-of-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the IP of the container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Changing the IP of the container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the IP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating DNS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2522,27 +2612,117 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modifying-the-script" class="md-nav__link">
+  <a href="#problem" class="md-nav__link">
     <span class="md-ellipsis">
-      Modifying the script
+      Problem
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#purging-snapshots-for-opf-and-obf" class="md-nav__link">
+  <a href="#investigation" class="md-nav__link">
     <span class="md-ellipsis">
-      Purging snapshots for opf and obf
+      Investigation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#removing-atime" class="md-nav__link">
+  <a href="#resolution" class="md-nav__link">
     <span class="md-ellipsis">
-      Removing atime
+      Resolution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asking-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asking support
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a new IP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#putting-our-secondary-ovh-account-as-technical-contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Putting our secondary OVH account as technical contact
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#purchasing-an-additional-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purchasing an additional IP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-ip-of-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the IP of the container
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Changing the IP of the container">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the IP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating DNS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
     </span>
   </a>
   
@@ -2566,32 +2746,94 @@
   
 
 
-<h1 id="2023-08-31-off2-products-snapshots-clean">2023-08-31 OFF2 products snapshots clean<a class="headerlink" href="#2023-08-31-off2-products-snapshots-clean" title="Permanent link">#</a></h1>
-<p>We had an inode alert problem on off2 <code>zfs-nvme</code> ZFS pool from munin (in fact this is not a problem in ZFS itself) which in facts showed a disk space error on <code>zfs-nvme</code> ZFS pool.</p>
-<p>Raphaël did some cleaning of snapshots to recover space.</p>
-<p>Christian Quest signals that the snapshot_purge script on off2 (running thanks to cron) was not working correctly since it was targeting <code>zfs-hdd</code> instead off <code>zfs-nvme</code> for <code>off/products</code>.
-I forgot to change that when I moved the dataset to zfs-nvme during <a href="../2023-07-off2-off-reinstall/">off install on off2</a>.</p>
-<p>It's also the occasion to stop it on opf and obf dataset and do some cleanup.</p>
-<h2 id="modifying-the-script">Modifying the script<a class="headerlink" href="#modifying-the-script" title="Permanent link">#</a></h2>
-<p>I modified the snapshot_purge script, rewrite it using a function, to be able to target the right ZFS pool depending on the dataset. I also removed the purge on opf and obf as we don't need it anymore (handled by sanoid).</p>
-<p>I then launched it manually to verify it was working as expected.</p>
-<h2 id="purging-snapshots-for-opf-and-obf">Purging snapshots for opf and obf<a class="headerlink" href="#purging-snapshots-for-opf-and-obf" title="Permanent link">#</a></h2>
-<p>It's also the occasion to do some cleanup.</p>
-<p>I used commands like:
-<div class="highlight"><pre><span></span><code><span class="c1"># verify</span>
-zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/opf/products<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;2023070[2-5]&#39;</span>
-<span class="c1"># remove</span>
-zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/opf/products<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;2023070[2-5]&#39;</span><span class="p">|</span>xargs<span class="w"> </span>--verbose<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>zfs<span class="w"> </span>destroy
+<h1 id="2024-08-03-ovh-reverse-proxy-ip-lost">2024-08-03 OVH Reverse proxy IP lost<a class="headerlink" href="#2024-08-03-ovh-reverse-proxy-ip-lost" title="Permanent link">#</a></h1>
+<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">#</a></h2>
+<p>Friday 03-08-2024, around 16:40 all the service on OVH cease to be accessible over http.</p>
+<p>Unfortunately a lot of the team was on vacation.</p>
+<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
+<p>We did some reboot of the reverse proxy container without success.</p>
+<p>After some investigation, it appears that it could not communicate with the rest of internet:
+outgoing and ingoing requests where lost.</p>
+<p>Looking at <code>ip neigh</code> I saw that the gateway was not reachable.</p>
+<div class="highlight"><pre><span></span><code><span class="m">10</span>.1.0.100<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>lladdr<span class="w"> </span>d6:7b:64:f7:28:08<span class="w"> </span>STALE
+<span class="m">10</span>.0.0.1<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>lladdr<span class="w"> </span>a0:42:3f:46:e7:6d<span class="w"> </span>STALE
+<span class="m">193</span>.70.55.1<span class="w"> </span>dev<span class="w"> </span>eth1<span class="w">  </span>FAILED
+fe80::7ead:4fff:fea0:d657<span class="w"> </span>dev<span class="w"> </span>eth1<span class="w"> </span>lladdr<span class="w"> </span>7c:ad:4f:a0:d6:57<span class="w"> </span>router<span class="w"> </span>STALE
+fe80::7ead:4fff:fea0:b087<span class="w"> </span>dev<span class="w"> </span>eth1<span class="w"> </span>lladdr<span class="w"> </span>7c:ad:4f:a0:b0:87<span class="w"> </span>router<span class="w"> </span>STALE
 </code></pre></div>
-to selectively destroy old snpashots and only keep a few.</p>
-<h2 id="removing-atime">Removing atime<a class="headerlink" href="#removing-atime" title="Permanent link">#</a></h2>
-<p>Christian also reported that atime was on, while it might hinder performance. I turned it off on all products datasets:</p>
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-nvme/off/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-nvme/off-pro/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/obf/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/opf/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/opff/products
-</code></pre></div>
+<p>Looking at the OVH incidents panel,
+I saw that there was an <a href="https://bare-metal-servers.status-ovhcloud.com/">incident in progress on bare metal servers</a> at RBX8 (same location as our server),
+but it was not on the rack containing OVH1.</p>
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
+<h3 id="asking-support">Asking support<a class="headerlink" href="#asking-support" title="Permanent link">#</a></h3>
+<p>Having no explanation for this sudden change in gateway reachability,
+I opened a ticket to OVH support at 20:30, concerning network ip failover.
+And hoped that they will answer fast.</p>
+<p>I was on vacation and did this in the train.
+I did not have the time, nor the mean to find a temporary fix.</p>
+<p>As I arrived destination (around 22), I had no answer.
+I then was AFK for whole week-end !</p>
+<p>On monday I checked and see that RBX8 incident was resolved,
+while reverse proxy was still failing and our ticket didn't get any answer.</p>
+<h3 id="adding-a-new-ip">Adding a new IP<a class="headerlink" href="#adding-a-new-ip" title="Permanent link">#</a></h3>
+<p>As suggested by Vince and Christian in between, we decided to try to change our IP address by requiring on additional IP address from OVH.</p>
+<h4 id="putting-our-secondary-ovh-account-as-technical-contact">Putting our secondary OVH account as technical contact<a class="headerlink" href="#putting-our-secondary-ovh-account-as-technical-contact" title="Permanent link">#</a></h4>
+<p>The account containing the servers (OVH Mecenat) can't be used to buy anything.
+We have a second OVH account, where we manage domain name,
+but you can only add an additional IP address to the server you possess.
+The trick is that you can do this if you are the technical contact of the server.</p>
+<p>So in the OVH admin interface, We did go to bare metal servers, choosed OVH1, and at the bottom,
+I asked to modify contacts. we were able to nominate the new technical contact.</p>
+<p>This sends two mails for verification:</p>
+<ul>
+<li>one to the new technical contact account</li>
+<li>one to the owner of the server</li>
+</ul>
+<p>After validation, some minutes later, the contact was changed.</p>
+<p>In the contact modification form, there is a tab were you can see tasks in progress and their status.</p>
+<h4 id="purchasing-an-additional-ip">Purchasing an additional IP<a class="headerlink" href="#purchasing-an-additional-ip" title="Permanent link">#</a></h4>
+<p>Now using the new technical contact account, we went to the IP section, in bare metal cloud 
+and we were able to purchased an additional IP for ovh1 server.</p>
+<p>I then try to configure it on my proxmox container (see below), but it was not working.</p>
+<p>Indeed, OVH associate IP address with a MAC, and by default this is the MAC of the server.
+So I had to add a virtual MAC (it's possible in OVH interface showing additional IP address).
+I put the MAC address of the container (visible in proxmox admin interface, in the network tab for the container),
+saying it was a VM Ware virtual MAC.</p>
+<h3 id="changing-the-ip-of-the-container">Changing the IP of the container<a class="headerlink" href="#changing-the-ip-of-the-container" title="Permanent link">#</a></h3>
+<h4 id="changing-the-ip">Changing the IP<a class="headerlink" href="#changing-the-ip" title="Permanent link">#</a></h4>
+<p>Using proxmox admin, I changed the IP of the container.
+I had no way of knowing the gateway, so I had to guess it (OVH considers you have to use DHCP, but we hardcode IP, and proxmox does not let you use DHCP only for part of the configuration<sup id="fnref:proxmox_dhcp_gateway"><a class="footnote-ref" href="#fn:proxmox_dhcp_gateway">1</a></sup> ).
+Trying 1 and 254, I was able to get it correctly (it was the same IP as the one we have, changing last part to 254).
+<code>ip neigh</code> helped me to check reachability.</p>
+<p>As said above, it did not work at first try because we had to associate the virtual MAC with the IP address in OVH interface 
+(that's good news OVH does this kind of checks)</p>
+<h4 id="updating-dns">Updating DNS<a class="headerlink" href="#updating-dns" title="Permanent link">#</a></h4>
+<p>We updated the DNS record for openfoodfacts.org and openfoodfacts.net to point to the new IP address.
+In practice we only changed proxy1.openfoodfacts.org and openfoodfacts.net, because the other are CNAME
+(and those which weren't, now are).</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
+<p>We still don't know why our gateway became sudenly unreachable…</p>
+<p>We had two days of downtime, because we had few resources available, and we did not identified any quick fix (even temporary).
+Most of the services keeps running and could do their job, but were unreachable (API, blog, etc.).</p>
+<p>We now have an IP address that is under the control of our team.</p>
+<p>Some possible actions in the future:</p>
+<ul>
+<li>We could use this more:<ul>
+<li>for example to setup a second reverse proxy on ovh2, and have a failover.</li>
+<li>We could also use additional IP for the <a href="../../mail/">mail gateway</a>.</li>
+</ul>
+</li>
+<li>We should investigate using IPv6 on those containers</li>
+</ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:proxmox_dhcp_gateway">
+<p>in practice this could be done by manually changing the network configuration in the container,
+  but I prefer to keep things simple and use proxmox admin (we are different admins).&#160;<a class="footnote-backref" href="#fnref:proxmox_dhcp_gateway" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
