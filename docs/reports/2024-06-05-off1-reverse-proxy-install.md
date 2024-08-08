@@ -1,5 +1,8 @@
 # 2024-06 OFF1 reverse proxy install + OFF images container
 
+**⚠️ IMPORTANT:** We finally didn't use this reverse proxy which was intended to serve images due to un-explained performance issues.
+We didn't have the time to investigate more.
+
 A new IP address has been allocated so that we can install a nginx reverse proxy on off1.
 The reverse proxy will directly serve static OFF product images.
 
@@ -282,3 +285,7 @@ ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/nginx.conf /etc/ng
 cp -a /zfs-hdd/pve/subvol-100-disk-0/etc/letsencrypt /etc/
 
 TODO: properly install letsencrypt if it works and we want to keep serving images on the host.
+
+
+**⚠️ IMPORTANT:** We finally abandonned using off1 to server images, due to un-explained performance issues.
+We didn't have the time to investigate more.
