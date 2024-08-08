@@ -104,7 +104,7 @@ In practice we only changed proxy1.openfoodfacts.org and openfoodfacts.net, beca
 
 ## Conclusion
 
-We still don't know why our gateway become sudenly unreachable…
+We still don't know why our gateway became sudenly unreachable…
 
 We had two days of downtime, because we had few resources available, and we did not identified any quick fix (even temporary).
 Most of the services keeps running and could do their job, but were unreachable (API, blog, etc.).
