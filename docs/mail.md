@@ -2,11 +2,35 @@
 
 Because mail is difficult to setup, we use [Proxmox Mail Gateway](https://www.proxmox.com/en/proxmox-mail-gateway) as a relay to all servers. It ensure correct SPF, but also it adds DKIM signature.
 
+The DKIM and spf records are configured on main domain *openfoodfacts.org*.
+
+While DKIM is specific (because Brevo and Google keys are distinct by construction), 
+main SPF rule includes brevo and google servers.
+
 No server receive mail, but they should be able to send them.
 
 <a id="only-domain"></a>
 
 **📝Note:** We ONLY support emails address on primary domain (`openfoodfacts.org`) and we DO NOT support emails on sub domains (aka `xxx.openfoodfacts.org`).
+
+
+## Google Workspace
+
+We use Gmail for email boxes and groups.
+
+We have a DKIM record configured for google domain and sub-domains in the DNS, we also take into account in SPF rule.
+You can find the public key in google workspace admin console, under gmail.
+
+
+## Brevo
+
+We use Brevo to send newsletters.
+
+We have a DKIM record configured for the Brevo domain in the DNS, we also take into account in SPF rule.
+They use the **hello.openfoodfacts.org** subdomain.
+
+You can find the public key if you are logged as admin in Brevo, in the top right corner menu, going in "Senders, domains and dedicated IPs".
+Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records. 
 
 ## Proxmox Mail Gateway
 
@@ -68,7 +92,7 @@ To add a new machine
 ```
 sudo iptables -t nat -A PREROUTING -s 213.36.253.206,213.36.253.208,146.59.148.140,51.210.154.203,1.210.32.79 -d pmg.openfoodfacts.org -p tcp  --dport 25 -j DNAT --to 10.1.0.102:25
 ```
-don't forget [to save iptables](./linux-servers#iptables)
+don't forget [to save iptables](./linux-server.md#iptables)
 
 (a generic masquerading rule for VM also exists)
 
@@ -131,6 +155,11 @@ Run: `dpkg-reconfigure postfix`:
 * local network: leave default
 * use procmail: no
 * default for the rest
+
+**IMPORTANT:**
+On some system, the real daemon is not `postfix.service` but `postfix@-.service`
+
+(so eg., if you touch `/etc/alias` (with after `sudo newaliases`) you need to `systemctl reload  postfix@-.service`
 
 ### Exim4 configuration
 

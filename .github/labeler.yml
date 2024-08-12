@@ -1,5 +1,7 @@
-# Add 'label1' to any changes within 'example' folder or any subfolders
-github_actions:
+# Add labels to any any pull request with changes to the specified paths
+
+# Pull requests that update GitHub Actions code. If you navigate to the folder, you will have a README of what it does
+GitHub Actions:
 - changed-files:
   - any-glob-to-any-file: '.github/**/*'
 
@@ -7,7 +9,41 @@ postmortems:
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
 
+openfoodfacts-query:
+- changed-files:
+  - any-glob-to-any-file: 'docs/openfoodfacts-query.md'
+
+argilla:
+- changed-files:
+  - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
+
+off2:
+- changed-files:
+  - any-glob-to-any-file: '**/*off2*'
+
+off1:
+- changed-files:
+  - any-glob-to-any-file: '**/*off1*'
+
+ovh1:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh1*'
+
+ovh2:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh2*'
+
+ovh3:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh3*'
+
 moji:
 - changed-files:
+  - any-glob-to-any-file: '**/*moji*'
   - any-glob-to-any-file: 'confs/moji-stunnel-client/stunnel/off.conf'
   - any-glob-to-any-file: 'confs/moji-stunnel-server/stunnel/off.conf'
+  
+📨 email:
+- changed-files:
+  - any-glob-to-any-file: 'docs/mail.md'
+  - any-glob-to-any-file: 'confs/common/systemd/system/email-failures@.service'

@@ -19,8 +19,19 @@ server {
 
 # map from service to exporter
 map $uri $exporter {
+    # mongodb
     "/mongo/mongodb/metrics" 10.1.0.102:9216;
+    # nginx on the off1 proxy
+    "/off1-proxy/nginx/metrics" 10.1.0.100:9113;
+    # nginx on this proxy
+    "/proxy/nginx/metrics" 127.0.0.1:9113;
+    # nginx on off container
+    "/off/nginx/metrics" 10.1.0.113:9113;
+    # apache on off container
+    "/off/apache/metrics" 10.1.0.113:9117;
 }
+
+#log_format debug_exporter "$time_local $scheme://$host:$server_port$request_uri $exporter";
 
 # https server
 server {
@@ -33,15 +44,17 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/free-exporters.openfoodfacts.org/privkey.pem;
     ssl_trusted_certificate /etc/letsencrypt/live/free-exporters.openfoodfacts.org/chain.pem;
 
-    # logs location
-    access_log  /var/log/nginx/free-exporters.log  main;
+    # logs location, avoid access_log, no need
+    #access_log  /var/log/nginx/free-exporters.log  debug_exporter;
+    #access_log  /var/log/nginx/free-exporters.log  main;
+    access_log  off;
     error_log   /var/log/nginx/free-exporters.errors.log;
 
     # protect
     auth_basic "Exporter metrics";
     auth_basic_user_file "/etc/nginx/.htpasswd/free-exporters";
 
-    # mongodb exporter
+    # url to join is defined thanks to exporter variable, itself based upon uri
     location / {
 
         if ($exporter = "") {
