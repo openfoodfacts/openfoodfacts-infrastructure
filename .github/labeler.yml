@@ -1,6 +1,13 @@
 # Add 'label1' to any changes within 'example' folder or any subfolders
 github_actions:
-- .github/**/*
+- changed-files:
+  - any-glob-to-any-file: '.github/**/*'
 
 postmortems:
-- docs/reports/**/*
+- changed-files:
+  - any-glob-to-any-file: 'docs/reports/**/*'
+
+moji:
+- changed-files:
+  - any-glob-to-any-file: 'confs/moji-stunnel-client/stunnel/off.conf'
+  - any-glob-to-any-file: 'confs/moji-stunnel-server/stunnel/off.conf'
