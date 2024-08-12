@@ -15,20 +15,20 @@ argilla:
 
 off2:
 - changed-files:
-  - any-glob-to-any-file: 'off2'
+  - any-glob-to-any-file: '**/*off2*'
 
 off1:
 - changed-files:
-  - any-glob-to-any-file: 'off1'
+  - any-glob-to-any-file: '**/*off1*'
 
 ovh2:
 - changed-files:
-  - any-glob-to-any-file: 'ovh2'
+  - any-glob-to-any-file: '**/*ovh2*'
 
 ovh3:
 - changed-files:
-  - any-glob-to-any-file: 'ovh3'
+  - any-glob-to-any-file: '**/*ovh3*'
 
 moji:
 - changed-files:
-  - any-glob-to-any-file: 'moji'
+  - any-glob-to-any-file: '**/*moji*'
