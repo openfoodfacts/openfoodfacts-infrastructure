@@ -17,6 +17,26 @@ argilla:
 - changed-files:
   - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
 
+off2:
+- changed-files:
+  - any-glob-to-any-file: '**/*off2*'
+
+off1:
+- changed-files:
+  - any-glob-to-any-file: '**/*off1*'
+
+ovh2:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh2*'
+
+ovh3:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh3*'
+
+moji:
+- changed-files:
+  - any-glob-to-any-file: '**/*moji*'
+
 📨 email:
 - changed-files:
   - any-glob-to-any-file: 'docs/mail.md'
