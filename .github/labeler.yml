@@ -25,6 +25,10 @@ off1:
 - changed-files:
   - any-glob-to-any-file: '**/*off1*'
 
+ovh1:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh1*'
+
 ovh2:
 - changed-files:
   - any-glob-to-any-file: '**/*ovh2*'
