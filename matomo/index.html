@@ -2972,7 +2972,10 @@ in <code>plugins/QueuedTracking/Queue/Processor.php</code>:</p>
 <p>Mysql server prometheus exporter is installed (for MariaDB), its <code>/etc/default</code> configuration file sets the connection string.
 The corresponding mysql user had to be manually created (instrutions in the config file).</p>
 <h3 id="updating-the-matomo-version">Updating the Matomo version<a class="headerlink" href="#updating-the-matomo-version" title="Permanent link">#</a></h3>
-<p>Just use the web administration to update the software.</p>
+<p><strong>read this whole section before anything</strong></p>
+<p>We use the web administration to update the software.</p>
+<p>Always do a snapshot before updating.</p>
+<p><strong>IMPORTANT:</strong> after an upgrade, you must re-apply the <a href="#important-temporary-patch">temporary patches</a>, you need root access to the server to do that.</p>
 <h3 id="setup-robotstxt-to-avoid-search-engine-indexing">Setup robots.txt to avoid search engine indexing<a class="headerlink" href="#setup-robotstxt-to-avoid-search-engine-indexing" title="Permanent link">#</a></h3>
 <p>Setup <code>/var/www/html/matomo/robots.txt</code> as is:
 <div class="highlight"><pre><span></span><code>User-agent: *
