@@ -134,7 +134,13 @@ The corresponding mysql user had to be manually created (instrutions in the conf
 
 ### Updating the Matomo version
 
-Just use the web administration to update the software.
+**read this whole section before anything**
+
+We use the web administration to update the software.
+
+Always do a snapshot before updating.
+
+**IMPORTANT:** after an upgrade, you must re-apply the [temporary patches](#important-temporary-patch), you need root access to the server to do that.
 
 ### Setup robots.txt to avoid search engine indexing
 
