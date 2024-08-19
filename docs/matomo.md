@@ -46,6 +46,22 @@ until enough mobile app are deployed, I manually patched `plugins/QueuedTracking
       ...
 ```
 
+And also as our instance was having a hard time coping with all requests,
+in `plugins/QueuedTracking/Queue/Processor.php`:
+
+```php
+    private function extendLockExpireToMakeSureWeCanProcessARequestSet(RequestSet $requestSet)
+    {
+        // 2 seconds per tracking request should give it enough time to process it
+        // 2024-03-15 ALEX try 15 s per requests instead of 2s
+        $ttl = $requestSet->getNumberOfRequests() * 150;
+        $ttl = max($ttl, 30); // lock for at least 30 seconds
+
+        return $this->queueManager->expireLock($ttl);
+    }
+```
+
+
 
 ## Site setup
 
