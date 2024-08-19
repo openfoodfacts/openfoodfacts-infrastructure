@@ -41,6 +41,14 @@ moji:
 - changed-files:
   - any-glob-to-any-file: '**/*moji*'
 
+🔒 SSL:
+- changed-files:
+  - any-glob-to-any-file: '**/*ssl*'
+
+🐳 docker:
+- changed-files:
+  - any-glob-to-any-file: '**/*docker*'
+
 📨 email:
 - changed-files:
   - any-glob-to-any-file: 'docs/mail.md'
@@ -49,3 +57,27 @@ moji:
 📈 Matomo:
 - changed-files:
   - any-glob-to-any-file: 'docs/matomo.md'
+
+postgres:
+- changed-files:
+  - any-glob-to-any-file: '**/*postgres*'
+
+blog:
+- changed-files:
+  - any-glob-to-any-file: '**/*blog*'
+
+forum:
+- changed-files:
+  - any-glob-to-any-file: '**/*forum*'
+
+proxmox:
+- changed-files:
+  - any-glob-to-any-file: '**/*proxmox*'
+
+🧴 Open Beauty Facts:
+- changed-files:
+  - any-glob-to-any-file: '**/*obf*'
+
+Odoo:
+- changed-files:
+  - any-glob-to-any-file: '**/*odoo*'
