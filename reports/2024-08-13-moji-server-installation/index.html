@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2022-03-off2-PCI-NVMe-problems/">
+        <link rel="prev" href="../2024-08-07-wordpress-off-contents-fresh-install/">
       
-      
-        <link rel="next" href="../2022-07-11-infra-workshop/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>Deploying openfoodfacts-search to staging - Open Food Facts Infrastructure documentation</title>
+        <title>Moji server installation - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deploying-openfoodfacts-search-to-staging" class="md-skip">
+        <a href="#moji-server-installation" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deploying openfoodfacts-search to staging
+              Moji server installation
             
           </span>
         </div>
@@ -1290,30 +1288,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Deploying openfoodfacts-search to staging
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1322,152 +1300,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#docker-preparation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker preparation
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Docker preparation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#avoiding-root" class="md-nav__link">
-    <span class="md-ellipsis">
-      Avoiding root
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#securing-elasticvue-access" class="md-nav__link">
-    <span class="md-ellipsis">
-      Securing Elasticvue access
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#image-creation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Image creation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deployment
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Deployment">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Secrets
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#first-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      First run
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reverse-proxy-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reverse proxy setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-live-update-2022-11-10" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enabling live update (2022-11-10)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Enabling live update (2022-11-10)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#fix-common-net-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fix common net name
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setting-redis_url-in-off-net" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setting REDIS_URL in off-net
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setting-openfoodfacts_api_url" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setting OPENFOODFACTS_API_URL
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2611,10 +2443,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-08-13-moji-server-installation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Moji server installation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2623,6 +2475,245 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proxmox-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-docker-prod-2-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the docker-prod-2 VM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the docker-prod-2 VM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      Info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ipv6-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      ipv6 configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ipv6 configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solution-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution 4
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stunnel-client-ct-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      stunnel-client CT configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stunnel-client CT configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install stunnel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stunnel-server-ct-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      stunnel-server CT configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stunnel-server CT configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-container_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-stunnel_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install stunnel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-robotoff-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install Robotoff services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ovh1-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      OVH1 configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OVH1 configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-ipv6-to-ovh1-proxy-ct-101" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added ipv6 to OVH1 Proxy CT (101)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-proxy-stunnel-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update proxy stunnel configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#robotoff-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Robotoff migration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-remaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks remaining
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2662,28 +2753,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#docker-preparation" class="md-nav__link">
+  <a href="#proxmox-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Docker preparation
+      Proxmox configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Docker preparation">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-docker-prod-2-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the docker-prod-2 VM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the docker-prod-2 VM">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#avoiding-root" class="md-nav__link">
+  <a href="#pre-installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Avoiding root
+      Pre-installation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#securing-elasticvue-access" class="md-nav__link">
+  <a href="#info" class="md-nav__link">
     <span class="md-ellipsis">
-      Securing Elasticvue access
+      Info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-installation
     </span>
   </a>
   
@@ -2695,37 +2813,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#image-creation" class="md-nav__link">
+  <a href="#ipv6-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Image creation
+      ipv6 configuration
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deployment
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Deployment">
+    <nav class="md-nav" aria-label="ipv6 configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
+  <a href="#solution-1" class="md-nav__link">
     <span class="md-ellipsis">
-      Secrets
+      Solution 1
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#first-run" class="md-nav__link">
+  <a href="#solution-4" class="md-nav__link">
     <span class="md-ellipsis">
-      First run
+      Solution 4
     </span>
   </a>
   
@@ -2737,46 +2846,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reverse-proxy-setup" class="md-nav__link">
+  <a href="#stunnel-client-ct-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Reverse proxy setup
+      stunnel-client CT configuration
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-live-update-2022-11-10" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enabling live update (2022-11-10)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Enabling live update (2022-11-10)">
+    <nav class="md-nav" aria-label="stunnel-client CT configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fix-common-net-name" class="md-nav__link">
+  <a href="#create-the-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Fix common net name
+      Create the container
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#setting-redis_url-in-off-net" class="md-nav__link">
+  <a href="#install-stunnel" class="md-nav__link">
     <span class="md-ellipsis">
-      Setting REDIS_URL in off-net
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setting-openfoodfacts_api_url" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setting OPENFOODFACTS_API_URL
+      Install stunnel
     </span>
   </a>
   
@@ -2784,6 +2875,99 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stunnel-server-ct-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      stunnel-server CT configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stunnel-server CT configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-container_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-stunnel_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install stunnel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-robotoff-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install Robotoff services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ovh1-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      OVH1 configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OVH1 configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-ipv6-to-ovh1-proxy-ct-101" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added ipv6 to OVH1 Proxy CT (101)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-proxy-stunnel-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update proxy stunnel configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#robotoff-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Robotoff migration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-remaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks remaining
+    </span>
+  </a>
   
 </li>
       
@@ -2805,117 +2989,230 @@
   
 
 
-<h1 id="deploying-openfoodfacts-search-to-staging">Deploying openfoodfacts-search to staging<a class="headerlink" href="#deploying-openfoodfacts-search-to-staging" title="Permanent link">#</a></h1>
-<p>I'm taking note to further upgrade documentation or simply remember the steps through an example.</p>
-<h2 id="docker-preparation">Docker preparation<a class="headerlink" href="#docker-preparation" title="Permanent link">#</a></h2>
-<p>I added a prod.yml to make volume external (it's important to avoid the pitfall of having a docker down -v remove all data !, it also gives better control).</p>
-<p>I made it a bit different from other project where name are absolute, because it is also dangerous, if at some point we have two different deployments on same machine… volume would be shared. I prefer to avoid a nightmare.</p>
-<h3 id="avoiding-root">Avoiding root<a class="headerlink" href="#avoiding-root" title="Permanent link">#</a></h3>
-<p>We want to avoid dockers running root in production.</p>
-<p>I checked other container, one is elasticvue is in fact an nginx,
-elasticsearch change user after launch, redis is ok.</p>
-<p>Modifying the Dockerfile to create a user and pass user uid as parameter.
-Also modifying the makefile to add uid</p>
-<h3 id="securing-elasticvue-access">Securing Elasticvue access<a class="headerlink" href="#securing-elasticvue-access" title="Permanent link">#</a></h3>
-<p>Elasticvue gives full access to the ES instance,
-but we want to access it in prod because it is handy to have a quick access to ES.
-We need to secure it.
-As it is a vue app served by a nginx service, the best way is to have basic auth inside it.
-I first tried to use the configuration by template option provided by nginx official docker image,
-creating a elasticvue.conf.template and elasticvue_htppasswd.template.
-but finally elasticvue image use an old nginx docker version, which do not have this template mechanism.
-As it does not even have a specific entrypoint I redefined the entrypoint and use a script
-that creates the htpasswd file and use sed to edit the config, this is even more flexible.</p>
-<h2 id="image-creation">Image creation<a class="headerlink" href="#image-creation" title="Permanent link">#</a></h2>
-<p>I first added the image creation github action. Did copy from off-server (but we got template also in openfoodfacts) and adapting it.
-I had to take care that image name should be the same as the one in docker-compose.
-I also had to add the TAG variable in docker-compose to set image version.</p>
-<p>I did it on deploy-init-stagging branch (starting with deploy-* to trigger action).</p>
-<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">#</a></h2>
-<p>I first added the image deployment github action. Did copy from off-server (but we got <a href="https://github.com/openfoodfacts/.github">template also in openfoodfacts</a>) and adapting it.</p>
-<p>I commented prod deployment in the triggers (v.*) because I wanted to be sure stagging would work before.</p>
-<p>The environment name is important because it is the folder where the project will live. Better have it ending with -net or -org to mark the type of deployment (help not messing up in servers).
-If it's unique among servers it's better so that we can mix deployment on same machine if we want (eg. in an emergency scenario).</p>
-<p>Did wrote the create_external_volumes in Makefile.
-I tested locally by tweaking  the env variable, and removing volumes afterwards</p>
-<div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOCKER_LOCAL_DATA</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tmp/
-<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_PROJECT_NAME</span><span class="o">=</span>po_search_prod<span class="w"> </span>
-<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_PATH_SEPARATOR</span><span class="o">=</span><span class="s2">&quot;;&quot;</span>
-<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">COMPOSE_FILE</span><span class="o">=</span><span class="s2">&quot;docker-compose.yml;docker/prod.yml&quot;</span>
-make<span class="w"> </span>create_external_volumes
-<span class="c1"># test it works just starting setup</span>
-docker-compose<span class="w"> </span>up<span class="w"> </span>setup
-sudo<span class="w"> </span>ls<span class="w"> </span>tmp/*
-<span class="c1"># clean</span>
-docker-compose<span class="w"> </span>rm<span class="w"> </span>-sf<span class="w"> </span>setup
-docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>po_search_prod_<span class="o">{</span>certs,esdata01,esdata02,rediscache<span class="o">}</span>
-<span class="nb">unset</span><span class="w"> </span>DOCKER_LOCAL_DATA<span class="w"> </span>COMPOSE_PROJECT_NAME<span class="w"> </span>COMPOSE_PATH_SEPARATOR<span class="w"> </span>COMPOSE_FILE
-</code></pre></div>
-<h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">#</a></h3>
-<p>There are a lot secrets to set on the github repo, I had to look at all used variables.</p>
-<p>I edited branch protection rule, because workflow are sensible:</p>
+<h1 id="moji-server-installation">Moji server installation<a class="headerlink" href="#moji-server-installation" title="Permanent link">#</a></h1>
+<p>We have a new server hosted by Moji, thanks to Open Street Maps.
+The server is a Dell T630 with 2 1080Ti GPUs, 128GB of RAM, 56 cores, 1x 8TB NVMe, 8x 8TB HDD.</p>
+<p>For more information, see https://wiki.openstreetmap.org/wiki/FR:Serveurs_OpenStreetMap_France/Moji.</p>
+<p>Proxmox 8.2 was already installed by Christian on the server, so we just had to configure it.</p>
+<h2 id="proxmox-configuration">Proxmox configuration<a class="headerlink" href="#proxmox-configuration" title="Permanent link">#</a></h2>
+<p>Create a user:</p>
+<p><code>sudo pveum user add raphael@pve</code> </p>
+<p>Create the admin group:</p>
+<p><code>sudo pveum group add admin -comment "System Administrators"</code></p>
+<p>Add user to admin group:</p>
+<p><code>sudo pveum user modify  raphael@pve -groups admin</code></p>
+<p>Add Administrator role to admin group:</p>
+<p><code>sudo pveum acl modify / -group admin -role Administrator</code></p>
+<p>Change password:</p>
+<p><code>sudo pveum passwd raphael@pve</code></p>
+<h2 id="create-the-docker-prod-2-vm">Create the docker-prod-2 VM<a class="headerlink" href="#create-the-docker-prod-2-vm" title="Permanent link">#</a></h2>
+<p>We choose a QEMU VM instead of CT as we’re running docker inside.</p>
+<h3 id="pre-installation">Pre-installation<a class="headerlink" href="#pre-installation" title="Permanent link">#</a></h3>
+<p>Download latest Debian install ISO:  <code>debian-12.6.0-amd64-netinst.iso</code> </p>
+<p>Move .iso file to <code>/var/lib/vz/template/iso</code> .</p>
+<p>Create a dataset for Proxmox data:</p>
+<p><code>zfs create hdd-zfs/pve</code></p>
+<p>Adding a new ZFS pool as a storage for Proxmox:</p>
+<p><code>pvesm add zfspool hdd-zfs -pool hdd-zfs/pve -mountpoint /hdd-zfs/pve -sparse 0</code></p>
+<p>Same thing for NVMe disk:</p>
+<p><code>zfs create nvme-zfs/pve</code></p>
+<p><code>pvesm add zfspool nvme-zfs -pool nvme-zfs/pve -mountpoint /nvme-zfs/pve -sparse 0 -content rootdir,images</code></p>
+<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">#</a></h3>
+<p>ID: 200
+name: docker-prod-2 (as docker-prod is deployed in OVH cluster)</p>
+<h3 id="hardware">Hardware<a class="headerlink" href="#hardware" title="Permanent link">#</a></h3>
+<p>3 hard-drives were configured:</p>
 <ul>
-<li>restrict only admins and maintainers to push to deploy-* branches</li>
-<li>same for main branch, with of course pull request review etc.</li>
+<li><code>scsi0</code>: 140 GB from nvme-zfs for machine</li>
+<li><code>scsi1</code>: 300 GB for docker volumes</li>
+<li><code>scsi2</code>: 400 GB</li>
 </ul>
-<p>To create a GRAPHANA token I had to go to graphana configuration -&gt; API keys - made an editor key and put it at repository level</p>
-<h3 id="first-run">First run<a class="headerlink" href="#first-run" title="Permanent link">#</a></h3>
-<p>I did had a very hard way making connection to server successful:</p>
-<p>Lessons learned:</p>
+<p>RAM: 100GB (/124 GB)
+Cores: 40 (/55), flag: +aes</p>
+<h3 id="post-installation">Post-installation<a class="headerlink" href="#post-installation" title="Permanent link">#</a></h3>
 <ul>
-<li>you have to connect through ovh1 as proxy, not ovh2</li>
-<li>secret key is to be as in the id_rsa key, that is with the "BEGIN PRIVATE…" and "END …" lines</li>
+<li>English</li>
+<li>timezone: France (in others)</li>
+<li>locale: en_US.UTF8</li>
+<li>keymap: french</li>
 </ul>
-<p>I had problem with the volume creation because /srv/off/docker_data was owned by root.
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>/srv/off/docker_data
-</code></pre></div></p>
-<h2 id="reverse-proxy-setup">Reverse proxy setup<a class="headerlink" href="#reverse-proxy-setup" title="Permanent link">#</a></h2>
-<p>On OVH1, attaching to lxc 101.</p>
-<p>Added config (copying from robotoff, removing all certbot specific stuff)</p>
-<p>Then test and reload:</p>
-<div class="highlight"><pre><span></span><code>nginx<span class="w"> </span>-t
-systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
-</code></pre></div>
-<p>Also I generated the certificates:
-<div class="highlight"><pre><span></span><code>certbot -d search.openfoodfacts.net
-</code></pre></div></p>
-<h2 id="enabling-live-update-2022-11-10">Enabling live update (2022-11-10)<a class="headerlink" href="#enabling-live-update-2022-11-10" title="Permanent link">#</a></h2>
-<p>see https://github.com/openfoodfacts/openfoodfacts-search/issues/28</p>
-<h3 id="fix-common-net-name">Fix common net name<a class="headerlink" href="#fix-common-net-name" title="Permanent link">#</a></h3>
-<p>First I tried to see if I could ping redis from backend in off-net deployment.</p>
-<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>bash
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/home/off
-$<span class="w"> </span>docker-compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>backend<span class="w"> </span>bash
-$<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>iputils-ping
-$<span class="w"> </span>ping<span class="w"> </span>searchredis
-PING<span class="w"> </span>searchredis.openfoodfacts.org<span class="w"> </span><span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
-<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>off1.free.org<span class="w"> </span><span class="o">(</span><span class="m">213</span>.36.253.206<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">49</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">6</span>.72<span class="w"> </span>ms
-</code></pre></div>
-This is not working.
-After a small investigation, I found that the problem is the "webnet" name, which is po_webnet in off-net and webnet in off-search-net.</p>
+<p>Network was manually configured:</p>
 <ul>
-<li>in openfoodfacts-search github repo,<ul>
-<li>I changed te deploy workflow so that COMMON_NET_NAME is po_webnet</li>
-<li>I git pushed as a "deploy-" branch and created a <a href="https://github.com/openfoodfacts/openfoodfacts-search/pull/27">PR</a>.</li>
+<li>ip address: 10.3.0.200/8</li>
+<li>gateway: 10.0.0.45</li>
+</ul>
+<p>Next:</p>
+<ul>
+<li>Created <code>off</code> user (and group).</li>
+<li>cloned https://github.com/openfoodfacts/openfoodfacts-infrastructure into <code>/opt/openfoodfacts-infrastructure</code></li>
+<li>installed docker using <code>install_docker.sh</code> script</li>
+<li>added off and raphael to docker group</li>
+</ul>
+<p>I mounted <code>/deb/sdb1</code> (<code>UUID=60fc037f-dc90-4b4e-a7df-ceabf7955a06</code>) on <code>/var/lib/docker/volumes</code> , by updating <code>/etc/fstab</code>.</p>
+<h2 id="ipv6-configuration">ipv6 configuration<a class="headerlink" href="#ipv6-configuration" title="Permanent link">#</a></h2>
+<p>I added an ipv6 interface to VM 200 (<code>docker-prod-2</code>) by adding to <code>/etc/network/interfaces</code>:</p>
+<div class="highlight"><pre><span></span><code>iface ens18 inet6 static
+    address 2a06:c484:5::200
+    netmask 48
+    gateway 2a06:c484:5::
+    dns-nameservers 2001:4860:4860::8888 2001:4860:4860::8844 
+</code></pre></div>
+<p><code>2a06:c484:5::200</code> is the ipv6 address configured (Moji gives us range <code>2a06:c484:5::/48</code>).</p>
+<p>After restarting networking on VM (<code>systemctl restart networking</code>), VM is reachable using ipv6 from outside:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>ping6<span class="w"> </span>2a06:c484:5::200
+PING<span class="w"> </span>2a06:c484:5::200<span class="o">(</span>2a06:c484:5::200<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="w"> </span>data<span class="w"> </span>bytes
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>2a06:c484:5::200:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">57</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">11</span>.9<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>2a06:c484:5::200:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">57</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">11</span>.1<span class="w"> </span>ms
+</code></pre></div>
+<p>From there, we have 3 solutions:</p>
+<ol>
+<li>make docker services directly joinable through ipv6</li>
+<li>add a NAT rule using iptable to reroute ipv6 trafic to ipv4</li>
+<li>set-up a nginx reverse-proxy in front of Robotoff, that will listen to the ipv6 server and redirects trafic on ipv4-only api container</li>
+<li>Use stunnel to make Robotoff API accessible from outside</li>
+</ol>
+<h3 id="solution-1">Solution 1<a class="headerlink" href="#solution-1" title="Permanent link">#</a></h3>
+<p>I spent some time trying solution (1), <a href="https://docs.docker.com/config/daemon/ipv6/">by enabling ipv6 on docker</a>, with this <code>/etc/docker/daemon.json</code> :</p>
+<div class="highlight"><pre><span></span><code><span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;metrics-addr&quot;</span><span class="w"> </span>:<span class="w"> </span><span class="s2">&quot;127.0.0.1:9323&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;experimental&quot;</span><span class="w"> </span>:<span class="w"> </span>true,
+<span class="w">  </span><span class="s2">&quot;storage-driver&quot;</span>:<span class="w"> </span><span class="s2">&quot;overlay2&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;ipv6&quot;</span>:<span class="w"> </span>true,
+<span class="w">  </span><span class="s2">&quot;userland-proxy&quot;</span>:<span class="w"> </span>false,
+<span class="w">  </span><span class="s2">&quot;fixed-cidr-v6&quot;</span>:<span class="w"> </span><span class="s2">&quot;2a06:c484:5::200/48&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it’s not possible, but that I’m really new at ipv6 networking.</p>
+<h3 id="solution-4">Solution 4<a class="headerlink" href="#solution-4" title="Permanent link">#</a></h3>
+<p>As we may get an ipv4 later (Stephane is asking for one), i decided to try directly solution 4, as it’s easy to set-up, and has the advantage of encrypting connection between ovh1 (where the reverse proxy is in CT 101) and docker-prod-2 (VM 200 on Moji).</p>
+<p>With solution (3) (nginx), the trafic is not encrypted, so stunnel is a better choice here.</p>
+<p>After talking with Alex, we decided to use stunnel between the reverse proxy on OVH and robotoff on Moji.</p>
+<ul>
+<li>Request to Robotoff API: client – http/ipv4 → reverse proxy - ipv4 -&gt; stunnel client on ovh - ipv6 -&gt; stunnel server on moji - ipv4 -&gt; robotoff on Moji (private)</li>
+<li>Add a container for stunnel client<ul>
+<li>should work in IPv4: it will be accessible only from other VM on Moji server, using local ipv4</li>
+</ul>
+</li>
+<li>Add a container for stunnel server<ul>
+<li>must have a public IPv6 address. Reverse proxy on OVH1 (VM 101) will reach the stunnel server using the ipv6 address.</li>
+</ul>
+</li>
+<li>robotoff nginx proxy config should forward to stunnel client on the right pid</li>
+</ul>
+<h2 id="stunnel-client-ct-configuration">stunnel-client CT configuration<a class="headerlink" href="#stunnel-client-ct-configuration" title="Permanent link">#</a></h2>
+<h3 id="create-the-container">Create the container<a class="headerlink" href="#create-the-container" title="Permanent link">#</a></h3>
+<p>This container will be used for Robotoff service to reach MongoDB and Redis hosted on ovh2 server.</p>
+<p>We don’t need a VM, a container is enough. I created CT 101 with the following parameters:</p>
+<ul>
+<li>1 CPU</li>
+<li>512 MB of RAM (no swap)</li>
+<li>8 GB of disk</li>
+<li>network:<ul>
+<li>ipv4: 10.3.0.101/8</li>
+<li>no ipv6, as we will use internal ipv4</li>
+<li>gateway: 10.0.0.45 (host)</li>
+</ul>
+</li>
+<li>dns: I added <code>1.1.1.1</code> (cloudflare) as DNS</li>
+</ul>
+<h3 id="install-stunnel">Install stunnel<a class="headerlink" href="#install-stunnel" title="Permanent link">#</a></h3>
+<p>The installation process follows <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/reports/2024-01-04-setting-up-stunnel/">https://openfoodfacts.github.io/openfoodfacts-infrastructure/reports/2024-01-04-setting-up-stunnel/</a>.</p>
+<ul>
+<li>Install with <code>apt install stunnel4</code></li>
+</ul>
+<ul>
+<li>
+<p>Update <code>/etc/stunnel/off.conf</code> with the content in <code>openfoodfacts-infrastructure</code> repo, in <code>confs/moji-stunnel-client/stunnel/off.conf</code></p>
+<ul>
+<li>Override the systemd config of <code>stunnel@.service</code> with <code>systemctl edit stunnel@.service</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>Service<span class="o">]</span>
+<span class="c1"># we need to enable putting pit file in runtime directory, with right permissions</span>
+<span class="c1"># while still starting as root (needed by stunnel)</span>
+<span class="nv">Group</span><span class="o">=</span>stunnel4
+<span class="nv">RuntimeDirectory</span><span class="o">=</span>stunnel-%i
+<span class="nv">RuntimeDirectoryMode</span><span class="o">=</span><span class="m">0775</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>Mask default stunnel4 config: <code>sudo systemctl mask stunnel4.service</code></li>
+</ul>
+<ul>
+<li>start service: <code>systemctl start stunnel@off.service</code></li>
+</ul>
+<ul>
+<li>enable service (to be launched as startup): <code>systemctl enable stunnel@off.service</code></li>
+</ul>
+<h2 id="stunnel-server-ct-configuration">stunnel-server CT configuration<a class="headerlink" href="#stunnel-server-ct-configuration" title="Permanent link">#</a></h2>
+<h3 id="create-the-container_1">Create the container<a class="headerlink" href="#create-the-container_1" title="Permanent link">#</a></h3>
+<p>This container will be used to allow external services to reach Robotoff API, through ipv6.</p>
+<p>I created CT 102 with the following parameters:</p>
+<ul>
+<li>1 CPU</li>
+<li>512 MB of RAM (no swap)</li>
+<li>8 GB of disk</li>
+<li>network:<ul>
+<li>ipv4: 10.3.0.103/8, gateway: 10.0.0.45 (host)</li>
+<li>ipv6: 2a06:c484:5::103/48, gateway: 2a06:c484:5::</li>
 </ul>
 </li>
 </ul>
-<p>then I was able to really ping searchredis container from backend
-<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>searchredis
-PING<span class="w"> </span>searchredis<span class="w"> </span><span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
-<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>po_search_searchredis_1.po_webnet<span class="w"> </span><span class="o">(</span><span class="m">172</span>.30.0.12<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.407<span class="w"> </span>ms
-</code></pre></div></p>
-<p>see https://github.com/openfoodfacts/openfoodfacts-search/issues/27</p>
-<h3 id="setting-redis_url-in-off-net">Setting REDIS_URL in off-net<a class="headerlink" href="#setting-redis_url-in-off-net" title="Permanent link">#</a></h3>
+<h3 id="install-stunnel_1">Install stunnel<a class="headerlink" href="#install-stunnel_1" title="Permanent link">#</a></h3>
+<p>Exactly the same procedure as for stunnel-client, but use <code>`confs/moji-stunnel-server/stunnel/off.conf</code> as configuration file.</p>
+<h2 id="install-robotoff-services">Install Robotoff services<a class="headerlink" href="#install-robotoff-services" title="Permanent link">#</a></h2>
 <ul>
-<li>simply set it in deploy (although I first forgot the port, which is part of the URL)</li>
+<li>Clone robotoff repository in <code>robotoff-org</code></li>
+<li>Install git LFS</li>
+<li>Create external networks, create external volumes</li>
+<li>Download ML models with <code>make dl-models</code></li>
+<li>Configure .env file</li>
 </ul>
-<p>see: https://github.com/openfoodfacts/openfoodfacts-server/pull/7682</p>
-<h3 id="setting-openfoodfacts_api_url">Setting OPENFOODFACTS_API_URL<a class="headerlink" href="#setting-openfoodfacts_api_url" title="Permanent link">#</a></h3>
-<p>The search update was working but I did get errors telling some product did not exist, and having my products updates not taken into account.</p>
-<p>I finally realized, updates where fetch from openfoodfacts.org because we forgot to set OPENFOODFACTS_API_URL in deployment.</p>
-<p>I then had errors because I miss the basic auth that is necessary to reach openfoodfacts.net service. I added it in url and it worked.</p>
-<p>see https://github.com/openfoodfacts/openfoodfacts-search/pull/29</p>
+<h2 id="ovh1-configuration">OVH1 configuration<a class="headerlink" href="#ovh1-configuration" title="Permanent link">#</a></h2>
+<h3 id="added-ipv6-to-ovh1-proxy-ct-101">Added ipv6 to OVH1 Proxy CT (101)<a class="headerlink" href="#added-ipv6-to-ovh1-proxy-ct-101" title="Permanent link">#</a></h3>
+<p>In proxmox network interface, I added an ipv6 to CT 101, so that the reverse proxy can reach <code>docker-prod-2</code> in ipv6:</p>
+<ul>
+<li>ipv6/CIDR: 2001:41d0:0203:948c::101/8 (fixed IP)</li>
+<li>gateway: 2001:41d0:0203:94ff:00ff:00ff:00ff:00ff (as declared in OVH mecenat dashboard)</li>
+</ul>
+<h3 id="update-proxy-stunnel-configuration">Update proxy stunnel configuration<a class="headerlink" href="#update-proxy-stunnel-configuration" title="Permanent link">#</a></h3>
+<p>We need to access InfluxDB from <code>docker-prod-2</code>, so we use the stunnel deployed in proxy (CT 101. We also need to configure OVH1 reverse proxy →Robotoff API connection to stunnel.
+We add the following configuration block to the stunnel configuration on CT 101 (reverse proxy):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to InfluxDB from outside</span>
+<span class="o">[</span>InfluxDB<span class="o">]</span>
+<span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>no
+<span class="nv">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0.0.0:8087
+<span class="nv">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.1.0.201:8087
+<span class="nv">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>PSK
+<span class="c1"># this file and directory are private</span>
+<span class="nv">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/stunnel/psk/influxdb-psk.txt
+
+<span class="c1"># OVH1 reverse proxy is the only one that has IPv6, so we use this stunnel</span>
+<span class="c1"># instead of the one of stunnel-client</span>
+<span class="o">[</span>Robotoff<span class="o">]</span>
+<span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
+<span class="nv">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">127</span>.0.0.1:16000
+<span class="c1"># Connect to stunnel-client of Moji server</span>
+<span class="nv">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>2a06:c484:5::102:16000
+<span class="nv">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>PSK
+<span class="nv">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/stunnel/psk/robotoff-psk.txt
+</code></pre></div>
+<p>We enable the service with <code>systemctl enable stunnel@off.service</code> and restart it with <code>systemctl restart stunnel@off.service</code>.</p>
+<h2 id="robotoff-migration">Robotoff migration<a class="headerlink" href="#robotoff-migration" title="Permanent link">#</a></h2>
+<p>To migrate Robotoff to the new server, I did the following:</p>
+<ul>
+<li>Stop Robotoff services on OVH2</li>
+<li>Migrate data from old server (OVH2) to new one (Moji): elasticsearch, redis, postgresql</li>
+<li>Start services on Moji machine</li>
+<li>Update the <code>proxy_pass</code> in nginx configuration (<code>robotoff.conf</code>) to point to the stunnel server (<code>127.0.0.1:16000</code>) running on CT 101</li>
+</ul>
+<p>The migration went smoothly, and Robotoff is now running on the new server.</p>
+<h2 id="tasks-remaining">Tasks remaining<a class="headerlink" href="#tasks-remaining" title="Permanent link">#</a></h2>
+<p>What remains to be done:</p>
+<ul>
+<li>configure GPU (GPU configuration documentation: <a href="https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE">https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE</a>). Indeed, we're not using the GPUs yet.</li>
+<li>Configure backups (set-up sanoid)</li>
+</ul>
 
 
 
