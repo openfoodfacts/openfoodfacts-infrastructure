@@ -4,6 +4,8 @@
 
 SNAP=$(date +%Y%m%d%H%M%S)
 
+CLONES_DATASET=rpool/staging-clones
+
 # stop docker for openfoodfacts-net (staging)
 # ssh not working yet, but I don't know why :'(
 echo ssh 10.1.0.200 sudo -u off bash -c "cd /home/off/off-net;docker-compose stop"
@@ -14,8 +16,13 @@ for DATA in orgs users images products
 do
 	echo regenerating clone for $DATA
 	LAST=$(zfs list -t snap rpool/off/$DATA -o name | grep '_daily$' | tail -n 1)
-	zfs destroy rpool/off/clones/$DATA
-	zfs clone $LAST rpool/off/clones/$DATA
+	CLONE_NAME=$DATA
+	if (echo images products | grep -w $DATA)
+	then
+		CLONE_NAME=off-$CLONE_NAME
+	fi
+	zfs destroy $CLONES_DATASET/$DATA
+	zfs clone $LAST $CLONES_DATASET/$DATA
 done
 
 # reboot de la VM "dockers" pour remonter les volumes NFS
