@@ -55,6 +55,7 @@ The infrastructure documentation is as follows:
 The main services:
 - [MongoDB](./docs/mongodb.md) the MongoDB database
 - [Redis](./docs/redis.md) we also use Redis
+- [Open Food Facts Query](./docs/openfoodfacts-query.md) service computing aggregations
 
 Some services:
 
