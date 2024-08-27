@@ -53,6 +53,7 @@ to avoid having part of the configurations failing out of sync because you are o
 or taking the rist of messing things up, just for small changes.
 
 [^git_author]: don't hesitate to add a script in utils folder to do that.
+
 ## Limitations
 
 * there is no guarantee every needed configuration file are linked and monitored in git
