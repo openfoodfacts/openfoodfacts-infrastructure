@@ -72,7 +72,7 @@ server {
 
 
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
-    	proxy_cache mycache;
+    	proxy_cache obf-new-cache;
     	proxy_cache_key $request_uri;
         proxy_cache_valid any 1m;
         add_header X-Cache-Status $upstream_cache_status;  
@@ -93,7 +93,7 @@ server {
     # This is useful in particular for broken apps who request 100s of times the same product
     
     location /api/ {
-    	proxy_cache mycache;
+    	proxy_cache obf-new-cache;
     	proxy_cache_key $host$request_uri$cookie_user;
         proxy_cache_valid any 5s;
         add_header X-Cache-Status $upstream_cache_status;  
@@ -111,7 +111,7 @@ server {
     }
 
     location / {
-#    	proxy_cache mycache;
+#    	proxy_cache obf-new-cache;
 #    	proxy_cache_key $host$request_uri$cookie_user;
 #        proxy_cache_valid any 5s;
 	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
