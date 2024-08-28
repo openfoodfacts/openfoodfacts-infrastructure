@@ -9,6 +9,8 @@ Both containers will use the same data (.sto files and MongoDB database and coll
 
 Once we are satisfied with the new code, we can transform obf-new in the new production container for OBF, and retire the old container.
 
+Update 2024/08/27: I also install containers opf-new (117) and opff-new (118) in the exact same way.
+
 ## Install logs
 
 The obf-new install is done by Stéphane, following closely what Alex did and documented for [opff reinstall on off2](./2023-03-14-off2-opff-reinstall.md).
@@ -19,8 +21,11 @@ Refer to it if you need more explanation on a step.
 
 I created a CT for obf-new followings [How to create a new Container](../proxmox.md#how-to-create-a-new-container) it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
+Network: vmbr1, ipv4: 10.1.0.116/24, gateway: 10.0.0.2
 
 I also [configure postfix](../mail#postfix-configuration) and tested it.
+
+Also run /opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall on off2 host.
 
 **Important:** do not create any user until you changed id maping in lxc conf (see [Mounting volumes](#mounting-volumes)). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.
 
@@ -74,8 +79,8 @@ mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
 …
 lxc.idmap: u 0 100000 999
 lxc.idmap: g 0 100000 999
-lxc.idmap: u 1000 1000 10
-lxc.idmap: g 1000 1000 10
+lxc.idmap: u 1000 1000 64536
+lxc.idmap: g 1000 1000 64536
 ```
 
 Also adding lines to start the container on boot and to make it protected (can also be done in proxmox web interface):
@@ -354,6 +359,28 @@ done
 ls -l /srv/o{f,p,pf}f/ /srv/$site/html/images
 ```
 
+opf:
+```bash
+for site in o{f,b,pf}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,b,pf}f/ /srv/$site/html/images
+```
+
+opff:
+```bash
+for site in o{f,p,b}f;do \
+  mkdir -p /srv/$site/html/images/ && \
+  chown -R off:off -R /srv/$site/ && \
+
+  ln -s /mnt/$site/products /srv/$site/products; ln -s /mnt/$site/images/products /srv/$site/html/images/products; \
+done
+ls -l /srv/o{f,p,b}f/ /srv/$site/html/images
+```
+
 ### linking data
 
 Unless stated otherwise operation are done with user off.
@@ -503,7 +530,7 @@ Config files:
 I copy the off Config2.pm file to obf
 
 ```bash
-root@off2:/home/stephane# cp /zfs-hdd/pve/subvol-113-disk-0/srv/off/lib/ProductOpener/Config2.pm /zfs-hdd/pve/subvol-116-disk-0/srv/obf/lib/ProductOpener/
+root@off2:/home/stephane# cp -a /zfs-hdd/pve/subvol-113-disk-0/srv/off/lib/ProductOpener/Config2.pm /zfs-hdd/pve/subvol-116-disk-0/srv/obf/lib/ProductOpener/
 
 ```
 
@@ -531,7 +558,7 @@ sudo -E chown off:off -R /srv/$SERVICE-dist
 and unpack last dist release there (as user off):
 
 ```bash
-wget https://github.com/openfoodfacts/openfoodfacts-server/releases/download/v2.30.0/frontend-dist.tgz -O /tmp/frontend-dist.tgz
+wget https://github.com/openfoodfacts/openfoodfacts-server/releases/download/v2.42.0/frontend-dist.tgz -O /tmp/frontend-dist.tgz
 tar xzf /tmp/frontend-dist.tgz -C /srv/$SERVICE-dist
 ```
 
@@ -667,20 +694,21 @@ We are going to mimick the setup that we have in the off container.
 Then made symlinks:
 * For obf:
   ```bash
-  sudo ln -s /srv/obf/conf/nginx/sites-available/obf /etc/nginx/sites-enabled/obf
-  sudo ln -s /srv/obf/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets/
-  sudo ln -s /srv/obf/conf/nginx/snippets/expiry-headers.include /etc/nginx/snippets/
-  sudo ln -s /srv/obf/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets/
+  sudo ln -s /srv/$SERVICE/conf/nginx/sites-available/$SERVICE /etc/nginx/sites-enabled/$SERVICE
+  sudo ln -s /srv/$SERVICE/conf/nginx/snippets/expires-no-json-xml.conf /etc/nginx/snippets/
+  sudo ln -s /srv/$SERVICE/conf/nginx/snippets/expiry-headers.include /etc/nginx/snippets/
+  sudo ln -s /srv/$SERVICE/conf/nginx/snippets/off.cors-headers.include /etc/nginx/snippets/
   sudo rm -rf /etc/nginx/conf.d
-  sudo ln -s /srv/obf/conf/nginx/conf.d /etc/nginx/
+  sudo ln -s /srv/$SERVICE/conf/nginx/conf.d /etc/nginx/
   sudo rm /etc/nginx/mime.types
-  sudo ln -s /srv/obf/conf/nginx/mime.types /etc/nginx/
+  sudo ln -s /srv/$SERVICE/conf/nginx/mime.types /etc/nginx/
   ```
+
 
 I then copied the off config file to obf, as lots of things have changed:
 
 ```bash
-sudo cp /srv/obf/conf/nginx/sites-available/off /srv/obf/conf/nginx/sites-available/obf
+sudo cp /srv/$SERVICE/conf/nginx/sites-available/off /srv/$SERVICE/conf/nginx/sites-available/$SERVICE
 ```
 
 And edited the file to change openfoodfacts.org to openbeautyfacts.org, the name of the log files etc. The result is in git.
@@ -688,8 +716,8 @@ And edited the file to change openfoodfacts.org to openbeautyfacts.org, the name
 I create an empty /srv/obf/conf/nginx/snippets/obf.domain-redirects.include + obf.locations-redirects.include , they might be used if we want to create subdomains shortcuts or redirects on OBF as we have on OFF.
 
 ```bash
-sudo ln -s /srv/obf/conf/nginx/snippets/obf.domain-redirects.include /etc/nginx/snippets/
-sudo ln -s /srv/obf/conf/nginx/snippets/obf.locations-redirects.include /etc/nginx/snippets/
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/$SERVICE.domain-redirects.include /etc/nginx/snippets/
+sudo ln -s /srv/$SERVICE/conf/nginx/snippets/$SERVICE.locations-redirects.include /etc/nginx/snippets/
 ```
 
 
@@ -719,21 +747,21 @@ I will keep a different port for now.
 On obf:
 * Add configuration for obf in sites enabled
   ```bash
-  sudo ln -s /srv/obf/conf/apache-2.4/sites-available/obf.conf /etc/apache2/sites-enabled/
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/sites-available/$SERVICE.conf /etc/apache2/sites-enabled/
   ```
 * link `mpm_prefork.conf` to a file in git, identical as the one in production
   ```bash
   sudo rm /etc/apache2/mods-available/mpm_prefork.conf
-  sudo ln -s /srv/obf/conf/apache-2.4/obf-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/$SERVICE-mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
   ```
 * use customized ports.conf for obf (8002)
   ```bash
   sudo rm /etc/apache2/ports.conf
-  sudo ln -s /srv/obf/conf/apache-2.4/obf-ports.conf /etc/apache2/ports.conf
+  sudo ln -s /srv/$SERVICE/conf/apache-2.4/$SERVICE-ports.conf /etc/apache2/ports.conf
   ```
 * modperl environment variables
   ```bash
-  ln -s /srv/obf/conf/apache-2.4/modperl.conf /etc/apache2/conf-enabled/
+  ln -s /srv/$SERVICE/conf/apache-2.4/modperl.conf /etc/apache2/conf-enabled/
   ```
 
 test it in container:
