@@ -334,6 +334,11 @@ git config --global --add user.name "Stéphane Gigandet"
 git config --global --add user.email "stephane@openfoodfacts.org"
 ```
 
+Add your user to the off group so that it can used the shared git repository:
+```bash
+usermod -a -G off stephane
+```
+
 
 ### Finding git commit for obf
 
@@ -818,6 +823,9 @@ FATAL: Some important directories are missing: /srv/obf/deleted_private_products
 ```bash
 # set the instance as obf
 SERVICE=obf
+mkdir /mnt/$SERVICE/cache
+mkdir /mnt/$SERVICE/cache/build-cache
+mkdir /mnt/$SERVICE/cache/build-cache/taxonomies
 mkdir /mnt/$SERVICE/debug
 mkdir /mnt/$SERVICE/deleted_private_products
 mkdir /mnt/$SERVICE/deleted_products
@@ -834,11 +842,6 @@ mkdir /mnt/$SERVICE/html_data/files/debug
 mkdir /mnt/$SERVICE/cache/export_files
 ```
 
-### TO BE CONTINUED
-
-
-TODO --- Everything below not done yet
-
 
 ### creating systemd units for timers jobs
 
@@ -850,14 +853,14 @@ sudo apt install mailutils
 
 and link them at system level
 ```bash
-declare -x PROJ_NAME=obf
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/nginx.service.d /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/apache2.service.d /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.timer /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds\@.service /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
-sudo ln -s /srv/$PROJ_NAME/conf/systemd/email-failures\@.service /etc/systemd/system
+declare -x SERVICE=obf
+sudo ln -s /srv/$SERVICE/conf/systemd/nginx.service.d /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/apache2.service.d /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds\@.timer /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds_daily\@.service /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/gen_feeds_daily\@.timer /etc/systemd/system
+sudo ln -s /srv/$SERVICE/conf/systemd/email-failures\@.service /etc/systemd/system
 # account for new services
 sudo systemctl daemon-reload
 ```
@@ -865,38 +868,23 @@ sudo systemctl daemon-reload
 Test failure notification is working:
 
 ```bash
-sudo systemctl start email-failures@gen_feeds__$PROJ_NAME.service
+sudo systemctl start email-failures@gen_feeds__$SERVICE.service
 ```
 
 Test systemctl gen_feeds services are working:
 
 ```bash
-sudo systemctl start gen_feeds_daily@$PROJ_NAME.service
-sudo systemctl start gen_feeds@$PROJ_NAME.service
+sudo systemctl start gen_feeds_daily@$SERVICE.service
+sudo systemctl start gen_feeds@$SERVICE.service
 ```
 
 Activate systemd units:
 
 ```bash
-sudo systemctl enable gen_feeds@$PROJ_NAME.timer
-sudo systemctl enable gen_feeds_daily@$PROJ_NAME.timer
+sudo systemctl enable gen_feeds@$SERVICE.timer
+sudo systemctl enable gen_feeds_daily@$SERVICE.timer
 sudo systemctl daemon-reload
-```
-
-
-### Adding failure notification for apache and nginx in systemd
-
-We can add the on failure notification we created for timers to apache2.service and nginx.service.
-We can get them from opff (at the time of writting it's on a specific branch)
-
-```bash
-declare -x PROJ_NAME=obf
-cd /srv/$PROJ_NAME
-sudo -u off git checkout origin/opff-reinstall-fixes -- conf/systemd/{apache2.service.d,nginx.service.d}
-sudo ln -s /srv/opff/conf/systemd/nginx.service.d /etc/systemd/system/
-sudo ln -s /srv/opff/conf/systemd/apache2.service.d /etc/systemd/system/
-sudo systemctl daemon-reload
-```
+``
 
 
 ### log rotate perl logs
@@ -909,12 +897,12 @@ declare -x PROJ_NAME=obf
 We get `conf/logrotate/apache` from opff and install it:
 
 ```bash
-cd /srv/$PROJ_NAME
+cd /srv/$SERVICE
 sudo -u off git checkout origin/opff-main -- conf/logrotate/apache2
 sudo rm /etc/logrotate.d/apache2
-sudo ln -s /srv/$PROJ_NAME/conf/logrotate/apache2 /etc/logrotate.d/apache2
+sudo ln -s /srv/$SERVICE/conf/logrotate/apache2 /etc/logrotate.d/apache2
 # logrotate needs root ownerships
-sudo chown root:root /srv/$PROJ_NAME/conf/logrotate/apache2
+sudo chown root:root /srv/$SERVICE/conf/logrotate/apache2
 ```
 
 We can test with:
@@ -965,9 +953,7 @@ curl localhost --header "Host: fr.$DOMAIN_NAME_EXT"
 
 ### Using Matomo instead of google analytics
 
-Copied configuration from OPFF and adapted with site id after creation of sites in Matomo.
-
-
+TODO: Copy configuration from OPFF and adapted with site id after creation of sites in Matomo.
 
 ## Reverse proxy configuration on container 101
 
@@ -980,6 +966,19 @@ We already installed `python3-certbot-dns-ovh` so we just need to add credential
 ```bash
 $ declare -x DOMAIN_NAME_EXT=openbeautyfacts.com
 ```
+
+opf:
+
+```bash
+$ declare -x DOMAIN_NAME_EXT=new.openproductsfacts.org
+```
+
+For the new.open(beauty|petfood|productsfacts.org) certificates, we can use the OVH credentials than the domain:
+
+```bash
+$ cp /root/.ovhapi/openproductsfacts.org /root/.ovhapi/new.openproductsfacts.org
+```
+
 
 Generate credential, following https://eu.api.ovh.com/createToken/
 
