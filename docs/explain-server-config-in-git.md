@@ -36,6 +36,24 @@ You are always encouraged to add comments in the configuration files to explain 
 
 See also: [How to have server config in git](./how-to-have-server-config-in-git.md)
 
+### Commiting your changes from a server
+
+While it's better to do a pull request for documentation and other things,
+it's perfectly ok to commit a configuration change or script change directly from the server on develop branch [^commit_develop].
+
+The best way to commit is:
+1. ensure you put right authorship, setting GIT_AUTHOR_NAME and GIT_AUTHOR_EMAIL [^git_author]
+2. commit your changes with a meaningful message (eventually more than one commit)
+3. use `git pull --rebase` to fetch remote updates
+4. use `git push` to push your changes to the remote
+
+
+[^commit_develop]: it's even the best choice on production servers 
+to avoid having part of the configurations failing out of sync because you are on a specific branch,
+or taking the rist of messing things up, just for small changes.
+
+[^git_author]: don't hesitate to add a script in utils folder to do that.
+
 ## Limitations
 
 * there is no guarantee every needed configuration file are linked and monitored in git
