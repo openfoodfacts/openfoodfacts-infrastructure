@@ -64,6 +64,7 @@ Is a service that can be used by Prometheus to probe for websites.
 
 Prometheus will call the service as if it was a metric exporter with the appropriate target (that you set through `target` on `__param_target` in the configuration (if you use [multi-target exporter pattern](https://prometheus.io/docs/guides/multi-target-exporter/#querying-multi-target-exporters-with-prometheus))
 
+
 ## Exposing metrics behind a proxy
 
 Prometheus server is in OVH datacenter.
@@ -78,6 +79,21 @@ Blackbox is on port 9105 so you can test it, for example using:
 ```bash
 # http probe
 curl "http://localhost:9115/probe?module=http_probe&target=https%3A%2F%2Fsearch.openfoodfacts.org%2F"
-# icmp probe
+# icmp probe
 curl "http://localhost:9115/probe?module=icmp&app=ovh1&target=ov1.openfoodfacts.org"
 ```
+
+
+## How to debug blackbox exporter probe failing
+
+If you have a probe failing, you can test what blackbox exporter is reporting by:
+
+* connecting in ssh to monitoring VM with a port redirection for 9115:
+  `ssh -L 9115:localhost:9115 <server-name> -N`
+* this gives you access to blackbox exporter on port http://127.0.0.1:9115
+* you can test the probe with:
+  http://127.0.0.1:9115/probe?module=http_probe&target=https%3A%2F%2FMYSERVER.TLD/MY/PATH
+* you can also add a "debug=true" parameter to the url to see the debug output
+* you might be interested in looking at the `probe_success` and `probe_http_status_code` value
+
+You can try to reproduce the same probe with curl.
