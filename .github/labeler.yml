@@ -78,6 +78,10 @@ proxmox:
 - changed-files:
   - any-glob-to-any-file: '**/*obf*'
 
+🪶 Apache:
+- changed-files:
+  - any-glob-to-any-file: '**/*apache*'
+
 Odoo:
 - changed-files:
   - any-glob-to-any-file: '**/*odoo*'
