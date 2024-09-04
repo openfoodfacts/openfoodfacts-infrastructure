@@ -412,6 +412,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Best practice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commiting-your-changes-from-a-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commiting your changes from a server
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2624,6 +2639,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Best practice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commiting-your-changes-from-a-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commiting your changes from a server
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2671,6 +2701,16 @@
 <p>Try not to forget any specific configurations !</p>
 <p>You are always encouraged to add comments in the configuration files to explain specific settings.</p>
 <p>See also: <a href="../how-to-have-server-config-in-git/">How to have server config in git</a></p>
+<h3 id="commiting-your-changes-from-a-server">Commiting your changes from a server<a class="headerlink" href="#commiting-your-changes-from-a-server" title="Permanent link">#</a></h3>
+<p>While it's better to do a pull request for documentation and other things,
+it's perfectly ok to commit a configuration change or script change directly from the server on develop branch <sup id="fnref:commit_develop"><a class="footnote-ref" href="#fn:commit_develop">2</a></sup>.</p>
+<p>The best way to commit is:</p>
+<ol>
+<li>ensure you put right authorship, setting GIT_AUTHOR_NAME and GIT_AUTHOR_EMAIL <sup id="fnref:git_author"><a class="footnote-ref" href="#fn:git_author">3</a></sup></li>
+<li>commit your changes with a meaningful message (eventually more than one commit)</li>
+<li>use <code>git pull --rebase</code> to fetch remote updates</li>
+<li>use <code>git push</code> to push your changes to the remote</li>
+</ol>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h2>
 <ul>
 <li>there is no guarantee every needed configuration file are linked and monitored in git</li>
@@ -2683,6 +2723,14 @@
 <ol>
 <li id="fn:pyinfra">
 <p>By the way I would rather use <a href="https://docs.pyinfra.com/en/2.x/">pyinfra</a> which is faster and far more flexible&#160;<a class="footnote-backref" href="#fnref:pyinfra" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:commit_develop">
+<p>it's even the best choice on production servers 
+to avoid having part of the configurations failing out of sync because you are on a specific branch,
+or taking the rist of messing things up, just for small changes.&#160;<a class="footnote-backref" href="#fnref:commit_develop" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:git_author">
+<p>don't hesitate to add a script in utils folder to do that.&#160;<a class="footnote-backref" href="#fnref:git_author" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
