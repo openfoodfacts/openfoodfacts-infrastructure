@@ -867,6 +867,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#how-to-debug-blackbox-exporter-probe-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to debug blackbox exporter probe failing
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2683,6 +2692,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#how-to-debug-blackbox-exporter-probe-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to debug blackbox exporter probe failing
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2767,9 +2785,21 @@ we use the nginx reverse proxy.</p>
 <p>Blackbox is on port 9105 so you can test it, for example using:
 <div class="highlight"><pre><span></span><code><span class="c1"># http probe</span>
 curl<span class="w"> </span><span class="s2">&quot;http://localhost:9115/probe?module=http_probe&amp;target=https%3A%2F%2Fsearch.openfoodfacts.org%2F&quot;</span>
-<span class="c1"># icmp probe</span>
+<span class="c1"># icmp probe</span>
 curl<span class="w"> </span><span class="s2">&quot;http://localhost:9115/probe?module=icmp&amp;app=ovh1&amp;target=ov1.openfoodfacts.org&quot;</span>
 </code></pre></div></p>
+<h2 id="how-to-debug-blackbox-exporter-probe-failing">How to debug blackbox exporter probe failing<a class="headerlink" href="#how-to-debug-blackbox-exporter-probe-failing" title="Permanent link">#</a></h2>
+<p>If you have a probe failing, you can test what blackbox exporter is reporting by:</p>
+<ul>
+<li>connecting in ssh to monitoring VM with a port redirection for 9115:
+  <code>ssh -L 9115:localhost:9115 &lt;server-name&gt; -N</code></li>
+<li>this gives you access to blackbox exporter on port http://127.0.0.1:9115</li>
+<li>you can test the probe with:
+  http://127.0.0.1:9115/probe?module=http_probe&amp;target=https%3A%2F%2FMYSERVER.TLD/MY/PATH</li>
+<li>you can also add a "debug=true" parameter to the url to see the debug output</li>
+<li>you might be interested in looking at the <code>probe_success</code> and <code>probe_http_status_code</code> value</li>
+</ul>
+<p>You can try to reproduce the same probe with curl.</p>
 
 
 
