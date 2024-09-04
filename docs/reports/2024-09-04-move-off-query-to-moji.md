@@ -46,6 +46,8 @@ systemctl status stunnel@off
 
 Verify https://robotoff.openfoodfacts.org/api/v1/health is still working (served by this stunnel server).
 
+see [commit 504c3b419](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/504c3b419d983bf05f1ce144270fb8edb1171330)
+
 ## Creating stunnel client on off2
 
 ### Creating stunnel-client container on off2
@@ -82,3 +84,5 @@ Verify:
 ```bash
 systemctl status stunnel@off.service
 ```
+
+see [commit ec0f6e656](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/ec0f6e656c72ad1a7e113f2a9a1fea8496a4b25c)
