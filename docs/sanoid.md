@@ -21,6 +21,18 @@ There are generally two kind of templates:
 
 We then have different retention strategies based on the type of data.
 
+### Dealing with vzdump snapshots
+
+vzdump snapshots are created by Proxmox during backups.
+It always have the same name but is created and destroyed each time.
+
+This can come in the way of syncoid:
+If the ZFS dataset is synchronized while vzdump snapshot is present,
+then on next sync it may fail, because vzdump snapshot will be a different snapshot on the source. Blocking the sync and requiring human intervention (see [How to resync ZFS replication](./how-to-resync-zfs-replication)).
+
+To prevent this, we have a script (`sanoid_post_remove_vzdump.sh`) that remove vzdump snapshots on the destination (backup side) after running sanoid (post_snapshot_script). It is configured in "synced" templates in sanoid.conf,
+with `post_snapshot_script = /opt/openfoodfacts-infrastructure/scripts/zfs/sanoid_post_remove_vzdump.sh`
+
 ## sanoid checks
 
 We have a timer/service sanoid_check that checks that we have recent snapshots for datasets.
@@ -35,6 +47,8 @@ For example:
 # no_sanoid_checks:rpool/logs-nginx:
 # no_sanoid_checks:rpool/obf-old:rpool/opf-old:
 ```
+
+In case of problem, see [How to resync ZFS replication](./how-to-resync-zfs-replication)
 
 
 ## syncoid service and configuration
