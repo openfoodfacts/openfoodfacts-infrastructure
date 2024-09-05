@@ -97,3 +97,28 @@ Making a request through stunnel, on stunnel-client and on off container:
 ```bash
 curl -d '{"categories_tags": "en:teas"}' -H "Content-Type: application/json" http://10.1.0.103:16001/select
 ```
+
+
+## Actually using it
+
+On off, I edited `lib/ProductOpener/Config2.pm` to point to the new server.
+
+```perl
+# as off query is on moji, we must use stunnel client
+$query_url = "http://10.1.0.103:16001";
+```
+
+and restart apache2
+```bash
+systemctl restart apache2
+```
+
+It works!
+
+I shutdown the docker containers on off-query container on off1, and verify it still works.
+
+I then shutdown the proxmox container and change the property so that it does not start at boot.
+
+## Using Moji for query.openfoodfacts.org
+
+I simply changed the forward target IP in nginx configuration, on off2 reverse proxy.
