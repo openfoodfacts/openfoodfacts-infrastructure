@@ -51,6 +51,48 @@ We have three network physical interface on each server:
 
 ![Ethernet cables](img/2023-02-free-dc-ethernet.jpg "The three eternet cables on the server"){ width=50% }
 
+### IPv4
+
+We have the following static IP v4 addresses:
+- off1:
+  - 213.36.253.206/27 used for the host (vmbr0)
+  - 213.36.253.215/27 used for the reverse proxy container
+- off2:
+  - 213.36.253.208/27 used for the host (vmbr0)
+  - 213.36.253.214/27 used for the reverse proxy container
+
+Gateway is 213.36.253.222
+
+DNS is 213.36.253.10 (gw4-vl12.free.org)
+
+Reverse name is set to:
+- off1.openfoodfacts.org for 213.36.253.206
+- off2.openfoodfacts.org for 213.36.253.208
+
+Also we have a vmbr1 on each host with a private network,
+which is forwarded through vmbr0 on the host.
+
+### IPv6
+
+Policy for IPv6 we have the following:
+
+For each IPv4 address correspond an IPv6 range of `2a01:e0d:0001:c:58bf:fa<last-part-of-ipv4-address>::*/64`
+last-part-of-ipv4-address is a two digit hexadecimal number.
+
+For example `206` is `ce` in hexadecimal so `213.36.253.206` correspond to `2a01:e0d:0001:c:58bf:face::*/64`.
+
+So we have:
+- off2:
+  - 2a01:e0d:0001:c:58bf:fad0:1/64 for the host (vmbr0)
+
+Gateway is `2a01:e0d:1:c::1` (gw6-vl12.free.org)
+
+We use ipv4 for DNS.
+
+Also we have a private ipv6 network (vmbr1) which can be shared between the two servers.
+The prefix is `fd28:7f08:b8fe`, so containers can have an ipv6 access to the internet, 
+while not being publicly accessible.
+It is forwarded through vmbr0 on the host.
 
 ## Disks
 

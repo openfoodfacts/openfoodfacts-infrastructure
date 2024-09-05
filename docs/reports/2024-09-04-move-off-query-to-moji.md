@@ -50,6 +50,10 @@ see [commit 504c3b419](https://github.com/openfoodfacts/openfoodfacts-infrastruc
 
 ## Creating stunnel client on off2
 
+### Configuring ipv6 on off2
+
+see [2024-09-05 adding ipv6 to off2](./2024-09-05-adding-ipv6-to-off2.md)
+
 ### Creating stunnel-client container on off2
 
 Created container ([see doc](../proxmox.md/#how-to-create-a-new-container)):
@@ -86,3 +90,10 @@ systemctl status stunnel@off.service
 ```
 
 see [commit ec0f6e656](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/ec0f6e656c72ad1a7e113f2a9a1fea8496a4b25c)
+
+## Testing
+
+Making a request through stunnel, on stunnel-client and on off container:
+```bash
+curl -d '{"categories_tags": "en:teas"}' -H "Content-Type: application/json" http://10.1.0.103:16001/select
+```
