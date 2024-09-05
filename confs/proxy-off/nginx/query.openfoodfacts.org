@@ -7,7 +7,7 @@ server {
     error_log   /var/log/nginx/query.off.org.errors.log;
 
     location / {
-        proxy_pass http://10.1.0.115:5511$request_uri;
+        proxy_pass http://10.1.0.103:16001$request_uri;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
