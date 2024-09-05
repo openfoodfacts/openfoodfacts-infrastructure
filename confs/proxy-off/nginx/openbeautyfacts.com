@@ -8,7 +8,7 @@ map $status $rate_limited {
 }
 
 # create zone "off" for rate limiting 
-limit_req_zone $binary_remote_addr zone=obf:10m rate=240r/m;
+limit_req_zone $binary_remote_addr zone=obf2:10m rate=240r/m;
 
 
 server {
@@ -57,7 +57,7 @@ server {
     error_log   /var/log/nginx/openbeautyfacts.com.errors.log;
 
     #access_log /dev/shm/rate_limited.log main if=$rate_limited;
-        #limit_req zone=obf burst=1 nodelay; # burst=120 means you can do 240+120 requests
+        #limit_req zone=obf2 burst=1 nodelay; # burst=120 means you can do 240+120 requests
                                               # before experimenting a 444 error
         #limit_req_log_level warn;   # not sure if necessary
         #limit_req_status 444; # allows a specific http status code to clearly
@@ -131,7 +131,7 @@ server {
  	proxy_intercept_errors on;
         error_page 502 /502.html;
 
-        limit_req zone=obf burst=120 nodelay; # burst=120 means you can do 240+120 requests
+        limit_req zone=obf2 burst=120 nodelay; # burst=120 means you can do 240+120 requests
                                               # before experimenting a 444 error
         #limit_req_log_level warn;   # not sure if necessary
         limit_req_status 444; # allows a specific http status code to clearly
