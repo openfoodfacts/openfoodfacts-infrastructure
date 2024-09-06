@@ -446,6 +446,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ipv4" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPv4
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPv6
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2652,6 +2676,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-04 Move off query to moji
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-05 adding ipv6 to off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2718,6 +2784,30 @@
       Network
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ipv4" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPv4
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPv6
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2844,6 +2934,47 @@ They have at small label on them "Open Food Facts"</p>
 <li>one for public network</li>
 </ul>
 <p><a class="glightbox" href="../img/2023-02-free-dc-ethernet.jpg" data-type="image" data-width="auto" data-height="auto" data-title="Ethernet cables" data-desc-position="bottom"><img alt="Ethernet cables" src="../img/2023-02-free-dc-ethernet.jpg" title="The three eternet cables on the server" width="50%" /></a></p>
+<h3 id="ipv4">IPv4<a class="headerlink" href="#ipv4" title="Permanent link">#</a></h3>
+<p>We have the following static IP v4 addresses:</p>
+<ul>
+<li>off1:<ul>
+<li>213.36.253.206/27 used for the host (vmbr0)</li>
+<li>213.36.253.215/27 used for the reverse proxy container</li>
+</ul>
+</li>
+<li>off2:<ul>
+<li>213.36.253.208/27 used for the host (vmbr0)</li>
+<li>213.36.253.214/27 used for the reverse proxy container</li>
+</ul>
+</li>
+</ul>
+<p>Gateway is 213.36.253.222</p>
+<p>DNS is 213.36.253.10 (gw4-vl12.free.org)</p>
+<p>Reverse name is set to:</p>
+<ul>
+<li>off1.openfoodfacts.org for 213.36.253.206</li>
+<li>off2.openfoodfacts.org for 213.36.253.208</li>
+</ul>
+<p>Also we have a vmbr1 on each host with a private network,
+which is forwarded through vmbr0 on the host.</p>
+<h3 id="ipv6">IPv6<a class="headerlink" href="#ipv6" title="Permanent link">#</a></h3>
+<p>Policy for IPv6 we have the following:</p>
+<p>For each IPv4 address correspond an IPv6 range of <code>2a01:e0d:0001:c:58bf:fa&lt;last-part-of-ipv4-address&gt;::*/64</code>
+last-part-of-ipv4-address is a two digit hexadecimal number.</p>
+<p>For example <code>206</code> is <code>ce</code> in hexadecimal so <code>213.36.253.206</code> correspond to <code>2a01:e0d:0001:c:58bf:face::*/64</code>.</p>
+<p>So we have:</p>
+<ul>
+<li>off2:<ul>
+<li>2a01:e0d:0001:c:58bf:fad0:1/64 for the host (vmbr0)</li>
+</ul>
+</li>
+</ul>
+<p>Gateway is <code>2a01:e0d:1:c::1</code> (gw6-vl12.free.org)</p>
+<p>We use ipv4 for DNS.</p>
+<p>Also we have a private ipv6 network (vmbr1) which can be shared between the two servers.
+The prefix is <code>fd28:7f08:b8fe</code>, so containers can have an ipv6 access to the internet, 
+while not being publicly accessible.
+It is forwarded through vmbr0 on the host.</p>
 <h2 id="disks">Disks<a class="headerlink" href="#disks" title="Permanent link">#</a></h2>
 <p>SATA Disks are on the front panel. You just have to push a small red button, it makes a small handle comes out and you can rack them out.</p>
 <p>We had to use Dell SATA disks because otherwise there maybe compatibility issues (this is one of the limitation of DELL servers).</p>

@@ -2799,6 +2799,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-04 Move off query to moji
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-05 adding ipv6 to off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3270,6 +3312,10 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
     <code>sudo /root/cluster-scripts/ct_postinstall</code> (or <code>/opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall</code>) choose the container ID when asked.</p>
 <div class="highlight"><pre><span></span><code>See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 </code></pre></div>
+<p>* eventually disable systemd services that are not needed (and would crash on unprivileged containers):
+    * <a href="#how-to-resolve-slow-ssh-login-time-in-container">disable systemd-logind (see below)</a>
+    * <code>sudo systemctl disable --now sys-kernel-config.mount</code>
+    * running <code>sudo systemctl list-unit --state=failed</code> is a good idea</p>
 <p>* <a href="#how-to-create-a-user-in-a-container-or-vm">create a user</a>, most of the time you prefer off to have id 1000.</p>
 <p>Then you can login to the machine (see <a href="#logging-in-to-a-container-or-vm">logging in to a container or VM</a>).</p>
 <p>Using the web interface:</p>
@@ -3304,8 +3350,8 @@ This gives a root console in the container and has the advantage of not dependin
 # Check if in /var/log/auth.log the following messages 
 Failed to activate service &#39;org.freedesktop.login1&#39;: timed out (service_start_timeout=25000ms)
 
--&gt; Run  systemctl mask systemd-logind
--&gt; Run pam-auth-update (and deselect Register user sessions in the systemd control group hierarchy)
+-&gt; Run  `systemctl mask --now systemd-logind`
+-&gt; Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 </code></pre></div>
 <h2 id="proxmox-installation">Proxmox installation<a class="headerlink" href="#proxmox-installation" title="Permanent link">#</a></h2>
 <p>Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.</p>

@@ -2607,6 +2607,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-04 Move off query to moji
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-05 adding ipv6 to off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2730,6 +2772,8 @@
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">#</a></h2>
 <h3 id="for-servers-and-most-services">For servers and most services<a class="headerlink" href="#for-servers-and-most-services" title="Permanent link">#</a></h3>
 <p>On every servers we have a <code>/opt/openfoodfacts-infrastructure</code> repository which is a clone of this projects by <code>root</code>.</p>
+<p>To be able to commit changes we add the root public key in deploy keys of the github repository, with write access.
+See <a href="../how-to-have-server-config-in-git/">How to have server config in git</a>.</p>
 <p>For each server, or container or VM, we have a folder in <code>/opt/openfoodfacts-infrastructure/confs</code>.</p>
 <p>Then as much as we can, we link the configuration files from the <code>/opt/openfoodfacts-infrastructure/confs</code> folder to the corresponding <code>/etc</code> folder of the server.</p>
 <p>We only commit files that differ from main distribution.</p>
