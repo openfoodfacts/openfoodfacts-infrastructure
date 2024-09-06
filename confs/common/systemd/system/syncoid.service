@@ -6,10 +6,10 @@ After=sanoid.service
 ConditionFileNotEmpty=/etc/sanoid/syncoid-args.conf
 
 # email on failure
-OnFailure=email-failures@syncoid-args-%l.service
+OnFailure=email-failures@syncoid.service
 
 [Service]
-Environment=TZ=UTC
+Environment=TZ=UTC HOME=/root
 Type=oneshot
 # read one line at a time, and use as args to syncoid.
 # we also handle return result so that we get notified if there is an error.
