@@ -1,6 +1,6 @@
 # 2024-09-06 test folksonomy Open Products Facts
 
-As we have a test deploy of Open Products Facts, we wanted to test the folksonomy functionality.
+As we have a test to deploy of Open Products Facts, we wanted to test the folksonomy functionality.
 
 But it can't work as it is today because of authentication problems.
 
@@ -20,7 +20,7 @@ which will in turn authenticate on the right website.
 
 ## Amend Folksonomy API
 
-I changes folksonomy api so that it deduce the server to which to authenticate
+I changed folksonomy API so that it deduces the server to which to authenticate 
 from the url it is called.
 
 [See commit b6729d398](https://github.com/openfoodfacts/folksonomy_api/commit/b6729d3984e82005f6d3a04d96466c8a1f1959e3)
