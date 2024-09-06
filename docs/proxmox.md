@@ -239,6 +239,11 @@ Then connect to the proxmox host:
 
     See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
+  * eventually disable systemd services that are not needed (and would crash on unprivileged containers):
+    * [disable systemd-logind (see below)](#how-to-resolve-slow-ssh-login-time-in-container)
+    * `sudo systemctl disable --now sys-kernel-config.mount`
+    * running `sudo systemctl list-unit --state=failed` is a good idea
+
   * [create a user](#how-to-create-a-user-in-a-container-or-vm), most of the time you prefer off to have id 1000.
 
 Then you can login to the machine (see [logging in to a container or VM](#logging-in-to-a-container-or-vm)).
@@ -282,8 +287,8 @@ See https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916:
 # Check if in /var/log/auth.log the following messages 
 Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
 
--> Run  systemctl mask systemd-logind
--> Run pam-auth-update (and deselect Register user sessions in the systemd control group hierarchy)
+-> Run  `systemctl mask --now systemd-logind`
+-> Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 ```
 
 ## Proxmox installation

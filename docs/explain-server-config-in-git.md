@@ -12,6 +12,9 @@ The idea is to be able to follow server configuration evolution without (for now
 
 On every servers we have a `/opt/openfoodfacts-infrastructure` repository which is a clone of this projects by `root`.
 
+To be able to commit changes we add the root public key in deploy keys of the github repository, with write access.
+See [How to have server config in git](./how-to-have-server-config-in-git.md).
+
 For each server, or container or VM, we have a folder in `/opt/openfoodfacts-infrastructure/confs`.
 
 Then as much as we can, we link the configuration files from the `/opt/openfoodfacts-infrastructure/confs` folder to the corresponding `/etc` folder of the server.
