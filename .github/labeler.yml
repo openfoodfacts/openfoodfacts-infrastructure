@@ -85,3 +85,11 @@ proxmox:
 Odoo:
 - changed-files:
   - any-glob-to-any-file: '**/*odoo*'
+
+🏷️ Folksonomy Project:
+- changed-files:
+  - any-glob-to-any-file: '**/*folksonomy*'
+
+📸 Open Products Facts:
+- changed-files:
+  - any-glob-to-any-file: '**/*openproductsfacts*'
