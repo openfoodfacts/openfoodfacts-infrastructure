@@ -5,7 +5,7 @@ map $status $rate_limited {
 }
 
 # create zone "obf" for rate limiting 
-limit_req_zone $binary_remote_addr zone=obf:10m rate=240r/m;
+limit_req_zone $binary_remote_addr zone=obf-new:10m rate=240r/m;
 
 
 server {
@@ -62,7 +62,7 @@ server {
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
-    	proxy_cache_key off-$request_uri;
+    	proxy_cache_key $host$request_uri;
         proxy_cache_valid any 1m;
         add_header X-Cache-Status $upstream_cache_status;  
 
@@ -125,7 +125,7 @@ server {
         error_page 502 /502.html;
 
         # Rate limiting
-        limit_req zone=obf burst=120 nodelay; # burst=120 means you can do 240+120 requests
+        limit_req zone=obf-new burst=120 nodelay; # burst=120 means you can do 240+120 requests
                                               # before experimenting a 444 error
         #limit_req_log_level warn;   # not sure if necessary
         limit_req_status 444; # allows a specific http status code to clearly

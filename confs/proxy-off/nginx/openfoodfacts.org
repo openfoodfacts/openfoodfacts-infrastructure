@@ -55,18 +55,12 @@ server {
 
     #access_log /dev/shm/rate_limited.log main if=$rate_limited;
     #
-    # 2024/24/09: python script making 50% of total requests using hundreds of IPs
-    if ($http_user_agent = "python-requests/2.28.2"){
-         # add_header Content-Type text/plain;
-         # default_type text/plain;
-         return 429 "You are sending too many requests. Get in touch: contact@openfoodfacts.org and use the database dumps instead: https://world.openfoodfacts.org/data";
-    }
 
 
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
-    	proxy_cache_key off-$request_uri;
+    	proxy_cache_key $host$request_uri;
         proxy_cache_valid any 1m;
         add_header X-Cache-Status $upstream_cache_status;  
 
@@ -87,6 +81,15 @@ server {
     # This is useful in particular for broken apps who request 100s of times the same product
     
     location /api/ {
+
+    # 2024/24/09: python script making 50% of total requests using hundreds of IPs
+    if ($http_user_agent = "-"){
+         # add_header Content-Type text/plain;
+         # default_type text/plain;
+         #return 429 "You are sending too many requests. Get in touch: contact@openfoodfacts.org and use the database dumps instead: https://world.openfoodfacts.org/data";
+         rewrite ^ /stop-crawling.txt last;
+    }
+
     	proxy_cache mycache;
     	proxy_cache_key $host$request_uri$cookie_user;
         proxy_cache_valid any 5s;
@@ -139,6 +142,9 @@ server {
 
     }
     location ~* 502\.(html|jpg)  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+    location ~* stop-crawling.txt  {
        root /opt/openfoodfacts-infrastructure/html/;
     }
 
