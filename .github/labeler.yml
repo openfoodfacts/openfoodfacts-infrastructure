@@ -93,3 +93,7 @@ Odoo:
 📸 Open Products Facts:
 - changed-files:
   - any-glob-to-any-file: '**/*openproductsfacts*'
+  
+observability:
+- changed-files:
+  - any-glob-to-any-file: 'docs/observability.md'
