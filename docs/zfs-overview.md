@@ -51,6 +51,22 @@ We use sanoid / syncoid to sync ZFS datasets between servers (also to back them 
 
 See [sanoid](./sanoid.md)
 
+## How to create a zpool
+
+Ensure disks are not mounted and available (eg using `lsblk`).
+You can eventually split them into different partitions if needed.
+
+Just create the pool with the resources:
+
+`zpool create <pool_name> <pool-type> <device1> <device2> ...`
+
+For pool name use something like zfs-something (zfs-hdd, zfs-nvme, etc.)
+
+For pool-type, use the one that's needed: none (no mention), mirror, raidz.
+
+You may add a [cache](https://openzfs.github.io/openzfs-docs/man/master/7/zpoolconcepts.7.html#Cache_Devices) and / or a [log device](https://openzfs.github.io/openzfs-docs/man/master/7/zpoolconcepts.7.html#log).
+
+
 ## How to NFS mount a zfs dataset
 
 ZFS directly integrate to NFS server.
