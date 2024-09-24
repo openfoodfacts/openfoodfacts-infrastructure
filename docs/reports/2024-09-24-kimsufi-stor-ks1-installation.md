@@ -14,6 +14,9 @@ KS-STOR - Intel Xeon-D 1521 - 4 c / 8 t - 16 Gb RAM - 4x 6 Tb HDD + 500 Gb SSD
 
 ## Install
 
+We create a A record ks1.openfoodfacts.org to point it to the IP of the server: 217.182.132.133
+In OVH's console, we rename the server to ks1.openfoodfacts.org
+
 On OVH console, we install Debian 12 Bookworm on the SSD.
 
 Once the install is complete, OVH sends the credentials by email.
