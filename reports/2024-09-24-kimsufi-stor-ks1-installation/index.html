@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2024-09-06-moji-post-installation/">
+        <link rel="prev" href="../2024-09-06-test-folksonomy-openproductsfacts/">
       
-      
-        <link rel="next" href="../2024-09-24-kimsufi-stor-ks1-installation/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-09-06 test folksonomy Open Products Facts - Open Food Facts Infrastructure documentation</title>
+        <title>Kimsufi STOR - ks1 installation - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-09-06-test-folksonomy-open-products-facts" class="md-skip">
+        <a href="#kimsufi-stor-ks1-installation" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-09-06 test folksonomy Open Products Facts
+              Kimsufi STOR - ks1 installation
             
           </span>
         </div>
@@ -2570,6 +2568,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-06-test-folksonomy-openproductsfacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-06 test folksonomy Open Products Facts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -2586,7 +2605,7 @@
           
   
   <span class="md-ellipsis">
-    2024-09-06 test folksonomy Open Products Facts
+    Kimsufi STOR - ks1 installation
   </span>
   
 
@@ -2597,7 +2616,7 @@
         
   
   <span class="md-ellipsis">
-    2024-09-06 test folksonomy Open Products Facts
+    Kimsufi STOR - ks1 installation
   </span>
   
 
@@ -2619,36 +2638,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#rationale-for-new-server" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      Rationale for new server
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#amend-folksonomy-api" class="md-nav__link">
+  <a href="#server-specs" class="md-nav__link">
     <span class="md-ellipsis">
-      Amend Folksonomy API
+      Server specs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#make-folksonomy-api-available-on-each-domain" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
-      Make Folksonomy API available on each domain
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#avoid-basic-auth" class="md-nav__link">
-    <span class="md-ellipsis">
-      Avoid basic auth
+      Install
     </span>
   </a>
   
@@ -2658,27 +2668,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Kimsufi STOR - ks1 installation
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -2718,36 +2707,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#rationale-for-new-server" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      Rationale for new server
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#amend-folksonomy-api" class="md-nav__link">
+  <a href="#server-specs" class="md-nav__link">
     <span class="md-ellipsis">
-      Amend Folksonomy API
+      Server specs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#make-folksonomy-api-available-on-each-domain" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
-      Make Folksonomy API available on each domain
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#avoid-basic-auth" class="md-nav__link">
-    <span class="md-ellipsis">
-      Avoid basic auth
+      Install
     </span>
   </a>
   
@@ -2771,45 +2751,18 @@
   
 
 
-<h1 id="2024-09-06-test-folksonomy-open-products-facts">2024-09-06 test folksonomy Open Products Facts<a class="headerlink" href="#2024-09-06-test-folksonomy-open-products-facts" title="Permanent link">#</a></h1>
-<p>As we have a test to deploy of Open Products Facts, we wanted to test the folksonomy functionality.</p>
-<p>But it can't work as it is today because of authentication problems.</p>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h2>
-<p>We use the session cookie to authenticate, and if we are using openproductsfacts.org,
-the cookie is not the same as openfoodfacts.org (because cookies can't be shared between domains).</p>
-<p>The best way to do it is to have folksonomy engine available on each domain:</p>
-<ul>
-<li>api.folksonomy.openfoodfacts.org</li>
-<li>api.folksonomy.openproductsfacts.org</li>
-</ul>
-<p>Each of those authenticate to the corresponding world.<domain-name> domain,
-so that each product opener site can call the corresponding folksonomy api,
-which will in turn authenticate on the right website.</p>
-<h2 id="amend-folksonomy-api">Amend Folksonomy API<a class="headerlink" href="#amend-folksonomy-api" title="Permanent link">#</a></h2>
-<p>I changed folksonomy API so that it deduces the server to which to authenticate 
-from the url it is called.</p>
-<p><a href="https://github.com/openfoodfacts/folksonomy_api/commit/b6729d3984e82005f6d3a04d96466c8a1f1959e3">See commit b6729d398</a></p>
-<h2 id="make-folksonomy-api-available-on-each-domain">Make Folksonomy API available on each domain<a class="headerlink" href="#make-folksonomy-api-available-on-each-domain" title="Permanent link">#</a></h2>
-<p>I changed DNS Zones at OVH to have:</p>
-<ul>
-<li>new.openproductsfacts.org CNAME openproductsfacts.org</li>
-<li>*.new.openproductsfacts.org CNAME openproductsfacts.org</li>
-<li>api.folksonomy.new.openproductsfacts.org CNAME proxy1.openfoodfacts.org</li>
-<li>api.folksonomy.openproductsfacts.org CNAME proxy1.openfoodfacts.org</li>
-</ul>
-<p>I modified ovh reverse proxy file for folksonomy api, to add
-api.folksonomy.openproductsfacts.org and api.folksonomy.new.openproductsfacts.org
-to server_name in both http and https sections.</p>
-<p>I then <code>nginx -t</code>  and <code>systemctl reload nginx</code>.</p>
-<p>I then extend the certificate by running:
-<div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;api.folksonomy.openfoodfacts.org&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;api.folksonomy.openproductsfacts.org&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;api.folksonomy.new.openproductsfacts.org&#39;</span>
-</code></pre></div>
-This ask me if I want to extend the existing certificate, I say yes.</p>
-<p>See <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/fce11096a902314bd4696741a7fcdc5a858838fb">commit fce11096a</a></p>
-<h2 id="avoid-basic-auth">Avoid basic auth<a class="headerlink" href="#avoid-basic-auth" title="Permanent link">#</a></h2>
-<p>I still had a problem, because we put basic auth in front of <code>https://new.openproductsfacts.org</code> to avoid accidentally indexing it.
-But this was preventing folksonomy service to use this auth api, as there was no way to add basic auth.
-So I modified the new.openproductsfacts.org configuration on ovh reverse proxy to remove the basic auth for /cgi path… and it worked.</p>
+<h1 id="kimsufi-stor-ks1-installation">Kimsufi STOR - ks1 installation<a class="headerlink" href="#kimsufi-stor-ks1-installation" title="Permanent link">#</a></h1>
+<h2 id="rationale-for-new-server">Rationale for new server<a class="headerlink" href="#rationale-for-new-server" title="Permanent link">#</a></h2>
+<p>We have performance issues on off1 and off2 that are becoming unbearable, in particular disk usage on off2 is so high that 60% of processes are in iowait state.</p>
+<p>We just moved today (24/09/2024) images serving from off2 to off1, but that just move the problem to off1.</p>
+<p>We are thus installing a new cheap Kimsufi server to see if we can move the serving of images to it.</p>
+<h2 id="server-specs">Server specs<a class="headerlink" href="#server-specs" title="Permanent link">#</a></h2>
+<p>KS-STOR - Intel Xeon-D 1521 - 4 c / 8 t - 16 Gb RAM - 4x 6 Tb HDD + 500 Gb SSD</p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<p>On OVH console, we install Debian 12 Bookworm on the SSD.</p>
+<p>Once the install is complete, OVH sends the credentials by email.</p>
+<p>We add users for the admin(s) and give sudo access:</p>
+<p>sudo usermod -aG sudo [username]</p>
 
 
 
