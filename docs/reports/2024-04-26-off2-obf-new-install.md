@@ -976,7 +976,7 @@ $ declare -x DOMAIN_NAME_EXT=new.openproductsfacts.org
 For the new.open(beauty|petfood|productsfacts.org) certificates, we can use the OVH credentials than the domain:
 
 ```bash
-$ cp /root/.ovhapi/openproductsfacts.org /root/.ovhapi/new.openproductsfacts.org
+$ ln -s /root/.ovhapi/openproductsfacts.org /root/.ovhapi/new.openproductsfacts.org
 ```
 
 
@@ -1047,3 +1047,58 @@ To test my installation I added this to `/etc/hosts` on my computer:
 
 And it works at first try :tada: !
 
+
+## Switching old and new containers
+
+2024/09/09: we now have test containers for the new code running on:
+
+https://world.new.openbeautyfacts.org
+https://world.new.openpetfoodfacts.org
+https://world.new.openproductsfacts.org
+
+We want to now switch the containers, so that the new code is on the main URL,
+and the old code on old.*.org:
+
+https://world.old.openbeautyfacts.org
+https://world.old.openpetfoodfacts.org
+https://world.old.openproductsfacts.org
+
+On the off2 reverse proxy:
+
+root@proxy:/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx# mv openproductsfacts.org old.openproductsfacts.org
+root@proxy:/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx# cp new.openproductsfacts.org openproductsfacts.org
+
+Edit old.openproductsfacts.org and openproductsfacts.org
+to change the log files paths + the SSL certificates paths
+also put basic_auth on old.openproductsfacts.org
+
+Get SSL certificate for old.openproductsfacts.org:
+
+
+Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with `--test-cert`
+```bash
+$ ln -s /root/.ovhapi/openproductsfacts.org /root/.ovhapi/new.openproductsfacts.org
+$ export DOMAIN_NAME_EXT=old.openproductsfacts.org
+$ certbot certonly --test-cert --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME_EXT -d $DOMAIN_NAME_EXT -d "*.$DOMAIN_NAME_EXT"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+```
+and then without `--test-cert`
+```bash
+$ certbot certonly --dns-ovh --dns-ovh-credentials /root/.ovhapi/$DOMAIN_NAME_EXT -d $DOMAIN_NAME_EXT -d "*.$DOMAIN_NAME_EXT"
+...
+...
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+```
+### Apache configuration
+
+Changed domains on opf and opf-new to be old.openproductsfacts.org and openproductsfacts.org
+
+Need to run build_lang.pl again, as the file it generates as the domain name in it
+(could be changed as not useful anymore)
+
+Restart Apache.
