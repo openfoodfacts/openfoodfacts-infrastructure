@@ -42,6 +42,7 @@ sudo /sbin/modprobe zfs
 ```
 
 Added the `zfs.conf`  file to `/etc/modprobe.d`
+Then run `update-initramfs -u -k all`
 
 ### Create ZFS pool
 
@@ -51,6 +52,14 @@ So I created the pool with them (see [How to create a zpool](../zfs-overview.md#
 
 ```bash
 zpool create zfs-hdd /dev/sd{a,b,c,d}
+```
+
+### Setup compression
+
+We want to enable compression on the pool.
+
+```bash
+zfs set compression=on zfs-hdd
 ```
 
 ## Install sanoid / syncoid
@@ -68,16 +77,21 @@ dpkg -i /home/alex/sanoid_2.2.0_all.deb
 
 After installing sanoid, I am ready to sync data.
 
-I sync them from OVH3 since it's the same data-center.
+I first create a off dataset to have same structure as on other servers:
+```bash
+zfs create zfs-hdd/off
+```
 
-I createed a ks1operator user on ovh3, following [creating operator on PROD_SERVER](../sanoid.md#creating-operator-on-prod_server)
+I 'll sync the data from OVH3 since it's the same data-center.
+
+I created a ks1operator user on ovh3, following [creating operator on PROD_SERVER](../sanoid.md#creating-operator-on-prod_server)
 
 I also had to make a `ln -s /usr/sbin/zfs /usr/bin/zfs` on ovh3
 
 Then I used:
 
 ```bash
- time syncoid --no-sync-snap --no-privilege-elevation ks1operator@ovh3.openfoodfacts.org:rpoo/off/images zfs-hdd/off-images
+ time syncoid --no-sync-snap --no-privilege-elevation ks1operator@ovh3.openfoodfacts.org:rpool/off/images zfs-hdd/off/images
 ```
 
 ## Configure sanoid
@@ -159,3 +173,4 @@ ln -s /etc/letsencrypt/archive/images.openfoodfacts.org/fullchain19.pem /etc/let
 ln -s /etc/letsencrypt/archive/images.openfoodfacts.org/privkey19.pem /etc/letsencrypt/live/images.openfoodfacts.org/privkey.pem
 chown -R root:root /etc/letsencrypt/
 chmod go-rwx /etc/letsencrypt/{live,archive}
+```

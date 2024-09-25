@@ -6,10 +6,17 @@ We use a lot ZFS for our data for it's reliability and incredible capabilities. 
 
 ## Learning resources
 
+
 To learn about ZFS, see [the onboarding made by Christian](reports/2023-02-24-zfs-introduction.md)
 
-See also [OpenZFS official documentation](https://openzfs.github.io/openzfs-docs/) 
-and [Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device)
+Also See [OpenZFS official documentation](https://openzfs.github.io/openzfs-docs/)
+it's very complete, but it's a bit hard to navigate.
+* [misc man page section](https://openzfs.github.io/openzfs-docs/man/master/7/index.html)  contains a lot of useful information on properties and features
+* [Basic Concepts](https://openzfs.github.io/openzfs-docs/Basic%20Concepts/index.html) is a good place to return to from time to time to grab concepts better
+* [Man pages on system administration commands](https://openzfs.github.io/openzfs-docs/man/master/8/index.html) are really useful
+* [Performance and Tuning](https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/index.html) is also valuable to dig in some options
+
+[Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device) is another valuable resource.
 
 Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 
@@ -18,18 +25,18 @@ A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
 
 ## Some useful commands
 
-* `zpool status` to see eventual errors
-* `zpool list -v` to see all device
+* [`zpool status`](https://openzfs.github.io/openzfs-docs/man/master/8/zpool-status.8.html) to see eventual errors
+* [`zpool list -v`](https://openzfs.github.io/openzfs-docs/man/master/8/zpool-list.8.html) to see all device
 
   **Note**: there is a quirk with ALLOC which is different for mirror pools and raidz pools.
   On the first it's allocated space to datasets, on the second it's used space.
 
-* `zfs list -r` to get all datasets and their mountpoints
-  3. zpool list -v list all devices
+* [`zfs list -r`](https://openzfs.github.io/openzfs-docs/man/master/8/zfs-list.8.html) to get all datasets and their mountpoints
 
-* `zpool iostat` to see stats about read / write. `zpool iostat -vl 5` is particularly useful.
+* [`zpool iostat`](https://openzfs.github.io/openzfs-docs/man/master/8/zpool-iostat.8.html) to see stats about read / write. `zpool iostat -vl 5` is particularly useful,
+  `zpool iostat -w` helps you understand the time taken by data to be read / written.
 
-* `zpool history` list all operations done on a pool
+* [`zpool history`](https://openzfs.github.io/openzfs-docs/man/master/8/zpool-history.8.html) list all operations done on a pool
 
 * `zpool list -o name,size,usedbysnapshots,allocated` see space allocated (equivalent to `df`)
 
@@ -39,7 +46,7 @@ A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
   zfs list -o zfs list -o name,used,usedbydataset,usedbysnapshots,available -r <pool_name>
   ```
 
-* `zdb` is also worth knowing (`zfd -s` for example)
+* [`zdb`](https://openzfs.github.io/openzfs-docs/man/master/8/zdb.8.html) is also worth knowing (`zdb -s <poolname>` for example)
 
 ## Proxmox
 
