@@ -26,7 +26,7 @@ Network: name=eth0,bridge=vmbr1,ip=10.1.0.100/24,gw=10.0.0.1
 
 I then simply install `nginx` using apt.
 
-I also [configure postfix](../mail#postfix-configuration) and tested it.
+I also [configure postfix](../mail.md#postfix-configuration) and tested it.
 
 ### Adding the IP
 

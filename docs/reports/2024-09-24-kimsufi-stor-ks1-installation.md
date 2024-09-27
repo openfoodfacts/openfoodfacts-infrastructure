@@ -55,7 +55,7 @@ I also configured email by removing exim4 and installing postfix.
 sudo apt purge exim4-base exim4-config && \
 sudo apt install postfix bsd-mailx
 ```
-and following [Server, postfix configuration](../.mail.md#postfix-configuration).
+and following [Server, postfix configuration](../mail.md#postfix-configuration).
 
 I also had to had ks1 ip address to [forwarding rules on ovh1 to the mail gateway](../mail.md#redirects).
 ```bash
