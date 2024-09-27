@@ -237,3 +237,17 @@ ln -s /etc/letsencrypt/archive/images.openfoodfacts.org/privkey19.pem /etc/letse
 chown -R root:root /etc/letsencrypt/
 chmod go-rwx /etc/letsencrypt/{live,archive}
 ```
+
+## Testing
+
+On my host I modified /etc/hosts to have:
+```hosts
+217.182.132.133 images.openfoodfacts.org
+```
+and visited the website with my browser, with developer tools open.
+
+I can also use curl:
+```bash
+curl --resolve images.openfoodfacts.org:443:217.182.132.133 https://images.openfoodfacts.org/images/products/087/366/800/2989/front_fr.3.400.jpg  --output /tmp/front_fr.jpg -v
+xdg-open /tmp/front_fr.jpg
+```
