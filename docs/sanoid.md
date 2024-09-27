@@ -169,7 +169,7 @@ On BACKUP_SERVER, test ssh connection:
 
 ```bash
 OPERATOR=${BACKUP_SERVER}operator
-ssh $OPERATOR@<ip for server>
+ssh $OPERATOR@<ip or host>
 ```
 
 #### config syncoid

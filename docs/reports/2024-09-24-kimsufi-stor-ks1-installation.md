@@ -32,6 +32,45 @@ I also manually runned the usual commands found in ct_postinstall.
 
 I also followed [How to have server config in git](../how-to-have-server-config-in-git.md)
 
+I also added the email on failure systemd unit.
+
+I edited `/etc/netplan/50-cloud-init.yaml` to add default search
+```yaml
+network:
+    version: 2
+    ethernets:
+        eno3:
+            (...)
+            nameservers:
+                search: [openfoodfacts.org]
+```
+and run `netplan try`.
+
+## Email
+
+Email is important to send alert on service failure.
+
+I also configured email by removing exim4 and installing postfix.
+```bash
+sudo apt purge exim4-base exim4-config && \
+sudo apt install postfix bsd-mailx
+```
+and following [Server, postfix configuration](../.mail.md#postfix-configuration).
+
+I also had to had ks1 ip address to [forwarding rules on ovh1 to the mail gateway](../mail.md#redirects).
+```bash
+iptables -t nat -A PREROUTING -s 217.182.132.133 -d pmg.openfoodfacts.org -p tcp  --dport 25 -j DNAT --to 10.1.0.102:25
+iptables-save > /etc/iptables/rules.v4.new
+# control
+diff /etc/iptables/rules.v4{,.new}
+mv /etc/iptables/rules.v4{.new,}
+etckeeper commit "added rule for ks1 email"
+```
+
+Test from ks1:
+```bash
+echo "test message from ks1" |mailx -s "test root ks1" -r alex@openfoodfacts.org root
+```
 
 ## Install and setup ZFS
 
@@ -62,6 +101,9 @@ We want to enable compression on the pool.
 zfs set compression=on zfs-hdd
 ```
 
+Note: in reality it was not enabled from start, I enabled it after first snapshot sync,
+as I saw is was taking much more space than on the original server.
+
 ## Install sanoid / syncoid
 
 I installed the sanoid.deb that I got from the off1 server.
@@ -71,7 +113,6 @@ apt install libcapture-tiny-perl libconfig-inifiles-perl
 apt install lzop mbuffer pv
 dpkg -i /home/alex/sanoid_2.2.0_all.deb
 ```
-
 
 ## Sync data
 
@@ -94,9 +135,29 @@ Then I used:
  time syncoid --no-sync-snap --no-privilege-elevation ks1operator@ovh3.openfoodfacts.org:rpool/off/images zfs-hdd/off/images
 ```
 
+It took 3594 minutes, that is 60 hours or 2.5 days.
+
+I removed old snapshots (old style) from ks1, as they are not needed here):
+```bash
+for f in $(zfs list -t snap -o name zfs-hdd/off/images|grep "images@202");do zfs destroy $f;done
+```
+the other snapshot will normally be pruned by sanoid.
+
 ## Configure sanoid
 
-**FIXME** todo
+I created the sanoid and syncoid configuration.
+
+I added ks1operator on off2.
+
+Finally I also installed the standard sanoid / syncoid systemd units and the sanoid_check unit.
+
+and enable them:
+
+```bash
+systemctl enable --now sanoid.timer
+systemctl enable syncoid.service
+systemctl enable --now sanoid_check.timer
+
 
 ## Firewall
 
@@ -139,6 +200,8 @@ I installed nginx and certbot:
 apt install nginx
 apt install python3-certbot python3-certbot-nginx
 ```
+
+I also added the nginx.service.d override to email on failure.
 
 ### Configure
 
