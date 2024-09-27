@@ -37,7 +37,7 @@ proxy_cache_path
 	keys_zone=off-images:10m
 	levels=1:2
 	inactive=24h
-	max_size=4G;
+	max_size=6G;
 
 # https://images.openfoodfacts.org
 server {
@@ -61,7 +61,7 @@ server {
 	resolver 9.9.9.9 8.8.8.8 valid=300s;
 	resolver_timeout 5s;
 
-	root	/zfs-hdd/off-images/;
+	root	/zfs-hdd/off/;
 
 
 	if ($http_referer ~* (jobothoniel.com) ) {
@@ -69,8 +69,6 @@ server {
 	}
 
 	location / {
-                # remove images prefix
-		rewrite ^/images(.*)$ $1 last;
 		# rate limit based on size
 		# NGINX actually tracks requests at millisecond granularity
 		# so eg 6000r/m means 100r/s which means 1r each 10 ms,
