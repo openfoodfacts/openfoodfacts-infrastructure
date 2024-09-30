@@ -19,6 +19,8 @@ In OVH's console, we rename the server to ks1.openfoodfacts.org
 
 On OVH console, we install Debian 12 Bookworm on the SSD.
 
+**IMPORTANT:** this was not an optimal choice, we should have reserved part of the SSD to use it as a cache drive for the ZFS pool.
+
 Once the install is complete, OVH sends the credentials by email.
 
 We add users for the admin(s) and give sudo access:
@@ -103,6 +105,10 @@ zfs set compression=on zfs-hdd
 
 Note: in reality it was not enabled from start, I enabled it after first snapshot sync,
 as I saw is was taking much more space than on the original server.
+
+### Fine tune zfs
+
+Set `atime=off` et `relatime=no` on the ZFS dataset `zfs-hdd/off/images` to avoid writting.
 
 ## Install sanoid / syncoid
 
@@ -190,6 +196,7 @@ enabled = true
 backend = systemd
 ```
 
+Addendum: after Christian installed Munin node, I added port 4949
 
 ## NGINX
 
