@@ -49,8 +49,10 @@ server {
     # enable large uploads
     client_max_body_size 20M;
 
+    # access logs only on the container
+    access_log off;
     # logs location
-    access_log  /var/log/nginx/openpetfoodfacts.org.log  main buffer=256K flush=1s;
+    # access_log  /var/log/nginx/openpetfoodfacts.org.log  main buffer=256K flush=1s;
     error_log   /var/log/nginx/openpetfoodfacts.org.errors.log;
 
     #access_log /dev/shm/rate_limited.log main if=$rate_limited;
@@ -60,7 +62,7 @@ server {
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
     	proxy_cache_key $host$request_uri;
-        proxy_cache_valid any 1m;
+        proxy_cache_valid any 5m;
         add_header X-Cache-Status $upstream_cache_status;  
 
         proxy_pass http://10.1.0.118:80;

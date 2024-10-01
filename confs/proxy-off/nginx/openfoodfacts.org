@@ -49,8 +49,10 @@ server {
     # enable large uploads
     client_max_body_size 20M;
 
+    # access logs only on the container
+    access_log off;
     # logs location
-    access_log  /var/log/nginx/openfoodfacts.org.log  main buffer=256K flush=1s;
+    # access_log  /var/log/nginx/openfoodfacts.org.log  main buffer=256K flush=1s;
     error_log   /var/log/nginx/openfoodfacts.org.errors.log;
 
     #access_log /dev/shm/rate_limited.log main if=$rate_limited;
@@ -61,7 +63,7 @@ server {
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
     	proxy_cache_key $host$request_uri;
-        proxy_cache_valid any 1m;
+        proxy_cache_valid any 5m;
         add_header X-Cache-Status $upstream_cache_status;  
 
         proxy_pass http://10.1.0.113:80;
@@ -84,9 +86,14 @@ server {
 
     # 2024/24/09: python script making 50% of total requests using hundreds of IPs
     if ($http_user_agent = "-"){
-         # add_header Content-Type text/plain;
-         # default_type text/plain;
-         #return 429 "You are sending too many requests. Get in touch: contact@openfoodfacts.org and use the database dumps instead: https://world.openfoodfacts.org/data";
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "Mozilla/5.0 (compatible)"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "python-requests/2.32.2"){
          rewrite ^ /stop-crawling.txt last;
     }
 
@@ -108,10 +115,26 @@ server {
     }
 
     location / {
+
+
+
 #    	proxy_cache mycache;
 #    	proxy_cache_key $host$request_uri$cookie_user;
 #        proxy_cache_valid any 5s;
 	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
+    # 2024/24/09: python script making 50% of total requests using hundreds of IPs
+    if ($http_user_agent = "-"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "Mozilla/5.0 (compatible)"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "python-requests/2.32.2"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
         # cache.
         # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
         # Eg. X-Cache-Status: HIT
