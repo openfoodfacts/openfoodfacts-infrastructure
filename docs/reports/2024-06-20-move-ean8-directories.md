@@ -154,7 +154,31 @@ DECISION: change the Product Opener code (split_code function) so that if the ol
 3. Migrate OBF, OPF, OPFF
 4. Create a PR to remove the code that checks if the old path exists.
 
+## Migration
 
+Started migration on 2024/10/02.
 
+Changed initial plan to start with OPFF first, in order to uncover issues in a less used environment (much fewer products and updates)
 
+### OPFF
+
+Dry run in OPFF:
+
+Fixed some permissions in /mnt/opff (some directories like "logs" were owned by root, changed to off:off)
+
+1099 products at the root
+invalid code: 1 -> "invalid"
+moved: 1098
+not moved: 0
+same path: 0
+changed code: 417
+
+Fixed: Issue with products that are deleted, they should not be added back to mongodb.
+
+There's an issue with products have a changed code (not only a changed path) with leading 0s: they can't be retrieved until they are moved. Fixing by removing leading 0s in old_split_code(). This partially work: if a product code already has some leading 0s but not the right number, the new code won't find the product until it has migrated. It could be fixed, but probably not worth the complexity.
+
+Also disabling the redirect from old code to new code in order not to have redirect loops.
+TODO: will need to reenable the redirect once the migration is complete.
+
+There are some products with 1 or 2 digits. Those are most likely bogus. We will remove those products instead of padding them with zeroes. The corresponding files are moved to products/invalid-barcodes
 
