@@ -182,3 +182,88 @@ TODO: will need to reenable the redirect once the migration is complete.
 
 There are some products with 1 or 2 digits. Those are most likely bogus. We will remove those products instead of padding them with zeroes. The corresponding files are moved to products/invalid-barcodes
 
+### Conflicts on OPFF
+
+new path exists, not moving 527/427/749/0 to 000/527/427/7490
+new path exists, not moving 649/922/801/7 to 000/649/922/8017
+
+### OBF
+
+4226 products at the root or not split into a 4 component path
+57 products paths containing other products
+invalid code: 0
+moved: 4210
+not moved: 16
+same path: 0
+changed code: 1663
+
+### Conflicts on OBF
+
+22 products to update
+new path exists, not moving 000/000/000/00 to 000/000/000/0000
+new path exists, not moving 0006 to 000/000/000/0006
+new path exists, not moving 00432 to 000/000/000/0432
+new path exists, not moving 06147198 to 000/000/614/7198
+new path exists, not moving 101/810/403/13 to 001/018/104/0313
+new path exists, not moving 1048 to 000/000/000/1048
+new path exists, not moving 1211 to 000/000/000/1211
+new path exists, not moving 123/456/789/05 to 001/234/567/8905
+new path exists, not moving 1262 to 000/000/000/1262
+new path exists, not moving 187/879/433/59 to 001/878/794/3359
+new path exists, not moving 191/001/943/04 to 001/910/019/4304
+new path exists, not moving 207/142/228/57 to 002/071/422/2857
+new path exists, not moving 227/969/161/12 to 002/279/691/6112
+new path exists, not moving 263/950/011/63 to 002/639/500/1163
+new path exists, not moving 30106659 to 000/003/010/6659
+new path exists, not moving 370/012/430/6 to 000/370/012/4306
+new path exists, not moving 565/940/046/72 to 005/659/400/4672
+new path exists, not moving 62263436 to 000/006/226/3436
+new path exists, not moving 705/010/171/04 to 007/050/101/7104
+new path exists, not moving 705/010/270/04 to 007/050/102/7004
+new path exists, not moving 705/010/609/57 to 007/050/106/0957
+new path exists, not moving 794/000/134/39 to 007/940/001/3439
+
+Note: now moving conflicts to products/conflicting-codes/
+
+# OPF
+
+11 products paths containing other products
+invalid code: 0
+moved: 1542
+not moved: 0
+same path: 0
+changed code: 443
+
+# OFF
+
+271562 products at the root or not split into a 4 component path
+621 products paths containing other products
+invalid code: 0
+moved: 262432
+not moved: 9130
+same path: 0
+changed code: 68061
+
+## Serving images with old image paths
+
+Robotoff and some 3rd party apps compute themselves the paths of the images.
+This means that they will use the old paths, unless they are updated.
+
+To avoid serving 404s, we add rules in the nginx proxy of the product opener containers to be able to serve images with the old paths:
+
+```
+location ~ ^/images/products/ {
+        # 2024/10/03 - temporary redirects as we changed the path of images
+        # for barcodes that are 8 digits or less
+        rewrite ^/images/products/(....)/([^/]*)$ /images/products/000/000/000/$1/$2 break;
+        rewrite ^/images/products/(.)(....)/([^/]*)$ /images/products/000/000/00$1/$2/$3 break;
+        rewrite ^/images/products/(..)(....)/([^/]*)$ /images/products/000/000/0$1/$2/$3 break;
+        rewrite ^/images/products/(...)(....)/([^/]*)$ /images/products/000/000/$1/$2/$3 break;
+        rewrite ^/images/products/(.)(...)(....)/([^/]*)$ /images/products/000/00$1/$2/$3/$4 break;
+        rewrite ^/images/products/(..)(...)(....)/([^/]*)$ /images/products/000/0$1/$2/$3/$4 break;
+```
+
+A better solution could be to return 302 redirects.
+
+One issue during the migration is that we cannot have the rules active until all products are migrated.
+One way to avoid that could have been to use try_file instead of redirects... 
