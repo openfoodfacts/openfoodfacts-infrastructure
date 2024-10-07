@@ -152,7 +152,7 @@ mkdir /home/$OPERATOR/.ssh
 vim /home/$OPERATOR/.ssh/authorized_keys
 # copy BACKUP_SERVER root public key
 
-chown  -R /home/$OPERATOR
+chown $OPERATOR:$OPERATOR -R /home/$OPERATOR
 chmod go-rwx -R /home/$OPERATOR/.ssh
 ```
 
@@ -169,7 +169,7 @@ On BACKUP_SERVER, test ssh connection:
 
 ```bash
 OPERATOR=${BACKUP_SERVER}operator
-ssh $OPERATOR@<ip for server>
+ssh $OPERATOR@<ip or host>
 ```
 
 #### config syncoid
