@@ -77,6 +77,15 @@ server {
 		limit_req zone=big_size burst=100 nodelay;
 		limit_req zone=small_size burst=6000 nodelay;
 
+		# 2024/10/03 - temporary redirects as we changed the path of images
+		# for barcodes that are 8 digits or less
+		rewrite ^/images/products/(....)/([^/]*)$ /images/products/000/000/000/$1/$2 break;
+		rewrite ^/images/products/(.)(....)/([^/]*)$ /images/products/000/000/00$1/$2/$3 break;
+		rewrite ^/images/products/(..)(....)/([^/]*)$ /images/products/000/000/0$1/$2/$3 break;
+		rewrite ^/images/products/(...)(....)/([^/]*)$ /images/products/000/000/$1/$2/$3 break;
+		rewrite ^/images/products/(.)(...)(....)/([^/]*)$ /images/products/000/00$1/$2/$3/$4 break;
+		rewrite ^/images/products/(..)(...)(....)/([^/]*)$ /images/products/000/0$1/$2/$3/$4 break;
+
 		# test en local, puis sur l'original
 		try_files		$uri @proxy2;
 		sendfile		on;
