@@ -24,7 +24,7 @@ jobs:
     - name: Commit README.md
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: develop
+        branch: readme-writer
         repository: .
         file_pattern: README.md
         commit_message: Update README.md
