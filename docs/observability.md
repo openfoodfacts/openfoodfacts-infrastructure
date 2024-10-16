@@ -88,9 +88,12 @@ curl "http://localhost:9115/probe?module=icmp&app=ovh1&target=ov1.openfoodfacts.
 
 If you have a probe failing, you can test what blackbox exporter is reporting by:
 
-* connecting in ssh to monitoring VM with a port redirection for 9115:
-  `ssh -L 9115:localhost:9115 <server-name> -N`
+* connecting in ssh to monitoring VM with a port redirection for 9115 to the container port 9115
+  `ssh -L 9115:<VM internal ip>:9115 <server-name> -N`
+
+  currently, this should be `ssh -L 9115:10.1.0.203:9115 ovh1.openfoodfacts.org -N`
 * this gives you access to blackbox exporter on port http://127.0.0.1:9115
+* there you have a table with current status for different probes and log of the probes, which should help you understand.
 * you can test the probe with:
   http://127.0.0.1:9115/probe?module=http_probe&target=https%3A%2F%2FMYSERVER.TLD/MY/PATH
 * you can also add a "debug=true" parameter to the url to see the debug output
