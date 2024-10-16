@@ -34,38 +34,9 @@ We started logging incidents by server:
 
 ## Documentation
 
-Link to [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
+See our [Introduction](./docs/introduction.md),
+also on [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
 
-The infrastructure documentation is as follows:
-
-- [Overview](./docs/overview.md)
-
-- [Mail](./docs/mail.md) - servers mail setup
-- [Free Datacenter](./docs/free-datacenter.md) - Data center with main production servers
-- [Linux Server](./docs/linux-server.md) - servers general setup
-- [Mail](./docs/mail.md) - servers mail setup
-- [An introduction to ZFS](./docs/zfs-overview.md) - ZFS is much used in our infrastructure
-- [Proxmox](./docs/proxmox.md) - about proxmox management
-- [CICD](./docs/cicd.md) - continuous integration and deployment
-- [Observability](./docs/observability.md) - doc on monitoring / logs / etc.
-- [Docker Onboarding](./docs/docker_onboarding.md)
-- [Docker Infrastructure](./docs/docker_architecture.md)
-- [Virtual Machines](#virtual-machines)
-
-The main services:
-- [MongoDB](./docs/mongodb.md) the MongoDB database
-- [Redis](./docs/redis.md) we also use Redis
-- [Open Food Facts Query](./docs/openfoodfacts-query.md) service computing aggregations
-
-Some services:
-
-- [Discourse](./docs/discourse.md) for forum
-- [NGINX reverse proxy](./docs/nginx-reverse-proxy.md) the reverse proxy for OVH services
-- [Folksonomy](./docs/folksonomy.md) user editable labels and values
-- [Matomo](./docs/matomo.md) for web analytics
-- [Producers sftp](./docs/producers_sftp.md) to push product updates on producer platform
-- [Zammad](./docs/zammad.md) for support
-- [Odoo](./docs/odoo.md) the CRM
 
 Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
