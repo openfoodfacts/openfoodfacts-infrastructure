@@ -1,0 +1,4289 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2024-04-18-setup-dkim-google-workspace/">
+      
+      
+        <link rel="next" href="../2024-05-27-nginx-exporter-off2-proxy/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.40">
+    
+    
+      
+        <title>2023-06-07 New install of OBF on OFF2 with new generic code - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2023-06-07-new-install-of-obf-on-off2-with-new-generic-code" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2023-06-07 New install of OBF on OFF2 with new generic code
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Open Food Facts Infrastructure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Continous Integration and Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Discourse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../disks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Disks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker at Open Food Facts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Onboarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Explanation on server configuration with git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Folksonomy API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Free Datacenter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to add disk space on a Qemu VM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to use fail2ban to ban bots
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to install fail2ban on debian 11+
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to have server config in git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to mitigate crawlers in case of too much traffic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-resync-zfs-replication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to resync ZFS replication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    off1 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    off2 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    off3 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ovh1 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ovh2 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ovh3 server logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mail on Open Food Facts infrastructure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Matomo
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../moji-datacenter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Moji Datacenter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MongoDB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../munin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Munin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NGINX Reverse proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Odoo: our relationship management (connect.openfoodfacts.org)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../openfoodfacts-query/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Open Food Facts Query
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgres/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Production architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Producers SFTP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-opener/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product Opener
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proxmox/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Proxmox
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rclone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rclone
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sanoid
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    auto Slack invitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Stunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zammad
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ZFS overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_46" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_46" id="__nav_46_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reports
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_46_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_46">
+            <span class="md-nav__icon md-icon"></span>
+            Reports
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Matomo install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    [Postmortem] OpenFoodFacts.net down (#1)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Disk extension for preprod and containers prod (ovh2)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preprod crash 2021 12
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    [Postmortem] Reverse proxy down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Install of proxmox gateway server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022-02 Removing some containers on ovh1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Elasticsearch not running on Zammad
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022-03 Problem with PCI supporting NVMe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploying openfoodfacts-search to staging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure future - workshop on 11th July 2022
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kibana down because of Elasticsearch circuit_breaking_exception
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022-08-17 openfoodfacts.net unreachable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup of Odoo for pro platform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022-11 moving monitoring to its own machine
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-02-13 Zammad down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023 02 16 off2 shutdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-02-17 Off2 Upgrade
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023 02 24 zfs introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-03 OFF2 reinstall - opff migration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-04-27 moving docker staging to OVH1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022-05-12 refresh staging clones
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-05-18 Mongodb down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-05-23 move Images to ZFS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-05-23 off2 - container 110 unreachable from 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-06-01 Robotoff backups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-06-07 OPF and OBF reinstall on off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2012-06-08 Stalled ZFS Sync for off products on ovh3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-06-30 Sanoid checks install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Post-mortem 2023-07-16 Disk sdc errors on OVH3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-07-26 rpool/off/products dataset full on off1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023 07 off reinstall  prod files diff
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-06-07 OFF and OFF-pro reinstall on off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-08-31 OFF2 products snapshots clean
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-10-14: mongodb-down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-11-28 setup a google drive backup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Post-mortem 2023-11-28 Disk sdf errors on OVH3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-12-08 off1 upgrade
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023-12-11 Matomo down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-01-02 monitoring disk space - filebeat
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-01-03 MongoDB migration on off3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 01 04 setting up stunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-01-19 Certbot failure on off2 reverse proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-01-24 Move old Product Opener folders to backup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-01 Matomo performance tunning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-06 cleanup of products ssnapshots on off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-08 Production Redis install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-13-chatwoot-translation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-13 Chatwoot translation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-13-matomo-fix-queue0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2014-02-13 Matomo fix Queue0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-20 Installing a prometheus exporter on mongodb container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-28-upgrade-redis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-02-28 Upgrade Redis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-17-ovh1-down/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-03-17 OVH1 Down
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-restructure-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-03 Restructure backups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-separate-hdd-docker-vms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-03 separate HDD on docker VMs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-03-04 Moving opf, obf and opff logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-12-install-off-query-off1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04 install off-query on off1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-18-matomo-multi-archival/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04-18 Matomo multi archival
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-04-18 Setup DKIM on Google Workspace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2023-06-07 New install of OBF on OFF2 with new generic code
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2023-06-07 New install of OBF on OFF2 with new generic code
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-en_usutf-8-utf-8-locale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating en_US.UTF-8 UTF-8 locale
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mounting-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mounting volumes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mounting volumes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-lxc-confs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing lxc confs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-off-user-in-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create off user in the container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-sudo-add-your-user-to-sudo-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install sudo, add your user to sudo group
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-generic-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing generic packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geoip-with-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geoip with updates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing packages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting the code
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting the code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copying-production-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying production code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloning-off-server-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloning off-server repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#finding-git-commit-for-obf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding git commit for obf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symlinks-to-mimic-old-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      symlinks to mimic old structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      linking data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      linking logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-and-verify-config-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      copy and verify config links
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-broken-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify broken links
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-dists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding dists
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-openfoodfacts-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding openfoodfacts-web
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding openfoodfacts-web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloning-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloning repo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linking content
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-cpan-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing CPAN modules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing CPAN modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-zxing-cpp-from-source-until-21-or-higher-is-available-in-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install zxing-cpp from source until 2.1 or higher is available in Debian:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-cpan-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install CPAN modules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nginx-for-obf-inside-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      nginx for OBF (inside container)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apache
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-when-restarting-apache2-on-obf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem when restarting apache2 on obf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem when restarting apache2 on obf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apache2service-failed-to-load-environment-files-no-such-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      apache2.service: Failed to load environment files: No such file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nginx exporter on off2 proxy and off
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-05-off1-reverse-proxy-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-06 OFF1 reverse proxy install + OFF images container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-10-move-off-query-volume-to-nvme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Move off query volume to NVME
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-20-move-ean8-directories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Move EAN8 directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-03-ovh-reverse-proxy-ip-lost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-08-03 OVH Reverse proxy IP lost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-07-wordpress-off-contents-fresh-install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-08-07-wordpress-off-contents-fresh-install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-13-moji-server-installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Moji server installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-08-22 Adding postfix exporter to Proxmox Mail Gateway
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-04 Move off query to moji
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-05 adding ipv6 to off2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-06-moji-post-installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Moji - Post-installation &amp; backup sync
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-06-test-folksonomy-openproductsfacts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-09-06 test folksonomy Open Products Facts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kimsufi STOR - ks1 installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-en_usutf-8-utf-8-locale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating en_US.UTF-8 UTF-8 locale
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mounting-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mounting volumes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mounting volumes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-lxc-confs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing lxc confs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-off-user-in-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create off user in the container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-sudo-add-your-user-to-sudo-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install sudo, add your user to sudo group
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-generic-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing generic packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geoip-with-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geoip with updates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing packages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting the code
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting the code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copying-production-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying production code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloning-off-server-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloning off-server repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#finding-git-commit-for-obf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding git commit for obf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symlinks-to-mimic-old-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      symlinks to mimic old structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      linking data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      linking logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-and-verify-config-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      copy and verify config links
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-broken-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify broken links
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-dists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding dists
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-openfoodfacts-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding openfoodfacts-web
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding openfoodfacts-web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloning-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloning repo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linking-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linking content
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-cpan-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing CPAN modules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing CPAN modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-zxing-cpp-from-source-until-21-or-higher-is-available-in-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install zxing-cpp from source until 2.1 or higher is available in Debian:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-cpan-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install CPAN modules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nginx-for-obf-inside-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      nginx for OBF (inside container)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apache
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-when-restarting-apache2-on-obf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem when restarting apache2 on obf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem when restarting apache2 on obf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apache2service-failed-to-load-environment-files-no-such-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      apache2.service: Failed to load environment files: No such file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="2023-06-07-new-install-of-obf-on-off2-with-new-generic-code">2023-06-07 New install of OBF on OFF2 with new generic code<a class="headerlink" href="#2023-06-07-new-install-of-obf-on-off2-with-new-generic-code" title="Permanent link">#</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">#</a></h2>
+<p>OBF, OPF and OPFF currently use very old code (more than 2 years old). An effort is underway to make the current "main" code of Product Opener (currently used for OFF) able to power OBF, OPF and OPFF, so that we can have unified code and features on all platforms.</p>
+<p>To test the new code, we will create a new container obf-new (116) that will run in parallel to the current container for obf (116).
+Both containers will use the same data (.sto files and MongoDB database and collection).</p>
+<p>Once we are satisfied with the new code, we can transform obf-new in the new production container for OBF, and retire the old container.</p>
+<p>Update 2024/08/27: I also install containers opf-new (117) and opff-new (118) in the exact same way.</p>
+<h2 id="install-logs">Install logs<a class="headerlink" href="#install-logs" title="Permanent link">#</a></h2>
+<p>The obf-new install is done by Stéphane, following closely what Alex did and documented for <a href="../2023-03-14-off2-opff-reinstall/">opff reinstall on off2</a>.</p>
+<p>Refer to it if you need more explanation on a step.</p>
+<h2 id="creating-containers">Creating Containers<a class="headerlink" href="#creating-containers" title="Permanent link">#</a></h2>
+<p>I created a CT for obf-new followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.
+I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
+Network: vmbr1, ipv4: 10.1.0.116/24, gateway: 10.0.0.2</p>
+<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
+<p>Also run /opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall on off2 host.</p>
+<p><strong>Important:</strong> do not create any user until you changed id maping in lxc conf (see <a href="#mounting-volumes">Mounting volumes</a>). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.</p>
+<h2 id="creating-en_usutf-8-utf-8-locale">Creating en_US.UTF-8 UTF-8 locale<a class="headerlink" href="#creating-en_usutf-8-utf-8-locale" title="Permanent link">#</a></h2>
+<p>Perl was complaining about the locale:</p>
+<p>perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+        LANGUAGE = (unset),
+        LC_ALL = (unset),
+        LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").</p>
+<p>Edited /etc/locale.gen to uncomment the line en_US.UTF-8 UTF-8
+sudo locale-gen</p>
+<h2 id="mounting-volumes">Mounting volumes<a class="headerlink" href="#mounting-volumes" title="Permanent link">#</a></h2>
+<p>In production we have off, obf, opf and opff in off2, so we cross mount their products and images volumes.</p>
+<h3 id="changing-lxc-confs">Changing lxc confs<a class="headerlink" href="#changing-lxc-confs" title="Permanent link">#</a></h3>
+<p>On off2, we edit /etc/pve/lxc/116.conf.
+We want the same mounts as the current obf container (111), so we copy the mp*: lines from /etc/pve/lxc/111.conf
+and we also add the lxc.idmap: lines:</p>
+<p>We also need the <em>orgs</em> directory, so we add a new line:
+<div class="highlight"><pre><span></span><code>mp12: /zfs-hdd/off/orgs,mp=/mnt/obf/orgs
+</code></pre></div></p>
+<p>Resulting in:</p>
+<div class="highlight"><pre><span></span><code>mp0: /zfs-hdd/obf,mp=/mnt/obf
+mp1: /zfs-hdd/obf/products/,mp=/mnt/obf/products
+mp10: /zfs-hdd/opf/products/,mp=/mnt/opf/products
+mp11: /zfs-hdd/opf/images,mp=/mnt/opf/images
+mp12: /zfs-hdd/off/orgs,mp=/mnt/obf/orgs
+mp2: /zfs-hdd/off/users,mp=/mnt/obf/users
+mp3: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp4: /zfs-hdd/obf/html_data,mp=/mnt/obf/html_data
+mp5: /zfs-hdd/obf/cache,mp=/mnt/obf/cache
+mp6: /zfs-nvme/off/products,mp=/mnt/off/products
+mp7: /zfs-hdd/off/images,mp=/mnt/off/images
+mp8: /zfs-hdd/opff/products,mp=/mnt/opff/products
+mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
+…
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 64536
+lxc.idmap: g 1000 1000 64536
+</code></pre></div>
+<p>Also adding lines to start the container on boot and to make it protected (can also be done in proxmox web interface):</p>
+<div class="highlight"><pre><span></span><code>onboot: 1
+protection: 1
+</code></pre></div>
+<p>Reboot and enter the container:</p>
+<div class="highlight"><pre><span></span><code>pct<span class="w"> </span>reboot<span class="w"> </span><span class="m">116</span>
+pct<span class="w"> </span>enter<span class="w"> </span><span class="m">116</span>
+</code></pre></div>
+<h3 id="create-off-user-in-the-container">Create off user in the container<a class="headerlink" href="#create-off-user-in-the-container" title="Permanent link">#</a></h3>
+<p>On obf-new:</p>
+<p>The first user created should be the <em>off</em> user with id 1000:</p>
+<div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>--uid<span class="w"> </span><span class="m">1000</span><span class="w"> </span>off
+</code></pre></div>
+<p>I also create a user <em>stephane</em>:</p>
+<div class="highlight"><pre><span></span><code>adduser<span class="w"> </span>stephane
+</code></pre></div>
+<h3 id="install-sudo-add-your-user-to-sudo-group">Install sudo, add your user to sudo group<a class="headerlink" href="#install-sudo-add-your-user-to-sudo-group" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>apt-get<span class="w"> </span>update
+apt-get<span class="w"> </span>install<span class="w"> </span>sudo
+usermod<span class="w"> </span>-aG<span class="w"> </span>sudo<span class="w"> </span>stephane
+</code></pre></div>
+<h3 id="installing-generic-packages">Installing generic packages<a class="headerlink" href="#installing-generic-packages" title="Permanent link">#</a></h3>
+<p>I also installed generic packages:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apache2<span class="w"> </span>apt-utils<span class="w"> </span>g++<span class="w"> </span>gcc<span class="w"> </span>less<span class="w"> </span>make<span class="w"> </span>gettext<span class="w"> </span>wget<span class="w"> </span>vim
+</code></pre></div>
+<h3 id="geoip-with-updates">Geoip with updates<a class="headerlink" href="#geoip-with-updates" title="Permanent link">#</a></h3>
+<p>Installed geoip with updates, and copied <code>/etc/GeoIP.conf</code> from opff:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>geoipupdate
+vim<span class="w"> </span>/etc/GeoIP.conf
+…
+sudo<span class="w"> </span>chmod<span class="w"> </span>o-rwx<span class="w"> </span>/etc/GeoIP.conf
+</code></pre></div></p>
+<p>Test it:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>geoipupdate.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>geoipupdate.service
+…
+juin<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">16</span>:18:34<span class="w"> </span>obf<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>geoipupdate.service:<span class="w"> </span>Succeeded.
+juin<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">16</span>:18:34<span class="w"> </span>obf<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Finished<span class="w"> </span>Weekly<span class="w"> </span>GeoIP<span class="w"> </span>update.
+juin<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">16</span>:18:34<span class="w"> </span>obf<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>geoipupdate.service:<span class="w"> </span>Consumed<span class="w"> </span><span class="m">3</span>.231s<span class="w"> </span>CPU<span class="w"> </span>time.
+…
+</code></pre></div></p>
+<h3 id="installing-packages">Installing packages<a class="headerlink" href="#installing-packages" title="Permanent link">#</a></h3>
+<p>On obf-new:</p>
+<p>Packages taken from Dockerfile:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w">  </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>apache2<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>apt-utils<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>cpanminus<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>g++<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gcc<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>less<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libapache2-mod-perl2<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>make<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gettext<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>wget<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>imagemagick<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>graphviz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>tesseract-ocr<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>lftp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gzip<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>tar<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>unzip<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>zip<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtie-ixhash-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libwww-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libimage-magick-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libxml-encoding-perl<span class="w">  </span><span class="se">\</span>
+<span class="w">   </span>libtext-unaccent-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmime-lite-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libcache-memcached-fast-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libjson-pp-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libclone-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libcrypt-passwdmd5-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libencode-detect-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libgraphics-color-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libbarcode-zbar-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libxml-feedpp-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liburi-find-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libxml-simple-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libexperimental-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libapache2-request-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdigest-md5-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtime-local-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdbd-pg-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtemplate-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liburi-escape-xs-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmath-random-secure-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libfile-copy-recursive-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libemail-stuffer-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblist-moreutils-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libexcel-writer-xlsx-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libpod-simple-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblog-any-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblog-log4perl-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblog-any-adapter-log4perl-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libgeoip2-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libemail-valid-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmath-fibonacci-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libev-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libprobe-perl-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmath-round-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libsoftware-license-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-differences-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-exception-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmodule-build-pluggable-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libclass-accessor-lite-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libclass-singleton-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libfile-sharedir-install-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libnet-idn-encode-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-nowarnings-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libfile-chmod-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdata-dumper-concise-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdata-printer-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdata-validate-ip-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libio-compress-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libjson-maybexs-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblist-allutils-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblist-someutils-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdata-section-simple-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libfile-which-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libipc-run3-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblog-handler-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-deep-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libwant-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libfile-find-rule-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblinux-usermod-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblocale-maketext-lexicon-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>liblog-any-adapter-tap-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libcrypt-random-source-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libmath-random-isaac-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-sharedfork-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-warn-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libsql-abstract-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libauthen-sasl-saslprep-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libauthen-scram-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libbson-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libclass-xsaccessor-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libconfig-autoconf-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdigest-hmac-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libpath-tiny-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libsafe-isa-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libspreadsheet-parseexcel-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libtest-number-delta-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libdevel-size-perl<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gnumeric<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libreadline-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libperl-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>pkg-config<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libapache2-mod-perl2-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libavif-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libde265-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libheif-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libjpeg-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libpng-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libwebp-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>libx265-dev
+</code></pre></div>
+<h2 id="getting-the-code">Getting the code<a class="headerlink" href="#getting-the-code" title="Permanent link">#</a></h2>
+<h3 id="copying-production-code">Copying production code<a class="headerlink" href="#copying-production-code" title="Permanent link">#</a></h3>
+<p>We copy the current obf code from container 111, while avoiding data. I put code in <code>/srv/obf-old/</code> so that I can easily compare to git code later on.</p>
+<p>On off2 as root:
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+rsync<span class="w"> </span>-x<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;logs/&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;html/images/products/&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;html/data&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;deleted.images&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;tmp/&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;new_images/&quot;</span><span class="w"> </span>--exclude<span class="o">=</span><span class="s2">&quot;build-cache&quot;</span><span class="w"> </span>/zfs-hdd/pve/subvol-111-disk-0/srv/obf/<span class="w"> </span>/zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+<span class="c1"># there are some permissions problems</span>
+sudo<span class="w"> </span>chown<span class="w"> </span><span class="m">1000</span>:1000<span class="w"> </span>-R<span class="w"> </span>/zfs-hdd/pve/subvol-116-disk-0/srv/obf-old/
+</code></pre></div></p>
+<h3 id="cloning-off-server-repository">Cloning off-server repository<a class="headerlink" href="#cloning-off-server-repository" title="Permanent link">#</a></h3>
+<p>On obf-new:</p>
+<p>First I create a key for off to access off-server repo:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ssh-keygen<span class="w"> </span>-f<span class="w"> </span>/home/off/.ssh/github_off-server<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;off+off-server@obf-new.openfoodfacts.org&quot;</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>vim<span class="w"> </span>/home/off/.ssh/config
+…
+<span class="c1"># deploy key for openfoodfacts-server</span>
+Host<span class="w"> </span>github.com-off-server
+<span class="w">        </span>Hostname<span class="w"> </span>github.com
+<span class="w">        </span><span class="nv">IdentityFile</span><span class="o">=</span>/home/off/.ssh/github_off-server
+…
+sudo<span class="w"> </span>cat<span class="w"> </span>/home/off/.ssh/github_off-server.pub
+</code></pre></div>
+Go to github add the obf pub key for off to <a href="https://github.com/openfoodfacts/openfoodfacts-server/settings/keys">productopener repository</a> with write access:</p>
+<p>Then clone repository, on obf-new:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/srv/obf
+sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>/srv/obf
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com-off-server:openfoodfacts/openfoodfacts-server.git<span class="w"> </span>/srv/obf
+</code></pre></div>
+<p>Make it shared:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/srv/obf
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>core.sharedRepository<span class="w"> </span><span class="nb">true</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span>g+rwX<span class="w"> </span>-R<span class="w"> </span>.
+</code></pre></div></p>
+<p>I will generaly work to modify / commit to the repository using my user stephane, while using off only to push.
+So as stephane on obf:
+<div class="highlight"><pre><span></span><code>git config --global --add safe.directory /srv/obf
+git config --global --add author.name &quot;Stéphane Gigandet&quot;
+git config --global --add author.email &quot;stephane@openfoodfacts.org&quot;
+git config --global --add user.name &quot;Stéphane Gigandet&quot;
+git config --global --add user.email &quot;stephane@openfoodfacts.org&quot;
+</code></pre></div></p>
+<p>Add your user to the off group so that it can used the shared git repository:
+<div class="highlight"><pre><span></span><code>usermod<span class="w"> </span>-a<span class="w"> </span>-G<span class="w"> </span>off<span class="w"> </span>stephane
+</code></pre></div></p>
+<h3 id="finding-git-commit-for-obf">Finding git commit for obf<a class="headerlink" href="#finding-git-commit-for-obf" title="Permanent link">#</a></h3>
+<p>On the off-new container, we will deploy the current main branch.</p>
+<h2 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">#</a></h2>
+<p>We have git cloned our repository in <code>/srv/obf</code>.</p>
+<h3 id="symlinks-to-mimic-old-structure">symlinks to mimic old structure<a class="headerlink" href="#symlinks-to-mimic-old-structure" title="Permanent link">#</a></h3>
+<p>Now we create symlinks to mimic old structure:</p>
+<p>On obf, as root:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>site<span class="w"> </span><span class="k">in</span><span class="w"> </span>o<span class="o">{</span>f,p,pf<span class="o">}</span>f<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>chown<span class="w"> </span>-R<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/srv/<span class="nv">$site</span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+
+<span class="w">  </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/products<span class="w"> </span>/srv/<span class="nv">$site</span>/products<span class="p">;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/images/products<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/products<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/o<span class="o">{</span>f,p,pf<span class="o">}</span>f/<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images
+</code></pre></div></p>
+<p>opf:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>site<span class="w"> </span><span class="k">in</span><span class="w"> </span>o<span class="o">{</span>f,b,pf<span class="o">}</span>f<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>chown<span class="w"> </span>-R<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/srv/<span class="nv">$site</span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+
+<span class="w">  </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/products<span class="w"> </span>/srv/<span class="nv">$site</span>/products<span class="p">;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/images/products<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/products<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/o<span class="o">{</span>f,b,pf<span class="o">}</span>f/<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images
+</code></pre></div></p>
+<p>opff:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>site<span class="w"> </span><span class="k">in</span><span class="w"> </span>o<span class="o">{</span>f,p,b<span class="o">}</span>f<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>chown<span class="w"> </span>-R<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/srv/<span class="nv">$site</span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+
+<span class="w">  </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/products<span class="w"> </span>/srv/<span class="nv">$site</span>/products<span class="p">;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$site</span>/images/products<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images/products<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/o<span class="o">{</span>f,p,b<span class="o">}</span>f/<span class="w"> </span>/srv/<span class="nv">$site</span>/html/images
+</code></pre></div></p>
+<h3 id="linking-data">linking data<a class="headerlink" href="#linking-data" title="Permanent link">#</a></h3>
+<p>Unless stated otherwise operation are done with user off.</p>
+<p>Create links for users, orgs and products</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/users<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/users
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/orgs<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/orgs
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/users<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/orgs<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/data
+</code></pre></div>
+<p>Create links for data folders:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+<span class="c1"># html data</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/data
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/exports<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/exports
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/dump<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/dump
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/files<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/files
+<span class="c1"># product images</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/images/products<span class="w">  </span>/srv/<span class="nv">$SERVICE</span>/html/images/products
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-ld<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/images/products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/<span class="o">{</span>data,exports,dump,files<span class="o">}</span>
+</code></pre></div>
+<p>Note:
+The directories <em>/mnt/obf/html_data/{export,dump,files}</em> do not currently exist in the old production.</p>
+<p>some direct links:
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/deleted.images<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/deleted_products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/deleted_products_images<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/imports<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/deleted_private_products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/reverted_products<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/translate<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/cache/debug<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/
+ln<span class="w"> </span>-s<span class="w">  </span>/mnt/<span class="nv">$SERVICE</span>/import_files<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/import_files
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/data<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/data
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/<span class="o">{</span>deleted.images,deleted_products,deleted_products_images,imports,deleted_private_products,reverted_products,translate,debug<span class="o">}</span>
+</code></pre></div></p>
+<p>Note: some directories do not currently exist in the old production.</p>
+<p>we also need a link to <code>internal_code.sto</code>:
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/off/products/internal_code.sto<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/products/
+</code></pre></div></p>
+<p>TODO: current old production already has a internal_code.sto, used for products created without a barcode.
+It is likely that we created products with the same barcode on off, obf, opf and opff. We will need to change the barcode
+of those products in order to have distinct barcodes for all products, and then we should use the same sequence number.</p>
+<p>Create and link cache folders:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+<span class="nb">cd</span><span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+rm<span class="w"> </span>build-cache/taxonomies/README.md<span class="p">;</span><span class="w"> </span>rmdir<span class="w"> </span>build-cache/taxonomies<span class="p">;</span><span class="w"> </span>rmdir<span class="w"> </span>build-cache
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/build-cache<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/build-cache
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/tmp<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/tmp
+rm<span class="w"> </span>debug/.empty<span class="p">;</span><span class="w"> </span>rmdir<span class="w"> </span>debug
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/debug<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/debug
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/new_images<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/new_images
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/export_files<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/export_files
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/<span class="o">{</span>build-cache,tmp,debug,new_images,export_files<span class="o">}</span>
+</code></pre></div>
+<p>We also want to move html/data/data-field.txt outside the data volume and link it, as user off.
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+<span class="nb">cd</span><span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+mv<span class="w"> </span>html/data/data-fields.txt<span class="w"> </span>html/data-fields.txt
+ln<span class="w"> </span>-s<span class="w"> </span>../data-fields.txt<span class="w"> </span>html/data/data-fields.txt
+</code></pre></div></p>
+<h3 id="linking-logs">linking logs<a class="headerlink" href="#linking-logs" title="Permanent link">#</a></h3>
+<p>We want logs to go in /var/logs and really in /mnt/obf/logs .</p>
+<p>/mnt/obf/logs already contains logs from the current production container (111),
+so we will use directories obf-new, apache-new and nginx-new to differentiate them.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+
+<span class="c1"># be sure to avoid having apache2 or nginx writing</span>
+
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>apache2<span class="w"> </span>nginx
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/logs/
+
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/<span class="nv">$SERVICE</span>-new
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/<span class="nv">$SERVICE</span>-new<span class="w"> </span>/var/log/<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/var/log/<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/<span class="nv">$SERVICE</span>-new<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/logs
+
+<span class="c1"># also move nginx and apache logs</span>
+sudo<span class="w"> </span>mv<span class="w"> </span>/var/log/nginx<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/nginx-new
+sudo<span class="w"> </span>mv<span class="w"> </span>/var/log/apache2<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/apache2-new
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/nginx-new<span class="w"> </span>/var/log/nginx
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/logs/apache2-new<span class="w"> </span>/var/log/apache2
+
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../apache2<span class="w"> </span>/var/log/<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../nginx<span class="w"> </span>/var/log/<span class="nv">$SERVICE</span>
+
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/logs<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/logs/<span class="w"> </span>/var/log/<span class="o">{</span><span class="nv">$SERVICE</span>,nginx,apache2<span class="o">}</span>
+</code></pre></div>
+<p>Create obf-log.conf and symlink it:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+
+rm<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/log.conf
+ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/<span class="nv">$SERVICE</span>-log.conf<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/log.conf
+rm<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/minion_log.conf
+ln<span class="w"> </span>-s<span class="w"> </span>srv/<span class="nv">$SERVICE</span>/conf/<span class="nv">$SERVICE</span>-minion_log.conf<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/minion_log.conf
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/<span class="o">{</span>,minion_<span class="o">}</span>log.conf<span class="w"> </span>
+</code></pre></div>
+<h3 id="copy-and-verify-config-links">copy and verify config links<a class="headerlink" href="#copy-and-verify-config-links" title="Permanent link">#</a></h3>
+<p>Config files:</p>
+<p>I copy the off Config2.pm file to obf</p>
+<div class="highlight"><pre><span></span><code>root@off2:/home/stephane#<span class="w"> </span>cp<span class="w"> </span>-a<span class="w"> </span>/zfs-hdd/pve/subvol-113-disk-0/srv/off/lib/ProductOpener/Config2.pm<span class="w"> </span>/zfs-hdd/pve/subvol-116-disk-0/srv/obf/lib/ProductOpener/
+</code></pre></div>
+<p>Then edit the file.</p>
+<p>Note: Config.pm now loads Config_{off,obf,opf,opff}.pm based on the value of the PRODUCT_OPENER_FLAVOR_SHORT environment variable.</p>
+<h3 id="verify-broken-links">Verify broken links<a class="headerlink" href="#verify-broken-links" title="Permanent link">#</a></h3>
+<p><code>sudo find /srv/$SERVICE-old -xtype l | xargs ls -l</code></p>
+<p>It shows broken links for dists and lang files that will be added below.</p>
+<h3 id="adding-dists">Adding dists<a class="headerlink" href="#adding-dists" title="Permanent link">#</a></h3>
+<p>Create folders for dist:
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span>obf
+
+sudo<span class="w"> </span>-E<span class="w"> </span>mkdir<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>-dist
+sudo<span class="w"> </span>-E<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>-dist
+</code></pre></div></p>
+<p>and unpack last dist release there (as user off):</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://github.com/openfoodfacts/openfoodfacts-server/releases/download/v2.42.0/frontend-dist.tgz<span class="w"> </span>-O<span class="w"> </span>/tmp/frontend-dist.tgz
+tar<span class="w"> </span>xzf<span class="w"> </span>/tmp/frontend-dist.tgz<span class="w"> </span>-C<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>-dist
+</code></pre></div>
+<p>And use symbolic links in folders (as user off):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># first link for whole folder</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>-dist<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/dist
+<span class="c1"># relative links for the rest</span>
+ln<span class="w"> </span>-s<span class="w"> </span>../../../dist/icons<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/images/icons/dist
+ln<span class="w"> </span>-s<span class="w"> </span>../../../dist/attributes<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/images/attributes/dist
+ln<span class="w"> </span>-s<span class="w"> </span>../../dist/css<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/css/dist
+ln<span class="w"> </span>-s<span class="w"> </span>../../dist/js<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/js/dist
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w">  </span>/srv/<span class="nv">$SERVICE</span>/dist<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/html/<span class="o">{</span>images/icons,images/attributes,css,js<span class="o">}</span>/dist
+</code></pre></div>
+<h3 id="adding-openfoodfacts-web">Adding openfoodfacts-web<a class="headerlink" href="#adding-openfoodfacts-web" title="Permanent link">#</a></h3>
+<h4 id="cloning-repo">Cloning repo<a class="headerlink" href="#cloning-repo" title="Permanent link">#</a></h4>
+<p>Note that I add to make two deploys keys as explained in <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#using-multiple-repositories-on-one-server">github documentation</a> and use a specific ssh_config hostname for openfoodfacts-web:</p>
+<p>Create new key, as off:
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span>obf
+
+<span class="c1"># deploy key for openfoodfacts-web</span>
+ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;off+off-web@</span><span class="nv">$SERVICE</span><span class="s2">.openfoodfacts.org&quot;</span><span class="w"> </span>-f<span class="w"> </span>/home/off/.ssh/github_off-web
+</code></pre></div></p>
+<p>Add a specific host in ssh config
+<div class="highlight"><pre><span></span><code># /home/off/.ssh/config
+Host github.com-off-web
+    Hostname github.com
+    IdentityFile=/home/off/.ssh/github_off-web
+</code></pre></div></p>
+<p>In github add the <code>/home/off/.ssh/github_off-web.pub</code> to deploy keys for openfoodfacts-web.</p>
+<p>Cloning:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/srv/openfoodfacts-web
+sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>/srv/openfoodfacts-web
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com-off-web:openfoodfacts/openfoodfacts-web.git<span class="w"> </span>/srv/openfoodfacts-web
+</code></pre></div></p>
+<h4 id="linking-content">Linking content<a class="headerlink" href="#linking-content" title="Permanent link">#</a></h4>
+<p>We clearly want obf lang folder to come from off-web:</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/srv/openfoodfacts-web/lang<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/
+
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-ld<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/lang
+</code></pre></div>
+<p>Note: the current obf production has specific contact.html press.html and terms-of-use.html
+linked to /srv/obf/lang/</p>
+<p>TODO: We don't create links to those, and we will need to have another solution if we want flavor specific texts.</p>
+<h3 id="installing-cpan-modules">Installing CPAN modules<a class="headerlink" href="#installing-cpan-modules" title="Permanent link">#</a></h3>
+<h4 id="install-zxing-cpp-from-source-until-21-or-higher-is-available-in-debian">Install zxing-cpp from source until 2.1 or higher is available in Debian:<a class="headerlink" href="#install-zxing-cpp-from-source-until-21-or-higher-is-available-in-debian" title="Permanent link">#</a></h4>
+<p>https://github.com/openfoodfacts/openfoodfacts-server/pull/8911/files#r1322987464</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nb">set</span><span class="w"> </span>-x<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/tmp<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>wget<span class="w"> </span>https://github.com/zxing-cpp/zxing-cpp/archive/refs/tags/v2.1.0.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>tar<span class="w"> </span>xfz<span class="w"> </span>v2.1.0.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cmake<span class="w"> </span>-S<span class="w"> </span>zxing-cpp-2.1.0<span class="w"> </span>-B<span class="w"> </span>zxing-cpp.release<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DBUILD_WRITERS<span class="o">=</span>OFF<span class="w"> </span>-DBUILD_READERS<span class="o">=</span>ON<span class="w"> </span>-DBUILD_EXAMPLES<span class="o">=</span>OFF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cmake<span class="w"> </span>--build<span class="w"> </span>zxing-cpp.release<span class="w"> </span>-j8<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cmake<span class="w"> </span>--install<span class="w"> </span>zxing-cpp.release<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span>/tmp/v2.1.0.tar.gz<span class="w"> </span>/tmp/zxing-cpp*
+</code></pre></div>
+<h4 id="install-cpan-modules">Install CPAN modules<a class="headerlink" href="#install-cpan-modules" title="Permanent link">#</a></h4>
+<p>First add <code>Apache2::Connection::XForwardedFor</code> and <code>Apache::Bootstrap</code> to cpanfile</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/srv/obf
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libapache2-mod-perl2-dev
+sudo<span class="w"> </span>cpanm<span class="w"> </span>--notest<span class="w"> </span>--quiet<span class="w"> </span>--skip-satisfied<span class="w"> </span>--installdeps<span class="w"> </span>.
+</code></pre></div>
+<p>cpan gives an error:</p>
+<div class="highlight"><pre><span></span><code>! Configure failed for Imager-File-PNG-0.99. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-zxing-1.001. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-HEIF-0.005. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-WEBP-0.005. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-AVIF-0.002. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Configure failed for Imager-File-JPEG-0.97. See /root/.cpanm/work/1716285902.64340/build.log for details.
+! Installing the dependencies failed: Module &#39;Imager::File::AVIF&#39; is not installed, Module &#39;Imager::File::JPEG&#39; is not installed, Module &#39;Imager::File::PNG&#39; is not installed, Module &#39;Imager::zxing&#39; is not installed, Module &#39;Imager::File::WEBP&#39; is not installed, Module &#39;Imager::File::HEIF&#39; is not installed
+! Bailing out the installation for ..
+</code></pre></div>
+<p>JPEG: building independently
+JPEG: main: includes not found - libraries not found
+JPEG: Checking if the compiler can find them on its own
+OS unsupported: JPEG libraries or headers not found
+JPEG: Test code failed: Can't link/include 'jpeglib.h', 'jpeg'</p>
+<p>Just missing some of the new libraries added recently to Dockerfile, installing them.</p>
+<h2 id="setting-up-services">Setting up services<a class="headerlink" href="#setting-up-services" title="Permanent link">#</a></h2>
+<h3 id="nginx-for-obf-inside-container">nginx for OBF (inside container)<a class="headerlink" href="#nginx-for-obf-inside-container" title="Permanent link">#</a></h3>
+<p>Installed nginx <code>sudo apt install nginx</code>.</p>
+<p>Removed default site <code>sudo unlink /etc/nginx/sites-enabled/default</code></p>
+<p>We are going to mimick the setup that we have in the off container.</p>
+<p>Then made symlinks:</p>
+<ul>
+<li>For obf:
+  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/sites-available/<span class="nv">$SERVICE</span><span class="w"> </span>/etc/nginx/sites-enabled/<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/snippets/expires-no-json-xml.conf<span class="w"> </span>/etc/nginx/snippets/
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/snippets/expiry-headers.include<span class="w"> </span>/etc/nginx/snippets/
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/snippets/off.cors-headers.include<span class="w"> </span>/etc/nginx/snippets/
+sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/etc/nginx/conf.d
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/conf.d<span class="w"> </span>/etc/nginx/
+sudo<span class="w"> </span>rm<span class="w"> </span>/etc/nginx/mime.types
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/mime.types<span class="w"> </span>/etc/nginx/
+</code></pre></div></li>
+</ul>
+<p>I then copied the off config file to obf, as lots of things have changed:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>cp<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/sites-available/off<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/sites-available/<span class="nv">$SERVICE</span>
+</code></pre></div>
+<p>And edited the file to change openfoodfacts.org to openbeautyfacts.org, the name of the log files etc. The result is in git.</p>
+<p>I create an empty /srv/obf/conf/nginx/snippets/obf.domain-redirects.include + obf.locations-redirects.include , they might be used if we want to create subdomains shortcuts or redirects on OBF as we have on OFF.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/snippets/<span class="nv">$SERVICE</span>.domain-redirects.include<span class="w"> </span>/etc/nginx/snippets/
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/nginx/snippets/<span class="nv">$SERVICE</span>.locations-redirects.include<span class="w"> </span>/etc/nginx/snippets/
+</code></pre></div>
+<h3 id="apache">Apache<a class="headerlink" href="#apache" title="Permanent link">#</a></h3>
+<p>We start by removing default config and disabling mpm_event in favor of mpm_prefork, and change logs permissions
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>unlink<span class="w"> </span>/etc/apache2/sites-enabled/000-default.conf
+sudo<span class="w"> </span>a2dismod<span class="w"> </span>mpm_event
+sudo<span class="w"> </span>a2enmod<span class="w"> </span>mpm_prefork
+sudo<span class="w"> </span>chown<span class="w"> </span>off:off<span class="w"> </span>-R<span class="w"> </span>/var/log/apache2<span class="w"> </span>/var/run/apache2
+</code></pre></div>
+and edit <code>/etc/apache2/envvars</code> to use off user:
+<div class="highlight"><pre><span></span><code>#export APACHE_RUN_USER=www-data
+export APACHE_RUN_USER=off
+#export APACHE_RUN_GROUP=www-data
+export APACHE_RUN_GROUP=off
+</code></pre></div></p>
+<p>QUESTION: we currently use different ports for Apache for each instance. But as we are on different containers, we could just use a single port like 8000, unless it causes issues for development or if we want to deploy multiple instances in the same container.
+I will keep a different port for now.</p>
+<p>On obf:</p>
+<ul>
+<li>Add configuration for obf in sites enabled
+  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/apache-2.4/sites-available/<span class="nv">$SERVICE</span>.conf<span class="w"> </span>/etc/apache2/sites-enabled/
+</code></pre></div></li>
+<li>link <code>mpm_prefork.conf</code> to a file in git, identical as the one in production
+  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rm<span class="w"> </span>/etc/apache2/mods-available/mpm_prefork.conf
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/apache-2.4/<span class="nv">$SERVICE</span>-mpm_prefork.conf<span class="w"> </span>/etc/apache2/mods-available/mpm_prefork.conf
+</code></pre></div></li>
+<li>use customized ports.conf for obf (8002)
+  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rm<span class="w"> </span>/etc/apache2/ports.conf
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/apache-2.4/<span class="nv">$SERVICE</span>-ports.conf<span class="w"> </span>/etc/apache2/ports.conf
+</code></pre></div></li>
+<li>modperl environment variables
+  <div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/apache-2.4/modperl.conf<span class="w"> </span>/etc/apache2/conf-enabled/
+</code></pre></div></li>
+</ul>
+<p>test it in container:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apache2ctl<span class="w"> </span>configtest
+</code></pre></div></p>
+<p>We can restart apache2 then nginx:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
+</code></pre></div></p>
+<h4 id="problem-when-restarting-apache2-on-obf">Problem when restarting apache2 on obf<a class="headerlink" href="#problem-when-restarting-apache2-on-obf" title="Permanent link">#</a></h4>
+<h5 id="apache2service-failed-to-load-environment-files-no-such-file">apache2.service: Failed to load environment files: No such file<a class="headerlink" href="#apache2service-failed-to-load-environment-files-no-such-file" title="Permanent link">#</a></h5>
+<p>This is because I named the host obf-new, and we use the host name in the environment file:
+/etc/systemd/system/apache2.service.d/override.conf</p>
+<p>[Service]</p>
+<h1 id="apache-needs-some-environment-variables-like-product_opener_flavor_short">Apache needs some environment variables like PRODUCT_OPENER_FLAVOR_SHORT<a class="headerlink" href="#apache-needs-some-environment-variables-like-product_opener_flavor_short" title="Permanent link">#</a></h1>
+<h1 id="l-is-the-short-host-name-eg-off-obf-off-pro">%l is the short host name (e.g. off, obf, off-pro)<a class="headerlink" href="#l-is-the-short-host-name-eg-off-obf-off-pro" title="Permanent link">#</a></h1>
+<p>EnvironmentFile=/srv/%l/env/env.%l</p>
+<p>Hack to fix it:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/srv/
+mkdir<span class="w"> </span>obf-new
+mkdir<span class="w"> </span>obf-new/env/
+ln<span class="w"> </span>-s<span class="w"> </span>/srv/obf/env/env.obf<span class="w"> </span>/srv/obf-new/env/env.obf-new
+</code></pre></div>
+<h5 id="taxonomies">Taxonomies<a class="headerlink" href="#taxonomies" title="Permanent link">#</a></h5>
+<p>In <code>/var/log/apache2/error.log</code>
+<div class="highlight"><pre><span></span><code>Could not load taxonomy: /srv/obf/taxonomies/inci_functions.result.sto
+</code></pre></div>
+To build taxonomies:
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PERL5LIB</span><span class="o">=</span>/srv/obf/lib
+<span class="nb">cd</span><span class="w"> </span>/srv/obf
+<span class="nb">source</span><span class="w"> </span>env/setenv.sh<span class="w"> </span>obf
+./scripts/taxonomies/build_tags_taxonomy.pl<span class="w"> </span>
+</code></pre></div></p>
+<h5 id="create-missing-directories">Create missing directories<a class="headerlink" href="#create-missing-directories" title="Permanent link">#</a></h5>
+<p>FATAL: Some important directories are missing: /srv/obf/deleted_private_products:/srv/obf/html/files/debug:/srv/obf/export_files:/srv/obf/orgs:/srv/obf/html/files:/srv/obf/deleted_products:/srv/obf/import_files:/srv/obf/html/exports:/srv/obf/translate:/srv/obf/deleted_products_images:/srv/obf/reverted_products:/srv/obf/html/dump at /srv/obf/lib/startup_apache2.pl line 159.\nCompilation failed in require at (eval 2) line 1.\n</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set the instance as obf</span>
+<span class="nv">SERVICE</span><span class="o">=</span>obf
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/build-cache
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/build-cache/taxonomies
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/debug
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/deleted_private_products
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/deleted_products
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/deleted_products_images
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/imports
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/import_files
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/reverted_products
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/translate
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/exports
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/dump
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/exports
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/files
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/html_data/files/debug
+mkdir<span class="w"> </span>/mnt/<span class="nv">$SERVICE</span>/cache/export_files
+</code></pre></div>
+<h3 id="creating-systemd-units-for-timers-jobs">creating systemd units for timers jobs<a class="headerlink" href="#creating-systemd-units-for-timers-jobs" title="Permanent link">#</a></h3>
+<p>We install mailx</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>mailutils
+</code></pre></div>
+<p>and link them at system level
+<div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span>obf
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/nginx.service.d<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/apache2.service.d<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/gen_feeds<span class="se">\@</span>.timer<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/gen_feeds<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/gen_feeds_daily<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/gen_feeds_daily<span class="se">\@</span>.timer<span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system
+<span class="c1"># account for new services</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+</code></pre></div></p>
+<p>Test failure notification is working:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>email-failures@gen_feeds__<span class="nv">$SERVICE</span>.service
+</code></pre></div>
+<p>Test systemctl gen_feeds services are working:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>gen_feeds_daily@<span class="nv">$SERVICE</span>.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>gen_feeds@<span class="nv">$SERVICE</span>.service
+</code></pre></div>
+<p>Activate systemd units:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>gen_feeds@<span class="nv">$SERVICE</span>.timer
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>gen_feeds_daily@<span class="nv">$SERVICE</span>.timer
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<span class="sb">``</span>
+
+
+<span class="c1">### log rotate perl logs</span>
+
+<span class="sb">```</span>bash
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">PROJ_NAME</span><span class="o">=</span>obf
+</code></pre></div>
+<p>We get <code>conf/logrotate/apache</code> from opff and install it:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/srv/<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>origin/opff-main<span class="w"> </span>--<span class="w"> </span>conf/logrotate/apache2
+sudo<span class="w"> </span>rm<span class="w"> </span>/etc/logrotate.d/apache2
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/logrotate/apache2<span class="w"> </span>/etc/logrotate.d/apache2
+<span class="c1"># logrotate needs root ownerships</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>root:root<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/logrotate/apache2
+</code></pre></div>
+<p>We can test with:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>logrotate<span class="w"> </span>/etc/logrotate.conf<span class="w"> </span>--debug
+</code></pre></div></p>
+<h3 id="installing-mongodb-client">Installing mongodb client<a class="headerlink" href="#installing-mongodb-client" title="Permanent link">#</a></h3>
+<p>We need mongodb client to be able to export the database in gen_feeds.</p>
+<p>I'll follow official doc for 4.4 https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-debian/,
+but we are on bullseye, and we just want to install tools.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pgp.mongodb.com/server-4.4.asc<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>sudo<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span>/usr/share/keyrings/mongodb-server-4.4.gpg<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--dearmor
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/4.4 main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w">  </span>mongodb-database-tools
+</code></pre></div>
+<h3 id="test-with-curl">Test with curl<a class="headerlink" href="#test-with-curl" title="Permanent link">#</a></h3>
+<p>for obf:
+<div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOMAIN_NAME</span><span class="o">=</span>openbeautyfacts
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">PORT_NUM</span><span class="o">=</span><span class="m">8002</span>
+</code></pre></div></p>
+<p>for opf:
+<div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOMAIN_NAME</span><span class="o">=</span>openproductsfacts
+<span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">PORT_NUM</span><span class="o">=</span><span class="m">8003</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>localhost:<span class="nv">$PORT_NUM</span>/cgi/display.pl<span class="w"> </span>--header<span class="w"> </span><span class="s2">&quot;Host: fr.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Nginx call
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>localhost<span class="w"> </span>--header<span class="w"> </span><span class="s2">&quot;Host: fr.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+</code></pre></div></p>
+<h3 id="using-matomo-instead-of-google-analytics">Using Matomo instead of google analytics<a class="headerlink" href="#using-matomo-instead-of-google-analytics" title="Permanent link">#</a></h3>
+<p>TODO: Copy configuration from OPFF and adapted with site id after creation of sites in Matomo.</p>
+<h2 id="reverse-proxy-configuration-on-container-101">Reverse proxy configuration on container 101<a class="headerlink" href="#reverse-proxy-configuration-on-container-101" title="Permanent link">#</a></h2>
+<h3 id="certbot-wildcard-certificates-using-ovh-dns">certbot wildcard certificates using OVH DNS<a class="headerlink" href="#certbot-wildcard-certificates-using-ovh-dns" title="Permanent link">#</a></h3>
+<p>Note: we are using openbeautyfacts.com temporarily for obf-new</p>
+<p>We already installed <code>python3-certbot-dns-ovh</code> so we just need to add credentials.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOMAIN_NAME_EXT</span><span class="o">=</span>openbeautyfacts.com
+</code></pre></div>
+<p>opf:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">declare</span><span class="w"> </span>-x<span class="w"> </span><span class="nv">DOMAIN_NAME_EXT</span><span class="o">=</span>new.openproductsfacts.org
+</code></pre></div>
+<p>For the new.open(beauty|petfood|productsfacts.org) certificates, we can use the OVH credentials than the domain:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/root/.ovhapi/openproductsfacts.org<span class="w"> </span>/root/.ovhapi/new.openproductsfacts.org
+</code></pre></div>
+<p>Generate credential, following https://eu.api.ovh.com/createToken/</p>
+<p>Using (for obf):</p>
+<ul>
+<li>name: <code>off proxy openbeautyfacts.org</code></li>
+<li>description: <code>nginx proxy on off2 for openbeautyfacts.org</code></li>
+<li>validity: <code>unlimited</code></li>
+<li>GET <code>/domain/zone/</code>
+  (note: the last <code>/</code> is important !)</li>
+<li>GET/PUT/POST/DELETE <code>/domain/zone/openbeautyfacts.org/*</code></li>
+</ul>
+<p>and we put config file in <code>/root/.ovhapi/openbeautyfacts.org</code> and <code>/root/.ovhapi/openproductsfacts.org</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>mkdir<span class="w"> </span>/root/.ovhapi
+$<span class="w"> </span>vim<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span>
+...
+$<span class="w"> </span>cat<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span>
+<span class="c1"># OVH API credentials used by Certbot</span>
+<span class="nv">dns_ovh_endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ovh-eu
+<span class="nv">dns_ovh_application_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+<span class="nv">dns_ovh_application_secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+<span class="nv">dns_ovh_consumer_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>***********
+
+<span class="c1"># ensure no reading by others</span>
+$<span class="w"> </span>chmod<span class="w"> </span>og-rwx<span class="w"> </span>-R<span class="w"> </span>/root/.ovhapi
+</code></pre></div></p>
+<p>Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with <code>--test-cert</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--test-cert<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+...
+...
+
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/xxxxx.org/fullchain.pem
+</code></pre></div>
+and then without <code>--test-cert</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+...
+...
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+</code></pre></div></p>
+<h3 id="create-site-config">Create site config<a class="headerlink" href="#create-site-config" title="Permanent link">#</a></h3>
+<p>In the git repository, we copied the openpetfoodfacts config and changed names to the right domain.</p>
+<p>Then we linked them:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/openbeautyfacts.com<span class="w"> </span>/etc/nginx/sites-enabled/
+<span class="c1"># test</span>
+nginx<span class="w"> </span>-t
+systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
+</code></pre></div></p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
+<p>To test my installation I added this to <code>/etc/hosts</code> on my computer:
+<div class="highlight"><pre><span></span><code>213.36.253.214 fr.openbeautyfacts.org world-fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org world.openbeautyfacts.org
+213.36.253.214 fr.openproductsfacts.org world-fr.openproductsfacts.org static.openproductsfacts.org images.openproductsfacts.org world.openproductsfacts.org
+</code></pre></div></p>
+<p>And it works at first try :tada: !</p>
+<h2 id="switching-old-and-new-containers">Switching old and new containers<a class="headerlink" href="#switching-old-and-new-containers" title="Permanent link">#</a></h2>
+<p>2024/09/09: we now have test containers for the new code running on:</p>
+<p>https://world.new.openbeautyfacts.org
+https://world.new.openpetfoodfacts.org
+https://world.new.openproductsfacts.org</p>
+<p>We want to now switch the containers, so that the new code is on the main URL,
+and the old code on old.*.org:</p>
+<p>https://world.old.openbeautyfacts.org
+https://world.old.openpetfoodfacts.org
+https://world.old.openproductsfacts.org</p>
+<p>On the off2 reverse proxy:</p>
+<p>root@proxy:/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx# mv openproductsfacts.org old.openproductsfacts.org
+root@proxy:/opt/openfoodfacts-infrastructure/confs/proxy-off/nginx# cp new.openproductsfacts.org openproductsfacts.org</p>
+<p>Edit old.openproductsfacts.org and openproductsfacts.org
+to change the log files paths + the SSL certificates paths
+also put basic_auth on old.openproductsfacts.org</p>
+<p>Get SSL certificate for old.openproductsfacts.org:</p>
+<p>Try to get a wildcard using certbot, we will choose to obtain certificates using a DNS TXT record, and use tech -at- off.org for notifications. We first try with <code>--test-cert</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/root/.ovhapi/openproductsfacts.org<span class="w"> </span>/root/.ovhapi/new.openproductsfacts.org
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">DOMAIN_NAME_EXT</span><span class="o">=</span>old.openproductsfacts.org
+$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--test-cert<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+...
+...
+
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/xxxxx.org/fullchain.pem
+</code></pre></div>
+and then without <code>--test-cert</code>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--dns-ovh<span class="w"> </span>--dns-ovh-credentials<span class="w"> </span>/root/.ovhapi/<span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DOMAIN_NAME_EXT</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;*.</span><span class="nv">$DOMAIN_NAME_EXT</span><span class="s2">&quot;</span>
+...
+...
+<span class="w"> </span>-<span class="w"> </span>Congratulations!<span class="w"> </span>Your<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>chain<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>saved<span class="w"> </span>at:
+<span class="w">   </span>/etc/letsencrypt/live/xxxxx.org/fullchain.pem
+...
+</code></pre></div></p>
+<h3 id="apache-configuration">Apache configuration<a class="headerlink" href="#apache-configuration" title="Permanent link">#</a></h3>
+<p>Changed domains on opf and opf-new to be old.openproductsfacts.org and openproductsfacts.org</p>
+<p>Need to run build_lang.pl again, as the file it generates as the domain name in it
+(could be changed as not useful anymore)</p>
+<p>Restart Apache.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
