@@ -1,6 +1,6 @@
 # 2023-06-07 New install of OBF on OFF2 with new generic code
 
-## Introduction
+## Introduction
 
 OBF, OPF and OPFF currently use very old code (more than 2 years old). An effort is underway to make the current "main" code of Product Opener (currently used for OFF) able to power OBF, OPF and OPFF, so that we can have unified code and features on all platforms.
 
@@ -113,7 +113,7 @@ I also create a user *stephane*:
 adduser stephane
 ```
 
-### Install sudo, add your user to sudo group
+### Install sudo, add your user to sudo group
 
 ```bash
 apt-get update
