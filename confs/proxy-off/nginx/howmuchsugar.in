@@ -53,8 +53,10 @@ server {
     add_header X-Content-Type-Options nosniff;
     add_header X-Frame-Options DENY;
 
+    # access logs only on the container
+    access_log off;
     # logs location
-    access_log  /var/log/nginx/howmuchsugar.in.log  main;
+    # access_log  /var/log/nginx/howmuchsugar.in.log  main;
     error_log   /var/log/nginx/howmuchsugar.in.errors.log;
 
     location / {

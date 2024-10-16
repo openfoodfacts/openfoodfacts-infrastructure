@@ -1,0 +1,1 @@
+../../../common/systemd/system/logrotate.service.d

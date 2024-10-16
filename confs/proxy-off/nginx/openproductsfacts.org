@@ -1,6 +1,19 @@
+# This part allow to create a specific log for rate limiting
+map $status $rate_limited {
+	default 0;
+	444     1;
+}
+
+# create zone "opf" for rate limiting 
+limit_req_zone $binary_remote_addr zone=opf:10m rate=240r/m;
+
+
 server {
     listen 80;
     listen [::]:80;
+    # note that *.pro.openfoodfacts.org query are served by pro.openfoodfacts.org
+    # this works because nginx is smart about server_name matching
+    # see https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name
     server_name openproductsfacts.org *.openproductsfacts.org;
 
     return 301 https://$host$request_uri;
@@ -30,24 +43,101 @@ server {
 
     add_header Strict-Transport-Security "max-age=63072000";
     add_header X-Content-Type-Options nosniff;
-    add_header X-Frame-Options DENY;
+    # temporary remove X-Frame-Options in order to be able to temporarily serve graphs in iframes --- 2023/11/24 -- Stéphane
+    #add_header X-Frame-Options DENY;
 
     # enable large uploads
     client_max_body_size 20M;
 
+    # access logs only on the container
+    access_log off;
     # logs location
-    access_log  /var/log/nginx/openproductsfacts.org.log  main buffer=256K flush=1s;
+    # access_log  /var/log/nginx/openproductsfacts.org.log  main buffer=256K flush=1s;
     error_log   /var/log/nginx/openproductsfacts.org.errors.log;
 
-    location / {
-        proxy_pass http://10.1.0.112:80/;
-        proxy_buffering off;
+    #access_log /dev/shm/rate_limited.log main if=$rate_limited;
+
+
+    # Cache small static assets that are frequently requested
+    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
+    	proxy_cache mycache;
+    	proxy_cache_key $host$request_uri;
+        proxy_cache_valid any 5m;
+        add_header X-Cache-Status $upstream_cache_status;  
+
+        proxy_pass http://10.1.0.117:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
         proxy_set_header Host $host;
         client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
     }
+
+    # Cache GET /api/ requests for 5s
+    # This is useful in particular for broken apps who request 100s of times the same product
+    
+    location ~* /(api|cgi)/ {
+    	proxy_cache mycache;
+    	proxy_cache_key $host$request_uri$cookie_user;
+        proxy_cache_valid any 5s;
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.117:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+
+    location / {
+#    	proxy_cache mycache;
+#    	proxy_cache_key $host$request_uri$cookie_user;
+#        proxy_cache_valid any 5s;
+	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
+        # cache.
+        # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
+        # Eg. X-Cache-Status: HIT
+        add_header X-Cache-Status $upstream_cache_status;  
+
+
+        proxy_pass http://10.1.0.117:80/;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+
+        # Rate limiting
+        limit_req zone=opf burst=120 nodelay; # burst=120 means you can do 240+120 requests
+                                              # before experimenting a 444 error
+        #limit_req_log_level warn;   # not sure if necessary
+        limit_req_status 444; # allows a specific http status code to clearly
+                              # identify rate limiting
+        limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the 
+                              # shared memory zone, the number of excessive requests 
+                              # is accounted as usual.
+
+    }
+    location ~* 502\.(html|jpg)  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+
 }
 
 

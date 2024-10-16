@@ -4,16 +4,17 @@
 
 We have servers hosted by two providers:
 
-- free.org is sponsoring us electricity, network and server hosting.
+- [free.org](https://www.fondation-free.fr/) is sponsoring us electricity, network and server hosting.
   We have two servers:
   - off1.openfoodfacts.org
   - off2.openfoodfacts.org
 
-- OVH foundation sponsors us three bare metal servers:
+- [OVH foundation](https://www.ovhcloud.com/) sponsors us three bare metal servers:
   - ovh1.openfoodfacts.org - strasbourg (sbg3)- [advance-5](https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/) server
   - ovh2.openfoodfacts.org - roubaix (rbx8) - [advance-5](https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/) server
   - ovh3.openfoodfacts.org - roubaix (rbx7) - [stor-2](https://www.ovhcloud.com/fr/bare-metal/advance/adv-stor-2/) server
 
+- [Moji](https://moji.fr/) is also sponsoring us a good server
 
 ## Network
 
@@ -99,3 +100,9 @@ It's a storage server, which mainly contains:
 - replication of all production data: images, products, etc.
 - a nginx to serve images (and some static resources as fallback)
 - some zfs volumes for ovh1 and ovh2 services
+
+### osm45 (moji)
+
+Located at Moji. See [Moji Datacenter](./moji-datacenter.md)
+
+IPV6 only (+ ipv4 internal network)

@@ -2,7 +2,7 @@ on:
   issues:
   issue_comment:
   push:
-    branches: [develop]
+    branches: [readme-writer]
 jobs:
   readme-writer:
     name: Write README.md

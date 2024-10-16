@@ -1,0 +1,11 @@
+
+!!!!!!!! ATTENTION !!!!!!!!!
+
+Your requests are overloading the Open Food Facts server, please stop and contact us at contact@openfoodfacts.org so that we can see what is the best way to support your use case.
+
+The Open Food Facts API is not made for bots to retrieve thousand of products, please use our database exports instead:
+https://world.openfoodfacts.org/data
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+

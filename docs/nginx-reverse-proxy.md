@@ -320,6 +320,17 @@ eg (for off server nginx):
     access_log /var/log/nginx/off-access.log proxied_requests buffer=256K flush=1s;
 ```
 
+
+
 ## Install
 
 Install was quite simple: we simply install nginx package, as well as stunnel4.
+
+Along with nginx, some other tools can be installed:
+* apachetop: to analyze realtime web traffic
+* [lnav](https://lnav.org/): to analyze logs
+
+## Ipv6 configuration
+
+An ipv6 address was added to the reverse proxy CT, so that the reverse proxy can reach `docker-prod-2` VM on Moji,
+where Robotoff services are running. Moji server is currently only accessible through ipv6 as it does not have a public ipv4 address. See [Moji Datacenter](moji-datacenter.md) and [moji server installation report](reports/2024-08-13-moji-server-installation.md) for more information.
