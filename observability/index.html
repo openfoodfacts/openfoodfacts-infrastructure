@@ -2979,9 +2979,15 @@ curl<span class="w"> </span><span class="s2">&quot;http://localhost:9115/probe?m
 <h2 id="how-to-debug-blackbox-exporter-probe-failing">How to debug blackbox exporter probe failing<a class="headerlink" href="#how-to-debug-blackbox-exporter-probe-failing" title="Permanent link">#</a></h2>
 <p>If you have a probe failing, you can test what blackbox exporter is reporting by:</p>
 <ul>
-<li>connecting in ssh to monitoring VM with a port redirection for 9115:
-  <code>ssh -L 9115:localhost:9115 &lt;server-name&gt; -N</code></li>
+<li>
+<p>connecting in ssh to monitoring VM with a port redirection for 9115 to the container port 9115
+  <code>ssh -L 9115:&lt;VM internal ip&gt;:9115 &lt;server-name&gt; -N</code></p>
+<p>currently, this should be <code>ssh -L 9115:10.1.0.203:9115 ovh1.openfoodfacts.org -N</code></p>
+</li>
+</ul>
+<ul>
 <li>this gives you access to blackbox exporter on port http://127.0.0.1:9115</li>
+<li>there you have a table with current status for different probes and log of the probes, which should help you understand.</li>
 <li>you can test the probe with:
   http://127.0.0.1:9115/probe?module=http_probe&amp;target=https%3A%2F%2FMYSERVER.TLD/MY/PATH</li>
 <li>you can also add a "debug=true" parameter to the url to see the debug output</li>
