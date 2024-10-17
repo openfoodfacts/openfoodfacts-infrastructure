@@ -97,7 +97,7 @@ The repository is organized into several directories, each serving a specific pu
 - [Postgres](./postgres.md): Information about our PostgreSQL setup and management.
 - [MongoDB](./mongodb.md): Information about our MongoDB setup and management.
 - [Redis](./redis.md): Details about our Redis setup and management.
-- [Producers sftp](./producers_sftp.md): To push product updates on producer platform.
+- [Producers SFTP](./producers_sftp.md): To push product updates on producer platform.
 - [Folksonomy](./folksonomy.md): User editable labels and values.
 
 ### Tools for the Community
