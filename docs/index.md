@@ -34,7 +34,11 @@ see:
 
 ### Observability
 
-Observability allows us to monitor the health and performance of our systems, detect issues early, and gain insights into the behavior of our applications. We use a combination of tools and practices to achieve observability, including logging, metrics, and tracing. For more details, see [Observability](./observability.md).
+
+Observability (monitoring, alerts) allows us to monitor the health and performance of our systems, detect issues early, and gain insights into the behavior of our applications. We use a combination of tools and practices to achieve observability, including logging, metrics, and tracing. For more details, see [Observability](./observability.md).
+
+We also have a [status page](https://status.openfoodfacts.org/), driven by [openfoodfacts-upptime](https://github.com/openfoodfacts/openfoodfacts-upptime)
+and a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring).
 
 
 ### ZFS
@@ -60,6 +64,10 @@ For more details about our servers and their configurations, see the following p
 - [Free Datacenter](./free-datacenter.md)
 - [OVH Servers](./ovh-servers.md)
 - [Moji Datacenter](./moji-datacenter.md)
+
+### Virtual machines
+
+See [Virtual machines](./virtual-machines.md)
 
 ## Production Architecture Overview
 
