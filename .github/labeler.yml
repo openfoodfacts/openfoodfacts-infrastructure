@@ -5,7 +5,7 @@ GitHub Actions:
 - changed-files:
   - any-glob-to-any-file: '.github/**/*'
 
-🪦 postmortems:
+"🪦 postmortems":
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
 
@@ -49,20 +49,20 @@ moji:
 - changed-files:
   - any-glob-to-any-file: '**/*moji*'
 
-🔒 SSL:
+"🔒 SSL":
 - changed-files:
   - any-glob-to-any-file: '**/*ssl*'
 
-🐳 docker:
+"🐳 docker":
 - changed-files:
   - any-glob-to-any-file: '**/*docker*'
 
-📨 email:
+"📨 email":
 - changed-files:
   - any-glob-to-any-file: 'docs/mail.md'
   - any-glob-to-any-file: 'confs/common/systemd/system/email-failures@.service'
 
-📈 Matomo:
+"📈 Matomo":
 - changed-files:
   - any-glob-to-any-file: 'docs/matomo.md'
 
@@ -82,11 +82,11 @@ proxmox:
 - changed-files:
   - any-glob-to-any-file: '**/*proxmox*'
 
-🧴 Open Beauty Facts:
+"🧴 Open Beauty Facts":
 - changed-files:
   - any-glob-to-any-file: '**/*obf*'
 
-🪶 Apache:
+"🪶 Apache":
 - changed-files:
   - any-glob-to-any-file: '**/*apache*'
 
@@ -94,14 +94,14 @@ Odoo:
 - changed-files:
   - any-glob-to-any-file: '**/*odoo*'
 
-🏷️ Folksonomy Project:
+"🏷️ Folksonomy Project":
 - changed-files:
   - any-glob-to-any-file: '**/*folksonomy*'
 
-📸 Open Products Facts:
+"📸 Open Products Facts":
 - changed-files:
   - any-glob-to-any-file: '**/*openproductsfacts*'
-  
-observability:
+
+"🔭 observability":
 - changed-files:
   - any-glob-to-any-file: 'docs/observability.md'
