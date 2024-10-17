@@ -1158,6 +1158,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-to-create-a-zpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to create a zpool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#how-to-nfs-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
       How to NFS mount a zfs dataset
@@ -2914,6 +2923,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-to-create-a-zpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to create a zpool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#how-to-nfs-mount-a-zfs-dataset" class="md-nav__link">
     <span class="md-ellipsis">
       How to NFS mount a zfs dataset
@@ -3038,30 +3056,35 @@
 <p>We use a lot ZFS for our data for it's reliability and incredible capabilities. The most important feature is data synchronization through snapshots. Clone also enables to easily have same data as production for tests.</p>
 <h2 id="learning-resources">Learning resources<a class="headerlink" href="#learning-resources" title="Permanent link">#</a></h2>
 <p>To learn about ZFS, see <a href="../reports/2023-02-24-zfs-introduction/">the onboarding made by Christian</a></p>
-<p>See also <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a> 
-and <a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device">Proxmox ZFS documentation</a></p>
+<p>Also See <a href="https://openzfs.github.io/openzfs-docs/">OpenZFS official documentation</a>
+it's very complete, but it's a bit hard to navigate.</p>
+<ul>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/7/index.html">misc man page section</a>  contains a lot of useful information on properties and features</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/Basic%20Concepts/index.html">Basic Concepts</a> is a good place to return to from time to time to grab concepts better</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/index.html">Man pages on system administration commands</a> are really useful</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/index.html">Performance and Tuning</a> is also valuable to dig in some options</li>
+</ul>
+<p><a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device">Proxmox ZFS documentation</a> is another valuable resource.</p>
 <p>Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview</p>
 <p>A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/</p>
 <h2 id="some-useful-commands">Some useful commands<a class="headerlink" href="#some-useful-commands" title="Permanent link">#</a></h2>
 <ul>
-<li><code>zpool status</code> to see eventual errors</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zpool-status.8.html"><code>zpool status</code></a> to see eventual errors</li>
 <li>
-<p><code>zpool list -v</code> to see all device</p>
+<p><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zpool-list.8.html"><code>zpool list -v</code></a> to see all device</p>
 <p><strong>Note</strong>: there is a quirk with ALLOC which is different for mirror pools and raidz pools.
 On the first it's allocated space to datasets, on the second it's used space.</p>
 </li>
 </ul>
 <ul>
-<li><code>zfs list -r</code> to get all datasets and their mountpoints<ol>
-<li>zpool list -v list all devices</li>
-</ol>
-</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zfs-list.8.html"><code>zfs list -r</code></a> to get all datasets and their mountpoints</li>
 </ul>
 <ul>
-<li><code>zpool iostat</code> to see stats about read / write. <code>zpool iostat -vl 5</code> is particularly useful.</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zpool-iostat.8.html"><code>zpool iostat</code></a> to see stats about read / write. <code>zpool iostat -vl 5</code> is particularly useful,
+  <code>zpool iostat -w</code> helps you understand the time taken by data to be read / written.</li>
 </ul>
 <ul>
-<li><code>zpool history</code> list all operations done on a pool</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zpool-history.8.html"><code>zpool history</code></a> list all operations done on a pool</li>
 </ul>
 <ul>
 <li>
@@ -3073,13 +3096,21 @@ You can still see datasets usage by using:
 </li>
 </ul>
 <ul>
-<li><code>zdb</code> is also worth knowing (<code>zfd -s</code> for example)</li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zdb.8.html"><code>zdb</code></a> is also worth knowing (<code>zdb -s &lt;poolname&gt;</code> for example)</li>
 </ul>
 <h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
 <p>Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.</p>
 <h2 id="using-sanoid">Using sanoid<a class="headerlink" href="#using-sanoid" title="Permanent link">#</a></h2>
 <p>We use sanoid / syncoid to sync ZFS datasets between servers (also to back them up).</p>
 <p>See <a href="../sanoid/">sanoid</a></p>
+<h2 id="how-to-create-a-zpool">How to create a zpool<a class="headerlink" href="#how-to-create-a-zpool" title="Permanent link">#</a></h2>
+<p>Ensure disks are not mounted and available (eg using <code>lsblk</code>).
+You can eventually split them into different partitions if needed.</p>
+<p>Just create the pool with the resources:</p>
+<p><code>zpool create &lt;pool_name&gt; &lt;pool-type&gt; &lt;device1&gt; &lt;device2&gt; ...</code></p>
+<p>For pool name use something like zfs-something (zfs-hdd, zfs-nvme, etc.)</p>
+<p>For pool-type, use the one that's needed: none (no mention), mirror, raidz.</p>
+<p>You may add a <a href="https://openzfs.github.io/openzfs-docs/man/master/7/zpoolconcepts.7.html#Cache_Devices">cache</a> and / or a <a href="https://openzfs.github.io/openzfs-docs/man/master/7/zpoolconcepts.7.html#log">log device</a>.</p>
 <h2 id="how-to-nfs-mount-a-zfs-dataset">How to NFS mount a zfs dataset<a class="headerlink" href="#how-to-nfs-mount-a-zfs-dataset" title="Permanent link">#</a></h2>
 <p>ZFS directly integrate to NFS server.</p>
 <p>To have a dataset shared in NFS, you have to set sharenf property to allowed addresses and other options.</p>

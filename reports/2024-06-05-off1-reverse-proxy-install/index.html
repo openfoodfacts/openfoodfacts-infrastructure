@@ -2996,7 +2996,7 @@ The reverse proxy will directly serve static OFF product images.</p>
 Network: name=eth0,bridge=vmbr1,ip=10.1.0.100/24,gw=10.0.0.1</p>
 <h3 id="install-nginx">Install nginx<a class="headerlink" href="#install-nginx" title="Permanent link">#</a></h3>
 <p>I then simply install <code>nginx</code> using apt.</p>
-<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
+<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and tested it.</p>
 <h3 id="adding-the-ip">Adding the IP<a class="headerlink" href="#adding-the-ip" title="Permanent link">#</a></h3>
 <p>Using proxmox interface, on container 100, I add net1, on vmbr0, IP 213.36.253.215/27, Gateway 213.36.253.222 (copied from Host config).</p>
 <p>I reboot the container 100, and it seems to work, I can access the nginx using the IP address.</p>

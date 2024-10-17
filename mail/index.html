@@ -3085,7 +3085,8 @@ we use either exim4 or postfix.</p>
 <p>We normally keeps a standard <code>/etc/aliases</code>.
 We have specific groups to receive emails: <code>root@openfoodfacts.org</code> and <code>off@openfoodfacts.org</code></p>
 <p>You may add some redirections for non standard users to one of those groups.
-Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etckeeper"><code>etckeeper</code></a>.</p>
+Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etckeeper"><code>etckeeper</code></a>
+and restart the postfix service (<code>postfix.service</code> and/or <code>postfix@-.service</code>).</p>
 <h3 id="postfix-configuration">Postfix configuration<a class="headerlink" href="#postfix-configuration" title="Permanent link">#</a></h3>
 <p>Run: <code>dpkg-reconfigure postfix</code>:</p>
 <ul>
@@ -3106,7 +3107,7 @@ Do not forget to run <code>newaliases</code>, and <a href="../linux-server/#etck
 </ul>
 <p><strong>IMPORTANT:</strong>
 On some system, the real daemon is not <code>postfix.service</code> but <code>postfix@-.service</code></p>
-<p>(so eg., if you touch <code>/etc/alias</code> (with after <code>sudo newaliases</code>) you need to <code>systemctl reload  postfix@-.service</code></p>
+<p>So, for example, if you touch <code>/etc/alias</code> (with after <code>sudo newaliases</code>) you need to <code>systemctl reload  postfix@-.service</code></p>
 <h3 id="exim4-configuration">Exim4 configuration<a class="headerlink" href="#exim4-configuration" title="Permanent link">#</a></h3>
 <p>Run: <code>dpkg-reconfigure exim4-config</code>:</p>
 <ul>
