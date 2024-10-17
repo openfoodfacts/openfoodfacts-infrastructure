@@ -152,12 +152,13 @@ mkdir /home/$OPERATOR/.ssh
 vim /home/$OPERATOR/.ssh/authorized_keys
 # copy BACKUP_SERVER root public key
 
-chown  -R /home/$OPERATOR
+chown $OPERATOR:$OPERATOR -R /home/$OPERATOR
 chmod go-rwx -R /home/$OPERATOR/.ssh
 ```
 
 Adding needed permissions to pull zfs syncs
 ```bash
+# choose the right dataset according to your needs
 zfs allow $OPERATOR hold,send zfs-hdd
 zfs allow $OPERATOR hold,send zfs-nvme
 zfs allow $OPERATOR hold,send rpool
@@ -169,7 +170,7 @@ On BACKUP_SERVER, test ssh connection:
 
 ```bash
 OPERATOR=${BACKUP_SERVER}operator
-ssh $OPERATOR@<ip for server>
+ssh $OPERATOR@<ip or host>
 ```
 
 #### config syncoid
@@ -188,3 +189,6 @@ Use `--recursive` to also backup subdatasets.
 Don't forget to create a sane retention policy (with `autosnap=no`) in sanoid on $BACKUP_SERVER to remove old data.
 
 **Note:** because of the 6h timeout, if you have big datasets, you may want to do the first synchronization before enabling the service.
+
+**Important:** try to have a good hierarchy of datasets, and separate what's from the server and what's from other servers.
+Normally we put other servers backups in a off-backups dataset. It's important not to mix it with backups dataset which is for the server itself.
