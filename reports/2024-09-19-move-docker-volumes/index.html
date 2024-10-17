@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-08-13-moji-server-installation/">
+        <link rel="prev" href="../2024-09-06-test-folksonomy-openproductsfacts/">
       
       
-        <link rel="next" href="../2024-09-04-move-off-query-to-moji/">
+        <link rel="next" href="../2024-09-24-kimsufi-stor-ks1-installation/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-08-22 Adding postfix exporter to Proxmox Mail Gateway - Open Food Facts Infrastructure documentation</title>
+        <title>2024-09-19 move docker volumes - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway" class="md-skip">
+        <a href="#2024-09-19-move-docker-volumes" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-08-22 Adding postfix exporter to Proxmox Mail Gateway
+              2024-09-19 move docker volumes
             
           </span>
         </div>
@@ -2528,19 +2528,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2549,7 +2540,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2643,10 +2633,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-09-19-move-docker-volumes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2655,6 +2654,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -2724,48 +2724,53 @@
   
 
 
-<h1 id="2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway">2024-08-22 Adding postfix exporter to Proxmox Mail Gateway<a class="headerlink" href="#2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway" title="Permanent link">#</a></h1>
-<p>Email is very important either to get alerts or to send email to our users.</p>
-<p>We were not following email delivery on a regular basis.</p>
-<p>I decided to give it a try to add a postfix exporter to the PMG container.</p>
-<p>I installed the postfix exporter:</p>
-<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>prometheus-postfix-exporter
-</code></pre></div>
-<p>Tested it:
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="m">10</span>.1.0.102:9154/metrics
-</code></pre></div>
-It was working.</p>
-<p>I then add the scrapping configuration to prometheus in the monitoring project:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># in prometheus/config.yml</span>
+<h1 id="2024-09-19-move-docker-volumes">2024-09-19 move docker volumes<a class="headerlink" href="#2024-09-19-move-docker-volumes" title="Permanent link">#</a></h1>
+<p>Previously in an attempt not to have all docker volumes on the system disk,
+I did mount some on /srv/off/docker_data, on docker-staging and docker-prod VM.</p>
+<p>In between we have directly mounted the disk for docker volumes on /var/lib/docker/volumes
+but we forgot to move those other volumes.</p>
+<p>As it took space on system disk we got alerts about it !</p>
+<p>So I had to move them.</p>
+<p>Here is a quick dump of what I did, justs in case…</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># shutdown and rm container (to be able to rm volumes)</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>down
 
-<span class="w">  </span>-<span class="w"> </span>job_name:<span class="w"> </span>pmg-postfix
-<span class="w">    </span>static_configs:
-<span class="w">      </span>-<span class="w"> </span>targets:
-<span class="w">        </span><span class="c1"># PMG</span>
-<span class="w">        </span>-<span class="w"> </span><span class="s2">&quot;10.1.0.102:9154&quot;</span>
-<span class="w">        </span>labels:
-<span class="w">          </span>app:<span class="w"> </span>Proxmox<span class="w"> </span>mail<span class="w"> </span>gateway
-<span class="w">          </span>service:<span class="w"> </span>postfix
-<span class="w">          </span>env:<span class="w"> </span>prod
-</code></pre></div>
-<p>and I configured a first alert to verify queues don't have too much stall emails:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># in  prometheus/alerts.yml</span>
+<span class="c1"># copy volumes data in a temporary place</span>
+<span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>/srv/off/docker_data/po_search_esdata01<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata01.tmp
+<span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>/srv/off/docker_data/po_search_esdata02<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata02.tmp
 
-<span class="w">  </span>-<span class="w"> </span>alert:<span class="w"> </span>Postfix<span class="w"> </span>mail<span class="w"> </span>messages<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>high
-<span class="w">    </span>expr:<span class="w"> </span>postfix_showq_message_age_seconds_count<span class="w"> </span>&gt;<span class="w"> </span><span class="m">20</span>
-<span class="w">    </span><span class="k">for</span>:<span class="w"> </span>1h
-<span class="w">    </span>labels:
-<span class="w">      </span>severity:<span class="w"> </span>warning
-<span class="w">      </span>instance:<span class="w"> </span><span class="s2">&quot;{{ </span><span class="nv">$labels</span><span class="s2">.instance }}&quot;</span>
-<span class="w">    </span>annotations:
-<span class="w">      </span>summary:<span class="w"> </span>stalled<span class="w"> </span>messages<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.queue<span class="w"> </span><span class="o">}}</span><span class="w"> </span>of<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.app<span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="o">({{</span><span class="w"> </span><span class="nv">$labels</span>.instance<span class="w"> </span><span class="o">}})</span>
-<span class="w">      </span>description:<span class="w"> </span>Number<span class="w"> </span>of<span class="w"> </span>messages<span class="w"> </span><span class="k">for</span><span class="w"> </span>queue<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.queue<span class="w"> </span><span class="o">}}</span><span class="w"> </span>of<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.app<span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="o">({{</span><span class="w"> </span><span class="nv">$labels</span>.instance<span class="w"> </span><span class="o">}})</span><span class="w"> </span>is<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$value</span><span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>than<span class="w"> </span>1h.
+
+<span class="c1"># Edited Makefile, see https://github.com/openfoodfacts/search-a-licious/commit/51a2450ee84854686b593213bd74eae7794461a7</span>
+
+<span class="c1"># removed volumes</span>
+docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>po_search_esdata01
+docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>po_search_esdata02
+
+<span class="c1"># re-create volumes with modified Makefile</span>
+<span class="c1"># important to do with user off</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>make<span class="w"> </span>create_external_volumes
+
+<span class="c1"># fix ownership, not sure if needed</span>
+chown<span class="w"> </span>off:root<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata0<span class="o">{</span><span class="m">1</span>,2<span class="o">}</span>/_data
+
+<span class="c1"># move data to new volumes dirs</span>
+mv<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata02.tmp/po_search_esdata02/*<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata02/_data/
+mv<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata01.tmp/po_search_esdata01/*<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata01/_data/
+
+<span class="c1"># restart services</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># if it went well remove old data and temporary dirs</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>/srv/off/docker_data/po_search_esdata01/
+rm<span class="w"> </span>-rf<span class="w"> </span>/srv/off/docker_data/po_search_esdata02
+rmdir<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata02.tmp/po_search_esdata02
+rmdir<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata02.tmp
+rmdir<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata01.tmp/po_search_esdata01
+rmdir<span class="w"> </span>/var/lib/docker/volumes/po_search_esdata01.tmp
+
+<span class="c1"># verify disk space is still ok</span>
+df<span class="w"> </span>-h<span class="w"> </span>/<span class="w"> </span>/var/lib/docker/volumes
 </code></pre></div>
-<p>Related commit in openfoodfacts-monitoring <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/commit/295a8e174470482c759648a39ce53fd50631326f">295a8e1</a></p>
-<p>As I had deferred email currently in queue
-(because of a solved bug on ovh3 where bug were sent to the wrong host)
-I was able to test that is was working.</p>
-<p>I have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/113">PR to add an alert if the number of message sent drops significantly</a> but I have to wait that we have enough values in prometheus to activate it.</p>
 
 
 
