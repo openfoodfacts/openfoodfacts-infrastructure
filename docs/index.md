@@ -29,8 +29,8 @@ Docker is a one of the key component of our infrastructure. We use Docker to con
 
 see:
 - [Docker at Open Food Facts](./docker.md).
-- [Docker Onboarding](./docs/docker_onboarding.md)
-- [Docker Infrastructure](./docs/docker_architecture.md)
+- [Docker Onboarding](./docker_onboarding.md)
+- [Docker Infrastructure](./docker_architecture.md)
 
 ### Observability
 
@@ -62,7 +62,7 @@ Some servers are graciously sponsored by [Fondation Free](https://www.fondation-
 For more details about our servers and their configurations, see the following pages:
 
 - [Free Datacenter](./free-datacenter.md)
-- [OVH Servers](./ovh-servers.md)
+<!--  TODO - [OVH Servers](./ovh-servers.md) -->
 - [Moji Datacenter](./moji-datacenter.md)
 
 ### Virtual machines

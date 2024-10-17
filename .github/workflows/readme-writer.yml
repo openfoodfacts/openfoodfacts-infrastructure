@@ -20,12 +20,12 @@ jobs:
     - run: |
         pip install -r scripts/readme-writer/requirements.txt
         python scripts/readme-writer/readme_writer.py
-        cat README.md
-    - name: Commit README.md
+        cat docs/virtual-machines.md
+    - name: Commit docs/virtual-machines.md.md
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: develop
         repository: .
-        file_pattern: README.md
-        commit_message: Update README.md
+        file_pattern: docs/virtual-machines.md
+        commit_message: Update docs/virtual-machines.md
         commit_options: '--no-verify --signoff'
