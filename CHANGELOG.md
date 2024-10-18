@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.0](https://github.com/openfoodfacts/openfoodfacts-infrastructure/compare/v1.0.0...v1.1.0) (2024-10-18)
+
+
+### Features
+
+* configured main services on ks1 ([440bd85](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/440bd853413657ec4c8a8a60a3a94820950a6ee6))
+* enable ipv6 forwarding ([d262cb1](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/d262cb1d71148373d64a11e9cb0564c9f45616c0))
+* **osm45:** wip on ovh3 backups ([fa8278d](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/fa8278db6c2bfc9793ee2e9dd5812d5f84960e14))
+* **ovh2:** sanoid install ([64af1ca](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/64af1ca5b09bbbe6fd616826642cb2616e0deb78))
+* sanoid_check also verify no dataset has too many snapshots ([c39b644](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/c39b6443e12888a51ca0f2f1156a0b6920c666ca))
+
+
+### Bug Fixes
+
+* add check ignore for off2 zfs-hdd root ([f5e537a](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/f5e537ac84ee7f939e6c51c8a8339fdf06ded75d))
+* change in sanoid config to avoid unwanted snapshot retention ([40dd1c4](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/40dd1c4c2818b932c2e4c54a18e461c32a632a29))
+* filter config file empty lines in syncoid.service ([#422](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/422)) ([3680054](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/3680054a474078bef954315373dc999f040d3d87))
+* fine tune sanoid config ([7c9c2bc](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/7c9c2bc59d43da2f730e61481ebbefc0b10044fa))
+* fix services confs for osm45 ([5e2290b](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5e2290b64e0816489ed4457c8ebf0c0210546cf0))
+* mongoDB double backup removed ([#421](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/421)) ([2b4cf27](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/2b4cf27d1b7a2116729b13947f5c902d0786052e))
+* **ovh3:** add off-pro in sanoid.conf to avoid snapshots inflation ([b01b884](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/b01b884d19ce01c051c6cad57770e5f42d47230f))
+* remove wrong -%l specifier in OnFailure ([62963c2](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/62963c238169382aa785fce302e41615795f64f7))
+* security fix on grafana ([b7acc31](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/b7acc315ba4003487e6294023ca9915603fed1c4))
+* typo in ks1 sanoid.conf ([9c177ca](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9c177ca593fa7aed4a4fc76d8dc05ba7db26b3f3))
+
 ## 1.0.0 (2024-09-26)
 
 
@@ -302,5 +327,3 @@
 * use env name in docker compose project name ([6980f8d](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/6980f8d95a82325efea6ca25e21c4238fe7d1e18))
 * utils to set author name ([6f8ce0d](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/6f8ce0dcca52e85943d2c32582017fc88dbe3859))
 * zfs docs improvements ([#277](https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/277)) ([2459ba1](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/2459ba1b9c1b03b1db8a84e7f75dacccc120b73e))
-
-
