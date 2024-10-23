@@ -157,13 +157,21 @@ chmod go-rwx -R /home/$OPERATOR/.ssh
 ```
 
 Adding needed permissions to pull zfs syncs
-```bash
-# choose the right dataset according to your needs
-zfs allow $OPERATOR hold,send zfs-hdd
-zfs allow $OPERATOR hold,send zfs-nvme
-zfs allow $OPERATOR hold,send rpool
 
-```
+1. if you use `--no-sync-snap`, you only use `hold,send`
+   ```bash
+   # choose the right dataset according to your needs
+   zfs allow $OPERATOR hold,send zfs-hdd
+   zfs allow $OPERATOR hold,send zfs-nvme
+   zfs allow $OPERATOR hold,send rpool
+   ```
+
+2. otherwise you'll need , you need `destroy,hold,mount,send,snapshot`
+   ```bash
+   # choose the right dataset according to your needs
+   zfs allow $OPERATOR destroy,hold,mount,send,snapshot rpool
+   ```
+
 #### test connection on BACKUP_SERVER
 
 On BACKUP_SERVER, test ssh connection:
