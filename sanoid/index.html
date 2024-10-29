@@ -3159,12 +3159,23 @@ vim<span class="w"> </span>/home/<span class="nv">$OPERATOR</span>/.ssh/authoriz
 chown<span class="w"> </span><span class="nv">$OPERATOR</span>:<span class="nv">$OPERATOR</span><span class="w"> </span>-R<span class="w"> </span>/home/<span class="nv">$OPERATOR</span>
 chmod<span class="w"> </span>go-rwx<span class="w"> </span>-R<span class="w"> </span>/home/<span class="nv">$OPERATOR</span>/.ssh
 </code></pre></div>
-<p>Adding needed permissions to pull zfs syncs
-<div class="highlight"><pre><span></span><code><span class="c1"># choose the right dataset according to your needs</span>
+<p>Adding needed permissions to pull zfs syncs</p>
+<ol>
+<li>
+<p>if you use <code>--no-sync-snap</code>, you only use <code>hold,send</code>
+   <div class="highlight"><pre><span></span><code><span class="c1"># choose the right dataset according to your needs</span>
 zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OPERATOR</span><span class="w"> </span>hold,send<span class="w"> </span>zfs-hdd
 zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OPERATOR</span><span class="w"> </span>hold,send<span class="w"> </span>zfs-nvme
 zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OPERATOR</span><span class="w"> </span>hold,send<span class="w"> </span>rpool
 </code></pre></div></p>
+</li>
+<li>
+<p>otherwise you'll need , you need <code>destroy,hold,mount,send,snapshot</code>
+   <div class="highlight"><pre><span></span><code><span class="c1"># choose the right dataset according to your needs</span>
+zfs<span class="w"> </span>allow<span class="w"> </span><span class="nv">$OPERATOR</span><span class="w"> </span>destroy,hold,mount,send,snapshot<span class="w"> </span>rpool
+</code></pre></div></p>
+</li>
+</ol>
 <h4 id="test-connection-on-backup_server">test connection on BACKUP_SERVER<a class="headerlink" href="#test-connection-on-backup_server" title="Permanent link">#</a></h4>
 <p>On BACKUP_SERVER, test ssh connection:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">OPERATOR</span><span class="o">=</span><span class="si">${</span><span class="nv">BACKUP_SERVER</span><span class="si">}</span>operator
