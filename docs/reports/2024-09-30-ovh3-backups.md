@@ -1,4 +1,8 @@
-# 2024-09-30 OVH3 backups
+# 2024-09-30 OVH3 backups (wrong approach)
+
+
+**VERY IMPORTANT:** this approach does not work and at the time of writing, we are on the way to change the way we do it.
+
 
 We need an intervention to change a disk on ovh3.
 
