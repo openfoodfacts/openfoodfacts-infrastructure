@@ -6,8 +6,31 @@ On ovh1 and ovh2 we use proxmox to manage VMs.
 
 ## Proxmox Backups
 
-Every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
-(see Datacenter -> backup)
+**IMPORTANT:** We don't use standard proxmox backup[^previous_backups] (see Datacenter -> backup).
+
+Instead we use [syncoid / sanoid](./sanoid.md) to snapshot and synchronize data to other servers.
+
+[^previous_backups]: Previously every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
+
+## Storage synchronization
+
+We don't use standard proxmox replication of storages, because it is incompatible with using [syncoid / sanoid](./sanoid.md), as it removes snapshots on destination and does not allow to choose destination location.
+
+It means that restoring a container / VM won't be automatic and will need a manual intervention.
+
+### Replication (don't use it)
+
+Previously, VM and container storage were regularly synchronized to ovh3 (and eventually to ovh1/2).
+
+Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.
+
+This is managed with command line `pvesr` (PVE Storage replication). See [official doc](https://pve.proxmox.com/wiki/Storage_Replication)
+
+* To Add replication a replication on a container / VM:
+  * In the Replication menu of the container, "Add" one
+  * Target: the server you want
+  * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
+
 
 ## Host network configuration
 
@@ -117,22 +140,16 @@ At OVH we have special DNS entries:
 * `proxy1.openfoodfacts.org` pointing to OVH reverse proxy
 * `off-proxy.openfoodfacts.org` pointing to Free reverse proxy
 
-## Storage synchronization
-
-VM and container storage are regularly synchronized to ovh3 (and eventually to ovh1/2) to have a continuous backup.
-
-Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.
-
-This is managed with command line `pvesr` (PVE Storage replication). See [official doc](https://pve.proxmox.com/wiki/Storage_Replication)
-
 
 ## How to migrate a container / VM
 
 You may want to move containers or VM from one server to another.
 
-Just go to the interface, right click on the VM / Container and ask to migrate !
+**FIXME** this will not work with sanoid/syncoid.
 
-If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.
+~~Just go to the interface, right click on the VM / Container and ask to migrate !~~
+
+~~If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.~~
 
 ## How to Unlock a Container
 
@@ -253,11 +270,6 @@ Using the web interface:
 * Check "options" of the container and:
   * Start at boot: Yes
   * Protection: Yes (to avoid deleting it by mistake)
-
-* Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)
-  * In the Replication menu of the container, "Add" one
-  * Target: ovh3
-  * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
 
 Also think about [configuring email](./mail.md#postfix-configuration) in the container
 
