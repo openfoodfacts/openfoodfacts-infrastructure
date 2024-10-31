@@ -85,3 +85,13 @@ I did the same for vz_dump snapshots, as now backups are no more active.
 We would not need to use a sanoid specific snapshot on moji anymore, but I'll leaved it like it for now !
 
 Syncs seems ok.
+
+## Related commits
+
+Commits of configurations changes on ovh1, ovh2, ovh3:
+
+* [feat: some more hourly snapshots on ovh1](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/fd68c17ee2e929703ec364cbffae2d9bf7861d15)
+* [feat: using syncoid to sync data from ovh1/2](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/2a4a413e38827e30a844f85c3e7416fdcfd998a1)
+* [feat(ovh1): sanoid install](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9d915e0e02afbcd0ce4addd30fb7c9b9d35d5a41)
+* [feat: some more hourly snapshots on ovh2](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/91d89ef5cc900776b4498a4193aee6dc4a5af075)
+* [feat: sync some ovh1 volumes](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/47ecab46bcb1b11188d4fecf732ae6adec37054a)
