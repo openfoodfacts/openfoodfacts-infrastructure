@@ -99,9 +99,9 @@ zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r -o name -H|grep @syncoid_osm4
 And on ovh3:
 ```bash
 # verify
-zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@
+zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v backups@
 # destroy
-zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@|xargs -n 1 -r zfs destroy
+zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v backups@|xargs -n 1 -r zfs destroy
 ```
 
 ## Related commits
