@@ -7,6 +7,7 @@ We still have very few backups for OVH services.
 Before the operation, I want to at least have replication of OVH backups on the new MOJI server.
 
 We previously tried to do it while keeping replication, but it does not work well.
+[see 2024-09-30 ovh3 backups](./2024-09-30-ovh3-backups.md)
 
 So here is what we are going to do:
 * remove replication and let sanoid / syncoid deal with replication to ovh3
@@ -82,9 +83,26 @@ I did the same for vz_dump snapshots, as now backups are no more active.
 
 ## Checking syncs on osm45 (Moji)
 
-We would not need to use a sanoid specific snapshot on moji anymore, but I'll leaved it like it for now !
+We don't need to use a sanoid specific snapshot on moji anymore so we changes the sanoid.conf
+to use --no-sync-snap option for every volumes but backups (which is not handled by sanoid on ovh3 side).
 
 Syncs seems ok.
+
+One day after we cleaned the old remaining syncoid snapshots on osm45:
+```bash
+# verify that we have snapshots after the syncoid one
+zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r |grep -A 3  @syncoid_osm45|grep -v ovh3-rpool/backups@
+# clean
+zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@|xargs -n 1 -r zfs destroy
+```
+
+And on ovh3:
+```bash
+# verify
+zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@
+# destroy
+zfs list rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@|xargs -n 1 -r zfs destroy
+```
 
 ## Related commits
 
@@ -95,3 +113,4 @@ Commits of configurations changes on ovh1, ovh2, ovh3:
 * [feat(ovh1): sanoid install](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9d915e0e02afbcd0ce4addd30fb7c9b9d35d5a41)
 * [feat: some more hourly snapshots on ovh2](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/91d89ef5cc900776b4498a4193aee6dc4a5af075)
 * [feat: sync some ovh1 volumes](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/47ecab46bcb1b11188d4fecf732ae6adec37054a)
+* [fix: do not use a sync snap to sync from ovh3 anymore](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/8426727bef1ef55a2c5b233233c484b4177fdcc9)
