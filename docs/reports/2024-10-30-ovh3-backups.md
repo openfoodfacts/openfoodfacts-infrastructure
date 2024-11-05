@@ -91,7 +91,7 @@ Syncs seems ok.
 One day after we cleaned the old remaining syncoid snapshots on osm45:
 ```bash
 # verify that we have snapshots after the syncoid one
-zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r |grep -A 3  @syncoid_osm45|grep -v ovh3-rpool/backups@
+zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r -o name -H|grep -A 3  @syncoid_osm45|grep -v ovh3-rpool/backups@
 # clean
 zfs list hdd-zfs/off-backups/ovh3-rpool -t snap -r -o name -H|grep @syncoid_osm45|grep -v ovh3-rpool/backups@|xargs -n 1 -r zfs destroy
 ```
