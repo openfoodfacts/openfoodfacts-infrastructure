@@ -90,6 +90,10 @@ proxmox:
 - changed-files:
   - any-glob-to-any-file: '**/*apache*'
 
+Keycloak:
+- changed-files:
+  - any-glob-to-any-file: '**/*keycloak*'
+
 Odoo:
 - changed-files:
   - any-glob-to-any-file: '**/*odoo*'
