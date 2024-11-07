@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-06-07 New install of OBF on OFF2 with new generic code - Open Food Facts Infrastructure documentation</title>
+        <title>2024-04-26 New install of OBF on OFF2 with new generic code - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-06-07-new-install-of-obf-on-off2-with-new-generic-code" class="md-skip">
+        <a href="#2024-04-26-new-install-of-obf-on-off2-with-new-generic-code" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-06-07 New install of OBF on OFF2 with new generic code
+              2024-04-26 New install of OBF on OFF2 with new generic code
             
           </span>
         </div>
@@ -2396,7 +2396,7 @@
           
   
   <span class="md-ellipsis">
-    2023-06-07 New install of OBF on OFF2 with new generic code
+    2024-04-26 New install of OBF on OFF2 with new generic code
   </span>
   
 
@@ -2407,7 +2407,7 @@
         
   
   <span class="md-ellipsis">
-    2023-06-07 New install of OBF on OFF2 with new generic code
+    2024-04-26 New install of OBF on OFF2 with new generic code
   </span>
   
 
@@ -3118,6 +3118,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-06-setup-cloud-vision-on-obf-opf-opff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-11-06 Setup cloud vision on OBF, OPF, OPFF containers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3514,7 +3535,7 @@
   
 
 
-<h1 id="2023-06-07-new-install-of-obf-on-off2-with-new-generic-code">2023-06-07 New install of OBF on OFF2 with new generic code<a class="headerlink" href="#2023-06-07-new-install-of-obf-on-off2-with-new-generic-code" title="Permanent link">#</a></h1>
+<h1 id="2024-04-26-new-install-of-obf-on-off2-with-new-generic-code">2024-04-26 New install of OBF on OFF2 with new generic code<a class="headerlink" href="#2024-04-26-new-install-of-obf-on-off2-with-new-generic-code" title="Permanent link">#</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">#</a></h2>
 <p>OBF, OPF and OPFF currently use very old code (more than 2 years old). An effort is underway to make the current "main" code of Product Opener (currently used for OFF) able to power OBF, OPF and OPFF, so that we can have unified code and features on all platforms.</p>
 <p>To test the new code, we will create a new container obf-new (116) that will run in parallel to the current container for obf (116).
@@ -4314,6 +4335,16 @@ and then without <code>--test-cert</code>
 <p>Need to run build_lang.pl again, as the file it generates as the domain name in it
 (could be changed as not useful anymore)</p>
 <p>Restart Apache.</p>
+<h2 id="later-configuration">Later configuration<a class="headerlink" href="#later-configuration" title="Permanent link">#</a></h2>
+<h3 id="2024-11-06-setup-cloud-vision-on-obf-opf-opff-containers">2024-11-06 Setup cloud vision on OBF, OPF, OPFF containers<a class="headerlink" href="#2024-11-06-setup-cloud-vision-on-obf-opf-opff-containers" title="Permanent link">#</a></h3>
+<p>as root in the obf, opf, opff containers:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span>obf
+<span class="nb">cd</span><span class="w"> </span>/etc/systemd/system
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/srv/<span class="nv">$SERVICE</span>/conf/systemd/cloud_vision_ocr@.service<span class="w"> </span>cloud_vision_ocr@<span class="nv">$SERVICE</span>.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>cloud_vision_ocr@<span class="nv">$SERVICE</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>cloud_vision_ocr@<span class="nv">$SERVICE</span>
+</code></pre></div>
 
 
 
