@@ -1,4 +1,4 @@
-# Deduplicate products in multiple flavors
+# 2024-10-23 Deduplicate products in multiple flavors
 
 We are in the process of unifying the product databases for the different flavors: OFF, OBF, OPF and OPFF.
 
@@ -28,7 +28,7 @@ For other products, we will keep the flavor that has the most data (size of .sto
 
 ## Deduplication
 
-The script 2024_10_remove_duplicate_products_in_wrong_flavors is used to move product data and images to the products/other-flavors-code directory (same for images/products). Removed products are also removed from the MongoDB collections of unkept flavors. A "deleted" Redis event is also sent.
+The script 2024_10_remove_duplicate_products_in_wrong_flavors.pl is used to move product data and images to the products/other-flavors-code directory (same for images/products). Removed products are also removed from the MongoDB collections of unkept flavors. A "deleted" Redis event is also sent.
 
 Before deduplication, there were 8898 duplicate products.
 after opff: 8730
@@ -37,3 +37,20 @@ after obf: 6817
 after off: 4686
 
 4663 duplicate products
+
+2024/10/28: 4595 duplicate products
+
+I manually reviewed the top 1000 products (by scans on OFF) of the 4595 products. For the rest, we will keep the flavor with the most data.
+
+Ran on all 4 flavors:
+./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241030_duplicate_products_reviewed_top_1000.tsv
+
+After that, ran the script again for the remaining products, using the flavor with the most data (and not a deleted product).
+
+I had forgotten to check the obsolete flavors as well, modified the detection script to do that.
+
+ ./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241115_duplicate_products.tsv 
+
+
+
+
