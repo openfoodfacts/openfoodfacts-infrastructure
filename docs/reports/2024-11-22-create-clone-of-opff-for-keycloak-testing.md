@@ -191,4 +191,147 @@ ln -s /srv/opff/env/env.obf /srv/opff-test/env/env.opff-test
 
 systemctl restart apache2
 
-https://world.new.openfoodfacts.org works.  (I changed the top bar color to green to make it more obvious that the site is different)
+https://world.new.openpetfoodfacts.org works.  (I changed the top bar color to green to make it more obvious that the site is different)
+
+## Configuring for Keycloak
+
+```
+ cd /srv/opff
+ sudo su
+```
+
+### Stop current service
+
+```
+systemctl stop apache2
+```
+
+### Stash current config changes
+
+```
+exit
+sudo su off
+git stash save "opff new config"
+```
+
+### Switch code to keycloak branch
+
+```
+git switch keycloak
+```
+
+### Re-apply config changes
+
+```
+git stash apply
+```
+
+### Configure keycloak variables
+
+The following new environment variables need to be set (in env/env.opff):
+
+```
+KEYCLOAK_BASE_URL=https://auth.openfoodfacts.org
+KEYCLOAK_BACKCHANNEL_BASE_URL=http://10.1.0.104:5600
+KEYCLOAK_REALM_NAME=open-products-facts
+
+PRODUCT_OPENER_OIDC_CLIENT_ID=ProductOpener
+PRODUCT_OPENER_OIDC_CLIENT_SECRET=< Available in the Keycloak deployment >
+PRODUCT_OPENER_OIDC_DISCOVERY_ENDPOINT=http://10.1.0.104:5600/realms/open-products-facts/.well-known/openid-configuration
+```
+
+Added following to Config2.pm and exported:
+
+```
+%oidc_options = (
+	client_id => $ENV{PRODUCT_OPENER_OIDC_CLIENT_ID},
+	client_secret => $ENV{PRODUCT_OPENER_OIDC_CLIENT_SECRET},
+	discovery_endpoint => $ENV{PRODUCT_OPENER_OIDC_DISCOVERY_ENDPOINT},
+	# Keycloak specific endpoint used to create users. This is currently required for backwards compatibility with apps
+	# that create users by POSTing to /cgi/user.pl
+	keycloak_base_url => $ENV{KEYCLOAK_BASE_URL},
+	keycloak_backchannel_base_url => $ENV{KEYCLOAK_BACKCHANNEL_BASE_URL},
+	keycloak_realm_name => $ENV{KEYCLOAK_REALM_NAME}
+);
+```
+
+Add and export %oidc_options in Confirm_opff.pm
+
+### Install any new Perl libraries
+
+```
+exit
+sudo su
+export PERL5LIB=/srv/opff/lib
+apt install -y libanyevent-redis-perl libssl-dev
+cpanm --notest --quiet --skip-satisfied --installdeps .
+```
+
+...
+
+### Migrate users
+
+```
+exit
+sudo su off
+export PERL5LIB=/srv/opff/lib
+source env/setenv.sh opff
+perl scripts/migrate_users_to_keycloak.pl
+```
+
+Got error 
+
+```
+There was an error importing users to Keycloak. Please ensure that the client has permission to manage the realm. This is not enabled by default and should only be a temporary permission. {client_id => "ProductOpener",keycloak_realm_name => "open-products-facts",response => "Can't connect to auth.openfoodfacts.org:443 (Connection refused)\n\nConnection refused at /usr/share/perl5/LWP/Protocol/http.pm line 50.\n"}
+```
+Fixed by changing backchannel URL to http://10.1.0.104:5600
+
+Next error:
+```
+There was an error importing users to Keycloak. Please ensure that the client has permission to manage the realm. This is not enabled by default and should only be a temporary permission. {client_id => "ProductOpener",keycloak_realm_name => "open-products-facts",response => "{\"error\":\"HTTP 403 Forbidden\"}"}
+```
+Need to add permissions to the user - need to check what these are.
+
+Was able to migrate a single user with
+```
+perl scripts/migrate_users_to_keycloak.pl api-single users/johngom.sto
+```
+Added manage-realm permission to the ProductOpener user and seemed to fix it.
+
+Stared import at Sat Nov 23 13:08:56 2024
+
+Keycloak process got killed after a few users. Try api-multi.
+
+[Sat Nov 23 13:15:48 2024] Started
+
+Multiple messages about invalid field length for username:
+
+{"field":"username","errorMessage":"error-invalid-length","params":["username",2,20]}
+
+Also 
+
+{"errorMessage":"User exists with same email"}
+{"field":"email","errorMessage":"error-invalid-email","params":["email","dunensue@ gmail.com"]}
+
+[Sat Nov 23 14:11 2024] 60,000 users imported
+[Sat Nov 23 16:04 2024] 200,000 users imported
+
+
+### Update Keycloak configuration
+
+ProductOpener client configuration redirect URL needs to include:
+
+`https://world.new.openpetfoodfacts.org/cgi/oidc_signin_callback.pl`
+
+### Start services and test
+
+```
+systemctl start apache2
+```
+
+### Observations
+
+Account console not working - think it is to do with cookies and setting up forwarded headers with the nginx proxy
+
+Need to build languages
+
