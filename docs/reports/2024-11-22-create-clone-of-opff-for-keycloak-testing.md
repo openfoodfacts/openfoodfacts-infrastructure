@@ -218,6 +218,7 @@ git stash save "opff new config"
 
 ```
 git switch keycloak
+perl scripts/build_lang.pl
 ```
 
 ### Re-apply config changes
