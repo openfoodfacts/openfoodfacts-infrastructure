@@ -324,15 +324,55 @@ ProductOpener client configuration redirect URL needs to include:
 
 `https://world.new.openpetfoodfacts.org/cgi/oidc_signin_callback.pl`
 
+Also need signout callback.
+
 ### Start services and test
 
 ```
 systemctl start apache2
 ```
 
+### Testing Redis
+
+Needed to add the following to Config_opff.pm:
+
+```
+$redis_url = $ProductOpener::Config2::redis_url;
+```
+
+Then run script manually:
+
+```
+perl scripts/listen_to_redis_stream.pl
+```
+
+#### User registration
+
+Got email verification but no logo.
+On clicking link displays invalid_grant but second click shows email is validated
+
+```
+User registered {newsletter => "subscribe",user_id => "johngomtest"}
+No Minion backend configured in lib/ProductOpener/Config2.pm
+[Mon Nov 25 11:53:01 2024] listen_to_redis_stream.pl: EV: error in callback (ignoring): Can't call method "enqueue" on an undefined value at /srv/opff/lib/ProductOpener/Minion.pm line 88.
+```
+
+#### User Deletion
+
+As expected:
+```
+User deleted {user_id => "johngomtest"}
+No Minion backend configured in lib/ProductOpener/Config2.pm
+[Mon Nov 25 12:03:46 2024] listen_to_redis_stream.pl: EV: error in callback (ignoring): Can't call method "enqueue" on an undefined value at /srv/opff/lib/ProductOpener/Minion.pm line 88.
+```
+
+
+
 ### Observations
 
 Account console not working - think it is to do with cookies and setting up forwarded headers with the nginx proxy
 
-Need to build languages
+Fixed by adding `--proxy-headers xforwarded` to Keycloak startup.
+
+Need to build languages. Fixed
 
