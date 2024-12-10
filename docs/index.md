@@ -40,6 +40,9 @@ Observability (monitoring, alerts) allows us to monitor the health and performan
 We also have a [status page](https://status.openfoodfacts.org/), driven by [openfoodfacts-upptime](https://github.com/openfoodfacts/openfoodfacts-upptime)
 and a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring).
 
+The [How to handle alerts](./how-to-handle-alerts.md) helps you diagnose and fix potential issues
+that created an alert.
+
 
 ### ZFS
 
