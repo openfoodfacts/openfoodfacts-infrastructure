@@ -366,8 +366,6 @@ No Minion backend configured in lib/ProductOpener/Config2.pm
 [Mon Nov 25 12:03:46 2024] listen_to_redis_stream.pl: EV: error in callback (ignoring): Can't call method "enqueue" on an undefined value at /srv/opff/lib/ProductOpener/Minion.pm line 88.
 ```
 
-
-
 ### Observations
 
 Account console not working - think it is to do with cookies and setting up forwarded headers with the nginx proxy
@@ -376,3 +374,53 @@ Fixed by adding `--proxy-headers xforwarded` to Keycloak startup.
 
 Need to build languages. Fixed
 
+## Refreshing from branch
+
+```
+git stash save "opff new config2"
+git pull
+git stash apply
+
+# Add following to Config2.pm and export:
+$process_global_redis_events = 1;
+
+# And following to Config_opff.pm and export:
+$process_global_redis_events = $ProductOpener::Config2::process_global_redis_events;
+
+source env/setenv.sh opff
+export PERL5LIB=/srv/opff/lib
+perl scripts/build_lang.pl
+
+exit
+cd /srv/opff
+sudo su
+systemctl stop apache2
+systemctl start apache2
+
+ln -s /srv/opff/conf/systemd/minion@.service /etc/systemd/system
+systemctl daemon-reload
+# Updated log path for minion-log.conf
+systemctl start minion@opff.service
+
+ln -s /srv/opff/conf/systemd/redis_listener@.service /etc/systemd/system
+systemctl start redis_listener@opff.service
+```
+
+Noticed that with `systemctl status redis_listener@opff.service` there was no mention of connecting to Redis. Starting the script directly with:
+
+```
+export PERL5LIB=/srv/opff/lib
+source env/setenv.sh opff
+perl scripts/listen_to_redis_stream.pl
+```
+
+Shows: 
+
+```
+Starting listen_to_redis_stream.pl
+Trying to reconnect to Redis
+init_redis {redis_url => "10.1.0.122:6379"}
+Reading from Redis {streams => ["BLOCK",0,"STREAMS","user-deleted","user-registered","\$","\$"]}
+Connected to Redis
+```
+It looks like the service is working though
