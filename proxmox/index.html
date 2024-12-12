@@ -1002,6 +1002,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#storage-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage synchronization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage synchronization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replication-dont-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Replication (don't use it)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#host-network-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Host network configuration
@@ -1065,15 +1089,6 @@
   <a href="#http-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       HTTP Reverse Proxy
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage-synchronization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Storage synchronization
     </span>
   </a>
   
@@ -3077,6 +3092,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-10-30-ovh3-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-10-30 OVH3 backups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/" class="md-nav__link">
         
   
@@ -3176,6 +3212,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#storage-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage synchronization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage synchronization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replication-dont-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Replication (don't use it)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#host-network-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Host network configuration
@@ -3239,15 +3299,6 @@
   <a href="#http-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       HTTP Reverse Proxy
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage-synchronization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Storage synchronization
     </span>
   </a>
   
@@ -3446,8 +3497,23 @@
 <p>On ovh1 and ovh2 we use proxmox to manage VMs.</p>
 <p><strong>TODO</strong> this page is really incomplete !</p>
 <h2 id="proxmox-backups">Proxmox Backups<a class="headerlink" href="#proxmox-backups" title="Permanent link">#</a></h2>
-<p>Every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
-(see Datacenter -&gt; backup)</p>
+<p><strong>IMPORTANT:</strong> We don't use standard proxmox backup<sup id="fnref:previous_backups"><a class="footnote-ref" href="#fn:previous_backups">1</a></sup> (see Datacenter -&gt; backup).</p>
+<p>Instead we use <a href="../sanoid/">syncoid / sanoid</a> to snapshot and synchronize data to other servers.</p>
+<h2 id="storage-synchronization">Storage synchronization<a class="headerlink" href="#storage-synchronization" title="Permanent link">#</a></h2>
+<p>We don't use standard proxmox replication of storages, because it is incompatible with using <a href="../sanoid/">syncoid / sanoid</a>, as it removes snapshots on destination and does not allow to choose destination location.</p>
+<p>It means that restoring a container / VM won't be automatic and will need a manual intervention.</p>
+<h3 id="replication-dont-use-it">Replication (don't use it)<a class="headerlink" href="#replication-dont-use-it" title="Permanent link">#</a></h3>
+<p>Previously, VM and container storage were regularly synchronized to ovh3 (and eventually to ovh1/2).</p>
+<p>Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.</p>
+<p>This is managed with command line <code>pvesr</code> (PVE Storage replication). See <a href="https://pve.proxmox.com/wiki/Storage_Replication">official doc</a></p>
+<ul>
+<li>To Add replication a replication on a container / VM:<ul>
+<li>In the Replication menu of the container, "Add" one</li>
+<li>Target: the server you want</li>
+<li>Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)</li>
+</ul>
+</li>
+</ul>
 <h2 id="host-network-configuration">Host network configuration<a class="headerlink" href="#host-network-configuration" title="Permanent link">#</a></h2>
 <p>We configure network through virtual bridges (<code>vmbr&lt;n&gt;</code>) that are themselves linked to a physical network device.</p>
 <p>Also note that [NGINX proxy] has it's own IP address on a separate bridge, so that it can get network traffic directly.</p>
@@ -3525,14 +3591,11 @@ apt<span class="w"> </span>update
 <li><code>proxy1.openfoodfacts.org</code> pointing to OVH reverse proxy</li>
 <li><code>off-proxy.openfoodfacts.org</code> pointing to Free reverse proxy</li>
 </ul>
-<h2 id="storage-synchronization">Storage synchronization<a class="headerlink" href="#storage-synchronization" title="Permanent link">#</a></h2>
-<p>VM and container storage are regularly synchronized to ovh3 (and eventually to ovh1/2) to have a continuous backup.</p>
-<p>Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.</p>
-<p>This is managed with command line <code>pvesr</code> (PVE Storage replication). See <a href="https://pve.proxmox.com/wiki/Storage_Replication">official doc</a></p>
 <h2 id="how-to-migrate-a-container-vm">How to migrate a container / VM<a class="headerlink" href="#how-to-migrate-a-container-vm" title="Permanent link">#</a></h2>
 <p>You may want to move containers or VM from one server to another.</p>
-<p>Just go to the interface, right click on the VM / Container and ask to migrate !</p>
-<p>If you have a large disk, you may want to first setup replication of your disk to the target server (see <a href="#storage-synchronization">Storage synchronization</a>), schedule it immediatly (schedule button)− and then run the migration.</p>
+<p><strong>FIXME</strong> this will not work with sanoid/syncoid.</p>
+<p>~~Just go to the interface, right click on the VM / Container and ask to migrate !~~</p>
+<p>~~If you have a large disk, you may want to first setup replication of your disk to the target server (see <a href="#storage-synchronization">Storage synchronization</a>), schedule it immediatly (schedule button)− and then run the migration.~~</p>
 <h2 id="how-to-unlock-a-container">How to Unlock a Container<a class="headerlink" href="#how-to-unlock-a-container" title="Permanent link">#</a></h2>
 <p>Sometimes you may get alerts in email telling backup failed on a VM because it is locked. (<code>CT is locked</code>)</p>
 <p>This might be a temporary issue, so you should first verify in proxmox console if it's already resolved.</p>
@@ -3618,14 +3681,6 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 </ul>
 </li>
 </ul>
-<ul>
-<li>Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)<ul>
-<li>In the Replication menu of the container, "Add" one</li>
-<li>Target: ovh3</li>
-<li>Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)</li>
-</ul>
-</li>
-</ul>
 <p>Also think about <a href="../mail/#postfix-configuration">configuring email</a> in the container</p>
 <h2 id="logging-in-to-a-container-or-vm">Logging in to a container or VM<a class="headerlink" href="#logging-in-to-a-container-or-vm" title="Permanent link">#</a></h2>
 <p>Most of the time we use ssh to connect to containers and VM. See <a href="#how-to-create-a-user-in-a-container-or-vm">how to create a user in a Container or VM</a></p>
@@ -3662,6 +3717,14 @@ Mar 29 10:42:43 proxy dbus-daemon[128]: [system] Failed to activate service &#39
 </code></pre></div>
 <p>Just add nesting capability to the container and restart it.</p>
 <p>Thread on same issue : https://discuss.linuxcontainers.org/t/apparmor-blocks-systemd-services-in-container/9812</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:previous_backups">
+<p>Previously every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset&#160;<a class="footnote-backref" href="#fnref:previous_backups" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 

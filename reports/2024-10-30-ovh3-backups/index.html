@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-11-05-ovh3-disk-replace/">
+        <link rel="prev" href="../2024-10-29-move-s3-sync-script-to-ovh3/">
       
       
-        <link rel="next" href="../2023-11-28-ovh3-sdf-broken/">
+        <link rel="next" href="../2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-11-28 setup a google drive backup - Open Food Facts Infrastructure documentation</title>
+        <title>2024-10-30 OVH3 backups - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-11-28-setup-a-google-drive-backup" class="md-skip">
+        <a href="#2024-10-30-ovh3-backups" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-11-28 setup a google drive backup
+              2024-10-30 OVH3 backups
             
           </span>
         </div>
@@ -1938,30 +1938,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2023-11-28 setup a google drive backup
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1970,176 +1950,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create a container
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#techbot-account" class="md-nav__link">
-    <span class="md-ellipsis">
-      Techbot account
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Techbot account">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#trying-grive2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Trying grive2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#building-grive2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Building grive2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#first-sync-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      First sync - authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#it-does-not-work-for-us" class="md-nav__link">
-    <span class="md-ellipsis">
-      It does not work for us
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rclone" class="md-nav__link">
-    <span class="md-ellipsis">
-      rclone
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="rclone">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#config" class="md-nav__link">
-    <span class="md-ellipsis">
-      Config
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Config">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-an-oauth-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Creating an OAuth profile
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-drive" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adding drive
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#first-sync" class="md-nav__link">
-    <span class="md-ellipsis">
-      First sync
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="First sync">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#problem-in-first-think" class="md-nav__link">
-    <span class="md-ellipsis">
-      Problem in first think
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#systemd-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Systemd service
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2968,10 +2778,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-10-30-ovh3-backups/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-10-30 OVH3 backups
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2980,6 +2810,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#changing-sanoid-syncoid-config-and-removing-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing sanoid / syncoid config and removing replication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syncing-between-ovh1-and-ovh2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Syncing between ovh1 and ovh2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-dump-backups-on-ovh12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing dump backups on ovh1/2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-replication-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing replication snapshots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-syncs-on-osm45-moji" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checking syncs on osm45 (Moji)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related commits
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3082,152 +2986,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-container" class="md-nav__link">
+  <a href="#changing-sanoid-syncoid-config-and-removing-replication" class="md-nav__link">
     <span class="md-ellipsis">
-      Create a container
+      Changing sanoid / syncoid config and removing replication
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#techbot-account" class="md-nav__link">
+  <a href="#syncing-between-ovh1-and-ovh2" class="md-nav__link">
     <span class="md-ellipsis">
-      Techbot account
+      Syncing between ovh1 and ovh2
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Techbot account">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#trying-grive2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Trying grive2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#building-grive2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Building grive2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#first-sync-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      First sync - authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#it-does-not-work-for-us" class="md-nav__link">
-    <span class="md-ellipsis">
-      It does not work for us
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#rclone" class="md-nav__link">
+  <a href="#removing-dump-backups-on-ovh12" class="md-nav__link">
     <span class="md-ellipsis">
-      rclone
+      Removing dump backups on ovh1/2
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="rclone">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#config" class="md-nav__link">
+  <a href="#removing-replication-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
-      Config
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Config">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-an-oauth-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Creating an OAuth profile
+      Removing replication snapshots
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-drive" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#checking-syncs-on-osm45-moji" class="md-nav__link">
     <span class="md-ellipsis">
-      Adding drive
+      Checking syncs on osm45 (Moji)
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#first-sync" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#related-commits" class="md-nav__link">
     <span class="md-ellipsis">
-      First sync
+      Related commits
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="First sync">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#problem-in-first-think" class="md-nav__link">
-    <span class="md-ellipsis">
-      Problem in first think
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#systemd-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Systemd service
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3249,262 +3057,91 @@
   
 
 
-<h1 id="2023-11-28-setup-a-google-drive-backup">2023-11-28 setup a google drive backup<a class="headerlink" href="#2023-11-28-setup-a-google-drive-backup" title="Permanent link">#</a></h1>
-<h2 id="create-a-container">Create a container<a class="headerlink" href="#create-a-container" title="Permanent link">#</a></h2>
-<p>On ovh3 I created a container 150.
-I runned the postinstall scrpit</p>
-<p>I put a small size for the main disk (50G) it's only for the system.</p>
-<p>But after VM creation I added a disk of 500G through proxmox interface.</p>
-<p>I also made a user for me for I will need to connect with ssh (using mkuseralias script).</p>
-<h2 id="techbot-account">Techbot account<a class="headerlink" href="#techbot-account" title="Permanent link">#</a></h2>
-<p>I created a techbot account on google openfoodfacts.</p>
-<p>I gave it the reader right on whole google drive.</p>
-<h3 id="trying-grive2">Trying grive2<a class="headerlink" href="#trying-grive2" title="Permanent link">#</a></h3>
-<h3 id="building-grive2">Building grive2<a class="headerlink" href="#building-grive2" title="Permanent link">#</a></h3>
-<p>Following instructions on https://yourcmc.ru/wiki/Grive2#Build_debian_package</p>
-<p>Inside container, I clone the repository and build the deb package:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vitalif/grive2.git
-<span class="nb">cd</span><span class="w"> </span>grive2/
-git<span class="w"> </span>log<span class="p">|</span>head
-<span class="w">    </span>Author:<span class="w"> </span>Vitaliy<span class="w"> </span>Filippov<span class="w"> </span>&lt;vitalif@yourcmc.ru&gt;
-<span class="w">    </span>Date:<span class="w">   </span>Sat<span class="w"> </span>Dec<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">13</span>:20:39<span class="w"> </span><span class="m">2022</span><span class="w"> </span>+0300
-
-<span class="w">        </span>Cache<span class="w"> </span>layers<span class="w"> </span>during<span class="w"> </span>Docker<span class="w"> </span>build,<span class="w"> </span>take<span class="w"> </span><span class="nb">source</span><span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>dir<span class="w"> </span>instead<span class="w"> </span>of<span class="w"> </span>cloning
-
-<span class="w">    </span>commit<span class="w"> </span>eb82bfe28b9e796721ffdffc7426684350f71a8a
-
-apt<span class="w"> </span>install<span class="w"> </span>dpkg-dev
-<span class="c1"># note I get this list by a first run of dpkg-buildpackage</span>
-<span class="c1"># There is a &#39;|&#39; in the output to tell you to choose between two libraries for libcurl4</span>
-apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>build-essential<span class="w">  </span>debhelper<span class="w"> </span>pkg-config<span class="w"> </span>zlib1g-dev<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libboost-filesystem-dev<span class="w"> </span>libboost-program-options-dev<span class="w"> </span>libboost-test-dev<span class="w"> </span>libboost-regex-dev<span class="w"> </span>libexpat1-dev<span class="w"> </span>libgcrypt-dev<span class="w"> </span>libyajl-dev
-<span class="c1"># I did not use -j4 because it&#39;s harder to read output of parrallel compilations, and also because of limited memory</span>
-dpkg-buildpackage
-<span class="nb">cd</span><span class="w"> </span>..
-</code></pre></div>
-<p>and install:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt
-dpkg<span class="w"> </span>-i<span class="w"> </span>grive_0.5.3_amd64.deb
-</code></pre></div>
-<h3 id="first-sync-authentication">First sync - authentication<a class="headerlink" href="#first-sync-authentication" title="Permanent link">#</a></h3>
-<p>Following https://yourcmc.ru/wiki/Grive2#Usage</p>
-<p>I go to <code>/mnt/gdrive-backup/</code></p>
-<p>Start a screen: <code>screen -S grive</code></p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/mnt/gdrive-backup/
-grive<span class="w"> </span>-a
------------------------
-Please<span class="w"> </span>open<span class="w"> </span>this<span class="w"> </span>URL<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>browser<span class="w"> </span>to<span class="w"> </span>authenticate<span class="w"> </span>Grive2:
-...
-</code></pre></div>
-<p>You get a url that you must open in a browser.
-But this url have a redirect_uri parameter which redirect to localhost with a specific port.
-In my case the port is 57125 (but it changes).</p>
-<p>To have auth work, I have to redirect this local port to the container local port thanks to ssh.</p>
-<p>On my machine:
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>gdrive-backup<span class="w"> </span>-L<span class="w"> </span><span class="m">57125</span>:1217.0.0.1:57125
-</code></pre></div></p>
-<p>I can then copy paste the url in a browser tab where I am authenticated as techbot,
-after going through the google auth wizard, I get redirected and got the message:
-<div class="highlight"><pre><span></span><code>Authenticated<span class="w"> </span>successfully.<span class="w"> </span>Please<span class="w"> </span>close<span class="w"> </span>the<span class="w"> </span>page
-</code></pre></div></p>
-<p>To be able to use google auth, we either need to use w3m
-or to have localhost:58043 redirecting to the container.</p>
-<h3 id="it-does-not-work-for-us">It does not work for us<a class="headerlink" href="#it-does-not-work-for-us" title="Permanent link">#</a></h3>
-<p>Finally I get those problems after testing:</p>
-<ol>
-<li>grive does not synchronize google documents ! (while that's what we need ! To sync google docs)</li>
-<li>It does not seem to support synchronizing shared drive (and here again, that's what we need)</li>
-</ol>
-<h2 id="rclone">rclone<a class="headerlink" href="#rclone" title="Permanent link">#</a></h2>
-<h3 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h3>
-<p>We need unzip installed.
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>unzip
-</code></pre></div></p>
-<p>Then following https://rclone.org/install/</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-v<span class="w"> </span><span class="p">;</span><span class="w"> </span>curl<span class="w"> </span>https://rclone.org/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash
-</code></pre></div>
-<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">#</a></h2>
-<h3 id="creating-an-oauth-profile">Creating an OAuth profile<a class="headerlink" href="#creating-an-oauth-profile" title="Permanent link">#</a></h3>
-<p>I prefer to do that as a backup of many file can lead to many requests.</p>
-<p>I followed https://rclone.org/drive/#making-your-own-client-idX</p>
+<h1 id="2024-10-30-ovh3-backups">2024-10-30 OVH3 backups<a class="headerlink" href="#2024-10-30-ovh3-backups" title="Permanent link">#</a></h1>
+<p>We need an intervention to change a disk on ovh3.</p>
+<p>We still have very few backups for OVH services.</p>
+<p>Before the operation, I want to at least have replication of OVH backups on the new MOJI server.</p>
+<p>We previously tried to do it while keeping replication, but it does not work well.
+<a href="../2024-09-30-ovh3-backups/">see 2024-09-30 ovh3 backups</a></p>
+<p>So here is what we are going to do:</p>
 <ul>
-<li>logged into https://console.developers.google.com/</li>
-<li>select projects --&gt; create new<ul>
-<li>name: "drive backup"</li>
-<li>org and zone: openfoodfacts.org</li>
-</ul>
-</li>
-<li>"ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API".</li>
-<li>Click "Credentials" in the left-side panel (not "Create credentials", which opens the wizard).</li>
-<li>"CONFIGURE CONSENT SCREEN"<ul>
-<li>first step (creation):<ul>
-<li>user type: external --&gt; no ! use internal (see below)</li>
-<li>click create</li>
-</ul>
-</li>
-<li>second step (app config):
-     * app name: rclone
-     * assistance email: tech - at - openfoodfacts.org
-     * dev email: tech - at -  openfoodfacts.org
-     * click save</li>
-<li>third step (scopes) :
-     * click on add and remove application scope
-     * select: .../auth/docs, .../auth/drive,  ../auth/drive.metadata.readonly 
-     * click update
-     * click save and continue<ul>
-<li>4th step (tests users):<ul>
-<li>click add user</li>
-<li>add techbot@openfoodfacts.org</li>
-<li>click save and continue</li>
+<li>remove replication and let sanoid / syncoid deal with replication to ovh3<ul>
+<li>we will have less snapshots on the ovh1/ovh2 side and we will use a replication snapshot
+  to avoid relying on a common existing snapshot made by syncoid</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>I first use application type external,
-but finally I decided to go for internal app (this is fine for our use)
-So in OAuth consent screen, I changed type to "Internal".
-So above scenario might have some unecessary step.</p>
-<p>Add an 0Auth account:</p>
+<p>Note that we don't replicate between ovh1 and ovh2 because we have very few space left on disks.</p>
+<h2 id="changing-sanoid-syncoid-config-and-removing-replication">Changing sanoid / syncoid config and removing replication<a class="headerlink" href="#changing-sanoid-syncoid-config-and-removing-replication" title="Permanent link">#</a></h2>
+<p>First because we won't use replication anymore, we have to create the ovh3operator on ovh1 and ovh2,
+and as we want to use replication snapshot, we have to use corresponding rights for ZFS,
+See <a href="../../sanoid/#creating-operator-on-prod_server">Sanoid / creating operator on PROD_SERVER</a></p>
+<p>I also add to link zfs command in /usr/bin: <code>ln -s /usr/sbin/zfs /usr/bin</code></p>
+<p>For each VM / CT separately I did:</p>
 <ul>
-<li>click on "credentials" on the right panel, to come back to it</li>
-<li>click on "+ CREATE CREDENTIALS" button at the top of the screen, then select "OAuth client ID".<ul>
-<li>Choose an application type of "Desktop app", name "rclone backup drive on ovh3" and click "Create"</li>
+<li>disable replication</li>
+<li>I didn't have to change syncoid policy on ovh1/2</li>
+<li>on ovh3<ul>
+<li>configure sanoid policy from replicated_volumes to a regular synced_data one</li>
+<li>use syncoid to sync the volume and configure add the line to syncoid-args (using a specific snapshot)</li>
 </ul>
 </li>
 </ul>
-<h3 id="adding-drive">Adding drive<a class="headerlink" href="#adding-drive" title="Permanent link">#</a></h3>
-<p>following https://rclone.org/drive/</p>
-<p>I will first create the drive corresponding to Open Food Facts.</p>
-<p>I get the drive id in the url of the drive (after folders/)</p>
-<div class="highlight"><pre><span></span><code>rclone config
-...
-No remotes found, make a new one?
-n) New remote
-s) Set configuration password
-q) Quit config
-n/s/q&gt; n
-
-Enter name for new remote.
-name&gt; off-gdrive
-
-Option Storage.
-Type of storage to configure.
-Choose a number from below, or type in your own value.
-...
-18 / Google Drive
-   \ (drive)
-...
-Storage&gt; drive
-
-Option client_id.
-Google Application Client Id
-Setting your own is recommended.
-See https://rclone.org/drive/#making-your-own-client-id for how to create your own.
-If you leave this blank, it will use an internal key which is low performance.
-Enter a value. Press Enter to leave empty.
-client_id&gt; ***********.apps.googleusercontent.com
-
-Option client_secret.
-OAuth Client Secret.
-Leave blank normally.
-Enter a value. Press Enter to leave empty.
-client_secret&gt; ********************
-
-Option scope.
-Comma separated list of scopes that rclone should use when requesting access from drive.
-Choose a number from below, or type in your own value.
-Press Enter to leave empty.
-...
-scope&gt; drive.readonly
-
-Option service_account_file.
-Service Account Credentials JSON file path.
-...
-service_account_file&gt; 
-
-Edit advanced config?
-...
-y/n&gt; n
-... (all the rest is default)
+<p>I tried with CT 130 (contents) first. I tried the syncoid command manually:
+<div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>ovh3operator@10.0.0.1:rpool/subvol-130-disk-0<span class="w"> </span>rpool/subvol-130-disk-0
 </code></pre></div>
-<p>We then come to authorization:</p>
-<div class="highlight"><pre><span></span><code>2023/11/28 15:15:21 NOTICE: Make sure your Redirect URL is set to &quot;http://127.0.0.1:53682/&quot; in your custom config.
-2023/11/28 15:15:21 NOTICE: If your browser doesn&#39;t open automatically go to the following link: http://127.0.0.1:53682/auth?state=******
-2023/11/28 15:15:21 NOTICE: Log in and authorize rclone for access
+I did some less important CT and VM: 113, 140, 200 and decided to wait until next day to control everything is ok.</p>
+<p>The day after, I did the same for CT 101, 102, 103, 104,105, 106, 108, 202 and 203 on ovh1,
+and 107, 110 and 201 on ovh2.</p>
+<p>I removed 109 120</p>
+<p>I also removed sync of CT 107 to ovh1 (because we are nearly out of disk space) and removed the volume there.</p>
+<h2 id="syncing-between-ovh1-and-ovh2">Syncing between ovh1 and ovh2<a class="headerlink" href="#syncing-between-ovh1-and-ovh2" title="Permanent link">#</a></h2>
+<p>We have two VMs that are really important to replicate (but using syncoid) from ovh1 to ovh2.</p>
+<p>So I <a href="../../sanoid/#creating-operator-on-prod_server">created an ovh2operator on ovh1</a></p>
+<p>I installed the syncoid systemd service and enabled it.
+Same for <code>sanoid_check</code>.</p>
+<p>I added synced_data template to sanoid.conf to use it for synced volumes.
+I removed volume 101 and 102 and manually synced them from ovh1 to ovh2.
+Then I added them to <code>syncoid-args.conf</code>.</p>
+<h2 id="removing-dump-backups-on-ovh12">Removing dump backups on ovh1/2<a class="headerlink" href="#removing-dump-backups-on-ovh12" title="Permanent link">#</a></h2>
+<p>We also decided to remove dump backups on ovh1/2/3.</p>
+<p>Going in proxmox interface, Datacenter, Backup, I disabled backups.</p>
+<h2 id="removing-replication-snapshots">Removing replication snapshots<a class="headerlink" href="#removing-replication-snapshots" title="Permanent link">#</a></h2>
+<p>On ovh1, ovh2, ovh3 I removed the __replicate_ snapshots.</p>
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_<span class="p">|</span>xargs<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w">  </span>zfs<span class="w"> </span>destroy
 </code></pre></div>
-<p>So I first did a port redirection with ssh from my machine:
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>gdrive-backup<span class="w"> </span>-L<span class="w"> </span><span class="m">53682</span>:127.0.0.1:53682
-</code></pre></div>
-and opened the url on my machine, but in a tab where I am authenticated as techbot.
-I followed the auth screen and finally got a:
-<div class="highlight"><pre><span></span><code>Success!
-All done. Please go back to rclone.
+<p>Also on osm45
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>hdd-zfs/off-backups/ovh3-rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_
+zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>hdd-zfs/off-backups/ovh3-rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_<span class="p">|</span>xargs<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w">  </span>zfs<span class="w"> </span>destroy
 </code></pre></div></p>
-<p>It proceed on the server:
-<div class="highlight"><pre><span></span><code>Configure this as a Shared Drive (Team Drive)?
-
-y) Yes
-n) No (default)
-y/n&gt; y
-
-Option config_team_drive.
-Shared Drive
-Choose a number from below, or type in your own string value.
-Press Enter for the default (0AHYW2qKn7jMpUk9PVA).
- 1 / OFF Fellowship drive
-   \ (*******)
- 2 / Open Food Facts
-   \ (*******)
-config_team_drive&gt; 2
-
-...
-
-Keep this &quot;off-gdrive&quot; remote?
-y) Yes this is OK (default)
-e) Edit this remote
-d) Delete this remote
-y/e/d&gt; y
+<p>I did the same for vz_dump snapshots, as now backups are no more active.</p>
+<h2 id="checking-syncs-on-osm45-moji">Checking syncs on osm45 (Moji)<a class="headerlink" href="#checking-syncs-on-osm45-moji" title="Permanent link">#</a></h2>
+<p>We don't need to use a sanoid specific snapshot on moji anymore so we changes the sanoid.conf
+to use --no-sync-snap option for every volumes but backups (which is not handled by sanoid on ovh3 side).</p>
+<p>Syncs seems ok.</p>
+<p>One day after we cleaned the old remaining syncoid snapshots on osm45:
+<div class="highlight"><pre><span></span><code><span class="c1"># verify that we have snapshots after the syncoid one</span>
+zfs<span class="w"> </span>list<span class="w"> </span>hdd-zfs/off-backups/ovh3-rpool<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-r<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>-H<span class="p">|</span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w">  </span>@syncoid_osm45<span class="p">|</span>grep<span class="w"> </span>-v<span class="w"> </span>ovh3-rpool/backups@
+<span class="c1"># clean</span>
+zfs<span class="w"> </span>list<span class="w"> </span>hdd-zfs/off-backups/ovh3-rpool<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-r<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>-H<span class="p">|</span>grep<span class="w"> </span>@syncoid_osm45<span class="p">|</span>grep<span class="w"> </span>-v<span class="w"> </span>ovh3-rpool/backups@<span class="p">|</span>xargs<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-r<span class="w"> </span>zfs<span class="w"> </span>destroy
 </code></pre></div></p>
-<p><strong>FIXME</strong> add second drive.</p>
-<h3 id="first-sync">First sync<a class="headerlink" href="#first-sync" title="Permanent link">#</a></h3>
-<p>see https://rclone.org/commands/rclone_copy/</p>
-<p>As simple as:
-<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>sync<span class="w"> </span>off-gdrive:<span class="w"> </span>/mnt/gdrive-backup/Open-Food-Facts/
+<p>And on ovh3:
+<div class="highlight"><pre><span></span><code><span class="c1"># verify</span>
+zfs<span class="w"> </span>list<span class="w"> </span>rpool<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-r<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>-H<span class="p">|</span>grep<span class="w"> </span>@syncoid_osm45<span class="p">|</span>grep<span class="w"> </span>-v<span class="w"> </span>backups@
+<span class="c1"># destroy</span>
+zfs<span class="w"> </span>list<span class="w"> </span>rpool<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-r<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>-H<span class="p">|</span>grep<span class="w"> </span>@syncoid_osm45<span class="p">|</span>grep<span class="w"> </span>-v<span class="w"> </span>backups@<span class="p">|</span>xargs<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-r<span class="w"> </span>zfs<span class="w"> </span>destroy
 </code></pre></div></p>
-<p>We use sync and not copy because sync also remove files deleted on remotes.
-We will however keep old files through the ZFS snpashots mechanism.</p>
-<h4 id="problem-in-first-think">Problem in first think<a class="headerlink" href="#problem-in-first-think" title="Permanent link">#</a></h4>
-<p>Looking at the process after a while, it did stop because the disk was full with 500 G of data</p>
-<p>I augment the zfs dataset size with <code>pct resize mp0 2T</code> but I was supsicious.</p>
-<p>I look at properties of the drive in Google drive, and it says it was 105G of data.</p>
-<p>I then issue a  <code>du -sh *|sort -h</code> in <code>/mnt/gdrive-backup/Open-Food-Facts</code> and saw <code>Community Management</code> folder taking a lot of space !
-After investigation, it was dowloading several time because there is a shortcut of the same folder inside the folder.</p>
-<p>I though I configured the drive to not 250000download linked content, but it seems not to be the case !</p>
-<p>https://rclone.org/flags/ helps me get the flag I want to edit: <code>--drive-copy-shortcut-content</code></p>
-<p>So I did a <a href="https://rclone.org/commands/rclone_config_update/"><code>rclone config update</code></a>:
-<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w"> </span><span class="nv">copy_shortcut_content</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div></p>
-<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w">  </span>off-gdrive<span class="w"> </span><span class="nv">copy_shortcut_content</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div>
-<p>I also changed some other flags for efficiency:
-<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w">  </span><span class="nv">buffer_size</span><span class="o">=</span>256M<span class="w"> </span><span class="nv">fast_list</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div></p>
-<p>I did a research on the drive and found a lot of shorcuts, so instead of cleaning the mess,
-I removed all content and did the sync again !</p>
-<p>But it was not enough !</p>
-<p>So I tried to use skip shortcuts option:</p>
-<div class="highlight"><pre><span></span><code>rclone<span class="w"> </span>config<span class="w"> </span>update<span class="w"> </span>off-gdrive<span class="w">   </span><span class="nv">config_refresh_token</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div>
-<h3 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h3>
-<p>I created <code>rclone_backup@.{service,timer}</code> and linked it.</p>
-<p>I renamed <code>/mnt/gdrive-backup/Open Food Facts</code> to <code>/mnt/gdrive-backup/off-gdrive</code> to be consistent</p>
-<p>Then activate:</p>
-<div class="highlight"><pre><span></span><code>systemctl daemon-reload
-systemctl enable --now rclone_backup@off-gdrive
-</code></pre></div>
+<h2 id="related-commits">Related commits<a class="headerlink" href="#related-commits" title="Permanent link">#</a></h2>
+<p>Commits of configurations changes on ovh1, ovh2, ovh3:</p>
+<ul>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/fd68c17ee2e929703ec364cbffae2d9bf7861d15">feat: some more hourly snapshots on ovh1</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/2a4a413e38827e30a844f85c3e7416fdcfd998a1">feat: using syncoid to sync data from ovh1/2</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9d915e0e02afbcd0ce4addd30fb7c9b9d35d5a41">feat(ovh1): sanoid install</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/91d89ef5cc900776b4498a4193aee6dc4a5af075">feat: some more hourly snapshots on ovh2</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/47ecab46bcb1b11188d4fecf732ae6adec37054a">feat: sync some ovh1 volumes</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/8426727bef1ef55a2c5b233233c484b4177fdcc9">fix: do not use a sync snap to sync from ovh3 anymore</a></li>
+</ul>
 
 
 

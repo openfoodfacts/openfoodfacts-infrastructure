@@ -693,6 +693,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2024-10-31-system-taking-100-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      2024-10-31 system taking 100% CPU
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2024-10-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      2024-10-10
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-12-05-certificates-for-images-expired" class="md-nav__link">
     <span class="md-ellipsis">
       2023-12-05 certificates for images expired
@@ -2882,6 +2900,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2024-10-30-ovh3-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-10-30 OVH3 backups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/" class="md-nav__link">
         
   
@@ -2972,6 +3011,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2024-10-31-system-taking-100-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      2024-10-31 system taking 100% CPU
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2024-10-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      2024-10-10
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2023-12-05-certificates-for-images-expired" class="md-nav__link">
     <span class="md-ellipsis">
       2023-12-05 certificates for images expired
@@ -3055,6 +3112,21 @@
 <h1 id="ovh3-server-logs">ovh3 server logs<a class="headerlink" href="#ovh3-server-logs" title="Permanent link">#</a></h1>
 <p>Report here the timeline of incidents and interventions on ovh3 server.
 Keep things short or write a report.</p>
+<h2 id="2024-10-31-system-taking-100-cpu">2024-10-31 system taking 100% CPU<a class="headerlink" href="#2024-10-31-system-taking-100-cpu" title="Permanent link">#</a></h2>
+<ul>
+<li>Server is not accessible via SSH. </li>
+<li>Munin show 100% CPU taken by system.</li>
+<li>We ask for a hard reboot on OVH console.</li>
+<li>After restart system continues to use 100% CPU.</li>
+<li>Top shows that arc_prune + arc_evict are using 100% CPU</li>
+<li>exploring logs does not show strange messages</li>
+<li><code>cat /proc/spl/kstat/zfs/arcstats|grep arc_meta</code> shows a arc_meta_used &lt; arc_meta_max (so it's ok)</li>
+<li>We soft reboot the server</li>
+<li>It is back to normal</li>
+</ul>
+<h2 id="2024-10-10">2024-10-10<a class="headerlink" href="#2024-10-10" title="Permanent link">#</a></h2>
+<p>sda on ovh3 is faulty (64 Current_Pending_Sector, 2 Reallocated_Event_Count).
+See https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/424</p>
 <h2 id="2023-12-05-certificates-for-images-expired">2023-12-05 certificates for images expired<a class="headerlink" href="#2023-12-05-certificates-for-images-expired" title="Permanent link">#</a></h2>
 <p>Images not displaying anymore on the website due to SSL problem (signaled by Edouard, with alert by blackbox exporter)
 In syslog:
