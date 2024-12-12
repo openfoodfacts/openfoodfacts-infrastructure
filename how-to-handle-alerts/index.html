@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../discourse/">
+        <link rel="prev" href="../how-to-fail2ban-debian-11%2B/">
       
       
-        <link rel="next" href="../docker/">
+        <link rel="next" href="../how-to-have-server-config-in-git/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Disks - Open Food Facts Infrastructure documentation</title>
+        <title>How to handle alerts - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#disks" class="md-skip">
+        <a href="#how-to-handle-alerts" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Disks
+              How to handle alerts
             
           </span>
         </div>
@@ -244,30 +244,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Disks
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../disks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -276,62 +256,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#some-good-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Some good practices
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      ZFS
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disk-space" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disk space
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#smartctl" class="md-nav__link">
-    <span class="md-ellipsis">
-      Smartctl
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -520,10 +444,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../how-to-handle-alerts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    How to handle alerts
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -532,6 +476,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#postfix-mail-messages-queue-is-high-slack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Postfix mail messages queue is high (slack)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sanoid_checksh-error-on-server-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      sanoid_check.sh error on &lt;server&gt; (email)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-snapshot-dataset-is-too-old" class="md-nav__link">
+    <span class="md-ellipsis">
+      Last snapshot &lt;dataset&gt; is too old
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataset-has-too-many-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      &lt;dataset&gt; has too many snapshots
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2924,36 +2924,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#some-good-practices" class="md-nav__link">
+  <a href="#postfix-mail-messages-queue-is-high-slack" class="md-nav__link">
     <span class="md-ellipsis">
-      Some good practices
+      Postfix mail messages queue is high (slack)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#zfs" class="md-nav__link">
+  <a href="#sanoid_checksh-error-on-server-email" class="md-nav__link">
     <span class="md-ellipsis">
-      ZFS
+      sanoid_check.sh error on &lt;server&gt; (email)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#disk-space" class="md-nav__link">
+  <a href="#last-snapshot-dataset-is-too-old" class="md-nav__link">
     <span class="md-ellipsis">
-      Disk space
+      Last snapshot &lt;dataset&gt; is too old
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#smartctl" class="md-nav__link">
+  <a href="#dataset-has-too-many-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
-      Smartctl
+      &lt;dataset&gt; has too many snapshots
     </span>
   </a>
   
@@ -2977,29 +2977,76 @@
   
 
 
-<h1 id="disks">Disks<a class="headerlink" href="#disks" title="Permanent link">#</a></h1>
-<h2 id="some-good-practices">Some good practices<a class="headerlink" href="#some-good-practices" title="Permanent link">#</a></h2>
-<p>Always try to separate: primary data, cache data (data generated from primary data), configuration data, and system.
-This makes data management (backup, recovery, day to day maintenance) easier.</p>
-<p>In ZFS use different datasets for that.</p>
-<p>For backup data or large data with few I/O operations eventually use NFS mount from a separate server.</p>
-<h2 id="zfs">ZFS<a class="headerlink" href="#zfs" title="Permanent link">#</a></h2>
-<p>we extensively use ZFS, see <a href="../zfs-overview/">ZFS overview</a></p>
-<h2 id="disk-space">Disk space<a class="headerlink" href="#disk-space" title="Permanent link">#</a></h2>
-<p>See <a href="../how-to-add-disk-space-on-qemu/">How to add disk space on a Qemu VM</a></p>
-<h2 id="smartctl">Smartctl<a class="headerlink" href="#smartctl" title="Permanent link">#</a></h2>
-<p>Some useful command:</p>
-<div class="highlight"><pre><span></span><code>smartctl<span class="w"> </span>-x
-</code></pre></div>
-<p>gives you every informations about a system.</p>
-<p>Be attentive to <code>SMART overall-health self-assessment test result</code>.</p>
-<p>Also verify <code>Device Error Count</code>. (you can see errors with <code>smartctl -l error</code>)</p>
-<p>Verify that tests under <code>SMART Extended Self-test</code> finished. (you can see tests with <code>smartctl -l selftest</code>)</p>
-<p>Use <code>smartctl -t short /dev/sdX</code> to test a single device. (or <code>-t long</code>)</p>
-<p>Resources: </p>
+<h1 id="how-to-handle-alerts">How to handle alerts<a class="headerlink" href="#how-to-handle-alerts" title="Permanent link">#</a></h1>
+<p>This document describes for each alerts what you should do to diagnose and fix it.</p>
+<h2 id="postfix-mail-messages-queue-is-high-slack">Postfix mail messages queue is high (slack)<a class="headerlink" href="#postfix-mail-messages-queue-is-high-slack" title="Permanent link">#</a></h2>
+<p>This is fired by prometheus.</p>
+<p>This means that Proxmox Mail Gateway defered mail queue has many messages.</p>
+<p>This happens because of bad email addresses that can't be delivered.</p>
 <ul>
-<li>(fr) https://www.malekal.com/smartctl-verifier-son-disque-en-ligne-de-commandes-linux/ </li>
-<li>about unreadable sectors https://www.truenas.com/community/threads/is-this-a-bad-sign-smartd-1-currently-unreadable-pending-sectors.9824/#post-42966</li>
+<li><a href="../mail/#administration">Connect to the Proxmox Mail Gateway interface</a>,</li>
+<li>go to the <em>Administration</em> / <em>Queues</em> and check deferred mails.
+  You can see them by target domains.</li>
+</ul>
+<p>It might be that:</p>
+<ul>
+<li>we have emails of users with full inbox or that do not exists anymore
+  In this case the best is to remove the users (remove them also in the newsletter, brevo)</li>
+<li>if you have emails to <code>root@&lt;server&gt;.openfoodfacts.org</code>,
+  it might be that either the server relay is not configured correctly,
+  or the <code>mailx</code> program is not installed or not the <code>bsd-mailx</code> package.
+  See <a href="../mail/#servers">mail configuration for servers</a></li>
+</ul>
+<p>Finally when you are done, you can empty the queues.</p>
+<p><em>Tip</em>: To extract the email addresses in the detail of deferred mails,
+you can use the "Console" of the developers toolbar with this expression:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">$x</span><span class="p">(</span><span class="s1">&#39;//div[contains(@id, &quot;pmgPostfixMailQueue&quot;)]//div[@class=&quot;x-grid-item-container&quot;]//table//td[4]//text()&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">x</span><span class="p">.</span><span class="nx">nodeValue</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s2">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="sanoid_checksh-error-on-server-email">sanoid_check.sh error on <code>&lt;server&gt;</code> (email)<a class="headerlink" href="#sanoid_checksh-error-on-server-email" title="Permanent link">#</a></h2>
+<p>This is fired by the <code>sanoid_check.sh</code> script which is regularly run by systemd
+on every host using ZFS.</p>
+<p>There are two possible alerts for each dataset.</p>
+<h2 id="last-snapshot-dataset-is-too-old">Last snapshot <code>&lt;dataset&gt;</code> is too old<a class="headerlink" href="#last-snapshot-dataset-is-too-old" title="Permanent link">#</a></h2>
+<p>This is fired because of different reasons:</p>
+<ul>
+<li>
+<p>if  the dataset is a replication of a dataset on another host,
+  it is not synchronized anymore.
+  This might be transient because of a large volume of data to transfer,
+  until syncoid catches up.</p>
+<p>To diagnose, go on the server and:</p>
+<ul>
+<li>list snapshots with <code>zfs list  -t snapshot path/of/dataset</code> and check the last one</li>
+<li>eventually look at syncoid logs with <code>journalctl -xe -u syncoid</code> searching for you dataset.</li>
+</ul>
+<p>Sometimes the synchronization is not working because the last snapshot has been removed on the source. See <a href="../how-to-resync-zfs-replication/">How to resync ZFS replication</a></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>if the dataset is local,
+  it might be that you didn't configure sanoid (<code>sanoid.conf</code>)
+  correctly for this dataset, be it you forgot to <a href="../sanoid/#sanoid-snapshot-configuration">add snapshot specification</a>,
+  or add it to <a href="../sanoid/#sanoid-checks"><code>no_sanoid_checks</code> directives</a>.</p>
+<p>To diagnose, go on the server and:</p>
+<ul>
+<li>list snapshots with <code>zfs list  -t snapshot path/of/dataset</code> and check the last one</li>
+<li>eventually look at sanoid logs with <code>journalctl -xe -u sanoid</code> searching for you dataset.</li>
+</ul>
+</li>
+</ul>
+<h2 id="dataset-has-too-many-snapshots"><code>&lt;dataset&gt;</code> has too many snapshots<a class="headerlink" href="#dataset-has-too-many-snapshots" title="Permanent link">#</a></h2>
+<p>This is fired because snapshots are accumulating on a dataset
+(which can lead in increased disk usage).</p>
+<p>On the server, list snapshots with <code>zfs list  -t snapshot path/of/dataset</code>.</p>
+<p>Accumulation can be due to two main reasons:</p>
+<ul>
+<li>you forgot to configure the retention policy in <code>sanoid.conf</code> for this dataset,
+  and sanoid is not removing old snapshots.
+  In this case you will see a lot of hourly / daily snapshots.</li>
+<li>there is another source adding snapshots to this dataset, which are not removed by sanoid.</li>
+<li>eventually sanoid is not able to cleanup snapshots,
+  use <code>journalctl -xe -u sanoid</code> to try to see why.</li>
 </ul>
 
 
