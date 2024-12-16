@@ -48,9 +48,21 @@ A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
 
 * [`zdb`](https://openzfs.github.io/openzfs-docs/man/master/8/zdb.8.html) is also worth knowing (`zdb -s <poolname>` for example)
 
+## Some Fine-Tuning
+
+We use compression on a lot of our datasets (`compression=on`).
+
+You can set `primarycache=metadata` for volumes with large number of files,
+that are not critical to read fast. (eg. Images on off container, or backups from other servers).
+
+In [Munin](./munin.md) `ZFS ARC - Hit ratio`  the `ZFS Arc Efficiency` gives you an idea of how well ZFS caching is performing.
+
+
 ## Proxmox
 
 Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.
+
+Note: we progressively abandon Proxmox ZFS replication in favor of using sanoid/syncoid.
 
 ## Using sanoid
 
