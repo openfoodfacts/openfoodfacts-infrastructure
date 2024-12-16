@@ -81,6 +81,8 @@ For a detailed overview of our production architecture, see [Production Architec
 
 Other tools supporting the community are deployed in containers, some times on the same servers.
 
+If you deploy a new service, see [How to deploy a new service](./how-to-deploy-a-new-service.md).
+
 ## Repository Structure
 
 The repository is organized into several directories, each serving a specific purpose:
