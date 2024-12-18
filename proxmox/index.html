@@ -993,6 +993,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#proxmox-knowledge-tips-etc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox: knowledge, tips, etc.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-backups" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox Backups
@@ -3203,6 +3212,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#proxmox-knowledge-tips-etc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox: knowledge, tips, etc.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-backups" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox Backups
@@ -3495,7 +3513,26 @@
 
 <h1 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h1>
 <p>On ovh1 and ovh2 we use proxmox to manage VMs.</p>
-<p><strong>TODO</strong> this page is really incomplete !</p>
+<p><strong>TODO</strong> this page is really incomplete!</p>
+<h2 id="proxmox-knowledge-tips-etc">Proxmox: knowledge, tips, etc.<a class="headerlink" href="#proxmox-knowledge-tips-etc" title="Permanent link">#</a></h2>
+<ul>
+<li>Proxmox wiki is a good source of information: https://pve.proxmox.com/wiki</li>
+<li>Community scripts to ease Proxmox' utilisation: https://community-scripts.github.io/ProxmoxVE/<ul>
+<li>those scripts might not be suited for production environnement; it's better suited for homer server</li>
+<li>but it can be usefull for:<ul>
+<li>test things (install a test service very fast)</li>
+<li>studying good practices when installing a software</li>
+</ul>
+</li>
+<li>this scripts contains:<ul>
+<li>things to manage Proxmox: post-install, automate CT updates, etc;</li>
+<li>tools to manage Docker and Kubernetes</li>
+<li>dozens of web apps and services such as Nextcloud, Keycloack, Nginx proxy manager, Grafana, Prometheus, Yunohost (containing itself dozens of apps), VS Code Server, IA tools, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="proxmox-backups">Proxmox Backups<a class="headerlink" href="#proxmox-backups" title="Permanent link">#</a></h2>
 <p><strong>IMPORTANT:</strong> We don't use standard proxmox backup<sup id="fnref:previous_backups"><a class="footnote-ref" href="#fn:previous_backups">1</a></sup> (see Datacenter -&gt; backup).</p>
 <p>Instead we use <a href="../sanoid/">syncoid / sanoid</a> to snapshot and synchronize data to other servers.</p>
