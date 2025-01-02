@@ -1180,6 +1180,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some Fine-Tuning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox
@@ -3134,6 +3143,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#some-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some Fine-Tuning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox
@@ -3327,8 +3345,14 @@ You can still see datasets usage by using:
 <ul>
 <li><a href="https://openzfs.github.io/openzfs-docs/man/master/8/zdb.8.html"><code>zdb</code></a> is also worth knowing (<code>zdb -s &lt;poolname&gt;</code> for example)</li>
 </ul>
+<h2 id="some-fine-tuning">Some Fine-Tuning<a class="headerlink" href="#some-fine-tuning" title="Permanent link">#</a></h2>
+<p>We use compression on a lot of our datasets (<code>compression=on</code>).</p>
+<p>You can set <code>primarycache=metadata</code> for volumes with large number of files,
+that are not critical to read fast. (eg. Images on off container, or backups from other servers).</p>
+<p>In <a href="../munin/">Munin</a> <code>ZFS ARC - Hit ratio</code>  the <code>ZFS Arc Efficiency</code> gives you an idea of how well ZFS caching is performing.</p>
 <h2 id="proxmox">Proxmox<a class="headerlink" href="#proxmox" title="Permanent link">#</a></h2>
 <p>Proxmox uses ZFS to replicate containers and VMs between servers. It also use it to backup data.</p>
+<p>Note: we progressively abandon Proxmox ZFS replication in favor of using sanoid/syncoid.</p>
 <h2 id="using-sanoid">Using sanoid<a class="headerlink" href="#using-sanoid" title="Permanent link">#</a></h2>
 <p>We use sanoid / syncoid to sync ZFS datasets between servers (also to back them up).</p>
 <p>See <a href="../sanoid/">sanoid</a></p>
