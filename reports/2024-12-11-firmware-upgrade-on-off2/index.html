@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-02-13-zammad-down/">
+        <link rel="prev" href="../2024-12-01-add-stunnel-endpoints/">
       
       
-        <link rel="next" href="../2023-02-17-off2-upgrade/">
+        <link rel="next" href="../2024-12-23-images-certificate-expired/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023 02 16 off2 shutdown - Open Food Facts Infrastructure documentation</title>
+        <title>2024-12-11 Firmware upgrade on off2 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -70,6 +70,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#2024-12-11-firmware-upgrade-on-off2" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -102,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023 02 16 off2 shutdown
+              2024-12-11 Firmware upgrade on off2
             
           </span>
         </div>
@@ -1492,17 +1497,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1511,7 +1509,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2865,10 +2862,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-12-11-firmware-upgrade-on-off2/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-12-11 Firmware upgrade on off2
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2877,6 +2894,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the firmware
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2927,6 +2991,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the firmware
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2944,9 +3045,49 @@
   
 
 
-  <h1>2023 02 16 off2 shutdown</h1>
-
-
+<h1 id="2024-12-11-firmware-upgrade-on-off2">2024-12-11 Firmware upgrade on off2<a class="headerlink" href="#2024-12-11-firmware-upgrade-on-off2" title="Permanent link">#</a></h1>
+<p>We noticed that on off2, the latency was really high for two of the hard drives,
+namely sdc and sdd.</p>
+<p>After some research, Christian found that it could be linked to an old firmware on the disks.</p>
+<h2 id="preparation">Preparation<a class="headerlink" href="#preparation" title="Permanent link">#</a></h2>
+<p>We can see firmware version by using (here for sdd):
+<div class="highlight"><pre><span></span><code>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sdd<span class="p">|</span>grep<span class="w"> </span>-i<span class="w"> </span>firmware
+</code></pre></div>
+It was <code>GB01</code> on the two culprits, while it was <code>GB03</code> on the others.</p>
+<p>Christian downloaded the firmware update for the disks,
+it comes as an installer: <code>Serial-ATA_Firmware_0942Y_LN_GB03_A00.BIN</code></p>
+<p>You can find it by using the "Device Model" entry from <code>smartctl -a</code> (here <code>TOSHIBA MG07ACA14TEY</code>)
+and search for firmwaon the flyre. You land on <code>https://www.dell.com/support/home/fr-fr/drivers/driversdetails?driverid=0942y</code></p>
+<h2 id="changing-the-firmware">Changing the firmware<a class="headerlink" href="#changing-the-firmware" title="Permanent link">#</a></h2>
+<p>The firmware update is happening on all disk on the server.</p>
+<p>We just run the program as root and it went smoothly.</p>
+<p>But we wanted to be sure that the firmware upgrade was taken into account
+(we didn't have the time to wait for a check,
+and where not sure of the figure seen with <code>zpool iostat</code>).</p>
+<p>So we decided to remove and re-add the disks to the server.
+Because our ZFS is raidz we can remove one disk at a time without losing data,
+and because we will remove it only for a short period, re-silver will be fast.</p>
+<p>So we removed sdd from ZFS pools
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>offline<span class="w"> </span>zfs-hdd<span class="w"> </span>sdd4
+<span class="c1"># for rpool the name is different, but we can recognize thanks to the serial number (smartctl -a gives it)</span>
+zpool<span class="w"> </span>offline<span class="w"> </span>rpool<span class="w"> </span>ata-TOSHIBA_MG07ACA14TEY_X8F0A0H8F9RG-part3
+</code></pre></div></p>
+<p>We unplugged the disk and plugged it back in.</p>
+<p>Then we re-added it to the ZFS pools:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>online<span class="w"> </span>zfs-hdd<span class="w"> </span>sdd4
+zpool<span class="w"> </span>online<span class="w"> </span>rpool<span class="w"> </span>ata-TOSHIBA_MG07ACA14TEY_X8F0A0H8F9RG-part3
+</code></pre></div></p>
+<p>We then wait for re-silver to be completed, zpool status displays if a resilver is in progress or done:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>status
+</code></pre></div>
+It was almost instantaneous.</p>
+<p>We did the same operation for the other disk, <code>sdc</code>.</p>
+<p>Note: we did not offlined the disk from rpool because we forgot to do it. It went well the same,
+because ZFS was resilient enough and did the resilver automatically.</p>
+<h2 id="result">Result<a class="headerlink" href="#result" title="Permanent link">#</a></h2>
+<p>The result is easy to see in munin:</p>
+<p><a class="glightbox" href="../media/2024-12-11-munin-off2-latency-after-firmware-update.png" data-type="image" data-width="auto" data-height="auto" data-title="disk latency graph" data-desc-position="bottom"><img alt="disk latency graph" src="../media/2024-12-11-munin-off2-latency-after-firmware-update.png" /></a></p>
+<p><a class="glightbox" href="../media/2024-12-11-munin-off2-usage-after-firmware-update.png" data-type="image" data-width="auto" data-height="auto" data-title="disk usage graph" data-desc-position="bottom"><img alt="disk usage graph" src="../media/2024-12-11-munin-off2-usage-after-firmware-update.png" /></a></p>
 
 
 
