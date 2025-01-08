@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-12-11-firmware-upgrade-on-off2/">
+        <link rel="prev" href="../2024-09-30-ovh3-backups/">
       
+      
+        <link rel="next" href="../2024-10-29-move-s3-sync-script-to-ovh3/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>2024-12-23 SSL certificate on images.openfoodfacts.org expired - Open Food Facts Infrastructure documentation</title>
+        <title>2024-10-23 Deduplicate products in multiple flavors - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -69,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-12-23-ssl-certificate-on-imagesopenfoodfactsorg-expired" class="md-skip">
+        <a href="#2024-10-23-deduplicate-products-in-multiple-flavors" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-12-23 SSL certificate on images.openfoodfacts.org expired
+              2024-10-23 Deduplicate products in multiple flavors
             
           </span>
         </div>
@@ -2755,10 +2757,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-10-23-deduplicate-products-in-multiple-flavors/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-10-23 Deduplicate products in multiple flavors
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2767,6 +2789,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#identification-of-duplicate-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identification of duplicate products
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selection-of-product-to-keep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selection of product to keep
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection of product to keep">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-review-for-top-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual review for top products
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-selection-for-non-manually-reviewed-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic selection for non manually reviewed products
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deduplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deduplication
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2923,19 +3016,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-12-23-images-certificate-expired/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2944,7 +3028,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2977,6 +3060,65 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#identification-of-duplicate-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identification of duplicate products
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selection-of-product-to-keep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selection of product to keep
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection of product to keep">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-review-for-top-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual review for top products
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-selection-for-non-manually-reviewed-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic selection for non manually reviewed products
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deduplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deduplication
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2993,16 +3135,35 @@
   
 
 
-<h1 id="2024-12-23-ssl-certificate-on-imagesopenfoodfactsorg-expired">2024-12-23 SSL certificate on images.openfoodfacts.org expired<a class="headerlink" href="#2024-12-23-ssl-certificate-on-imagesopenfoodfactsorg-expired" title="Permanent link">#</a></h1>
-<p>On the 23rd of December 2024, I (Raphaël) noticed that the SSL certificate on <code>images.openfoodfacts.org</code> had expired.</p>
-<p>I checked the certificate on the server, and it looks like certbot was not configured on the server, and that the SSL certificate was copied manually (see https://openfoodfacts.github.io/openfoodfacts-infrastructure/reports/2024-09-24-kimsufi-stor-ks1-installation/#configure).</p>
-<p>I deleted the certificate folder:</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/
-</code></pre></div>
-<p>change the nginx configuration to listen on port 80, and restarted the nginx service.</p>
-<p>I then launched certbot to generate a new certificate.</p>
-<div class="highlight"><pre><span></span><code>certbot<span class="w"> </span>-d<span class="w"> </span>images.openfoodfacts.org
-</code></pre></div>
+<h1 id="2024-10-23-deduplicate-products-in-multiple-flavors">2024-10-23 Deduplicate products in multiple flavors<a class="headerlink" href="#2024-10-23-deduplicate-products-in-multiple-flavors" title="Permanent link">#</a></h1>
+<p>We are in the process of unifying the product databases for the different flavors: OFF, OBF, OPF and OPFF.</p>
+<p>In the near future, we will keep separate databases in MongoDB for each flavor, but we want to merge the directories for the product data (.sto files) and images, in order to avoid duplicate products (products that exist in multiple flavors).</p>
+<p>Before we can merge the product directories, we need to deduplicate products that already exist in multiple flavors.</p>
+<h2 id="identification-of-duplicate-products">Identification of duplicate products<a class="headerlink" href="#identification-of-duplicate-products" title="Permanent link">#</a></h2>
+<p>A script 2024_10_detect_duplicate_products_in_different_flavors.pl was developed to go through the off, obf, opf, and opff MongoDB collections to see which barcodes exist in multiple flavors.</p>
+<p>The script was run first on 2024/08/12 and it identified 8584 products that exist on multiple flavors.</p>
+<p>On 2024/10/23, the duplicate detection script found 8898 duplicate products.</p>
+<h2 id="selection-of-product-to-keep">Selection of product to keep<a class="headerlink" href="#selection-of-product-to-keep" title="Permanent link">#</a></h2>
+<h3 id="manual-review-for-top-products">Manual review for top products<a class="headerlink" href="#manual-review-for-top-products" title="Permanent link">#</a></h3>
+<p>The 8584 duplicate products from 2024/08/12 were put on Google Sheets and a lot of products were manually assigned to one flavor: https://docs.google.com/spreadsheets/d/1-2WMvUC4J7iRYe3587mHJ1htIxPFyo7JLDLKHVmSum0/edit?gid=1565589772#gid=1565589772</p>
+<p>In particular the manual review focused on popular products (with the most scans on OFF)</p>
+<h3 id="automatic-selection-for-non-manually-reviewed-products">Automatic selection for non manually reviewed products<a class="headerlink" href="#automatic-selection-for-non-manually-reviewed-products" title="Permanent link">#</a></h3>
+<p>For other products, we will keep the flavor that has the most data (size of .sto file).</p>
+<h2 id="deduplication">Deduplication<a class="headerlink" href="#deduplication" title="Permanent link">#</a></h2>
+<p>The script 2024_10_remove_duplicate_products_in_wrong_flavors.pl is used to move product data and images to the products/other-flavors-code directory (same for images/products). Removed products are also removed from the MongoDB collections of unkept flavors. A "deleted" Redis event is also sent.</p>
+<p>Before deduplication, there were 8898 duplicate products.
+after opff: 8730
+after opf: 7598
+after obf: 6817
+after off: 4686</p>
+<p>4663 duplicate products</p>
+<p>2024/10/28: 4595 duplicate products</p>
+<p>I manually reviewed the top 1000 products (by scans on OFF) of the 4595 products. For the rest, we will keep the flavor with the most data.</p>
+<p>Ran on all 4 flavors:
+./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241030_duplicate_products_reviewed_top_1000.tsv</p>
+<p>After that, ran the script again for the remaining products, using the flavor with the most data (and not a deleted product).</p>
+<p>I had forgotten to check the obsolete flavors as well, modified the detection script to do that.</p>
+<p>./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241115_duplicate_products.tsv </p>
 
 
 
