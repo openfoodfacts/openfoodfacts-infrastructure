@@ -232,6 +232,13 @@ Using web interface:
 
 Wait for container to be created and started !
 
+Eventually you can avoid starting the container directly and
+edit the container configuration (`/etc/pve/lxc/<ID>.conf`)
+to drop *raw_io* and *audit_read* capabilities by adding
+`lxc.cap.drop: "sys_rawio audit_read"`.
+It will avoid having `systemd-journald-audit.socket` and `sys-kernel-config.mount` failing in your container.
+
+
 Then connect to the proxmox host:
 
   * Install useful package and do some other configurations:
