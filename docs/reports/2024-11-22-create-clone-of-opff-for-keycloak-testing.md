@@ -2,7 +2,7 @@
 
 We need a container with a test instance of Product Opener to test the new Keycloak based authentication.
 
-## Approach 1: clone current opff container
+## Approach 1: clone current opff container
 
 Instead of reinstalling a Product Opener instance from scratch (as we did for [New install of OBF on OFF2 with new generic code](.2024-04-26-off2-opff-test-install.md) ), I will clone the current opff-new clone into opff-test.
 
@@ -79,7 +79,9 @@ zfs-hdd/pve/subvol-118-disk-0@cloned-for-opff-test-119_2024-11-22               
 zfs clone zfs-hdd/pve/subvol-118-disk-0@cloned-for-opff-test-119_2024-11-22 zfs-hdd/pve/subvol-119-disk-0-clone-from-118 
 ```
 
-TODO: what to do with the zfs-hdd/pve/subvol-119-disk-0 pool? should we just destroy it?
+I can now destroy original volume:
+```bash
+zfs destroy -r zfs-hdd/pve/subvol-119-disk-0
 
 ```
 cp /etc/pve/lxc/118.conf /etc/pve/lxc/119.conf
