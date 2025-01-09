@@ -42,14 +42,16 @@ See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
 
 ## Installation / Migration
 
-1. change hostname to be the name of the service (off,opf, etc.), remove any `-new` in the name ! `hostnamectl set-hostname $SERVICE`
 1. checkout the new release / code
 1. change ports .conf link: `unlink /etc/apache2/ports.conf; ln -s /srv/opf/conf/apache-2.4/ports.conf /etc/apache2/`
-2. symlink /srv/$SERVICE/conf/systemd/apache2+.service.d to /etc/systemd/system/ and systemctl daemon-reload
-2. symlink `ln -s /etc/apache2 /etc/apache2-priority; ln -s /etc/apache2 /etc/apache2-main`
+2. symlink /srv/$SERVICE/conf/systemd/apache2@.service.d to /etc/systemd/system/
+1. systemctl daemon-reload
+2. symlink `ln -s /etc/apache2 /etc/apache2-priority; ln -s /etc/apache2 /etc/apache2-standard`
+2. symlink `ln -s /var/log/apache2 /var/log/apache2-priority; ln -s /var/log/apache2 /var/log/apache2-standard`
 2. enable the apache2@standard.service apache2@priority.service
 2. start apache2@priority.service
-2. and test it's working using `curl http://127.0.0.1:8002/ -H "Host: world.openfoodfacts.org"`
+2. and test it's working using `curl http://127.0.0.1:8002/display.pl -H "Host: world.openfoodfacts.org"`
+  `curl http://127.0.0.1:8002/display.pl?api/v2/product/3017620422003/ -H "Host: world.openfoodfacts.org"`
 2. check nginx configuration is ok (`nginx -t`) and restart the service
 3. check both apache2 are working:
    * `curl http://127.0.0.1/ -H "Host: world.openfoodfacts.org"`
@@ -64,6 +66,8 @@ See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
 Celebrate !
 
 ## Test installation
+
+### Creating a test container
 
 I first try to test my process on opf, but did fail (maybe because of a specific hostname at that time).
 So I decided to first try on a test instance, I will use opf to avoid using too much memory.
@@ -116,6 +120,79 @@ lxc.idmap: u 1000 1000 64536
 lxc.idmap: g 1000 1000 64536
 ```
 
+I can then start the container.
+
+### tweaking configuration
+
+I will tweak the env directory because hostname mistmatch.
+```bash
+sudo mkdir /srv/opf-test
+sudo chown off /srv/opf-test
+sudo -u off bash
+mkdir /srv/opf-test/env
+ln -s /srv/opf/env/env.opf /srv/opf-test/env/env.opf-test
+ln -s /srv/opf/env/env.opf.priority /srv/opf-test/env/env.opf-test.priority
+ln -s /srv/opf/env/env.opf.standard /srv/opf-test/env/env.opf-test.standard
+ls /srv/opf-test/env
+exit
+```
+
+I then deploy my new version of product opener.
+(following deploy procedure above),
+but just after updating product opener, I did the following:
+1. create /srv/opf/env/env.opf.priority with right content
+2. create /srv/opf/opf-priority-log.conf with right content
+3. edited the nginx module to have same setting as for off
+   `conf/nginx/sites-available/opf`
+   ```diff
+15a16,27
+> map $uri $apache_port {
+>       default 8001;
+> 
+>       # home pages
+>       "~*^/$" 8002;
+>       # product read / write
+>       "~*^/(mountaj|m\xc9\x99hsul|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|gynnyrc
+h|produkt|product|product|product|produkto|producto|toode|produkto|produit|produto|term\xc3\xa9k|pro
+duk|\xe8\xa3\xbd\xe5\x93\x81|afaris|\xd3\xa9\xd0\xbd\xd1\x96\xd0\xbc|\xec\x83\x9d\xec\x84\xb1\xeb\xa
+c\xbc|berhem|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|pr
+oduk|produkt|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|pr
+oduct|product|product|produkt|produkt|produit|produto|produto|produto|\xd0\xbf\xd1\x80\xd0\xbe\xd0\x
+b4\xd1\x83\xd0\xba\xd1\x82|product|proizvod|produkto|\xc3\xbcr\xc3\xbcn|\xd0\xbf\xd1\x80\xd0\xbe\xd0
+\xb4\xd1\x83\xd0\xba\xd1\x82|\xe4\xba\xa7\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\
+x81)/.*" 8002;
+>       "~*^/cgi/product.pl/.*" 8002;
+>       # product API read / write
+>       "~*^/api/v./product/.*" 8002;
+> }
+> 
+128c140
+<       proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
+---
+>       proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?;
+139c151
+<       proxy_pass http://127.0.0.1:8001;
+---
+>       proxy_pass http://127.0.0.1:$apache_port;
+   ```
+
+Also to test, I did the following:
+* test apache priority:  
+  `curl "http://127.0.0.1:8002/cgi/display.pl" -H "Host: world.openproductsfacts.org"`  
+  `curl "http://127.0.0.1:8002/cgi/display.pl?api/v2/product/4018833954960" -H "Host: world.openproductsfacts.org"`
+* test apache standard:
+  `curl "http://127.0.0.1:8002/cgi/display.pl?/categories" -H "Host: world.openproductsfacts.org"`  
+
+* test nginx:
+  `curl "http://127.0.0.1/" -H "Host: world.openproductsfacts.org"`  
+  `curl "http://127.0.0.1/api/v2/product/4018833954960" -H "Host: world.openproductsfacts.org"`  
+  `curl "http://127.0.0.1/categories" -H "Host: world.openproductsfacts.org"`  
+
+
+## Testing
+
+To test I did simply use the request above and see which apache2 is logging.
+as they log in different files.
 
 
 **FIXME:** modify doc explaining off installation
