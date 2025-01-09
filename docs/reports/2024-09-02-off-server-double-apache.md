@@ -44,8 +44,8 @@ See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
 
 1. checkout the new release / code
 1. change ports .conf link: `unlink /etc/apache2/ports.conf; ln -s /srv/opf/conf/apache-2.4/ports.conf /etc/apache2/`
-2. symlink /srv/$SERVICE/conf/systemd/apache2@.service.d to /etc/systemd/system/
-1. systemctl daemon-reload
+2. symlink `ln -s /srv/$SERVICE/conf/systemd/apache2@.service.d /etc/systemd/system/`
+1. `systemctl daemon-reload`
 2. symlink `ln -s /etc/apache2 /etc/apache2-priority; ln -s /etc/apache2 /etc/apache2-standard`
 2. symlink `ln -s /var/log/apache2 /var/log/apache2-priority; ln -s /var/log/apache2 /var/log/apache2-standard`
 2. enable the apache2@standard.service apache2@priority.service
