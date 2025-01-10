@@ -45,26 +45,29 @@ See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
 ## Installation / Migration
 
 1. checkout the new release / code
-1. symlink new envvars: `ln -s /srv/opf/conf/apache-2.4/off-envvars /etc/apache2/`
-1. change ports .conf link: `unlink /etc/apache2/ports.conf; ln -s /srv/opf/conf/apache-2.4/ports.conf /etc/apache2/`
+1. symlink new envvars: `ln -s /srv/$SERVICE/conf/apache-2.4/off-envvars /etc/apache2/`
+1. change ports .conf link: `unlink /etc/apache2/ports.conf; ln -s /srv/$SERVICE/conf/apache-2.4/ports.conf /etc/apache2/`
 2. symlink `ln -s /srv/$SERVICE/conf/systemd/apache2@.service.d /etc/systemd/system/`
 2. ensure mpm prefork symlink is the right one:
    `unlink /etc/apache2/mods-available/mpm_prefork.conf; ln -s /srv/$SERVICE/conf/apache-2.4/mpm_prefork.conf /etc/apache2/mods-available/`
 2. (off only) symlink `ln -s /etc/apache2 /etc/apache2-priority; ln -s /var/log/apache2 /var/log/apache2-priority`
 2. check nginx configuration is ok (`nginx -t`)
+2. rebuild taxonomies and lang (as user off: `source env/setenv.sh $SERVICE; ./scripts/taxonomies/build_tags_taxonomy.pl; ./scripts/build_lang.pl)
+1. verify deployment `/srv/$SERVICE/scripts/deploy/verify-deployment.sh $SERVICE`
 1. `systemctl daemon-reload`
-2. (off only) enable apache2@priority.service
-2. (off only) start apache2@priority.service
-1. verify deployment `. env/env.$SERVICE; /srv/$SERVICE/scripts/deploy/verify-deployment.sh`
+2. (off only) `systemctl enable apache2@priority.service`
+2. (off only) `systemctl start apache2@priority.service`
 3. check priority apache2 is working:
    `curl http://127.0.0.1:8002/cgi/display.pl?/ -H "Host: world.openfoodfacts.org"`
    `curl http://127.0.0.1:8002/cgi/display.pl?api/v2/product/3017620422003/ -H "Host: world.openfoodfacts.org"`
-2. stop and start apache2.service
 2. restart nginx service
+2. stop and start apache2.service
 3. check both apache2 are working:
    * `curl http://127.0.0.1/ -H "Host: world.openfoodfacts.org"`
    * `curl http://127.0.0.1/discover -H "Host: world.openfoodfacts.org"`
 3. test it's working using your browser
+2. (off-only) symlink `ln -s /srv/off/conf/etc-default/prometheus-apache-priority-exporter /etc/default/; ln -s /srv/off/conf/systemd/prometheus-apache-exporter\@.service /etc/systemd/system`
+
 2. (off only) enable and start monitoring of the apache2@priority.service:
    `systemctl enable --now prometheus-apache-exporter@priority.service`
 
