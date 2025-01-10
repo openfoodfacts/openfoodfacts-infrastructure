@@ -16,6 +16,8 @@ We will setup a second Apache instance which will only serve certain requests:
 
 The rest of the requests will be handled by the other apache2 server.
 
+Nginx will chose which server to use based on the URI.
+
 ## Reflection on how to setup the new apache2 instance
 
 On debian, apache2 is managed by systemd. There is:
@@ -23,24 +25,31 @@ On debian, apache2 is managed by systemd. There is:
 * and an `apache2@<instance>.service` definition which use /etc/apache2.%i/ configuration directory (where %i is the instance name)
 
 Both use the apache2ctl script to start apache2.
-So we can use APACHE_ARGUMENTS to add arguments to httpd daemon program,
-and this can be used to add -D arguments to add variables.
+So we can use `APACHE_ENVVARS` to set environment variables
+and use those variables in our configuration files.
+
+There we can put a lot of logic to decide on values and populate environment variables,
+that we can then use in our configuration files.
 
 Here we want to create a second apache2 instance where the only differences are:
 * the port apache2 is listening on
 * the log file names
+* the number of workers
 
 For the log file names, we will modify startup_apache2.pl to use environment variable to get the log configuration file.
 
-For ports, we need to modify ports.conf file to use a variable that we will give thanks to a -D option to apache2 with APACHE_ARGUMENTS variable.
+For ports, we need to modify ports.conf file to use an environment variable.
 
-To be more consistent, we will drop the `apache2.service` instance and use two new instances:
-* apache2@standard.service - for product read, root pages and product writes
-* apache2@priority.service - for the rest
+For the number of workers, we can use variables in mpm_prefork.conf.
+
+~~To be more consistent, we will drop the `apache2.service` instance and use two new instances:~~
+~~* apache2@standard.service - for product read, root pages and product writes~~
+We will keep apache2.service instance and have a new apache2@priority.service - for the priority requests (homepage + products fetch).
 
 ## Doing it in Product-Opener
 
 See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
+and https://github.com/openfoodfacts/openfoodfacts-server/pull/11230 (fixes).
 
 ## Installation / Migration
 
@@ -57,7 +66,7 @@ See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
 1. `systemctl daemon-reload`
 2. (off only) `systemctl enable apache2@priority.service`
 2. (off only) `systemctl start apache2@priority.service`
-3. check priority apache2 is working:
+3. (off only) check priority apache2 is working:
    `curl http://127.0.0.1:8002/cgi/display.pl?/ -H "Host: world.openfoodfacts.org"`
    `curl http://127.0.0.1:8002/cgi/display.pl?api/v2/product/3017620422003/ -H "Host: world.openfoodfacts.org"`
 2. restart nginx service
@@ -139,8 +148,6 @@ sudo chown off /srv/opf-test
 sudo -u off bash
 mkdir /srv/opf-test/env
 ln -s /srv/opf/env/env.opf /srv/opf-test/env/env.opf-test
-ln -s /srv/opf/env/env.opf.priority /srv/opf-test/env/env.opf-test.priority
-ln -s /srv/opf/env/env.opf.standard /srv/opf-test/env/env.opf-test.standard
 ls /srv/opf-test/env
 exit
 ```
@@ -153,35 +160,27 @@ but just after updating product opener, I did the following:
 3. edited the nginx module to have same setting as for off
    `conf/nginx/sites-available/opf`
    ```diff
-15a16,27
-> map $uri $apache_port {
->       default 8001;
-> 
->       # home pages
->       "~*^/$" 8002;
->       # product read / write
->       "~*^/(mountaj|m\xc9\x99hsul|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|gynnyrc
-h|produkt|product|product|product|produkto|producto|toode|produkto|produit|produto|term\xc3\xa9k|pro
-duk|\xe8\xa3\xbd\xe5\x93\x81|afaris|\xd3\xa9\xd0\xbd\xd1\x96\xd0\xbc|\xec\x83\x9d\xec\x84\xb1\xeb\xa
-c\xbc|berhem|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|pr
-oduk|produkt|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|pr
-oduct|product|product|produkt|produkt|produit|produto|produto|produto|\xd0\xbf\xd1\x80\xd0\xbe\xd0\x
-b4\xd1\x83\xd0\xba\xd1\x82|product|proizvod|produkto|\xc3\xbcr\xc3\xbcn|\xd0\xbf\xd1\x80\xd0\xbe\xd0
-\xb4\xd1\x83\xd0\xba\xd1\x82|\xe4\xba\xa7\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\
-x81)/.*" 8002;
->       "~*^/cgi/product.pl/.*" 8002;
->       # product API read / write
->       "~*^/api/v./product/.*" 8002;
-> }
-> 
-128c140
-<       proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
----
->       proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?;
-139c151
-<       proxy_pass http://127.0.0.1:8001;
----
->       proxy_pass http://127.0.0.1:$apache_port;
+   16,27d15
+   < map $uri $apache_port {
+   <       default 8001;
+   < 
+   <       # home pages
+   <       "~*^/$" 8002;
+   <       # product read / write
+   <       "~*^/(mountaj|m\xc9\x99hsul|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|gynnyrch|produkt|product|product|product|produkto|producto|toode|produkto|produit|produto|term\xc3\xa9k|produk|\xe8\xa3\xbd\xe5\x93\x81|afaris|\xd3\xa9\xd0\xbd\xd1\x96\xd0\xbc|\xec\x83\x9d\xec\x84\xb1\xeb\xac\xbc|berhem|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|produk|produkt|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|product|product|product|produkt|produkt|produit|produto|produto|produto|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|product|proizvod|produkto|\xc3\xbcr\xc3\xbcn|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|\xe4\xba\xa7\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81)/.*" 8002;
+   <       "~*^/cgi/product.pl/.*" 8002;
+   <       # product API read / write
+   <       "~*^/api/v./product/.*" 8002;
+   < }
+   < 
+   140c128
+   < 		proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?$uri$is_args$args;
+   ---
+   > 		proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
+   151c139
+   < 		proxy_pass http://127.0.0.1:$apache_port$uri$is_args$args;
+   ---
+   > 		proxy_pass http://127.0.0.1:8001;
    ```
 
 Also to test, I did the following:
@@ -196,14 +195,28 @@ Also to test, I did the following:
   `curl "http://127.0.0.1/api/v2/product/4018833954960" -H "Host: world.openproductsfacts.org"`  
   `curl "http://127.0.0.1/categories" -H "Host: world.openproductsfacts.org"`  
 
+## Found when testing
 
-## Testing
+Apart from different aspect I found during testing, it was also the occasion to upgrade the verify-install.sh script, which proved very useful to find problems early on.
 
-To test I did simply use the request above and see which apache2 is logging.
-as they log in different files.
+Also my first nginx configuration was containing utf8 characters,
+(in the map expression to match the product url)
+and it happens that nginx does not support that !
+I had to change it to use `\x` notation for unicode characters.
 
 
-**FIXME:** modify doc explaining off installation
+## Accident when deploying on off
 
+When I did the test on opf-test I missed an important bug.
+As I used curl, it was hard to control page content,
+and I missed that with my configuration,
+I was getting the home page for nearly every requests.
 
-**FIXME:** modify apache exporter config
+This was because the nginx configuration was not correct.
+
+It turns out that as soon as you put a variable in the `proxy_pass` directive,
+its behavior changes,
+and it does not automatically add the path to the url, and the arguments.
+So we had to change the `proxy_pass` directive to add `$uri$is_args$args` to the url.
+
+(note the diff above is already updated so you can't see it)
