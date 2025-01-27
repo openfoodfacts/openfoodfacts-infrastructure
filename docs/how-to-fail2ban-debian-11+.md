@@ -47,9 +47,23 @@ You should see it in the corresponding addr_set elements (`addr-set-<jainame>`):
 
 ```bash
 # all rules
-nftable list ruleset
+nft list ruleset
 # more precise: fail2ban table
 nft list table inet f2b-table
 # more precise: fail2ban addr_set
 nft list set inet f2b-table addr-set-<jail-name>
+```
+
+## For iptables lovers
+
+If you use nftables but still better know iptables,
+the `iptables-translate` command can help you.
+
+On way to test it locally is to run it in docker:
+```bash
+docker run --rm --name test-deb -ti debian:12 bash
+apt update && apt install iptables
+# example:
+iptables-translate -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+# nft 'add rule ip filter INPUT ct state established counter accept'
 ```
