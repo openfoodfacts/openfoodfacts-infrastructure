@@ -3271,6 +3271,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../2024-11-22-create-clone-of-opff-for-keycloak-testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024-11-15 Create clone of opff container for Keycloak testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2024-12-01-add-stunnel-endpoints/" class="md-nav__link">
         
   
@@ -3737,7 +3758,7 @@ Both containers will use the same data (.sto files and MongoDB database and coll
 <p>I created a CT for obf-new followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a> it went all smooth.
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 Network: vmbr1, ipv4: 10.1.0.116/24, gateway: 10.0.0.2</p>
-<p>I also <a href="../mail#postfix-configuration">configure postfix</a> and tested it.</p>
+<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and tested it.</p>
 <p>Also run /opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall on off2 host.</p>
 <p><strong>Important:</strong> do not create any user until you changed id maping in lxc conf (see <a href="#mounting-volumes">Mounting volumes</a>). And also think about creating off user before any other user to avoid having to change users uids, off must have uid 1000.</p>
 <h2 id="creating-en_usutf-8-utf-8-locale">Creating en_US.UTF-8 UTF-8 locale<a class="headerlink" href="#creating-en_usutf-8-utf-8-locale" title="Permanent link">#</a></h2>
