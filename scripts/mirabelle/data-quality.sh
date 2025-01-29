@@ -2,11 +2,38 @@
 
 # Don't forget chmod +x proplatform.sh
 
+# Usage: data-quality.sh target.db
+
 path="/home/off/mirabelle/"
-db="off-stats.db"
+db=$1
 year=`date +"%Y"`
 month=`date +"%m"`
 day=`date +"%d"`
+
+function ifFailed {
+    EXIT=$?
+    if [[ $EXIT -ne 0 ]] ; then
+       printf '%s\n' "$1" >&2 ## Send message to stderr.
+       exit "${2-1}" ## Return a code specified by $2, or 1 by default.
+    fi
+}
+
+# Test databases
+NB_OF_PRODUCTS=$(sqlite3 products.db "select count(code) from [all];")
+ifFailed "products.db: database error $?" "2" # Exit if the database is not reachable
+[[ "${NB_OF_PRODUCTS}" -lt "2500000" ]] && { echo "products.db: ${NB_OF_PRODUCTS} products. Number of products is too low"; printf '%s\n' "$1" >&2; exit 4; };
+
+# Build smaller database to speed-up queries
+#sqlite3 tempo.db <<EOF
+#ATTACH 'products.db' as products;
+#CREATE TABLE [all] AS 
+#  SELECT code, countries_en, data_quality_errors_tags, last_image_datetime, main_category_en, ingredients_tags, states_tags, unique_scans_n, brands
+#  FROM db2.t2 where data_quality_errors_tags != "";
+#EOF
+
+echo "Backup ${path}${db} to ${path}${db}-$(date -r ${path}${db} +'%Y-%m-%d-%H-%M-%S').db"
+cp "${path}${db}" "${path}${db}-$(date -r ${path}${db} +'%Y-%m-%d-%H-%M-%S').db"
+find ${path}${db}-20* -mtime +8 -delete # delete backups older than 8 days
 
 # Total number of products sent via the pro platform in some countries at a certain day.
 table="data_quality_stats"
@@ -74,13 +101,16 @@ echo "country_condition: ${country_condition}"
 #echo        "insert into $table values ('$year','$month','$day','$country',$nb);"
 #sqlite3 $path$db "insert into $table values ('$year','$month','$day','$country',$nb);"
 sqlite3 ${path}${db} <<EOS
+PRAGMA cache_size = 10000;
+PRAGMA temp_store = 2; -- Use memory as temporary storage; does not seem to have any effect
+pragma journal_mode = WAL; -- ?
 ATTACH DATABASE 'products.db' AS products;
 -- echoing each command
--- .echo on
+.echo on
 -- launch explain query plan
--- .eqp on
+--.eqp on
 -- launch timer
--- .timer on
+.timer on
 -- .expert
 insert into ${table}
   SELECT
@@ -123,6 +153,15 @@ insert into ${table} -- TODO: to be verified with packagings' data
     "$year","$month","$day",'${country}',"products_wo_packaging_data",
     count(states_tags) from products.[all]
     where states_tags like "%packaging-to-be-completed%" ${country_condition};
+insert into ${table}
+  SELECT
+    "$year","$month","$day",'${country}',"scans_of_products_with_errors",
+    sum(case when (data_quality_errors_tags != "" ${country_condition}) then unique_scans_n else 0 end) from products.[all];
+insert into ${table}
+  SELECT
+    "$year","$month","$day",'${country}',"products_wo_brand",
+    count(brands) from products.[all]
+    where brands == "" ${country_condition};
 EOS
 echo "--------------------- end ${country}"
 done

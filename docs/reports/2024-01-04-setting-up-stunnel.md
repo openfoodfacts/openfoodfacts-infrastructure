@@ -118,7 +118,7 @@ I also [configured email](../mail.md#postfix-configuration) in the container.
 
 ## Setting up stunnel on ovh1 stunnel-client
 
-Did the same as above to [set up stunnel on ovh1 proxy](./#setting-up-stunnel-on-off1-proxy).
+Did the same as above to [set up stunnel on ovh1 proxy](#setting-up-stunnel-on-off1-proxy).
 
 I created a key with `ssh-keygen -t ed25519 -C "off@stunnel-client.ovh.openfoodfacts.org"` 
 add it as a deploy key to this projects 

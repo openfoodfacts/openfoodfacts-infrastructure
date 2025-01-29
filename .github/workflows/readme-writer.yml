@@ -2,7 +2,7 @@ on:
   issues:
   issue_comment:
   push:
-    branches: [develop]
+    branches: [readme-writer]
 jobs:
   readme-writer:
     name: Write README.md
@@ -14,18 +14,18 @@ jobs:
         # we use a personal access token of openfoodfacts-bot to allow bypassing branch protection rules
         token: "${{ secrets.README_WRITER_PAT }}"
     - name: Set up python
-      uses: actions/setup-python@v4.3.0
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
     - run: |
         pip install -r scripts/readme-writer/requirements.txt
         python scripts/readme-writer/readme_writer.py
-        cat README.md
-    - name: Commit README.md
+        cat docs/virtual-machines.md
+    - name: Commit docs/virtual-machines.md.md
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: develop
         repository: .
-        file_pattern: README.md
-        commit_message: Update README.md
+        file_pattern: docs/virtual-machines.md
+        commit_message: Update docs/virtual-machines.md
         commit_options: '--no-verify --signoff'

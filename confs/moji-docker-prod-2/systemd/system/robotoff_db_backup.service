@@ -1,0 +1,15 @@
+[Unit]
+Description=Perform Robotoff PostgreSQL backup
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=off
+Group=off
+ExecStart=make --directory=/home/off/robotoff-org backup_postgres
+# TimeoutStartSec is disabled by default for oneshot services,
+# but we want to make sure the backup is not hanging forever
+TimeoutStartSec=6h
+
+[Install]
+WantedBy=multi-user.target

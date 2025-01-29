@@ -2,12 +2,49 @@
 
 On ovh1 and ovh2 we use proxmox to manage VMs.
 
-**TODO** this page is really incomplete !
+**TODO** this page is really incomplete!
+
+## Proxmox: knowledge, tips, etc.
+
+* Proxmox wiki is a good source of information: https://pve.proxmox.com/wiki
+* Community scripts to ease Proxmox' utilisation: https://community-scripts.github.io/ProxmoxVE/
+  * those scripts might not be suited for production environnement; it's better suited for homer server
+  * but it can be usefull for:
+    * test things (install a test service very fast)
+    * studying good practices when installing a software
+  * this scripts contains:
+    * things to manage Proxmox: post-install, automate CT updates, etc;
+    * tools to manage Docker and Kubernetes
+    * dozens of web apps and services such as Nextcloud, Keycloack, Nginx proxy manager, Grafana, Prometheus, Yunohost (containing itself dozens of apps), VS Code Server, IA tools, etc.
+
 
 ## Proxmox Backups
 
-Every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
-(see Datacenter -> backup)
+**IMPORTANT:** We don't use standard proxmox backup[^previous_backups] (see Datacenter -> backup).
+
+Instead we use [syncoid / sanoid](./sanoid.md) to snapshot and synchronize data to other servers.
+
+[^previous_backups]: Previously every VM / CT is backuped twice a week using general proxmox backup, in a specific zfs dataset
+
+## Storage synchronization
+
+We don't use standard proxmox replication of storages, because it is incompatible with using [syncoid / sanoid](./sanoid.md), as it removes snapshots on destination and does not allow to choose destination location.
+
+It means that restoring a container / VM won't be automatic and will need a manual intervention.
+
+### Replication (don't use it)
+
+Previously, VM and container storage were regularly synchronized to ovh3 (and eventually to ovh1/2).
+
+Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.
+
+This is managed with command line `pvesr` (PVE Storage replication). See [official doc](https://pve.proxmox.com/wiki/Storage_Replication)
+
+* To Add replication a replication on a container / VM:
+  * In the Replication menu of the container, "Add" one
+  * Target: the server you want
+  * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
+
 
 ## Host network configuration
 
@@ -117,22 +154,16 @@ At OVH we have special DNS entries:
 * `proxy1.openfoodfacts.org` pointing to OVH reverse proxy
 * `off-proxy.openfoodfacts.org` pointing to Free reverse proxy
 
-## Storage synchronization
-
-VM and container storage are regularly synchronized to ovh3 (and eventually to ovh1/2) to have a continuous backup.
-
-Replication can be seen in the web interface, clicking on "replication" section on a particular container / VM.
-
-This is managed with command line `pvesr` (PVE Storage replication). See [official doc](https://pve.proxmox.com/wiki/Storage_Replication)
-
 
 ## How to migrate a container / VM
 
 You may want to move containers or VM from one server to another.
 
-Just go to the interface, right click on the VM / Container and ask to migrate !
+**FIXME** this will not work with sanoid/syncoid.
 
-If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.
+~~Just go to the interface, right click on the VM / Container and ask to migrate !~~
+
+~~If you have a large disk, you may want to first setup replication of your disk to the target server (see [Storage synchronization](#storage-synchronization)), schedule it immediatly (schedule button)− and then run the migration.~~
 
 ## How to Unlock a Container
 
@@ -218,7 +249,7 @@ Using web interface:
 * Use a "Hostname" to let people know what it is about. Eg. "robotoff", "wiki", "proxy"...
 * set Nesting option (systemd recent versions needs it)
 * keep "Unprivileged container" option checked… unless you know what you do.
-* Password: put something complex and forget it, as we will connect through SSH and not the web interface
+* Password: put something complex and forget it, as we will connect through SSH and not the web interface (`pwgen 20 20` is your friend)
 * Create a root password - forget about it also (you will use `pct enter` or `lxc-attach`)
 * Choose template (normally debian)
 * Disk: try to keep a tight disk space and to avoid using nvme if it's not useful.
@@ -239,7 +270,12 @@ Then connect to the proxmox host:
 
     See [scripts/proxmox-management/ct_postinstall](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/ct_postinstall)
 
-  * [create a user](#how-to-create-a-user-in-a-container-or-vm)
+  * eventually disable systemd services that are not needed (and would crash on unprivileged containers):
+    * [disable systemd-logind (see below)](#how-to-resolve-slow-ssh-login-time-in-container)
+    * `sudo systemctl disable --now sys-kernel-config.mount`
+    * running `sudo systemctl list-unit --state=failed` is a good idea
+
+  * [create a user](#how-to-create-a-user-in-a-container-or-vm), most of the time you prefer off to have id 1000.
 
 Then you can login to the machine (see [logging in to a container or VM](#logging-in-to-a-container-or-vm)).
 
@@ -248,11 +284,6 @@ Using the web interface:
 * Check "options" of the container and:
   * Start at boot: Yes
   * Protection: Yes (to avoid deleting it by mistake)
-
-* Eventually Add replication to ovh3 or off1/2 (if we are not using sanoid/syncoid instead)
-  * In the Replication menu of the container, "Add" one
-  * Target: ovh3
-  * Schedule: */5 if you want every 5 minutes (takes less than 10 seconds, thanks to ZFS)
 
 Also think about [configuring email](./mail.md#postfix-configuration) in the container
 
@@ -265,6 +296,7 @@ This gives a root console in the container and has the advantage of not dependin
 
 ## how to create a user in a Container or VM
 
+If you add a user which is not a person that needs ssh account (eg. the off service account), just open the console and the `adduser` command.
 
 The `sudo /root/cluster-scripts/mkuser` (see script [mkuser](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser))  helps you create users using github keys.
 
@@ -281,8 +313,8 @@ See https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916:
 # Check if in /var/log/auth.log the following messages 
 Failed to activate service 'org.freedesktop.login1': timed out (service_start_timeout=25000ms)
 
--> Run  systemctl mask systemd-logind
--> Run pam-auth-update (and deselect Register user sessions in the systemd control group hierarchy)
+-> Run  `systemctl mask --now systemd-logind`
+-> Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 ```
 
 ## Proxmox installation

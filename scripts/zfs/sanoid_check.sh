@@ -40,6 +40,18 @@ function check_last_snap_date {
   fi
 }
 
+function check_num_snapshots {
+  # check if the number of snapshots is too much
+  # this would mean, we forgot to add a synchronized volume under sanoid control
+  local VOL_PATH=$1
+  local MAX_SNAPS=$2
+  local NUM_SNAP=$(zfs list -t snap -o name $VOL_PATH|wc -l)
+  if [[ $NUM_SNAP -gt $MAX_SNAPS ]]
+  then
+    ERRORS+=("Too many snapshots for $VOL_PATH ($NUM_SNAP)")
+  fi
+}
+
 function check_sanoid_run_date {
   # check last sanoid service run time
   local last_run_date=$(systemctl show sanoid.service --property=ExecMainExitTimestamp|cut -d "=" -f 2)
@@ -60,6 +72,7 @@ do
   if [[ ! $EXCLUDED_DATASETS =~ :$volume: ]]
   then
     check_last_snap_date "$volume"
+    check_num_snapshots "$volume" 150
   fi
 done
 

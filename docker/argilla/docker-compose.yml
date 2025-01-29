@@ -1,0 +1,81 @@
+services:
+  argilla:
+    image: argilla/argilla-server:v1.29.0
+    restart: unless-stopped
+    ports:
+      - "${APP_EXPOSE}:6900"
+    environment:
+      ARGILLA_HOME_PATH: /var/lib/argilla
+      ARGILLA_ELASTICSEARCH: http://elasticsearch:9200
+      # This secret key must be generated with `openssl rand -hex 32`
+      ARGILLA_AUTH_SECRET_KEY: ${ARGILLA_AUTH_SECRET_KEY}
+
+      ARGILLA_ENABLE_TELEMETRY: 0 # Opt-out for telemetry https://docs.argilla.io/en/latest/reference/telemetry.html
+
+      # Set user configuration https://docs.argilla.io/en/latest/getting_started/installation/configurations/user_management.html
+      # ARGILLA_LOCAL_AUTH_USERS_DB_FILE: /config/.users.yaml
+      # volumes:
+      #- ${PWD}/.users.yaml:/config/.users.yaml
+
+      DEFAULT_USER_ENABLED: "false" # Uncomment this line to disable the creation of the default user
+      # DEFAULT_USER_PASSWORD: custom-password # Uncomment this line to set a custom password for the default user
+      # DEFAULT_USER_API_KEY: custom-api-key # Uncomment this line to set a custom api-key for the default user
+    networks:
+      - argilla
+    volumes:
+      # ARGILLA_HOME_PATH is used to define where Argilla will save it's application data.
+      # If you change ARGILLA_HOME_PATH value please copy that same value to argilladata volume too.
+      - argilla_data:/var/lib/argilla
+      - argilla_tmp:/tmp
+      - argilla_tmp:/var/tmp
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-argilla-local
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - argilla
+    # Don't expose elastic search ports to the host machine
+    # ports:
+      # - "9200:9200"
+      # - "9300:9300"
+    volumes:
+      - elasticdata:/usr/share/elasticsearch/data/
+      - argilla_tmp:/tmp
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.5.3
+    ports:
+      - "${KIBANA_EXPOSE}:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    networks:
+      - argilla
+    volumes:
+      - kibana_data:/usr/share/kibana/data
+
+networks:
+  argilla:
+    driver: bridge
+volumes:
+  argilla_data:
+    name: argilla_data
+    external: true
+  elasticdata:
+    name: argilla_elasticdata
+    external: true
+  kibana_data:
+    name: argilla_kibana_data
+    external: true
+  # Argilla use /var/tmp a lot, so it's better to have a dedicated volume for it
+  # to avoid filling up the root partition
+  argilla_tmp:
+    name: argilla_tmp

@@ -1,0 +1,3 @@
+# on debian 12 we must use journald
+[DEFAULT]
+backend = systemd

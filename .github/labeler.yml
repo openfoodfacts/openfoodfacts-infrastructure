@@ -1,6 +1,103 @@
-# Add 'label1' to any changes within 'example' folder or any subfolders
-github_actions:
-- .github/**/*
+# Add labels to any any pull request with changes to the specified paths
 
-postmortems:
-- docs/reports/**/*
+# Pull requests that update GitHub Actions code. If you navigate to the folder, you will have a README of what it does
+GitHub Actions:
+- changed-files:
+  - any-glob-to-any-file: '.github/**/*'
+
+"🪦 postmortems":
+- changed-files:
+  - any-glob-to-any-file: 'docs/reports/**/*'
+
+openfoodfacts-query:
+- changed-files:
+  - any-glob-to-any-file: 'docs/openfoodfacts-query.md'
+
+argilla:
+- changed-files:
+  - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
+
+off2:
+- changed-files:
+  - any-glob-to-any-file: '**/*off2*'
+
+off1:
+- changed-files:
+  - any-glob-to-any-file: '**/*off1*'
+
+ks1:
+- changed-files:
+  - any-glob-to-any-file: '**/*ks1*'
+
+ovh1:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh1*'
+
+ovh2:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh2*'
+
+ovh3:
+- changed-files:
+  - any-glob-to-any-file: '**/*ovh3*'
+
+moji:
+- changed-files:
+  - any-glob-to-any-file: '**/*moji*'
+
+"🔒 SSL":
+- changed-files:
+  - any-glob-to-any-file: '**/*ssl*'
+
+"🐳 docker":
+- changed-files:
+  - any-glob-to-any-file: '**/*docker*'
+
+"📨 email":
+- changed-files:
+  - any-glob-to-any-file: 'docs/mail.md'
+  - any-glob-to-any-file: 'confs/common/systemd/system/email-failures@.service'
+
+"📈 Matomo":
+- changed-files:
+  - any-glob-to-any-file: 'docs/matomo.md'
+
+postgres:
+- changed-files:
+  - any-glob-to-any-file: '**/*postgres*'
+
+blog:
+- changed-files:
+  - any-glob-to-any-file: '**/*blog*'
+
+forum:
+- changed-files:
+  - any-glob-to-any-file: '**/*forum*'
+
+proxmox:
+- changed-files:
+  - any-glob-to-any-file: '**/*proxmox*'
+
+"🧴 Open Beauty Facts":
+- changed-files:
+  - any-glob-to-any-file: '**/*obf*'
+
+"🪶 Apache":
+- changed-files:
+  - any-glob-to-any-file: '**/*apache*'
+
+Odoo:
+- changed-files:
+  - any-glob-to-any-file: '**/*odoo*'
+
+"🏷️ Folksonomy Project":
+- changed-files:
+  - any-glob-to-any-file: '**/*folksonomy*'
+
+"📸 Open Products Facts":
+- changed-files:
+  - any-glob-to-any-file: '**/*openproductsfacts*'
+
+"🔭 observability":
+- changed-files:
+  - any-glob-to-any-file: 'docs/observability.md'

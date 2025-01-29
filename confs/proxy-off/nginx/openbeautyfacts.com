@@ -1,0 +1,152 @@
+# Test instance for the new code of Open Beauty Facts
+# openbeautyfacts.com -> container obf-new 116
+
+# This part allow to create a specific log for rate limiting
+map $status $rate_limited {
+	default 0;
+	444     1;
+}
+
+# create zone "off" for rate limiting 
+limit_req_zone $binary_remote_addr zone=obf2:10m rate=240r/m;
+
+
+server {
+    listen 80;
+    listen [::]:80;
+    # note that *.pro.openbeautyfacts.com query are served by pro.openbeautyfacts.com
+    # this works because nginx is smart about server_name matching
+    # see https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name
+    server_name openbeautyfacts.com *.openbeautyfacts.com;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name openbeautyfacts.com *.openbeautyfacts.com;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openbeautyfacts.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openbeautyfacts.com/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openbeautyfacts.com/chain.pem;
+
+    # Harden SSL
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_ecdh_curve secp384r1;
+    #ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 9.9.9.9 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=63072000";
+    add_header X-Content-Type-Options nosniff;
+    # temporary remove X-Frame-Options in order to be able to temporarily serve graphs in iframes --- 2023/11/24 -- Stéphane
+    #add_header X-Frame-Options DENY;
+
+    # enable large uploads
+    client_max_body_size 20M;
+
+    # logs location
+    access_log  /var/log/nginx/openbeautyfacts.com.log  main buffer=256K flush=1s;
+    error_log   /var/log/nginx/openbeautyfacts.com.errors.log;
+
+    #access_log /dev/shm/rate_limited.log main if=$rate_limited;
+        #limit_req zone=obf2 burst=1 nodelay; # burst=120 means you can do 240+120 requests
+                                              # before experimenting a 444 error
+        #limit_req_log_level warn;   # not sure if necessary
+        #limit_req_status 444; # allows a specific http status code to clearly
+                              # identify rate limiting
+        #limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the 
+                              # shared memory zone, the number of excessive requests 
+                              # is accounted as usual.
+
+
+    # Cache small static assets that are frequently requested
+
+
+    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
+    	proxy_cache mycache;
+    	proxy_cache_key obf-new-$request_uri;
+        proxy_cache_valid any 1m;
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.116:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+
+    # Cache GET /api/ requests for 5s
+    # This is useful in particular for broken apps who request 100s of times the same product
+    
+    location /api/ {
+    	proxy_cache mycache;
+    	proxy_cache_key $host$request_uri$cookie_user;
+        proxy_cache_valid any 5s;
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.116:80;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+    }
+
+    location / {
+#    	proxy_cache mycache;
+#    	proxy_cache_key $host$request_uri$cookie_user;
+#        proxy_cache_valid any 5s;
+	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
+        # cache.
+        # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
+        # Eg. X-Cache-Status: HIT
+        add_header X-Cache-Status $upstream_cache_status;  
+        proxy_pass http://10.1.0.116:80/;
+	# proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+ 	proxy_intercept_errors on;
+        error_page 502 /502.html;
+
+        limit_req zone=obf2 burst=120 nodelay; # burst=120 means you can do 240+120 requests
+                                              # before experimenting a 444 error
+        #limit_req_log_level warn;   # not sure if necessary
+        limit_req_status 444; # allows a specific http status code to clearly
+                              # identify rate limiting
+        limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the 
+                              # shared memory zone, the number of excessive requests 
+                              # is accounted as usual.
+
+    }
+    location ~* 502\.(html|jpg)  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+
+}
+
+
+
