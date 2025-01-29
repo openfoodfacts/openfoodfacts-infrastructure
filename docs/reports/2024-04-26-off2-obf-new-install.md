@@ -23,7 +23,7 @@ I created a CT for obf-new followings [How to create a new Container](../proxmox
 I choosed a 30Gb disk, 0B swap, 4 Cores and 6 Gb memory.
 Network: vmbr1, ipv4: 10.1.0.116/24, gateway: 10.0.0.2
 
-I also [configure postfix](../mail#postfix-configuration) and tested it.
+I also [configure postfix](../mail.md#postfix-configuration) and tested it.
 
 Also run /opt/openfoodfacts-infrastructure/scripts/proxmox-management/ct_postinstall on off2 host.
 

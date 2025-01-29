@@ -4,7 +4,7 @@ We need a container with a test instance of Product Opener to test the new Keycl
 
 ## Approach 1: clone current opff container
 
-Instead of reinstalling a Product Opener instance from scratch (as we did for [New install of OBF on OFF2 with new generic code](.2024-04-26-off2-opff-test-install.md) ), I will clone the current opff-new clone into opff-test.
+Instead of reinstalling a Product Opener instance from scratch (as we did for [New install of OBF on OFF2 with new generic code](./2024-04-26-off2-obf-new-install.md) ), I will clone the current opff-new clone into opff-test.
 
 In the Proxmox web interface, I clone ct 118 opff-new into 119 opff-test.
 I get the message: "unable to clone mountpoint 'mp0' (type bind) (500)"
