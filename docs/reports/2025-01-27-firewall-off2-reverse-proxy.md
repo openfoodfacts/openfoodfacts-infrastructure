@@ -42,6 +42,9 @@ I then build some files to configure the server.
 
 See [commit 36b766b43a](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/36b766b43a6f63a2e35bf90088235f968cd68dff)
 
+To test the configuration, we can use the `scripts/utils/nft-safe-reload.sh`
+present in this repository.
+
 ## OFF2 reverse proxy
 
 I only changed one file, specific to the server.
