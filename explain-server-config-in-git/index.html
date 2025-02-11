@@ -3347,7 +3347,7 @@ it's perfectly ok to commit a configuration change or script change directly fro
 <ol>
 <li>ensure you put right authorship, setting GIT_AUTHOR_NAME and GIT_AUTHOR_EMAIL <sup id="fnref:git_author"><a class="footnote-ref" href="#fn:git_author">3</a></sup></li>
 <li>commit your changes with a meaningful message (eventually more than one commit)</li>
-<li>use <code>git pull --rebase</code> to fetch remote updates</li>
+<li>use <code>git pull --rebase --autostash</code> to fetch remote updates, while keeping your working changes (autostash)</li>
 <li>use <code>git push</code> to push your changes to the remote</li>
 </ol>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h2>
