@@ -1132,6 +1132,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Some Proxmox post-install thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-fail2ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install fail2ban
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3551,6 +3566,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Some Proxmox post-install thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-fail2ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install fail2ban
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3860,6 +3890,9 @@ apt<span class="w"> </span>update
 <p>Interesting page: <a href="https://techno-tim.github.io/posts/first-11-things-proxmox/">Techno Tim</a></p>
 <p>IOMMU ?</p>
 <p>Don't forget to schedule <a href="#proxmox-backups">backups</a>.</p>
+<h3 id="install-fail2ban">Install fail2ban<a class="headerlink" href="#install-fail2ban" title="Permanent link">#</a></h3>
+<p>There is a common fail2ban configuration <a href="../how-to-fail2ban-ban-bots/">shared between all the Proxmox servers</a>.</p>
+<p><code>sshd</code> and <code>proxmox_ui</code> jails should be installed and running.</p>
 <h2 id="http-reverse-proxy">HTTP Reverse Proxy<a class="headerlink" href="#http-reverse-proxy" title="Permanent link">#</a></h2>
 <p>The VM 101 is a http / https proxy to all services.</p>
 <p>It has it's own bridge interface with a public facing ip.</p>
