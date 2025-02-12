@@ -503,6 +503,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#status-and-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Status and logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#see-banned-ips" class="md-nav__link">
     <span class="md-ellipsis">
       See banned ips
@@ -3276,6 +3285,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#status-and-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Status and logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#see-banned-ips" class="md-nav__link">
     <span class="md-ellipsis">
       See banned ips
@@ -3333,8 +3351,12 @@
 <p>On debian 11, also follow <a href="../how-to-fail2ban-debian-11%2B/">How to install fail2ban on debian 11+</a></p>
 <h2 id="configuring-some-filters">Configuring some filters<a class="headerlink" href="#configuring-some-filters" title="Permanent link">#</a></h2>
 <p>We normally install those filters, with standard configurations:</p>
-<p><code>nginx-botsearch</code> (banning bots that blindly search for old software install)
-and <code>nginx-http-auth</code> (banning bots making too much failed auth attempts)</p>
+<ul>
+<li><code>nginx-botsearch</code> (banning bots that blindly search for old software install)</li>
+<li><code>nginx-http-auth</code> (banning bots making too much failed auth attempts)</li>
+<li><code>sshd</code> (for ssh connections)</li>
+<li><code>proxmox_ui</code> (for Proxmox web interface)</li>
+</ul>
 <h2 id="configuring-a-jail-for-manual-ban">Configuring a jail for manual ban<a class="headerlink" href="#configuring-a-jail-for-manual-ban" title="Permanent link">#</a></h2>
 <p>We can create a new jail to ban bots from using our web services.</p>
 <p>In practice, we will use the nginx-botsearch filter on a fake log file,
@@ -3345,6 +3367,14 @@ systemctl<span class="w"> </span>restart<span class="w"> </span>fail2ban
 </code></pre></div></p>
 <p><strong>Note:</strong> fail2ban (in recent version) is naturally persistent across reboot. For that it uses a sqlite database in <code>/var/lib/fail2ban/</code>.</p>
 <h2 id="using-it">Using it<a class="headerlink" href="#using-it" title="Permanent link">#</a></h2>
+<h3 id="status-and-logs">Status and logs<a class="headerlink" href="#status-and-logs" title="Permanent link">#</a></h3>
+<p>Like <code>git status</code>, status command are always useful when playing with fail2ban. A quick look at the logs is also interesting.</p>
+<div class="highlight"><pre><span></span><code>fail2ban-client<span class="w"> </span>status<span class="w"> </span><span class="c1"># Allow to see all the jails currently running</span>
+
+fail2ban-client<span class="w"> </span>status<span class="w"> </span>sshd<span class="w"> </span><span class="c1"># Allow to status for a specific jail: banned addresses, etc.</span>
+
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/fail2ban.log<span class="w"> </span><span class="c1"># check last entries of fail2ban logs</span>
+</code></pre></div>
 <h3 id="see-banned-ips">See banned ips<a class="headerlink" href="#see-banned-ips" title="Permanent link">#</a></h3>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fail2ban-client<span class="w"> </span>status<span class="w"> </span>nginx-manual-ban
 </code></pre></div>
