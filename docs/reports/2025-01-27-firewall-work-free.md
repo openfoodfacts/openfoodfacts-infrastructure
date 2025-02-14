@@ -10,6 +10,16 @@ Here we use `iptables` interface to netfilter. But we could use nftables instead
 
 But I was conservative for the hosts.
 
+## Listing Open Ports
+
+It's better to see what's running on the machine before creating rules.
+
+You can use the `netstat` command (`apt install net-tools` if needed).
+
+`netstat -pantu|grep LISTEN` can help
+
+We only care about publicly exposed ports, as for internal traffic, we will allow any, for now.
+
 ## Creating ipv4 rules
 
 Note: For simplicity I will use the "-A" (append) option,
