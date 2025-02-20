@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-08-07-wordpress-off-contents-fresh-install/">
+        <link rel="prev" href="../2024-11-06-setup-cloud-vision-on-obf-opf-opff/">
       
       
-        <link rel="next" href="../2024-08-22-postfix-exporter-on-pmg/">
+        <link rel="next" href="../2024-11-15-merge-products-dirs-for-all-flavors/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Moji server installation - Open Food Facts Infrastructure documentation</title>
+        <title>2024-11-14 Server install at Hetzner - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#moji-server-installation" class="md-skip">
+        <a href="#2024-11-14-server-install-at-hetzner" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Moji server installation
+              2024-11-14 Server install at Hetzner
             
           </span>
         </div>
@@ -2683,31 +2683,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Moji server installation
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-08-13-moji-server-installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2717,245 +2696,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#proxmox-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Proxmox configuration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-the-docker-prod-2-vm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create the docker-prod-2 VM
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Create the docker-prod-2 VM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pre-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pre-installation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#info" class="md-nav__link">
-    <span class="md-ellipsis">
-      Info
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hardware" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hardware
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#post-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Post-installation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ipv6-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      ipv6 configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="ipv6 configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#solution-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Solution 1
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solution-4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Solution 4
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stunnel-client-ct-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      stunnel-client CT configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="stunnel-client CT configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#create-the-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create the container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install stunnel
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stunnel-server-ct-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      stunnel-server CT configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="stunnel-server CT configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#create-the-container_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create the container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-stunnel_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install stunnel
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-robotoff-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install Robotoff services
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ovh1-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      OVH1 configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OVH1 configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added-ipv6-to-ovh1-proxy-ct-101" class="md-nav__link">
-    <span class="md-ellipsis">
-      Added ipv6 to OVH1 Proxy CT (101)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-proxy-stunnel-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Update proxy stunnel configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#robotoff-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Robotoff migration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tasks-remaining" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tasks remaining
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3251,10 +2991,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2024-11-14-hetzner-server-install/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024-11-14 Server install at Hetzner
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -3264,6 +3025,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How it works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-of-installimage-for-a-storage-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration of "installimage" for a storage server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxmox-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-portmapper-bsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling portmapper (BSI)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zfs-pool-on-storage-serveurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS Pool on storage serveurs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-alex-key-2025-02-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing alex key (2025-02-18)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3435,219 +3270,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#proxmox-configuration" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      Proxmox configuration
+      How it works
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-the-docker-prod-2-vm" class="md-nav__link">
+  <a href="#configuration-of-installimage-for-a-storage-server" class="md-nav__link">
     <span class="md-ellipsis">
-      Create the docker-prod-2 VM
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Create the docker-prod-2 VM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pre-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pre-installation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#info" class="md-nav__link">
-    <span class="md-ellipsis">
-      Info
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hardware" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hardware
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#post-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Post-installation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ipv6-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      ipv6 configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="ipv6 configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#solution-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Solution 1
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solution-4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Solution 4
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stunnel-client-ct-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      stunnel-client CT configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="stunnel-client CT configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#create-the-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create the container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install stunnel
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stunnel-server-ct-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      stunnel-server CT configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="stunnel-server CT configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#create-the-container_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create the container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-stunnel_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install stunnel
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-robotoff-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install Robotoff services
+      Configuration of "installimage" for a storage server
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ovh1-configuration" class="md-nav__link">
+  <a href="#proxmox-installation" class="md-nav__link">
     <span class="md-ellipsis">
-      OVH1 configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OVH1 configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added-ipv6-to-ovh1-proxy-ct-101" class="md-nav__link">
-    <span class="md-ellipsis">
-      Added ipv6 to OVH1 Proxy CT (101)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#update-proxy-stunnel-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Update proxy stunnel configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#robotoff-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Robotoff migration
+      Proxmox installation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#tasks-remaining" class="md-nav__link">
+  <a href="#disabling-portmapper-bsi" class="md-nav__link">
     <span class="md-ellipsis">
-      Tasks remaining
+      Disabling portmapper (BSI)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zfs-pool-on-storage-serveurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZFS Pool on storage serveurs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-alex-key-2025-02-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing alex key (2025-02-18)
     </span>
   </a>
   
@@ -3672,230 +3342,94 @@
   
 
 
-<h1 id="moji-server-installation">Moji server installation<a class="headerlink" href="#moji-server-installation" title="Permanent link">#</a></h1>
-<p>We have a new server hosted by Moji, thanks to Open Street Maps.
-The server is a Dell T630 with 2 1080Ti GPUs, 128GB of RAM, 56 cores, 1x 8TB NVMe, 8x 8TB HDD.</p>
-<p>For more information, see https://wiki.openstreetmap.org/wiki/FR:Serveurs_OpenStreetMap_France/Moji.</p>
-<p>Proxmox 8.2 was already installed by Christian on the server, so we just had to configure it.</p>
-<h2 id="proxmox-configuration">Proxmox configuration<a class="headerlink" href="#proxmox-configuration" title="Permanent link">#</a></h2>
-<p>Create a user:</p>
-<p><code>sudo pveum user add raphael@pve</code> </p>
-<p>Create the admin group:</p>
-<p><code>sudo pveum group add admin -comment "System Administrators"</code></p>
-<p>Add user to admin group:</p>
-<p><code>sudo pveum user modify  raphael@pve -groups admin</code></p>
-<p>Add Administrator role to admin group:</p>
-<p><code>sudo pveum acl modify / -group admin -role Administrator</code></p>
-<p>Change password:</p>
-<p><code>sudo pveum passwd raphael@pve</code></p>
-<h2 id="create-the-docker-prod-2-vm">Create the docker-prod-2 VM<a class="headerlink" href="#create-the-docker-prod-2-vm" title="Permanent link">#</a></h2>
-<p>We choose a QEMU VM instead of CT as we’re running docker inside.</p>
-<h3 id="pre-installation">Pre-installation<a class="headerlink" href="#pre-installation" title="Permanent link">#</a></h3>
-<p>Download latest Debian install ISO:  <code>debian-12.6.0-amd64-netinst.iso</code> </p>
-<p>Move .iso file to <code>/var/lib/vz/template/iso</code> .</p>
-<p>Create a dataset for Proxmox data:</p>
-<p><code>zfs create hdd-zfs/pve</code></p>
-<p>Adding a new ZFS pool as a storage for Proxmox:</p>
-<p><code>pvesm add zfspool hdd-zfs -pool hdd-zfs/pve -mountpoint /hdd-zfs/pve -sparse 0</code></p>
-<p>Same thing for NVMe disk:</p>
-<p><code>zfs create nvme-zfs/pve</code></p>
-<p><code>pvesm add zfspool nvme-zfs -pool nvme-zfs/pve -mountpoint /nvme-zfs/pve -sparse 0 -content rootdir,images</code></p>
-<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">#</a></h3>
-<p>ID: 200
-name: docker-prod-2 (as docker-prod is deployed in OVH cluster)</p>
-<h3 id="hardware">Hardware<a class="headerlink" href="#hardware" title="Permanent link">#</a></h3>
-<p>3 hard-drives were configured:</p>
+<h1 id="2024-11-14-server-install-at-hetzner">2024-11-14 Server install at Hetzner<a class="headerlink" href="#2024-11-14-server-install-at-hetzner" title="Permanent link">#</a></h1>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h2>
+<p>On Hetzner console, to see servers you have to go in "Robot" menu.</p>
+<p>You can put a ssh key in the <a href="https://robot.hetzner.com/server">Hetzner &gt; Robot &gt; Server</a> &gt; Key</p>
+<p>Server is delivered in rescue mode.</p>
+<p>From there we can launch a script to install the OS with <code>installimage</code> command.</p>
+<p>Official documentation: https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/</p>
+<p>After analyzing the server, it prepares a configuration file for installation that can be modified according to your needs.</p>
+<p>We need to change:</p>
 <ul>
-<li><code>scsi0</code>: 140 GB from nvme-zfs for machine</li>
-<li><code>scsi1</code>: 300 GB for docker volumes</li>
-<li><code>scsi2</code>: 400 GB</li>
+<li>disk for OS install</li>
+<li>the RAID type</li>
+<li>the partitionning</li>
+<li>the hostname</li>
 </ul>
-<p>RAM: 100GB (/124 GB)
-Cores: 40 (/55), flag: +aes</p>
-<h3 id="post-installation">Post-installation<a class="headerlink" href="#post-installation" title="Permanent link">#</a></h3>
-<ul>
-<li>English</li>
-<li>timezone: France (in others)</li>
-<li>locale: en_US.UTF8</li>
-<li>keymap: french</li>
-</ul>
-<p>Network was manually configured:</p>
-<ul>
-<li>ip address: 10.3.0.200/8</li>
-<li>gateway: 10.0.0.45</li>
-</ul>
-<p>Next:</p>
-<ul>
-<li>Created <code>off</code> user (and group).</li>
-<li>cloned https://github.com/openfoodfacts/openfoodfacts-infrastructure into <code>/opt/openfoodfacts-infrastructure</code></li>
-<li>installed docker using <code>install_docker.sh</code> script</li>
-<li>added off and raphael to docker group</li>
-</ul>
-<p>I mounted <code>/deb/sdb1</code> (<code>UUID=60fc037f-dc90-4b4e-a7df-ceabf7955a06</code>) on <code>/var/lib/docker/volumes</code> , by updating <code>/etc/fstab</code>.</p>
-<h2 id="ipv6-configuration">ipv6 configuration<a class="headerlink" href="#ipv6-configuration" title="Permanent link">#</a></h2>
-<p>I added an ipv6 interface to VM 200 (<code>docker-prod-2</code>) by adding to <code>/etc/network/interfaces</code>:</p>
-<div class="highlight"><pre><span></span><code>iface ens18 inet6 static
-    address 2a06:c484:5::200
-    netmask 48
-    gateway 2a06:c484:5::
-    dns-nameservers 2001:4860:4860::8888 2001:4860:4860::8844 
-</code></pre></div>
-<p><code>2a06:c484:5::200</code> is the ipv6 address configured (Moji gives us range <code>2a06:c484:5::/48</code>).</p>
-<p>After restarting networking on VM (<code>systemctl restart networking</code>), VM is reachable using ipv6 from outside:</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>ping6<span class="w"> </span>2a06:c484:5::200
-PING<span class="w"> </span>2a06:c484:5::200<span class="o">(</span>2a06:c484:5::200<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="w"> </span>data<span class="w"> </span>bytes
-<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>2a06:c484:5::200:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">57</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">11</span>.9<span class="w"> </span>ms
-<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span>2a06:c484:5::200:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">57</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">11</span>.1<span class="w"> </span>ms
-</code></pre></div>
-<p>From there, we have 3 solutions:</p>
-<ol>
-<li>make docker services directly joinable through ipv6</li>
-<li>add a NAT rule using iptable to reroute ipv6 trafic to ipv4</li>
-<li>set-up a nginx reverse-proxy in front of Robotoff, that will listen to the ipv6 server and redirects trafic on ipv4-only api container</li>
-<li>Use stunnel to make Robotoff API accessible from outside</li>
-</ol>
-<h3 id="solution-1">Solution 1<a class="headerlink" href="#solution-1" title="Permanent link">#</a></h3>
-<p>I spent some time trying solution (1), <a href="https://docs.docker.com/config/daemon/ipv6/">by enabling ipv6 on docker</a>, with this <code>/etc/docker/daemon.json</code> :</p>
-<div class="highlight"><pre><span></span><code><span class="o">{</span>
-<span class="w">  </span><span class="s2">&quot;metrics-addr&quot;</span><span class="w"> </span>:<span class="w"> </span><span class="s2">&quot;127.0.0.1:9323&quot;</span>,
-<span class="w">  </span><span class="s2">&quot;experimental&quot;</span><span class="w"> </span>:<span class="w"> </span>true,
-<span class="w">  </span><span class="s2">&quot;storage-driver&quot;</span>:<span class="w"> </span><span class="s2">&quot;overlay2&quot;</span>,
-<span class="w">  </span><span class="s2">&quot;ipv6&quot;</span>:<span class="w"> </span>true,
-<span class="w">  </span><span class="s2">&quot;userland-proxy&quot;</span>:<span class="w"> </span>false,
-<span class="w">  </span><span class="s2">&quot;fixed-cidr-v6&quot;</span>:<span class="w"> </span><span class="s2">&quot;2a06:c484:5::200/48&quot;</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it’s not possible, but that I’m really new at ipv6 networking.</p>
-<h3 id="solution-4">Solution 4<a class="headerlink" href="#solution-4" title="Permanent link">#</a></h3>
-<p>As we may get an ipv4 later (Stephane is asking for one), i decided to try directly solution 4, as it’s easy to set-up, and has the advantage of encrypting connection between ovh1 (where the reverse proxy is in CT 101) and docker-prod-2 (VM 200 on Moji).</p>
-<p>With solution (3) (nginx), the trafic is not encrypted, so stunnel is a better choice here.</p>
-<p>After talking with Alex, we decided to use stunnel between the reverse proxy on OVH and robotoff on Moji.</p>
-<ul>
-<li>Request to Robotoff API: client – http/ipv4 → reverse proxy - ipv4 -&gt; stunnel client on ovh - ipv6 -&gt; stunnel server on moji - ipv4 -&gt; robotoff on Moji (private)</li>
-<li>Add a container for stunnel client<ul>
-<li>should work in IPv4: it will be accessible only from other VM on Moji server, using local ipv4</li>
-</ul>
-</li>
-<li>Add a container for stunnel server<ul>
-<li>must have a public IPv6 address. Reverse proxy on OVH1 (VM 101) will reach the stunnel server using the ipv6 address.</li>
-</ul>
-</li>
-<li>robotoff nginx proxy config should forward to stunnel client on the right pid</li>
-</ul>
-<h2 id="stunnel-client-ct-configuration">stunnel-client CT configuration<a class="headerlink" href="#stunnel-client-ct-configuration" title="Permanent link">#</a></h2>
-<h3 id="create-the-container">Create the container<a class="headerlink" href="#create-the-container" title="Permanent link">#</a></h3>
-<p>This container will be used for Robotoff service to reach MongoDB and Redis hosted on ovh2 server.</p>
-<p>We don’t need a VM, a container is enough. I created CT 101 with the following parameters:</p>
-<ul>
-<li>1 CPU</li>
-<li>512 MB of RAM (no swap)</li>
-<li>8 GB of disk</li>
-<li>network:<ul>
-<li>ipv4: 10.3.0.101/8</li>
-<li>no ipv6, as we will use internal ipv4</li>
-<li>gateway: 10.0.0.45 (host)</li>
-</ul>
-</li>
-<li>dns: I added <code>1.1.1.1</code> (cloudflare) as DNS</li>
-</ul>
-<h3 id="install-stunnel">Install stunnel<a class="headerlink" href="#install-stunnel" title="Permanent link">#</a></h3>
-<p>The installation process follows <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/reports/2024-01-04-setting-up-stunnel/">https://openfoodfacts.github.io/openfoodfacts-infrastructure/reports/2024-01-04-setting-up-stunnel/</a>.</p>
-<ul>
-<li>Install with <code>apt install stunnel4</code></li>
-</ul>
-<ul>
-<li>
-<p>Update <code>/etc/stunnel/off.conf</code> with the content in <code>openfoodfacts-infrastructure</code> repo, in <code>confs/moji-stunnel-client/stunnel/off.conf</code></p>
-<ul>
-<li>Override the systemd config of <code>stunnel@.service</code> with <code>systemctl edit stunnel@.service</code>:</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Service<span class="o">]</span>
-<span class="c1"># we need to enable putting pit file in runtime directory, with right permissions</span>
-<span class="c1"># while still starting as root (needed by stunnel)</span>
-<span class="nv">Group</span><span class="o">=</span>stunnel4
-<span class="nv">RuntimeDirectory</span><span class="o">=</span>stunnel-%i
-<span class="nv">RuntimeDirectoryMode</span><span class="o">=</span><span class="m">0775</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>Mask default stunnel4 config: <code>sudo systemctl mask stunnel4.service</code></li>
-</ul>
-<ul>
-<li>start service: <code>systemctl start stunnel@off.service</code></li>
-</ul>
-<ul>
-<li>enable service (to be launched as startup): <code>systemctl enable stunnel@off.service</code></li>
-</ul>
-<h2 id="stunnel-server-ct-configuration">stunnel-server CT configuration<a class="headerlink" href="#stunnel-server-ct-configuration" title="Permanent link">#</a></h2>
-<h3 id="create-the-container_1">Create the container<a class="headerlink" href="#create-the-container_1" title="Permanent link">#</a></h3>
-<p>This container will be used to allow external services to reach Robotoff API, through ipv6.</p>
-<p>I created CT 102 with the following parameters:</p>
-<ul>
-<li>1 CPU</li>
-<li>512 MB of RAM (no swap)</li>
-<li>8 GB of disk</li>
-<li>network:<ul>
-<li>ipv4: 10.3.0.103/8, gateway: 10.0.0.45 (host)</li>
-<li>ipv6: 2a06:c484:5::103/48, gateway: 2a06:c484:5::</li>
-</ul>
-</li>
-</ul>
-<h3 id="install-stunnel_1">Install stunnel<a class="headerlink" href="#install-stunnel_1" title="Permanent link">#</a></h3>
-<p>Exactly the same procedure as for stunnel-client, but use <code>`confs/moji-stunnel-server/stunnel/off.conf</code> as configuration file.</p>
-<h2 id="install-robotoff-services">Install Robotoff services<a class="headerlink" href="#install-robotoff-services" title="Permanent link">#</a></h2>
-<ul>
-<li>Clone robotoff repository in <code>robotoff-org</code></li>
-<li>Install git LFS</li>
-<li>Create external networks, create external volumes</li>
-<li>Download ML models with <code>make dl-models</code></li>
-<li>Configure .env file</li>
-</ul>
-<h2 id="ovh1-configuration">OVH1 configuration<a class="headerlink" href="#ovh1-configuration" title="Permanent link">#</a></h2>
-<h3 id="added-ipv6-to-ovh1-proxy-ct-101">Added ipv6 to OVH1 Proxy CT (101)<a class="headerlink" href="#added-ipv6-to-ovh1-proxy-ct-101" title="Permanent link">#</a></h3>
-<p>In proxmox network interface, I added an ipv6 to CT 101, so that the reverse proxy can reach <code>docker-prod-2</code> in ipv6:</p>
-<ul>
-<li>ipv6/CIDR: 2001:41d0:0203:948c::101/8 (fixed IP)</li>
-<li>gateway: 2001:41d0:0203:94ff:00ff:00ff:00ff:00ff (as declared in OVH mecenat dashboard)</li>
-</ul>
-<h3 id="update-proxy-stunnel-configuration">Update proxy stunnel configuration<a class="headerlink" href="#update-proxy-stunnel-configuration" title="Permanent link">#</a></h3>
-<p>We need to access InfluxDB from <code>docker-prod-2</code>, so we use the stunnel deployed in proxy (CT 101. We also need to configure OVH1 reverse proxy →Robotoff API connection to stunnel.
-We add the following configuration block to the stunnel configuration on CT 101 (reverse proxy):</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to InfluxDB from outside</span>
-<span class="o">[</span>InfluxDB<span class="o">]</span>
-<span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>no
-<span class="nv">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0.0.0:8087
-<span class="nv">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.1.0.201:8087
-<span class="nv">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>PSK
-<span class="c1"># this file and directory are private</span>
-<span class="nv">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/stunnel/psk/influxdb-psk.txt
+<p>Note that we can't install the system on ZFS with this method as it is not supported by Hetzner installimage script (<a href="https://github.com/hetzneronline/installimage/issues/36">as explained on their bug tracker</a>) </p>
+<h2 id="configuration-of-installimage-for-a-storage-server">Configuration of "installimage" for a storage server<a class="headerlink" href="#configuration-of-installimage-for-a-storage-server" title="Permanent link">#</a></h2>
+<p>On storage servers, we have 4 SATA HHD and 2 NVMe SSD.</p>
+<p>They do not seem to be able to boot on the NVMe disks.</p>
+<p>The OS (debian 12/bookworm) will thus be installed on HDD, in RAID1 (miror) and in ext3/4 reserving 256Go for / as the rest will be allocated to the ZFS pool. We will then install promox on top of it.</p>
+<p>We thus modify the configuration file as follows:</p>
+<div class="highlight"><pre><span></span><code>DRIVE1 /dev/sda
+DRIVE2 /dev/sdb
+DRIVE3 /dev/sdc
+DRIVE4 /dev/sdd
 
-<span class="c1"># OVH1 reverse proxy is the only one that has IPv6, so we use this stunnel</span>
-<span class="c1"># instead of the one of stunnel-client</span>
-<span class="o">[</span>Robotoff<span class="o">]</span>
-<span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
-<span class="nv">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">127</span>.0.0.1:16000
-<span class="c1"># Connect to stunnel-client of Moji server</span>
-<span class="nv">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>2a06:c484:5::102:16000
-<span class="nv">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>PSK
-<span class="nv">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/stunnel/psk/robotoff-psk.txt
+SWRAID 1
+SWRAIDLEVEL 1
+
+HOSTNAME h1.openfoodfacts.org
 </code></pre></div>
-<p>We enable the service with <code>systemctl enable stunnel@off.service</code> and restart it with <code>systemctl restart stunnel@off.service</code>.</p>
-<h2 id="robotoff-migration">Robotoff migration<a class="headerlink" href="#robotoff-migration" title="Permanent link">#</a></h2>
-<p>To migrate Robotoff to the new server, I did the following:</p>
-<ul>
-<li>Stop Robotoff services on OVH2</li>
-<li>Migrate data from old server (OVH2) to new one (Moji): elasticsearch, redis, postgresql</li>
-<li>Start services on Moji machine</li>
-<li>Update the <code>proxy_pass</code> in nginx configuration (<code>robotoff.conf</code>) to point to the stunnel server (<code>127.0.0.1:16000</code>) running on CT 101</li>
-</ul>
-<p>The migration went smoothly, and Robotoff is now running on the new server.</p>
-<h2 id="tasks-remaining">Tasks remaining<a class="headerlink" href="#tasks-remaining" title="Permanent link">#</a></h2>
-<p>What remains to be done:</p>
-<ul>
-<li>configure GPU (GPU configuration documentation: <a href="https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE">https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE</a>). Indeed, we're not using the GPUs yet.</li>
-<li>Configure backups (set-up sanoid)</li>
-</ul>
+<p>The default partitioning must also be modified so that the / partition does not occupy the entire disk but 256G.</p>
+<p>The rest of the configuration remains unchanged.</p>
+<p>We can then launch install, it's very fast!</p>
+<h2 id="proxmox-installation">Proxmox installation<a class="headerlink" href="#proxmox-installation" title="Permanent link">#</a></h2>
+<p>See: https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_12_Bookworm</p>
+<p>Nothing special, so:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm pve-no-subscription&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/apt/sources.list.d/pve-install-repo.list
+wget<span class="w"> </span>https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg<span class="w"> </span>-O<span class="w"> </span>/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg<span class="w"> </span>
+apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
+apt<span class="w"> </span>install<span class="w"> </span>proxmox-default-kernel<span class="w"> </span>-y
+reboot
+</code></pre></div>
+<p>After restarting the server:</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>proxmox-ve<span class="w"> </span>postfix<span class="w"> </span>open-iscsi<span class="w"> </span>chrony<span class="w"> </span>-y
+apt<span class="w"> </span>remove<span class="w"> </span>linux-image-amd64<span class="w"> </span><span class="s1">&#39;linux-image-6.1*&#39;</span><span class="w"> </span>-y
+update-grub
+apt<span class="w"> </span>remove<span class="w"> </span>os-prober<span class="w"> </span>-y
+</code></pre></div>
+<h2 id="disabling-portmapper-bsi">Disabling portmapper (BSI)<a class="headerlink" href="#disabling-portmapper-bsi" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>stop<span class="w"> </span>rpcbind<span class="w"> </span>rpcbind.socket
+systemctl<span class="w"> </span>disable<span class="w"> </span>rpcbind<span class="w"> </span>rpcbind.socket
+</code></pre></div>
+<p>(<a href="https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Cyber-Sicherheitslage/Reaktion/CERT-Bund/CERT-Bund-Reports/HowTo/Offene-Portmapper-Dienste/Offene-Portmapper-Dienste_node.html">Source</a>)</p>
+<h2 id="zfs-pool-on-storage-serveurs">ZFS Pool on storage serveurs<a class="headerlink" href="#zfs-pool-on-storage-serveurs" title="Permanent link">#</a></h2>
+<p>We create partitions on the remaining space of the HDD:</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>parted<span class="w"> </span>-y
+
+parted<span class="w"> </span>/dev/sda<span class="w"> </span>mkpart<span class="w"> </span>zfs<span class="w"> </span>hdd-zfs<span class="w"> </span>280G<span class="w"> </span><span class="m">100</span>%
+parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>zfs<span class="w"> </span>hdd-zfs<span class="w"> </span>280G<span class="w"> </span><span class="m">100</span>%
+parted<span class="w"> </span>/dev/sdc<span class="w"> </span>mkpart<span class="w"> </span>zfs<span class="w"> </span>hdd-zfs<span class="w"> </span>280G<span class="w"> </span><span class="m">100</span>%
+parted<span class="w"> </span>/dev/sdd<span class="w"> </span>mkpart<span class="w"> </span>zfs<span class="w"> </span>hdd-zfs<span class="w"> </span>280G<span class="w"> </span><span class="m">100</span>%
+</code></pre></div>
+<p>ZFS Pool creation:</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>hdd-zfs<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>raidz1<span class="w"> </span>sda5<span class="w"> </span>sdb5<span class="w"> </span>sdc5<span class="w"> </span>sdd5<span class="w"> </span>cache<span class="w"> </span>nvme0n1<span class="w"> </span>nvme1n1
+zpool<span class="w"> </span><span class="nb">export</span><span class="w"> </span>hdd-zfs
+zpool<span class="w"> </span>import<span class="w"> </span>hdd-zfs<span class="w"> </span>-d<span class="w"> </span>/dev/disk/by-id/
+zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">compress</span><span class="o">=</span>on<span class="w"> </span><span class="nv">xattr</span><span class="o">=</span>sa<span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span><span class="nv">relatime</span><span class="o">=</span>on<span class="w"> </span>hdd-zfs
+</code></pre></div>
+<p>That's all folks !</p>
+<h2 id="installing-alex-key-2025-02-18">Installing alex key (2025-02-18)<a class="headerlink" href="#installing-alex-key-2025-02-18" title="Permanent link">#</a></h2>
+<p>As I needed my key on the server, I tried the rescue mode.</p>
+<p>It seems the rescue boot did not succeed in recognizing Raid1 volumes correctly.
+In /etc/mdadm/mdadm.conf, there where two dev/md/0 and two /dev/md/1.</p>
+<div class="highlight"><pre><span></span><code># definitions of existing MD arrays
+ARRAY /dev/md/0  metadata=1.2 UUID=58a64854:d6c1d6fe:e51fe77e:015ee514 name=rescue:0
+ARRAY /dev/md/2  metadata=1.2 UUID=9f1bc769:faeb7829:2b78488c:e20e3b71 name=rescue:0
+ARRAY /dev/md/3  metadata=1.2 UUID=04135134:6885bde9:0b43e847:f6ff479a name=rescue:1
+ARRAY /dev/md/4  metadata=1.2 UUID=8b27df50:bc713e37:5c11f3b9:d71e8b8f name=rescue:2
+</code></pre></div>
+<p>I renamed the duplicate:</p>
+<div class="highlight"><pre><span></span><code># definitions of existing MD arrays
+ARRAY /dev/md/0  metadata=1.2 UUID=58a64854:d6c1d6fe:e51fe77e:015ee514 name=rescue:0
+ARRAY /dev/md/1  metadata=1.2 UUID=9f1bc769:faeb7829:2b78488c:e20e3b71 name=rescue:0
+ARRAY /dev/md/2  metadata=1.2 UUID=04135134:6885bde9:0b43e847:f6ff479a name=rescue:1
+ARRAY /dev/md/3  metadata=1.2 UUID=8b27df50:bc713e37:5c11f3b9:d71e8b8f name=rescue:2
+</code></pre></div>
+<p>After this, I was able to run <code>mdadm --assemble --scan --verbose</code>.</p>
 
 
 
