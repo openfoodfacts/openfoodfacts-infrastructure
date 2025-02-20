@@ -52,9 +52,14 @@ Ports we want to accept connections on
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 ```
 
+We also have specific rule for Munin-node, where it's deployed, allowing only a specific ip (munin server) to access:
+```
+-A INPUT -s xx.xx.xx.xx -p tcp -m tcp --dport 4949 -j ACCEPT
+```
+
 Note that we also add a masquerading rule in nat table:
 ```
--t nat -A POSTROUTING -s 10.1.0.0/16 -o vmbr0 -j MASQUERADE
+-t nat -A POSTROUTING -s 10.1.0.0/16 -j MASQUERADE
 ```
 
 
