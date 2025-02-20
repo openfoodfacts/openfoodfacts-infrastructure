@@ -3370,7 +3370,7 @@
 <h2 id="software-update">Software update<a class="headerlink" href="#software-update" title="Permanent link">#</a></h2>
 <p>Please respect the following procedure:</p>
 <ol>
-<li>Make a snapshot before upgrade.</li>
+<li><strong>Make a snapshot before upgrade</strong>.</li>
 <li>Try to upgrade threw the web interface: https://forum.openfoodfacts.org/admin/upgrade (you need to be an admin)</li>
 <li>Test the update during several days.</li>
 <li>After several days, if everything is fine, you can delete the snapshot.</li>
@@ -3389,7 +3389,12 @@ In this case, you have to upgrade in a Linux shell directly on the VM:</p>
 <ol>
 <li>Get root access on ovh1: <code>sudo su root</code></li>
 <li>Connect yourself to the VM: <code>ssh 10.1.0.202</code></li>
+<li><code>apt update &amp;&amp; apt dist-upgrade # updates the whole system</code></li>
 <li><code>cd /var/discourse</code></li>
+<li><code>./launcher cleanup # cleans old docker images</code></li>
+<li><code>apt-get autoclean</code></li>
+<li><code>apt-get autoremove</code></li>
+<li>Create a snapshot if haven't done it yet!</li>
 <li><code>git pull</code></li>
 <li><code>./launcher rebuild app</code></li>
 </ol>
