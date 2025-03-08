@@ -100,10 +100,46 @@ parted /dev/sdd mkpart zfs hdd-zfs 280G 100%
 ZFS Pool creation:
 
 ```bash
+apt install zfsutils-linux zfs-dkms
+/sbin/modprobe zfs
+```
+
+```bash
 zpool create hdd-zfs -o ashift=12 raidz1 sda5 sdb5 sdc5 sdd5 cache nvme0n1 nvme1n1
 zpool export hdd-zfs
 zpool import hdd-zfs -d /dev/disk/by-id/
 zfs set compress=on xattr=sa atime=off relatime=on hdd-zfs
+```
+
+## Installing proxmox
+
+```bash
+echo "deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list
+wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+apt update
+apt list --upgradable
+apt full-upgrade
+apt install proxmox-default-kernel
+systemctl reboot
+apt install proxmox-ve postfix open-iscsi chrony
+apt remove linux-image-amd64 'linux-image-6.1*'
+proxmox-boot-tool refresh
+update-grub
+apt remove os-prober
+```
+
+Checking:
+```bash
+systemctl status pve-cluster.service pve-firewall.service pvedaemon.service pveproxy.service
+# if in a cluster, we would have issued: pvecm status
+pct list
+qm list
+```
+
+More tools installs:
+```bash
+apt install parted fail2ban molly-guard htop dstat
 ```
 
 That's all folks !

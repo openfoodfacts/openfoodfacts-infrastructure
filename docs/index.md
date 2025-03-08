@@ -65,8 +65,9 @@ Some servers are graciously sponsored by [Fondation Free](https://www.fondation-
 For more details about our servers and their configurations, see the following pages:
 
 - [Free Datacenter](./free-datacenter.md)
-<!--  TODO - [OVH Servers](./ovh-servers.md) -->
+- [OVH Servers](./ovh-servers.md)
 - [Moji Datacenter](./moji-datacenter.md)
+- [Hetzner Servers](./hetzner-servers.md)
 
 ### Virtual machines
 
