@@ -397,6 +397,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../hetzner-servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hetzner Servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
         
   
@@ -922,6 +943,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../ovh-servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OVH servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../postgres/" class="md-nav__link">
         
   
@@ -1204,10 +1246,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_49" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_51" checked>
         
           
-          <label class="md-nav__link" for="__nav_49" id="__nav_49_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_51" id="__nav_51_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1219,8 +1261,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_49_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_49">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_51_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_51">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -3108,6 +3150,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installing-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing proxmox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-alex-key-2025-02-18" class="md-nav__link">
     <span class="md-ellipsis">
       Installing alex key (2025-02-18)
@@ -3358,6 +3409,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installing-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing proxmox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-alex-key-2025-02-18" class="md-nav__link">
     <span class="md-ellipsis">
       Installing alex key (2025-02-18)
@@ -3449,11 +3509,38 @@ parted<span class="w"> </span>/dev/sdc<span class="w"> </span>mkpart<span class=
 parted<span class="w"> </span>/dev/sdd<span class="w"> </span>mkpart<span class="w"> </span>zfs<span class="w"> </span>hdd-zfs<span class="w"> </span>280G<span class="w"> </span><span class="m">100</span>%
 </code></pre></div>
 <p>ZFS Pool creation:</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>zfsutils-linux<span class="w"> </span>zfs-dkms
+/sbin/modprobe<span class="w"> </span>zfs
+</code></pre></div>
 <div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>hdd-zfs<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>raidz1<span class="w"> </span>sda5<span class="w"> </span>sdb5<span class="w"> </span>sdc5<span class="w"> </span>sdd5<span class="w"> </span>cache<span class="w"> </span>nvme0n1<span class="w"> </span>nvme1n1
 zpool<span class="w"> </span><span class="nb">export</span><span class="w"> </span>hdd-zfs
 zpool<span class="w"> </span>import<span class="w"> </span>hdd-zfs<span class="w"> </span>-d<span class="w"> </span>/dev/disk/by-id/
 zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">compress</span><span class="o">=</span>on<span class="w"> </span><span class="nv">xattr</span><span class="o">=</span>sa<span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span><span class="nv">relatime</span><span class="o">=</span>on<span class="w"> </span>hdd-zfs
 </code></pre></div>
+<h2 id="installing-proxmox">Installing proxmox<a class="headerlink" href="#installing-proxmox" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm pve-no-subscription&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/apt/sources.list.d/pve-install-repo.list
+wget<span class="w"> </span>https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg<span class="w"> </span>-O<span class="w"> </span>/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+sha512sum<span class="w"> </span>/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+apt<span class="w"> </span>update
+apt<span class="w"> </span>list<span class="w"> </span>--upgradable
+apt<span class="w"> </span>full-upgrade
+apt<span class="w"> </span>install<span class="w"> </span>proxmox-default-kernel
+systemctl<span class="w"> </span>reboot
+apt<span class="w"> </span>install<span class="w"> </span>proxmox-ve<span class="w"> </span>postfix<span class="w"> </span>open-iscsi<span class="w"> </span>chrony
+apt<span class="w"> </span>remove<span class="w"> </span>linux-image-amd64<span class="w"> </span><span class="s1">&#39;linux-image-6.1*&#39;</span>
+proxmox-boot-tool<span class="w"> </span>refresh
+update-grub
+apt<span class="w"> </span>remove<span class="w"> </span>os-prober
+</code></pre></div>
+<p>Checking:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>pve-cluster.service<span class="w"> </span>pve-firewall.service<span class="w"> </span>pvedaemon.service<span class="w"> </span>pveproxy.service
+<span class="c1"># if in a cluster, we would have issued: pvecm status</span>
+pct<span class="w"> </span>list
+qm<span class="w"> </span>list
+</code></pre></div></p>
+<p>More tools installs:
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>parted<span class="w"> </span>fail2ban<span class="w"> </span>molly-guard<span class="w"> </span>htop<span class="w"> </span>dstat
+</code></pre></div></p>
 <p>That's all folks !</p>
 <h2 id="installing-alex-key-2025-02-18">Installing alex key (2025-02-18)<a class="headerlink" href="#installing-alex-key-2025-02-18" title="Permanent link">#</a></h2>
 <p>As I needed my key on the server, I tried the rescue mode.</p>

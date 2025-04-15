@@ -12,7 +12,7 @@
         <link rel="prev" href="../openfoodfacts-query/">
       
       
-        <link rel="next" href="../postgres/">
+        <link rel="next" href="../ovh-servers/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -381,6 +381,27 @@
   
   <span class="md-ellipsis">
     Free Datacenter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hetzner-servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hetzner Servers
     
   </span>
   
@@ -1083,6 +1104,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../ovh-servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OVH servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../postgres/" class="md-nav__link">
         
   
@@ -1363,10 +1405,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_49" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_51" >
         
           
-          <label class="md-nav__link" for="__nav_49" id="__nav_49_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_51" id="__nav_51_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1378,8 +1420,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_49_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_49">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_51_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_51">
             <span class="md-nav__icon md-icon"></span>
             Reports
           </label>
@@ -3519,29 +3561,40 @@
 <h2 id="locations">Locations<a class="headerlink" href="#locations" title="Permanent link">#</a></h2>
 <p>We have servers hosted by two providers:</p>
 <ul>
-<li><a href="https://www.fondation-free.fr/">free.org</a> is sponsoring us electricity, network and server hosting.
-  We have two servers:<ul>
+<li>
+<p><a href="https://www.fondation-free.fr/">free.org</a> is sponsoring us electricity, network and server hosting.
+  We have two servers:</p>
+<ul>
 <li>off1.openfoodfacts.org</li>
 <li>off2.openfoodfacts.org</li>
 </ul>
+<p>see <a href="../free-datacenter/">Free Datacenter</a></p>
 </li>
 </ul>
 <ul>
-<li><a href="https://www.ovhcloud.com/">OVH foundation</a> sponsors us three bare metal servers:<ul>
-<li>ovh1.openfoodfacts.org - strasbourg (sbg3)- <a href="https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/">advance-5</a> server</li>
-<li>ovh2.openfoodfacts.org - roubaix (rbx8) - <a href="https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/">advance-5</a> server</li>
-<li>ovh3.openfoodfacts.org - roubaix (rbx7) - <a href="https://www.ovhcloud.com/fr/bare-metal/advance/adv-stor-2/">stor-2</a> server</li>
+<li>
+<p><a href="https://www.ovhcloud.com/">OVH foundation</a> sponsors us three bare metal servers:</p>
+<ul>
+<li>ovh1.openfoodfacts.org</li>
+<li>ovh2.openfoodfacts.org</li>
+<li>ovh3.openfoodfacts.org</li>
 </ul>
+<p>See <a href="../ovh-servers/">OVH Servers</a></p>
 </li>
 </ul>
 <ul>
 <li><a href="https://moji.fr/">Moji</a> is also sponsoring us a good server</li>
 </ul>
+<p>We also have some paid servers:</p>
+<ul>
+<li>ks1.openfoodfacts.org at <a href="../ovh-servers/">Kimsufi</a></li>
+<li>some servers at <a href="../hetzner-servers/">Hetzner</a> (should be temporary)</li>
+</ul>
 <h2 id="network">Network<a class="headerlink" href="#network" title="Permanent link">#</a></h2>
 <h3 id="web-traffic-proxies">web traffic proxies<a class="headerlink" href="#web-traffic-proxies" title="Permanent link">#</a></h3>
 <ul>
 <li>Most services are hosted on ovh,
-  and pass through an nginx proxy (see <a href="../proxmox/#http-reverse-proxy">proxmox - HTTP Reverse Proxy</a>) 
+  and pass through an nginx proxy (see <a href="../proxmox/#http-reverse-proxy">proxmox - HTTP Reverse Proxy</a>)
   hosted on 101 VM on ovh1 which has a bridge with it's own ip.</li>
 </ul>
 <ul>
