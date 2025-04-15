@@ -2,6 +2,8 @@
 Description=TLS tunnel for network daemons - per-config-file service
 Documentation=man:stunnel4(8)
 PartOf=stunnel.target
+After=network-online.target nss-lookup.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/stunnel4 /etc/stunnel/%i.conf

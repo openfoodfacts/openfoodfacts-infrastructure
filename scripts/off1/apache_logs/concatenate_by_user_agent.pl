@@ -1,17 +1,17 @@
 #!/usr/bin/perl -w
 
-my %ip = ();
+my %ua = ();
 
 while (<STDIN>)
 {
-        if ($_ =~ /"([^"]+)"$/)
+        if ($_ =~ /"([^"]+)".+"([^"]+)"/)
         {
-                $ip{$1}++;
+                $ua{$2}++;
         }
 }
 
-foreach my $ip (sort { $ip{$a} <=> $ip{$b}} keys %ip)
+foreach my $ua (sort { $ua{$a} <=> $ua{$b}} keys %ua)
 {
-        print "$ip\t$ip{$ip}\n";
+        print "$ua\t$ua{$ua}\n";
 }
 

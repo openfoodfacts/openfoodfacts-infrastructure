@@ -2,6 +2,8 @@
 
 Here are some guidelines for linux servers.
 
+**FIXME:** this doc is not up-to-date and must be reviewed.
+
 Note that we have some servers (which are bare metal installs.
 While others are [proxmox hosts](./proxmox.md).
 On proxmox some VM are lxc containers, while other are QEMU VM.
@@ -41,6 +43,11 @@ On off1, rules are in `/etc/iptables.up.rules`
 Remember, that docker as it's own chains that are not affected by `INPUT` and `OUTPUT` rules.
 So it won't block a port exposed by docker. Use `DOCKER-USER` chain for that.
 see https://docs.docker.com/network/iptables/
+
+## Root .bashrc
+
+Most of the time root is created before auto completion package and so on are installed.
+If your shell is not full featured as you are root, you might have to copy `/etc/skel/.bashrc` to `/root`
 
 ## No color in shell
 

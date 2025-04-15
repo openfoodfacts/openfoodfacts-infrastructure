@@ -21,12 +21,24 @@ There are generally two kind of templates:
 
 We then have different retention strategies based on the type of data.
 
+### Dealing with vzdump snapshots
+
+vzdump snapshots are created by Proxmox during backups.
+It always have the same name but is created and destroyed each time.
+
+This can come in the way of syncoid:
+If the ZFS dataset is synchronized while vzdump snapshot is present,
+then on next sync it may fail, because vzdump snapshot will be a different snapshot on the source. Blocking the sync and requiring human intervention (see [How to resync ZFS replication](./how-to-resync-zfs-replication.md)).
+
+To prevent this, we have a script (`sanoid_post_remove_vzdump.sh`) that remove vzdump snapshots on the destination (backup side) after running sanoid (post_snapshot_script). It is configured in "synced" templates in sanoid.conf,
+with `post_snapshot_script = /opt/openfoodfacts-infrastructure/scripts/zfs/sanoid_post_remove_vzdump.sh`
+
 ## sanoid checks
 
 We have a timer/service sanoid_check that checks that we have recent snapshots for datasets.
 This is useful to verify sanoid is running, or syncoid is doing it's job.
 
-The default is to check every ZFS datasets, but the one you list with `no_sanoid_checks:` 
+The default is to check every ZFS datasets, but the one you list with `no_sanoid_checks:`
 in the comments of your `sanoid.conf` file.
 You can put more than one dataset per line, by separating them with ":".
 
@@ -35,6 +47,8 @@ For example:
 # no_sanoid_checks:rpool/logs-nginx:
 # no_sanoid_checks:rpool/obf-old:rpool/opf-old:
 ```
+
+In case of problem, see [How to resync ZFS replication](./how-to-resync-zfs-replication.md)
 
 
 ## syncoid service and configuration
@@ -138,24 +152,33 @@ mkdir /home/$OPERATOR/.ssh
 vim /home/$OPERATOR/.ssh/authorized_keys
 # copy BACKUP_SERVER root public key
 
-chown  -R /home/$OPERATOR
+chown $OPERATOR:$OPERATOR -R /home/$OPERATOR
 chmod go-rwx -R /home/$OPERATOR/.ssh
 ```
 
 Adding needed permissions to pull zfs syncs
-```bash
-zfs allow $OPERATOR hold,send zfs-hdd
-zfs allow $OPERATOR hold,send zfs-nvme
-zfs allow $OPERATOR hold,send rpool
 
-```
+1. if you use `--no-sync-snap`, you only use `hold,send`
+   ```bash
+   # choose the right dataset according to your needs
+   zfs allow $OPERATOR hold,send zfs-hdd
+   zfs allow $OPERATOR hold,send zfs-nvme
+   zfs allow $OPERATOR hold,send rpool
+   ```
+
+2. otherwise you'll need , you need `destroy,hold,mount,send,snapshot`
+   ```bash
+   # choose the right dataset according to your needs
+   zfs allow $OPERATOR destroy,hold,mount,send,snapshot rpool
+   ```
+
 #### test connection on BACKUP_SERVER
 
 On BACKUP_SERVER, test ssh connection:
 
 ```bash
 OPERATOR=${BACKUP_SERVER}operator
-ssh $OPERATOR@<ip for server>
+ssh $OPERATOR@<ip or host>
 ```
 
 #### config syncoid
@@ -174,3 +197,6 @@ Use `--recursive` to also backup subdatasets.
 Don't forget to create a sane retention policy (with `autosnap=no`) in sanoid on $BACKUP_SERVER to remove old data.
 
 **Note:** because of the 6h timeout, if you have big datasets, you may want to do the first synchronization before enabling the service.
+
+**Important:** try to have a good hierarchy of datasets, and separate what's from the server and what's from other servers.
+Normally we put other servers backups in a off-backups dataset. It's important not to mix it with backups dataset which is for the server itself.

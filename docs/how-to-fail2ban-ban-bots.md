@@ -12,8 +12,10 @@ On debian 11, also follow [How to install fail2ban on debian 11+](./how-to-fail2
 
 We normally install those filters, with standard configurations:
 
-`nginx-botsearch` (banning bots that blindly search for old software install)
-and `nginx-http-auth` (banning bots making too much failed auth attempts)
+* `nginx-botsearch` (banning bots that blindly search for old software install)
+* `nginx-http-auth` (banning bots making too much failed auth attempts)
+* `sshd` (for ssh connections)
+* `proxmox_ui` (for Proxmox web interface)
 
 ## Configuring a jail for manual ban
 
@@ -32,6 +34,18 @@ systemctl restart fail2ban
 
 
 ## Using it
+
+### Status and logs
+
+Like `git status`, status command are always useful when playing with fail2ban. A quick look at the logs is also interesting.
+
+```bash
+fail2ban-client status # Allow to see all the jails currently running
+
+fail2ban-client status sshd # Allow to status for a specific jail: banned addresses, etc.
+
+tail -f /var/log/fail2ban.log # check last entries of fail2ban logs
+```
 
 ### See banned ips
 

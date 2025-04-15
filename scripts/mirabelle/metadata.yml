@@ -3,19 +3,65 @@
 # Documentation: https://docs.datasette.io/en/stable/metadata.html
 # Retrive the current metadata used by mirabelle: http://mirabelle.openfoodfacts.org/-/metadata
 
+# Site's description
 title: Some Open Food Facts stats
 description_html: |-
-  <p>This is an experiment to publish some stats related to
+  <p>This is an experiment to publish some stats related to 
   <a href="https://world.openfoodfacts.org/">Open Food Facts</a>.</p>
 license: ODbL
 license_url: https://opendatacommons.org/licenses/odbl/
+
+# Databases' descriptions and properties
 databases:
+
+  _memory:
+    queries:
+      random_issues:
+        title: Random issues
+        description_html: <h2>Three random products with data quality issues</h2>
+        sql: |-
+          SELECT /*distrib.id
+          ,*/ p.code
+          , ("https://world.openfoodfacts.org/cgi/product.pl?type=edit&code=" || p.code) as edit
+          , CAST(p.unique_scans_n as INTEGER) as scans
+          , p.data_quality_errors_tags
+           FROM products.[all] as p
+            inner join distrib on p.code = distrib.code
+            where
+              (distrib.sent_date == "" or distrib.sent_date IS NULL or DATE(distrib.sent_date) < DATE('now', '-60 days'))
+              and (distrib.fixed_date == "" or distrib.fixed_date IS NULL)
+              -- and (p.last_image_t != "") -- or p.last_image_t IS NOT NULL)  -- there is an image
+              and (p.image_nutrition_url != "")   -- products which have an image for nutrition facts
+              --and (p.image_ingredients_url != "") -- products which have an image for ingredients list
+              and (p.owner not like "org-%")      -- orgs are (as nestle) are sometimes sending wrong data every day
+              and (distrib.code NOT IN (SELECT code FROM non_fixable)) -- exclude producer_data_issue from Folksonomy Engine
+              -- and (p.data_quality_errors_tags not like "%nutrition-value-negative-nutrition-score%")
+              and (p.energy_100g > 100)           -- avoid products with low energy, with frequent errors due to rounded values
+              and scans > 1
+            order by random()
+            limit 3
+      errors_from:
+        title: Where do the errors come from?
+        sql: |-
+          -- new data quality errors since one day, grouped by last contributor
+          SELECT DISTINCT count(i.code) as nb,
+            i.entry_date, p.last_modified_by,
+            --i.code, p.data_quality_errors_tags,
+            "https://mirabelle.openfoodfacts.org/_memory?sql=--+new+data+quality+errors+since+one+day%0D%0ASELECT+p.code%2C+p.url%2C+p.last_modified_datetime%2C+p.last_modified_by%2C+p.data_quality_errors_tags%0D%0AFROM+%22dq-issues%22.distrib+as+i%2C+products.%5Ball%5D+as+p%0D%0AWHERE+true%0D%0A++and+strftime%28%27%25Y-%25m-%25d%27%2C+i.entry_date%29+%3E+DATE%28%27now%27%2C%27-2+day%27%29%0D%0A++and+i.code+%3D%3D+p.code%0D%0A++and+p.last_modified_by+%3D%3D+%22" || p.last_modified_by || "%22%0D%0Aorder+by+%2F*p.data_quality_errors_tags*%2F+p.last_modified_datetime%0D%0Alimit+900" as link
+          FROM "dq-issues".distrib as i, products.[all] as p
+          WHERE true
+            and strftime('%Y-%m-%d', i.entry_date) > DATE('now','-2 day')
+            and i.code == p.code
+          group by p.last_modified_by
+          order by nb desc
+          limit 900
+
   off-stats:
     tables:
       products_from_owners:
         description_html: |-
-          <p>Total number of products sent via the
-          <a href="https://world.pro.openfoodfacts.org/">pro platform</a>
+          <p>Total number of products sent via the 
+          <a href="https://world.pro.openfoodfacts.org/">pro platform</a> 
           in some countries at a certain day.
           Data are gathered daily at 8am UTC</p>
         source: Open Food Facts API
@@ -23,23 +69,297 @@ databases:
           ["country","year","month","day"]
       data_quality_stats:
         title: Data quality stats
+        description_html: |-
+          <p>Every day we collect data quality stats, measured from the CSV export:</p>
+            <ul>
+            <li><code>total_nb_of_products</code>: the total number of products of the Open Food Facts database; 
+                CSV export filters empty products</li>
+            <li><code>products_with_errors</code></li>
+            <li><code>products_w_issues_but_no_image</code></li>
+            <li>products_wo_category</li>
+            <li>products_wo_ingredients</li>
+            <li>products_wo_nutrition_facts</li>
+            <li>products_wo_packaging_data</li>
+            </ul>
         source: Daily CSV export, see https://world.openfoodfacts.org/data
         facets:
           ["country","year","month","day","property"]
+    queries:
+      aggregated_stats:
+        sql: |-
+         select (year || '-' || month || '-' || day) as date, country
+         , max(cast(total_nb_of_products as numeric)) as total_nb_of_products
+         , max(cast(products_with_errors as numeric)) as pr_with_errors
+         , max(cast(products_w_issues_but_no_image as numeric)) as pr_w_issues_but_no_image
+         , max(cast(products_wo_category as numeric)) as pr_wo_category
+         , max(cast(products_wo_ingredients as numeric)) as pr_wo_ingredients
+         , max(cast(products_wo_nutrition_facts as numeric)) as pr_wo_nutrition_facts
+         , max(cast(products_wo_packaging_data as numeric)) as pr_wo_packaging_data
+         from
+         (
+           select a1.year, a1.month, a1.day, a1.country
+           , case when a1.property == "total_nb_of_products" then a1.value
+           end as total_nb_of_products
+           , case when a1.property == "products_with_errors" then a1.value
+           end as products_with_errors
+           , case when a1.property == "products_w_issues_but_no_image" then a1.value
+           end as products_w_issues_but_no_image
+           , case when a1.property == "products_wo_category" then a1.value
+           end as products_wo_category
+           , case when a1.property == "products_wo_ingredients" then a1.value
+           end as products_wo_ingredients
+           , case when a1.property == "products_wo_nutrition_facts" then a1.value
+           end as products_wo_nutrition_facts
+           , case when a1.property == "products_wo_packaging_data" then a1.value
+           end as products_wo_packaging_data
+           from data_quality_stats a1
+         )
+         group by year, month, day, country
+
   products:
     description_html: |-
-      <p>All Open Food Facts products, based on CSV export.</p>
+      <p>All Open Food Facts products, based on <a href="https://world.openfoodfacts.org/data">daily CSV export</a>.</p>
     tables:
       all:
         description_html: |-
-          <p>All Open Food Facts products in one table (2,600,000+ products).
-          Data is imported from our
+          <p>All Open Food Facts products in one table (2,900,000+ products).
+          Data is imported from our 
           <a href="https://world.openfoodfacts.org/data">daily CSV export</a>.</p>
           <p><a href="https://en.wikipedia.org/wiki/Regular_expression">REGEXP</a> are activated.</p>
         facets:
           ["countries_en","brands","main_category_en", "nutriscore_grade", "nova_group", "ecoscore_grade"]
+    queries:
+      random_issues:
+        sql: |-
+          /* randomized list of products with issues and at least one image */ 
+          select url, "https://world.openfoodfacts.org/cgi/product.pl?type=edit&code="||code||"#nutrition" as edit_nutrition, 
+            last_modified_datetime, product_name, data_quality_errors_tags from [all]
+          where data_quality_errors_tags != "" 
+            and image_nutrition_url != ""
+          order by RANDOM()
+          limit 50
+      random_issues_easy:
+        sql: |-
+         /* randomized list of products with (easy) issues and at least one image */ 
+         select url, "https://world.openfoodfacts.org/cgi/product.pl?type=edit&code="||code||"#nutrition" as edit_nutrition, 
+            last_modified_datetime, product_name, data_quality_errors_tags from [all]
+         where
+           data_quality_errors_tags regexp "nutrition-saturated-fat-greater-than-fat|nutrition-value-over|greater-than" 
+           and image_nutrition_url != ""
+         order by RANDOM()
+         limit 50
+      energy_calculator:
+        description_html: |-
+          <p>This form allows to compute the energy of a given product, based on 
+          <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32011R1169&from=EN#d1e32-62-1">INCO european regulation</a> (see Annex XIV).
+          </p>
+          <p>The formula is: ((carb - polyols)*17) + (polyols * 10) + (proteins * 17) + (fat * 37) + (fiber * 8) + (alcohol * 29)</p>
+          <p>or: ((carb - polyols)*4) + (polyols * 2.4) + (proteins * 4) + (fat * 9) + (fiber * 2) + (alcohol * 7)</p>
+        sql: |-
+          -- compute kj based on INCO regulation (Europe)
+          -- https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32011R1169&from=EN#d1e32-62-1 (Annex XIV)
+          -- Energy = ((carb - polyols)*17) + (polyols * 10) + (proteins * 17) + (fat * 37) + (fiber * 8) + (alcohol * 29)
+          select -- code,
+            "https://world.openfoodfacts.org/cgi/product.pl?type=edit&code="||code||"#nutrition" as edit_nutrition,
+            creator, product_name, serving_quantity, energy_100g,
+            round(
+              ((COALESCE(carbohydrates_100g,0) - COALESCE(polyols_100g,0))*17) +
+              (COALESCE(polyols_100g,0)*10) +
+              (COALESCE(proteins_100g,0)*17) +
+              (COALESCE(fat_100g,0)*37) +
+              (COALESCE(fiber_100g,0)*8) +
+              (COALESCE(alcohol_100g,0)*29)
+              ,2) as kj_computed,
+            round((((
+              (((COALESCE(carbohydrates_100g,0) - (COALESCE(polyols_100g,0)))*17) + (COALESCE(polyols_100g,0)*10) + (COALESCE(proteins_100g,0)*17) + (COALESCE(fat_100g,0)*37) + (COALESCE(fiber_100g,0)*8) + (COALESCE(alcohol_100g,0)*29))-energy_100g)/energy_100g)*100
+            ),2) as "kj_diff%",
+            [energy-kcal_100g],
+            round(
+              ((COALESCE(carbohydrates_100g,0) - COALESCE(polyols_100g,0))*4) + (COALESCE(polyols_100g,0)*2.4) +
+              (COALESCE(proteins_100g,0)*4) + (COALESCE(fat_100g,0)*9) + 
+              (COALESCE(fiber_100g,0)*2) + (COALESCE(alcohol_100g,0)*7)
+            ,2) as kcal_computed,
+            round((((
+              (((COALESCE(carbohydrates_100g,0) - (COALESCE(polyols_100g,0)))*4) + (COALESCE(polyols_100g,0)*2.4) + (COALESCE(proteins_100g,0)*4) + (COALESCE(fat_100g,0)*9) + (COALESCE(fiber_100g,0)*2) + (COALESCE(alcohol_100g,0)*7))-[energy-kcal_100g])/[energy-kcal_100g])*100
+            ),2) as "kcal_diff%",
+            data_quality_errors_tags, fat_100g, carbohydrates_100g, polyols_100g, fiber_100g, proteins_100g
+          from [all]
+          where code = :barcode
+
+  products_2021-09:
+    description_html: |-
+      <p>Open Food Facts database on 2021-09.</p>
+    tables:
+      all:
+        description_html: |-
+          <p>All Open Food Facts products in one table, 2021-09 version (1,950,000+ products).
+          Data is imported from a
+          <a href="https://world.openfoodfacts.org/data">CSV export</a>.</p>
+          <p><a href="https://en.wikipedia.org/wiki/Regular_expression">REGEXP</a> are activated.</p>
+        facets:
+          ["countries_en","brands","main_category_en", "nutriscore_grade", "nova_group", "ecoscore_grade"]    
+
+  products_2023-01:
+    description_html: |-
+      <p>Open Food Facts database on 2023-01.</p>
+    tables:
+      all:
+        description_html: |-
+          <p>All Open Food Facts products in one table, 2023-01 version (2,600,000+ products).
+          Data is imported from a
+          <a href="https://world.openfoodfacts.org/data">CSV export</a>.</p>
+          <p><a href="https://en.wikipedia.org/wiki/Regular_expression">REGEXP</a> are activated.</p>
+        facets:
+          ["countries_en","brands","main_category_en", "nutriscore_grade", "nova_group", "ecoscore_grade"]
+
+  dq-issues:
+    description_html: |-
+      <p>Stats related to data team using Data Quality Daily.</p>
+    tables:
+      distrib:
+        description_html: |-
+          <p>Stats related to data team using Data Quality Daily.</p>
+
+  rappelconso_v2_gtin_trie:
+    description_html: |-
+      <p>Products' recalls in France (DGCCRF data). Temporary data during the 2024's hackathon in Paris.</p>
+      <p><ul>rappelconso_v2_gtin_trie: data</li>
+      <li>stats: stats: stats about the data</li></ul></p>
+    tables:
+      rappelconso_v2_gtin_trie:
+        description_html: |-
+          <p>Products' recalls in France (DGCCRF data). Temporary data during the 2024's hackathon in Paris.</p>
+          <p>Data can be requested with a JSON API thanks to datasette, see <a href="https://docs.datasette.io/en/stable/json_api.html">
+          https://docs.datasette.io/en/stable/json_api.html</a></p>
+          <p>See some <a href="./stats">stats</a> about this table.</p>
+      stats:
+        description_html: |-
+          <p>This table provides stats about the <a href="./rappelconso_v2_gtin_trie">rappelconso_v2_gtin_trie</a> table:</p><ul style="list-style: inside;">
+          <li>column_name: the name of the column</li>
+          <li>uniq: the number of unique values</li>
+          <li>filled: the number of filled row</li>
+          <li>missing: the number of missing values</li>
+          <li>min: the lowest value when the column is sorted by ascendant</li>
+          <li>max: the highest value when the column is sorted by ascendant</li>
+          <li>med: the median of the column when sorted by ascendant</li>
+          <li>cntls_10_25_50_75_90: the 10th, 25th, 50th, 75th, and 90th percentiles when sorted by ascendant</li>
+          <li>avg: the mean when the field is an interger or a real</li>
+          <li>sum: the sum when the field is an interger or a real</li>
+          <li>shortestStr: the lenght of the shortest string</li>
+          <li>longestStr: the lenght of the longest string</li>
+          <li>numericValues: the number of numerical values</li>
+          <li>textValues: the number of text values</li>
+          <li>probISODate: is this a column probably an ISO date?</li>
+          <li>top_3_freq: the 3 most given values</li>
+          </ul>
+
+# Plugins' properties. See: https://mirabelle.openfoodfacts.org/-/plugins
+# See also: https://mirabelle.openfoodfacts.org/-/metadata to verify metadata.yml is well read
 plugins:
   datasette-block-robots:
+    # To verify it is working well: https://mirabelle.openfoodfacts.org/robots.txt
     literal: |-
       User-agent: *
       Disallow: /
+  datasette-cors:
+    hosts:
+      - https://vega.github.io
+      - https://world.openfoodfacts.org
+  # Verify datasette-dashboards is installed: http://127.0.0.1:8001/-/plugins
+  # Example: https://datasette-dashboards-demo.vercel.app/-/metadata
+  datasette-dashboards:
+    # Try it at http://127.0.0.1:8001/-/dashboards
+    data-quality-dashboard:
+      title: Data quality dashboard
+      description: Metrics about Open Food Facts data quality
+      layout:
+        - [presentation, products-with-errors, products-with-errors, products-without-nutrients, products-without-nutrients]
+        - [presentation, products-without-category, products-without-category, products-without-ingredients, products-without-ingredients]
+      filters:
+        country:
+          name: Country
+          type: text
+          #db: off-stats
+          default: world|de|es|fr|it|uk|us
+          #query: SELECT distinct(country) FROM data_quality_metrics
+        date_start:
+          name: Date Start
+          type: date
+          default: "2022-12-01"
+        date_end:
+          name: Date End
+          type: date
+          default: "2024-12-31"
+
+      charts:
+        presentation:
+          library: markdown
+          display: |-
+            # Presentation
+            > These metrics are build based on the [Open Food Facts CSV daily export](https://world.openfoodfacts.org/data), containing all the products of the database 
+            > (2,900,000+).
+            >
+            > The graph related to "Products with a data quality error" is based on [180+ controls](https://wiki.openfoodfacts.org/List_of_data_quality_errors_(generated)).
+            >
+            ## Help
+            > The filter by country is using [ISO-3166-1-Alpha-2 two letters code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (eg. `de` for Germany).
+            >
+            > It is using regular expression. `world|fr` will show
+            > data from world and fr (for France).
+            >
+            > Click on the title of the graph if you want it displayed full page.
+            >
+
+        products-with-errors:
+          title: Products with a data quality error
+          db: off-stats
+          # Be careful: sql query should not countain double quotes "
+          query: select * from data_quality_metrics where true [[ AND country REGEXP :country ]] [[ and date >= date(:date_start) ]] [[ and date <= date(:date_end) ]];
+          library: vega-lite
+          display:
+            mark: { type: line, tooltip: true }
+            encoding:
+              color: { field: country, type: nominal }
+              x: { field: date, type: temporal, bin: false }
+              y: { field: pwe_pct, type: quantitative, bin: false }
+
+        products-without-nutrients:
+          title: Products without nutrients
+          description: Percentage. The lesser, the better.
+          db: off-stats
+          query: select * from data_quality_metrics where true [[ and country REGEXP :country ]] [[ and date >= date(:date_start) ]] [[ and date <= date(:date_end) ]];
+          library: vega-lite
+          display:
+            mark: { type: line, tooltip: true }
+            encoding:
+              color: { field: country, type: nominal }
+              x: { field: date, type: temporal, bin: false }
+              y: { field: pwon_pct, type: quantitative, bin: false }
+
+        products-without-category:
+          title: Products without a category
+          db: off-stats
+          query: select * from data_quality_metrics where true [[ and country REGEXP :country ]] [[ and date >= date(:date_start) ]] [[ and date <= date(:date_end) ]];
+          library: vega-lite
+          display:
+            mark: { type: line, tooltip: true }
+            encoding:
+              color: { field: country, type: nominal }
+              x: { field: date, type: temporal, bin: false }
+              y: { field: pwoc_pct, type: quantitative, bin: false }
+
+        products-without-ingredients:
+          title: Products without ingredients
+          db: off-stats
+          query: select * from data_quality_metrics where true [[ and country REGEXP :country ]] [[ and date >= date(:date_start) ]] [[ and date <= date(:date_end) ]];
+          library: vega-lite
+          display:
+            mark: { type: line, tooltip: true }
+            encoding:
+              color: { field: country, type: nominal }
+              x: { field: date, type: temporal, bin: false }
+              y: { field: pwoi_pct, type: quantitative, bin: false }
+
+# Extra JS
+extra_js_urls:
+  - /assets/datasette-queries-without-limit.js

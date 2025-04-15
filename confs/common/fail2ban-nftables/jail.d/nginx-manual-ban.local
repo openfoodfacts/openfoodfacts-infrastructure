@@ -10,6 +10,16 @@ logpath = /etc/fail2ban/fail2ban.conf
 port = 80,443
 # make bantime infinite, because we use it to manually ban bots IPs.
 bantime=-1
-
-
+# ignore ip, in case an operator misses our own addresses !
+ignoreip= 10.1.0.0/16 ; internal
+    146.59.148.140 ; ovh1
+    51.210.154.203 ; ovh2
+    51.210.32.79 ; ovh3
+    46.105.72.120 ; proxy ovh1
+    213.36.253.215 ; proxy off1
+    213.36.253.214 ; proxy off2
+    213.36.253.206 ; off1
+    213.36.253.208 ; off2
+    45.147.209.254 ; moji
+    217.182.132.133 ; ks1
 

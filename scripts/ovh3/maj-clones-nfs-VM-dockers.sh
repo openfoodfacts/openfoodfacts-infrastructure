@@ -21,8 +21,8 @@ do
 	then
 		CLONE_NAME=off-$CLONE_NAME
 	fi
-	zfs destroy $CLONES_DATASET/$DATA
-	zfs clone $LAST $CLONES_DATASET/$DATA
+	zfs destroy $CLONES_DATASET/$CLONE_NAME
+	zfs clone $LAST $CLONES_DATASET/$CLONE_NAME
 done
 
 # reboot de la VM "dockers" pour remonter les volumes NFS

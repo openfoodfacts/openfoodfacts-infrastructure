@@ -4,23 +4,33 @@
 
 We have servers hosted by two providers:
 
-- free.org is sponsoring us electricity, network and server hosting.
+- [free.org](https://www.fondation-free.fr/) is sponsoring us electricity, network and server hosting.
   We have two servers:
   - off1.openfoodfacts.org
   - off2.openfoodfacts.org
 
-- OVH foundation sponsors us three bare metal servers:
-  - ovh1.openfoodfacts.org - strasbourg (sbg3)- [advance-5](https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/) server
-  - ovh2.openfoodfacts.org - roubaix (rbx8) - [advance-5](https://www.ovhcloud.com/fr/bare-metal/advance/adv-5/) server
-  - ovh3.openfoodfacts.org - roubaix (rbx7) - [stor-2](https://www.ovhcloud.com/fr/bare-metal/advance/adv-stor-2/) server
+  see [Free Datacenter](./free-datacenter.md)
 
+- [OVH foundation](https://www.ovhcloud.com/) sponsors us three bare metal servers:
+
+  - ovh1.openfoodfacts.org
+  - ovh2.openfoodfacts.org
+  - ovh3.openfoodfacts.org
+
+  See [OVH Servers](./ovh-servers.md)
+
+- [Moji](https://moji.fr/) is also sponsoring us a good server
+
+We also have some paid servers:
+- ks1.openfoodfacts.org at [Kimsufi](./ovh-servers.md)
+- some servers at [Hetzner](./hetzner-servers.md) (should be temporary)
 
 ## Network
 
 ### web traffic proxies
 
 - Most services are hosted on ovh,
-  and pass through an nginx proxy (see [proxmox - HTTP Reverse Proxy](./proxmox.md#http-reverse-proxy)) 
+  and pass through an nginx proxy (see [proxmox - HTTP Reverse Proxy](./proxmox.md#http-reverse-proxy))
   hosted on 101 VM on ovh1 which has a bridge with it's own ip.
 
 - product opener instances (openfoodfacts.org and its cousins) have their own proxy on [off1](#off1)
@@ -99,3 +109,9 @@ It's a storage server, which mainly contains:
 - replication of all production data: images, products, etc.
 - a nginx to serve images (and some static resources as fallback)
 - some zfs volumes for ovh1 and ovh2 services
+
+### osm45 (moji)
+
+Located at Moji. See [Moji Datacenter](./moji-datacenter.md)
+
+IPV6 only (+ ipv4 internal network)

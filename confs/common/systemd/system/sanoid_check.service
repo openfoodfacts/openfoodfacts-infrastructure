@@ -4,7 +4,7 @@ Requires=zfs.target
 After=zfs.target
 ConditionFileNotEmpty=/etc/sanoid/sanoid.conf
 # email on failure
-OnFailure=email-failures@sanoid_check-%l.service
+OnFailure=email-failures@sanoid_check.service
 
 [Service]
 Environment=TZ=UTC

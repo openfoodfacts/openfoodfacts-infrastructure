@@ -32,7 +32,7 @@ We use [Proxomox mail gateway](./mail.md).
 
 Please respect the following procedure:
 
-1. Make a snapshot before upgrade.
+1. **Make a snapshot before upgrade**.
 2. Try to upgrade threw the web interface: https://forum.openfoodfacts.org/admin/upgrade (you need to be an admin)
 3. Test the update during several days.
 4. After several days, if everything is fine, you can delete the snapshot.
@@ -52,9 +52,14 @@ In this case, you have to upgrade in a Linux shell directly on the VM:
 
 1. Get root access on ovh1: `sudo su root`
 2. Connect yourself to the VM: `ssh 10.1.0.202`
-3. `cd /var/discourse`
-4. `git pull`
-5. `./launcher rebuild app`
+3. `apt update && apt dist-upgrade # updates the whole system`
+4. `cd /var/discourse`
+6. `./launcher cleanup # cleans old docker images`
+7. `apt-get autoclean`
+8. `apt-get autoremove`
+9. Create a snapshot if haven't done it yet!
+10. `git pull`
+11. `./launcher rebuild app`
 
 
 ## Analytics with Matomo

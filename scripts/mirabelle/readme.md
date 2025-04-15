@@ -147,3 +147,35 @@ Restart Datasette and check if you're running the last version: https://mirabell
 
 Restart Datasette and check if you're running the last plugin version: https://mirabelle.openfoodfacts.org/-/plugins
 
+
+## Daily process
+
+Here are the cron jobs launched every day:
+```bash
+# BEWARE: '%' must be escaped when using $()
+
+# Update table of false positive data quality issues (ie. products that can't be fixed for several reasons) 
+# Can be launch at any time
+0 4 * * * bash /home/off/mirabelle/update_not_fixable.sh >> /home/off/mirabelle/update_not_fixable.$(date +'\%Y-\%m').log
+
+# Database daily update. Should be launch after Open Food Facts export is ok
+30 4 * * * bash /home/off/mirabelle/products_daily_update.sh >> /home/off/mirabelle/products_daily_update.$(date +'\%Y-\%m').log
+
+# Launch data quality daily email; must be launched after the database update
+0 8 * * * bash /home/off/mirabelle/distri-qual.sh --normal >> /home/off/mirabelle/distri-qual.$(date +'\%Y-\%m').log 2>&1
+```
+
+The `distri-qual.sh` script is building and sending the data quality daily email. here is what it's doing:
+1. update the database related to data quality issues: dq-issues.db
+   - add new products having an issue, that weren't before
+   - update existing products:
+     - update the ones which are not existing anymore in the OFF database
+     - update the ones which have no issue anymore
+5. Read metrics, build leader board and send data quality daily email
+   - exclude non-fixable products
+   - exclude products that have been fixed
+   - exclude products that have been sent since last 50 days
+   - exclude products that don't have an image for the ingredients and the nutrients
+   - exclude products that have a owner (org-%)
+   - exclude products products with low energy, with frequent errors due to rounded values
+   - in 1/5 of the cases exclude products that haven't been scanned last year, and in 4/5 select random products

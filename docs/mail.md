@@ -137,7 +137,8 @@ We normally keeps a standard `/etc/aliases`.
 We have specific groups to receive emails: `root@openfoodfacts.org` and `off@openfoodfacts.org`
 
 You may add some redirections for non standard users to one of those groups.
-Do not forget to run `newaliases`, and [`etckeeper`](./linux-server.md#etckeeper).
+Do not forget to run `newaliases`, and [`etckeeper`](./linux-server.md#etckeeper)
+and restart the postfix service (`postfix.service` and/or `postfix@-.service`).
 
 ### Postfix configuration
 
@@ -159,7 +160,7 @@ Run: `dpkg-reconfigure postfix`:
 **IMPORTANT:**
 On some system, the real daemon is not `postfix.service` but `postfix@-.service`
 
-(so eg., if you touch `/etc/alias` (with after `sudo newaliases`) you need to `systemctl reload  postfix@-.service`
+So, for example, if you touch `/etc/alias` (with after `sudo newaliases`) you need to `systemctl reload  postfix@-.service`
 
 ### Exim4 configuration
 

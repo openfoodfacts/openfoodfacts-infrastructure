@@ -26,7 +26,7 @@ Network: name=eth0,bridge=vmbr1,ip=10.1.0.100/24,gw=10.0.0.1
 
 I then simply install `nginx` using apt.
 
-I also [configure postfix](../mail#postfix-configuration) and tested it.
+I also [configure postfix](../mail.md#postfix-configuration) and tested it.
 
 ### Adding the IP
 
@@ -128,7 +128,7 @@ It's in the git repository, so then:
 ln -s /opt/openfoodfacts-infrastructure/confs/proxy-off/nginx/log_format.conf /etc/nginx/conf.d/log_format.conf
 ```
 
-From off2 static-off configuration, I create a similar images-off site, and [put it into git](../confs/off1-reverse-proxy/nginx/sites-available/images-off).
+From off2 static-off configuration, I create a similar images-off site, and put it into git (in `confs/off1-reverse-proxy/nginx/sites-available/images-off`).
 
 ```bash
 ln -s /opt/openfoodfacts-infrastructure/confs/off1-reverse-proxy/nginx/sites-available/images-off /etc/nginx/sites-enabled/

@@ -75,7 +75,7 @@ def generate_issues_markdown():
 
 
 def write_readme(issues_table: str):
-    readme_content = open('README.md', 'r').read()
+    readme_content = open('docs/virtual-machines.md', 'r').read()
 
     # Replace existing issues table with updated one
     content = re.sub(r'(?<=<!-- VM table -->).+?(?=<!-- VM table -->)',
@@ -83,7 +83,7 @@ def write_readme(issues_table: str):
                      readme_content,
                      flags=re.DOTALL)
 
-    with open('README.md', 'w') as f:
+    with open('docs/virtual-machines.md', 'w') as f:
         f.write(content)
 
 

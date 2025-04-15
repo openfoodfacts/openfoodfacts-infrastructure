@@ -3,7 +3,7 @@ version: "3.9"
 services:
   grafana:
     restart: $RESTART_POLICY
-    image: grafana/grafana-oss
+    image: grafana/grafana-oss:11.2.2-security-01
     volumes:
       - grafana-storage:/var/lib/grafana
     ports:

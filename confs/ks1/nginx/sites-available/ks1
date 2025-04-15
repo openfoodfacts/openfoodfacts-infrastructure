@@ -1,0 +1,63 @@
+# map from service to exporter
+map $uri $exporter {
+    # nginx metrics proxy
+    "/images-ks1/nginx/metrics" 127.0.0.1:9113;
+}
+
+#log_format debug_exporter "$time_local $scheme://$host:$server_port$request_uri $exporter";
+
+# https server
+server {
+    server_name ks1.openfoodfacts.org;
+
+    # SSL/TLS settings
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/ks1.openfoodfacts.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/ks1.openfoodfacts.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    # logs location, avoid access_log, no need
+    #access_log  /var/log/nginx/free-exporters.log  debug_exporter;
+    #access_log  /var/log/nginx/free-exporters.log  main;
+    access_log  off;
+    error_log   /var/log/nginx/ks1.errors.log;
+
+    # protect
+    auth_basic "Exporter metrics";
+    auth_basic_user_file "/etc/nginx/.htpasswd/ks1";
+
+    # url to join is defined thanks to exporter variable, itself based upon uri
+    location / {
+
+        if ($exporter = "") {
+            return 404;
+        }
+        proxy_pass http://$exporter/metrics;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+    }
+}
+
+
+
+
+server {
+    if ($host = ks1.openfoodfacts.org) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    listen [::]:80;
+    server_name ks1.openfoodfacts.org;
+    return 404; # managed by Certbot
+
+    location /.well-known {
+        root /var/www/html;
+        try_files $uri =404;
+    }
+}

@@ -18,6 +18,9 @@ pct exec $CT echo 'alias ll="ls -al"' >> /etc/bash.bashrc
 # To allow function keys to work properly in bash sessions
 # https://forum.proxmox.com/threads/function-keys-with-lxc-and-xterm-js.61747/
 pct exec $CT echo 'export TERM=xterm-256color' >> /etc/bash.bashrc
+# give root a good bashrc
+pct exec $CT cp /etc/skel/.bashrc /root/
+
 
 # no password for sudo group users
 lxc-attach -n $CT -- sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
