@@ -174,11 +174,11 @@ but just after updating product opener, I did the following:
    < }
    < 
    140c128
-   < 		proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?$uri$is_args$args;
+   < 		proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?$request_uri;
    ---
    > 		proxy_pass http://127.0.0.1:8001/cgi/display.pl?;
    151c139
-   < 		proxy_pass http://127.0.0.1:$apache_port$uri$is_args$args;
+   < 		proxy_pass http://127.0.0.1:$request_uri;
    ---
    > 		proxy_pass http://127.0.0.1:8001;
    ```
@@ -218,5 +218,6 @@ It turns out that as soon as you put a variable in the `proxy_pass` directive,
 its behavior changes,
 and it does not automatically add the path to the url, and the arguments.
 So we had to change the `proxy_pass` directive to add `$uri$is_args$args` to the url.
+Later we changes to `$request_uri` instead because `$uri` contains processed uri and creates an issue with spaces (see [openfoodfacts-server issue #11759](https://github.com/openfoodfacts/openfoodfacts-server/issues/11759))
 
 (note the diff above is already updated so you can't see it)
