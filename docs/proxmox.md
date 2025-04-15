@@ -232,7 +232,7 @@ Using web interface:
 
 Wait for container to be created and started !
 
-Eventually you can avoid starting the container directly and
+Optionally you can avoid starting the container directly and
 edit the container configuration (`/etc/pve/lxc/<ID>.conf`)
 to drop *raw_io* and *audit_read* capabilities by adding
 `lxc.cap.drop: "sys_rawio audit_read"`.
