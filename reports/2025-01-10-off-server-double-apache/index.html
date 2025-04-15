@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-03-restructure-backups/">
+        <link rel="prev" href="../2025-01-08-rename-o%2Af-new/">
       
       
-        <link rel="next" href="../2024-04-03-moving-opf-obf-opff-logs/">
+        <link rel="next" href="../2025-01-27-firewall-off2-reverse-proxy/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-03 separate HDD on docker VMs - Open Food Facts Infrastructure documentation</title>
+        <title>2025-01-10 OFF server double apache - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-03-separate-hdd-on-docker-vms" class="md-skip">
+        <a href="#2025-01-10-off-server-double-apache" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-03 separate HDD on docker VMs
+              2025-01-10 OFF server double apache
             
           </span>
         </div>
@@ -2482,31 +2482,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2024-03 separate HDD on docker VMs
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-03-separate-hdd-docker-vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2516,212 +2495,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#staging-docker" class="md-nav__link">
-    <span class="md-ellipsis">
-      Staging docker
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Staging docker">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#check-needed-disk-space" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check needed disk space
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-disk" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create disk
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format-and-copy-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      Format and copy data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#make-new-disk-bootable" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make new disk bootable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switch" class="md-nav__link">
-    <span class="md-ellipsis">
-      Switch
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      Verify
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#production-docker" class="md-nav__link">
-    <span class="md-ellipsis">
-      Production docker
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Production docker">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#getting-space" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting space
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Getting space">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#removing-wild-ecoscore-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      removing wild-ecoscore container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#removing-202-replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Removing 202 replication
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-disk_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create disk
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format-and-copy-data_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Format and copy data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#make-new-disk-bootable_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make new disk bootable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switch_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Switch
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#monitoring-docker" class="md-nav__link">
-    <span class="md-ellipsis">
-      Monitoring docker
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Monitoring docker">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#snapshot_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Snapshot
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3457,10 +3230,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-01-10-off-server-double-apache/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2025-01-10 OFF server double apache
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -3470,6 +3264,113 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Goal
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reflection-on-how-to-setup-the-new-apache2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reflection on how to setup the new apache2 instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#doing-it-in-product-opener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Doing it in Product-Opener
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation / Migration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-test-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a test container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tweaking-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      tweaking configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#found-when-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Found when testing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accident-when-deploying-on-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accident when deploying on off
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3597,64 +3498,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#staging-docker" class="md-nav__link">
+  <a href="#goal" class="md-nav__link">
     <span class="md-ellipsis">
-      Staging docker
+      Goal
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Staging docker">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reflection-on-how-to-setup-the-new-apache2-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reflection on how to setup the new apache2 instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#doing-it-in-product-opener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Doing it in Product-Opener
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation / Migration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test installation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-needed-disk-space" class="md-nav__link">
+  <a href="#creating-a-test-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Check needed disk space
+      Creating a test container
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-disk" class="md-nav__link">
+  <a href="#tweaking-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Create disk
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format-and-copy-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      Format and copy data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#make-new-disk-bootable" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make new disk bootable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switch" class="md-nav__link">
-    <span class="md-ellipsis">
-      Switch
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      Verify
+      tweaking configuration
     </span>
   </a>
   
@@ -3666,119 +3567,20 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#production-docker" class="md-nav__link">
+  <a href="#found-when-testing" class="md-nav__link">
     <span class="md-ellipsis">
-      Production docker
+      Found when testing
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Production docker">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#getting-space" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting space
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Getting space">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#removing-wild-ecoscore-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      removing wild-ecoscore container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#removing-202-replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Removing 202 replication
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-disk_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create disk
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#format-and-copy-data_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Format and copy data
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#make-new-disk-bootable_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Make new disk bootable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#switch_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Switch
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#monitoring-docker" class="md-nav__link">
+  <a href="#accident-when-deploying-on-off" class="md-nav__link">
     <span class="md-ellipsis">
-      Monitoring docker
+      Accident when deploying on off
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Monitoring docker">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#snapshot_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Snapshot
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3801,261 +3603,203 @@
   
 
 
-<h1 id="2024-03-separate-hdd-on-docker-vms">2024-03 separate HDD on docker VMs<a class="headerlink" href="#2024-03-separate-hdd-on-docker-vms" title="Permanent link">#</a></h1>
-<p>We have docker VMs for staging and production.
-Disk are quite big. They use ext4 over a zfs in block mode (as proposed by proxmox).
-To keep things manageable, in case we have to switch server,
-I propose to split data from system. It might also help with backups.</p>
-<h2 id="staging-docker">Staging docker<a class="headerlink" href="#staging-docker" title="Permanent link">#</a></h2>
-<p>I go on proxmox interface and on 200 VM (docker-staging),</p>
-<p>I will follow official documentation: https://pve.proxmox.com/wiki/QEMU/KVM_Virtual_Machines#qm_hard_disk</p>
-<p>As it would be hard to move all docker data to a new disk while it's constantly changing,
-I will do the reverse: move system data to the other disk.</p>
-<h3 id="check-needed-disk-space">Check needed disk space<a class="headerlink" href="#check-needed-disk-space" title="Permanent link">#</a></h3>
-<p>I have to know disk space I need. To measure space taken by docker volumes,
-I struggle with <code>du</code> to finally find the problem was with nfs mounted volumes,
-that some reasons are blocking processes for ever…, 
-even with the <code>-x</code> flag to du (which means not to cross filesystem boundary) …
-So I exclude them:
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/lib/docker
-$<span class="w"> </span>du<span class="w"> </span>-x<span class="w"> </span>--exclude<span class="w"> </span>volumes/po_orgs<span class="w"> </span>--exclude<span class="w"> </span>volumes/po_product_images<span class="w"> </span>--exclude<span class="w"> </span>volumes/po_products<span class="w"> </span>--exclude<span class="w"> </span>volumes/po_users<span class="w"> </span>--exclude<span class="w"> </span>volumes/po_podata<span class="w"> </span>volumes<span class="w"> </span>-sh
-261G<span class="w">    </span>volumes
-$<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/
-Filesystem<span class="w">      </span>Size<span class="w">  </span>Used<span class="w"> </span>Avail<span class="w"> </span>Use%<span class="w"> </span>Mounted<span class="w"> </span>on
-/dev/sda1<span class="w">       </span>423G<span class="w">  </span>324G<span class="w">   </span>80G<span class="w">  </span><span class="m">81</span>%<span class="w"> </span>/
-</code></pre></div>
-So I need a 80 to 100G file system for system (better put a bit more so 96Gb is a good idea).</p>
-<h3 id="create-disk">Create disk<a class="headerlink" href="#create-disk" title="Permanent link">#</a></h3>
-<p><strong>Important</strong>: At this point I should have snapshoted ! (sadly, I didn't)</p>
-<p>First I changed SCSI controller to "VirtIO SCSI single".</p>
-<p>Added a disk that will become the root fs:</p>
+<h1 id="2025-01-10-off-server-double-apache">2025-01-10 OFF server double apache<a class="headerlink" href="#2025-01-10-off-server-double-apache" title="Permanent link">#</a></h1>
+<p>(initially started on 2024-09-02)</p>
+<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">#</a></h2>
+<p>We experience latency problems on Open Food Facts because the Apache instance is busy processing long requests (facets / searches / etc.).</p>
+<p>We can't prioritize requests based on URL in Apache2 (or dedicate workers).</p>
+<p>We will setup a second Apache instance which will only serve certain requests:</p>
 <ul>
-<li>96 Gb</li>
-<li>IOthread checked</li>
-<li>SSD emulation checked</li>
-<li>checked backup (for now)</li>
+<li>Product read (api or not)</li>
+<li>root page for every country</li>
+<li>product writes (api or not)</li>
 </ul>
-<p><strong>Important</strong>: Later I had to change to 142G, because after copy there was not enough space left…</p>
-<p>I shutdown the server.</p>
-<p>I changed IOThread and SSD emulation option to "on" for the original disk.</p>
-<p>I started the VM.</p>
-<p>(it's a good occasion to verify if all docker went up, <a href="https://github.com/openfoodfacts/taxonomy-editor/pull/435">it was not the case</a>).</p>
-<h3 id="format-and-copy-data">Format and copy data<a class="headerlink" href="#format-and-copy-data" title="Permanent link">#</a></h3>
-<p>In the VM, format the new disk with parted,
-we have to use msdos label type because it's the way we have to do it in QEMU<sup id="fnref:msdos_label"><a class="footnote-ref" href="#fn:msdos_label">1</a></sup>,
-don't forget to add the boot flag:</p>
-<div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mklabel<span class="w"> </span>msdos
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span><span class="m">0</span>%<span class="w"> </span><span class="m">100</span>%
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>boot<span class="w"> </span>on
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
-</code></pre></div>
-<p>Format it: <code>mkfs.ext4 /dev/sdb1</code></p>
-<p>I temporarily mount the new disk on /mnt/:
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/mnt/new-root
-mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/new-root
-ls<span class="w"> </span>/mnt/new-root/<span class="w">  </span><span class="c1"># to verify</span>
-</code></pre></div></p>
-<p>Copy system:
-<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>-x<span class="w"> </span>--exclude<span class="o">=</span>/var/lib/docker<span class="w"> </span>--exclude<span class="o">=</span>/mnt<span class="w"> </span>/<span class="w"> </span>/mnt/new-root/
-</code></pre></div></p>
-<h3 id="make-new-disk-bootable">Make new disk bootable<a class="headerlink" href="#make-new-disk-bootable" title="Permanent link">#</a></h3>
-<p>We now need to create boot partition with grub, for this we will chroot:
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>sys<span class="w"> </span>proc<span class="w"> </span>dev<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/<span class="nv">$dir</span><span class="w"> </span>/mnt/new-root/<span class="nv">$dir</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
-ls<span class="w"> </span>-l<span class="w"> </span>/mnt/new-root/<span class="o">{</span>sys,proc,dev<span class="o">}</span>
-chroot<span class="w"> </span>/mnt/new-root/
-grub-install<span class="w"> </span>/dev/sdb
-update-grub
-<span class="nb">exit</span>
-</code></pre></div></p>
-<p>Now we will change fstab to mount the new disk as /, on dockers-staging:
-<div class="highlight"><pre><span></span><code><span class="c1"># get UUID</span>
-lsblk<span class="w"> </span>-o<span class="w"> </span>NAME,UUID
-vim<span class="w"> </span>/etc/fstab
-...
-<span class="nv">UUID</span><span class="o">=</span>082b4523-f4d6-4d39-b5dd-48c5bdba2541<span class="w"> </span>/var/lib/docker/volumes<span class="w">               </span>ext4<span class="w">    </span><span class="nv">errors</span><span class="o">=</span>remount-ro<span class="w"> </span><span class="m">0</span><span class="w">       </span><span class="m">1</span>
-<span class="nv">UUID</span><span class="o">=</span>d011de06-4050-473e-b322-a7fddeb5e369<span class="w"> </span>/<span class="w">   </span>ext4<span class="w"> </span><span class="nv">errors</span><span class="o">=</span>remount-ro<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
-...
-</code></pre></div></p>
-<p>and the boot option on ovh1:
-<div class="highlight"><pre><span></span><code><span class="c1"># note: this could also be done in the interface</span>
-sudo<span class="w"> </span>qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">200</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span><span class="s2">&quot;scsi2;ide0;net0&quot;</span>
-</code></pre></div></p>
-<p>Also (and I learned that the hard way), We have to remove the boot label to disk sda1,
-otherwise grub will choose to boot on it, and with a contrary <code>/etc/fstab</code>, it will be a mess [^incident_on_boot]</p>
-<div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/sda<span class="w"> </span>toggle<span class="w"> </span><span class="m">1</span><span class="w"> </span>boot
-<span class="c1"># verify</span>
-parted<span class="w"> </span>/dev/sda<span class="w"> </span>print
-<span class="c1"># verify we already add the boot flag to sdb, so no need to do it again.</span>
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
-</code></pre></div>
-<h3 id="switch">Switch<a class="headerlink" href="#switch" title="Permanent link">#</a></h3>
-<p>A final rsync
-<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>-x<span class="w"> </span>--exclude<span class="o">=</span>/var/lib/docker/volumes<span class="w"> </span>--exclude<span class="o">=</span>/mnt<span class="w"> </span>/<span class="w"> </span>/mnt/new-root/
-</code></pre></div></p>
-<p>NOW we should have snapshoted again !</p>
-<p><strong>Reboot !</strong></p>
-<p>Just after reboot, we have to quickly move around volumes data so that docker can find them again. As root:
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/lib/docker/volumes
-mkdir<span class="w"> </span>oldsys
-mv<span class="w"> </span>*<span class="w"> </span>oldsys
-mv<span class="w"> </span>oldsys/var/lib/docker/volumes/*<span class="w"> </span>.
-<span class="c1"># a docker daemon restart can&#39;t harm</span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>docker
-</code></pre></div></p>
-<p>Now better <strong>reboot</strong> again.</p>
-<h3 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">#</a></h3>
-<p>Then verify every service is restarted or restart them…</p>
-<p>On ovh1 I can verify my snapshot is there: <code>zfs list -t snap  rpool/vm-200-disk-0</code></p>
-<p>Then we can clean up everything in <code>/var/lib/docker/volumes/oldsys/</code>.</p>
-<p>[^incident_on_boot] First time I reboot, I had /dev/sda1 with boot flag.
-When I ssh on the VM, I wanted to move things to oldsys in the new /var/lib/docker/volumes disk.
-But this immediatly remove me all /bin executables !
-I had to reboot on a debian CD, use proxmox console and launch rescue mode to fix it. I was able to mount on /dev/sdb1 as it was ready, and put back things where they were, then snapshot (because I haven't before…), and try again…</p>
-<h2 id="production-docker">Production docker<a class="headerlink" href="#production-docker" title="Permanent link">#</a></h2>
-<h3 id="getting-space">Getting space<a class="headerlink" href="#getting-space" title="Permanent link">#</a></h3>
-<h4 id="removing-wild-ecoscore-container">removing wild-ecoscore container<a class="headerlink" href="#removing-wild-ecoscore-container" title="Permanent link">#</a></h4>
-<p>This is an old container with metabase that was created long ago.
-I will reclaim it's 14G !</p>
-<p>I first shutdown the 111 container.</p>
-<p>I first disable the replication to ovh3 on the container.
-I then move the volume on ovh3:
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>rpool/subvol-111-disk-0<span class="w"> </span>rpool/backups/wild-ecoscore-111
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">sharenfs</span><span class="o">=</span>off<span class="w"> </span>rpool/backups/wild-ecoscore-111
-</code></pre></div></p>
-<p>I then go to options to remove protection.</p>
-<p>Then I use proxmox interface to remove wild-ecoscore,
-purging from jobs, and removing  unreferenced disks owned by guest</p>
-<h4 id="removing-202-replication">Removing 202 replication<a class="headerlink" href="#removing-202-replication" title="Permanent link">#</a></h4>
-<p>202 is replicated from ovh1 to ovh2 and ovh3.
-This is not such a critical service to have this, while we lack disk space.</p>
-<p>I proxmox interface, I removed the replication of 202 to ovh2.</p>
-<p>I then verified the 202 replication data from ovh2 in zfs disk VM Disks was removed.</p>
-<p>I'm left with:
-<div class="highlight"><pre><span></span><code>rpool                     680G   211G      144K  /rpool
-</code></pre></div></p>
-<h3 id="snapshot">Snapshot<a class="headerlink" href="#snapshot" title="Permanent link">#</a></h3>
-<p>I snapshot current 201 volume on two sides:</p>
+<p>The rest of the requests will be handled by the other apache2 server.</p>
+<p>Nginx will chose which server to use based on the URI.</p>
+<h2 id="reflection-on-how-to-setup-the-new-apache2-instance">Reflection on how to setup the new apache2 instance<a class="headerlink" href="#reflection-on-how-to-setup-the-new-apache2-instance" title="Permanent link">#</a></h2>
+<p>On debian, apache2 is managed by systemd. There is:</p>
 <ul>
-<li>on ovh3:<ul>
-<li>I go on proxmox ui, in 201 replication and schedule an immediate sync</li>
-<li>as soon as it is done, on ovh3  <code>zfs snapshot rpool/vm-201-disk-0@2023-03-21-pre-disk-split</code></li>
-<li>I can verify:<ul>
-<li><code>zfs list -r -t snap rpool/vm-201-disk-0</code></li>
+<li>a default <code>apache2.service</code> service definition, using /etc/apache2/ configuration directory</li>
+<li>and an <code>apache2@&lt;instance&gt;.service</code> definition which use /etc/apache2.%i/ configuration directory (where %i is the instance name)</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>on ovh2 (through proxmox interface). it also add memory, but it's very slow (31 minutes) !</li>
-</ul>
-<p>After that I got:
-<div class="highlight"><pre><span></span><code>NAME                                                USED  AVAIL     REFER  MOUNTPOINT
-rpool                                               757G   135G      144K  /rpool
-</code></pre></div></p>
-<p>It' seems a bit too thigh…</p>
-<p>I removed a snapshot on CT 108 and CT 107…</p>
-<p>I'm still with a lot of space used on rpool…</p>
-<p>So I decided to remove the snapshot and go without it !</p>
-<h3 id="create-disk_1">Create disk<a class="headerlink" href="#create-disk_1" title="Permanent link">#</a></h3>
-<p>First I changed SCSI controller to "VirtIO SCSI single".</p>
-<p>Added a disk that will become the root fs:</p>
+<p>Both use the apache2ctl script to start apache2.
+So we can use <code>APACHE_ENVVARS</code> to set environment variables
+and use those variables in our configuration files.</p>
+<p>There we can put a lot of logic to decide on values and populate environment variables,
+that we can then use in our configuration files.</p>
+<p>Here we want to create a second apache2 instance where the only differences are:</p>
 <ul>
-<li>144 Gb</li>
-<li>IOthread checked</li>
-<li>SSD emulation checked</li>
-<li>checked backup (for now)</li>
+<li>the port apache2 is listening on</li>
+<li>the log file names</li>
+<li>the number of workers</li>
 </ul>
-<p>I changed IOThread and SSD emulation option to "on" for the original disk.</p>
-<p>I shutdown the server.
-I started the VM.</p>
-<p>(it's a good occasion to verify if all docker went up, <a href="https://github.com/openfoodfacts/taxonomy-editor/pull/435">it was not the case</a>).</p>
-<h3 id="format-and-copy-data_1">Format and copy data<a class="headerlink" href="#format-and-copy-data_1" title="Permanent link">#</a></h3>
-<p>In the VM, format the new disk with parted,
-we have to use msdos label type because it's the way we have to do it in QEMU<sup id="fnref2:msdos_label"><a class="footnote-ref" href="#fn:msdos_label">1</a></sup>,
-don't forget to add the boot flag:</p>
-<div class="highlight"><pre><span></span><code>lsblk<span class="w">  </span><span class="c1"># see disks</span>
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mklabel<span class="w"> </span>msdos
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span><span class="m">0</span>%<span class="w"> </span><span class="m">100</span>%
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>boot<span class="w"> </span>on
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
-</code></pre></div>
-<p>Format it: <code>mkfs.ext4 /dev/sdb1</code></p>
-<p>I temporarily mount the new disk on /mnt/:
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/mnt/new-root
-mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/new-root
-ls<span class="w"> </span>/mnt/new-root/<span class="w">  </span><span class="c1"># to verify we have a lost+found</span>
-lsblk<span class="w"> </span><span class="c1"># verify sdb1 is mounted</span>
-</code></pre></div></p>
-<p>Copy system:
-<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>-x<span class="w"> </span>--exclude<span class="o">=</span>/var/lib/docker/volumes<span class="w"> </span>--exclude<span class="o">=</span>/mnt<span class="w"> </span>/<span class="w"> </span>/mnt/new-root/
-</code></pre></div></p>
-<h3 id="make-new-disk-bootable_1">Make new disk bootable<a class="headerlink" href="#make-new-disk-bootable_1" title="Permanent link">#</a></h3>
-<p>We have to remove the boot label to disk sda1,
-otherwise grub will choose to boot on it, and with a contrary <code>/etc/fstab</code>, it will be a mess</p>
-<div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/sda<span class="w"> </span>toggle<span class="w"> </span><span class="m">1</span><span class="w"> </span>boot
-<span class="c1"># verify</span>
-parted<span class="w"> </span>/dev/sda<span class="w"> </span>print
-<span class="c1"># verify we already add the boot flag to sdb, so no need to do it again.</span>
-parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
-</code></pre></div>
-<p>We now need to create boot partition with grub, for this we will chroot:
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>sys<span class="w"> </span>proc<span class="w"> </span>dev<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/<span class="nv">$dir</span><span class="w"> </span>/mnt/new-root/<span class="nv">$dir</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
-ls<span class="w"> </span>-l<span class="w"> </span>/mnt/new-root/<span class="o">{</span>sys,proc,dev<span class="o">}</span>
-chroot<span class="w"> </span>/mnt/new-root/
-grub-install<span class="w"> </span>/dev/sdb
-update-grub
-<span class="nb">exit</span>
-</code></pre></div></p>
-<p>Now we will change fstab to mount the new disk as /, on dockers-staging:
-<div class="highlight"><pre><span></span><code><span class="c1"># get UUID</span>
-lsblk<span class="w"> </span>-o<span class="w"> </span>NAME,UUID
-vim<span class="w"> </span>/etc/fstab
-...
-<span class="c1"># / was on /dev/sda1 during installation</span>
-<span class="c1"># is now docker volumes</span>
-<span class="nv">UUID</span><span class="o">=</span>d0530e16-522c-4d56-8c97-1ac57b50f6b2<span class="w"> </span>/var/lib/docker/volumes<span class="w">               </span>ext4<span class="w">    </span><span class="nv">errors</span><span class="o">=</span>remount-ro<span class="w"> </span><span class="m">0</span><span class="w">       </span><span class="m">1</span>
-<span class="c1"># / is sdb</span>
-<span class="nv">UUID</span><span class="o">=</span>0f1987db-6e22-456e-8e62-3d24d722a599<span class="w"> </span>/<span class="w">   </span>ext4<span class="w"> </span><span class="nv">errors</span><span class="o">=</span>remount-ro<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
-...
-</code></pre></div></p>
-<p>and the boot option on ovh1:
-<div class="highlight"><pre><span></span><code><span class="c1"># note: this could also be done in the interface</span>
-sudo<span class="w"> </span>qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">201</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span><span class="s2">&quot;scsi1;ide2;net0&quot;</span>
-</code></pre></div></p>
-<h3 id="switch_1">Switch<a class="headerlink" href="#switch_1" title="Permanent link">#</a></h3>
-<p>A final replication and snapshot on ovh3</p>
-<p>A final rsync
-<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>-x<span class="w"> </span>--exclude<span class="o">=</span>/var/lib/docker/volumes<span class="w"> </span>--exclude<span class="o">=</span>/mnt<span class="w"> </span>/<span class="w"> </span>/mnt/new-root/
-</code></pre></div></p>
-<p>NOW we should have snapshoted again !</p>
-<p><strong>Reboot !</strong></p>
-<p>Just after reboot, we have to quickly move around volumes data so that docker can find them again. As root:
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/lib/docker/volumes
-mkdir<span class="w"> </span>oldsys
-mv<span class="w"> </span>*<span class="w"> </span>oldsys
-mv<span class="w"> </span>oldsys/var/lib/docker/volumes/*<span class="w"> </span>.
-<span class="c1"># a docker daemon restart can&#39;t harm</span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>docker
-</code></pre></div></p>
-<p>1st time it failed again and I had to reboot on Debian cd, go in rescue mode</p>
-<p>Now better <strong>reboot</strong> again.</p>
-<h2 id="monitoring-docker">Monitoring docker<a class="headerlink" href="#monitoring-docker" title="Permanent link">#</a></h2>
-<h3 id="snapshot_1">Snapshot<a class="headerlink" href="#snapshot_1" title="Permanent link">#</a></h3>
-<p>I snapshot current 201 volume on two sides:</p>
-<ul>
-<li>on ovh3:<ul>
-<li>I go on proxmox ui, in 201 replication and schedule an immediate sync</li>
-<li>as soon as it is done, on ovh3  <code>zfs snapshot rpool/vm-201-disk-0@2023-03-21-pre-disk-split</code></li>
-</ul>
-</li>
-</ul>
-<div class="footnote">
-<hr />
+<p>For the log file names, we will modify startup_apache2.pl to use environment variable to get the log configuration file.</p>
+<p>For ports, we need to modify ports.conf file to use an environment variable.</p>
+<p>For the number of workers, we can use variables in mpm_prefork.conf.</p>
+<p>~~To be more consistent, we will drop the <code>apache2.service</code> instance and use two new instances:~~
+~~* apache2@standard.service - for product read, root pages and product writes~~
+We will keep apache2.service instance and have a new apache2@priority.service - for the priority requests (homepage + products fetch).</p>
+<h2 id="doing-it-in-product-opener">Doing it in Product-Opener<a class="headerlink" href="#doing-it-in-product-opener" title="Permanent link">#</a></h2>
+<p>See https://github.com/openfoodfacts/openfoodfacts-server/pull/10766
+and https://github.com/openfoodfacts/openfoodfacts-server/pull/11230 (fixes).</p>
+<h2 id="installation-migration">Installation / Migration<a class="headerlink" href="#installation-migration" title="Permanent link">#</a></h2>
 <ol>
-<li id="fn:msdos_label">
-<p>yes I did it all first with gpt label, and had to restart from scratch…&#160;<a class="footnote-backref" href="#fnref:msdos_label" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:msdos_label" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li>checkout the new release / code</li>
+<li>symlink new envvars: <code>ln -s /srv/$SERVICE/conf/apache-2.4/off-envvars /etc/apache2/</code></li>
+<li>change ports .conf link: <code>unlink /etc/apache2/ports.conf; ln -s /srv/$SERVICE/conf/apache-2.4/ports.conf /etc/apache2/</code></li>
+<li>symlink <code>ln -s /srv/$SERVICE/conf/systemd/apache2@.service.d /etc/systemd/system/</code></li>
+<li>ensure mpm prefork symlink is the right one:
+   <code>unlink /etc/apache2/mods-available/mpm_prefork.conf; ln -s /srv/$SERVICE/conf/apache-2.4/mpm_prefork.conf /etc/apache2/mods-available/</code></li>
+<li>(off only) symlink <code>ln -s /etc/apache2 /etc/apache2-priority; ln -s /var/log/apache2 /var/log/apache2-priority</code></li>
+<li>check nginx configuration is ok (<code>nginx -t</code>)</li>
+<li>rebuild taxonomies and lang (as user off: `source env/setenv.sh $SERVICE; ./scripts/taxonomies/build_tags_taxonomy.pl; ./scripts/build_lang.pl)</li>
+<li>verify deployment <code>/srv/$SERVICE/scripts/deploy/verify-deployment.sh $SERVICE</code></li>
+<li><code>systemctl daemon-reload</code></li>
+<li>(off only) <code>systemctl enable apache2@priority.service</code></li>
+<li>(off only) <code>systemctl start apache2@priority.service</code></li>
+<li>(off only) check priority apache2 is working:
+   <code>curl http://127.0.0.1:8002/cgi/display.pl?/ -H "Host: world.openfoodfacts.org"</code>
+   <code>curl http://127.0.0.1:8002/cgi/display.pl?api/v2/product/3017620422003/ -H "Host: world.openfoodfacts.org"</code></li>
+<li>restart nginx service</li>
+<li>stop and start apache2.service</li>
+<li>check both apache2 are working:<ul>
+<li><code>curl http://127.0.0.1/ -H "Host: world.openfoodfacts.org"</code></li>
+<li><code>curl http://127.0.0.1/discover -H "Host: world.openfoodfacts.org"</code></li>
+</ul>
+</li>
+<li>test it's working using your browser</li>
+<li>
+<p>(off-only) symlink <code>ln -s /srv/off/conf/etc-default/prometheus-apache-priority-exporter /etc/default/; ln -s /srv/off/conf/systemd/prometheus-apache-exporter\@.service /etc/systemd/system</code></p>
+</li>
+<li>
+<p>(off only) enable and start monitoring of the apache2@priority.service:
+   <code>systemctl enable --now prometheus-apache-exporter@priority.service</code></p>
 </li>
 </ol>
-</div>
+<p>Celebrate !</p>
+<h2 id="test-installation">Test installation<a class="headerlink" href="#test-installation" title="Permanent link">#</a></h2>
+<h3 id="creating-a-test-container">Creating a test container<a class="headerlink" href="#creating-a-test-container" title="Permanent link">#</a></h3>
+<p>I first try to test my process on opf, but did fail (maybe because of a specific hostname at that time).
+So I decided to first try on a test instance, I will use opf to avoid using too much memory.</p>
+<p>So I first created a new container opf-test as 130 looking like opf (see options below).</p>
+<p>I removed the created volume and replaced by a clone of opf volume
+at a specific snapshot.
+<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>snapshot<span class="w"> </span>zfs-hdd/pve/subvol-117-disk-0@2025-08-01-for-opf-test-clone
+zfs<span class="w"> </span>clone<span class="w"> </span>zfs-hdd/pve/subvol-117-disk-0@2025-08-01-for-opf-test-clone<span class="w"> </span>zfs-hdd/pve/subvol-130-disk-0-clone-from-117
+zfs<span class="w"> </span>destroy<span class="w"> </span>zfs-hdd/pve/subvol-130-disk-0
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/pve/subvol-130-disk-0
+</code></pre></div></p>
+<p>I then edited lxc file to</p>
+<ul>
+<li>change the volume name</li>
+<li>add mount points</li>
+<li>add idmap rules</li>
+<li>drop capabilities
+resulting in:
+<div class="highlight"><pre><span></span><code>arch: amd64
+cores: 4
+features: nesting=1
+hostname: opf-test
+memory: 6000
+net0: name=eth0,bridge=vmbr1,firewall=1,gw=10.0.0.2,hwaddr=D2:BC:21:00:36:00,ip=10.1.0.130/24,type=veth
+ostype: debian
+rootfs: zfs-hdd:subvol-130-disk-0-clone-from-117,mountoptions=noatime,size=30G
+swap: 6000
+unprivileged: 1
+mp0: /zfs-hdd/opf,mp=/mnt/opf
+mp1: /zfs-hdd/obf/products/,mp=/mnt/obf/products
+mp10: /zfs-hdd/opf/products/,mp=/mnt/opf/products
+mp11: /zfs-hdd/opf/images,mp=/mnt/opf/images
+mp12: /zfs-hdd/off/orgs,mp=/mnt/opf/orgs
+mp2: /zfs-hdd/off/users,mp=/mnt/opf/users
+mp3: /zfs-hdd/obf/images,mp=/mnt/obf/images
+mp4: /zfs-hdd/opf/html_data,mp=/mnt/opf/html_data
+mp5: /zfs-hdd/opf/cache,mp=/mnt/opf/cache
+mp6: /zfs-nvme/off/products,mp=/mnt/off/products
+mp7: /zfs-hdd/off/images,mp=/mnt/off/images
+mp8: /zfs-hdd/opff/products,mp=/mnt/opff/products
+mp9: /zfs-hdd/opff/images,mp=/mnt/opff/images
+lxc.cap.drop: &quot;sys_rawio audit_read&quot;
+lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 64536
+lxc.idmap: g 1000 1000 64536
+</code></pre></div></li>
+</ul>
+<p>I can then start the container.</p>
+<h3 id="tweaking-configuration">tweaking configuration<a class="headerlink" href="#tweaking-configuration" title="Permanent link">#</a></h3>
+<p>I will tweak the env directory because hostname mistmatch.
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/srv/opf-test
+sudo<span class="w"> </span>chown<span class="w"> </span>off<span class="w"> </span>/srv/opf-test
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>bash
+mkdir<span class="w"> </span>/srv/opf-test/env
+ln<span class="w"> </span>-s<span class="w"> </span>/srv/opf/env/env.opf<span class="w"> </span>/srv/opf-test/env/env.opf-test
+ls<span class="w"> </span>/srv/opf-test/env
+<span class="nb">exit</span>
+</code></pre></div></p>
+<p>I then deploy my new version of product opener.
+(following deploy procedure above),
+but just after updating product opener, I did the following:</p>
+<ol>
+<li>create /srv/opf/env/env.opf.priority with right content</li>
+<li>create /srv/opf/opf-priority-log.conf with right content</li>
+<li>edited the nginx module to have same setting as for off
+   <code>conf/nginx/sites-available/opf</code>
+   <div class="highlight"><pre><span></span><code>16,27d15
+<span class="gd">&lt; map $uri $apache_port {</span>
+<span class="gd">&lt;       default 8001;</span>
+<span class="gd">&lt; </span>
+<span class="gd">&lt;       # home pages</span>
+<span class="gd">&lt;       &quot;~*^/$&quot; 8002;</span>
+<span class="gd">&lt;       # product read / write</span>
+<span class="gd">&lt;       &quot;~*^/(mountaj|m\xc9\x99hsul|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|gynnyrch|produkt|product|product|product|produkto|producto|toode|produkto|produit|produto|term\xc3\xa9k|produk|\xe8\xa3\xbd\xe5\x93\x81|afaris|\xd3\xa9\xd0\xbd\xd1\x96\xd0\xbc|\xec\x83\x9d\xec\x84\xb1\xeb\xac\xbc|berhem|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|produk|produkt|\xe0\xa4\x89\xe0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\xa6\xe0\xa4\xa8|product|product|product|produkt|produkt|produit|produto|produto|produto|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|product|proizvod|produkto|\xc3\xbcr\xc3\xbcn|\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb4\xd1\x83\xd0\xba\xd1\x82|\xe4\xba\xa7\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81|\xe7\x94\xa2\xe5\x93\x81)/.*&quot; 8002;</span>
+<span class="gd">&lt;       &quot;~*^/cgi/product.pl/.*&quot; 8002;</span>
+<span class="gd">&lt;       # product API read / write</span>
+<span class="gd">&lt;       &quot;~*^/api/v./product/.*&quot; 8002;</span>
+<span class="gd">&lt; }</span>
+<span class="gd">&lt; </span>
+140c128
+<span class="gd">&lt;        proxy_pass http://127.0.0.1:$apache_port/cgi/display.pl?$request_uri;</span>
+<span class="gs">---</span>
+<span class="gi">&gt;        proxy_pass http://127.0.0.1:8001/cgi/display.pl?;</span>
+151c139
+<span class="gd">&lt;        proxy_pass http://127.0.0.1:$request_uri;</span>
+<span class="gs">---</span>
+<span class="gi">&gt;        proxy_pass http://127.0.0.1:8001;</span>
+</code></pre></div></li>
+</ol>
+<p>Also to test, I did the following:</p>
+<ul>
+<li>test apache priority:<br />
+<code>curl "http://127.0.0.1:8002/cgi/display.pl" -H "Host: world.openproductsfacts.org"</code><br />
+<code>curl "http://127.0.0.1:8002/cgi/display.pl?api/v2/product/4018833954960" -H "Host: world.openproductsfacts.org"</code></li>
+<li>test apache standard:
+  <code>curl "http://127.0.0.1:8002/cgi/display.pl?/categories" -H "Host: world.openproductsfacts.org"</code>  </li>
+</ul>
+<ul>
+<li>test nginx:
+  <code>curl "http://127.0.0.1/" -H "Host: world.openproductsfacts.org"</code><br />
+<code>curl "http://127.0.0.1/api/v2/product/4018833954960" -H "Host: world.openproductsfacts.org"</code><br />
+<code>curl "http://127.0.0.1/categories" -H "Host: world.openproductsfacts.org"</code>  </li>
+</ul>
+<h2 id="found-when-testing">Found when testing<a class="headerlink" href="#found-when-testing" title="Permanent link">#</a></h2>
+<p>Apart from different aspect I found during testing, it was also the occasion to upgrade the verify-install.sh script, which proved very useful to find problems early on.</p>
+<p>Also my first nginx configuration was containing utf8 characters,
+(in the map expression to match the product url)
+and it happens that nginx does not support that !
+I had to change it to use <code>\x</code> notation for unicode characters.</p>
+<h2 id="accident-when-deploying-on-off">Accident when deploying on off<a class="headerlink" href="#accident-when-deploying-on-off" title="Permanent link">#</a></h2>
+<p>When I did the test on opf-test I missed an important bug.
+As I used curl, it was hard to control page content,
+and I missed that with my configuration,
+I was getting the home page for nearly every requests.</p>
+<p>This was because the nginx configuration was not correct.</p>
+<p>It turns out that as soon as you put a variable in the <code>proxy_pass</code> directive,
+its behavior changes,
+and it does not automatically add the path to the url, and the arguments.
+So we had to change the <code>proxy_pass</code> directive to add <code>$uri$is_args$args</code> to the url.
+Later we changes to <code>$request_uri</code> instead because <code>$uri</code> contains processed uri and creates an issue with spaces (see <a href="https://github.com/openfoodfacts/openfoodfacts-server/issues/11759">openfoodfacts-server issue #11759</a>)</p>
+<p>(note the diff above is already updated so you can't see it)</p>
 
 
 
