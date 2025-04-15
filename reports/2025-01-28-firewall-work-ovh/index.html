@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2023-06-07-off2-opf-obf-reinstall/">
+        <link rel="prev" href="../2025-01-27-firewall-work-free/">
       
       
-        <link rel="next" href="../2023-06-30-sanoid-checks-install/">
+        <link rel="next" href="../2025-02-18-more-hetzner-server-install/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2012-06-08 Stalled ZFS Sync for off products on ovh3 - Open Food Facts Infrastructure documentation</title>
+        <title>2025-01-28 - Firewall work on OVH - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2012-06-08-stalled-zfs-sync-for-off-products-on-ovh3" class="md-skip">
+        <a href="#2025-01-28-firewall-work-on-ovh" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2012-06-08 Stalled ZFS Sync for off products on ovh3
+              2025-01-28 - Firewall work on OVH
             
           </span>
         </div>
@@ -1866,31 +1866,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    2012-06-08 Stalled ZFS Sync for off products on ovh3
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1900,68 +1879,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#repairing-sync" class="md-nav__link">
-    <span class="md-ellipsis">
-      repairing sync
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="repairing sync">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#base-clone-on-an-older-snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Base clone on an older snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#relaunch-sync-manually" class="md-nav__link">
-    <span class="md-ellipsis">
-      Relaunch sync manually
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#change-retention-policy-in-scripts" class="md-nav__link">
-    <span class="md-ellipsis">
-      Change retention policy in scripts
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3335,10 +3252,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-01-28-firewall-work-ovh/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2025-01-28 - Firewall work on OVH
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -3348,6 +3286,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#changing-private-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing private ipv6
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall rules
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3409,42 +3385,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#repairing-sync" class="md-nav__link">
+  <a href="#changing-private-ipv6" class="md-nav__link">
     <span class="md-ellipsis">
-      repairing sync
+      Changing private ipv6
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="repairing sync">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#base-clone-on-an-older-snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Base clone on an older snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#relaunch-sync-manually" class="md-nav__link">
-    <span class="md-ellipsis">
-      Relaunch sync manually
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#change-retention-policy-in-scripts" class="md-nav__link">
+  <a href="#firewall-rules" class="md-nav__link">
     <span class="md-ellipsis">
-      Change retention policy in scripts
+      Firewall rules
     </span>
   </a>
   
@@ -3469,47 +3421,14 @@
   
 
 
-<h1 id="2012-06-08-stalled-zfs-sync-for-off-products-on-ovh3">2012-06-08 Stalled ZFS Sync for off products on ovh3<a class="headerlink" href="#2012-06-08-stalled-zfs-sync-for-off-products-on-ovh3" title="Permanent link">#</a></h1>
-<p>There were mail (for about one week) from crontab to root,
-telling <code>sto-products-sync.sh</code> failed with <code>cannot receive incremental stream: dataset is busy</code>.</p>
-<p>Looking at it on ovh3, I saw that sync was stalled since <code>2023-05-30 23:30</code>
-(last available snapshot, when issuing <code>zfs list -t snap rpool/off/products</code>)</p>
-<p>There was also some bytes written to <code>rpool/off/products</code>:
-<div class="highlight"><pre><span></span><code><span class="c1"># zfs  get -H written rpool/off/products </span>
-rpool/off/products<span class="w">  </span>written<span class="w"> </span>783K<span class="w">    </span>-
-</code></pre></div>
-Normally this should not be a problem since <code>sto-products-sync.sh</code> uses <code>zfs recv ... -F</code> which force update by eventually rolling back to last snapshot.
-That said I issued a <code>zfs rollback rpool/off/products@20230530-2330</code> to see if it would help, it didn't.
-I also killed a stalled <code>zfs recv</code> process (launched 7h before).</p>
-<p>But I then so that on off1, as may snapshot where already cleaned up by retention policy, the <code>2023-05-30 23:30</code> snapshot didn't exists any more… Our cleanup policy is a bit too naïve and remove everything from the previous month.
-I have to change this, still in a naïve mode, to have two monthes.
-It's not a big deal to keep a lot of snapshot as our products data is really incremental (we only add files).</p>
-<p>The also a bit long because it have to come back to the <code>20230501-0000</code> snapshot,
-<code>sto-products-sync.sh</code> should still have succeeded, but failed instead. 
-This is because <code>rpool/off/clones/products</code> is a clone based upon a snapshot from may, thus the rpool/off/products volume can't be rolledback to <code>20230501-0000</code> which is an earlier snapshot...</p>
-<h2 id="repairing-sync">repairing sync<a class="headerlink" href="#repairing-sync" title="Permanent link">#</a></h2>
-<h3 id="base-clone-on-an-older-snapshot">Base clone on an older snapshot<a class="headerlink" href="#base-clone-on-an-older-snapshot" title="Permanent link">#</a></h3>
-<p>I did (temporarily) change the clone products to be based on <code>20230501-0000</code> snapshot.</p>
-<p>We first have to stop staging (off.net) has it uses clones through NFS.
-I verified there were no <a href="https://github.com/openfoodfacts/openfoodfacts-server/actions/workflows/container-deploy.yml">deployment action</a> in progress.
-On docker staging: <code>cd /home/off/off-net; sudo -u off docker-compose stop</code></p>
-<p>On ovh3:
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/off/clone/products
-zfs<span class="w"> </span>clone<span class="w"> </span>rpool/off/products@20230501-0000<span class="w"> </span>rpool/off/clones/products
-</code></pre></div></p>
-<p>Restart staging, on docker-staging: <code>cd /home/off/off-net; sudo -u off docker-compose start</code></p>
-<h3 id="relaunch-sync-manually">Relaunch sync manually<a class="headerlink" href="#relaunch-sync-manually" title="Permanent link">#</a></h3>
-<p>To better follow what's happening I decided to manually rollback to the common snapshot: <code>20230501-0000</code></p>
-<p>on ovh3:
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rollback<span class="w"> </span>-r<span class="w"> </span>rpool/off/products@20230501-0000
-</code></pre></div>
-I didn't measure but it took something between 20 and 40 minutes.</p>
-<p>on off1:
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>send<span class="w"> </span>-i<span class="w"> </span>rpool/off/products@20230501-0000<span class="w"> </span>rpool/off/products@20230608-1130<span class="w"> </span><span class="p">|</span><span class="w"> </span>ssh<span class="w"> </span>ovh3.openfoodfacts.org<span class="w"> </span>zfs<span class="w"> </span>recv<span class="w"> </span>rpool/off/products<span class="w"> </span>-F
-</code></pre></div></p>
-<h2 id="change-retention-policy-in-scripts">Change retention policy in scripts<a class="headerlink" href="#change-retention-policy-in-scripts" title="Permanent link">#</a></h2>
-<p>I minimally changed the retention policy part of <code>sto-products-sync.sh</code> to avoid removing snapshots too early (2 month ago instead of last month).</p>
-<p><code>snapshot-purge.sh</code> used on ovh3 and off2 is working differently and it's already fine, so I didn't changed it.</p>
+<h1 id="2025-01-28-firewall-work-on-ovh">2025-01-28 - Firewall work on OVH<a class="headerlink" href="#2025-01-28-firewall-work-on-ovh" title="Permanent link">#</a></h1>
+<h2 id="changing-private-ipv6">Changing private ipv6<a class="headerlink" href="#changing-private-ipv6" title="Permanent link">#</a></h2>
+<p>The private ipv6 on ovh1 and ovh2 (vmbr0) did have a public ipv6 address which is wrong.
+I changed them, to use fd28:7f08:b8fe:2::1/64 for ovh1 and fd28:7f08:b8fe:2::2/64 for ovh2.</p>
+<h2 id="firewall-rules">Firewall rules<a class="headerlink" href="#firewall-rules" title="Permanent link">#</a></h2>
+<p>I use the same rules as <a href="../2025-01-27-firewall-work-free/">for free</a>
+but no need to expose http/https ports for ovh1,ovh2,ovh3.</p>
+<p>I also edited the ovh proxy rules, with 22, 80, 443 and 8087 ports open (the last is stunnel).</p>
 
 
 

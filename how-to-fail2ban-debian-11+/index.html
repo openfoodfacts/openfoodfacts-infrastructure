@@ -537,6 +537,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#for-iptables-lovers" class="md-nav__link">
+    <span class="md-ellipsis">
+      For iptables lovers
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3259,6 +3268,72 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-01-27-firewall-off2-reverse-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2025-01-27 firewall on off2 reverse proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2025-01-27-firewall-work-free/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2025-01-27 Work on firewall (free)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2025-01-28-firewall-work-ovh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2025-01-28 - Firewall work on OVH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-02-18-more-hetzner-server-install/" class="md-nav__link">
         
   
@@ -3316,6 +3391,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#for-iptables-lovers" class="md-nav__link">
+    <span class="md-ellipsis">
+      For iptables lovers
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3367,12 +3451,22 @@ fail2ban-client<span class="w"> </span>status<span class="w"> </span>&lt;jail-na
 </code></pre></div></p>
 <p>You should see it in the corresponding addr_set elements (<code>addr-set-&lt;jainame&gt;</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># all rules</span>
-nftable<span class="w"> </span>list<span class="w"> </span>ruleset
+nft<span class="w"> </span>list<span class="w"> </span>ruleset
 <span class="c1"># more precise: fail2ban table</span>
 nft<span class="w"> </span>list<span class="w"> </span>table<span class="w"> </span>inet<span class="w"> </span>f2b-table
 <span class="c1"># more precise: fail2ban addr_set</span>
 nft<span class="w"> </span>list<span class="w"> </span><span class="nb">set</span><span class="w"> </span>inet<span class="w"> </span>f2b-table<span class="w"> </span>addr-set-&lt;jail-name&gt;
 </code></pre></div>
+<h2 id="for-iptables-lovers">For iptables lovers<a class="headerlink" href="#for-iptables-lovers" title="Permanent link">#</a></h2>
+<p>If you use nftables but still better know iptables,
+the <code>iptables-translate</code> command can help you.</p>
+<p>On way to test it locally is to run it in docker:
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--name<span class="w"> </span>test-deb<span class="w"> </span>-ti<span class="w"> </span>debian:12<span class="w"> </span>bash
+apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>iptables
+<span class="c1"># example:</span>
+iptables-translate<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>conntrack<span class="w"> </span>--ctstate<span class="w"> </span>ESTABLISHED<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+<span class="c1"># nft &#39;add rule ip filter INPUT ct state established counter accept&#39;</span>
+</code></pre></div></p>
 
 
 
