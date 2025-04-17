@@ -7,7 +7,7 @@
     groups: docker # append the docker group to the user, to allow docker commands
     state: present
     create_home: true
-    password: "*" # ie no password
+    password: "*" # ie no password / no login
 
 - name: Ensures SSH public key is present for deployer
   ansible.posix.authorized_key:
