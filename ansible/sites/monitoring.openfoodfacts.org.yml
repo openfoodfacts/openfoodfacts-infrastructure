@@ -1,9 +1,10 @@
-- name: Coming soon
-  hosts: monitoring
-  tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
-
-   - name: Print message
-     ansible.builtin.debug:
-      msg: Hello world
+- name: Configure monitoring server
+  hosts: monitoring-01
+  gather_facts: true
+  become: true
+  roles:
+    # Install docker
+    - role: geerlingguy.docker
+      tags: docker
+    - role: continuous-deployment
+      tags: cd
