@@ -3,6 +3,8 @@
   ansible.builtin.user:
     name: "{{ continuous_deployment_user }}"
     comment: "User used by the GitHub Actions to deploy"
+    append: true
+    groups: docker # append the docker group to the user, to allow docker commands
     state: present
     create_home: true
     password: "*" # ie no password
