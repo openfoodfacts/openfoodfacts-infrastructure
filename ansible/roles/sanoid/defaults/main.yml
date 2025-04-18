@@ -1,0 +1,9 @@
+# do we need syncoid enabled?
+sanoid__syncoid_enabled: true
+
+# do we have a configuration to link in the infrastructure confs/ directory?
+# we will also link for syncoid if it is enabled
+sanoid__link_configuration: true
+
+# where are the configuration files on the server (eg /opt/openfoodfacts-infrastructure/confs)
+sanoid__configurations_src_path: ""

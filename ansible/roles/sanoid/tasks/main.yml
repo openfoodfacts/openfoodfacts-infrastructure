@@ -1,0 +1,71 @@
+---
+- name: Ensure mandatory variables are defined
+  ansible.builtin.assert:
+    that:
+      - "(not sanoid__link_configuration) or sanoid__configurations_src_path"
+
+- name: Install sanoid package
+  ansible.builtin.package:
+    name: sanoid
+    state: present
+
+- name: Ensure sanoid configuration directory exists.
+  ansible.builtin.file:
+    path: /etc/sanoid
+    state: directory
+    mode: "0755"
+
+- name: Prepare sanoid service personal definition directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/sanoid.service.d
+    state: directory
+    mode: "0755"
+
+- name: Personalize sanoid service definition
+  ansible.builtin.copy:
+    src: files/sanoid.service.d__override.conf
+    dest: /etc/systemd/system/sanoid.service.d/override.conf
+    mode: "0644"
+
+- name: Add syncoid service definition
+  ansible.builtin.copy:
+    src: files/syncoid.service
+    dest: /etc/systemd/system/syncoid.service
+    mode: "0644"
+  when: sanoid__syncoid_enabled
+
+- name: Add sanoid_check service and timer units
+  ansible.builtin.copy:
+    src: files/sanoid_check.{{ item }}
+    dest: /etc/systemd/system/sanoid_check.{{ item }}
+    mode: "0644"
+  loop:
+    - service
+    - timer
+
+- name: Enable sanoid and sanoid check timer units.
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    # reload systemd daemon the before applying changes
+    daemon_reload: "{{ ansible_loop.first }}"
+  loop:
+    - sanoid.timer
+    - sanoid_check.timer
+  loop_control:
+    extended: true
+
+- name: Link sanoid configuration file for this server
+  ansible.builtin.file:
+    path: /etc/sanoid/sanoid.conf
+    state: link
+    src: "{{ sanoid__configurations_src_path }}/{{ inventory_hostname }}/sanoid/sanoid.conf"
+  when: sanoid__link_configuration
+
+- name: Link syncoid configuration file for this server
+  ansible.builtin.file:
+    path: /etc/sanoid/syncoid-args.conf
+    state: link
+    src: "{{ sanoid__configurations_src_path }}/{{ inventory_hostname }}/sanoid/syncoid-args.conf"
+  when: sanoid__link_configuration and sanoid__syncoid_enabled

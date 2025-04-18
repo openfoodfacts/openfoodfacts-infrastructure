@@ -3,6 +3,7 @@
   ansible.builtin.assert:
     that:
       - git_based_configs__github_token
+      - git_based_configs__repository_dest
 
 - name: Install git
   ansible.builtin.package:
@@ -28,15 +29,15 @@
     key: "{{ _ssh_key_public.content | ansible.builtin.b64decode }}"
     read_only: false  # we want to be able to push changes
     name: "{{ ansible_hostname }} deploy key"
-    owner: openfoodfacts
-    repo: openfoodfacts-infrastructure
+    owner: "{{ git_based_configs__repository_owner }}"
+    repo: "{{ git_based_configs__repository_name }}"
     token: "{{ git_based_configs__github_token }}"
     state: present
   register: _github_deploy_key_result
 
 - name: Clone the repository in /opt
   ansible.builtin.git:  # noqa: latest
-    repo: git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
-    dest: /opt/openfoodfacts-infrastructure
+    repo: "git@github.com:{{ git_based_configs__repository_owner }}/{{ git_based_configs__repository_name }}.git"
+    dest: "{{ git_based_configs__repository_dest }}"
     update: false
     accept_newhostkey: true

@@ -2,3 +2,9 @@
 # Must have rights to create deploy keys on infrastructure repository
 # Currently it means a classic token, with public_repo access
 git_based_configs__github_token: ""
+# path where you want to clone the repository
+git_based_configs__repository_dest: ""
+# name of the repository
+git_based_configs__repository_name: "openfoodfacts-infrastructure"
+# owner of the repository
+git_based_configs__repository_owner: "openfoodfacts"
