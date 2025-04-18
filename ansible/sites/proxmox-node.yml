@@ -7,3 +7,5 @@
   roles:
     - role: proxmox-node
       tags: ["base", "proxmox"]
+    - role: git-based-configs
+      tags: ["base", "git-config"]

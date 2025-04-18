@@ -1,0 +1,38 @@
+---
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+- name: create the deploy key for the server in the repository
+  community.crypto.openssh_keypair:
+    path: /root/.ssh/id_rsa
+    mode: '0600'
+    type: ed25519
+    force: no
+    comment: "root@{{ ansible_hostname }}"
+
+- name: fetch public key content
+  ansible.builtin.slurp:
+    src: /root/.ssh/id_rsa.pub
+  register: _ssh_key_public
+
+- name: add the key on github
+  community.general.github_deploy_key:
+    # slurp encode in base64, so we have to decode
+    key: "{{ _ssh_key_public.content | ansible.builtin.b64decode }}"
+    read_only: false  # we want to be able to push changes
+    name: "{{ ansible_hostname }} deploy key"
+    owner: openfoodfacts
+    repo: openfoodfacts-infrastructure
+    token: "{{ secret__github__bot_token_infrastructure }}"
+    state: present
+  register: _github_deploy_key_result
+
+- name: clone the repository in /opt
+  ansible.builtin.git:
+    repo: git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
+    dest: /opt/openfoodfacts-infrastructure
+    update: no
+    accept_newhostkey: true
+
