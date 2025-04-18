@@ -1,23 +1,28 @@
 ---
+- name: 'Check mandatory variables are defined'
+  ansible.builtin.assert:
+    that:
+      - git_based_configs__github_token
+
 - name: Install git
   ansible.builtin.package:
     name: git
     state: present
 
-- name: create the deploy key for the server in the repository
+- name: Create the deploy key for the server in the repository
   community.crypto.openssh_keypair:
     path: /root/.ssh/id_rsa
     mode: '0600'
     type: ed25519
-    force: no
+    force: false
     comment: "root@{{ ansible_hostname }}"
 
-- name: fetch public key content
+- name: Fetch public key content
   ansible.builtin.slurp:
     src: /root/.ssh/id_rsa.pub
   register: _ssh_key_public
 
-- name: add the key on github
+- name: Add the key on github
   community.general.github_deploy_key:
     # slurp encode in base64, so we have to decode
     key: "{{ _ssh_key_public.content | ansible.builtin.b64decode }}"
@@ -25,14 +30,13 @@
     name: "{{ ansible_hostname }} deploy key"
     owner: openfoodfacts
     repo: openfoodfacts-infrastructure
-    token: "{{ secret__github__bot_token_infrastructure }}"
+    token: "{{ git_based_configs__github_token }}"
     state: present
   register: _github_deploy_key_result
 
-- name: clone the repository in /opt
-  ansible.builtin.git:
+- name: Clone the repository in /opt
+  ansible.builtin.git:  # noqa: latest
     repo: git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
     dest: /opt/openfoodfacts-infrastructure
-    update: no
+    update: false
     accept_newhostkey: true
-

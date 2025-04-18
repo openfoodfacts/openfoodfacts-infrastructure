@@ -1,4 +1,4 @@
 # token to access github.
 # Must have rights to create deploy keys on infrastructure repository
 # Currently it means a classic token, with public_repo access
-secret__github__bot_token_infrastructure: ""
+git_based_configs__github_token: ""
