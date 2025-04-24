@@ -2,9 +2,10 @@
 collections:
   - name: community.general
     version: 10.0.1
-
   - name: community.crypto
     version: 2.22.3
+  - name: community.docker
+    version: 4.5.2
 
 roles:
   - src: willshersystems.sshd

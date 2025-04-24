@@ -1,0 +1,42 @@
+- name: Create linux user for reverse proxy
+  ansible.builtin.user:
+    name: "{{ reverse_proxy_user }}"
+    comment: "User used by nginx reverse proxy"
+    append: true
+    groups: docker # append the docker group to the user, to allow docker commands
+    state: present
+    create_home: true
+    password: "*" # ie no password / no login
+
+- name: Copy docker compose & base nginx config
+  ansible.builtin.copy:
+    src: .
+    dest: "{{ reverse_proxy_dir }}"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
+
+- name: Create sites-enabled directory
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/sites-enabled"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0755"
+
+- name: Copy templated site-enabled nginx config
+  ansible.builtin.template:
+    src: site.conf.j2
+    dest: "{{ reverse_proxy_dir }}/sites-enabled/{{ item.url }}.conf"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
+  vars:
+    url: "{{ item.url }}"
+    proxy_pass: "{{ item.proxy_pass }}"
+  loop: "{{ reverse_proxy_websites }}"
+
+- name: Start docker compose reverse proxy
+  community.docker.docker_compose_v2:
+    project_src: "{{ reverse_proxy_dir }}"
+    state: present

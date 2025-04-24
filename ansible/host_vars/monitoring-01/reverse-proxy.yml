@@ -1,0 +1,5 @@
+reverse_proxy_websites:
+  - url: "monitoring.off.sauvage.pm"
+    proxy_pass: "example-webserver:80"
+  - url: "tartelette.off.sauvage.pm"
+    proxy_pass: "example-webserver:80"

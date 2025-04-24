@@ -1,0 +1,4 @@
+reverse_proxy_dir: "/opt/nginx"
+reverse_proxy_user: "reverse-proxy"
+
+reverse_proxy_websites: []

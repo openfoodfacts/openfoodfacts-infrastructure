@@ -3,8 +3,9 @@
   gather_facts: true
   become: true
   roles:
-    # Install docker
-    - role: geerlingguy.docker
+    - role: docker
       tags: docker
     - role: continuous-deployment
       tags: cd
+    - role: reverse-proxy
+      tags: reverse-proxy

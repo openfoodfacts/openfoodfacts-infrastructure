@@ -1,9 +1,3 @@
 continuous_deployment_user: "off"
 
-# The SSH public key used to authenticate the deployer user.
-# The corresponding private key should be added to the GitHub Actions secrets.
-# Define this variable seperately for each host in
-#  host_vars/<hostname>/continuous-deployment.yml or host_vars/<hostname>.yml.
-# Can be generated with
-#  ssh-keygen -t ed25519 -C "off@<servername>"
 continuous_deployment_ssh_public_key: ""
