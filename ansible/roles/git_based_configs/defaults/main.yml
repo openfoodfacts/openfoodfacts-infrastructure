@@ -8,3 +8,10 @@ git_based_configs__repository_dest: ""
 git_based_configs__repository_name: "openfoodfacts-infrastructure"
 # owner of the repository
 git_based_configs__repository_owner: "openfoodfacts"
+
+# Optional
+
+# branch to use, if not defined, we will use the same branch as local branch name
+git_based_configs__branch: null
+# force branch switch, on distant server (instead of asking confirmation)
+git_based_configs__force_branch_switch: false

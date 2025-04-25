@@ -1,0 +1,48 @@
+# This task is meant to be call from other tasks
+# It will update the repository and can also be used to switch branches
+# This way you can use files that are in your current branch until it is merged
+# Beware that this means you have to work on one thing at a time on the server.
+---
+- name: Get current branch name
+  ansible.builtin.command:
+    chdir: "{{ git_based_configs__repository_dest }}"
+    cmd: git rev-parse --abbrev-ref HEAD
+  register: _server_current_branch
+
+- name: Get local branch name
+  ansible.builtin.command:
+    cmd: git rev-parse --abbrev-ref HEAD
+  delegate_to: localhost
+  register: _local_branch
+
+- name: Set branch name
+  ansible.builtin.set_fact:
+    _target_branch_name: "{{ git_based_configs__branch || _target_branch_name }}"
+
+- name: Eventually ask confirmation
+  ansible.builtin.pause:
+    prompt: |
+      You are about to switch from branch {{ _server_current_branch.stdout }} to {{ _target_branch_name }}
+      on server {{ ansible_hostname }}.
+      Do you want to continue (y/n)?
+  register: _branch_switch_confirmation
+  when: "(server_current_branch.stdout == _target_branch_name) or git_based_configs__force_branch_switch"
+
+- name: Fail if user doesn't want to switch branch
+  ansible.builtin.fail:
+    msg: "You must confirm to switch branch"
+  when: not _branch_switch_confirmation.stdout.lower().startswith("y")
+
+- name: Switch branch of server clone
+  # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
+  ansible.builtin.shell:
+    cmd: git fetch && git checkout "{{ _target_branch_name }}"
+    chdir: "{{ git_based_configs__repository_dest }}"
+  when: "server_current_branch.stdout != _target_branch_name"
+
+- name: Update repository
+  # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
+  ansible.builtin.command:
+    # we only do a fast forward pull because we prefer to fail in case of conflicts
+    cmd: git pull --ff-only
+    chdir: "{{ git_based_configs__repository_dest }}"

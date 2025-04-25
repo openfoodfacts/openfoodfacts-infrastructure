@@ -15,4 +15,4 @@
     - role: sanoid
       tags: ["base", "sanoid"]
       vars:
-        sanoid__configurations_src_path: "{{ infrastructure_repository_dest }}/confs"
+        sanoid__configurations_src_path: "{{ infrastructure_repository_dest }}/confs/{{ ansible_hostname }}"

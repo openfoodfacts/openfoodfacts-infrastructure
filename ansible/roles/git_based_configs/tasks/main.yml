@@ -41,3 +41,12 @@
     dest: "{{ git_based_configs__repository_dest }}"
     update: false
     accept_newhostkey: true
+
+
+# this is important because most of the time we directly work on develop
+# with local changes and remote changes, but we want to keep a linear history
+- name: Ensure we do pull --rebase by default
+  community.general.git_config:
+    name: pull.rebase
+    value: true
+    scope: global
