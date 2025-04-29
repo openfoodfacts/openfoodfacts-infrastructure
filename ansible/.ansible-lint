@@ -1,3 +1,7 @@
 ---
 exclude_paths:
-  - roles/willshersystems.sshd
+  - roles.galaxy
+  - collections
+  - venv
+  - .venv
+  - .git

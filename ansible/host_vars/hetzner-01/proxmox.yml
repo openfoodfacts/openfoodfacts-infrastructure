@@ -1,4 +1,3 @@
-
 proxmox_node_zfs_pools:
   - name: hdd-zfs
     vdev: raidz1 sda5 sdb5 sdc5 sdd5 cache nvme0n1 nvme1n1
@@ -7,8 +6,8 @@ proxmox_node_zfs_pools:
     filesystem_properties: "{{ proxmox_node_zfs_pools_filesystem_properties_defaults }}"
 
 proxmox_node_zfs_filesystems:
-- name: hdd-zfs/pve
-- name: hdd-zfs/backups
+  - name: hdd-zfs/pve
+  - name: hdd-zfs/backups
 
 pve_storages:
   - name: hdd-zfs-pve

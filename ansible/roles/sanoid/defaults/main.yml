@@ -5,5 +5,9 @@ sanoid__syncoid_enabled: true
 # we will also link for syncoid if it is enabled
 sanoid__link_configuration: true
 
-# where are the configuration files on the server (eg /opt/openfoodfacts-infrastructure/confs)
+# where is the configurations git root path (eg /opt/openfoodfacts-infrastructure/)
+sanoid__configurations_git_root_path: ""
+
+# where are the configuration files in the git repository
+# this is the folder where there is one folder per server
 sanoid__configurations_src_path: ""

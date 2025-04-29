@@ -2,7 +2,9 @@
 - name: Ensure mandatory variables are defined
   ansible.builtin.assert:
     that:
-      - "(not sanoid__link_configuration) or sanoid__configurations_src_path"
+      - |
+        (not sanoid__link_configuration) or
+        (sanoid__configurations_git_root_path and sanoid__configurations_src_path)
 
 - name: Install sanoid package
   ansible.builtin.package:
@@ -59,20 +61,20 @@
 - name: Update repository to have recent configuration files
   ansible.builtin.include_role:
     name: git_based_configs
-    tasks_from: update_repository
-    vars:
-      git_based_configs__repository_dest: "{{ sanoid__configurations_src_path }}"
+    tasks_from: repository_update
+  vars:
+    git_based_configs__repository_dest: "{{ sanoid__configurations_git_root_path }}"
 
 - name: Link sanoid configuration file for this server
   ansible.builtin.file:
     path: /etc/sanoid/sanoid.conf
     state: link
-    src: "{{ sanoid__configurations_src_path }}/{{ inventory_hostname }}/sanoid/sanoid.conf"
+    src: "{{ sanoid__configurations_git_root_path }}/{{ sanoid__configurations_src_path }}/sanoid/sanoid.conf"
   when: sanoid__link_configuration
 
 - name: Link syncoid configuration file for this server
   ansible.builtin.file:
     path: /etc/sanoid/syncoid-args.conf
     state: link
-    src: "{{ sanoid__configurations_src_path }}/{{ inventory_hostname }}/sanoid/syncoid-args.conf"
+    src: "{{ sanoid__configurations_git_root_path }}/{{ sanoid__configurations_src_path }}/sanoid/syncoid-args.conf"
   when: sanoid__link_configuration and sanoid__syncoid_enabled
