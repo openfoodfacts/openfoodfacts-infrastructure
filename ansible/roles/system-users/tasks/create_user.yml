@@ -26,3 +26,4 @@
 - name: Force user to set password on first login
   when: user_has_password and user_exists_cmd.rc != 0
   ansible.builtin.command: "passwd -e -d {{ user.name }}"
+  changed_when: true

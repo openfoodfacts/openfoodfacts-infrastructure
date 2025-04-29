@@ -5,5 +5,6 @@ sanoid__datasets_to_create:
 sanoid__create_operators:
   - username: hetzner01operator
     server: ovh3
+    server_fqdn: ovh3.openfoodfacts.org
     # because of backup dataset
     needs_sync_snap: true

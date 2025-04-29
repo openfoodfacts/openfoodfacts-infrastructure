@@ -1,19 +1,29 @@
 # Create the operator user on a server and give it necessary rights to run syncoid
 ---
+- name: Sanity checks
+  ansible.builtin.assert:
+    that:
+      - _operator.server
+      - _operator.server_fqdn
+    fail_msg: Some variables are not defined
+
 - name: Create the user on the distant server
   ansible.builtin.user:
     name: "{{ _operator.username }}"
     state: present
     password: "!"  # no password
+    shell: /bin/bash
   delegate_to: "{{ _operator.server }}"
 
 - name: List ZFS Pools
   community.general.zpool_facts: null
   delegate_to: "{{ _operator.server }}"
 
-- name: Do we need sync snap
+- name: Compute some variables
   ansible.builtin.set_fact:
-    _needs_sync_snap: "{{ _operator.needs_sync_snap | default(false) }}"
+    _needs_sync_snap: "{{ _operator.needs_sync_snap | default(sanoid__create_operators_needs_sync_snap_default) }}"
+    _pubkey_path: "{{ _operator.pubkey_path | default(sanoid__create_operators_pubkey_path_default) }}"
+    _top_pools: "{{ ansible_zfs_pools | selectattr('name', 'match', '^[^/]+$') }}"
 
 - name: Gives user necessary rights on ZFS to run syncoid
   community.general.zfs_delegate_admin:
@@ -25,7 +35,29 @@
         if not _needs_sync_snap
         else ["destroy", "hold" , "mount", "send", "snapshot"]
       }}
-  # filter to only top datasets
-  loop: |
-    {{ ansible_zfs_pools | selectattr("name", "match", "^[^/]+$") }}
+  loop: "{{ _top_pools }}"
+  loop_control:
+    label: "{{ _operator.server }} - {{ _operator.username }} - {{ item.name }}"
   delegate_to: "{{ _operator.server }}"
+
+- name: Get pubkey content
+  ansible.builtin.slurp:
+    src: "{{ _pubkey_path }}"
+  register: _pubkey_content
+
+- name: Authorize ssh public key for operator
+  ansible.posix.authorized_key:
+    user: '{{ _operator.username }}'
+    key: '{{ _pubkey_content.content | ansible.builtin.b64decode }}'
+  delegate_to: "{{ _operator.server }}"
+
+- name: Get the server key
+  ansible.builtin.slurp:
+    src: "/etc/ssh/ssh_host_rsa_key.pub"
+  register: _host_ssh_pubkey
+  delegate_to: "{{ _operator.server }}"
+
+- name: Add the host key on the server
+  ansible.builtin.known_hosts:
+    key: "{{ _operator.server_fqdn }} {{ _host_ssh_pubkey.content | ansible.builtin.b64decode }}"
+    name: "{{ _operator.server_fqdn }}"
