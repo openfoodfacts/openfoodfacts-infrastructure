@@ -1,0 +1,31 @@
+# Create the operator user on a server and give it necessary rights to run syncoid
+---
+- name: Create the user on the distant server
+  ansible.builtin.user:
+    name: "{{ _operator.username }}"
+    state: present
+    password: "!"  # no password
+  delegate_to: "{{ _operator.server }}"
+
+- name: List ZFS Pools
+  community.general.zpool_facts: null
+  delegate_to: "{{ _operator.server }}"
+
+- name: Do we need sync snap
+  ansible.builtin.set_fact:
+    _needs_sync_snap: "{{ _operator.needs_sync_snap | default(false) }}"
+
+- name: Gives user necessary rights on ZFS to run syncoid
+  community.general.zfs_delegate_admin:
+    name: "{{ item.name }}"
+    users: "{{ _operator.username }}"
+    permissions: |
+      {{
+        ["hold", "send"]
+        if not _needs_sync_snap
+        else ["destroy", "hold" , "mount", "send", "snapshot"]
+      }}
+  # filter to only top datasets
+  loop: |
+    {{ ansible_zfs_pools | selectattr("name", "match", "^[^/]+$") }}
+  delegate_to: "{{ _operator.server }}"

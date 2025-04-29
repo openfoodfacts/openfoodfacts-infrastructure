@@ -1,0 +1,9 @@
+sanoid__datasets_to_create:
+  - hdd-zfs/off-backups
+  - hdd-zfs/off-backups/ovh3-rpool
+
+sanoid__create_operators:
+  - username: hetzner01operator
+    server: ovh3
+    # because of backup dataset
+    needs_sync_snap: true

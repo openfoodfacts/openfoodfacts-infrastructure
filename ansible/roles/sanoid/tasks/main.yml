@@ -6,6 +6,19 @@
         (not sanoid__link_configuration) or
         (sanoid__configurations_git_root_path and sanoid__configurations_src_path)
 
+- name: Create datasets that will hold some backups
+  community.general.zfs:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ sanoid__datasets_to_create }}"
+
+- name: Create operators on distant servers
+  ansible.builtin.include_tasks:
+    file: create_operator.yml
+  loop: "{{ sanoid__create_operators }}"
+  loop_control:
+    loop_var: _operator
+
 - name: Install sanoid package
   ansible.builtin.package:
     name: sanoid
@@ -45,7 +58,7 @@
     - service
     - timer
 
-- name: Enable sanoid and sanoid check timer units.
+- name: Enable sanoid and sanoid check timer units and syncoid service.
   ansible.builtin.systemd_service:
     name: "{{ item }}"
     state: started
@@ -54,6 +67,7 @@
     daemon_reload: "{{ ansible_loop.first }}"
   loop:
     - sanoid.timer
+    - syncoid.service
     - sanoid_check.timer
   loop_control:
     extended: true
