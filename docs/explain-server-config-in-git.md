@@ -8,6 +8,12 @@ The idea is to be able to follow server configuration evolution without (for now
 
 ## Implementation
 
+### Ansible role
+
+The `git_based_config` role in ansible folder
+is used to install the repository on the server.
+It provides additional tasks to update it.
+
 ### For servers and most services
 
 On every servers we have a `/opt/openfoodfacts-infrastructure` repository which is a clone of this projects by `root`.

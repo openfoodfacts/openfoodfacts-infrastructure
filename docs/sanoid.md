@@ -53,7 +53,7 @@ In case of problem, see [How to resync ZFS replication](./how-to-resync-zfs-repl
 
 ## syncoid service and configuration
 
-Sanoid does not come with a systemd service for syncoid, 
+Sanoid does not come with a systemd service for syncoid,
 so we created one, see: `confs/common/systemd/system/syncoid.service`
 
 The syncoid service can synchronize *to* or *from* a server.
@@ -74,7 +74,15 @@ You can use :
 Also you can list snapshot on source / destination ZFS datasets to see if there are recent ones:
 `/usr/sbin/zfs list -t snap <pool>/<dataset/path>`
 
-## Install
+## Ansible install
+
+We have a sanoid ansible role that can be used to install sanoid on a server.
+
+It use the [git based configuration](./explain-server-config-in-git.md)
+for the sanoid.conf and syncoid-args.conf files,
+enabling easy modifications directly on the server, after first install.
+
+## Manual install
 
 Sanoid is installed by using the official repository, building the deb and installing it.
 

@@ -7,11 +7,7 @@ name: Generate documentation
 on:
   pull_request:
     # on pull request we just want to build to see nothing is broken
-    paths:
-      - "README.md"
-      - "docs/**"
-      - ".github/workflows/generate-docs.yml"
-      - "mkdocs.yml"
+    # don't filter by path because this is a mandatory step…
   push:
     branches:
       - develop
