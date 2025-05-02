@@ -9,6 +9,6 @@ certbot certonly \
     --preferred-challenges dns-01 \
     --dns-ovh \
     --dns-ovh-credentials /config/ovh.ini \
-    -m "{{ reverse_proxy_https_email }}" \
+    -m "{{ secrets_infra_email }}" \
     -d "{{ reverse_proxy_https_domain }}" \
     -d "*.{{ reverse_proxy_https_domain }}"
