@@ -8,7 +8,15 @@
     create_home: true
     password: "*" # ie no password / no login
 
-- name: Copy docker compose & base nginx config
+- name: Create certbot directory
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/certbot"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0755"
+
+- name: Copy base nginx config & docker compose
   ansible.builtin.copy:
     src: .
     dest: "{{ reverse_proxy_dir }}"
@@ -16,25 +24,29 @@
     group: "{{ reverse_proxy_user }}"
     mode: "0644"
 
-- name: Create sites-enabled directory
-  ansible.builtin.file:
-    path: "{{ reverse_proxy_dir }}/sites-enabled"
-    state: directory
-    owner: "{{ reverse_proxy_user }}"
-    group: "{{ reverse_proxy_user }}"
-    mode: "0755"
-
-- name: Copy templated site-enabled nginx config
+- name: Copy templated nginx sites config
   ansible.builtin.template:
-    src: site.conf.j2
-    dest: "{{ reverse_proxy_dir }}/sites-enabled/{{ item.url }}.conf"
+    src: ./nginx/sites.conf
+    dest: "{{ reverse_proxy_dir }}/nginx/sites.conf"
     owner: "{{ reverse_proxy_user }}"
     group: "{{ reverse_proxy_user }}"
     mode: "0644"
-  vars:
-    url: "{{ item.url }}"
-    proxy_pass: "{{ item.proxy_pass }}"
-  loop: "{{ reverse_proxy_websites }}"
+
+- name: Copy templated certbot ovh.ini config
+  ansible.builtin.template:
+    src: ./certbot/ovh.ini
+    dest: "{{ reverse_proxy_dir }}/certbot/ovh.ini"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0600"
+
+- name: Copy templated certbot script
+  ansible.builtin.template:
+    src: ./certbot/certbot-renew.sh
+    dest: "{{ reverse_proxy_dir }}/certbot/certbot-renew.sh"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
 
 - name: Start docker compose reverse proxy
   community.docker.docker_compose_v2:
