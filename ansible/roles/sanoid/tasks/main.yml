@@ -19,9 +19,21 @@
   loop_control:
     loop_var: _operator
 
+- name: Update repository to have recent configuration files
+  ansible.builtin.include_role:
+    name: git_based_configs
+    tasks_from: repository_update
+  vars:
+    git_based_configs__repository_dest: "{{ sanoid__configurations_git_root_path }}"
+
 - name: Install sanoid package
   ansible.builtin.package:
     name: sanoid
+    state: present
+
+- name: Install mailx, used by sanoid_check
+  ansible.builtin.package:
+    name: bsd-mailx
     state: present
 
 - name: Ensure sanoid configuration directory exists.
@@ -71,13 +83,6 @@
     - sanoid_check.timer
   loop_control:
     extended: true
-
-- name: Update repository to have recent configuration files
-  ansible.builtin.include_role:
-    name: git_based_configs
-    tasks_from: repository_update
-  vars:
-    git_based_configs__repository_dest: "{{ sanoid__configurations_git_root_path }}"
 
 - name: Link sanoid configuration file for this server
   ansible.builtin.file:
