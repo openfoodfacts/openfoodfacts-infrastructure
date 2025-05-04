@@ -1,11 +1,11 @@
 # Reverse proxy role
 
-- Installs `nginx` and it's configuration on a node.
-- `nginx` is installed as a docker container
+- Installs the `nginx` reverse proxy as a docker container and it's configuration.
+- Installs `certbot` to manage HTTPS certificates and a cron to start it regularly.
 
 ## Add services to the reverse proxy
 
-### Setup the `reverse_proxy_websites` variable
+### Setup the variables
 
 In `host_vars/<node_name>/reverse-proxy.yml`, create the following varaible:
 
@@ -24,11 +24,21 @@ This will create a `nginx` configuration that passes:
 
 The port defined in `proxy_pass` (here `80`) is the one used inside the webserver container.
 
-In this example, the reverse proxy and the webserver are on the same host, but one could replace `example1-webserver` with the ip of a remote host.
+In this example, the reverse proxy and the webserver are on the same host, but one could replace `example1-webserver` with the ip of a remote host (on a local subnet preferably, for security reasons).
 
-### Configure the webserver container
+#### HTTPS Certificates
 
-**If the reverse proxy and the webserver are on the same host**, here is an example of a correctly configured webserver container:
+If the `url`s in `reverse_proxy_websites` only contains `openfoodfacts.org` or it's subdomains, there is no additionnal configuration to do.
+
+The `reverse_proxy_https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
+
+To generate those certificates, we use a DNS challenge and the OVH API. The `defaults/main/ovh-api-secrets.yml` file contains the OVH API credentials. Those are the one for the `openfoodfacts.org` domain. But other one must be generated if we use other domains. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them.
+
+### Configure the webserver containerq
+
+#### When the reverse proxy and the webserver are on the same host
+
+The docker compose of the service should look like:
 
 ```yml
 services:
@@ -46,3 +56,29 @@ networks:
 Adding the `reverse_proxy_network` allows the reverse proxy and the webserver to communicate.
 
 ⚠️ You should **NOT** use `ports:` in the docker compose, this network should be enough. Moreover, only apply the `reverse_proxy_network` to services that need access to internet. For exemple, a database only used locally shouldn't be connected to `reverse_proxy_network`.
+
+#### When the reverse proxy and the webserver are NOT on the same host
+
+The docker compose of the service should look like:
+
+```yml
+services:
+  example1-webserver:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "7777:7777" # or other ports...
+```
+
+In that case, it is necessary to open port(s).
+
+## Debugging
+
+- The `certbot` is started regularly by a cron. If necessary, you can check it's logs:
+
+```sh
+cd /opt/reverse_proxy
+docker compose logs certbot -tn 25
+```
+
+Shows the last 25 lines of logs. Note that the timestamps are in UTC time. You can also check the `/opt/reverse_proxy/certbot/cron.log`, which saves the last execution.

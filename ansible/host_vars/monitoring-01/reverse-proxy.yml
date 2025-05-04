@@ -7,4 +7,5 @@ reverse_proxy_websites:
     proxy_pass: "example-webserver:80"
 
   
-reverse_proxy_https_domain: "off.epy.ovh"
+reverse_proxy_https_cert_domains: 
+  - "off.epy.ovh"

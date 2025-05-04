@@ -16,7 +16,15 @@
     group: "{{ reverse_proxy_user }}"
     mode: "0755"
 
-- name: Copy base nginx config & docker compose
+- name: Create conf directory for the docker volume
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/certbot/conf"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0700" # this folder contains the certificates
+
+- name: Copy static configuration
   ansible.builtin.copy:
     src: .
     dest: "{{ reverse_proxy_dir }}"
@@ -40,13 +48,31 @@
     group: "{{ reverse_proxy_user }}"
     mode: "0600"
 
-- name: Copy templated certbot script
+- name: Copy templated certbot entrypoint script
   ansible.builtin.template:
     src: ./certbot/certbot-renew.sh
     dest: "{{ reverse_proxy_dir }}/certbot/certbot-renew.sh"
     owner: "{{ reverse_proxy_user }}"
     group: "{{ reverse_proxy_user }}"
     mode: "0644"
+
+- name: Copy templated certbot cron script
+  ansible.builtin.template:
+    src: ./certbot/cron-start-certbot.sh
+    dest: "{{ reverse_proxy_dir }}/certbot/cron-start-certbot.sh"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0744"
+
+- name: Create a cron job to renew https certificates
+  ansible.builtin.cron:
+    name: "renew https certificates"
+    # Execute every Sunday at 3:40 server time (probably Paris)
+    weekday: 0
+    hour: 3
+    minute: 40
+    user: "{{ reverse_proxy_user }}"
+    job: "{{ reverse_proxy_dir }}/certbot/cron-start-certbot.sh > {{ reverse_proxy_dir }}/certbot/cron.log 2>&1"
 
 - name: Start docker compose reverse proxy
   community.docker.docker_compose_v2:

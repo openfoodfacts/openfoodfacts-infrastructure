@@ -3,4 +3,5 @@ reverse_proxy_user: "reverse-proxy"
 
 reverse_proxy_websites: []
 
-reverse_proxy_https_domain: "openfoodfacts.org"
+reverse_proxy_https_cert_domains: 
+  - "openfoodfacts.org"
