@@ -1,0 +1,6 @@
+hetzner_vswitch__vlan_id: 4000
+# hetzner_vswitch__ip_num is defined per proxmox host
+hetzner_vswitch__ip_address: 10.12.0.{{ hetzner_vswitch__ip_num }}/16
+# generated using https://www.unique-local-ipv6.com/#
+hetzner_vswitch__ip6_address: fded:b8d9:a973:1:{{ hetzner_vswitch__ip_num }}::/64
+hetzner_vswitch__bridge_name: vmbr1
