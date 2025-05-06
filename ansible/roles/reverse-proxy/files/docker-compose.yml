@@ -10,6 +10,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/sites.conf:/etc/nginx/sites.conf:ro
+      - ./nginx/passwords:/etc/nginx/passwords:ro
       # used to transfer certificates with certbot
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     networks:

@@ -7,7 +7,7 @@
 
 ### Setup the variables
 
-In `host_vars/<node_name>/reverse-proxy.yml`, create the following varaible:
+In `host_vars/<node_name>/reverse-proxy.yml`, create a variable with the following shape:
 
 ```yml
 reverse_proxy_websites:
@@ -15,9 +15,11 @@ reverse_proxy_websites:
     proxy_pass: "example1-webserver:80"
   - url: "example2.openfoodfacts.org"
     proxy_pass: "example2-webserver:80"
+    username: "off" # optional
+    password: "{{ secrets_off_password }}" # optional
 ```
 
-This will create a `nginx` configuration that passes:
+In this example, the task will create a `nginx` configuration that passes:
 
 - `example1.openfoodfacts.org` to container `example1-webserver` on port `80`
 - `example2.openfoodfacts.org` to container `example2-webserver` on port `80`
@@ -25,6 +27,16 @@ This will create a `nginx` configuration that passes:
 The port defined in `proxy_pass` (here `80`) is the one used inside the webserver container.
 
 In this example, the reverse proxy and the webserver are on the same host, but one could replace `example1-webserver` with the ip of a remote host (on a local subnet preferably, for security reasons).
+
+#### Adding Basic Auth
+
+It is possible to setup a basic user/password authentification on a specific website by adding the two optional parameters `username` and `password` (see the example on `example2.openfoodfacts.org`).
+
+`password` must be a hash of the passord the user will use to login, it should look like `$5$[...]`. Generate it with `openssl passwd -5`. **Remember to store this hash in a `git-crypted` file (ending in `...-secrets.yml`).**
+
+I recommend to choose a randomly-generated 21 characters password from the `a-zA-Z0-9!@#$%^*` characterset.
+
+Run this command to generate both a random password (first line) and a corresponding hash (second line): `pw=$(tr -dc 'a-zA-Z0-9!@#$%^*' < /dev/urandom | head -c 21); echo "$pw\n$(echo "$pw" | openssl passwd -5 -stdin)"`.
 
 #### HTTPS Certificates
 
@@ -34,7 +46,7 @@ The `reverse_proxy_https_cert_domains` variable will create a wildcard https cer
 
 To generate those certificates, we use a DNS challenge and the OVH API. The `defaults/main/ovh-api-secrets.yml` file contains the OVH API credentials. Those are the one for the `openfoodfacts.org` domain. But other one must be generated if we use other domains. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them.
 
-### Configure the webserver containerq
+### Configure the webserver container
 
 #### When the reverse proxy and the webserver are on the same host
 

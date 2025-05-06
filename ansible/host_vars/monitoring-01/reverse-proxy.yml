@@ -1,6 +1,8 @@
 reverse_proxy_websites:
   - url: "monitoring.off.epy.ovh"
     proxy_pass: "example-webserver:80"
+    username: "off"
+    password: "{{ off_monitoring_password }}"
   - url: "tartelette.off.epy.ovh"
     proxy_pass: "example-webserver:80"
   - url: "pomme.off.epy.ovh"
