@@ -6,7 +6,6 @@
 
 
 certbot certonly \
-    --test-cert \
     --non-interactive \
     --agree-tos \
     --renew-with-new-domains \
