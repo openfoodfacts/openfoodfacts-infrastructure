@@ -17,6 +17,17 @@ reverse_proxy_websites:
     proxy_pass: "example2-webserver:80"
     username: "off" # optional
     password: "{{ secrets_off_password }}" # optional
+
+reverse_proxy_https_cert_domains:
+  - "openfoodfacts.org" # that's actually the default
+```
+
+In `host_vars/<node_name>/reverse-proxy-secrets.yml`, create a variable with the following shape:
+
+```yml
+reverse_proxy_certbot_ovh_application_key: "[...]"
+reverse_proxy_certbot_ovh_application_secret: "[...]"
+reverse_proxy_certbot_ovh_consumer_key: "[...]"
 ```
 
 In this example, the task will create a `nginx` configuration that passes:
@@ -40,11 +51,11 @@ Run this command to generate both a random password (first line) and a correspon
 
 #### HTTPS Certificates
 
-If the `url`s in `reverse_proxy_websites` only contains `openfoodfacts.org` or it's subdomains, there is no additionnal configuration to do.
-
 The `reverse_proxy_https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
 
-To generate those certificates, we use a DNS challenge and the OVH API. The `defaults/main/ovh-api-secrets.yml` file contains the OVH API credentials. Those are the one for the `openfoodfacts.org` domain. But other one must be generated if we use other domains. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them.
+To generate those certificates, we use a DNS challenge and the OVH API. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them, and put the credentials in the variables stated above.
+
+For security reasons, generate a new OVH API key for each node.
 
 ### Configure the webserver container
 
