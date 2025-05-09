@@ -1,10 +1,10 @@
-- name: Fail if password is defined without username, or username without password
+- name: Fail if password_hash is defined without username, or username without password_hash
   ansible.builtin.fail:
     msg: >-
-      Both 'username' and 'password' must be defined together for {{ item.url }}.
+      Both 'username' and 'password_hash' must be defined together for {{ item.url }}.
   when: >
-    (item.password is defined and item.username is not defined) or
-    (item.username is defined and item.password is not defined)
+    (item.password_hash is defined and item.username is not defined) or
+    (item.username is defined and item.password_hash is not defined)
   loop: "{{ reverse_proxy_websites }}"
 
 - name: Create password file
@@ -15,10 +15,10 @@
     group: "www-data" # group used by nginx to read the passwords
     mode: "0660"
   loop: "{{ reverse_proxy_websites }}"
-  when: item.password is defined
+  when: item.password_hash is defined
   vars:
     username: "{{ item.username }}"
-    password: "{{ item.password }}"
+    password_hash: "{{ item.password_hash }}"
 
 - name: Get the list of all password files in the directory
   ansible.builtin.find:
