@@ -221,6 +221,8 @@ Here we will use openpetfoodfacts.org as the domain name.
 
 Generate credential, following https://eu.api.ovh.com/createToken/
 
+You can manage the existing keys at [ovh.com/manager/#/iam/dashboard/applications](https://www.ovh.com/manager/#/iam/dashboard/applications).
+
 (useful resource for [OVH keys management](https://gandrille.github.io/linux-notes/Web_API/OVH_API/OVH_API_Keys_management.html))
 
 Using:

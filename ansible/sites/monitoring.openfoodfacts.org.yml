@@ -9,3 +9,13 @@
       tags: cd
     - role: reverse-proxy
       tags: reverse-proxy
+  tasks:
+    - name: Copy prometheus secrets
+      ansible.builtin.copy:
+        content: "{{ prometheus_auth_secrets[item] }}"
+        dest: /home/off/monitoring/configs/prometheus/secrets/{{ item }}.txt
+        owner: "off"
+        group: "off"
+        mode: "0600"
+      loop: "{{ prometheus_auth_secrets.keys() }}"
+      tags: prometheus-secrets
