@@ -5,6 +5,7 @@
   become: true
   ignore_errors: true
   register: user_exists_cmd
+  changed_when: false
 
 - name: Create/update group
   ansible.builtin.group:
@@ -17,7 +18,7 @@
     name: "{{ user.name }}"
     group: "{{ user.name }}"
     groups: "{{ ['adm', 'sudo'] if user.is_superuser else '' }}"
-    state: "{{ user.state  | default('present') }}"
+    state: "{{ user.state | default('present') }}"
     shell: "{{ '/usr/bin/false' if not user_has_password else '/bin/bash' }}"
     # We use a '*' password and handle users with password later
     password: '*'
@@ -26,3 +27,9 @@
 - name: Force user to set password on first login
   when: user_has_password and user_exists_cmd.rc != 0
   ansible.builtin.command: "passwd -e -d {{ user.name }}"
+  changed_when: true
+
+- name: Authorize ssh public key from github for this user
+  ansible.posix.authorized_key:
+    user: '{{ user.name }}'
+    key: '{{ system_users__github_url }}/{{ user.github_name | default(user.name) }}.keys'
