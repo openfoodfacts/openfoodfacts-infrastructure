@@ -3,6 +3,7 @@
     path: /home/off/monitoring
   register: monitoring_folder
 
+# we must not create a folder before the git clone, as it would avoid it
 - name: Ensure monitoring has been deployed at least once.
   ansible.builtin.fail:
     msg: "The monitoring folder (/home/off/monitoring) does not exist. Please deploy the off-monitoring repo (using the CI/CD) at least once before running this role."

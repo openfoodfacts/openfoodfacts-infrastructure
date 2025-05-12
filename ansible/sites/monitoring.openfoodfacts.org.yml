@@ -9,5 +9,6 @@
       tags: cd
     - role: reverse-proxy
       tags: reverse-proxy
+    # we do it last because it will require a first deployment
     - role: prometheus-secrets
       tags: prometheus-secrets
