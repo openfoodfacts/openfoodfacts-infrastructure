@@ -17,14 +17,16 @@
     path: /home/off/monitoring/configs/prometheus/secrets
     state: directory
     owner: "off"
-    group: "off"
-    mode: "0700"
+    # nogroup, corresponds to the group of user running prometheus
+    # inside the container, it must be able to read the files
+    group: "nogroup"
+    mode: "0770"
 
 - name: Copy prometheus secrets
   ansible.builtin.copy:
     content: "{{ prometheus_auth_secrets[item] }}"
     dest: /home/off/monitoring/configs/prometheus/secrets/{{ item }}.txt
     owner: "off"
-    group: "off"
-    mode: "0600"
+    group: "nogroup"
+    mode: "0760"
   loop: "{{ prometheus_auth_secrets.keys() }}"
