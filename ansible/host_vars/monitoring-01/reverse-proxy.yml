@@ -2,17 +2,17 @@ reverse_proxy_websites:
   - url: "kibana.openfoodfacts.org"
     proxy_pass: "kibana:5601"
     username: "off"
-    password_hash: "{{ password_hash_monitoring_sites }}"
+    password: "{{ password_monitoring_sites }}"
 
   - url: "alertmanager.openfoodfacts.org"
     proxy_pass: "alertmanager:9093"
     username: "off"
-    password_hash: "{{ password_hash_monitoring_sites }}"
+    password: "{{ password_monitoring_sites }}"
 
   - url: "prometheus.openfoodfacts.org"
     proxy_pass: "prometheus:9090"
     username: "off"
-    password_hash: "{{ password_hash_monitoring_sites }}"
+    password: "{{ password_monitoring_sites }}"
 
   - url: "monitoring.openfoodfacts.org"
     proxy_pass: "grafana:3000"
