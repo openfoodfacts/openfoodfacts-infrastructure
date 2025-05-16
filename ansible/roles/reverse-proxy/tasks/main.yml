@@ -18,6 +18,7 @@
     owner: "{{ reverse_proxy_user }}"
     group: "{{ reverse_proxy_user }}"
     mode: "0644"
+  notify: Restart reverse proxy
 
 - name: Setup nginx config
   ansible.builtin.import_tasks: nginx.yml

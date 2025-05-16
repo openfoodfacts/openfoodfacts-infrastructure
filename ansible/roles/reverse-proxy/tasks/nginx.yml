@@ -18,6 +18,7 @@
     hash_scheme: "sha256_crypt"
   when: item.password is defined
   loop: "{{ reverse_proxy_websites }}"
+  notify: Restart reverse proxy
 
 - name: Get the list of all password files in the directory
   ansible.builtin.find:
@@ -42,3 +43,4 @@
     owner: "{{ reverse_proxy_user }}"
     group: "{{ reverse_proxy_user }}"
     mode: "0644"
+  notify: Restart reverse proxy
