@@ -1,9 +1,4 @@
 reverse_proxy_websites:
-  - url: "kibana.openfoodfacts.org"
-    proxy_pass: "kibana:5601"
-    username: "off"
-    password: "{{ password_monitoring_sites }}"
-
   - url: "alertmanager.openfoodfacts.org"
     proxy_pass: "alertmanager:9093"
     username: "off"
@@ -22,5 +17,10 @@ reverse_proxy_websites:
 
   - url: "elasticsearch.openfoodfacts.org"
     proxy_pass: "elasticsearch:9200"
+    username: "off"
+    password: "{{ password_monitoring_elasticsearch }}"
+
+  - url: "kibana.openfoodfacts.org"
+    proxy_pass: "kibana:5601"
     username: "off"
     password: "{{ password_monitoring_elasticsearch }}"
