@@ -424,3 +424,54 @@ Reading from Redis {streams => ["BLOCK",0,"STREAMS","user-deleted","user-registe
 Connected to Redis
 ```
 It looks like the service is working though
+
+# 2025-05-20 Refreshing from branch
+
+## off-auth
+
+Deployed new instance of openfoodfacts-auth (Keycloak). No issues observed.
+
+# opff-new
+
+Removing env/env.opff_new as this is not used.
+
+Updated values on env/env.opff and set implementation level to 1.
+
+Synced Config_opff.pm in the repo with the local changes and reverted the local changes.
+
+Edited Config2.pm with OIDC options changes
+
+Stashed, pulled and applied. Conflicts:
+
+```
+Auto-merging templates/web/common/site_layout.tt.html
+CONFLICT (content): Merge conflict in templates/web/common/site_layout.tt.html
+Auto-merging env/env.opff
+CONFLICT (content): Merge conflict in env/env.opff
+Auto-merging conf/apache-2.4/sites-available/opff.conf
+CONFLICT (content): Merge conflict in conf/apache-2.4/sites-available/opff.conf
+```
+Resolved fairly easily. `git restore --staged .`
+
+Installed new cpan modules.
+
+Can't restart apache service. On start get the following from `systemctl status apache2`:
+
+```
+* apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+    Drop-In: /srv/opff/conf/systemd/apache2.service.d
+             `-override.conf
+     Active: failed (Result: exit-code) since Tue 2025-05-20 12:03:39 UTC; 30s ago
+       Docs: https://httpd.apache.org/docs/2.4/
+    Process: 225417 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+        CPU: 19ms
+
+May 20 12:03:39 opff-test systemd[1]: apache2.service: Scheduled restart job, restart counter is at 5.
+May 20 12:03:39 opff-test systemd[1]: Stopped The Apache HTTP Server.
+May 20 12:03:39 opff-test systemd[1]: apache2.service: Start request repeated too quickly.
+May 20 12:03:39 opff-test systemd[1]: apache2.service: Failed with result 'exit-code'.
+May 20 12:03:39 opff-test systemd[1]: Failed to start The Apache HTTP Server.
+May 20 12:03:39 opff-test systemd[1]: apache2.service: Triggering OnFailure= dependencies.
+```
+
