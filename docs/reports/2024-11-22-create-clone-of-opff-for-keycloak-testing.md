@@ -475,3 +475,32 @@ May 20 12:03:39 opff-test systemd[1]: Failed to start The Apache HTTP Server.
 May 20 12:03:39 opff-test systemd[1]: apache2.service: Triggering OnFailure= dependencies.
 ```
 
+Found problem using `apache2 -S` bad symlink to ports.conf
+
+```
+root@opff-test:/srv/opff# (opff) ls -la /etc/apache2
+...
+lrwxrwxrwx  1 root root    36 May 20 14:59 ports.conf -> /srv/opff/conf/apache-2.4/opff-ports.conf
+...
+```
+Changed to use standard on:
+
+```
+ln -s /srv/opff/conf/apache-2.4/ports.conf /etc/apache2/ports.conf
+```
+Rebuilt taxonomies with:
+```
+perl scripts/taxonomies/build_tags_taxonomy.pl 
+```
+Site looks a bit funky though. Scan option at the top in particular. Had to refresh assets:
+
+```
+sudo -u off scripts/deploy/install-dist-files.sh v2.66.0 opff
+```
+Edited my user details and verified that Keycloak was updated.
+
+Kicked off Migration again (to update existing users) at:
+[Tue May 20 15:48:23 2025]
+[Tue May 20 15:53:40 2025] Migrated 10000 / 339196
+Approx 5 minutes for 10000 users, so estimate taking about 3 hours
+
