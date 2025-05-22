@@ -16,7 +16,7 @@ reverse_proxy_websites:
   - url: "example2.openfoodfacts.org"
     proxy_pass: "example2-webserver:80"
     username: "off" # optional
-    password_hash: "{{ secrets_off_password }}" # optional
+    password: "{{ secrets_off_password }}" # optional
 
 reverse_proxy_https_cert_domains:
   - "openfoodfacts.org" # that's actually the default
@@ -41,13 +41,11 @@ In this example, the reverse proxy and the webserver are on the same host, but o
 
 #### Adding Basic Auth
 
-It is possible to setup a basic user/password authentification on a specific website by adding the two optional parameters `username` and `password_hash` (see the example on `example2.openfoodfacts.org`).
+It is possible to setup a basic user/password authentification on a specific website by adding the two optional parameters `username` and `password` (see the example on `example2.openfoodfacts.org`).
 
-`password_hash` must be a hash of the passord the user will use to login, it should look like `$5$[...]`. Generate it with `openssl passwd -5`. **Remember to store this hash in a `git-crypted` file (ending in `...-secrets.yml`).**
+**Remember to store the password in a `git-crypted`file (ending in`...-secrets.yml`).**
 
-I recommend to choose a randomly-generated 21 characters password from the `a-zA-Z0-9!@#$%^*` characterset.
-
-Run this command to generate both a random password (first line) and a corresponding hash (second line): `pw=$(tr -dc 'a-zA-Z0-9!@#$%^*' < /dev/urandom | head -c 21); echo "$pw\n$(echo "$pw" | openssl passwd -5 -stdin)"`.
+I recommend to choose a randomly-generated 21 characters password from the `a-zA-Z0-9!@#$%^*` characterset. Run this command to generate such a random password: `tr -dc 'a-zA-Z0-9!@#$%^*' < /dev/urandom | head -c 21`.
 
 #### HTTPS Certificates
 
