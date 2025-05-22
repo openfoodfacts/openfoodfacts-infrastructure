@@ -504,3 +504,24 @@ Kicked off Migration again (to update existing users) at:
 [Tue May 20 15:53:40 2025] Migrated 10000 / 339196
 Approx 5 minutes for 10000 users, so estimate taking about 3 hours
 
+Expiry threshold wasn't working. Fixed and restarted...
+
+Started migration but was getting errors due to invalid countries so made more robust. Also wiped all_emails.sto so duplicates are checked again from scratch.
+
+```
+[Wed May 21 11:44:36 2025] Started validation
+	Invalid STO files:
+		1billion.sto
+		1billioncomsrls.sto
+		1billioncomsrls1.sto
+
+[Wed May 21 13:12:47 2025] Starting migration
+[Wed May 21 13:18:10 2025] Migrated 10000 / 339347
+[Wed May 21 13:22:57 2025] Migrated 20000 / 339347
+
+Lots of user exist with same email. Might need the validation process to take existing Keycloak accounts into consideration.
+e.g. Maybe update the users with invalid emails first so that they are nulled in Keycloak.
+
+[Wed May 21 16:34:58 2025] Migrated 300000 / 339347
+[Wed May 21 17:02:53 2025] Migrated 339347 / 339347
+```
