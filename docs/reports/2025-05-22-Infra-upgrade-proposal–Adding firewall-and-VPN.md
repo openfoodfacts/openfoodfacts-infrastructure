@@ -12,8 +12,8 @@ To summarize, this document proposes to:
 To recap, currently, the infra looks like this:
 
 <figure align="center">
-    <a href="media/network_diagram.svg">
-        <img alt="Current network diagram" title="Current network diagram" src="media/network_diagram.svg">
+    <a href="media/2025-05-22-current_network_diagram.svg">
+        <img alt="Current network diagram" title="Current network diagram" src="media/2025-05-22-current_network_diagram.svg">
     </a>
 	<figcaption>Current network diagram</figcaption>
 </figure>
@@ -101,8 +101,8 @@ WireGuard is a modern, peer-to-peer, VPN protocol that offers several advantages
 If everything I proposed here is done, the infra will look like this.
 
 <figure align="center">
-    <a href="media/network_diagram_VPN.svg">
-        <img alt="Proposed network diagram" title="Proposed network diagram" src="media/network_diagram_VPN.svg">
+    <a href="media/2025-05-22-VPN_firewall_network_diagram.svg">
+        <img alt="Proposed network diagram" title="Proposed network diagram" src="media/2025-05-22-VPN_firewall_network_diagram.svg">
     </a>
 	<figcaption>Proposed network diagram</figcaption>
 </figure>
