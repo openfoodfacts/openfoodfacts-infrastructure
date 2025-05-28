@@ -1,4 +1,6 @@
 
+proxmox_node__pve_cluster_addr0: 10.12.0.3
+
 proxmox_node_zfs_pools:
   - name: rpool
     vdev: raidz1 nvme0n1p5 nvme1n1p5
@@ -10,7 +12,7 @@ proxmox_node_zfs_filesystems:
 - name: rpool/pve
 - name: rpool/backups
 
-pve_storages:
+proxmox_node__pve_storages:
   - name: rpool-pve
     type: zfspool
     pool: rpool/pve

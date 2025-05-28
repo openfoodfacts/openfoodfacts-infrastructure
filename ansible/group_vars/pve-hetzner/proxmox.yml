@@ -1,0 +1,13 @@
+# variables for the Hetzner Proxmox cluster
+---
+# see defaults in https://github.com/lae/ansible-role-proxmox/blob/develop/defaults/main.yml
+# and common vars in proxmox_nodes
+# cluster name
+proxmox_node__pve_cluster_enabled: true
+# group name (in inventory), containing nodes, it must not contains "_"
+proxmox_node__pve_cluster_name: "pve-hetzner"
+# addr1 is public ip, addr0 is defined per host
+proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
+# FIXME
+#pve_ssl_private_key
+#pve_ssl_certificate
