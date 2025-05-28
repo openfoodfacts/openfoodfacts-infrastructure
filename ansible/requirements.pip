@@ -3,3 +3,6 @@ ansible-compat>=3.0.1
 ansible-core>=2.14.3
 ansible-lint>=6.14.2
 passlib>=1.7.4
+
+# needed for lae.proxmox role
+jmespath>=1.0.1

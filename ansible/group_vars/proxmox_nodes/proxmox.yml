@@ -10,21 +10,21 @@ proxmox_node_alerts_email: "{{ secrets_root_email }}"
 # permissions ######
 
 # for privacy reasons, it's in proxmox-secrets.yml
-pve_users: "{{ secrets_pve_users }}"
+proxmox_node__pve_users: "{{ secrets_pve_users }}"
 
-pve_groups:
+proxmox_node__pve_groups:
   - name: ro_users
     comment: Read only ro_users
   - name: admins
     comment: Administrators
-pve_acls:
+proxmox_node__pve_acls:
   - path: /
     roles: [ "Administrator" ]
     groups: [ "admins" ]
   - path: /
     roles: [ "PVEAuditor" ]
     groups: [ "ro_users" ]
-pve_storages:
+proxmox_node__pve_storages:
   - name: localdir
     type: dir
     content: [ "images", "iso", "backup" ]
