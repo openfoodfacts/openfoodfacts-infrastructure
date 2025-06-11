@@ -22,7 +22,7 @@ jobs:
         python scripts/readme-writer/readme_writer.py
         cat docs/virtual-machines.md
     - name: Commit docs/virtual-machines.md.md
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v6
       with:
         branch: readme-writer
         repository: .
