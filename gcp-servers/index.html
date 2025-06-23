@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../docker/">
+        <link rel="prev" href="../free-datacenter/">
       
       
-        <link rel="next" href="../docker_onboarding/">
+        <link rel="next" href="../hetzner-servers/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Docker architecture - Open Food Facts Infrastructure documentation</title>
+        <title>Google Cloud Platform servers - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#docker-architecture" class="md-skip">
+        <a href="#google-cloud-platform-servers" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docker architecture
+              Google Cloud Platform servers
             
           </span>
         </div>
@@ -368,32 +368,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Docker architecture
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../docker_architecture/" class="md-nav__link">
         
   
   
@@ -404,53 +382,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#docker-server-for-staging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker server for staging
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-server-for-prod" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker server for prod
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#useful-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      Useful commands
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -547,10 +478,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../gcp-servers/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Google Cloud Platform servers
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -561,6 +514,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gcp-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      GCP Firewall
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3702,27 +3684,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#docker-server-for-staging" class="md-nav__link">
+  <a href="#gcp-firewall" class="md-nav__link">
     <span class="md-ellipsis">
-      Docker server for staging
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-server-for-prod" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker server for prod
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#useful-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      Useful commands
+      GCP Firewall
     </span>
   </a>
   
@@ -3744,7 +3708,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/docker_architecture.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/gcp-servers.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3752,18 +3716,15 @@
   
 
 
-<h1 id="docker-architecture">Docker architecture<a class="headerlink" href="#docker-architecture" title="Permanent link">#</a></h1>
-<p>Below is a diagram of how the various OFF apps interact within the Docker
-environments:</p>
-<p><a class="glightbox" href="../img/docker_arch.png" data-type="image" data-width="auto" data-height="auto" data-title="Docker architecture" data-desc-position="bottom"><img alt="Docker architecture" src="../img/docker_arch.png" /></a></p>
-<h2 id="docker-server-for-staging">Docker server for staging<a class="headerlink" href="#docker-server-for-staging" title="Permanent link">#</a></h2>
-<p>The 200 VM on ovh2 is the serveur hosting the docker for stagging.</p>
-<h2 id="docker-server-for-prod">Docker server for prod<a class="headerlink" href="#docker-server-for-prod" title="Permanent link">#</a></h2>
-<p>The 201 VM on ovh2 is the serveur hosting the docker for production.</p>
-<h2 id="useful-commands">Useful commands<a class="headerlink" href="#useful-commands" title="Permanent link">#</a></h2>
-<p>List all mapped ports on a VM:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>--format<span class="w"> </span><span class="s1">&#39;table {{.Names}}\t{{.Ports}}&#39;</span><span class="p">|</span>grep<span class="w"> </span><span class="s1">&#39;\-&gt;&#39;</span>
-</code></pre></div>
+<h1 id="google-cloud-platform-servers">Google Cloud Platform servers<a class="headerlink" href="#google-cloud-platform-servers" title="Permanent link">#</a></h1>
+<p>We have one GCP server:</p>
+<ul>
+<li><code>monitoring-01</code>, managed using <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible">Ansible</a></li>
+</ul>
+<h2 id="gcp-firewall">GCP Firewall<a class="headerlink" href="#gcp-firewall" title="Permanent link">#</a></h2>
+<p>There is a firewall between internet and our GCP servers.</p>
+<p>To enable <code>HTTP</code> and <code>HTTPS</code> traffic, it is <strong>necessary</strong> to
+tick the <code>Allow HTTP traffic</code> and <code>Allow HTTPS traffic</code> boxes in the VM settings.</p>
 
 
 
