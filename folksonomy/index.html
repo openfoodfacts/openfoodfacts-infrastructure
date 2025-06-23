@@ -513,6 +513,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3683,6 +3692,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3717,6 +3735,8 @@
 <p>It is started thanks to a systemd unit: <code>folksonomy.service</code> (config at <code>/etc/systemd/system/folksonomy.service</code>)</p>
 <p>Server is running uvicorn on port 8000 with user folksonomy.</p>
 <p>It is served behind the <a href="../nginx-reverse-proxy/">NGINX reverse proxy</a></p>
+<p>The python environment has been setup using uv, to get python3.10 and poetry on top of that.
+So poetry executable is in <code>/home/folksonomy/.local/bin/poetry</code></p>
 <h2 id="useful-commands">Useful commands<a class="headerlink" href="#useful-commands" title="Permanent link">#</a></h2>
 <p>Status (reload/restart/etc.):
 <div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>folksonomy
@@ -3727,16 +3747,38 @@
 <h2 id="upgrade">Upgrade<a class="headerlink" href="#upgrade" title="Permanent link">#</a></h2>
 <p>Before every upgrade, make a snapshot of the Proxmox container. Then:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Switch to &quot;folksonomy&quot; user</span>
-su<span class="w"> </span>folksonomy
+su<span class="w"> </span>-<span class="w"> </span>folksonomy
+<span class="nb">cd</span><span class="w"> </span>~/folksonomy_api
 <span class="c1"># Upgrade from git repository</span>
-git<span class="w"> </span>pull
+git<span class="w"> </span>fetch
+git<span class="w"> </span>checkout<span class="w"> </span>vX.y.z
 <span class="c1"># Install new depencies if any</span>
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+poetry<span class="w"> </span>install
 <span class="c1"># DB migration process</span>
-yoyo<span class="w"> </span>apply<span class="w"> </span>--database<span class="w"> </span>postgresql:///folksonomy
+poetry<span class="w"> </span>run<span class="w"> </span>yoyo<span class="w"> </span>apply<span class="w"> </span>--database<span class="w"> </span>postgresql:///folksonomy
+<span class="c1"># go back root</span>
+<span class="nb">exit</span>
 <span class="c1"># Finally, restart the service (with root user or root rights or sudo rights)</span>
+systemctl<span class="w"> </span>daemon-reload
 systemctl<span class="w"> </span>restart<span class="w"> </span>folksonomy
 </code></pre></div>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<p>We simply clone the repository in /home/folksonomy/folksonomy_api.</p>
+<p>We installed the python environment with uv:
+<div class="highlight"><pre><span></span><code><span class="c1"># as root</span>
+pip<span class="w"> </span>install<span class="w"> </span>uv
+/usr/local/bin/uv<span class="w"> </span>python<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.10
+<span class="c1"># as folksonomy</span>
+su<span class="w"> </span>-<span class="w"> </span>folksonomy
+uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>poetry<span class="w"> </span>--python<span class="o">=</span><span class="m">3</span>.10
+<span class="c1"># ensure PATH is correct</span>
+which<span class="w"> </span>poetry
+<span class="c1"># /home/folksonomy/.local/bin/poetry</span>
+</code></pre></div></p>
+<p>The systemd unit is linked from the repository
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/home/folksonomy/folksonomy_api/confs/systemd/folksonomy.service<span class="w"> </span>/etc/systemd/system/folksonomy.service
+systemctl<span class="w"> </span>daemon-reload
+</code></pre></div></p>
 
 
 
