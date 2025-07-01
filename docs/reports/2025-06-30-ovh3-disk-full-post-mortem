@@ -8,6 +8,8 @@ After checking, we got a "no space left on device".
 
 Their is a steady augmentation of the disk used space, and the zpool is effectively saturated. (`zpool list rpool`)
 
+![disk augmentation graph on proxmox interface](./media/2025-06-30-19-04-28-ovh1-graph-disk-full.png "disk augmentation graph on proxmox interface")
+
 ## Remediation 1
 
 I decided to remove some snapshots that where already synchronized on vm200 disk, gaining maybe 30G.
