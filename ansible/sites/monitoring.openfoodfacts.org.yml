@@ -20,6 +20,16 @@
         zfs_zrepl_enabled: false  # we use sanoid / syncoid instead
     - role: docker
       tags: docker
+    - role: git_based_configs
+      tags: ["base", "git-config"]
+      vars:
+        git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
+        git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+    - role: sanoid
+      tags: ["base", "sanoid"]
+      vars:
+        sanoid__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
+        sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
     - role: continuous-deployment
       tags: cd
     - role: reverse-proxy
@@ -27,3 +37,4 @@
     # we do it last because it will require a first deployment
     - role: prometheus-secrets
       tags: prometheus-secrets
+
