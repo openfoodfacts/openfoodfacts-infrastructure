@@ -13,9 +13,28 @@ monitoring__zfs_pools:
       xattr: "sa"
       atime: "on"
       relatime: "on"
+  - name: data-zfs
+    # equilibrated disk zfs
+    # we want to use zfs for snapshots and syncing capabitilities
+    vdev: >-
+      sdc
+    scrub: true
+    properties:
+      ashift: 12
+    zfs_pools_filesystem_properties:
+      compression: "on"
+      xattr: "sa"
+      atime: "on"
+      relatime: "on"
 
 monitoring__zfs_filesystems:
   - name: hdd-zfs/monitoring-es-backups
+  - name: data-zfs/docker-volumes
+  - name: data-zfs/docker-volumes/monitoring_influxdb-data
+  - name: data-zfs/docker-volumes/monitoring_grafana-data
+  - name: data-zfs/docker-volumes/monitoring_elasticsearch-data
+  - name: data-zfs/docker-volumes/monitoring_prometheus-data
+  - name: data-zfs/docker-volumes/monitoring_alertmanager-data
 
 monitoring__zfs_volumes: []
 
