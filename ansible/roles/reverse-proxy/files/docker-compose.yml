@@ -1,0 +1,37 @@
+# This file is managed by ansible, don't make changes here - they will be overwritten.
+
+services:
+  reverse_proxy:
+    image: nginx:1.27.5
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/sites.conf:/etc/nginx/sites.conf:ro
+      - ./nginx/passwords:/etc/nginx/passwords:ro
+      # used to transfer certificates with certbot
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    networks:
+      - reverse_proxy_network
+      - reverse_proxy_internal
+
+  certbot:
+    image: certbot/dns-ovh:v4.0.0
+    restart: no # no need to restart, it will be run by the cron job
+    entrypoint: sh /config/certbot-renew.sh
+    volumes:
+      - ./certbot/ovh.ini:/config/ovh.ini:ro
+      - ./certbot/certbot-renew.sh:/config/certbot-renew.sh:ro
+      # used to transfer certificates with nginx
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  # this is where we expose services that needs to be accessible to nginx
+  # but not directly to the internet
+  reverse_proxy_internal:
+    name: reverse_proxy_internal
+  reverse_proxy_network:
+    name: reverse_proxy_network
+    driver: bridge

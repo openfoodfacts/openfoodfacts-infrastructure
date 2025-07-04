@@ -1,0 +1,32 @@
+- name: Create linux user for reverse proxy
+  ansible.builtin.user:
+    name: "{{ reverse_proxy_user }}"
+    comment: "User used by nginx reverse proxy"
+    append: true
+    groups: docker # append the docker group to the user, to allow docker commands
+    state: present
+    create_home: true
+    password: "*" # ie no password / no login
+
+- name: Create file structure for reverse proxy
+  ansible.builtin.import_tasks: file-structure.yml
+
+- name: Copy static configuration
+  ansible.builtin.copy:
+    src: .
+    dest: "{{ reverse_proxy_dir }}"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
+  notify: Restart reverse proxy dockers
+
+- name: Setup nginx config
+  ansible.builtin.import_tasks: nginx.yml
+
+- name: Setup certbot config
+  ansible.builtin.import_tasks: certbot.yml
+
+- name: Start docker compose reverse proxy
+  community.docker.docker_compose_v2:
+    project_src: "{{ reverse_proxy_dir }}"
+    state: present

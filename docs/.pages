@@ -1,0 +1,20 @@
+# customize the navigation menu
+# see https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
+
+nav:
+  # order by documentation type and some exceptions
+  # it would be better to find a good prefix system
+  - index.md
+  - prod-architecture.md
+  - proxmox.md
+  - free-datacenter.md
+  - moji-datacenter.md
+  - ovh-servers.md
+  - hetzner-servers.md
+  # - ... | intro*.md
+  # - ... | tutorial*.md
+  - ...
+  - ... | how-to*.md
+  - ... | explain*.md
+  - ... | ref*.md
+  - ... | logs*.md

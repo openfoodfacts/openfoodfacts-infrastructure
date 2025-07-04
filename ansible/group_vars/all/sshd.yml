@@ -1,5 +1,5 @@
 # Default authorized users from github
-sshd_github_authorized_users: "{{ system_users_github_authorized_users | selectattr('is_superuser') | rejectattr('state', 'equalto', 'absent') }}"
+sshd_github_authorized_users: "{{ system_users_github__authorized_users | selectattr('is_superuser') | rejectattr('state', 'equalto', 'absent') }}"
 
 # Default revoked users from github
-sshd_github_revoked_users: "{{ system_users_github_authorized_users | selectattr('is_superuser') | selectattr('state', 'equalto', 'absent') }}"
+sshd_github_revoked_users: "{{ system_users_github__authorized_users | selectattr('is_superuser') | selectattr('state', 'equalto', 'absent') }}"

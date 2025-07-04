@@ -1,7 +1,7 @@
 # users that access the system via ssh
 # with their public keys taken from github
 # we have a state attribute than can be 'absent' to remove the user
-system_users_github_authorized_users:
+system_users_github__authorized_users:
   - name: alex
     github_name: alexgarel
     is_superuser: true

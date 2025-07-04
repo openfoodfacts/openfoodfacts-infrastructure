@@ -2,6 +2,9 @@
 - name: Execute upstream sshd role
   ansible.builtin.import_role:
     name: willshersystems.sshd
+  vars:
+    sshd_PasswordAuthentication: "no"  # noqa: var-naming[pattern]
+    sshd_X11Forwarding: "no"  # noqa: var-naming[pattern]
 
 # TODO: remove from here
 - name: Install mosh

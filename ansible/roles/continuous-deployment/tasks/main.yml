@@ -1,0 +1,21 @@
+---
+- name: Fail if 'continuous_deployment_ssh_public_key' is not defined or empty
+  ansible.builtin.fail:
+    msg: "The variable 'continuous_deployment_ssh_public_key' must be defined and not be an empty string."
+  when: continuous_deployment_ssh_public_key is not defined or continuous_deployment_ssh_public_key | length == 0
+
+- name: Create linux user for deployer
+  ansible.builtin.user:
+    name: "{{ continuous_deployment_user }}"
+    comment: "User used by the GitHub Actions to deploy"
+    append: true
+    groups: docker # append the docker group to the user, to allow docker commands
+    state: present
+    create_home: true
+    password: "*" # ie no password / no login
+
+- name: Ensures SSH public key is present for deployer
+  ansible.posix.authorized_key:
+    user: "{{ continuous_deployment_user }}"
+    key: "{{ continuous_deployment_ssh_public_key }}"
+    exclusive: true # remove all other non-specified keys from the authorized_keys file

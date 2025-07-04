@@ -1,0 +1,46 @@
+- name: Fail if password is defined without username, or username without password
+  ansible.builtin.fail:
+    msg: >-
+      Both 'username' and 'password' must be defined together for {{ item.url }}.
+  when: >
+    (item.password is defined and item.username is not defined) or
+    (item.username is defined and item.password is not defined)
+  loop: "{{ reverse_proxy_websites }}"
+
+- name: Create password file
+  community.general.htpasswd:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    path: "{{ reverse_proxy_dir }}/nginx/passwords/{{ item.url }}"
+    owner: "{{ reverse_proxy_user }}"
+    group: "www-data" # group used by nginx to read the passwords
+    mode: "0660"
+    hash_scheme: "sha256_crypt"
+  when: item.password is defined
+  loop: "{{ reverse_proxy_websites }}"
+  notify: Restart reverse proxy
+
+- name: Get the list of all password files in the directory
+  ansible.builtin.find:
+    paths: "{{ reverse_proxy_dir }}/nginx/passwords"
+    file_type: file
+  register: found_files
+
+- name: Delete password files that are not used anymore
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ found_files.files | rejectattr('path', 'in', active_names) | list }}"
+  loop_control:
+    label: "{{ item.path }}"
+  vars:
+    active_names: "{{ reverse_proxy_websites | map(attribute='url') | map('regex_replace', '^', reverse_proxy_dir + '/nginx/passwords/') | list }}"
+
+- name: Copy templated nginx sites config
+  ansible.builtin.template:
+    src: ./nginx/sites.conf
+    dest: "{{ reverse_proxy_dir }}/nginx/sites.conf"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
+  notify: Restart reverse proxy

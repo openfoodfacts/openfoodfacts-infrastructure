@@ -16,8 +16,9 @@ fi
 PIP_INSTALL=$(mktemp)
 cat >$PIP_INSTALL <<EOF
 #!/bin/sh
-echo "installing mdx_truly_sane_lists and mdx-breakless-lists"
-pip3 install mdx_truly_sane_lists mkdocs-glightbox mdx-breakless-lists
+echo "installing some extensions"
+pip3 uninstall -y mkdocs-awesome-pages-plugin
+pip3 install mdx_truly_sane_lists mkdocs-glightbox mdx-breakless-lists mkdocs-awesome-nav
 EOF
 # get group id to use it in the docker
 GID=$(id -g)
@@ -29,7 +30,7 @@ docker run --rm \
   -e USER_ID=$UID -e GROUP_ID=$GID \
   $DOCKER_ARGS \
   -v $(pwd):/app -w /app \
-  minidocks/mkdocs build --strict
+  minidocks/mkdocs:1 build --strict
 # get exit code !
 ERROR=$?
 # cleanup

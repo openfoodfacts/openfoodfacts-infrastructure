@@ -16,7 +16,7 @@ it's very complete, but it's a bit hard to navigate.
 * [Man pages on system administration commands](https://openzfs.github.io/openzfs-docs/man/master/8/index.html) are really useful
 * [Performance and Tuning](https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/index.html) is also valuable to dig in some options
 
-[Proxmox ZFS documentation](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device) is another valuable resource.
+[Proxmox ZFS documentation](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_zfs) and [Wiki](https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_special_device) is another valuable resource.
 
 Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-snapshots-clones#1-overview
 

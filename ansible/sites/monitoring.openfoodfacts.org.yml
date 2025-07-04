@@ -1,9 +1,29 @@
-- name: Coming soon
-  hosts: monitoring
-  tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
-
-   - name: Print message
-     ansible.builtin.debug:
-      msg: Hello world
+- name: Configure monitoring server
+  hosts: monitoring-01
+  gather_facts: true
+  become: true
+  roles:
+    # Create ZFS pool for es-backups
+    - role: aisbergg.zfs
+      tags: zfs
+      vars:
+        zfs_manage_repository: true
+        zfs_service_zed_enabled: true
+        zfs_scrub_schedule: monthly
+        zfs_trim_schedule: weekly
+        zfs_pools: "{{ monitoring__zfs_pools }}"
+        zfs_filesystems: "{{ monitoring__zfs_filesystems }}"
+        zfs_volumes: "{{ monitoring__zfs_volumes }}"
+        zfs_kernel_module_parameters: "{{ monitoring__zfs_kernel_module_parameters }}"
+        # we prefer to use inheritance as much as possible as defaults
+        zfs_filesystems_properties_defaults: {}
+        zfs_zrepl_enabled: false  # we use sanoid / syncoid instead
+    - role: docker
+      tags: docker
+    - role: continuous-deployment
+      tags: cd
+    - role: reverse-proxy
+      tags: reverse-proxy
+    # we do it last because it will require a first deployment
+    - role: prometheus-secrets
+      tags: prometheus-secrets

@@ -4,9 +4,9 @@
   ansible.builtin.include_tasks: create_user.yml
   vars:
     user: "{{ item }}"
-    user_has_password: "{{ item.is_superuser and system_users_is_jump_proxy }}"
+    user_has_password: "{{ (not system_users__is_jump_proxy) or item.is_superuser  }}"
     user_password_dir: '{{ lookup("repo", "keys", filename=True) }}/{{ item.name }}'
-  loop: '{{ system_users_github_authorized_users }}'
+  loop: '{{ system_users_github__authorized_users }}'
   loop_control:
     label: "{{ item.name }}"
   tags: 'user'

@@ -9,6 +9,21 @@ edit_uri: blob/develop/docs/
 
 theme:
   name: material
+  features:
+    - content.action.edit
+  logo: https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg
+  favicon: https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png
+  palette: 
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 markdown_extensions:
   - attr_list
@@ -29,6 +44,9 @@ markdown_extensions:
   - mdx_breakless_lists
 
 plugins:
+  # thanks to this plugin, the .pages files will customize navigation entries
+  - awesome-nav
+  - search
   # glightbox is for images
   - glightbox:
       auto_caption: true

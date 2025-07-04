@@ -11,6 +11,9 @@ CLONES_DATASET=rpool/staging-clones
 echo ssh 10.1.0.200 sudo -u off bash -c "cd /home/off/off-net;docker-compose stop"
 read -p "waiting for you to do it"
 
+# restart nfs because otherwise it might disable unmount
+echo restarting nfs-server
+systemctl restart nfs-server.service
 # Data synced with sanoid / syncoid
 for DATA in orgs users images products
 do

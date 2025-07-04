@@ -1,0 +1,14 @@
+---
+- name: Restart reverse proxy
+  community.docker.docker_compose_v2:
+    project_src: "{{ reverse_proxy_dir }}"
+    services: ["reverse_proxy"]
+    state: restarted
+
+- name: Restart reverse proxy dockers
+  community.docker.docker_compose_v2:
+    project_src: "{{ reverse_proxy_dir }}"
+    # if configuration changes, the containers will be automatically recreated
+    recreate: auto
+    state: restarted
+...

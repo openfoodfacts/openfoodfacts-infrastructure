@@ -68,6 +68,7 @@ For more details about our servers and their configurations, see the following p
 - [OVH Servers](./ovh-servers.md)
 - [Moji Datacenter](./moji-datacenter.md)
 - [Hetzner Servers](./hetzner-servers.md)
+- [GCP Servers](./gcp-servers.md)
 
 ### Virtual machines
 
