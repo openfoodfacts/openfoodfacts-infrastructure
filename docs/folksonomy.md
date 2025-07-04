@@ -17,6 +17,9 @@ Server is running uvicorn on port 8000 with user folksonomy.
 
 It is served behind the [NGINX reverse proxy](./nginx-reverse-proxy.md)
 
+The python environment has been setup using uv, to get python3.10 and poetry on top of that.
+So poetry executable is in `/home/folksonomy/.local/bin/poetry`
+
 
 ## Useful commands
 
@@ -36,13 +39,42 @@ Before every upgrade, make a snapshot of the Proxmox container. Then:
 
 ```bash
 # Switch to "folksonomy" user
-su folksonomy
+su - folksonomy
+cd ~/folksonomy_api
 # Upgrade from git repository
-git pull
+git fetch
+git checkout vX.y.z
 # Install new depencies if any
-pip install -r requirements.txt
+poetry install
 # DB migration process
-yoyo apply --database postgresql:///folksonomy
+poetry run yoyo apply --database postgresql:///folksonomy
+# go back root
+exit
 # Finally, restart the service (with root user or root rights or sudo rights)
+systemctl daemon-reload
 systemctl restart folksonomy
+```
+
+
+## Install
+
+We simply clone the repository in /home/folksonomy/folksonomy_api.
+
+We installed the python environment with uv:
+```bash
+# as root
+pip install uv
+/usr/local/bin/uv python install 3.10
+# as folksonomy
+su - folksonomy
+uv tool install poetry --python=3.10
+# ensure PATH is correct
+which poetry
+# /home/folksonomy/.local/bin/poetry
+```
+
+The systemd unit is linked from the repository
+```bash
+ln -s /home/folksonomy/folksonomy_api/confs/systemd/folksonomy.service /etc/systemd/system/folksonomy.service
+systemctl daemon-reload
 ```

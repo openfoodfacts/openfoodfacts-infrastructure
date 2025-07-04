@@ -1,0 +1,42 @@
+- name: Ensures reverse_proxy_certbot_ovh_application_key, reverse_proxy_certbot_ovh_application_secret and reverse_proxy_certbot_ovh_consumer_key are set
+  ansible.builtin.assert:
+    that:
+      - reverse_proxy_certbot_ovh_application_key | length > 0
+      - reverse_proxy_certbot_ovh_application_secret | length > 0
+      - reverse_proxy_certbot_ovh_consumer_key | length > 0
+    fail_msg: "You need to set reverse_proxy_certbot_ovh_application_key, \
+      reverse_proxy_certbot_ovh_application_secret and reverse_proxy_certbot_ovh_consumer_key in your host_vars secrets. (See the role README)"
+
+- name: Copy templated certbot ovh.ini config
+  ansible.builtin.template:
+    src: ./certbot/ovh.ini
+    dest: "{{ reverse_proxy_dir }}/certbot/ovh.ini"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0600"
+
+- name: Copy templated certbot entrypoint script
+  ansible.builtin.template:
+    src: ./certbot/certbot-renew.sh
+    dest: "{{ reverse_proxy_dir }}/certbot/certbot-renew.sh"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0644"
+
+- name: Copy templated certbot cron script
+  ansible.builtin.template:
+    src: ./certbot/cron-start-certbot.sh
+    dest: "{{ reverse_proxy_dir }}/certbot/cron-start-certbot.sh"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0744"
+
+- name: Create a cron job to renew https certificates
+  ansible.builtin.cron:
+    name: "renew https certificates"
+    # Execute every Sunday at 3:40 server time (probably Paris)
+    weekday: 0
+    hour: 3
+    minute: 40
+    user: "{{ reverse_proxy_user }}"
+    job: "{{ reverse_proxy_dir }}/certbot/cron-start-certbot.sh > {{ reverse_proxy_dir }}/certbot/cron.log 2>&1"

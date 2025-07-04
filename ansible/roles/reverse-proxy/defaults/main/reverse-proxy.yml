@@ -1,0 +1,12 @@
+reverse_proxy_dir: "/opt/reverse_proxy"
+reverse_proxy_user: "reverse-proxy"
+
+reverse_proxy_websites: []
+
+reverse_proxy_https_cert_domains:
+  - "openfoodfacts.org"
+
+reverse_proxy_certbot_ovh_endpoint: "ovh-eu"
+reverse_proxy_certbot_ovh_application_key: ""
+reverse_proxy_certbot_ovh_application_secret: ""
+reverse_proxy_certbot_ovh_consumer_key: ""

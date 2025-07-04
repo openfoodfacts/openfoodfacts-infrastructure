@@ -1,0 +1,31 @@
+- name: Create certbot directory
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/certbot"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0755"
+
+- name: Create nginx directory
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/nginx"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0755"
+
+- name: Create conf directory for the docker volume
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/certbot/conf"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+    mode: "0700" # this folder contains the certificates
+
+- name: Create passwords directory for nginx auth
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_dir }}/nginx/passwords"
+    state: directory
+    owner: "{{ reverse_proxy_user }}"
+    group: "www-data" # group used by nginx to read the passwords
+    mode: "0770" # this folder contains passwords

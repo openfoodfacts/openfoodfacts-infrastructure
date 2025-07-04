@@ -1,0 +1,19 @@
+- name: Install docker
+  ansible.builtin.import_role:
+    name: geerlingguy.docker
+
+- name: Make ansible user part of docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    append: true
+    groups: docker
+
+- name: Copy docker daemon config
+  ansible.builtin.copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+  # restart docker if the config file changed
+  notify: Restart docker
