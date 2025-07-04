@@ -132,6 +132,8 @@ rm -rf /opt//docker-volumes-backup
 
 ## Next steps
 
+We must setup replication of docker volumes to other servers to backup data.
+
 We could eventually try to shrink the primary disk size (to say 40GB),
 but it is a quite complicated operation,
 it might not be worth it.
