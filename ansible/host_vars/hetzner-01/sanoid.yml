@@ -1,6 +1,8 @@
 sanoid__datasets_to_create:
   - hdd-zfs/off-backups
   - hdd-zfs/off-backups/ovh3-rpool
+  - hdd-zfs/off-backups/monitoring-01-hdd-zfs
+  - hdd-zfs/off-backups/monitoring-01-data-zfs
 
 sanoid__create_operators:
   - username: hetzner01operator
@@ -8,3 +10,7 @@ sanoid__create_operators:
     server_fqdn: ovh3.openfoodfacts.org
     # because of backup dataset
     needs_sync_snap: true
+  - username: hetzner01operator
+    server: monitoring-01
+    server_fqdn: monitoring-01.openfoodfacts.org
+    needs_sync_snap: false
