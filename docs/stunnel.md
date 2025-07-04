@@ -72,6 +72,23 @@ On way to test is to try to start another instance of stunnel. It will fail beca
 
 When you are ready, you can use: `systemctl restart stunnel@off`
 
+## Testing
+
+It's important to be able to test connectivity.
+
+For most services, curl might be sufficient. Don't hesitate to install it if not present.
+
+A good tool is also netcat (use netcat-openbsd package on debian). 
+```bash
+nc -vz <address> <port>
+```
+can be a good way to test if the port is reachable and open.
+
+For mongodb, a way to test point to point is to directly use mongodb docker image (you might also install mongosh package).
+For example to reach OFF mondodb through the stunnel at 10.3.0.101, port 27017, run:
+```bash
+docker run -ti --rm mongo mongosh "mongodb://10.3.0.101:27017/off"
+```
 
 ## Systemd service
 
