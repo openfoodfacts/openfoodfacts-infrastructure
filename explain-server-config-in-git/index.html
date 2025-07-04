@@ -475,6 +475,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#ansible-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible role
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#for-servers-and-most-services" class="md-nav__link">
     <span class="md-ellipsis">
       For servers and most services
@@ -3714,6 +3723,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-05 hetzner proxmox cluster
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-06-27-ovh3-disk-replace/" class="md-nav__link">
         
   
@@ -3795,6 +3827,15 @@
   
     <nav class="md-nav" aria-label="Implementation">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible role
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#for-servers-and-most-services" class="md-nav__link">
@@ -3880,6 +3921,10 @@
 <p>For more and more services and servers, we use git to store the configuration files that are different from basic configuration.</p>
 <p>The idea is to be able to follow server configuration evolution without (for now) using tools like ansible or similar tools (which may require more work and are not always as declarative as they pretend)<sup id="fnref:pyinfra"><a class="footnote-ref" href="#fn:pyinfra">1</a></sup>.</p>
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">#</a></h2>
+<h3 id="ansible-role">Ansible role<a class="headerlink" href="#ansible-role" title="Permanent link">#</a></h3>
+<p>The <code>git_based_config</code> role in ansible folder
+is used to install the repository on the server.
+It provides additional tasks to update it.</p>
 <h3 id="for-servers-and-most-services">For servers and most services<a class="headerlink" href="#for-servers-and-most-services" title="Permanent link">#</a></h3>
 <p>On every servers we have a <code>/opt/openfoodfacts-infrastructure</code> repository which is a clone of this projects by <code>root</code>.</p>
 <p>To be able to commit changes we add the root public key in deploy keys of the github repository, with write access.

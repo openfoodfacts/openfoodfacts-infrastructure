@@ -1352,13 +1352,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#ansible-install" class="md-nav__link">
     <span class="md-ellipsis">
-      Install
+      Ansible install
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual install
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual install">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3783,6 +3792,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-05 hetzner proxmox cluster
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-06-27-ovh3-disk-replace/" class="md-nav__link">
         
   
@@ -3907,13 +3939,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#ansible-install" class="md-nav__link">
     <span class="md-ellipsis">
-      Install
+      Ansible install
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual install
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual install">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4054,7 +4095,7 @@ You can put more than one dataset per line, by separating them with ":".</p>
 </code></pre></div></p>
 <p>In case of problem, see <a href="../how-to-resync-zfs-replication/">How to resync ZFS replication</a></p>
 <h2 id="syncoid-service-and-configuration">syncoid service and configuration<a class="headerlink" href="#syncoid-service-and-configuration" title="Permanent link">#</a></h2>
-<p>Sanoid does not come with a systemd service for syncoid, 
+<p>Sanoid does not come with a systemd service for syncoid,
 so we created one, see: <code>confs/common/systemd/system/syncoid.service</code></p>
 <p>The syncoid service can synchronize <em>to</em> or <em>from</em> a server.</p>
 <p>But it is always preferred to be in pull mode.
@@ -4069,7 +4110,12 @@ The idea is to avoid having elevated privileges on the distant server. So if an 
 <code>systemctl status sanoid.service</code> and <code>systemctl status syncoid.service</code> to see the logs of last synchronization.</p>
 <p>Also you can list snapshot on source / destination ZFS datasets to see if there are recent ones:
 <code>/usr/sbin/zfs list -t snap &lt;pool&gt;/&lt;dataset/path&gt;</code></p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<h2 id="ansible-install">Ansible install<a class="headerlink" href="#ansible-install" title="Permanent link">#</a></h2>
+<p>We have a sanoid ansible role that can be used to install sanoid on a server.</p>
+<p>It use the <a href="../explain-server-config-in-git/">git based configuration</a>
+for the sanoid.conf and syncoid-args.conf files,
+enabling easy modifications directly on the server, after first install.</p>
+<h2 id="manual-install">Manual install<a class="headerlink" href="#manual-install" title="Permanent link">#</a></h2>
 <p>Sanoid is installed by using the official repository, building the deb and installing it.</p>
 <p>It provides a sanoid systemd service and a timer unit that just have to be enabled.</p>
 <p>For syncoid to be launched by systemd, we created a service (<a href="#syncoid-service-and-configuration">see syncoid service and configuration</a>).
