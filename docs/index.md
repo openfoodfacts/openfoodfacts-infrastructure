@@ -114,6 +114,7 @@ The repository is organized into several directories, each serving a specific pu
 - [Redis](./redis.md): Details about our Redis setup and management.
 - [Producers SFTP](./producers_sftp.md): To push product updates on producer platform.
 - [Folksonomy](./folksonomy.md): User editable labels and values.
+- [Recipe Estimator](./recipe-estimator.md): Prototype to estimate percentages of recipes
 
 ### Tools for the Community
 
