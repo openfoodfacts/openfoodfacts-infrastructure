@@ -2,7 +2,8 @@ proxmox_node__pve_cluster_addr0: 10.12.0.1
 
 proxmox_node_zfs_pools:
   - name: hdd-zfs
-    vdev: raidz1 sda5 sdb5 sdc5 sdd5 cache nvme0n1 nvme1n1
+    # we use full dev name for nvme because it seems they switch between boot
+    vdev: raidz1 sda5 sdb5 sdc5 sdd5 cache nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06046-part1 nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06047-part1
     properties:
       ashift: "12"
     filesystem_properties: "{{ proxmox_node_zfs_pools_filesystem_properties_defaults }}"
