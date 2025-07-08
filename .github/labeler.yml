@@ -45,6 +45,10 @@ moji:
 - changed-files:
   - any-glob-to-any-file: '**/*moji*'
 
+hetzner-01:
+- changed-files:
+  - any-glob-to-any-file: '**/*hetzner-01*'
+
 "🔒 SSL":
 - changed-files:
   - any-glob-to-any-file: '**/*ssl*'
