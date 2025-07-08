@@ -49,6 +49,14 @@ hetzner-01:
 - changed-files:
   - any-glob-to-any-file: '**/*hetzner-01*'
 
+monitoring-01:
+- changed-files:
+  - any-glob-to-any-file: '**/*monitoring-01*'
+
+google-cloud:
+- changed-files:
+  - any-glob-to-any-file: '**/*google-cloud.md'
+
 "🔒 SSL":
 - changed-files:
   - any-glob-to-any-file: '**/*ssl*'
