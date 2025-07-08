@@ -127,9 +127,8 @@ Stoping it
 ```bash
 # mdadm --stop /dev/md0
 mdadm: stopped /dev/md0
-```bash
-mdadm --zero-superblock /dev/nvme0n1p1
-mdadm --zero-superblock /dev/nvme1n1p1
+# mdadm --zero-superblock /dev/nvme0n1p1
+# mdadm --zero-superblock /dev/nvme1n1p1
 ```
 Commented `/etc/mdadm/mdadm.conf` to comment md0 definition
 ```conf
