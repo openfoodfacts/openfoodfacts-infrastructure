@@ -39,7 +39,7 @@ on every host using ZFS.
 
 There are two possible alerts for each dataset.
 
-## Last snapshot `<dataset>` is too old
+### Last snapshot `<dataset>` is too old
 
 This is fired because of different reasons:
 * if  the dataset is a replication of a dataset on another host,
@@ -63,7 +63,7 @@ This is fired because of different reasons:
   * eventually look at sanoid logs with `journalctl -xe -u sanoid` searching for you dataset.
 
 
-## `<dataset>` has too many snapshots
+### `<dataset>` has too many snapshots
 
 This is fired because snapshots are accumulating on a dataset
 (which can lead in increased disk usage).
