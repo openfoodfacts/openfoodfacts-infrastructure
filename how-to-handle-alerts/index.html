@@ -678,9 +678,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="sanoid_check.sh error on &lt;server&gt; (email)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#last-snapshot-dataset-is-too-old" class="md-nav__link">
     <span class="md-ellipsis">
       Last snapshot &lt;dataset&gt; is too old
@@ -688,13 +689,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#dataset-has-too-many-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
       &lt;dataset&gt; has too many snapshots
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3817,9 +3823,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="sanoid_check.sh error on &lt;server&gt; (email)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#last-snapshot-dataset-is-too-old" class="md-nav__link">
     <span class="md-ellipsis">
       Last snapshot &lt;dataset&gt; is too old
@@ -3827,13 +3834,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#dataset-has-too-many-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
       &lt;dataset&gt; has too many snapshots
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3890,7 +3902,7 @@ you can use the "Console" of the developers toolbar with this expression:</p>
 <p>This is fired by the <code>sanoid_check.sh</code> script which is regularly run by systemd
 on every host using ZFS.</p>
 <p>There are two possible alerts for each dataset.</p>
-<h2 id="last-snapshot-dataset-is-too-old">Last snapshot <code>&lt;dataset&gt;</code> is too old<a class="headerlink" href="#last-snapshot-dataset-is-too-old" title="Permanent link">#</a></h2>
+<h3 id="last-snapshot-dataset-is-too-old">Last snapshot <code>&lt;dataset&gt;</code> is too old<a class="headerlink" href="#last-snapshot-dataset-is-too-old" title="Permanent link">#</a></h3>
 <p>This is fired because of different reasons:</p>
 <ul>
 <li>
@@ -3919,7 +3931,7 @@ on every host using ZFS.</p>
 </ul>
 </li>
 </ul>
-<h2 id="dataset-has-too-many-snapshots"><code>&lt;dataset&gt;</code> has too many snapshots<a class="headerlink" href="#dataset-has-too-many-snapshots" title="Permanent link">#</a></h2>
+<h3 id="dataset-has-too-many-snapshots"><code>&lt;dataset&gt;</code> has too many snapshots<a class="headerlink" href="#dataset-has-too-many-snapshots" title="Permanent link">#</a></h3>
 <p>This is fired because snapshots are accumulating on a dataset
 (which can lead in increased disk usage).</p>
 <p>On the server, list snapshots with <code>zfs list  -t snapshot path/of/dataset</code>.</p>
