@@ -7,9 +7,9 @@ The repository is at : https://github.com/openfoodfacts/openfoodfacts-query/
 
 ## Production deployment
 
-It is deployed in a specific Proxmox container (CT 115) on off1, using docker-compose.
+It is deployed on the docker-prod-2 vm (vm 200) on [moji server (aka osm45)](./moji-datacenter.md), using docker-compose.
 
-Specific options are applyed to the container to host a docker. See [2024-02-12
+It relies on the [stunnel](./stunnel.md) to join other services.
 
 ## Staging deployment
 
