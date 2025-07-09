@@ -3848,8 +3848,8 @@
 It avoid using MongoDB for such tasks, giving faster results.</p>
 <p>The repository is at : https://github.com/openfoodfacts/openfoodfacts-query/</p>
 <h2 id="production-deployment">Production deployment<a class="headerlink" href="#production-deployment" title="Permanent link">#</a></h2>
-<p>It is deployed in a specific Proxmox container (CT 115) on off1, using docker-compose.</p>
-<p>Specific options are applyed to the container to host a docker. See [2024-02-12</p>
+<p>It is deployed on the docker-prod-2 vm (vm 200) on <a href="../moji-datacenter/">moji server (aka osm45)</a>, using docker-compose.</p>
+<p>It relies on the <a href="../stunnel/">stunnel</a> to join other services.</p>
 <h2 id="staging-deployment">Staging deployment<a class="headerlink" href="#staging-deployment" title="Permanent link">#</a></h2>
 <p>It is deployed on the staging dockers VM as a docker-compose project. And available at https://query.openfoodfacts.net/</p>
 <p>The <code>/var/lib/docker/volumes</code> is mounted on a specific ZFS dataset to host it on the NVME pool.</p>
