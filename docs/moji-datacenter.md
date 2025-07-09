@@ -14,4 +14,12 @@ Proxmox 8.2 was installed by Christian on the server.
 
 Currently, the server does not have a public ipv4 address, only an ipv6 one (2a06:c484:5::45).
 
-To connect to the server, you must either first connect to the proxy server (45.147.209.254) that has a public ipv4 or use the VM/CT ipv6 address.
+To connect to the server, you must either first connect to the proxy server (45.147.209.254) that has a public ipv4 or use the VM/CT ipv6 address, and a common user for all: off (with publickey of people that needs access).
+
+Example ssh config:
+```config
+Host osm45
+    Hostname osm45.openstreetmap.fr
+    ProxyJump off@45.147.209.254
+    IdentityFile /home/user/.ssh/user_github
+```
