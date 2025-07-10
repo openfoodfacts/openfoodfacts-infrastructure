@@ -116,7 +116,7 @@ and at 22:26 (5 hours later) the disk was replaced.
 The morning after I logged on ovh3 and replace the old disk with the new one:
 
 ```bash
-zpool replace rpool /dev/sde
+zpool replace rpool /dev/sdb
 ```
 (note: I add to type it twice because I was getting a
 `cannot open '/dev/sdb1': Device or resource busy`,
