@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2025-02-18-more-hetzner-server-install/">
+        <link rel="prev" href="../2025-05-hetzner-proxmox-cluster/">
       
       
-        <link rel="next" href="../2025-05-hetzner-proxmox-cluster/">
+        <link rel="next" href="../2025-06-27-ovh3-disk-replace/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Moving Monitoring to Google Cloud - Open Food Facts Infrastructure documentation</title>
+        <title>Move monitoring to Google Cloud - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#moving-monitoring-to-google-cloud" class="md-skip">
+        <a href="#move-monitoring-to-google-cloud" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Moving Monitoring to Google Cloud
+              Move monitoring to Google Cloud
             
           </span>
         </div>
@@ -3604,6 +3604,29 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-05 hetzner proxmox cluster
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -3621,7 +3644,7 @@
   
   
   <span class="md-ellipsis">
-    Moving Monitoring to Google Cloud
+    Move monitoring to Google Cloud
     
   </span>
   
@@ -3634,7 +3657,7 @@
   
   
   <span class="md-ellipsis">
-    Moving Monitoring to Google Cloud
+    Move monitoring to Google Cloud
     
   </span>
   
@@ -3666,9 +3689,93 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setting-up-server-and-preparing-the-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up server and preparing the switch
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up server and preparing the switch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#adding-a-disk" class="md-nav__link">
     <span class="md-ellipsis">
       Adding a disk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-bit-before-the-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      A bit before the switch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrating
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migrating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsyncing-docker-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rsyncing docker volumes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filebeat-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filebeat deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-step-to-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next step to do
     </span>
   </a>
   
@@ -3678,29 +3785,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    2025-05 hetzner proxmox cluster
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -3841,9 +3925,93 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setting-up-server-and-preparing-the-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up server and preparing the switch
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up server and preparing the switch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#adding-a-disk" class="md-nav__link">
     <span class="md-ellipsis">
       Adding a disk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-bit-before-the-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      A bit before the switch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrating
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migrating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsyncing-docker-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rsyncing docker volumes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filebeat-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filebeat deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-step-to-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next step to do
     </span>
   </a>
   
@@ -3865,7 +4033,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-05-15-monitoring-in-google-cloud.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-06-23-move-monitoring-to-google-cloud.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3873,18 +4041,133 @@
   
 
 
-<h1 id="moving-monitoring-to-google-cloud">Moving Monitoring to Google Cloud<a class="headerlink" href="#moving-monitoring-to-google-cloud" title="Permanent link">#</a></h1>
-<p>We decided to move our monitoring to Google Cloud, so that it's on an external data-center,
-and does not go down with one of our servers as today on ovh1.</p>
-<p>It will also free some space on ovh1, which is currently full.</p>
+<h1 id="move-monitoring-to-google-cloud">Move monitoring to Google Cloud<a class="headerlink" href="#move-monitoring-to-google-cloud" title="Permanent link">#</a></h1>
+<p>We are moving monitoring server to Google Cloud.</p>
+<p>The current monitoring server is on ovh1 server which is really saturated in term of disk space.
+Also it's a good idea to have monitoring outside of data centers where we have monitored services.</p>
+<p>We have some free credits there (thank you Google).</p>
+<p>So we decided to move monitoring to Google Cloud.</p>
 <h2 id="creating-the-server-in-google-cloud">Creating the server in google cloud<a class="headerlink" href="#creating-the-server-in-google-cloud" title="Permanent link">#</a></h2>
 <p>We provisioned a VM in Google Cloud in "robotoff" project, with 160GB of disk space.</p>
-<h2 id="adding-a-disk">Adding a disk<a class="headerlink" href="#adding-a-disk" title="Permanent link">#</a></h2>
+<h2 id="setting-up-server-and-preparing-the-switch">Setting up server and preparing the switch<a class="headerlink" href="#setting-up-server-and-preparing-the-switch" title="Permanent link">#</a></h2>
+<p>Thomas had prepared the new server using ansible,
+and we also made changes to the monitoring repository,
+deploying it to the new server
+(but not deploying the filebeat which goes on monitored servers,
+and for that we add special rules to the container-deploy).</p>
+<ul>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/474">PR #474 to install the server</a></li>
+<li><a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/119">PR #119 to modify monitoring</a></li>
+</ul>
+<p>At the end we had a working monitoring server,
+but without historical data and without the DNS pointing to it.</p>
+<h3 id="adding-a-disk">Adding a disk<a class="headerlink" href="#adding-a-disk" title="Permanent link">#</a></h3>
 <p>Elasticsearch backups are quite big, so we added a 300G disk to the VM.</p>
 <p>To do that, goes on the VM in Google Cloud, click on "modify", and then add another disk.</p>
 <p>As it's just for backups, we just added a one zone standard persistent disk.</p>
 <p>This disk is immediately available as <code>/etc/sdb</code>.</p>
 <p>We will make it a zpool volume so that it's easier to sync on other servers.</p>
+<h3 id="a-bit-before-the-switch">A bit before the switch<a class="headerlink" href="#a-bit-before-the-switch" title="Permanent link">#</a></h3>
+<p>Edit DNS and make TTL smaller for:</p>
+<ul>
+<li>monitoring</li>
+<li>grafana</li>
+<li>prometheus</li>
+<li>kibana</li>
+<li>alertmanager</li>
+<li>elasticsearch</li>
+</ul>
+<h2 id="migrating">Migrating<a class="headerlink" href="#migrating" title="Permanent link">#</a></h2>
+<p>We needed to switch from the current monitoring server (ovh1/qm203)
+to the new one (monitoring-01).</p>
+<p>Our migration plan was as follow:</p>
+<ul>
+<li>stop services on monitoring-01</li>
+<li>rsync docker volumes from ovh1/qm203 to monitoring-01</li>
+<li>stop all services on ovh1/qm203</li>
+<li>rsync again docker volumes to monitoring-01 (should use cache and be fast)</li>
+<li>start services on monitoring-01</li>
+<li>update DNS</li>
+<li>test it's working</li>
+<li>deploy filebeat config on targets</li>
+</ul>
+<p>After some time:</p>
+<ul>
+<li>remove qm203 from ovh1 (keep the volume backup on ovh3 for some time)</li>
+</ul>
+<h3 id="rsyncing-docker-volumes">Rsyncing docker volumes<a class="headerlink" href="#rsyncing-docker-volumes" title="Permanent link">#</a></h3>
+<p>We need to rsync data in one go, without loosing permissions and so on.
+But we don't have root ssh access.
+So we need to use sudo on destination host, and to use root with access to ssh keys on source.</p>
+<p>Here is how we did it:</p>
+<ul>
+<li>On monitoring-01,
+  we temporarily edited /etc/sudoers to use NOPASSWD directive:
+  <div class="highlight"><pre><span></span><code>%sudo   ALL=(ALL) NOPASSWD:ALL
+</code></pre></div></li>
+<li>
+<p>We use the <code>ssh -A</code> (forwarding ssh agent), to connect to ovh1/qm203,
+  and <code>sudo -E</code> to become root (keep environment containing the ssh agent socket),
+  and we use <code>--rsync-path="sudo rsync"</code> with rsync,
+  to be able to be root on target side.
+  <div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-A<span class="w"> </span>offmonit
+sudo<span class="w"> </span>-E<span class="w"> </span>bash
+<span class="nb">cd</span><span class="w"> </span>/var/lib/docker/volumes/
+<span class="k">for</span><span class="w"> </span>vol<span class="w"> </span><span class="k">in</span><span class="w"> </span>monitoring_*<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$vol</span><span class="p">;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>-a<span class="w"> </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span><span class="nv">$vol</span><span class="w"> </span>alex@34.1.5.157:/var/lib/docker/volumes/<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div></p>
+<p>Note: the --delete is very important, because some software (like elasticsearch),
+might not work if we provide inconsistent data.</p>
+<p>As the last line executed we shoot down the rsync of elasticsearch backups
+as on ovh1/qm203, it is a NFS mount form ovh3, hence it's slow.
+More over, we can sync it directly from ovh3 using zfs send/receive.</p>
+</li>
+</ul>
+<p>Note: <code>file has vanished on monitoring_elasticsearch-data</code> is expected while we are syncing and ES is live.
+(because ES do a lot of file removal / creation to handle its index).</p>
+<p>The biggest volumes to backup ar elasticsearch and prometheus data,
+the sync take more thant 30 min in total.</p>
+<p>We then stop services on ovh1/qm203.</p>
+<p>rsync after stopping services was really fast.</p>
+<p>We then started the services on monitoring-01.</p>
+<h3 id="dns-changes">DNS changes<a class="headerlink" href="#dns-changes" title="Permanent link">#</a></h3>
+<p>We changed the DNS for:</p>
+<ul>
+<li>monitoring</li>
+<li>grafana</li>
+<li>prometheus</li>
+<li>kibana</li>
+<li>alertmanager</li>
+<li>elasticsearch</li>
+</ul>
+<p>to CNAME to monitoring-01.openfoodfacts.org</p>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
+<p>We tested and all was ok.</p>
+<h2 id="filebeat-deployment">Filebeat deployment<a class="headerlink" href="#filebeat-deployment" title="Permanent link">#</a></h2>
+<p>Now that monitoring is up, we need to deploy the filebeat config on all monitored servers,
+so that they talk to the new monitoring server.</p>
+<p>PR to deploy filebeat config: https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/121</p>
+<p>After deploying, we looked at logs in kibana, and did not see new logs.</p>
+<p>We had some hard time understanding why we didn't get the logs at first.</p>
+<p>To test the filebeat config, we need to run it in a container,
+here is how we did it:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off
+<span class="nb">cd</span><span class="w"> </span>/home/off/filebeat
+docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>filebeat<span class="w"> </span>bash
+filebeat<span class="w"> </span><span class="nb">test</span><span class="w"> </span>config
+Config<span class="w"> </span>OK
+filebeat<span class="w"> </span><span class="nb">test</span><span class="w"> </span>output
+</code></pre></div></p>
+<h2 id="next-step-to-do">Next step to do<a class="headerlink" href="#next-step-to-do" title="Permanent link">#</a></h2>
+<ul>
+<li>filebeat on osm45 and on docker + container ?</li>
+<li>[FIXED] authentification for prometheus probes</li>
+<li>[FIXED] instance_name is wrong on prometheus (review proxy config)</li>
+<li>[DONE] verify it all works</li>
+<li>[DONE] create backups volume</li>
+<li>[DONE] move docker volumes to a zfs filesystem</li>
+<li>[DOING] backup zfs data to others servers</li>
+<li>[FIXED] look at failing targets https://prometheus.openfoodfacts.org/targets</li>
+</ul>
 
 
 
