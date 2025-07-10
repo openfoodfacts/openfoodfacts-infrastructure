@@ -1418,6 +1418,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#systemd-service" class="md-nav__link">
     <span class="md-ellipsis">
       Systemd service
@@ -3900,6 +3909,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#systemd-service" class="md-nav__link">
     <span class="md-ellipsis">
       Systemd service
@@ -3982,6 +4000,17 @@ we can add as many entries to serve different services as we want.</p>
 <p>So don't restart the service without first testing your configuration.</p>
 <p>On way to test is to try to start another instance of stunnel. It will fail because it's unable to bind to already occupied ports, but you will be able to see if configuration was parsed correctly: <code>stunnel /etc/stunnel/off.conf</code></p>
 <p>When you are ready, you can use: <code>systemctl restart stunnel@off</code></p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
+<p>It's important to be able to test connectivity.</p>
+<p>For most services, curl might be sufficient. Don't hesitate to install it if not present.</p>
+<p>A good tool is also netcat (use netcat-openbsd package on debian). 
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span>&lt;address&gt;<span class="w"> </span>&lt;port&gt;
+</code></pre></div>
+can be a good way to test if the port is reachable and open.</p>
+<p>For mongodb, a way to test point to point is to directly use mongodb docker image (you might also install mongosh package).
+For example to reach OFF mongodb through the stunnel at 10.3.0.101, port 27017, run:
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span>--rm<span class="w"> </span>mongo<span class="w"> </span>mongosh<span class="w"> </span><span class="s2">&quot;mongodb://10.3.0.101:27017/off&quot;</span>
+</code></pre></div></p>
 <h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h2>
 <p>The stunnel@off service is the one that correspond to  <code>/etc/stunnel/off.conf</code></p>
 <p>We had to override the systemctl service a bit for pid file to work:</p>
