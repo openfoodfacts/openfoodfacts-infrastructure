@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2023-05-12-refresh-staging-clones/">
+        <link rel="prev" href="../2025-06-30-ovh3-disk-full-post-mortem/">
       
-      
-        <link rel="next" href="../2023-05-23-move-images-to-zfs/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2023-05-18 Mongodb down - Open Food Facts Infrastructure documentation</title>
+        <title>2025-07-08 zpool failure on hetzner-01 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-05-18-mongodb-down" class="md-skip">
+        <a href="#2025-07-08-zpool-failure-on-hetzner-01" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-05-18 Mongodb down
+              2025-07-08 zpool failure on hetzner-01
             
           </span>
         </div>
@@ -1948,32 +1946,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    2023-05-18 Mongodb down
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         
   
   
@@ -1984,71 +1960,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#symptom" class="md-nav__link">
-    <span class="md-ellipsis">
-      Symptom
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Investigation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      Resolution
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conclusion
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mitigation-steps-taken" class="md-nav__link">
-    <span class="md-ellipsis">
-      Mitigation steps taken
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3783,10 +3694,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-07-08-zpool-failure-on-hetzner-01/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-07-08 zpool failure on hetzner-01
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3797,6 +3730,89 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Symptoms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-try" class="md-nav__link">
+    <span class="md-ellipsis">
+      First try
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-the-raid1-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing the raid1 partition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remounting-the-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remounting the cache
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-not-working-on-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Still not working on boot
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-cache-definition-to-use-device-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing cache definition to use device ids
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3836,45 +3852,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#symptom" class="md-nav__link">
+  <a href="#symptoms" class="md-nav__link">
     <span class="md-ellipsis">
-      Symptom
+      Symptoms
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
+  <a href="#first-try" class="md-nav__link">
     <span class="md-ellipsis">
-      Investigation
+      First try
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolution" class="md-nav__link">
+  <a href="#analysis" class="md-nav__link">
     <span class="md-ellipsis">
-      Resolution
+      Analysis
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
+  <a href="#removing-the-raid1-partition" class="md-nav__link">
     <span class="md-ellipsis">
-      Conclusion
+      Removing the raid1 partition
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mitigation-steps-taken" class="md-nav__link">
+  <a href="#remounting-the-cache" class="md-nav__link">
     <span class="md-ellipsis">
-      Mitigation steps taken
+      Remounting the cache
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-not-working-on-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Still not working on boot
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-cache-definition-to-use-device-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing cache definition to use device ids
     </span>
   </a>
   
@@ -3896,7 +3930,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2023-05-19-overload-of-osm-machine.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-07-08-zpool-failure-on-hetzner-01.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3904,36 +3938,224 @@
   
 
 
-<h1 id="2023-05-18-mongodb-down">2023-05-18 Mongodb down<a class="headerlink" href="#2023-05-18-mongodb-down" title="Permanent link">#</a></h1>
-<h2 id="symptom">Symptom<a class="headerlink" href="#symptom" title="Permanent link">#</a></h2>
-<ul>
-<li>Symptom: Reported by users who could not edit. No databases responding, meaning that mongodb might be slow or down.</li>
-<li>@teolemon calls @alexgarel and they start debugging.</li>
-<li>off3 could be pinged it from off1, with 0,2 ms ping times, and 2 to 5 ms ping times from time to time, potentially hinting at CPU overload according to @alexgarel. ssh is not responding at this point.</li>
-<li>@teolemon calls @cq94 and @stephanegigandet to go further.</li>
-</ul>
-<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
-<ul>
-<li>@stephanegigandet noticed the SSH and the general command slowness mentionned above</li>
-<li>@cq94 noticed that the ZFS pool write time were abnormally high on the underlying physical machine.</li>
-<li>@cq94 restarted the virtual machine. </li>
-<li>@stephanegigandet restarted manually mongodb which had not been automatically restarted.</li>
-<li>It was mentionned that the newly available ressources granted by @cq94 were not visible by the virtual machine</li>
-<li>It was mentionned that it was not the first time that the var/?? designed to restart mongodb was wiped away on restart.</li>
-<li>@cq94 later mentionned that it might have been related to the use of reset vs restart parameter</li>
-<li>The root password has been changed by @stephanegigandet to give @cq94 access to the virtual machine.</li>
-</ul>
-<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
-<ul>
-<li>Christian Quest (@cq94) has found the culprit (A VM related to Open Street Map taking all ressources) after shutting down other VMs on the same physical machine one by one. He reduced the resources for said VM (preventing the reocccurence of such an incident), and contacting its owner. </li>
-<li>Our VM was not at fault.</li>
-</ul>
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
-<h2 id="mitigation-steps-taken">Mitigation steps taken<a class="headerlink" href="#mitigation-steps-taken" title="Permanent link">#</a></h2>
-<ul>
-<li>Christian is migrating the OS of our VM to SSD (it was on hard drive, unlike mongodb) since it was the physical harddrives that had been saturated by the other container. </li>
-<li>The situation is unlikely to happen on the middle/long term since we have a plan to move the MongoDB database back to our own servers.</li>
-</ul>
+<h1 id="2025-07-08-zpool-failure-on-hetzner-01">2025-07-08 zpool failure on hetzner-01<a class="headerlink" href="#2025-07-08-zpool-failure-on-hetzner-01" title="Permanent link">#</a></h1>
+<h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
+<p>On 01/07 we got an email
+<div class="highlight"><pre><span></span><code>ZFS has finished a scrub:
+
+   eid: 890194
+ class: scrub_finish
+  host: hetzner-01
+  time: 2025-07-01 02:05:56+0200
+  pool: hdd-zfs
+ state: ONLINE
+status: One or more devices could not be used because the label is missing or
+    invalid.  Sufficient replicas exist for the pool to continue
+    functioning in a degraded state.
+action: Replace the device using &#39;zpool replace&#39;.
+   see: https://openzfs.github.io/openzfs-docs/msg/ZFS-8000-4J
+  scan: scrub repaired 0B in 02:05:56 with 0 errors on Tue Jul  1 02:05:56 2025
+config:
+
+    NAME                              STATE     READ WRITE CKSUM
+    hdd-zfs                           ONLINE       0     0     0
+      raidz1-0                        ONLINE       0     0     0
+        wwn-0x5000c500e961b797-part5  ONLINE       0     0     0
+        wwn-0x5000c500e961b651-part5  ONLINE       0     0     0
+        wwn-0x5000c500e96221dc-part5  ONLINE       0     0     0
+        wwn-0x5000c500e96109e0-part5  ONLINE       0     0     0
+    cache
+      nvme0n1                         UNAVAIL      0     0     0
+      nvme1n1                         UNAVAIL      0     0     0
+
+errors: No known data errors
+</code></pre></div></p>
+<p>The cache is shown as unavailable.</p>
+<p>I Logged in on the server and <code>zpool status</code> shows exactly the same thing.</p>
+<h2 id="first-try">First try<a class="headerlink" href="#first-try" title="Permanent link">#</a></h2>
+<p>I didn't see what was wrong.</p>
+<p>I tried to remediate in simple way, telling zpool to just use it as a replaced disk:</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme0n1
+<span class="w">  </span>/dev/nvme0n1<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>use<span class="w"> </span>and<span class="w"> </span>contains<span class="w"> </span>a<span class="w"> </span>unknown<span class="w"> </span>filesystem.
+</code></pre></div>
+<p>maybe removing and adding again
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme0n1
+zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme1n1
+zpool<span class="w"> </span>add<span class="w"> </span>hdd-zfs<span class="w"> </span>cache<span class="w"> </span>nvme0n1<span class="w"> </span>nvme1n1
+<span class="w">  </span>/dev/nvme0n1<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>use<span class="w"> </span>and<span class="w"> </span>contains<span class="w"> </span>a<span class="w"> </span>unknown<span class="w"> </span>filesystem.
+<span class="w">  </span>/dev/nvme1n1<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>use<span class="w"> </span>and<span class="w"> </span>contains<span class="w"> </span>a<span class="w"> </span>unknown<span class="w"> </span>filesystem.
+</code></pre></div>
+still stuck.</p>
+<h2 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">#</a></h2>
+<p>The <code>lsblk</code> commands shows:
+<div class="highlight"><pre><span></span><code>...
+nvme1n1     259:0    0 953,9G  0 disk
+├─nvme1n1p1 259:4    0 953,9G  0 part
+│ └─md0       9:0    0     4G  0 raid1
+└─nvme1n1p9 259:5    0     8M  0 part
+nvme0n1     259:1    0 953,9G  0 disk
+├─nvme0n1p1 259:2    0 953,9G  0 part
+│ └─md0       9:0    0     4G  0 raid1
+└─nvme0n1p9 259:3    0     8M  0 part
+</code></pre></div></p>
+<p>The problem is the md0 raid1 part.
+The partition is already usedo for a raid device, md0.</p>
+<p>Indeed it's used by the system as swap.
+This is due to hetzner default configuration…</p>
+<p>I will remove this.</p>
+<h2 id="removing-the-raid1-partition">Removing the raid1 partition<a class="headerlink" href="#removing-the-raid1-partition" title="Permanent link">#</a></h2>
+<p>removing swap:
+swapoff -a</p>
+<p>Edited the /etc/fstab to remove:
+<div class="highlight"><pre><span></span><code>/dev/md/0
+  UUID=0ee5226a-3a64-4521-93d2-d246411289db none swap sw 0 0
+</code></pre></div></p>
+<p>removed the raid definition (<a href="https://serverok.in/delete-mdadm-raid">thanks to this doc</a>)</p>
+<div class="highlight"><pre><span></span><code>mdadm<span class="w"> </span>--detail<span class="w"> </span>/dev/md0
+<span class="w">  </span>/dev/md0:
+<span class="w">            </span>Version<span class="w"> </span>:<span class="w"> </span><span class="m">1</span>.2
+<span class="w">      </span>Creation<span class="w"> </span>Time<span class="w"> </span>:<span class="w"> </span>Wed<span class="w"> </span>Nov<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">18</span>:11:32<span class="w"> </span><span class="m">2024</span>
+<span class="w">          </span>Raid<span class="w"> </span>Level<span class="w"> </span>:<span class="w"> </span>raid1
+<span class="w">          </span>Array<span class="w"> </span>Size<span class="w"> </span>:<span class="w"> </span><span class="m">4189184</span><span class="w"> </span><span class="o">(</span><span class="m">4</span>.00<span class="w"> </span>GiB<span class="w"> </span><span class="m">4</span>.29<span class="w"> </span>GB<span class="o">)</span>
+<span class="w">      </span>Used<span class="w"> </span>Dev<span class="w"> </span>Size<span class="w"> </span>:<span class="w"> </span><span class="m">4189184</span><span class="w"> </span><span class="o">(</span><span class="m">4</span>.00<span class="w"> </span>GiB<span class="w"> </span><span class="m">4</span>.29<span class="w"> </span>GB<span class="o">)</span>
+<span class="w">        </span>Raid<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">2</span>
+<span class="w">      </span>Total<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">2</span>
+<span class="w">        </span>Persistence<span class="w"> </span>:<span class="w"> </span>Superblock<span class="w"> </span>is<span class="w"> </span>persistent
+
+<span class="w">        </span>Update<span class="w"> </span>Time<span class="w"> </span>:<span class="w"> </span>Sun<span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">03</span>:09:22<span class="w"> </span><span class="m">2025</span>
+<span class="w">              </span>State<span class="w"> </span>:<span class="w"> </span>clean<span class="w"> </span>
+<span class="w">      </span>Active<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">2</span>
+<span class="w">    </span>Working<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">2</span>
+<span class="w">      </span>Failed<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">0</span>
+<span class="w">      </span>Spare<span class="w"> </span>Devices<span class="w"> </span>:<span class="w"> </span><span class="m">0</span>
+
+<span class="w">  </span>Consistency<span class="w"> </span>Policy<span class="w"> </span>:<span class="w"> </span>resync
+
+<span class="w">                </span>Name<span class="w"> </span>:<span class="w"> </span>rescue:0
+<span class="w">                </span>UUID<span class="w"> </span>:<span class="w"> </span>58a64854:d6c1d6fe:e51fe77e:015ee514
+<span class="w">              </span>Events<span class="w"> </span>:<span class="w"> </span><span class="m">43</span>
+
+<span class="w">      </span>Number<span class="w">   </span>Major<span class="w">   </span>Minor<span class="w">   </span>RaidDevice<span class="w"> </span>State
+<span class="w">        </span><span class="m">0</span><span class="w">     </span><span class="m">259</span><span class="w">        </span><span class="m">4</span><span class="w">        </span><span class="m">0</span><span class="w">      </span>active<span class="w"> </span>sync<span class="w">   </span>/dev/nvme1n1p1
+<span class="w">        </span><span class="m">1</span><span class="w">     </span><span class="m">259</span><span class="w">        </span><span class="m">2</span><span class="w">        </span><span class="m">1</span><span class="w">      </span>active<span class="w"> </span>sync<span class="w">   </span>/dev/nvme0n1p1
+</code></pre></div>
+<p>Stoping it:</p>
+<p><div class="highlight"><pre><span></span><code>mdadm<span class="w"> </span>--stop<span class="w"> </span>/dev/md0
+<span class="w">  </span>mdadm:<span class="w"> </span>stopped<span class="w"> </span>/dev/md0
+mdadm<span class="w"> </span>--zero-superblock<span class="w"> </span>/dev/nvme0n1p1
+mdadm<span class="w"> </span>--zero-superblock<span class="w"> </span>/dev/nvme1n1p1
+</code></pre></div>
+Commented <code>/etc/mdadm/mdadm.conf</code> to comment md0 definition
+<div class="highlight"><pre><span></span><code># md/0 commented by ALEX 2025-07-08
+#ARRAY /dev/md/0  metadata=1.2 UUID=58a64854:d6c1d6fe:e51fe77e:015ee514 name=rescue:0
+#ARRAY /dev/md/0  metadata=1.2 UUID=9f1bc769:faeb7829:2b78488c:e20e3b71 name=rescue:0
+</code></pre></div></p>
+<p>Removed partitions on /dev/nvme0n1 and /dev/nvme1n1
+<div class="highlight"><pre><span></span><code>wipefs<span class="w"> </span>/dev/nvme1n1
+<span class="w">  </span>DEVICE<span class="w">  </span>OFFSET<span class="w">       </span>TYPE<span class="w"> </span>UUID<span class="w"> </span>LABEL
+<span class="w">  </span>nvme1n1<span class="w"> </span>0x200<span class="w">        </span>gpt<span class="w">       </span>
+<span class="w">  </span>nvme1n1<span class="w"> </span>0xee77a55e00<span class="w"> </span>gpt<span class="w">       </span>
+<span class="w">  </span>nvme1n1<span class="w"> </span>0x1fe<span class="w">        </span>PMBR<span class="w">      </span>
+wipefs<span class="w"> </span>-a<span class="w"> </span>/dev/nvme1n1
+<span class="w">  </span>/dev/nvme1n1:<span class="w"> </span><span class="m">8</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x00000200<span class="w"> </span><span class="o">(</span>gpt<span class="o">)</span>:<span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">49</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="m">41</span><span class="w"> </span><span class="m">52</span><span class="w"> </span><span class="m">54</span>
+<span class="w">  </span>/dev/nvme1n1:<span class="w"> </span><span class="m">8</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0xee77a55e00<span class="w"> </span><span class="o">(</span>gpt<span class="o">)</span>:<span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">49</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="m">41</span><span class="w"> </span><span class="m">52</span><span class="w"> </span><span class="m">54</span>
+<span class="w">  </span>/dev/nvme1n1:<span class="w"> </span><span class="m">2</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x000001fe<span class="w"> </span><span class="o">(</span>PMBR<span class="o">)</span>:<span class="w"> </span><span class="m">55</span><span class="w"> </span>aa
+<span class="w">  </span>/dev/nvme1n1:<span class="w"> </span>calling<span class="w"> </span>ioctl<span class="w"> </span>to<span class="w"> </span>re-read<span class="w"> </span>partition<span class="w"> </span>table:<span class="w"> </span>Success
+wipefs<span class="w"> </span>-a<span class="w"> </span>/dev/nvme0n1
+<span class="w">  </span>/dev/nvme0n1:<span class="w"> </span><span class="m">8</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x00000200<span class="w"> </span><span class="o">(</span>gpt<span class="o">)</span>:<span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">49</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="m">41</span><span class="w"> </span><span class="m">52</span><span class="w"> </span><span class="m">54</span>
+<span class="w">  </span>/dev/nvme0n1:<span class="w"> </span><span class="m">8</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0xee77a55e00<span class="w"> </span><span class="o">(</span>gpt<span class="o">)</span>:<span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">49</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="m">41</span><span class="w"> </span><span class="m">52</span><span class="w"> </span><span class="m">54</span>
+<span class="w">  </span>/dev/nvme0n1:<span class="w"> </span><span class="m">2</span><span class="w"> </span>bytes<span class="w"> </span>were<span class="w"> </span>erased<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x000001fe<span class="w"> </span><span class="o">(</span>PMBR<span class="o">)</span>:<span class="w"> </span><span class="m">55</span><span class="w"> </span>aa
+<span class="w">  </span>/dev/nvme0n1:<span class="w"> </span>calling<span class="w"> </span>ioctl<span class="w"> </span>to<span class="w"> </span>re-read<span class="w"> </span>partition<span class="w"> </span>table:<span class="w"> </span>Success
+</code></pre></div></p>
+<h2 id="remounting-the-cache">Remounting the cache<a class="headerlink" href="#remounting-the-cache" title="Permanent link">#</a></h2>
+<p>Now that we have removed the raid device and wiped the disk,
+they should be available for ZFS to use.</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>add<span class="w"> </span>hdd-zfs<span class="w"> </span>cache<span class="w"> </span>nvme0n1<span class="w"> </span>nvme1n1
+</code></pre></div>
+<p>It worked:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>status
+<span class="w">    </span>pool:<span class="w"> </span>hdd-zfs
+<span class="w">    </span>state:<span class="w"> </span>ONLINE
+<span class="w">    </span>scan:<span class="w"> </span>scrub<span class="w"> </span>repaired<span class="w"> </span>0B<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">02</span>:05:56<span class="w"> </span>with<span class="w"> </span><span class="m">0</span><span class="w"> </span>errors<span class="w"> </span>on<span class="w"> </span>Tue<span class="w"> </span>Jul<span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">02</span>:05:56<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span>config:
+
+<span class="w">        </span>NAME<span class="w">                              </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">        </span>hdd-zfs<span class="w">                           </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>raidz1-0<span class="w">                        </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e961b797-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e961b651-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e96221dc-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e96109e0-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>cache
+<span class="w">        </span>nvme0n1<span class="w">                         </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>nvme1n1<span class="w">                         </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+
+<span class="w">    </span>errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div></p>
+<p>Now a reboot to verify it's restarting correctly.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># reboot</span>
+</code></pre></div>
+<h2 id="still-not-working-on-boot">Still not working on boot<a class="headerlink" href="#still-not-working-on-boot" title="Permanent link">#</a></h2>
+<p>But it's not working:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>status
+<span class="w">    </span>pool:<span class="w"> </span>hdd-zfs
+<span class="w">    </span>state:<span class="w"> </span>ONLINE
+<span class="w">    </span>status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>could<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>label<span class="w"> </span>is<span class="w"> </span>missing<span class="w"> </span>or
+<span class="w">        </span>invalid.<span class="w">  </span>Sufficient<span class="w"> </span>replicas<span class="w"> </span>exist<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>pool<span class="w"> </span>to<span class="w"> </span><span class="k">continue</span>
+<span class="w">        </span>functioning<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+<span class="w">    </span>action:<span class="w"> </span>Replace<span class="w"> </span>the<span class="w"> </span>device<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;zpool replace&#39;</span>.
+<span class="w">    </span>see:<span class="w"> </span>https://openzfs.github.io/openzfs-docs/msg/ZFS-8000-4J
+<span class="w">    </span>scan:<span class="w"> </span>scrub<span class="w"> </span>repaired<span class="w"> </span>0B<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">02</span>:05:56<span class="w"> </span>with<span class="w"> </span><span class="m">0</span><span class="w"> </span>errors<span class="w"> </span>on<span class="w"> </span>Tue<span class="w"> </span>Jul<span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">02</span>:05:56<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span>config:
+
+<span class="w">        </span>NAME<span class="w">                              </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">        </span>hdd-zfs<span class="w">                           </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>raidz1-0<span class="w">                        </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e961b797-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e961b651-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e96221dc-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">            </span>wwn-0x5000c500e96109e0-part5<span class="w">  </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>cache
+<span class="w">        </span>nvme0n1<span class="w">                         </span>FAULTED<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>corrupted<span class="w"> </span>data
+<span class="w">        </span>nvme1n1<span class="w">                         </span>FAULTED<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>corrupted<span class="w"> </span>data
+
+<span class="w">    </span>errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div></p>
+<p>lsblk seems ok:
+<div class="highlight"><pre><span></span><code>lsblk
+<span class="w">    </span>...
+<span class="w">    </span>nvme1n1<span class="w">     </span><span class="m">259</span>:0<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="m">953</span>,9G<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk
+<span class="w">    </span>├─nvme1n1p1<span class="w"> </span><span class="m">259</span>:2<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="m">953</span>,9G<span class="w">  </span><span class="m">0</span><span class="w"> </span>part
+<span class="w">    </span>└─nvme1n1p9<span class="w"> </span><span class="m">259</span>:3<span class="w">    </span><span class="m">0</span><span class="w">     </span>8M<span class="w">  </span><span class="m">0</span><span class="w"> </span>part
+<span class="w">    </span>nvme0n1<span class="w">     </span><span class="m">259</span>:1<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="m">953</span>,9G<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk
+<span class="w">    </span>├─nvme0n1p1<span class="w"> </span><span class="m">259</span>:4<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="m">953</span>,9G<span class="w">  </span><span class="m">0</span><span class="w"> </span>part
+<span class="w">    </span>└─nvme0n1p9<span class="w"> </span><span class="m">259</span>:5<span class="w">    </span><span class="m">0</span><span class="w">     </span>8M<span class="w">  </span><span class="m">0</span><span class="w"> </span>part
+</code></pre></div></p>
+<p>(The two partitions per device is expected, it's the way zfs formats full disks)</p>
+<p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme0n1
+zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme1n1
+<span class="w">    </span><span class="o">(</span>failed<span class="w"> </span>reverse-i-search<span class="o">)</span><span class="sb">`</span>add<span class="w"> </span>cac<span class="err">&#39;</span>:<span class="w"> </span>user^Cd<span class="w"> </span>config-op<span class="w"> </span>sudo
+zpool<span class="w"> </span>add<span class="w"> </span>hdd-zfs<span class="w"> </span>cache<span class="w"> </span>nvme0n1<span class="w"> </span>nvme1n1
+</code></pre></div>
+Works.</p>
+<p>I reboot again, I'm in the previous situation again…</p>
+<h2 id="changing-cache-definition-to-use-device-ids">Changing cache definition to use device ids<a class="headerlink" href="#changing-cache-definition-to-use-device-ids" title="Permanent link">#</a></h2>
+<p>Christian proposed to change the zpool cache definition to use the device full ids instead of the simple device name.
+It might be that on reboot, nvme disk don't always get the same short name.</p>
+<p>To get the full name we can use:</p>
+<div class="highlight"><pre><span></span><code>ls -l /dev/disk/by-id/|grep &quot;nvme&quot;
+...
+nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06047_1-part1 -&gt; ../../nvme1n1p1
+...
+nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06046_1-part1 -&gt; ../../nvme0n1p1
+</code></pre></div>
+<p>let's use those names:
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme0n1
+zpool<span class="w"> </span>remove<span class="w"> </span>hdd-zfs<span class="w"> </span>nvme1n1
+zpool<span class="w"> </span>add<span class="w"> </span>hdd-zfs<span class="w"> </span>cache<span class="w"> </span>nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06046-part1<span class="w"> </span>nvme-SAMSUNG_MZVL21T0HCLR-00B00_S676NF0WB06047-part1
+</code></pre></div></p>
+<p>After a reboot, it still works as expected 🎉 !</p>
+<p>I also changed ansible definition of the ZFS pool to use the full device name.</p>
 
 
 
