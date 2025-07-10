@@ -2,7 +2,7 @@
 
 Yesterday the monitoring services on monitoring-01 refused to start
 because there was not enough space on the disk
-(Elasticsearch as a fool proof mechanism to avoid running out of disk space,
+(Elasticsearch has a fool proof mechanism to avoid running out of disk space,
 which might be catastrophic for its data).
 
 Also the current disk is an ext4 disk which will not ease the backup of data.
