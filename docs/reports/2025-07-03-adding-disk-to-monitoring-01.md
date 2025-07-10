@@ -21,7 +21,7 @@ I want to estimate what it will cost, and for that I want to know current cost o
 Also I don't need to directly take a big disk as we can extend it later,
 and with ZFS it's quite easy to extend the pool to the new disk size ([`zfs online -e`](https://openzfs.github.io/openzfs-docs/man/master/8/zpool-online.8.html))
 
-## Adding a disk on google Cloud Console
+## Adding a disk on Google Cloud Console
 
 So I decided to add a new disk to the instance,
 an equilibrated persistent disk with 200 GB.
