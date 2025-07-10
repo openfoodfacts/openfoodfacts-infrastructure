@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2024-09-19-move-docker-volumes/">
+        <link rel="prev" href="../2025-06-30-ovh3-disk-full-post-mortem/">
       
       
-        <link rel="next" href="../2024-09-30-ovh3-backups/">
+        <link rel="next" href="../2025-07-08-zpool-failure-on-hetzner-01/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Kimsufi STOR - ks1 installation - Open Food Facts Infrastructure documentation</title>
+        <title>2025-07-03 Adding a disk to monitoring 01 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kimsufi-stor-ks1-installation" class="md-skip">
+        <a href="#2025-07-03-adding-a-disk-to-monitoring-01" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Kimsufi STOR - ks1 installation
+              2025-07-03 Adding a disk to monitoring 01
             
           </span>
         </div>
@@ -3144,32 +3144,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Kimsufi STOR - ks1 installation
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
         
   
   
@@ -3180,191 +3158,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#rationale-for-new-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      Rationale for new server
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#server-specs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server specs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#email" class="md-nav__link">
-    <span class="md-ellipsis">
-      Email
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-and-setup-zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install and setup ZFS
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Install and setup ZFS">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install ZFS
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-zfs-pool" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create ZFS pool
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setup-compression" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setup compression
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fine-tune-zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fine tune zfs
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-sanoid-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install sanoid / syncoid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sync-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync data
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure-sanoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure sanoid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx" class="md-nav__link">
-    <span class="md-ellipsis">
-      NGINX
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="NGINX">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#certificates" class="md-nav__link">
-    <span class="md-ellipsis">
-      Certificates
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3903,10 +3696,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-07-03-adding-disk-to-monitoring-01/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-07-03 Adding a disk to monitoring 01
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3917,6 +3732,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estimating-the-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimating the cost
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-disk-on-google-cloud-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding a disk on Google Cloud Console
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-zfs-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the ZFS pool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-docker-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving docker volumes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cleaning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3979,165 +3868,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#rationale-for-new-server" class="md-nav__link">
+  <a href="#estimating-the-cost" class="md-nav__link">
     <span class="md-ellipsis">
-      Rationale for new server
+      Estimating the cost
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#server-specs" class="md-nav__link">
+  <a href="#adding-a-disk-on-google-cloud-console" class="md-nav__link">
     <span class="md-ellipsis">
-      Server specs
+      Adding a disk on Google Cloud Console
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#creating-the-zfs-pool" class="md-nav__link">
     <span class="md-ellipsis">
-      Install
+      Creating the ZFS pool
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#email" class="md-nav__link">
+  <a href="#moving-docker-volumes" class="md-nav__link">
     <span class="md-ellipsis">
-      Email
+      Moving docker volumes
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-and-setup-zfs" class="md-nav__link">
+  <a href="#cleaning" class="md-nav__link">
     <span class="md-ellipsis">
-      Install and setup ZFS
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Install and setup ZFS">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install ZFS
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-zfs-pool" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create ZFS pool
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setup-compression" class="md-nav__link">
-    <span class="md-ellipsis">
-      Setup compression
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fine-tune-zfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fine tune zfs
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-sanoid-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install sanoid / syncoid
+      Cleaning
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#sync-data" class="md-nav__link">
+  <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      Sync data
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure-sanoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure sanoid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx" class="md-nav__link">
-    <span class="md-ellipsis">
-      NGINX
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="NGINX">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#certificates" class="md-nav__link">
-    <span class="md-ellipsis">
-      Certificates
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing
+      Next steps
     </span>
   </a>
   
@@ -4159,7 +3937,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-09-24-kimsufi-stor-ks1-installation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-07-03-adding-disk-to-monitoring-01.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4167,176 +3945,118 @@
   
 
 
-<h1 id="kimsufi-stor-ks1-installation">Kimsufi STOR - ks1 installation<a class="headerlink" href="#kimsufi-stor-ks1-installation" title="Permanent link">#</a></h1>
-<h2 id="rationale-for-new-server">Rationale for new server<a class="headerlink" href="#rationale-for-new-server" title="Permanent link">#</a></h2>
-<p>We have performance issues on off1 and off2 that are becoming unbearable, in particular disk usage on off2 is so high that 60% of processes are in iowait state.</p>
-<p>We just moved today (24/09/2024) images serving from off2 to off1, but that just move the problem to off1.</p>
-<p>We are thus installing a new cheap Kimsufi server to see if we can move the serving of images to it.</p>
-<h2 id="server-specs">Server specs<a class="headerlink" href="#server-specs" title="Permanent link">#</a></h2>
-<p>KS-STOR - Intel Xeon-D 1521 - 4 c / 8 t - 16 Gb RAM - 4x 6 Tb HDD + 500 Gb SSD</p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
-<p>We create a A record ks1.openfoodfacts.org to point it to the IP of the server: 217.182.132.133
-In OVH's console, we rename the server to ks1.openfoodfacts.org</p>
-<p>On OVH console, we install Debian 12 Bookworm on the SSD.</p>
-<p><strong>IMPORTANT:</strong> this was not an optimal choice, we should have reserved part of the SSD to use it as a cache drive for the ZFS pool.</p>
-<p>Once the install is complete, OVH sends the credentials by email.</p>
-<p>We add users for the admin(s) and give sudo access:
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>sudo<span class="w"> </span><span class="o">[</span>username<span class="o">]</span>
+<h1 id="2025-07-03-adding-a-disk-to-monitoring-01">2025-07-03 Adding a disk to monitoring 01<a class="headerlink" href="#2025-07-03-adding-a-disk-to-monitoring-01" title="Permanent link">#</a></h1>
+<p>Yesterday the monitoring services on monitoring-01 refused to start
+because there was not enough space on the disk
+(Elasticsearch has a fool proof mechanism to avoid running out of disk space,
+which might be catastrophic for its data).</p>
+<p>Also the current disk is an ext4 disk which will not ease the backup of data.
+We want to switch to ZFS datasets for docker volumes.</p>
+<p>We have a disk with ZFS but it's holding the backups of Elasticsearch,
+and it's a standard persistent disk, which is not performant enough.</p>
+<h2 id="estimating-the-cost">Estimating the cost<a class="headerlink" href="#estimating-the-cost" title="Permanent link">#</a></h2>
+<p>I want to estimate what it will cost, and for that I want to know current cost of the primary disk.</p>
+<ul>
+<li>gone to billing reports in the google cloud console</li>
+<li>you have to choose the group by service view, and to filter on balanced PD capacity in paris and (or storage PD capacity in Paris to view the ZFS backup disk)
+  so it's about 16€ / month for 170 Go, it will be around 20€ / month for 200 Go, still ok</li>
+</ul>
+<p>Also I don't need to directly take a big disk as we can extend it later,
+and with ZFS it's quite easy to extend the pool to the new disk size (<a href="https://openzfs.github.io/openzfs-docs/man/master/8/zpool-online.8.html"><code>zfs online -e</code></a>)</p>
+<h2 id="adding-a-disk-on-google-cloud-console">Adding a disk on Google Cloud Console<a class="headerlink" href="#adding-a-disk-on-google-cloud-console" title="Permanent link">#</a></h2>
+<p>So I decided to add a new disk to the instance,
+an equilibrated persistent disk with 200 GB.</p>
+<p>Here is what I did (interface was in french so those may not be the exact terms):</p>
+<ul>
+<li>Go on off monitoring Instance (robotoff project)</li>
+<li>click modify</li>
+<li>more disk - add a disk</li>
+<li>add disk form:<ul>
+<li>name: monitoring-01-docker-volumes</li>
+<li>where: unique zone</li>
+<li>source: empty disk</li>
+<li>type: persistent equilibrated</li>
+<li>size: 200 G</li>
+<li>Save</li>
+</ul>
+</li>
+<li>Beware to also save the machine settings at the end</li>
+</ul>
+<p>After that I can login to monitoring-01 and <code>lsblk</code> shows a new /dev/sdc disk.</p>
+<h2 id="creating-the-zfs-pool">Creating the ZFS pool<a class="headerlink" href="#creating-the-zfs-pool" title="Permanent link">#</a></h2>
+<p>It is done with ansible.</p>
+<p>I just had to modify <code>ansible/host_vars/monitoring-01/zfs.yml</code>,
+(<code>monitoring__zfs_pools</code> and <code>monitoring__zfs_filesystems</code>),
+and run
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/monitoring.openfoodfacts.org.yml<span class="w">  </span>-l<span class="w"> </span>monitoring-01
 </code></pre></div></p>
-<p>Set hostname <code>hostnamectl hostname ks1</code></p>
-<p>I also manually runned the usual commands found in ct_postinstall.</p>
-<p>I also followed <a href="../../how-to-have-server-config-in-git/">How to have server config in git</a></p>
-<p>I also added the email on failure systemd unit.</p>
-<p>I edited <code>/etc/netplan/50-cloud-init.yaml</code> to add default search
-<div class="highlight"><pre><span></span><code><span class="nt">network</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">    </span><span class="nt">ethernets</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">eno3</span><span class="p">:</span>
-<span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">(...)</span>
-<span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">nameservers</span><span class="p p-Indicator">:</span>
-<span class="w">                </span><span class="nt">search</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">openfoodfacts.org</span><span class="p p-Indicator">]</span>
+<h2 id="moving-docker-volumes">Moving docker volumes<a class="headerlink" href="#moving-docker-volumes" title="Permanent link">#</a></h2>
+<p>Stopped and destroyed the monitoring services:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/monitoring/
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>down
+<span class="nb">cd</span><span class="w"> </span>/home/off/filebeat/
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>down
 </code></pre></div>
-and run <code>netplan try</code>.</p>
-<h2 id="email">Email<a class="headerlink" href="#email" title="Permanent link">#</a></h2>
-<p>Email is important to send alert on service failure.</p>
-<p>I also configured email by removing exim4 and installing postfix.
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>purge<span class="w"> </span>exim4-base<span class="w"> </span>exim4-config<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postfix<span class="w"> </span>bsd-mailx
-</code></pre></div>
-and following <a href="../../mail/#postfix-configuration">Server, postfix configuration</a>.</p>
-<p>I also had to had ks1 ip address to <a href="../../mail/#redirects">forwarding rules on ovh1 to the mail gateway</a>.
-<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-t<span class="w"> </span>nat<span class="w"> </span>-A<span class="w"> </span>PREROUTING<span class="w"> </span>-s<span class="w"> </span><span class="m">217</span>.182.132.133<span class="w"> </span>-d<span class="w"> </span>pmg.openfoodfacts.org<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w">  </span>--dport<span class="w"> </span><span class="m">25</span><span class="w"> </span>-j<span class="w"> </span>DNAT<span class="w"> </span>--to<span class="w"> </span><span class="m">10</span>.1.0.102:25
-iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/etc/iptables/rules.v4.new
-<span class="c1"># control</span>
-diff<span class="w"> </span>/etc/iptables/rules.v4<span class="o">{</span>,.new<span class="o">}</span>
-mv<span class="w"> </span>/etc/iptables/rules.v4<span class="o">{</span>.new,<span class="o">}</span>
-etckeeper<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;added rule for ks1 email&quot;</span>
-</code></pre></div></p>
-<p>Test from ks1:
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;test message from ks1&quot;</span><span class="w"> </span><span class="p">|</span>mailx<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;test root ks1&quot;</span><span class="w"> </span>-r<span class="w"> </span>alex@openfoodfacts.org<span class="w"> </span>root
-</code></pre></div></p>
-<h2 id="install-and-setup-zfs">Install and setup ZFS<a class="headerlink" href="#install-and-setup-zfs" title="Permanent link">#</a></h2>
-<h3 id="install-zfs">Install ZFS<a class="headerlink" href="#install-zfs" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w">  </span>zfsutils-linux
-sudo<span class="w"> </span>/sbin/modprobe<span class="w"> </span>zfs
-</code></pre></div>
-<p>Added the <code>zfs.conf</code>  file to <code>/etc/modprobe.d</code>
-Then run <code>update-initramfs -u -k all</code></p>
-<h3 id="create-zfs-pool">Create ZFS pool<a class="headerlink" href="#create-zfs-pool" title="Permanent link">#</a></h3>
-<p><code>lsblk</code> shows me existing disks. The 4 disks are available, system is installed on the NVME SSD.</p>
-<p>So I created the pool with them (see <a href="../../zfs-overview/#how-to-create-a-zpool">How to create a zpool</a>)</p>
-<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>zfs-hdd<span class="w"> </span>/dev/sd<span class="o">{</span>a,b,c,d<span class="o">}</span>
-</code></pre></div>
-<h3 id="setup-compression">Setup compression<a class="headerlink" href="#setup-compression" title="Permanent link">#</a></h3>
-<p>We want to enable compression on the pool.</p>
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">compression</span><span class="o">=</span>on<span class="w"> </span>zfs-hdd
-</code></pre></div>
-<p>Note: in reality it was not enabled from start, I enabled it after first snapshot sync,
-as I saw is was taking much more space than on the original server.</p>
-<h3 id="fine-tune-zfs">Fine tune zfs<a class="headerlink" href="#fine-tune-zfs" title="Permanent link">#</a></h3>
-<p>Set <code>atime=off</code> et <code>relatime=no</code> on the ZFS dataset <code>zfs-hdd/off/images</code> to avoid writting.</p>
-<h2 id="install-sanoid-syncoid">Install sanoid / syncoid<a class="headerlink" href="#install-sanoid-syncoid" title="Permanent link">#</a></h2>
-<p>I installed the sanoid.deb that I got from the off1 server.</p>
-<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>libcapture-tiny-perl<span class="w"> </span>libconfig-inifiles-perl
-apt<span class="w"> </span>install<span class="w"> </span>lzop<span class="w"> </span>mbuffer<span class="w"> </span>pv
-dpkg<span class="w"> </span>-i<span class="w"> </span>/home/alex/sanoid_2.2.0_all.deb
-</code></pre></div>
-<h2 id="sync-data">Sync data<a class="headerlink" href="#sync-data" title="Permanent link">#</a></h2>
-<p>After installing sanoid, I am ready to sync data.</p>
-<p>I first create a off dataset to have same structure as on other servers:
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off
-</code></pre></div></p>
-<p>I 'll sync the data from OVH3 since it's the same data-center.</p>
-<p>I created a ks1operator user on ovh3, following <a href="../../sanoid/#creating-operator-on-prod_server">creating operator on PROD_SERVER</a></p>
-<p>I also had to make a <code>ln -s /usr/sbin/zfs /usr/bin/zfs</code> on ovh3</p>
-<p>Then I used:</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nb">time</span><span class="w"> </span>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>ks1operator@ovh3.openfoodfacts.org:rpool/off/images<span class="w"> </span>zfs-hdd/off/images
-</code></pre></div>
-<p>It took 3594 minutes, that is 60 hours or 2.5 days.</p>
-<p>I removed old snapshots (old style) from ks1, as they are not needed here):
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>f<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>zfs-hdd/off/images<span class="p">|</span>grep<span class="w"> </span><span class="s2">&quot;images@202&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>destroy<span class="w"> </span><span class="nv">$f</span><span class="p">;</span><span class="k">done</span>
-</code></pre></div>
-the other snapshot will normally be pruned by sanoid.</p>
-<h2 id="configure-sanoid">Configure sanoid<a class="headerlink" href="#configure-sanoid" title="Permanent link">#</a></h2>
-<p>I created the sanoid and syncoid configuration.</p>
-<p>I added ks1operator on off2.</p>
-<p>Finally I also installed the standard sanoid / syncoid systemd units and the sanoid_check unit.</p>
-<p>and enable them:</p>
-<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>sanoid.timer
-systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>syncoid.service
-systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>sanoid_check.timer
-
-
-<span class="c1">## Firewall</span>
-
-As<span class="w"> </span>the<span class="w"> </span>setting<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>simple<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>masquerading<span class="w"> </span>/<span class="w"> </span>forwarding<span class="o">)</span>,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>use<span class="w"> </span>ufw.
-
-<span class="sb">```</span>bash
-apt<span class="w"> </span>install<span class="w"> </span>ufw
-
-ufw<span class="w"> </span>allow<span class="w"> </span>OpenSSH
-ufw<span class="w"> </span>allow<span class="w"> </span>http
-ufw<span class="w"> </span>allow<span class="w"> </span>https
-ufw<span class="w"> </span>default<span class="w"> </span>deny<span class="w"> </span>incoming
-ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>outgoing
-
+temporarily move old volume data to new directories</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/opt/docker-volumes-backup
+<span class="c1"># beware not to take /var/lib/docker/volumes/monitoring_elasticsearch-backup</span>
+<span class="k">for</span><span class="w"> </span>vol<span class="w"> </span><span class="k">in</span><span class="w"> </span>monitoring_<span class="o">{</span>alertmanager,elasticsearch,grafana,influxdb,prometheus<span class="o">}</span>-data<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$vol</span><span class="p">;</span><span class="w"> </span>mv<span class="w"> </span>/var/lib/docker/volumes/<span class="nv">$vol</span>/_data<span class="w"> </span>/opt/docker-volumes-backup/<span class="nv">$vol</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>/var/lib/docker/volumes/<span class="nv">$vol</span>/_data<span class="p">;</span><span class="w"> </span><span class="k">done</span>
 <span class="c1"># verify</span>
-ufw<span class="w"> </span>show<span class="w"> </span>added
-<span class="c1"># go</span>
-ufw<span class="w"> </span><span class="nb">enable</span>
+ls<span class="w"> </span>/opt/docker-volumes-backup
+du<span class="w"> </span>-sh<span class="w"> </span>/var/lib/docker/volumes/monitoring_*
+<span class="c1"># should be 8k / folder, more or less</span>
 </code></pre></div>
-<p>fail2ban is already installed, but failing with:
-<div class="highlight"><pre><span></span><code>Failed during configuration: Have not found any log file for sshd jail
-</code></pre></div>
-This is because the sshd daemon logs into systemd-journald, not in a log file.
-To fix that, I modified <code>/etc/fail2ban/jail.d/defaults-debian.conf</code> to be:
-<div class="highlight"><pre><span></span><code><span class="k">[sshd]</span>
-<span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
-<span class="na">backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">systemd</span>
+<p>Remove the volumes:
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>vol<span class="w"> </span><span class="k">in</span><span class="w"> </span>monitoring_<span class="o">{</span>alertmanager,elasticsearch,grafana,influxdb,prometheus<span class="o">}</span>-data<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$vol</span><span class="p">;</span><span class="w"> </span>docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span><span class="nv">$vol</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
 </code></pre></div></p>
-<p>Addendum: after Christian installed Munin node, I added port 4949</p>
-<h2 id="nginx">NGINX<a class="headerlink" href="#nginx" title="Permanent link">#</a></h2>
-<h3 id="install_1">Install<a class="headerlink" href="#install_1" title="Permanent link">#</a></h3>
-<p>I installed nginx and certbot:
-<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>nginx
-apt<span class="w"> </span>install<span class="w"> </span>python3-certbot<span class="w"> </span>python3-certbot-nginx
+<p>I then modified monitoring Makefile create_external_volumes to use the new disks.
+See https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/123</p>
+<p>Recreate them with the Make command of the project:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>make<span class="w"> </span>create_external_volumes
+<span class="c1"># verify</span>
+docker<span class="w"> </span>volume<span class="w"> </span>list<span class="p">|</span>grep<span class="w"> </span>monitoring
 </code></pre></div></p>
-<p>I also added the nginx.service.d override to email on failure.</p>
-<h3 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">#</a></h3>
-<p>Created <code>confs/ks1/nginx/sites-available/images-off</code> akin to off1 configuration.</p>
-<p><code>ln -s /opt/openfoodfacts-infrastructure/confs/ks1/nginx/sites-available/images-off /etc/nginx/sites-enabled/images-off</code></p>
-<h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">#</a></h3>
-<p>As I can't use certbot until having the DNS pointing to this server,
-I copied the one from off1.</p>
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-A<span class="w"> </span>off1
-sudo<span class="w"> </span>-E<span class="w"> </span>bash
-<span class="c1"># see active certificates</span>
-ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/
-<span class="c1"># here it&#39;s 19, copy them</span>
-scp<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/*19*<span class="w"> </span>alex@ks1.openfoodfacts.org:
+<p>Copy the backup data (Note: we don't need a _data folder anymore, and also note there is no trailing / to rsync source, to copy the folder, not the content):
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>vol<span class="w"> </span><span class="k">in</span><span class="w"> </span>monitoring_<span class="o">{</span>alertmanager,elasticsearch,grafana,influxdb,prometheus<span class="o">}</span>-data<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$vol</span><span class="p">;</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>/opt/docker-volumes-backup/<span class="nv">$vol</span><span class="w"> </span>/data-zfs/docker-volumes/<span class="nv">$vol</span>/_data<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div></p>
+<p>Verify that data is ok by running a docker container:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/monitoring/
 
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--entrypoint<span class="w"> </span>sh<span class="w">  </span>prometheus
+ls<span class="w"> </span>/prometheus<span class="w"> </span>-l
 <span class="nb">exit</span>
-<span class="nb">exit</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>elasticsearch<span class="w"> </span>bash
+
+Then<span class="w"> </span>I<span class="w"> </span>restarted<span class="w"> </span>the<span class="w"> </span>services:
+<span class="sb">```</span>bash
+<span class="nb">cd</span><span class="w"> </span>/home/off/monitoring/
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">cd</span><span class="w"> </span>/home/off/filebeat/
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
-<p>On ks1:
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/letsencrypt/<span class="o">{</span>live,archive<span class="o">}</span>/images.openfoodfacts.org
-mv<span class="w"> </span>/home/alex/*19*<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/
-ln<span class="w"> </span>-s<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/cert19.pem<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/cert.pem
-ln<span class="w"> </span>-s<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/chain19.pem<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/chain.pem
-ln<span class="w"> </span>-s<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/fullchain19.pem<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/fullchain.pem
-ln<span class="w"> </span>-s<span class="w"> </span>/etc/letsencrypt/archive/images.openfoodfacts.org/privkey19.pem<span class="w"> </span>/etc/letsencrypt/live/images.openfoodfacts.org/privkey.pem
-chown<span class="w"> </span>-R<span class="w"> </span>root:root<span class="w"> </span>/etc/letsencrypt/
-chmod<span class="w"> </span>go-rwx<span class="w"> </span>/etc/letsencrypt/<span class="o">{</span>live,archive<span class="o">}</span>
-</code></pre></div></p>
-<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
-<p>On my host I modified /etc/hosts to have:
-<div class="highlight"><pre><span></span><code>217.182.132.133 images.openfoodfacts.org
+<p>carefully look at if services are running ok <sup id="fnref:not_the_case_for_me"><a class="footnote-ref" href="#fn:not_the_case_for_me">1</a></sup></p>
+<p>Also connect to Kibana to verify we have
+<a href="https://kibana.openfoodfacts.org/app/logs/stream?flyoutOptions=%28flyoutId%3A%21n%2CflyoutVisibility%3Ahidden%2CsurroundingLogsId%3A%21n%29&amp;logPosition=%28end%3Anow%252Fy%2Cposition%3A%28tiebreaker%3A88566%2Ctime%3A1751356441851%29%2Cstart%3Anow%252Fy%2CstreamLive%3A%21f%29">old logs</a>.
+Connect to grafana and prometheus to verify we still have previous metrics
+(eg with a a <a href="https://prometheus.openfoodfacts.org/graph?g0.expr=apache_cpuload&amp;g0.tab=0&amp;g0.stacked=0&amp;g0.show_exemplars=0&amp;g0.range_input=2w">graph</a>).</p>
+<h2 id="cleaning">Cleaning<a class="headerlink" href="#cleaning" title="Permanent link">#</a></h2>
+<p>Removing the old docker volumes on primary disk:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/opt//docker-volumes-backup
 </code></pre></div>
-and visited the website with my browser, with developer tools open.</p>
-<p>I can also use curl:
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--resolve<span class="w"> </span>images.openfoodfacts.org:443:217.182.132.133<span class="w"> </span>https://images.openfoodfacts.org/images/products/087/366/800/2989/front_fr.3.400.jpg<span class="w">  </span>--output<span class="w"> </span>/tmp/front_fr.jpg<span class="w"> </span>-v
-xdg-open<span class="w"> </span>/tmp/front_fr.jpg
-</code></pre></div></p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">#</a></h2>
+<p>We must setup replication of docker volumes to other servers to backup data.</p>
+<p>We could eventually try to shrink the primary disk size (to say 40GB),
+but it is a quite complicated operation,
+it might not be worth it.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:not_the_case_for_me">
+<p>it was not the case for me, and I had to fix several time !
+  Mainly because the way I created external volumes was wrong.&#160;<a class="footnote-backref" href="#fnref:not_the_case_for_me" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
