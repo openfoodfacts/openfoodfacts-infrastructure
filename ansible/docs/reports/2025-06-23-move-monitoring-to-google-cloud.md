@@ -15,7 +15,7 @@ Thomas had prepared the new server using ansible,
 and we also made changes to the monitoring repository,
 deploying it to the new server
 (but not deploying the filebeat which goes on monitored servers,
-and for that we add special rules to the container-deploy)
+and for that we add special rules to the container-deploy).
 
 * [PR #474 to install the server](https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/474)
 * [PR #119 to modify monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/119)
@@ -117,7 +117,7 @@ We tested and all was ok.
 Now that monitoring is up, we need to deploy the filebeat config on all monitored servers,
 so that they talk to the new monitoring server.
 
-PR to deploy filebeat config: 
+PR to deploy filebeat config: https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/121
 
 After deploying, we looked at logs in kibana, and did not see new logs.
 
