@@ -85,7 +85,7 @@ nc -vz <address> <port>
 can be a good way to test if the port is reachable and open.
 
 For mongodb, a way to test point to point is to directly use mongodb docker image (you might also install mongosh package).
-For example to reach OFF mondodb through the stunnel at 10.3.0.101, port 27017, run:
+For example to reach OFF mongodb through the stunnel at 10.3.0.101, port 27017, run:
 ```bash
 docker run -ti --rm mongo mongosh "mongodb://10.3.0.101:27017/off"
 ```
