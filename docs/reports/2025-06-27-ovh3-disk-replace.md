@@ -117,7 +117,7 @@ I speed up the resilver at max, since it's vital
 echo 15000 > /sys/module/zfs/parameters/zfs_resilver_min_time_ms
 ```
 
-zpool estimates me it gonna take 1day and 6 hours (but it took far more, at least 4 days).
+zpool estimates me it gonna take 1 day and 6 hours (but it took far more, at least 4 days).
 ```
 zpool status
   ...
