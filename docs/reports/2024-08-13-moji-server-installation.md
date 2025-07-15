@@ -80,6 +80,7 @@ Network was manually configured:
 
 - ip address: 10.3.0.200/8
 - gateway: 10.0.0.45
+- dns server: 9.9.9.9
 
 Next:
 
@@ -135,7 +136,7 @@ I spent some time trying solution (1), [by enabling ipv6 on docker](https://docs
 }
 ```
 
-Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it’s not possible, but that I’m really new at ipv6 networking.
+Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it does not mean it's not possible, but that I’m really new at ipv6 networking.
 
 ### Solution 4
 
