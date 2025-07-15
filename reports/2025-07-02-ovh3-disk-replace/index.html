@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../2022-03-03-zammad-elasticsearch-not-running/">
+        <link rel="prev" href="../2025-06-30-ovh3-disk-full-post-mortem/">
       
       
-        <link rel="next" href="../2022-07-08-journey-to-deploy-off-search/">
+        <link rel="next" href="../2025-07-03-adding-disk-to-monitoring-01/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>2022-03 Problem with PCI supporting NVMe - Open Food Facts Infrastructure documentation</title>
+        <title>2025-07-02 OVH3 Disk Replace - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2022-03-problem-with-pci-supporting-nvme" class="md-skip">
+        <a href="#2025-07-02-ovh3-disk-replace" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2022-03 Problem with PCI supporting NVMe
+              2025-07-02 OVH3 Disk Replace
             
           </span>
         </div>
@@ -1626,32 +1626,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    2022-03 Problem with PCI supporting NVMe
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
         
   
   
@@ -1662,53 +1640,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#diagnosis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diagnosis
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#putting-back-disks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Putting back disks
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#still-in-error" class="md-nav__link">
-    <span class="md-ellipsis">
-      Still in error
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3765,10 +3696,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-07-02-ovh3-disk-replace/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-07-02 OVH3 Disk Replace
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3779,6 +3732,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Symptoms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asking-disk-replacement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asking disk replacement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resilvering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resilvering
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3864,27 +3864,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#diagnosis" class="md-nav__link">
+  <a href="#symptoms" class="md-nav__link">
     <span class="md-ellipsis">
-      Diagnosis
+      Symptoms
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#putting-back-disks" class="md-nav__link">
+  <a href="#asking-disk-replacement" class="md-nav__link">
     <span class="md-ellipsis">
-      Putting back disks
+      Asking disk replacement
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#still-in-error" class="md-nav__link">
+  <a href="#resilvering" class="md-nav__link">
     <span class="md-ellipsis">
-      Still in error
+      Resilvering
     </span>
   </a>
   
@@ -3906,7 +3906,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2022-03-off2-PCI-NVMe-problems.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-07-02-ovh3-disk-replace.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3914,56 +3914,126 @@
   
 
 
-<h1 id="2022-03-problem-with-pci-supporting-nvme">2022-03 Problem with PCI supporting NVMe<a class="headerlink" href="#2022-03-problem-with-pci-supporting-nvme" title="Permanent link">#</a></h1>
-<p>This happens after <a href="../2023-02-17-off2-upgrade/">OFF2 upgrade</a>.</p>
-<p>At some point, on march 14, we had this problem: the server was no more reachable.</p>
-<h2 id="diagnosis">Diagnosis<a class="headerlink" href="#diagnosis" title="Permanent link">#</a></h2>
-<p>After using IDRAC to reach it, we saw the server was not able to boot. It was booting, but after some time, did shutdown.</p>
-<p>We upgrade the Bios (v 1.4.5 &gt; v 2.17.1), it did not resolved.</p>
-<p>After a looong investigation, thanks to checks we found that NVMe Drive did not seemed to be detected.</p>
-<p><a class="glightbox" href="../../img/2023-03-16-off2-test-error-pci-device.png" data-type="image" data-width="auto" data-height="auto" data-title="No NVMe Drive detected on PCI" data-desc-position="bottom"><img alt="No NVMe Drive detected on PCI" src="../../img/2023-03-16-off2-test-error-pci-device.png" title="No NVMe Drive detected on PCI while testing" width="50%" /></a></p>
-<p>We then found that we could boot if we disabled PCI in Bios.</p>
-<p>This means we lost the ssd disk we wanted to use as cache and fast disks at some point on the server.</p>
-<p>Of course we had a message from zpool, at startup, unable to start the pool that was on NVMes.</p>
-<p><a href="../../img/2023-03-16%20zpool%20rpool%20error%20after%20disabling%20PCI.png" title="Zpool error importing rpool after disabling PCI" width="50%">Zpool error importing rpool</a></p>
-<p>This is resolved using:
-<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>import<span class="w"> </span>rpool<span class="w"> </span>-m
+<h1 id="2025-07-02-ovh3-disk-replace">2025-07-02 OVH3 Disk Replace<a class="headerlink" href="#2025-07-02-ovh3-disk-replace" title="Permanent link">#</a></h1>
+<h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
+<p>During the resilver was finished after <a href="../2025-06-27-ovh3-disk-replace/">last disk replacement, few days ago</a>,</p>
+<p>ZFS reported errors with /dev/sdb on the rpool ZFS pool.</p>
+<div class="highlight"><pre><span></span><code>The number of I/O errors associated with a ZFS device exceeded
+acceptable levels. ZFS has marked the device as faulted.
+
+ impact: Fault tolerance of the pool may be compromised.
+    eid: 12619
+  class: statechange
+  state: FAULTED
+   host: ovh3
+   time: 2025-06-28 13:26:17+0000
+  vpath: /dev/sdb1
+  vphys: pci-0000:00:1f.2-ata-2
+  vguid: 0xEF1AC8F34C562144
+  devid: ata-HGST_HUH721212ALE601_5PG578XF-part1
+   pool: 0x0600B76D0B2E72DB
+</code></pre></div>
+<p>I can see it with zpool status
+<div class="highlight"><pre><span></span><code>zpool status
+  pool: rpool
+ state: DEGRADED
+status: One or more devices are faulted in response to persistent errors.
+    Sufficient replicas exist for the pool to continue functioning in a
+    degraded state.
+action: Replace the faulted device, or use &#39;zpool clear&#39; to mark the device
+    repaired.
+  scan: resilvered 8.56T in 4 days 16:34:51 with 0 errors on Wed Jul  2 06:45:23 2025
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    rpool       DEGRADED     0     0     0
+      raidz2-0  DEGRADED     0     0     0
+        sda     ONLINE       0     0     0
+        sdb     FAULTED     31     0     0  too many errors
+        sdc     ONLINE       0     0     0
+        sdd     ONLINE       0     0     0
+        sde     ONLINE       0     0     0
+        sdf     ONLINE       0     0     0
+
+errors: No known data errors
 </code></pre></div></p>
-<h2 id="putting-back-disks">Putting back disks<a class="headerlink" href="#putting-back-disks" title="Permanent link">#</a></h2>
-<p>On 15th march 2023, Christian did go to the datacenter to try to put back the card to fix it.</p>
-<h2 id="still-in-error">Still in error<a class="headerlink" href="#still-in-error" title="Permanent link">#</a></h2>
-<p>On 16th Alex tried to connect the PCI again:</p>
-<p>Connection to IDRAC: https://off2.ipmi.free.org/ as root.</p>
-<ul>
-<li>Opened a console</li>
-<li>In IDRAC --&gt; reset system (warm reboot)</li>
-<li>in console:<ul>
-<li>F2 at init (to enter system setup)</li>
-<li>then system bios </li>
-<li>integrated Devices </li>
-<li>go down to "slot disablement"</li>
-<li>enable slot1 and slot2</li>
-</ul>
-</li>
-</ul>
-<p>Got this message:</p>
-<p><a class="glightbox" href="../../img/2023-04-14%20error%20PCI%20link%20disabled.png" data-type="image" data-width="auto" data-height="auto" data-title="PCI link disabled error" data-desc-position="bottom"><img alt="PCI link disabled error" src="../../img/2023-04-14%20error%20PCI%20link%20disabled.png" title="PCI link disabled error on startup" /></a></p>
-<p>In IDRAC I did a "System de cycle d'alimentation (cold reboot)"</p>
-<p>It seemed to worked... but after some times the machine shuts down again and show this message.</p>
-<p>I go back in BIOS to disable PCI slot 2 only.</p>
-<p>It works, but of course we don't have the NVMe</p>
-<p>Stephane tried another approach:</p>
-<ul>
-<li>in the BIOS:<ul>
-<li>enabled PCI slot 2</li>
-<li>disabled bifurcation auto discovery</li>
-<li>put 4x4x8 instead of x16
-After reboot we see only one of the NVMe.</li>
-</ul>
-</li>
-</ul>
-<p>But it's wrong settings, we should use x4.</p>
-<p>With x4 we are back to the first problem. So it's probably one of the NVMe which is faulty.</p>
+<h2 id="asking-disk-replacement">Asking disk replacement<a class="headerlink" href="#asking-disk-replacement" title="Permanent link">#</a></h2>
+<p>At 17:13, I asked OVH for disk replacement using their support.</p>
+<p>To get the serial number:
+<code>smartctl -i /dev/sdb | grep "Serial Number"</code></p>
+<div class="highlight"><pre><span></span><code>CS11289820
+
+Numéro de série du ou des disques défectueux :
+5PG578XF
+
+Si le ou les disques à remplacer ne sont pas détectés, renseignez ici les numéros de série des disques à conserver :
+5PHH715D
+8DJ8YH1H
+5PHAYLUF
+8CKERNSE
+8DH4VTRH
+
+Pour les serveurs de type HG ou FS uniquement, si l’identification LED n’est pas disponible, merci de nous confirmer le changement de pièce en arrêtant votre serveur (coldswap) :
+No
+
+Possédez-vous une sauvegarde de vos données ?
+yes
+
+Quel est l&#39;état de vos volumes RAID ?
+We don&#39;t have material RAID
+We use ZFS raidz2-0.
+
+Informations complémentaires :
+We want to replace sdb device asap.
+
+Quel est le résultat des tests smartctl ?
+zpool status
+  pool: rpool
+ state: DEGRADED
+status: One or more devices are faulted in response to persistent errors.
+ Sufficient replicas exist for the pool to continue functioning in a
+ degraded state.
+action: Replace the faulted device, or use &#39;zpool clear&#39; to mark the device
+ repaired.
+  scan: resilvered 8.56T in 4 days 16:34:51 with 0 errors on Wed Jul  2 06:45:23 2025
+config:
+
+ NAME        STATE     READ WRITE CKSUM
+ rpool       DEGRADED     0     0     0
+   raidz2-0  DEGRADED     0     0     0
+     sda     ONLINE       0     0     0
+     sdb     FAULTED     31     0     0  too many errors
+     sdc     ONLINE       0     0     0
+     sdd     ONLINE       0     0     0
+     sde     ONLINE       0     0     0
+     sdf     ONLINE       0     0     0
+
+errors: No known data errors
+</code></pre></div>
+<p>The OVH services automatically created a concurrent ticket (CS11289821) at 17:20
+and at 22:26 (5 hours later) the disk was replaced.</p>
+<h2 id="resilvering">Resilvering<a class="headerlink" href="#resilvering" title="Permanent link">#</a></h2>
+<p>The morning after I logged on ovh3 and replace the old disk with the new one:</p>
+<p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sdb
+</code></pre></div>
+(note: I add to type it twice because I was getting a
+<code>cannot open '/dev/sdb1': Device or resource busy</code>,
+there might be some race condition with the partition creation).</p>
+<p>I speed up the resilver at max, since it's vital
+<div class="highlight"><pre><span></span><code><span class="c1"># default is 3000</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">15000</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/zfs/parameters/zfs_resilver_min_time_ms
+</code></pre></div></p>
+<p>zpool estimates me it gonna take 12 hours, but I expect it to take 4 days,
+as for last resilver.
+<div class="highlight"><pre><span></span><code>zpool status
+...
+action: Wait for the resilver to complete.
+  scan: resilver in progress since Thu Jul  3 08:22:23 2025
+    536G scanned at 4.92G/s, 129G issued at 1.18G/s, 52.5T total
+    3.41G resilvered, 0.24% done, 12:38:31 to go
+...
+</code></pre></div>
+--&gt;</p>
 
 
 

@@ -3768,6 +3768,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../2025-07-02-ovh3-disk-replace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-07-02 OVH3 Disk Replace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2025-07-03-adding-disk-to-monitoring-01/" class="md-nav__link">
         
   
@@ -3984,13 +4007,13 @@ We want to replace sde device asap.
 </code></pre></div>
 <p>The OVH services responded immediately and at 15:22 (3,5 hours later) the disk was replaced</p>
 <h2 id="resilvering">Resilvering<a class="headerlink" href="#resilvering" title="Permanent link">#</a></h2>
-<p>Then I logged on ovh3 and replace the old disk with the new one:</p>
+<p>Then I logged on ovh3 and replace the old disk with the new one:</p>
 <div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sde
 </code></pre></div>
 <p>I speed up the resilver at max, since it's vital
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="m">15000</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/zfs/parameters/zfs_resilver_min_time_ms
 </code></pre></div></p>
-<p>zpool estimates me it gonna take 1day and 6 hours.
+<p>zpool estimates me it gonna take 1 day and 6 hours (but it took far more, at least 4 days).
 <div class="highlight"><pre><span></span><code>zpool status
   ...
   scan: resilver in progress since Fri Jun 27 14:10:32 2025
