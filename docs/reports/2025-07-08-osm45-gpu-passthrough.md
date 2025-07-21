@@ -363,3 +363,51 @@ git lfs install
 ```
 
 The rest of the configuration is specific to Triton, which is related to Robotoff.
+
+I installed cuDNN:
+
+```bash
+sudo apt-get -y install libcudnn9-cuda-12
+```
+
+When sending an inference request to Triton, I got the following error:
+
+```
+2025-07-15 12:05:28.393843993 [E:onnxruntime:, sequential_executor.cc:516 ExecuteKernel] Non-zero status code returned while running Cast node. Name:'/text_model/Cast_5' Status Message: CUDA error cudaErrorNoKernelImageForDevice:no kernel image is available for execution on the device
+```
+
+It looks like GPUs with compute capability 6.1 (like the GTX 1080) are not supported by the ONNX Runtime version used by Triton.
+
+We could try to build ONNX Runtime from source with support for compute capability 6.1, but it's not officially supported by the current version of Triton (25.X). 
+We could also export all models to TensorRT, but the version of TensorRT that supports compute capability 6.1 is old and not compatible with the current version of Triton.
+
+I decided to switch to Triton 23.05, which is the last version that supports compute capability 6.1.
+It's possible that some exported models don't work with this version of Triton, as they use operations that are not supported by ONNX IR version 9 (used by Triton 23.05).
+I'm testing all models with integration tests to make sure they work with this version of Triton. 
+
+### Model testing
+
+I improved ML integration test supports in Robotoff (PR https://github.com/openfoodfacts/robotoff/pull/1679) and tested the models with the new deployment of Triton 23.05 on the GPU VM.
+The following models work well with Triton 23.05 running on the GPU VM:
+
+- `nutrition_table`
+- `nutriscore`
+- `clip`
+
+The `universal_logo_detector` model returns bogus results (100 detections with confidence 1.0 of `brand` objects).
+It seems the model (SavedModel format) is not compatible with this version of Triton on this GPU.
+
+The `price_tag_detection` model was exported using ONNX IR version 10, while the max supported version by Triton 23.05 is 9.
+We need to export it again with ONNX IR version 9 for it to work.
+
+Using the [compatibility table](https://onnxruntime.ai/docs/reference/compatibility#onnx-opset-support) provided on the ONNX website, as the ONNX runtime of the server is 1.12 (this is displayed at server startup), we know we should use onnx 1.12 and a max opset of 17 when exporting the model.
+
+I exported the `price_tag_detection` model with the following command (Python3.10, `ultralytics==8.3.168;onnx==1.12`):
+
+```bash
+uv run ultralytics export model=best.pt format=onnx imgsz=960 opset=17
+```
+
+The `price_tag_detection` model is now loaded correctly by Triton 23.05 on the GPU VM. I pushed the model to HF (https://huggingface.co/openfoodfacts/price-tag-detection/commit/2a1499bcd4a72ea9f49d24335e1f822d2a35cdaf).
+
+I also added to Robotoff the ability to specify the Triton URI for each model (PR https://github.com/openfoodfacts/robotoff/pull/1682).
