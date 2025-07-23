@@ -397,10 +397,10 @@ The following models work well with Triton 23.05 running on the GPU VM:
 The `universal_logo_detector` model returns bogus results (100 detections with confidence 1.0 of `brand` objects).
 It seems the model (SavedModel format) is not compatible with this version of Triton on this GPU.
 
-The `price_tag_detection` model was exported using ONNX IR version 10, while the max supported version by Triton 23.05 is 9.
-We need to export it again with ONNX IR version 9 for it to work.
+The `price_tag_detection` and `price_proof_classification` models were exported using ONNX IR version 10, which is not supported by Triton 23.05.
+We need to export it again with a previous ONNX IR version for it to work.
 
-Using the [compatibility table](https://onnxruntime.ai/docs/reference/compatibility#onnx-opset-support) provided on the ONNX website, as the ONNX runtime of the server is 1.12 (this is displayed at server startup), we know we should use onnx 1.12 and a max opset of 17 when exporting the model.
+Using the [compatibility table](https://onnxruntime.ai/docs/reference/compatibility#onnx-opset-support) provided on the ONNX website, as the ONNX runtime of the server is 1.12 (this is displayed at server startup), we know we should use onnx 1.12 (which comes with ONNX IR 8) and a max opset of 17 when exporting the model.
 
 I exported the `price_tag_detection` model with the following command (Python3.10, `ultralytics==8.3.168;onnx==1.12`):
 
@@ -409,5 +409,7 @@ uv run ultralytics export model=best.pt format=onnx imgsz=960 opset=17
 ```
 
 The `price_tag_detection` model is now loaded correctly by Triton 23.05 on the GPU VM. I pushed the model to HF (https://huggingface.co/openfoodfacts/price-tag-detection/commit/2a1499bcd4a72ea9f49d24335e1f822d2a35cdaf).
+
+Similarly, I exported the `price_proof_classification` model with the same command, deployed it on GPU and pushed it to HF (https://huggingface.co/openfoodfacts/price-proof-classification/commit/03c3bad38f4135d755584c346769f3217231cb36).
 
 I also added to Robotoff the ability to specify the Triton URI for each model (PR https://github.com/openfoodfacts/robotoff/pull/1682).
