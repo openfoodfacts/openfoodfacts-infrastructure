@@ -78,3 +78,40 @@ Accumulation can be due to two main reasons:
 * eventually sanoid is not able to cleanup snapshots,
   use `journalctl -xe -u sanoid` to try to see why.
 
+## SMART error (OfflineUncorrectableSector) detected
+
+This happens when SMART checks detect a problem on a disk.
+The disk where the error happens is in the email subject.
+
+If the number is small, it might not be a big deal.
+But if the number steadily increase, it means it's time to change the disk quickly.
+
+### limiting the number of email for this SMART error.
+
+By default, this alert will spawn every day,
+which is a bit steady, as there is nothing you can do about it,
+and it might not yet be time to change the disk.
+
+Using
+```bash
+sudo smartctl -a /dev/sda|grep Offline_Uncorrectable
+```
+We can see that the attribute Offlien_Uncorrectable as ID 198:
+```
+198 Offline_Uncorrectable   0x0030   100   100   000    Old_age   Offline      -       1
+```
+
+So we can update the `DEVICSCAN` directive in `/etc/smartd.conf` to add a `-U 198+` option,
+this tells smartd to only send a message if this number increase since last check.
+(see [smartd.conf manpage](https://manpages.debian.org/buster/smartmontools/smartd.conf.5.en.html))
+
+Edit `/etc/smartd.conf` to change
+```bash
+DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner
+```
+to
+```bash
+DEVICESCAN -d removable -U 198+ -n standby -m root -M exec /usr/share/smartmontools/smartd-runner
+```
+
+With this change, we’ll still get notified if another sector goes offline and becomes uncorrectable, but as long as the number stays the same, we won’t keep getting repeat alerts.
