@@ -704,6 +704,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#smart-error-offlineuncorrectablesector-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMART error (OfflineUncorrectableSector) detected
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMART error (OfflineUncorrectableSector) detected">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limiting-the-number-of-email-for-this-smart-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      limiting the number of email for this SMART error.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3918,6 +3942,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#smart-error-offlineuncorrectablesector-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMART error (OfflineUncorrectableSector) detected
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMART error (OfflineUncorrectableSector) detected">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limiting-the-number-of-email-for-this-smart-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      limiting the number of email for this SMART error.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4013,6 +4061,33 @@ on every host using ZFS.</p>
 <li>eventually sanoid is not able to cleanup snapshots,
   use <code>journalctl -xe -u sanoid</code> to try to see why.</li>
 </ul>
+<h2 id="smart-error-offlineuncorrectablesector-detected">SMART error (OfflineUncorrectableSector) detected<a class="headerlink" href="#smart-error-offlineuncorrectablesector-detected" title="Permanent link">#</a></h2>
+<p>This happens when SMART checks detect a problem on a disk.
+The disk where the error happens is in the email subject.</p>
+<p>If the number is small, it might not be a big deal.
+But if the number steadily increase, it means it's time to change the disk quickly.</p>
+<h3 id="limiting-the-number-of-email-for-this-smart-error">limiting the number of email for this SMART error.<a class="headerlink" href="#limiting-the-number-of-email-for-this-smart-error" title="Permanent link">#</a></h3>
+<p>By default, this alert will spawn every day,
+which is a bit steady, as there is nothing you can do about it,
+and it might not yet be time to change the disk.</p>
+<p>Using
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>smartctl<span class="w"> </span>-a<span class="w"> </span>/dev/sda<span class="p">|</span>grep<span class="w"> </span>Offline_Uncorrectable
+</code></pre></div>
+We can see that the attribute Offline_Uncorrectable as ID 198:
+<div class="highlight"><pre><span></span><code>198 Offline_Uncorrectable   0x0030   100   100   000    Old_age   Offline      -       1
+</code></pre></div></p>
+<p>So we can update the <code>DEVICSCAN</code> directive in <code>/etc/smartd.conf</code> to add a <code>-U 198+</code> option,
+this tells smartd to only send a message if this number increase since last check.
+(see <a href="https://manpages.debian.org/buster/smartmontools/smartd.conf.5.en.html">smartd.conf manpage</a>)</p>
+<p>Edit <code>/etc/smartd.conf</code> to change
+<div class="highlight"><pre><span></span><code>DEVICESCAN<span class="w"> </span>-d<span class="w"> </span>removable<span class="w"> </span>-n<span class="w"> </span>standby<span class="w"> </span>-m<span class="w"> </span>root<span class="w"> </span>-M<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>/usr/share/smartmontools/smartd-runner
+</code></pre></div>
+to
+<div class="highlight"><pre><span></span><code>DEVICESCAN<span class="w"> </span>-d<span class="w"> </span>removable<span class="w"> </span>-U<span class="w"> </span><span class="m">198</span>+<span class="w"> </span>-n<span class="w"> </span>standby<span class="w"> </span>-m<span class="w"> </span>root<span class="w"> </span>-M<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>/usr/share/smartmontools/smartd-runner
+</code></pre></div></p>
+<p>With this change, we’ll still get notified if another sector goes offline and becomes uncorrectable,
+but as long as the number stays the same,
+we won’t keep getting repeated alerts.</p>
 
 
 
