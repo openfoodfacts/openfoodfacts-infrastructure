@@ -114,4 +114,6 @@ to
 DEVICESCAN -d removable -U 198+ -n standby -m root -M exec /usr/share/smartmontools/smartd-runner
 ```
 
-With this change, we’ll still get notified if another sector goes offline and becomes uncorrectable, but as long as the number stays the same, we won’t keep getting repeat alerts.
+With this change, we’ll still get notified if another sector goes offline and becomes uncorrectable,
+but as long as the number stays the same,
+we won’t keep getting repeated alerts.
