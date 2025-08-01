@@ -96,7 +96,7 @@ Using
 ```bash
 sudo smartctl -a /dev/sda|grep Offline_Uncorrectable
 ```
-We can see that the attribute Offlien_Uncorrectable as ID 198:
+We can see that the attribute Offline_Uncorrectable as ID 198:
 ```
 198 Offline_Uncorrectable   0x0030   100   100   000    Old_age   Offline      -       1
 ```
