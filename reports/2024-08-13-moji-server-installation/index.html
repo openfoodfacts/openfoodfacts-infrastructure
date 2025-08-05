@@ -4006,6 +4006,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../2025-07-08-osm45-gpu-passthrough/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GPU passthrough configuration on osm45
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../2025-07-08-zpool-failure-on-hetzner-01/" class="md-nav__link">
         
   
@@ -4349,6 +4372,7 @@ Cores: 40 (/55), flag: +aes</p>
 <ul>
 <li>ip address: 10.3.0.200/8</li>
 <li>gateway: 10.0.0.45</li>
+<li>dns server: 9.9.9.9</li>
 </ul>
 <p>Next:</p>
 <ul>
@@ -4391,7 +4415,7 @@ PING<span class="w"> </span>2a06:c484:5::200<span class="o">(</span>2a06:c484:5:
 <span class="w">  </span><span class="s2">&quot;fixed-cidr-v6&quot;</span>:<span class="w"> </span><span class="s2">&quot;2a06:c484:5::200/48&quot;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it’s not possible, but that I’m really new at ipv6 networking.</p>
+<p>Docker then assigns a random ipv6 address from the range, I didn’t manage to make a docker service running locally accessible from outside. Not that it does not mean it's not possible, but that I’m really new at ipv6 networking.</p>
 <h3 id="solution-4">Solution 4<a class="headerlink" href="#solution-4" title="Permanent link">#</a></h3>
 <p>As we may get an ipv4 later (Stephane is asking for one), i decided to try directly solution 4, as it’s easy to set-up, and has the advantage of encrypting connection between ovh1 (where the reverse proxy is in CT 101) and docker-prod-2 (VM 200 on Moji).</p>
 <p>With solution (3) (nginx), the trafic is not encrypted, so stunnel is a better choice here.</p>

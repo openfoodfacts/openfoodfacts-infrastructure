@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../slackin/">
+        <link rel="prev" href="../2025-07-03-adding-disk-to-monitoring-01/">
       
       
-        <link rel="next" href="../virtual-machines/">
+        <link rel="next" href="../2025-07-08-zpool-failure-on-hetzner-01/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,14 +20,14 @@
     
     
       
-        <title>Stunnel - Open Food Facts Infrastructure documentation</title>
+        <title>GPU passthrough configuration on osm45 - Open Food Facts Infrastructure documentation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,14 +46,14 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -62,7 +62,7 @@
     .gdesc-inner { font-size: 0.75rem; }
     body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
     body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#stunnel" class="md-skip">
+        <a href="#gpu-passthrough-configuration-on-osm45" class="md-skip">
           Skip to content
         </a>
       
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   <img src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" alt="logo">
 
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Stunnel
+              GPU passthrough configuration on osm45
             
           </span>
         </div>
@@ -232,7 +232,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
       
   <img src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" alt="logo">
 
@@ -261,7 +261,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -283,7 +283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cicd/" class="md-nav__link">
+      <a href="../../cicd/" class="md-nav__link">
         
   
   
@@ -305,7 +305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../discourse/" class="md-nav__link">
+      <a href="../../discourse/" class="md-nav__link">
         
   
   
@@ -327,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../disks/" class="md-nav__link">
+      <a href="../../disks/" class="md-nav__link">
         
   
   
@@ -349,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker/" class="md-nav__link">
+      <a href="../../docker/" class="md-nav__link">
         
   
   
@@ -371,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker_architecture/" class="md-nav__link">
+      <a href="../../docker_architecture/" class="md-nav__link">
         
   
   
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker_onboarding/" class="md-nav__link">
+      <a href="../../docker_onboarding/" class="md-nav__link">
         
   
   
@@ -415,7 +415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../explain-server-config-in-git/" class="md-nav__link">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
         
   
   
@@ -437,7 +437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../folksonomy/" class="md-nav__link">
+      <a href="../../folksonomy/" class="md-nav__link">
         
   
   
@@ -459,7 +459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../free-datacenter/" class="md-nav__link">
+      <a href="../../free-datacenter/" class="md-nav__link">
         
   
   
@@ -481,7 +481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gcp-servers/" class="md-nav__link">
+      <a href="../../gcp-servers/" class="md-nav__link">
         
   
   
@@ -503,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../hetzner-servers/" class="md-nav__link">
+      <a href="../../hetzner-servers/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-deploy-a-new-service/" class="md-nav__link">
+      <a href="../../how-to-deploy-a-new-service/" class="md-nav__link">
         
   
   
@@ -569,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-fail2ban-ban-bots/" class="md-nav__link">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
         
   
   
@@ -591,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
         
   
   
@@ -613,7 +613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-handle-alerts/" class="md-nav__link">
+      <a href="../../how-to-handle-alerts/" class="md-nav__link">
         
   
   
@@ -635,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-have-server-config-in-git/" class="md-nav__link">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
         
   
   
@@ -657,7 +657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
         
   
   
@@ -679,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-resync-zfs-replication/" class="md-nav__link">
+      <a href="../../how-to-resync-zfs-replication/" class="md-nav__link">
         
   
   
@@ -701,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux-server/" class="md-nav__link">
+      <a href="../../linux-server/" class="md-nav__link">
         
   
   
@@ -723,7 +723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off1/" class="md-nav__link">
+      <a href="../../logs-off1/" class="md-nav__link">
         
   
   
@@ -745,7 +745,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off2/" class="md-nav__link">
+      <a href="../../logs-off2/" class="md-nav__link">
         
   
   
@@ -767,7 +767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-off3/" class="md-nav__link">
+      <a href="../../logs-off3/" class="md-nav__link">
         
   
   
@@ -789,7 +789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-ovh1/" class="md-nav__link">
+      <a href="../../logs-ovh1/" class="md-nav__link">
         
   
   
@@ -811,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-ovh2/" class="md-nav__link">
+      <a href="../../logs-ovh2/" class="md-nav__link">
         
   
   
@@ -833,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs-ovh3/" class="md-nav__link">
+      <a href="../../logs-ovh3/" class="md-nav__link">
         
   
   
@@ -855,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mail/" class="md-nav__link">
+      <a href="../../mail/" class="md-nav__link">
         
   
   
@@ -877,7 +877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../matomo/" class="md-nav__link">
+      <a href="../../matomo/" class="md-nav__link">
         
   
   
@@ -899,7 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../moji-datacenter/" class="md-nav__link">
+      <a href="../../moji-datacenter/" class="md-nav__link">
         
   
   
@@ -921,7 +921,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mongodb/" class="md-nav__link">
+      <a href="../../mongodb/" class="md-nav__link">
         
   
   
@@ -943,7 +943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../munin/" class="md-nav__link">
+      <a href="../../munin/" class="md-nav__link">
         
   
   
@@ -965,7 +965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../nginx-reverse-proxy/" class="md-nav__link">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
         
   
   
@@ -987,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../observability/" class="md-nav__link">
+      <a href="../../observability/" class="md-nav__link">
         
   
   
@@ -1009,7 +1009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../odoo/" class="md-nav__link">
+      <a href="../../odoo/" class="md-nav__link">
         
   
   
@@ -1031,7 +1031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../openfoodfacts-query/" class="md-nav__link">
+      <a href="../../openfoodfacts-query/" class="md-nav__link">
         
   
   
@@ -1053,7 +1053,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -1075,7 +1075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ovh-servers/" class="md-nav__link">
+      <a href="../../ovh-servers/" class="md-nav__link">
         
   
   
@@ -1097,7 +1097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../postgres/" class="md-nav__link">
+      <a href="../../postgres/" class="md-nav__link">
         
   
   
@@ -1119,7 +1119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../prod-architecture/" class="md-nav__link">
+      <a href="../../prod-architecture/" class="md-nav__link">
         
   
   
@@ -1141,7 +1141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../producers_sftp/" class="md-nav__link">
+      <a href="../../producers_sftp/" class="md-nav__link">
         
   
   
@@ -1163,7 +1163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../product-opener/" class="md-nav__link">
+      <a href="../../product-opener/" class="md-nav__link">
         
   
   
@@ -1185,7 +1185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../proxmox/" class="md-nav__link">
+      <a href="../../proxmox/" class="md-nav__link">
         
   
   
@@ -1207,7 +1207,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rclone/" class="md-nav__link">
+      <a href="../../rclone/" class="md-nav__link">
         
   
   
@@ -1229,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipe-estimator/" class="md-nav__link">
+      <a href="../../recipe-estimator/" class="md-nav__link">
         
   
   
@@ -1251,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../redis/" class="md-nav__link">
+      <a href="../../redis/" class="md-nav__link">
         
   
   
@@ -1273,7 +1273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sanoid/" class="md-nav__link">
+      <a href="../../sanoid/" class="md-nav__link">
         
   
   
@@ -1295,7 +1295,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slackin/" class="md-nav__link">
+      <a href="../../slackin/" class="md-nav__link">
         
   
   
@@ -1314,32 +1314,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Stunnel
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
         
   
   
@@ -1350,95 +1328,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#client-vs-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client vs Server
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#location-and-serverclient" class="md-nav__link">
-    <span class="md-ellipsis">
-      Location and server/client
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#psk" class="md-nav__link">
-    <span class="md-ellipsis">
-      PSK
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#test-configuration-before-restarting-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Test configuration before restarting service
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Systemd service
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1450,7 +1339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../virtual-machines/" class="md-nav__link">
+      <a href="../../virtual-machines/" class="md-nav__link">
         
   
   
@@ -1472,7 +1361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zammad/" class="md-nav__link">
+      <a href="../../zammad/" class="md-nav__link">
         
   
   
@@ -1494,7 +1383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zfs-overview/" class="md-nav__link">
+      <a href="../../zfs-overview/" class="md-nav__link">
         
   
   
@@ -1513,18 +1402,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53" checked>
         
           
           <label class="md-nav__link" for="__nav_53" id="__nav_53_label" tabindex="0">
@@ -1540,7 +1431,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_53">
             <span class="md-nav__icon md-icon"></span>
             Reports
@@ -1554,7 +1445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-02-22-matomo-install/" class="md-nav__link">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
         
   
   
@@ -1577,7 +1468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-10-03-network-down/" class="md-nav__link">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
         
   
   
@@ -1600,7 +1491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-12-21-disk-extension/" class="md-nav__link">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
         
   
   
@@ -1623,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2021-12-22-preprod-crash/" class="md-nav__link">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
         
   
   
@@ -1646,7 +1537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
         
   
   
@@ -1669,7 +1560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
         
   
   
@@ -1692,7 +1583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-02-remove-containers-ovh1/" class="md-nav__link">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
         
   
   
@@ -1715,7 +1606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
         
   
   
@@ -1738,7 +1629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
         
   
   
@@ -1761,7 +1652,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
         
   
   
@@ -1784,7 +1675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-11-infra-workshop/" class="md-nav__link">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
         
   
   
@@ -1807,7 +1698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
         
   
   
@@ -1830,7 +1721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
         
   
   
@@ -1853,7 +1744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
         
   
   
@@ -1876,7 +1767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
         
   
   
@@ -1899,7 +1790,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-13-zammad-down/" class="md-nav__link">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
         
   
   
@@ -1922,7 +1813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-16-off2-shutdown/" class="md-nav__link">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
         
   
   
@@ -1945,7 +1836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-17-off2-upgrade/" class="md-nav__link">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
         
   
   
@@ -1968,7 +1859,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-02-24-zfs-introduction/" class="md-nav__link">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
         
   
   
@@ -1991,7 +1882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
         
   
   
@@ -2014,7 +1905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
         
   
   
@@ -2037,7 +1928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-12-refresh-staging-clones/" class="md-nav__link">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
         
   
   
@@ -2060,7 +1951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
         
   
   
@@ -2083,7 +1974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-23-move-images-to-zfs/" class="md-nav__link">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
         
   
   
@@ -2106,7 +1997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-05-off2-110-unreachable/" class="md-nav__link">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
         
   
   
@@ -2129,7 +2020,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-01-robotoff-backups/" class="md-nav__link">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
         
   
   
@@ -2152,7 +2043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
         
   
   
@@ -2175,7 +2066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
         
   
   
@@ -2198,7 +2089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-06-30-sanoid-checks-install/" class="md-nav__link">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
         
   
   
@@ -2221,7 +2112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
         
   
   
@@ -2244,7 +2135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
         
   
   
@@ -2267,7 +2158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-off2-off-reinstall/" class="md-nav__link">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
         
   
   
@@ -2290,7 +2181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
         
   
   
@@ -2313,7 +2204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
         
   
   
@@ -2336,7 +2227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
         
   
   
@@ -2359,7 +2250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-10-14-mongodb-down/" class="md-nav__link">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
         
   
   
@@ -2382,7 +2273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-11-05-ovh3-disk-replace/" class="md-nav__link">
+      <a href="../2023-11-05-ovh3-disk-replace/" class="md-nav__link">
         
   
   
@@ -2405,7 +2296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-11-28-google-drive-backup-setup/" class="md-nav__link">
+      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
         
   
   
@@ -2428,7 +2319,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
         
   
   
@@ -2451,7 +2342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-12-08-off1-upgrade/" class="md-nav__link">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
         
   
   
@@ -2474,7 +2365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2023-12-11-matomo-down/" class="md-nav__link">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
         
   
   
@@ -2497,7 +2388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-02-monitoring-disk-space/" class="md-nav__link">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
         
   
   
@@ -2520,7 +2411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
         
   
   
@@ -2543,7 +2434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-04-setting-up-stunnel/" class="md-nav__link">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
         
   
   
@@ -2566,7 +2457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
         
   
   
@@ -2589,7 +2480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
         
   
   
@@ -2612,7 +2503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-01-matomo-perf-tunning/" class="md-nav__link">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
         
   
   
@@ -2635,7 +2526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
         
   
   
@@ -2658,7 +2549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-08-prod-redis-install/" class="md-nav__link">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
         
   
   
@@ -2681,7 +2572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-13-chatwoot-translation/" class="md-nav__link">
+      <a href="../2024-02-13-chatwoot-translation/" class="md-nav__link">
         
   
   
@@ -2704,7 +2595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-13-matomo-fix-queue0/" class="md-nav__link">
+      <a href="../2024-02-13-matomo-fix-queue0/" class="md-nav__link">
         
   
   
@@ -2727,7 +2618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
+      <a href="../2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
         
   
   
@@ -2750,7 +2641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-02-28-upgrade-redis/" class="md-nav__link">
+      <a href="../2024-02-28-upgrade-redis/" class="md-nav__link">
         
   
   
@@ -2773,7 +2664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-17-ovh1-down/" class="md-nav__link">
+      <a href="../2024-03-17-ovh1-down/" class="md-nav__link">
         
   
   
@@ -2796,7 +2687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-restructure-backups/" class="md-nav__link">
+      <a href="../2024-03-restructure-backups/" class="md-nav__link">
         
   
   
@@ -2819,7 +2710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-03-separate-hdd-docker-vms/" class="md-nav__link">
+      <a href="../2024-03-separate-hdd-docker-vms/" class="md-nav__link">
         
   
   
@@ -2842,7 +2733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
+      <a href="../2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
         
   
   
@@ -2865,7 +2756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-12-install-off-query-off1/" class="md-nav__link">
+      <a href="../2024-04-12-install-off-query-off1/" class="md-nav__link">
         
   
   
@@ -2888,7 +2779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-18-matomo-multi-archival/" class="md-nav__link">
+      <a href="../2024-04-18-matomo-multi-archival/" class="md-nav__link">
         
   
   
@@ -2911,7 +2802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+      <a href="../2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
         
   
   
@@ -2934,7 +2825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-04-26-off2-obf-new-install/" class="md-nav__link">
+      <a href="../2024-04-26-off2-obf-new-install/" class="md-nav__link">
         
   
   
@@ -2957,7 +2848,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
+      <a href="../2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
         
   
   
@@ -2980,7 +2871,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-06-05-off1-reverse-proxy-install/" class="md-nav__link">
+      <a href="../2024-06-05-off1-reverse-proxy-install/" class="md-nav__link">
         
   
   
@@ -3003,7 +2894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-06-10-move-off-query-volume-to-nvme/" class="md-nav__link">
+      <a href="../2024-06-10-move-off-query-volume-to-nvme/" class="md-nav__link">
         
   
   
@@ -3026,7 +2917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-06-20-move-ean8-directories/" class="md-nav__link">
+      <a href="../2024-06-20-move-ean8-directories/" class="md-nav__link">
         
   
   
@@ -3049,7 +2940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-08-03-ovh-reverse-proxy-ip-lost/" class="md-nav__link">
+      <a href="../2024-08-03-ovh-reverse-proxy-ip-lost/" class="md-nav__link">
         
   
   
@@ -3072,7 +2963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-08-07-wordpress-off-contents-fresh-install/" class="md-nav__link">
+      <a href="../2024-08-07-wordpress-off-contents-fresh-install/" class="md-nav__link">
         
   
   
@@ -3095,7 +2986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-08-13-moji-server-installation/" class="md-nav__link">
+      <a href="../2024-08-13-moji-server-installation/" class="md-nav__link">
         
   
   
@@ -3118,7 +3009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
+      <a href="../2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
         
   
   
@@ -3141,7 +3032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+      <a href="../2024-09-04-move-off-query-to-moji/" class="md-nav__link">
         
   
   
@@ -3164,7 +3055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+      <a href="../2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
         
   
   
@@ -3187,7 +3078,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-06-moji-post-installation/" class="md-nav__link">
+      <a href="../2024-09-06-moji-post-installation/" class="md-nav__link">
         
   
   
@@ -3210,7 +3101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-06-test-folksonomy-openproductsfacts/" class="md-nav__link">
+      <a href="../2024-09-06-test-folksonomy-openproductsfacts/" class="md-nav__link">
         
   
   
@@ -3233,7 +3124,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-19-move-docker-volumes/" class="md-nav__link">
+      <a href="../2024-09-19-move-docker-volumes/" class="md-nav__link">
         
   
   
@@ -3256,7 +3147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
+      <a href="../2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
         
   
   
@@ -3279,7 +3170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-09-30-ovh3-backups/" class="md-nav__link">
+      <a href="../2024-09-30-ovh3-backups/" class="md-nav__link">
         
   
   
@@ -3302,7 +3193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-10-23-deduplicate-products-in-multiple-flavors/" class="md-nav__link">
+      <a href="../2024-10-23-deduplicate-products-in-multiple-flavors/" class="md-nav__link">
         
   
   
@@ -3325,7 +3216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-10-29-move-s3-sync-script-to-ovh3/" class="md-nav__link">
+      <a href="../2024-10-29-move-s3-sync-script-to-ovh3/" class="md-nav__link">
         
   
   
@@ -3348,7 +3239,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-10-30-keycloak-ct-install/" class="md-nav__link">
+      <a href="../2024-10-30-keycloak-ct-install/" class="md-nav__link">
         
   
   
@@ -3371,7 +3262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-10-30-ovh3-backups/" class="md-nav__link">
+      <a href="../2024-10-30-ovh3-backups/" class="md-nav__link">
         
   
   
@@ -3394,7 +3285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/" class="md-nav__link">
+      <a href="../2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/" class="md-nav__link">
         
   
   
@@ -3417,7 +3308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-11-06-setup-cloud-vision-on-obf-opf-opff/" class="md-nav__link">
+      <a href="../2024-11-06-setup-cloud-vision-on-obf-opf-opff/" class="md-nav__link">
         
   
   
@@ -3440,7 +3331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-11-14-hetzner-server-install/" class="md-nav__link">
+      <a href="../2024-11-14-hetzner-server-install/" class="md-nav__link">
         
   
   
@@ -3463,7 +3354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-11-15-merge-products-dirs-for-all-flavors/" class="md-nav__link">
+      <a href="../2024-11-15-merge-products-dirs-for-all-flavors/" class="md-nav__link">
         
   
   
@@ -3486,7 +3377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-11-22-create-clone-of-opff-for-keycloak-testing/" class="md-nav__link">
+      <a href="../2024-11-22-create-clone-of-opff-for-keycloak-testing/" class="md-nav__link">
         
   
   
@@ -3509,7 +3400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-12-01-add-stunnel-endpoints/" class="md-nav__link">
+      <a href="../2024-12-01-add-stunnel-endpoints/" class="md-nav__link">
         
   
   
@@ -3532,7 +3423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-12-11-firmware-upgrade-on-off2/" class="md-nav__link">
+      <a href="../2024-12-11-firmware-upgrade-on-off2/" class="md-nav__link">
         
   
   
@@ -3555,7 +3446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2024-12-23-images-certificate-expired/" class="md-nav__link">
+      <a href="../2024-12-23-images-certificate-expired/" class="md-nav__link">
         
   
   
@@ -3578,7 +3469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-01-08-rename-o%2Af-new/" class="md-nav__link">
+      <a href="../2025-01-08-rename-o%2Af-new/" class="md-nav__link">
         
   
   
@@ -3601,7 +3492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-01-10-off-server-double-apache/" class="md-nav__link">
+      <a href="../2025-01-10-off-server-double-apache/" class="md-nav__link">
         
   
   
@@ -3624,7 +3515,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-01-27-firewall-off2-reverse-proxy/" class="md-nav__link">
+      <a href="../2025-01-27-firewall-off2-reverse-proxy/" class="md-nav__link">
         
   
   
@@ -3647,7 +3538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-01-27-firewall-work-free/" class="md-nav__link">
+      <a href="../2025-01-27-firewall-work-free/" class="md-nav__link">
         
   
   
@@ -3670,7 +3561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-01-28-firewall-work-ovh/" class="md-nav__link">
+      <a href="../2025-01-28-firewall-work-ovh/" class="md-nav__link">
         
   
   
@@ -3693,7 +3584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-02-18-more-hetzner-server-install/" class="md-nav__link">
+      <a href="../2025-02-18-more-hetzner-server-install/" class="md-nav__link">
         
   
   
@@ -3716,7 +3607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
+      <a href="../2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
         
   
   
@@ -3739,7 +3630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-06-23-move-monitoring-to-google-cloud/" class="md-nav__link">
+      <a href="../2025-06-23-move-monitoring-to-google-cloud/" class="md-nav__link">
         
   
   
@@ -3762,7 +3653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-06-27-ovh3-disk-replace/" class="md-nav__link">
+      <a href="../2025-06-27-ovh3-disk-replace/" class="md-nav__link">
         
   
   
@@ -3785,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-06-30-ovh3-disk-full-post-mortem/" class="md-nav__link">
+      <a href="../2025-06-30-ovh3-disk-full-post-mortem/" class="md-nav__link">
         
   
   
@@ -3808,7 +3699,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-07-02-ovh3-disk-replace/" class="md-nav__link">
+      <a href="../2025-07-02-ovh3-disk-replace/" class="md-nav__link">
         
   
   
@@ -3831,7 +3722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-07-03-adding-disk-to-monitoring-01/" class="md-nav__link">
+      <a href="../2025-07-03-adding-disk-to-monitoring-01/" class="md-nav__link">
         
   
   
@@ -3851,10 +3742,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../reports/2025-07-08-osm45-gpu-passthrough/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    GPU passthrough configuration on osm45
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3865,6 +3778,152 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-gpu-passthrough-on-osm45" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up GPU passthrough on osm45
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up GPU passthrough on osm45">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpu-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPU isolation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-vm-with-gpu-passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a VM with GPU passthrough
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a VM with GPU passthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      Info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-vm-for-gpu-passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring the VM for GPU passthrough
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring the VM for GPU passthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-nvidia-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing NVIDIA drivers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-cuda" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing CUDA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-triton" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing Triton
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3877,7 +3936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/2025-07-08-zpool-failure-on-hetzner-01/" class="md-nav__link">
+      <a href="../2025-07-08-zpool-failure-on-hetzner-01/" class="md-nav__link">
         
   
   
@@ -3927,46 +3986,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#client-vs-server" class="md-nav__link">
+  <a href="#setting-up-gpu-passthrough-on-osm45" class="md-nav__link">
     <span class="md-ellipsis">
-      Client vs Server
+      Setting up GPU passthrough on osm45
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
+    <nav class="md-nav" aria-label="Setting up GPU passthrough on osm45">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#location-and-serverclient" class="md-nav__link">
+  <a href="#gpu-isolation" class="md-nav__link">
     <span class="md-ellipsis">
-      Location and server/client
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#psk" class="md-nav__link">
-    <span class="md-ellipsis">
-      PSK
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#test-configuration-before-restarting-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Test configuration before restarting service
+      GPU isolation
     </span>
   </a>
   
@@ -3978,20 +4010,104 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
+  <a href="#creating-a-vm-with-gpu-passthrough" class="md-nav__link">
     <span class="md-ellipsis">
-      Testing
+      Creating a VM with GPU passthrough
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a VM with GPU passthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      Info
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-service" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#post-installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Systemd service
+      Post-installation
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-vm-for-gpu-passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring the VM for GPU passthrough
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring the VM for GPU passthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-nvidia-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing NVIDIA drivers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-cuda" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing CUDA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-triton" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing Triton
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4011,7 +4127,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/stunnel.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-07-08-osm45-gpu-passthrough.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4019,76 +4135,294 @@
   
 
 
-<h1 id="stunnel">Stunnel<a class="headerlink" href="#stunnel" title="Permanent link">#</a></h1>
-<p>Stunnel enables us to secure (TCP) connection between distant servers.</p>
-<p>It encrypts traffic with openssl.</p>
-<p>It is installed on the reverse proxy of off2, and on a specific VM (113) on ovh1. For more details about why we use a new VM for the client (ovh), see <a href="../reports/2024-01-04-setting-up-stunnel/">the install report</a>.</p>
-<p>Illustration:
-<pre class="mermaid"><code>sequenceDiagram
-    box  Private Network 1
-      Participant Cli as Client
-      Participant Scli as Stunnel Server 1 (client)
-    End
-    box Private Network 2
-      Participant Sserv as Stunnel Server 2 (server)
-      Participant Mongo as MongoDB Server
-    End
-    Note over Scli,Sserv: The wild web
-    Cli-&gt;&gt;Scli: Query MongoDB
-    Scli-&gt;&gt;Sserv: Encrypted
-    Sserv-&gt;&gt;Mongo: Query MongoDB
-    Mongo-&gt;&gt;Sserv: MongoDB response
-    Sserv-&gt;&gt;Scli: Encrypted
-    Scli-&gt;&gt;Cli: MongoDB response</code></pre></p>
-<h2 id="client-vs-server">Client vs Server<a class="headerlink" href="#client-vs-server" title="Permanent link">#</a></h2>
-<p>When we configure stunnel, there are two side:</p>
-<ul>
-<li>the side, where connection happens (<em>Stunnel Server 1</em> on the diagram)  is called <strong>client side</strong></li>
-<li>the other side accepts connections only from other stunnel instances and forward them to the exposed service, it is the <strong>server side</strong></li>
-</ul>
-<p><strong>VERY IMPORTANT</strong></p>
-<p>Whereas the <strong>server side</strong> port needs to be exposed publicly on the web, we want to avoid <strong>client side</strong> to be exposed on a public IP even inadvertently.</p>
-<p>That's why we:</p>
-<ul>
-<li>use <strong>reverse proxy</strong> for stunnel <strong>server</strong> services, and only those</li>
-<li>use a <strong>specific internal container</strong> for stunnel <strong>client</strong> entrypoints, with only a private IP exposed.</li>
-</ul>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">#</a></h2>
-<h3 id="location-and-serverclient">Location and server/client<a class="headerlink" href="#location-and-serverclient" title="Permanent link">#</a></h3>
-<p>Configuration is in <code>/etc/stunnel/off.conf</code> this is the <code>off</code> instance (and meant to be the only one for now),
-we can add as many entries to serve different services as we want.</p>
-<p>When you configure stunnel, on the side, where connection happens (<em>Stunnel Server 1</em> on the diagram) you have to specify <code>client=yes</code>. On the other side it's <code>client=no</code> (server side), it accepts connections only from other stunnel instances and forward them to the exposed service.</p>
-<p><strong>IMPORTANT</strong> always double check to only use client=yes on the internal container (on private network), never on the proxy</p>
-<h3 id="psk">PSK<a class="headerlink" href="#psk" title="Permanent link">#</a></h3>
-<p>We use psk (Private Shared Key) for security (easier and more performant than setting up certificates).</p>
-<p>The psk file must be in /etc/stunnel/psk/ and must not be commited in this repository, but remain on the servers only, and be private (<code>chmod -R go-rwx /etc/stunnel/psk/</code>)</p>
-<p>To generate a psk, use <code>pwgen 32</code>.</p>
-<p>Keep each username really unique for each server, but also for each services (otherwise it will conflict !).</p>
-<h3 id="test-configuration-before-restarting-service">Test configuration before restarting service<a class="headerlink" href="#test-configuration-before-restarting-service" title="Permanent link">#</a></h3>
-<p>BEWARE that stunnel is used for other services !</p>
-<p>So don't restart the service without first testing your configuration.</p>
-<p>On way to test is to try to start another instance of stunnel. It will fail because it's unable to bind to already occupied ports, but you will be able to see if configuration was parsed correctly: <code>stunnel /etc/stunnel/off.conf</code></p>
-<p>When you are ready, you can use: <code>systemctl restart stunnel@off</code></p>
-<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
-<p>It's important to be able to test connectivity.</p>
-<p>For most services, curl might be sufficient. Don't hesitate to install it if not present.</p>
-<p>A good tool is also netcat (use netcat-openbsd package on debian). 
-<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span>&lt;address&gt;<span class="w"> </span>&lt;port&gt;
+<h1 id="gpu-passthrough-configuration-on-osm45">GPU passthrough configuration on osm45<a class="headerlink" href="#gpu-passthrough-configuration-on-osm45" title="Permanent link">#</a></h1>
+<h2 id="setting-up-gpu-passthrough-on-osm45">Setting up GPU passthrough on osm45<a class="headerlink" href="#setting-up-gpu-passthrough-on-osm45" title="Permanent link">#</a></h2>
+<p><a href="https://wiki.openstreetmap.org/wiki/FR:Serveurs_OpenStreetMap_France/Moji">osm45 server</a> was installed in January 2024.
+It has 2 NVIDIA 1080 GPUs, which are currently not used.</p>
+<p>To access the GPUs from a VM, we need to configure GPU passthrough.</p>
+<p>We're following here the official Proxmox documentation on <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#qm_pci_passthrough">GPU passthrough</a>, with the following tutorial as an helpful resource: <a href="https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/">Proxmox GPU passthrough with NVIDIA</a>.</p>
+<p>We first run lspci to find the GPU IDs:</p>
+<div class="highlight"><pre><span></span><code>lspci<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>NVIDIA
 </code></pre></div>
-can be a good way to test if the port is reachable and open.</p>
-<p>For mongodb, a way to test point to point is to directly use mongodb docker image (you might also install mongosh package).
-For example to reach OFF mongodb through the stunnel at 10.3.0.101, port 27017, run:
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span>--rm<span class="w"> </span>mongo<span class="w"> </span>mongosh<span class="w"> </span><span class="s2">&quot;mongodb://10.3.0.101:27017/off&quot;</span>
+<p>This returns:
+<div class="highlight"><pre><span></span><code>02:00.0 VGA compatible controller: NVIDIA Corporation GP104 [GeForce GTX 1080] (rev a1)
+02:00.1 Audio device: NVIDIA Corporation GP104 High Definition Audio Controller (rev a1)
+83:00.0 VGA compatible controller: NVIDIA Corporation GP104 [GeForce GTX 1080] (rev a1)
+83:00.1 Audio device: NVIDIA Corporation GP104 High Definition Audio Controller (rev a1)
 </code></pre></div></p>
-<h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">#</a></h2>
-<p>The stunnel@off service is the one that correspond to  <code>/etc/stunnel/off.conf</code></p>
-<p>We had to override the systemctl service a bit for pid file to work:</p>
+<p>As systemd-boot is used as bootloader, we update the kernel parameters in <code>/etc/kernel/cmdline</code> to include the following options:</p>
+<p><code>intel_iommu=on iommu=pt</code></p>
+<p>These options were already present in the file.</p>
+<p>Next, we add the following lines to <code>/etc/modules</code> to load the necessary kernel modules at boot:</p>
+<div class="highlight"><pre><span></span><code>vfio
+vfio_iommu_type1
+vfio_pci
+</code></pre></div>
+<p>Then, we refresh the initramfs:</p>
+<div class="highlight"><pre><span></span><code>update-initramfs<span class="w"> </span>-u
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>update-initramfs: Generating /boot/initrd.img-6.8.12-10-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+    Removing old version 6.8.8-2-pve
+update-initramfs: Generating /boot/initrd.img-6.8.12-8-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.8.12-7-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.8.8-2-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.8.4-3-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.5.13-6-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.5.13-5-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+update-initramfs: Generating /boot/initrd.img-6.5.11-4-pve
+Running hook script &#39;zz-proxmox-boot&#39;..
+Re-executing &#39;/etc/kernel/postinst.d/zz-proxmox-boot&#39; in new private mount namespace..
+Copying and configuring kernels on /dev/disk/by-uuid/E337-49A4
+    Copying kernel and creating boot-entry for 6.5.13-6-pve
+    Copying kernel and creating boot-entry for 6.8.12-10-pve
+    Copying kernel and creating boot-entry for 6.8.12-8-pve
+</code></pre></div>
+<p>I rebooted the server with <code>systemctl reboot</code>. I checked that the modules are loaded with:</p>
+<div class="highlight"><pre><span></span><code>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>vfio
+</code></pre></div>
+<p>This returns:</p>
+<div class="highlight"><pre><span></span><code>vfio_pci               16384  0
+vfio_pci_core          86016  1 vfio_pci
+irqbypass              12288  158 vfio_pci_core,kvm
+vfio_iommu_type1       49152  0
+vfio                   65536  3 vfio_pci_core,vfio_iommu_type1,vfio_pci
+iommufd                94208  1 vfio
+</code></pre></div>
+<p>The modules are indeed loaded correctly.</p>
+<p>I checked that the changes were enabled with <code>dmesg | grep -e DMAR -e IOMMU -e AMD-Vi</code>:</p>
+<p>Output:
+<div class="highlight"><pre><span></span><code>[    0.009084] ACPI: DMAR 0x000000007BAFE000 000108 (v01 DELL   PE_SC3   00000001 DELL 00000001)
+[    0.009117] ACPI: Reserving DMAR table memory at [mem 0x7bafe000-0x7bafe107]
+[    0.368420] DMAR: IOMMU enabled
+[    0.822582] DMAR: Host address width 46
+[    0.822584] DMAR: DRHD base: 0x000000fbffc000 flags: 0x0
+[    0.822600] DMAR: dmar0: reg_base_addr fbffc000 ver 1:0 cap 8d2078c106f0466 ecap f020df
+[    0.822605] DMAR: DRHD base: 0x000000c7ffc000 flags: 0x1
+[    0.822612] DMAR: dmar1: reg_base_addr c7ffc000 ver 1:0 cap 8d2078c106f0466 ecap f020df
+[    0.822616] DMAR: RMRR base: 0x00000067ff6000 end: 0x0000006fffdfff
+[    0.822621] DMAR: ATSR flags: 0x0
+[    0.822626] DMAR: ATSR flags: 0x0
+[    0.822630] DMAR-IR: IOAPIC id 10 under DRHD base  0xfbffc000 IOMMU 0
+[    0.822634] DMAR-IR: IOAPIC id 8 under DRHD base  0xc7ffc000 IOMMU 1
+[    0.822637] DMAR-IR: IOAPIC id 9 under DRHD base  0xc7ffc000 IOMMU 1
+[    0.822640] DMAR-IR: HPET id 0 under DRHD base 0xc7ffc000
+[    0.822644] DMAR-IR: x2apic is disabled because BIOS sets x2apic opt out bit.
+[    0.822645] DMAR-IR: Use &#39;intremap=no_x2apic_optout&#39; to override the BIOS setting.
+[    0.823474] DMAR-IR: Enabled IRQ remapping in xapic mode
+[    1.300484] DMAR: [Firmware Bug]: RMRR entry for device 03:00.0 is broken - applying workaround
+[    1.300549] DMAR: No SATC found
+[    1.300553] DMAR: dmar0: Using Queued invalidation
+[    1.300559] DMAR: dmar1: Using Queued invalidation
+[    1.314541] DMAR: Intel(R) Virtualization Technology for Directed I/O
+</code></pre></div></p>
+<p>IOMMU is indeed enabled.</p>
+<p>Then, we check that the GPUs are in their own IOMMU groups with:</p>
+<div class="highlight"><pre><span></span><code>pvesh<span class="w"> </span>get<span class="w"> </span>/nodes/osm45/hardware/pci<span class="w"> </span>--pci-class-blacklist<span class="w"> </span><span class="s2">&quot;&quot;</span>
+</code></pre></div>
+<p>The first GPU (0000:02:00.0) was in group 29 and the second GPU (0000:83:00.0) was in group 7. Each group contains only one device, which is what we want for passthrough.</p>
+<h3 id="gpu-isolation">GPU isolation<a class="headerlink" href="#gpu-isolation" title="Permanent link">#</a></h3>
+<p>We get the Vendor and Device IDs of the GPUs with:</p>
+<div class="highlight"><pre><span></span><code>lspci<span class="w"> </span>-n<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>NVIDIA
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code>02:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP104 [GeForce GTX 1080] [10de:1b80] (rev a1)
+02:00.1 Audio device [0403]: NVIDIA Corporation GP104 High Definition Audio Controller [10de:10f0] (rev a1)
+83:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP104 [GeForce GTX 1080] [10de:1b80] (rev a1)
+83:00.1 Audio device [0403]: NVIDIA Corporation GP104 High Definition Audio Controller [10de:10f0] (rev a1)
+</code></pre></div></p>
+<p>We use the "blacklist" method to isolate the GPUs from the host system, so that they can be passed through to VMs.</p>
+<p>echo "options vfio-pci ids=10de:1b80,10de:10f0" &gt;&gt; /etc/modprobe.d/vfio.conf</p>
+<p>Then, we create a file <code>/etc/modprobe.d/blacklist.conf</code> with the following content to blacklist the NVIDIA drivers:</p>
+<p>```blacklist nouveau
+blacklist nvidia
+blacklist nvidia_drm
+blacklist nvidia_modeset
+blacklist nvidia_uvm
+<div class="highlight"><pre><span></span><code>Then, we update the initramfs again:
+
+```bash
+update-initramfs -u -k all
+</code></pre></div></p>
+<p>I rebooted the server again with <code>systemctl reboot</code>.</p>
+<p>I checked that the NVIDIA drivers are not loaded with:</p>
+<div class="highlight"><pre><span></span><code>lspci<span class="w"> </span>-nnk
+</code></pre></div>
+<p>For the GPUs, this returns <code>Kernel driver in use: vfio-pci</code>, as expected.</p>
+<h2 id="creating-a-vm-with-gpu-passthrough">Creating a VM with GPU passthrough<a class="headerlink" href="#creating-a-vm-with-gpu-passthrough" title="Permanent link">#</a></h2>
+<p>Next step is to create a VM that will use the GPU passthrough.</p>
+<p>I first tried the recommended options for the VM, which are:</p>
 <ul>
-<li>stunnel needs to be launch as <code>root</code> to get some privilege (and then change user)</li>
-<li>but pid file is created with running user</li>
-<li>so we use group stunnel4 in service definition and add group write permission to runtime directory to ensure stunnel can create the pid file</li>
+<li>BIOS: OVMF (UEFI)</li>
+<li>Machine: q35</li>
 </ul>
-<p>Also note that it is launched in foreground for we let systemd handle the process.</p>
+<p>The rest of the parameters are the same as the 2nd attempt I describe below.</p>
+<p>When launching the VM, no video output was displayed.
+I then tried to use SeaBIOS and i440fx machine type, which are the parameters used by the VM <code>triton-gpu</code> described below.</p>
+<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">#</a></h3>
+<p>ID: 201
+name: triton-gpu
+ISO image: debian-12.6.0-amd64-netinst.iso
+BIOS: SeaBIOS
+Machine: i440fx
+disks: <code>scsi0</code>: 100 GB from nvme-zfs for machine
+RAM: 30GB (/124 GB)
+Cores: 10 (/55), flag: +aes</p>
+<p>"Boot on start" was enabled.</p>
+<h3 id="post-installation">Post-installation<a class="headerlink" href="#post-installation" title="Permanent link">#</a></h3>
+<ul>
+<li>English</li>
+<li>timezone: France (in others)</li>
+<li>locale: en_US.UTF8</li>
+<li>keymap: french</li>
+</ul>
+<h3 id="network">Network<a class="headerlink" href="#network" title="Permanent link">#</a></h3>
+<p>Network was manually configured:</p>
+<ul>
+<li>ip address: 10.3.0.201/8</li>
+<li>gateway: 10.0.0.45</li>
+<li>dns server: 9.9.9.9</li>
+</ul>
+<h3 id="other">Other<a class="headerlink" href="#other" title="Permanent link">#</a></h3>
+<p>Additional contents installed: SSH server. Grub was installed on <code>/dev/sda</code>.</p>
+<p>I created a user <code>raphael</code> with sudo privileges. I installed tmux, vim, git, curl, htop, and uv.</p>
+<h2 id="configuring-the-vm-for-gpu-passthrough">Configuring the VM for GPU passthrough<a class="headerlink" href="#configuring-the-vm-for-gpu-passthrough" title="Permanent link">#</a></h2>
+<p>I added the PCI devices to the VM configuration with the following commands:</p>
+<div class="highlight"><pre><span></span><code>qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">201</span><span class="w"> </span>--hostpci0<span class="w"> </span><span class="m">02</span>:00
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">201</span><span class="w"> </span>--hostpci1<span class="w"> </span><span class="m">83</span>:00
+</code></pre></div>
+<h3 id="installing-nvidia-drivers">Installing NVIDIA drivers<a class="headerlink" href="#installing-nvidia-drivers" title="Permanent link">#</a></h3>
+<p>I installed the NVIDIA drivers by following <a href="https://linuxcapable.com/install-nvidia-drivers-on-debian/">the following tutorial</a>.</p>
+<p>Install required packages:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>software-properties-common<span class="w"> </span>-y
+</code></pre></div>
+<p>Add non-free repository:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>contrib<span class="w"> </span>non-free<span class="w"> </span>non-free-firmware
+</code></pre></div>
+<p>Then update with an <code>apt update</code>.</p>
+<p>We install <code>nvidia-detect</code> to detect the GPU model:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nvidia-detect
+</code></pre></div>
+<p>Run <code>nvidia-detect</code> to get the recommended driver:</p>
+<div class="highlight"><pre><span></span><code>nvidia-detect
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code>Detected NVIDIA GPUs:
+02:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP104 [GeForce GTX 1080] [10de:1b80] (rev a1)
+83:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP104 [GeForce GTX 1080] [10de:1b80] (rev a1)
+
+Checking card:  NVIDIA Corporation GP104 [GeForce GTX 1080] (rev a1)
+Your card is supported by all driver versions.
+Your card is also supported by the Tesla 470 drivers series.
+It is recommended to install the
+    nvidia-driver
+package.
+
+Checking card:  NVIDIA Corporation GP104 [GeForce GTX 1080] (rev a1)
+Your card is supported by all driver versions.
+Your card is also supported by the Tesla 470 drivers series.
+It is recommended to install the
+    nvidia-driver
+package.
+</code></pre></div></p>
+<p>We install the recommended driver:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nvidia-driver
+</code></pre></div>
+<p>We then reboot the VM with:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>reboot
+</code></pre></div>
+<h3 id="installing-cuda">Installing CUDA<a class="headerlink" href="#installing-cuda" title="Permanent link">#</a></h3>
+<p>Next, we install CUDA by following the instructions on https://developer.nvidia.com/cuda-downloads:</p>
+<div class="highlight"><pre><span></span><code>wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-9
+</code></pre></div>
+<p>I also installed NVIDIA Container Toolkit to allow Docker to use the GPU:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>nvidia-container-toolkit
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>docker
+</code></pre></div>
+<h3 id="installing-triton">Installing Triton<a class="headerlink" href="#installing-triton" title="Permanent link">#</a></h3>
+<p>First, we clone the Robotoff repository:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openfoodfacts/robotoff.git
+</code></pre></div>
+<p>After installing git lfs, we activating it with</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>lfs<span class="w"> </span>install
+</code></pre></div>
+<p>The rest of the configuration is specific to Triton, which is related to Robotoff.</p>
+<p>I installed cuDNN:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>libcudnn9-cuda-12
+</code></pre></div>
+<p>When sending an inference request to Triton, I got the following error:</p>
+<div class="highlight"><pre><span></span><code>2025-07-15 12:05:28.393843993 [E:onnxruntime:, sequential_executor.cc:516 ExecuteKernel] Non-zero status code returned while running Cast node. Name:&#39;/text_model/Cast_5&#39; Status Message: CUDA error cudaErrorNoKernelImageForDevice:no kernel image is available for execution on the device
+</code></pre></div>
+<p>It looks like GPUs with compute capability 6.1 (like the GTX 1080) are not supported by the ONNX Runtime version used by Triton.</p>
+<p>We could try to build ONNX Runtime from source with support for compute capability 6.1, but it's not officially supported by the current version of Triton (25.X). 
+We could also export all models to TensorRT, but the version of TensorRT that supports compute capability 6.1 is old and not compatible with the current version of Triton.</p>
+<p>I decided to switch to Triton 23.05, which is the last version that supports compute capability 6.1.
+It's possible that some exported models don't work with this version of Triton, as they use operations that are not supported by ONNX IR version 9 (used by Triton 23.05).
+I'm testing all models with integration tests to make sure they work with this version of Triton. </p>
+<h3 id="model-testing">Model testing<a class="headerlink" href="#model-testing" title="Permanent link">#</a></h3>
+<p>I improved ML integration test supports in Robotoff (PR https://github.com/openfoodfacts/robotoff/pull/1679) and tested the models with the new deployment of Triton 23.05 on the GPU VM.
+The following models work well with Triton 23.05 running on the GPU VM:</p>
+<ul>
+<li><code>nutrition_table</code></li>
+<li><code>nutriscore</code></li>
+<li><code>clip</code></li>
+</ul>
+<p>The <code>universal_logo_detector</code> model returns bogus results (100 detections with confidence 1.0 of <code>brand</code> objects).
+It seems the model (SavedModel format) is not compatible with this version of Triton on this GPU.</p>
+<p>The <code>price_tag_detection</code> and <code>price_proof_classification</code> models were exported using ONNX IR version 10, which is not supported by Triton 23.05.
+We need to export it again with a previous ONNX IR version for it to work.</p>
+<p>Using the <a href="https://onnxruntime.ai/docs/reference/compatibility#onnx-opset-support">compatibility table</a> provided on the ONNX website, as the ONNX runtime of the server is 1.12 (this is displayed at server startup), we know we should use onnx 1.12 (which comes with ONNX IR 8) and a max opset of 17 when exporting the model.</p>
+<p>I exported the <code>price_tag_detection</code> model with the following command (Python3.10, <code>ultralytics==8.3.168;onnx==1.12</code>):</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>ultralytics<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">model</span><span class="o">=</span>best.pt<span class="w"> </span><span class="nv">format</span><span class="o">=</span>onnx<span class="w"> </span><span class="nv">imgsz</span><span class="o">=</span><span class="m">960</span><span class="w"> </span><span class="nv">opset</span><span class="o">=</span><span class="m">17</span>
+</code></pre></div>
+<p>The <code>price_tag_detection</code> model is now loaded correctly by Triton 23.05 on the GPU VM. I pushed the model to HF (https://huggingface.co/openfoodfacts/price-tag-detection/commit/2a1499bcd4a72ea9f49d24335e1f822d2a35cdaf).</p>
+<p>Similarly, I exported the <code>price_proof_classification</code> model with the same command, deployed it on GPU and pushed it to HF (https://huggingface.co/openfoodfacts/price-proof-classification/commit/03c3bad38f4135d755584c346769f3217231cb36).</p>
+<p>I also added to Robotoff the ability to specify the Triton URI for each model (PR https://github.com/openfoodfacts/robotoff/pull/1682).</p>
 
 
 
@@ -4137,10 +4471,10 @@ For example to reach OFF mongodb through the stunnel at 10.3.0.101, port 27017, 
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
