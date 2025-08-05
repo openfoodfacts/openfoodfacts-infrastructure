@@ -1,9 +1,8 @@
 # /// script
 # dependencies = [
-# "openfoodfacts==1.1.5",
+# "openfoodfacts==2.8.0",
 # "orjson==3.10.7",
 # "boto3==1.35.32",
-# "tqdm==4.66.5",
 # ]
 # requires-python = ">=3.7"
 # ///
@@ -32,9 +31,9 @@ from pathlib import Path
 from typing import Iterator, Optional, Tuple
 
 import boto3
-import tqdm
 from openfoodfacts import ProductDataset
-from openfoodfacts.images import split_barcode
+from openfoodfacts.barcode import normalize_barcode
+from openfoodfacts.images import convert_to_legacy_schema, split_barcode
 
 logger = getLogger()
 handler = logging.StreamHandler()
@@ -52,11 +51,11 @@ s3 = boto3.resource("s3", region_name="eu-west-3")
 bucket = s3.Bucket("openfoodfacts-images")
 
 
-
 def generate_product_path(barcode: str) -> str:
     if not barcode.isdigit():
-        raise ValueError("unknown barcode format: {}".format(barcode))
+        raise ValueError(f"unknown barcode format: {barcode}")
 
+    barcode = normalize_barcode(barcode)
     splitted_barcode = split_barcode(barcode)
     return "/".join(splitted_barcode)
 
@@ -81,32 +80,30 @@ def get_sync_filepaths(
     :param base_dir: directory where images are stored
     :param ds: product dataset
     """
-    for item in tqdm.tqdm(ds, desc="products"):
+    for item in ds:
         barcode = item["code"]
         if not barcode:
             continue
         product_path = generate_product_path(barcode)
         product_dir = Path(product_path)
         full_product_dir = base_dir / product_dir
+        images = convert_to_legacy_schema(item.get("images", {}))
 
-        for image_id in item.get("images", {}).keys():
+        for image_id in images.keys():
             if not image_id.isdigit():
                 # Ignore selected image keys
                 continue
 
             # Only synchronize raw and 400px version of images
-            for image_name in (
-                "{}.jpg".format(image_id),
-                "{}.400.jpg".format(image_id),
-            ):
+            for image_name in (f"{image_id}.jpg", f"{image_id}.400.jpg"):
                 full_image_path = full_product_dir / image_name
                 if not full_image_path.is_file():
-                    logger.warning("image {} not found".format(full_image_path))
+                    logger.warning("image %s not found", full_image_path)
                     continue
                 yield barcode, product_dir / image_name
 
             # Synchronize OCR JSON if it exists
-            ocr_file_name = "{}.json.gz".format(image_id)
+            ocr_file_name = f"{image_id}.json.gz"
             if (full_product_dir / ocr_file_name).is_file():
                 yield barcode, product_dir / ocr_file_name
 
@@ -117,7 +114,13 @@ def run(image_dir: Path, dataset_path: Optional[Path]) -> None:
     :param image_dir: directory where images are stored
     :param dataset_path: path to the JSONL dataset
     """
-    ds = ProductDataset(dataset_path=dataset_path)
+    ds_path = Path(
+        "~/.cache/openfoodfacts/datasets/openfoodfacts-products.jsonl.gz"
+    ).expanduser()
+    # Remove the file if it exists, to save disk space
+    if ds_path.is_file():
+        ds_path.unlink()
+    ds = ProductDataset(dataset_path=dataset_path, download_newer=True)
     logger.info("Fetching existing keys...")
     existing_keys = set(obj.key for obj in bucket.objects.filter(Prefix="data/"))
     logger.info("%d keys in openfoodfacts-images bucket", len(existing_keys))
@@ -212,4 +215,3 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     run(args.image_dir, args.dataset_path)
-
