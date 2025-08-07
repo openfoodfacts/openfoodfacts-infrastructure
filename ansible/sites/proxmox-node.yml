@@ -17,6 +17,3 @@
       vars:
         sanoid__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
-    - role: hetzner_vswitch
-      tags: ["base", "network", "vswitch"]
-      when: hetzner_vswitch__vlan_id is defined
