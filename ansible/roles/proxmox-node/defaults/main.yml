@@ -54,3 +54,8 @@ proxmox_node_alerts_email: ''
 # when you want to create the partitions
 # -e "proxomox_node_mkparts=true"
 proxomox_node_mkparts: false
+
+# isos to download with url and checksum
+proxmox_node__iso: []
+#   - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+#     checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"

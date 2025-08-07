@@ -11,3 +11,8 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 # FIXME
 #pve_ssl_private_key
 #pve_ssl_certificate
+
+# iso files
+proxmox_node__iso:
+  - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
