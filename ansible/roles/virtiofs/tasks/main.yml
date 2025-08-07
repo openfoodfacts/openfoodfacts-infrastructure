@@ -1,0 +1,18 @@
+---
+- name: Install Virtiofs daemon
+  ansible.builtin.apt:
+    pkg:
+      - virtiofsd
+    state: present
+    update_cache: true
+
+- name: Set directory mappings
+  proxmox_resource_mapping:
+    type: "dir"
+    id: "{{ item.id }}"
+    map: "{{ item.map }}"
+    description: "{{ item.description | default('') }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ virtiofs__dir_mappings }}"
+  loop_control:
+    label: "dir - {{ item.id }}"
