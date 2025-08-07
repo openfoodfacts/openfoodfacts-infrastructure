@@ -7,6 +7,8 @@
   roles:
     - role: proxmox-node
       tags: ["base", "proxmox"]
+    - role: virtiofs
+      tags: ["base", "virtiofs"]
     - role: git_based_configs
       tags: ["base", "git-config"]
       vars:

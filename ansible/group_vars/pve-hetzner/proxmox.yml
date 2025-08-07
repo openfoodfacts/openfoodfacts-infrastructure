@@ -8,6 +8,13 @@ proxmox_node__pve_cluster_enabled: true
 proxmox_node__pve_cluster_name: "pve-hetzner"
 # addr1 is public ip, addr0 is defined per host
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
-# FIXME
+# TODO
 #pve_ssl_private_key
 #pve_ssl_certificate
+
+# directory mappings
+virtiofs__dir_mappings:
+  - id: qm-200-virtiofs
+    map:
+      - "node=hetzner-02,path=/rpool/qm-200-virtiofs"
+    description: "virtiofs dataset for qm-200"
