@@ -12,6 +12,13 @@ I added hetzner-01,02 and 03 servers.
 
 I then follow [documentation](https://docs.hetzner.com/robot/dedicated-server/network/vswitch/#server-configuration-linux) to add interfaces to our servers.
 
+
+### Setting up networking (obsolete)
+
+
+> IMPORTANT: this is not the right way to do it, because Proxmox won't see the setup.
+> See [Setting up networking in proxmox] bellow for the right way.
+
 I created the `hetzner_vswitch` role to configure corresponding interfaces on our servers.
 
 For example on hetzner-01, it will create `/etc/network/interfaces.d/vswitch-4000` with:
@@ -42,3 +49,19 @@ iface vmbr1 inet6 static
     bridge-fd 0
 ```
 
+### Setting up networking in Proxmox
+
+For Proxmox to see the network we need to set it up in the Proxmox UI (or using pvesh, but that's more complicated).
+
+For this go to the Proxmox UI and:
+- create eno1.4000 interface
+  - without any address
+  - vlan id 400
+- create vmbr1 bridge, with:
+  IPv4/CIDR: 10.12.0.1/16
+  IPv6/CIDR: fded:b8d9:a973:1:1::/64
+  Bridge ports: eno1.4000
+  Comment: Internal network
+- click on "Apply configuration"
+
+You can test it's working by using some ping on other hosts.

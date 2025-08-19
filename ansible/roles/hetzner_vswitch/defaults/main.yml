@@ -1,9 +1,0 @@
-# the vswitch vlan id
-hetzner_vswitch__vlan_id: null
-# the interface to use for the vswitch
-hetzner_vswitch__interface: null
-# name of the corresponding bridge
-hetzner_vswitch__bridge_name: null
-# the static ip address with the netmask
-hetzner_vswitch__ip_address: null
-hetzner_vswitch__ip6_address: null
