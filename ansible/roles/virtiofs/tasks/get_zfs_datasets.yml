@@ -1,0 +1,23 @@
+# getting ZFS datasets infos
+---
+- name: Get ZFS pools
+  community.general.zpool_facts:
+    properties: "name"
+  register: _zfs_pools
+
+- name: Get ZFS datasets
+  community.general.zfs_facts:
+    name: "{{ item }}"
+    recurse: true
+    type: filesystem
+    properties: "name,mountpoint,acltype"
+  register: _zfs_datasets_data
+  loop: "{{ _zfs_pools.ansible_facts.ansible_zfs_pools | map(attribute='name') }}"
+
+- name: Combine ZFS datasets
+  ansible.builtin.set_fact:
+    _zfs_datasets: |
+      {{
+        ( _zfs_datasets | default([]) ) + item.ansible_facts.ansible_zfs_datasets
+      }}
+  loop: "{{ _zfs_datasets_data.results }}"

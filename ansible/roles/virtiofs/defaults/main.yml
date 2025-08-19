@@ -3,8 +3,10 @@ virtiofs__dir_mappings: []
 # a list of dict with proxmox_resource_mapping args, but type (which is always 'dir')
 # - id: "my-dir-id"
 #   map:
-#      - "node=node1,path=/path/to/folder1"
-#      - "node=node2,path=/path/to/folder2"
+#      - node: node1
+#        path: /path/to/folder1
+#      - node: node2
+#        path: /path/to/folder2
 #   description: "my dir description"
 #   state: present
 # ]

@@ -1,0 +1,49 @@
+# Virtiofs directories belonging to ZFS must use posix acls
+---
+- name: Find directory mount point
+  # we have a list of datasets, the first being the closest parent,
+  # the rest being it's ancestors
+  # Note: we only care about mountpoints because virtiofs will give a view on mountpoints
+  ansible.builtin.set_fact:
+    _parent_datasets: |
+      {{
+        (
+          _zfs_datasets |
+          selectattr('mountpoint', 'in', _map_item.path) |
+          sort(attribute='mountpoint', reverse=true)
+        )
+      }}
+
+- name: Find the datasets children
+  ansible.builtin.set_fact:
+    # it must contain the first parent mountpoint
+    _children_datasets: |
+      {{
+          _zfs_datasets |
+          selectattr('mountpoint', 'contains', _parent_datasets[0].mountpoint )
+      }}
+
+- name: Grab first parent dataset with a non inherited acl type
+  # we go through _parent_datasets and we must have only inherit until we reach posix
+  ansible.builtin.set_fact:
+    _first_non_inherited_acltype: |
+      {{
+          ( _parent_datasets | rejectattr('acltype', '==', 'inherit'))[0]
+      }}
+
+- name: Get children Dataset that have not the inherit or posix acl types
+  ansible.builtin.set_fact:
+    _bad_children_acltype: |
+      {{
+          _children_datasets | rejectattr('acltype', 'in', ["posix", "inherit"])
+      }}
+
+- name: Verify acltype is posix for parent dataset and children
+  ansible.builtin.fail:
+    msg: |
+      {{ "The parent dataset does not have acltype 'posix'" if _first_non_inherited_acltype.acltype != 'posix' else "" }}
+      {{ "Some children dataset does not have acltype 'posix'" if _bad_children_acltype else "" }}
+
+      Virtiofs needs acltype set to posix.
+  when: |
+    (_first_non_inherited_acltype.acltype != 'posix') or _bad_children_acltype

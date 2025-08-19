@@ -1,0 +1,25 @@
+- name: Compute the mapping options
+  ansible.builtin.set_fact:
+    _resource_mapping: |
+      {{ (_resource_mapping|default([])) +
+      [ "node=" + item.node + ",path=" + item.path ] }}
+  loop: "{{ _mapping.map }}"
+
+- name: Set directory mapping in Proxmox
+  proxmox_resource_mapping:
+    type: "dir"
+    id: "{{ _mapping.id }}"
+    map: "{{ _resource_mapping }}"
+    description: "{{ _mapping.description | default('') }}"
+    state: "{{ _mapping.state | default('present') }}"
+
+# acl must be set to posix for ZFS Datasets
+- name: Check ACL type for ZFS Datasets of this host mapped as virtiofs
+  ansible.builtin.include_tasks:
+    file: check_zfs_acl_type.yml
+  # only for non absent items
+  when: (_mapping.state | default("present")) != "absent"
+  # only for map items that are for this host
+  loop: '{{ _mapping.map | selectattr("node", "eq", ansible_hostname) }}'
+  loop_control:
+    loop_var: _map_item

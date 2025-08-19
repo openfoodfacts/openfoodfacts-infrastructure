@@ -6,13 +6,13 @@
     state: present
     update_cache: true
 
-- name: Set directory mappings
-  proxmox_resource_mapping:
-    type: "dir"
-    id: "{{ item.id }}"
-    map: "{{ item.map }}"
-    description: "{{ item.description | default('') }}"
-    state: "{{ item.state | default('present') }}"
+- name: Get ZFS Datasets info
+  ansible.builtin.import_tasks: get_zfs_datasets.yml
+
+- name: Setup virtiofs directories
+  ansible.builtin.include_tasks:
+    file: virtiofs_mapping.yml
   loop: "{{ virtiofs__dir_mappings }}"
   loop_control:
-    label: "dir - {{ item.id }}"
+    label: "dir - {{ _mapping.id }}"
+    loop_var: _mapping

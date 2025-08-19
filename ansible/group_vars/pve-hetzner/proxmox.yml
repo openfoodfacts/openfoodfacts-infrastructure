@@ -16,5 +16,6 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 virtiofs__dir_mappings:
   - id: qm-200-virtiofs
     map:
-      - "node=hetzner-02,path=/rpool/qm-200-virtiofs"
+      - node: hetzner-02
+        path: /rpool/qm-200-virtiofs
     description: "virtiofs dataset for qm-200"
