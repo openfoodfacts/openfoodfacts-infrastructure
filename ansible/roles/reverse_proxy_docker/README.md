@@ -1,4 +1,4 @@
-# Reverse proxy role
+# Reverse proxy role using NGINX
 
 - Installs the `nginx` reverse proxy as a docker container and it's configuration.
 - Installs `certbot` to manage HTTPS certificates and a cron to start it regularly.
