@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../2024-10-23-deduplicate-products-in-multiple-flavors/">
+        <link rel="prev" href="../2025-07-08-zpool-failure-on-hetzner-01/">
       
-      
-        <link rel="next" href="../2024-10-30-keycloak-ct-install/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-10-29 Move S3 sync script to OVH3 - Open Food Facts Infrastructure documentation</title>
+        <title>2025-08-19 OVH3 Disk Replace - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-10-29-move-s3-sync-script-to-ovh3" class="md-skip">
+        <a href="#2025-08-19-ovh3-disk-replace" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-10-29 Move S3 sync script to OVH3
+              2025-08-19 OVH3 Disk Replace
             
           </span>
         </div>
@@ -3213,19 +3211,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-10-29-move-s3-sync-script-to-ovh3/" class="md-nav__link">
         
   
   
@@ -3236,7 +3225,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -3798,10 +3786,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-08-19-ovh3-disk-replace/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3812,6 +3809,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -3858,7 +3856,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-10-29-move-s3-sync-script-to-ovh3.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-08-19-ovh3-disk-replace.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3866,32 +3864,9 @@
   
 
 
-<h1 id="2024-10-29-move-s3-sync-script-to-ovh3">2024-10-29 Move S3 sync script to OVH3<a class="headerlink" href="#2024-10-29-move-s3-sync-script-to-ovh3" title="Permanent link">#</a></h1>
-<p>The script used to synchronize images to AWS S3 (through AWS S3 Open Dataset program) was run on off2 server.
-This server is overloaded (due to I/O), so we now run this script on the OVH3 server (that has a replicate of images through Sanoid snapshots).</p>
-<p>OVH3 server has Python 3.7, and the script requires at least Python 3.9. I wanted to install pyenv using the off user, but I didn't manage to get pyenv working with dash, which is the default shell for off user.</p>
-<p>As a result, I install <a href="https://docs.astral.sh/uv/">uv</a> on ovh3 as a replacement, for <code>off</code> user:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
-</code></pre></div>
-<p><code>uv</code> is installed automatically in <code>/home/off/.cargo/bin/uv</code>.</p>
-<p>Install Python 3.11:</p>
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>python<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.11
-</code></pre></div>
-<p>I moved S3 synchronization script to openfood facts infra repository, in the <code>scripts</code> directory (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/42dd4fcdb1f52d55767f33136bc94a6590fa4fd8">commit</a>).</p>
-<p>Note that Python version and dependencies can be directly declared at the top of the Python script, as comment:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># /// script</span>
-<span class="c1"># dependencies = [</span>
-<span class="c1"># &quot;openfoodfacts==1.1.5&quot;,</span>
-<span class="c1"># &quot;orjson==3.10.7&quot;,</span>
-<span class="c1"># &quot;boto3==1.35.32&quot;,</span>
-<span class="c1"># &quot;tqdm==4.66.5&quot;,</span>
-<span class="c1"># ]</span>
-<span class="c1"># requires-python = &quot;&gt;=3.9&quot;</span>
-<span class="c1"># ///</span>
-</code></pre></div>
-<p>I also copied the aws credentials in <code>~/.aws/credentials</code> on ovh3 server (<code>off</code> user).</p>
-<p>when launching the script with <code>uv run sync_s3_images.py</code>, <code>uv</code> automatically creates a virtualenv if needed, install the dependencies and run the script in the virtual environment.</p>
-<p>I installed the systemd service and timer on ovh3, and disabled the systemd service/timer on off2 server.</p>
+<h1 id="2025-08-19-ovh3-disk-replace">2025-08-19 OVH3 Disk Replace<a class="headerlink" href="#2025-08-19-ovh3-disk-replace" title="Permanent link">#</a></h1>
+<p>This time sdf was failing (serial id: 8DH4VTRH) was replaced.</p>
+<p>But otherwise it's all the same as <a href="../2025-06-27-ovh3-disk-replace/">2025-06-27 OVH3 Disk Replace</a></p>
 
 
 
