@@ -31,15 +31,6 @@
   become: false
   register: existing_container
 
-- name: We must first put present if the vm does not exists (and not directly started)
-  ansible.builtin.set_fact:
-    _container_state: >-
-      {{
-        (_container.state | default('started'))
-        if existing_container.proxmox_vms else
-        (_container.state | default('started') | replace('started', 'present'))
-      }}
-
 - name: Create container
   community.proxmox.proxmox:
     api_host: "{{ proxmox_containers__api_host }}"
@@ -74,14 +65,14 @@
     # more options
     onboot: "{{ _container.onboot | default(proxmox_containers__default_onboot) }}"
     # NOTE: protection is not supported :-(
-    # state
-    state: "{{ _container_state }}"
+    # state, we must use present to have container updated
+    state: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
   # proxmoxer dependency makes it easier to run on localhost
   delegate_to: localhost
   become: false
   register: _container_update
 
-- name: Restart container if it has changed
+- name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
     api_host: "{{ proxmox_containers__api_host }}"
     api_port: "{{ proxmox_containers__api_port }}"
@@ -92,7 +83,7 @@
     # first screen of creation form
     node: "{{ inventory_hostname }}"
     vmid: "{{ _container.id | mandatory }}"
-    state: 'restarted'
+    state: "{{ 'restarted' if existing_container.proxmox_vms else 'started' }}"
   when: |
     _container_update.changed and
     ( _container.state | default('started') ) == 'started'
@@ -110,4 +101,4 @@
   become: false
   connection: community.proxmox.proxmox_pct_remote
   vars:
-    proxmox_vmid: "{{ container.id | mandatory }}"
+    proxmox_vmid: "{{ _container.id | mandatory }}"
