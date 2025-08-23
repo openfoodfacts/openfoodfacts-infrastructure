@@ -26,6 +26,23 @@ proxmox_node__pve_storages:
     content: vztmpl,snippets,iso
     shared: 0
 
+proxmox_containers__containers:
+  - id: 100
+    hostname: hetzner-02-proxy
+    features:
+    - nesting=1
+    cores: 4
+    memory: "{{ 2 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.12.1.100/24
+        bridge: vmbr1
+    disk:
+      storage: rpool-pve
+      size: 32
+
+
 # proxmox_node_partitions:
 # - name: nvme0n1p5
 #     device: "{{ item.device }}"

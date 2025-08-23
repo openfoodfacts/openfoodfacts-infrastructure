@@ -6,3 +6,8 @@ passlib>=1.7.4
 
 # needed for lae.proxmox role
 jmespath>=1.0.1
+# needed for community.proxmox
+proxmoxer>=2.2.0
+requests>=2
+# needed for proxmox_pct_remote connection
+paramiko>=3.5.1
