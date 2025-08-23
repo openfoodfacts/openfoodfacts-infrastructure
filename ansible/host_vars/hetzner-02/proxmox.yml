@@ -38,6 +38,12 @@ proxmox_containers__containers:
         name: eth0
         ip: 10.12.1.100/24
         bridge: vmbr1
+      # public network
+      net1:
+        name: eth1
+        ip: 88.99.90.65/26
+        gw: 88.99.90.65
+        bridge: vmbr2
     disk:
       storage: rpool-pve
       size: 32
