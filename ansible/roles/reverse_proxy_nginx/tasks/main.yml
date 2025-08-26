@@ -1,0 +1,18 @@
+---
+- name: Install nginx and certbot from distribution
+  ansible.builtin.apt:
+    pkg:
+      - nginx
+      - python3-certbot-nginx
+    state: present
+    update_cache: true
+
+- name: Install prometheus exporter
+  ansible.builtin.import_tasks:
+    file: prometheus_exporter.yml
+  when: reverse_proxy__install_prometheus
+
+- name: Link config files
+  git_based_config_symlinks:
+    src: "{{ reverse_proxy_nginx__nginx_git_config_path }}"
+    dst: "/etc/nginx"

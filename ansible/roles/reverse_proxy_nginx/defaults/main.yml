@@ -1,0 +1,5 @@
+# Do  we want to install the prometheus exporter for nginx ?
+reverse_proxy_nginx__install_prometheus: true
+# Root folder containing the config files for nginx
+# Each of them will bin linked to corresponding folder in /etc/nginx
+reverse_proxy_nginx__nginx_git_config_path: null
