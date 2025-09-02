@@ -1,6 +1,6 @@
-# 2025-09-02 OFF2 Postgres Migration
+# 2025-09-02 OFF2 Postgres Upgrade
 
-We want to migrate to postgres 16 on the production postgresql instance.
+We want to upgrade to postgres > 16 on the production postgresql instance.
 
 This is important for keycloak integration.
 
@@ -22,7 +22,7 @@ Ver Cluster Port Status Owner    Data directory              Log file
 ## Installing postgres APT repositories
 
 We want to use postgres repositories providing debian packages,
-because our debian version does not include PG 16.
+because our debian version does not include PG 16 or more.
 
 For this on off-postgres container,
 I added the sources for postgres as explained in https://www.postgresql.org/download/linux/debian/
