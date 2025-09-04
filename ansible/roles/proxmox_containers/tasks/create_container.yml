@@ -60,7 +60,8 @@
     state: present
     extra_zfs_properties:
       refquota: "{{ _container.disk.size | default(proxmox_containers__default_disk_size) | trim('Gg') }}G"
-      # needed by proxmox
+      # needed by Proxmox
+      # retrieved by running `zfs get all <volume-path>|grep local` on a existing container volume
       acltype: posix
       xattr: sa
   when: "(_container.state | default('started')) in ('present', 'started')"
