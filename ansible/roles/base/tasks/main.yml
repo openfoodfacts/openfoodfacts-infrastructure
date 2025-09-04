@@ -18,3 +18,14 @@
 - name: "Import tasks from motd.yml"
   ansible.builtin.import_tasks: motd.yml
   tags: motd
+
+# enables having terminal color and so on…
+- name: "Ensure root bashrc is uptodate"
+  ansible.builtin.copy:
+    src: "/etc/skel/.bashrc"
+    dest: "/root/.bashrc"
+    mode: "0644"
+    owner: root
+    group: root
+    remote_src: true
+  tags: skel_files

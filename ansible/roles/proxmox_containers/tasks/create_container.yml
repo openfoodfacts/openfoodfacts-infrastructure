@@ -77,7 +77,6 @@
 - ansible.builtin.debug:
     msg: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
 
-
 - name: Create container
   community.proxmox.proxmox:
     api_host: "{{ proxmox_containers__api_host }}"
@@ -120,8 +119,28 @@
   become: false
   register: _container_update
 
+
+- name: Check current VM status
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    # first screen of creation form
+    node: "{{ inventory_hostname }}"
+    vmid: "{{ _container.id | mandatory }}"
+  # proxmoxer dependency makes it easier to run on localhost
+  delegate_to: localhost
+  become: false
+  register: _container_info
+
 - ansible.builtin.debug:
-    var: _container_update
+    msg: |
+      _container_update: {{ _container_update }}
+      restart_when:   {{  _container_update.changed and ( _container.state | default('started') ) == 'started' }}
+      restart_state: {{ 'restarted' if existing_container.proxmox_vms else 'started' }}
 
 - name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
@@ -134,7 +153,7 @@
     # first screen of creation form
     node: "{{ inventory_hostname }}"
     vmid: "{{ _container.id | mandatory }}"
-    state: "{{ 'restarted' if existing_container.proxmox_vms else 'started' }}"
+    state: "{{ 'restarted' if existing_container.proxmox_vms and _container_info.proxmox_vms.0.status == 'running' else 'started' }}"
   when: |
     _container_update.changed and
     ( _container.state | default('started') ) == 'started'

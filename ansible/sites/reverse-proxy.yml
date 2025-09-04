@@ -3,6 +3,7 @@
 #
 # It has a nginx reverse-proxy. It may also have a stunnel server
 ---
+- name: Reverse proxy container
   hosts: reverse_proxy_hosts
   gather_facts: true
   become: true
@@ -12,5 +13,7 @@
       vars:
         git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
         git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
-    - role: reverse_proxy
+    - role: reverse_proxy_nginx
       tags: ["nginx"]
+      vars:
+        reverse_proxy_nginx__nginx_git_root_path: "{{ infrastructure_repository_dest }}"

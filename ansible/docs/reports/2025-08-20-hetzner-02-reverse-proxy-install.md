@@ -39,3 +39,12 @@ while different sys admins are interacting with it.
 
 So I renamed reverse-proxy role to reverse_proxy_docker and created a reverse_proxy_nginx role.
 
+I also developed the git_based_config_symlinks module to keep things easier to read in tasks
+(instead of a lot of complicated Jinja2 expressions).
+
+### Creating DNS name
+
+For now I didn't automate DNS handling,
+although there seems to exist an [ansible module for OVH DNS](https://github.com/gheesh/ansible-ovh-dns)
+
+I created a hetzner-02-proxy.openfoodfacts.org pointing to hetzner-02-proxy IP address.

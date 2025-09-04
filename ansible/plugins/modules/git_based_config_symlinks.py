@@ -49,6 +49,10 @@ RETURN = """
     conflicting: files already present while not pointing to right destination
 """
 
+import os
+from pathlib import Path
+
+import ansible.errors
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.common.text.converters import to_native
 
@@ -60,14 +64,21 @@ class Result:
         self.removed = removed
         self.conflicting = conflicting
 
-    def as_dict():
+    def as_dict(self):
         return {
             "kept": sorted(str(p) for p in self.kept),
             "created": sorted(str(p) for p in self.created),
             "removed": sorted(str(p) for p in self.removed),
             "conflicting": sorted(str(p) for p in self.conflicting),
-            "changed": bool(str(p) for p in self.created or self.removed)
+            "changed": bool(self.created | self.removed)
         }
+
+
+# because Path.walk is only in Python3.11
+# also because we want to work with relative paths
+def walk_files(path):
+    for dirpath, dirnames, filenames in os.walk(str(path)):
+        yield from ((Path(dirpath) / f).relative_to(path) for f in filenames)
 
 
 class GitBasedConfigSymlinks:
@@ -85,64 +96,70 @@ class GitBasedConfigSymlinks:
         if not (self.dst.exists() and self.dst.is_dir()):
             errors.append(f"dst {self.src} is not a valid directory")
         if errors:
-            raise AnsibleError("\n".join(errors))
+            raise ansible.errors.AnsibleError("\n".join(errors))
 
     def compute_symlinks_state(self):
         # We work with relative file path, which makes things easy
 
         # Get config files to link
-        git_conf_files = set(
-            dirpath / filename
-            for dirpath, _, filenames in self.src.walk()
-            for filename in filenames
-        )
+        git_conf_files = set(walk_files(self.src))
         # Get existing config symlinks, linking to repository
         symlinked_conf_files = set(
-            dirpath / filename
-            for dirpath, _, filenames in self.dst.walk()
-            for filename in filenames
-            if filename.is_symlink() and filename.readlink().is_relative_to(self.src)
+            filepath
+            for filepath in walk_files(self.dst)
+            if (
+                (self.dst / filepath).is_symlink()
+                and (self.dst / filepath).readlink() == (self.src / filepath)
+            )
         )
         # Get eventual conflicting files
         conflicting_files = set(
             filepath
             for filepath in git_conf_files
-            if not (self.dst / filepath).is_symlink()
-            or (self.dst / filepath).readlink() != (self.src / filepath)
+            if (
+                (self.dst / filepath).exists() and (
+                    not (self.dst / filepath).is_symlink()
+                    or (self.dst / filepath).readlink() != (self.src / filepath)
+                )
+            )
         )
         return Result(
-            create=git_conf_files - symlinked_conf_files - conflicting_files,
-            remove=symlinked_conf_files - git_conf_files - conflicting_files,
-            keep=symlinked_conf_files & git_conf_files,
-            conflict= conflicting_files,
+            created=git_conf_files - symlinked_conf_files - conflicting_files,
+            removed=symlinked_conf_files - git_conf_files - conflicting_files,
+            kept=symlinked_conf_files & git_conf_files,
+            conflicting= conflicting_files,
         )
 
     def run(self):
-        state = self.compute_symlinks_state()
+        result = self.compute_symlinks_state()
         if result.conflicting:
-            module.fail_json(
+            self.module.fail_json(
                 msg="They are conflicting files, refusing to continue",
-                **state.as_dict()
+                **result.as_dict()
             )
         else:
             if not self.module.check_mode:
-                for p in result.remove:
+                for p in result.removed:
                     p.unlink()
-                for p in result.create:
+                for p in result.created:
                     (self.dst / p).symlink_to(self.src / p)
-            module.exit_json(**state.as_dict())
+            self.module.exit_json(**result.as_dict())
 
 
 def main():
     module = AnsibleModule(
         argument_spec=dict(
             src=dict(type='str', required=True),
-            dst=dict(type='str', required: True),
+            dst=dict(type='str', required=True),
         ),
         supports_check_mode=True,  # TBD
     )
     processor = GitBasedConfigSymlinks(module)
     try:
-        result = processor.run()
+        processor.run()
     except Exception as e:
         module.fail_json(msg="An error occurred: %s" % to_native(e))
+
+
+if __name__ == "__main__":
+    main()
