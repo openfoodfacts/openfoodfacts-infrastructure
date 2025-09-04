@@ -32,6 +32,17 @@ ssh_args = -o ControlMaster=auto -o ControlPersist=60s
 control_path = ~/.ansible/cp/ansible-ssh-%%h-%%p-%%r
 ```
 
+## Creating containers
+
+If you create containers there are a few points important to mention:
+
+1. you must add your container to inventory first
+2. you must add a
+   `host_vars/<container_name>/<container_name>_secrets.yml` 
+   file with the `ansible_become_password`
+   and `ansible_user_password_salt` **secret** variables
+
+
 ## Troubleshooting
 
 If you get an error "596 Errors during TLS negotiation",

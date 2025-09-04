@@ -27,56 +27,73 @@
     api_token_id: "{{ proxmox_containers__api_token_id }}"
     api_token_secret: "{{ proxmox_containers__api_token_secret }}"
     vmid: "{{ _container.id | mandatory }}"
+    # we need to grab rootfs information
+    config: pending
   delegate_to: localhost
   become: false
-  register: existing_container
+  register: _existing_container
 
-- name: Compute default rootfs volume name
-  ansible.builtin.set_fact:
-    _rootfs_default_volume_name: "subvol-{{ _container.id }}-disk-0"
+# - name: Compute default rootfs volume name
+#   ansible.builtin.set_fact:
+#     _rootfs_default_volume_name: "subvol-{{ _container.id }}-disk-0"
 
 # needed for next action
-- name: Get storage information
-  community.proxmox.proxmox_storage_info:
-    api_host: "{{ proxmox_containers__api_host }}"
-    api_port: "{{ proxmox_containers__api_port }}"
-    validate_certs: false
-    api_user: "{{ proxmox_containers__api_user }}"
-    api_token_id: "{{ proxmox_containers__api_token_id }}"
-    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
-    storage: "{{ _container.disk.storage | default(proxmox_containers__default_disk_storage) }}"
-  # proxmoxer dependency makes it easier to run on localhost
-  delegate_to: localhost
-  become: false
-  register: _storage_info
-  when: "(_container.state | default('started')) in ('present', 'started')"
+# - name: Get storage information
+#   community.proxmox.proxmox_storage_info:
+#     api_host: "{{ proxmox_containers__api_host }}"
+#     api_port: "{{ proxmox_containers__api_port }}"
+#     validate_certs: false
+#     api_user: "{{ proxmox_containers__api_user }}"
+#     api_token_id: "{{ proxmox_containers__api_token_id }}"
+#     api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+#     storage: "{{ _container.disk.storage | default(proxmox_containers__default_disk_storage) }}"
+#   # proxmoxer dependency makes it easier to run on localhost
+#   delegate_to: localhost
+#   become: false
+#   register: _storage_info
+#   when: "(_container.state | default('started')) in ('present', 'started')"
+# 
+# # normally community.proxmox.proxmox would use a special syntax
+# # just specifying the storage and volume size, but it does not work…
+# # so we create the volume manually with zfs
+# - name: Create the rootfs volume
+#   community.general.zfs:
+#     name: "{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | default(_rootfs_default_volume_name) }}"
+#     state: present
+#     extra_zfs_properties:
+#       refquota: "{{ _container.disk.size | default(proxmox_containers__default_disk_size) | trim('Gg') }}G"
+#       # needed by Proxmox
+#       # retrieved by running `zfs get all <volume-path>|grep local` on a existing container volume
+#       acltype: posix
+#       xattr: sa
+#   when: "(_container.state | default('started')) in ('present', 'started')"
 
-# normally community.proxmox.proxmox would use a special syntax
-# just specifying the storage and volume size, but it does not work…
-# so we create the volume manually with zfs
-- name: Create the rootfs volume
-  community.general.zfs:
-    name: "{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | default(_rootfs_default_volume_name) }}"
-    state: present
-    extra_zfs_properties:
-      refquota: "{{ _container.disk.size | default(proxmox_containers__default_disk_size) | trim('Gg') }}G"
-      # needed by Proxmox
-      # retrieved by running `zfs get all <volume-path>|grep local` on a existing container volume
-      acltype: posix
-      xattr: sa
-  when: "(_container.state | default('started')) in ('present', 'started')"
+#- name: Give rootfs volume to right user
+#  ansible.posix.acl:
+#    path: "/{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | default(_rootfs_default_volume_name) }}"
+#    entity: 100000
+#    etype: "{{ item }}"
+#    permissions: "rwX"
+#    state: "present"
+#  loop: ["user", "group"]
 
-- name: Give rootfs volume to right user
-  ansible.posix.acl:
-    path: "/{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | default(_rootfs_default_volume_name) }}"
-    entity: 100000
-    etype: "{{ item }}"
-    permissions: "rwX"
-    state: "present"
-  loop: ["user", "group"]
+# - ansible.builtin.debug:
+#   msg: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
 
-- ansible.builtin.debug:
-    msg: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
+- name: Compute rootfs options
+  ansible.builtin.set_fact:
+    _disk_settings: |
+        {{
+          _container.disk |
+          proxmox_process_disk_volume(
+            existing=_existing_container.proxmox_vms.0 | default(None),
+            defaults={
+              'storage': proxmox_containers__default_disk_storage,
+              'options': proxmox_containers__default_disk_options,
+              'size': proxmox_containers__default_disk_size,
+            }
+          )
+        }}
 
 - name: Create container
   community.proxmox.proxmox:
@@ -98,11 +115,7 @@
     # 2nd screen of creation form
     ostemplate: "{{ _debian_template_local_name.stdout_lines | first | mandatory }}"
     # 3rd screen of creation form
-    disk_volume:
-      storage: "{{ _container.disk.storage | default(proxmox_containers__default_disk_storage) }}"
-      volume: "{{ _container.disk.volume | default(_rootfs_default_volume_name) }}"
-      options: "{{ _container.disk.options | default(proxmox_containers__default_disk_options) }}"
-      size: "{{ _container.disk.size | default(proxmox_containers__default_disk_size) }}"
+    disk_volume: "{{ _disk_settings }}"
     # 4th screen of creation form
     cores: "{{ _container.cores | default(proxmox_containers__default_cores) }}"
     # 5th screen of creation form
@@ -119,7 +132,6 @@
   delegate_to: localhost
   become: false
   register: _container_update
-
 
 - name: Check current VM status
   community.proxmox.proxmox_vm_info:
@@ -141,7 +153,7 @@
     msg: |
       _container_update: {{ _container_update }}
       restart_when:   {{  _container_update.changed and ( _container.state | default('started') ) == 'started' }}
-      restart_state: {{ 'restarted' if existing_container.proxmox_vms else 'started' }}
+      restart_state: {{ 'restarted' if _existing_container.proxmox_vms else 'started' }}
 
 - name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
@@ -154,7 +166,7 @@
     # first screen of creation form
     node: "{{ inventory_hostname }}"
     vmid: "{{ _container.id | mandatory }}"
-    state: "{{ 'restarted' if existing_container.proxmox_vms and _container_info.proxmox_vms.0.status == 'running' else 'started' }}"
+    state: "{{ 'restarted' if (_existing_container.proxmox_vms and (_container_info.proxmox_vms.0.status | default('')) == 'running') else 'started' }}"
   when: |
     _container_update.changed and
     ( _container.state | default('started') ) == 'started'
