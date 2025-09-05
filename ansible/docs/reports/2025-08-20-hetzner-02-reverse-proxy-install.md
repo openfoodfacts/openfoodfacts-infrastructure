@@ -27,17 +27,25 @@ It's very important NOT to check the "privilege separation" option,
 otherwise we would need to reconfigure every privilege for this token.
 
 
-Also, there where quite a few quirks in using comunity.proxmox roles.
+Also, there where quite a few quirks in using community.proxmox roles.
 
 * If you just give it a storage and a size for rootfs,
-  it should create a volume but it did not work (maybe because of the update ? I'm not sure)
+  it should create a volume but it did not work if you run an update
 
-  * It led me to create the volume first using ZFS,
+  * My first attempt, led me to create the volume first using ZFS,
     but I had to discover so attributes that proxmox is setting on containers datasets.
     One way to get them is, using an existing container volume,
     is to run `zfs get all <volume-path>|grep local`
     (as ZFS indicates those properties were locally modified).
-    See: `ansible/roles/proxmox_containers/tasks/create_container.yml`
+    See below for [the corresponding ansible code](#ansible-code-to-create-the-zfs-volume-for-a-container).
+
+  * Finally I realized it was on the "update" phase that I absolutely needed
+    the volume name.
+    Thus I first had to seek for current configuration
+    (I already did that to know if the container was created),
+    also fetching the config.
+    Then I wrote the `proxmox_process_disk_volume` to make things simple,
+    and conciliate existing data, default data and the target settings.
 
 * To avoid complex ansible processing, I created a filter to process container arguments.
   See `plugins/filter/proxmox.py`
@@ -88,3 +96,64 @@ For now I didn't automate DNS handling,
 although there seems to exist an [ansible module for OVH DNS](https://github.com/gheesh/ansible-ovh-dns)
 
 I created a hetzner-02-proxy.openfoodfacts.org pointing to hetzner-02-proxy IP address.
+
+## Annex
+
+### Ansible code to create the ZFS volume for a container
+
+See above, while using community.proxmox.proxmox roles,
+I had problem if I didn't specify the volume name,
+but if I specify it, it has to be created.
+Finally I solved it differently because it was only needed in update mode.
+
+But this is the code I used to create the volume:
+
+```yaml
+
+- name: Compute default rootfs volume name
+  ansible.builtin.set_fact:
+    _rootfs_default_volume_name: "subvol-{{ _container.id }}-disk-0"
+
+needed for next action
+- name: Get storage information
+  community.proxmox.proxmox_storage_info:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    storage: "{{ _container.disk.storage | default(proxmox_containers__default_disk_storage) }}"
+  # proxmoxer dependency makes it easier to run on localhost
+  delegate_to: localhost
+  become: false
+  register: _storage_info
+  when: "(_container.state | default('started')) in ('present', 'started')"
+
+# normally community.proxmox.proxmox would use a special syntax
+# just specifying the storage and volume size, but it does not work…
+# so we create the volume manually with zfs
+- name: Create the rootfs volume
+  community.general.zfs:
+    name: "{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | defaultrootfs_default_volume_name) }}"
+    state: present
+    extra_zfs_properties:
+      refquota: "{{ _container.disk.size | default(proxmox_containers__default_disk_size) | trimGg') }}G"
+      # needed by Proxmox
+      # retrieved by running `zfs get all <volume-path>|grep local` on a existing container volume
+      acltype: posix
+      xattr: sa
+  when: "(_container.state | default('started')) in ('present', 'started')"
+
+ name: Give rootfs volume to right user
+ ansible.posix.acl:
+   path: "/{{ _storage_info.proxmox_storages[0].pool }}/{{ _container.disk.volume | defaultrootfs_default_volume_name) }}"
+   entity: 100000
+   etype: "{{ item }}"
+   permissions: "rwX"
+   state: "present"
+ loop: ["user", "group"]
+
+- ansible.builtin.debug:
+  msg: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
+```
