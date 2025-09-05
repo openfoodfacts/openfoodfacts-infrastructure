@@ -10,7 +10,7 @@
 In `host_vars/<node_name>/reverse-proxy.yml`, create a variable with the following shape:
 
 ```yml
-reverse_proxy_websites:
+reverse_proxy_docker__websites:
   - url: "example1.openfoodfacts.org"
     proxy_pass: "example1-webserver:80"
   - url: "example2.openfoodfacts.org"

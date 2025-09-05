@@ -5,7 +5,7 @@
   when: >
     (item.password is defined and item.username is not defined) or
     (item.username is defined and item.password is not defined)
-  loop: "{{ reverse_proxy_websites }}"
+  loop: "{{ reverse_proxy_docker__websites }}"
 
 - name: Create password file
   community.general.htpasswd:
@@ -17,7 +17,7 @@
     mode: "0660"
     hash_scheme: "sha256_crypt"
   when: item.password is defined
-  loop: "{{ reverse_proxy_websites }}"
+  loop: "{{ reverse_proxy_docker__websites }}"
   notify: Restart reverse proxy
 
 - name: Get the list of all password files in the directory
@@ -34,7 +34,7 @@
   loop_control:
     label: "{{ item.path }}"
   vars:
-    active_names: "{{ reverse_proxy_websites | map(attribute='url') | map('regex_replace', '^', reverse_proxy_dir + '/nginx/passwords/') | list }}"
+    active_names: "{{ reverse_proxy_docker__websites | map(attribute='url') | map('regex_replace', '^', reverse_proxy_dir + '/nginx/passwords/') | list }}"
 
 - name: Copy templated nginx sites config
   ansible.builtin.template:
