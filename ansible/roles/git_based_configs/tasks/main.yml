@@ -9,7 +9,7 @@
   ansible.builtin.package:
     name: git
     state: present
-
+# FIXME make user owning key and repo configurable !
 - name: Create the deploy key for the server in the repository
   community.crypto.openssh_keypair:
     path: /root/.ssh/id_rsa
@@ -27,7 +27,7 @@
   community.general.github_deploy_key:
     # slurp encode in base64, so we have to decode
     key: "{{ _ssh_key_public.content | ansible.builtin.b64decode }}"
-    read_only: false  # we want to be able to push changes
+    read_only: "{{ git_based_configs__read_only_repository }}"
     name: "{{ ansible_hostname }} deploy key"
     owner: "{{ git_based_configs__repository_owner }}"
     repo: "{{ git_based_configs__repository_name }}"

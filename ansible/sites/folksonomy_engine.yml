@@ -1,0 +1,10 @@
+# Installation of folksonomy engine in a container
+---
+- name: Folksonomy engine API
+  hosts: folksonomy-staging
+  gather_facts: true
+  become: true
+  roles:
+    - role: folksonomy_engine
+      vars:
+        folksonomy_engine__github_token: "{{ secret__github__bot_token_infrastructure }}"

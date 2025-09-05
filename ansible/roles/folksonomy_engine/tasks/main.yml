@@ -1,0 +1,47 @@
+# Install folksonomy engine
+---
+- name: Create folksonomy user
+  ansible.builtin.user:
+    name: "{{ folksonomy_engine__username }}"
+    comment: "User running folksonomy engine"
+    state: present
+    create_home: true
+    password: "*" # ie no password / no login
+  tags: install
+
+- name: Clone folksonomy git repository
+  ansible.builtin.import_role:
+    name: git_based_configs
+    tasks_from: main.yml
+  vars:
+    git_based_configs__branch: "{{ folksonomy_engine__branch }}"
+    git_based_configs__repository_dest: "{{ folksonomy_engine__install_directory }}"
+    git_based_configs__repository_owner: "{{ folksonomy_engine__repository_owner }}"
+    git_based_configs__repository_name: "{{ folksonomy_engine__repository_name }}"
+    git_based_configs__github_token: "{{ folksonomy_engine__github_token }}"
+  tags: install
+
+- name: Get confs dirs
+  ansible.builtin.find:
+    paths: "{{ folksonomy_engine__install_directory }}/confs"
+    recurse: true
+    file_type: directory
+  register: _confs_dirs
+  tags: ["install", "deploy"]
+
+- name: Verify we have our expected confs dir
+  ansible.builtin.fail:
+    msg: "There are unknown or missing confs dir (you may need to update this role)"
+  when: |
+    (
+      confs_dir.files|map(attribute='path')|map('basename')|sort
+    ) != [
+      'systemd'
+    ]
+  tags: ["install", "deploy"]
+
+- name: Symlink configurations files
+  git_based_config_symlinks:
+    src: "{{ folksonomy_engine__install_directory }}/confs/systemd"
+    dst: "/etc/systemd/system"
+  tags: ["install", "deploy"]

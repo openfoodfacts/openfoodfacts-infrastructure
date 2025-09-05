@@ -1,0 +1,6 @@
+folksonomy_engine__username: folksonomy
+folksonomy_engine__repository_owner: openfoodfacts
+folksonomy_engine__repository_name: folksonomy_api
+folksonomy_engine__install_directory: "/home/{{ folksonomy_engine__username }}/folksonomy_api"
+folksonomy_engine__github_token: null
+folksonomy_engine__branch: main

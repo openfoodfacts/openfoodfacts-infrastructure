@@ -13,6 +13,7 @@
       vars:
         git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
         git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
     - role: reverse_proxy_nginx
       tags: ["nginx"]
       vars:
