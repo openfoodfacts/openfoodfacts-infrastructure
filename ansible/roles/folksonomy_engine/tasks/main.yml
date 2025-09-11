@@ -19,6 +19,7 @@
     git_based_configs__repository_owner: "{{ folksonomy_engine__repository_owner }}"
     git_based_configs__repository_name: "{{ folksonomy_engine__repository_name }}"
     git_based_configs__github_token: "{{ folksonomy_engine__github_token }}"
+    git_based_configs__user: "{{ folksonomy_engine__username }}"
   tags: install
 
 - name: Get confs dirs
@@ -34,7 +35,7 @@
     msg: "There are unknown or missing confs dir (you may need to update this role)"
   when: |
     (
-      confs_dir.files|map(attribute='path')|map('basename')|sort
+      _confs_dirs.files|map(attribute='path')|map('basename')|sort
     ) != [
       'systemd'
     ]
