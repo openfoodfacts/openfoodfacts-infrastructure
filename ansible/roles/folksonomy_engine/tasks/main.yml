@@ -46,3 +46,16 @@
     src: "{{ folksonomy_engine__install_directory }}/confs/systemd"
     dst: "/etc/systemd/system"
   tags: ["install", "deploy"]
+  register: _systemd_config_symlinks
+
+- name: Enable service and (re)-start
+  ansible.builtin.import_role:
+    name: git_based_configs
+    tasks_from: enable_service.yml
+  vars:
+    _service_name: folksonomy.service
+  tags: ["install", "deploy"]
+
+
+# TODO: systemd reload-daemon + enable and start service if needed
+# TODO: postgres install
