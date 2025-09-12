@@ -2,7 +2,7 @@
 ---
 - name: Create folksonomy user
   ansible.builtin.user:
-    name: "{{ folksonomy_engine__username }}"
+    name: "{{ folksonomy_api__username }}"
     comment: "User running folksonomy engine"
     state: present
     create_home: true
@@ -14,17 +14,17 @@
     name: git_based_configs
     tasks_from: main.yml
   vars:
-    git_based_configs__branch: "{{ folksonomy_engine__branch }}"
-    git_based_configs__repository_dest: "{{ folksonomy_engine__install_directory }}"
-    git_based_configs__repository_owner: "{{ folksonomy_engine__repository_owner }}"
-    git_based_configs__repository_name: "{{ folksonomy_engine__repository_name }}"
-    git_based_configs__github_token: "{{ folksonomy_engine__github_token }}"
-    git_based_configs__user: "{{ folksonomy_engine__username }}"
+    git_based_configs__branch: "{{ folksonomy_api__branch }}"
+    git_based_configs__repository_dest: "{{ folksonomy_api__install_directory }}"
+    git_based_configs__repository_owner: "{{ folksonomy_api__repository_owner }}"
+    git_based_configs__repository_name: "{{ folksonomy_api__repository_name }}"
+    git_based_configs__github_token: "{{ folksonomy_api__github_token }}"
+    git_based_configs__user: "{{ folksonomy_api__username }}"
   tags: install
 
 - name: Get confs dirs
   ansible.builtin.find:
-    paths: "{{ folksonomy_engine__install_directory }}/confs"
+    paths: "{{ folksonomy_api__install_directory }}/confs"
     recurse: true
     file_type: directory
   register: _confs_dirs
@@ -43,7 +43,7 @@
 
 - name: Symlink configurations files
   git_based_config_symlinks:
-    src: "{{ folksonomy_engine__install_directory }}/confs/systemd"
+    src: "{{ folksonomy_api__install_directory }}/confs/systemd"
     dst: "/etc/systemd/system"
   tags: ["install", "deploy"]
   register: _systemd_config_symlinks

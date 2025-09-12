@@ -5,6 +5,6 @@
   gather_facts: true
   become: true
   roles:
-    - role: folksonomy_engine
+    - role: folksonomy_api
       vars:
-        folksonomy_engine__github_token: "{{ secret__github__bot_token_infrastructure }}"
+        folksonomy_api__github_token: "{{ secret__github__bot_token_infrastructure }}"
