@@ -1,0 +1,23 @@
+- name: Add key for Postgres
+  ansible.builtin.apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: Add Postgres repo
+  ansible.builtin.apt_repository:
+    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    filename: pgdg
+
+- name: Compute package suffix
+  # if we have a postgresql__version we don't install "logrotate-postgres"
+  # and we need to add suffix to packages
+  ansible.builtin.set_fact:
+    _version_suffix: '{{ "-" ~ postgresql__version if postgresql__version else "" }}'
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - libdbd-pg-perl   # for munin
+      - pg-activity
+      - postgresql{{ _version_suffix }}
+      - postgresql-contrib{{ _version_suffix }}
+      - python3-psycopg2  # used by ansible

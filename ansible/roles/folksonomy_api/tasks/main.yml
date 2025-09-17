@@ -1,61 +1,11 @@
 # Install folksonomy engine
 ---
-- name: Create folksonomy user
-  ansible.builtin.user:
-    name: "{{ folksonomy_api__username }}"
-    comment: "User running folksonomy engine"
-    state: present
-    create_home: true
-    password: "*" # ie no password / no login
+- name: Run install process
+  ansible.builtin.include_tasks:
+    file: install.yml
   tags: install
 
-- name: Clone folksonomy git repository
-  ansible.builtin.import_role:
-    name: git_based_configs
-    tasks_from: main.yml
-  vars:
-    git_based_configs__branch: "{{ folksonomy_api__branch }}"
-    git_based_configs__repository_dest: "{{ folksonomy_api__install_directory }}"
-    git_based_configs__repository_owner: "{{ folksonomy_api__repository_owner }}"
-    git_based_configs__repository_name: "{{ folksonomy_api__repository_name }}"
-    git_based_configs__github_token: "{{ folksonomy_api__github_token }}"
-    git_based_configs__user: "{{ folksonomy_api__username }}"
-  tags: install
-
-- name: Get confs dirs
-  ansible.builtin.find:
-    paths: "{{ folksonomy_api__install_directory }}/confs"
-    recurse: true
-    file_type: directory
-  register: _confs_dirs
+- name: Run deployment
+  ansible.builtin.include_tasks:
+    file: deploy.yml
   tags: ["install", "deploy"]
-
-- name: Verify we have our expected confs dir
-  ansible.builtin.fail:
-    msg: "There are unknown or missing confs dir (you may need to update this role)"
-  when: |
-    (
-      _confs_dirs.files|map(attribute='path')|map('basename')|sort
-    ) != [
-      'systemd'
-    ]
-  tags: ["install", "deploy"]
-
-- name: Symlink configurations files
-  git_based_config_symlinks:
-    src: "{{ folksonomy_api__install_directory }}/confs/systemd"
-    dst: "/etc/systemd/system"
-  tags: ["install", "deploy"]
-  register: _systemd_config_symlinks
-
-- name: Enable service and (re)-start
-  ansible.builtin.import_role:
-    name: git_based_configs
-    tasks_from: enable_service.yml
-  vars:
-    _service_name: folksonomy.service
-  tags: ["install", "deploy"]
-
-
-# TODO: systemd reload-daemon + enable and start service if needed
-# TODO: postgres install

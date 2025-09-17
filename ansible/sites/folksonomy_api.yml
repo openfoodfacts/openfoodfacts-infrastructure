@@ -5,6 +5,7 @@
   gather_facts: true
   become: true
   roles:
+    - role: postgresql
     - role: folksonomy_api
       vars:
         folksonomy_api__github_token: "{{ secret__github__bot_token_infrastructure }}"

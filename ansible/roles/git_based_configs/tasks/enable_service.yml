@@ -2,7 +2,7 @@
 # Based on it's definition timestamp
 - name: Query service info
   community.general.systemd_info:
-    unitname: "{{ _service_name }}"
+    unitname: "{{ git_based_configs__service_name }}"
     extra_properties:
       - "ActiveEnterTimestamp"
       - "FragmentPath"
@@ -13,7 +13,7 @@
 - name: Get service info
   ansible.builtin.set_fact:
     _service_info: >-
-      {{ _service_info_query.units[_service_name] }}
+      {{ _service_info_query.units[git_based_configs__service_name] }}
   when: not _service_info_query.failed
 
 - ansible.builtin.debug:
@@ -64,7 +64,7 @@
 - name: Enable and (re)start service
   ansible.builtin.systemd:
     daemon_reload: true
-    name: "{{ _service_name }}"
+    name: "{{ git_based_configs__service_name }}"
     enabled: true
     state: >-
       {{ "restarted" if _needs_restart else "started" }}
