@@ -1497,6 +1497,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-installation" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox installation
@@ -4440,6 +4449,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-installation" class="md-nav__link">
     <span class="md-ellipsis">
       Proxmox installation
@@ -4663,6 +4681,7 @@ $<span class="w"> </span>pveum<span class="w"> </span>acl<span class="w"> </span
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>pveum<span class="w"> </span>user<span class="w"> </span>modify<span class="w"> </span>jdoe@pve<span class="w"> </span>-group<span class="w"> </span>admin
 </code></pre></div>
 <h2 id="how-to-create-a-new-container">How to create a new Container<a class="headerlink" href="#how-to-create-a-new-container" title="Permanent link">#</a></h2>
+<p><strong>IMPORTANT:</strong> On new host, see Ansible section.</p>
 <p>You need to have an account on the Proxmox infra.</p>
 <p>Using web interface:</p>
 <ul>
@@ -4730,6 +4749,19 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 -&gt; Run  `systemctl mask --now systemd-logind`
 -&gt; Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 </code></pre></div>
+<h2 id="ansible">Ansible<a class="headerlink" href="#ansible" title="Permanent link">#</a></h2>
+<p>For new servers we use Ansible to install them.</p>
+<p>The base install is done using either a debian or the proxmox ISO
+(this latest is prefered in order to also install system on ZFS).</p>
+<p>Then, add the server to the inventory,
+and add specific variables.</p>
+<p>You must run following playbooks:</p>
+<ul>
+<li>jobs/configure.yml</li>
+<li>sites/proxmox-node.yml</li>
+</ul>
+<p>Note that if you setup a proxmox cluster, sites/proxmox-node.yml must be run on all nodes at the same time to enable cluster creation.</p>
+<p>Read roles documentation to understand what they do.</p>
 <h2 id="proxmox-installation">Proxmox installation<a class="headerlink" href="#proxmox-installation" title="Permanent link">#</a></h2>
 <p>Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.</p>
 <h2 id="some-errors">Some errors<a class="headerlink" href="#some-errors" title="Permanent link">#</a></h2>
