@@ -16,9 +16,6 @@
       {{ _service_info_query.units[git_based_configs__service_name] }}
   when: not _service_info_query.failed
 
-- ansible.builtin.debug:
-    var: _service_info
-
 - name: Get overall configurations last modified
   ansible.builtin.stat:
     path: "{{ item }}"
@@ -27,12 +24,6 @@
   loop: "{{ ([_service_info.fragmentpath] + (_service_info.dropinpaths | default('') | split(',')) | select) }}"
   register: _systemd_config_symlinks
   when: not _service_info_query.failed
-
-- ansible.builtin.debug:
-    msg: >-
-      {{
-        _systemd_config_symlinks.results
-      }}
 
 - name: Check configurations last modified
   ansible.builtin.set_fact:

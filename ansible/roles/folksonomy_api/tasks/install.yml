@@ -12,7 +12,8 @@
     comment: "User running folksonomy engine"
     state: present
     create_home: true
-    password: "*" # ie no password / no login
+    password: "*" # ie no password / no login (only via sudo)
+    shell: /bin/bash
 
 - name: Clone folksonomy git repository
   ansible.builtin.import_role:
@@ -40,8 +41,12 @@
   community.postgresql.postgresql_user:
     # No password
     name: "{{ folksonomy_api__username }}"
+  become: true
+  become_user: postgres
 
 - name: Create the postgresql database
   community.postgresql.postgresql_db:
     name: "{{ folksonomy_api__db_name }}"
     owner: "{{ folksonomy_api__username }}"
+  become: true
+  become_user: postgres

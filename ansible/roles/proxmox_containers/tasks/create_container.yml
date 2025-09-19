@@ -102,12 +102,6 @@
   become: false
   register: _container_info
 
-- ansible.builtin.debug:
-    msg: |
-      _container_update: {{ _container_update }}
-      restart_when:   {{  _container_update.changed and ( _container.state | default('started') ) == 'started' }}
-      restart_state: {{ 'restarted' if _existing_container.proxmox_vms else 'started' }}
-
 - name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
     api_host: "{{ proxmox_containers__api_host }}"

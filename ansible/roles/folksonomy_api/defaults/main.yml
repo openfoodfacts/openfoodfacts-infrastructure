@@ -7,3 +7,6 @@ folksonomy_api__github_token: null
 # This is normally provided as an --extra-vars to deploy the right version
 folksonomy_api__version:
 folksonomy_api__db_name: folksonomy
+
+# this is the expected poetry path after install
+folksonomy_api__poetry_path: /home/{{ folksonomy_api__username }}/.local/bin/poetry

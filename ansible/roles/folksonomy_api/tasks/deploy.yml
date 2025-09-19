@@ -3,7 +3,8 @@
 - name: Verify we have a version
   ansible.builtin.assert:
     that:
-      - "{{ folksonomy_api__version }}"
+      # a way to test it's defined
+      - "folksonomy_api__version | default(false)"
     fail_msg: |
       Please provide a version for folksonomy API using --extra-vars and folksonomy_api__version
       You can use "latest" to fetch latest version
@@ -15,12 +16,15 @@
     action: latest_release
   register: _latest_release
   when: "folksonomy_api__version == 'latest'"
+  # do it locally because we need some libraries
+  delegate_to: localhost
+  become: false
 
 - name: Get version to install
   ansible.builtin.set_fact:
     _git_ref: >-
       {{
-        _latest_release if folksonomy_api__version == 'latest' else folksonomy_api__version
+        _latest_release.tag if folksonomy_api__version == 'latest' else folksonomy_api__version
       }}
 
 - name: Checkout the right ref
@@ -34,14 +38,14 @@
 
 - name: Install the project dependencies
   ansible.builtin.command:
-    cmd: poetry install
+    cmd: >-
+      {{ folksonomy_api__poetry_path }} install
     chdir: "{{ folksonomy_api__install_directory }}"
   register: _poetry_install
   changed_when: |
     "No dependencies to install or update" not in _poetry_install.stdout
   become: true
   become_user: "{{ folksonomy_api__username }}"
-  tags: ["install", "deploy"]
 
 - name: Get confs dirs
   ansible.builtin.find:
@@ -49,7 +53,6 @@
     recurse: true
     file_type: directory
   register: _confs_dirs
-  tags: ["install", "deploy"]
 
 - name: Verify we have our expected confs dir
   ansible.builtin.fail:
@@ -60,21 +63,22 @@
     ) != [
       'systemd'
     ]
-  tags: ["install", "deploy"]
 
 - name: Symlink configurations files
   git_based_config_symlinks:
     src: "{{ folksonomy_api__install_directory }}/confs/systemd"
     dst: "/etc/systemd/system"
-  tags: ["install", "deploy"]
   register: _systemd_config_symlinks
 
 - name: Run yoyo migrations
   ansible.builtin.command:
-    cmd: poetry run yoyo apply  --batch --database postgresql:///{{ folksonym_api__db_name }}
+    cmd: >-
+      {{ folksonomy_api__poetry_path }} run yoyo apply  --batch --database postgresql:///{{ folksonomy_api__db_name }}
+    chdir: "{{ folksonomy_api__install_directory }}"
   register: _yoyo_migrations
-  changed_when: len(_yoyo_migrations.stdout_lines) > 0
-  tags: ["install", "deploy"]
+  changed_when: (_yoyo_migrations.stdout_lines | length) > 0
+  become: true
+  become_user: "{{ folksonomy_api__username }}"
 
 - name: Enable service and (re)-start
   ansible.builtin.import_role:
@@ -82,4 +86,3 @@
     tasks_from: enable_service.yml
   vars:
     git_based_configs__service_name: folksonomy.service
-  tags: ["install", "deploy"]
