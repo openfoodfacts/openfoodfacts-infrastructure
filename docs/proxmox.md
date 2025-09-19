@@ -246,6 +246,8 @@ $ pveum user modify jdoe@pve -group admin
 
 ## How to create a new Container
 
+**IMPORTANT:** On new host, see Ansible section.
+
 You need to have an account on the Proxmox infra.
 
 Using web interface:
@@ -329,6 +331,24 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 -> Run  `systemctl mask --now systemd-logind`
 -> Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 ```
+
+## Ansible
+
+For new servers we use Ansible to install them.
+
+The base install is done using either a debian or the proxmox ISO
+(this latest is prefered in order to also install system on ZFS).
+
+Then, add the server to the inventory,
+and add specific variables.
+
+You must run following playbooks:
+* jobs/configure.yml
+* sites/proxmox-node.yml
+
+Note that if you setup a proxmox cluster, sites/proxmox-node.yml must be run on all nodes at the same time to enable cluster creation.
+
+Read roles documentation to understand what they do.
 
 ## Proxmox installation
 

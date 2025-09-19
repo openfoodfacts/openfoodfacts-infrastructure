@@ -1,0 +1,186 @@
+# Create a container
+# _container contains the information
+---
+- name: Ensure CT id is > 100 < 200
+  ansible.builtin.fail:
+    msg: |
+      CT must have an id between 100 and 200 (current: {{ _container.id }})
+  when: |
+    (( _container.id | int ) < 100) or (( _container.id | int ) > 200)
+
+- name: Get name of local debian template
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      set -o pipefail
+      pveam list local |
+      grep -o '[^ ]*debian-{{ ansible_distribution_major_version }}.*standard[^ ]*'
+  changed_when: false
+  register: _debian_template_local_name
+
+- name: Verify if container already exists
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    vmid: "{{ _container.id | mandatory }}"
+    # we need to grab rootfs information
+    config: pending
+  delegate_to: localhost
+  become: false
+  register: _existing_container
+
+- name: Compute rootfs options
+  ansible.builtin.set_fact:
+    _disk_settings: |
+        {{
+          _container.disk |
+          proxmox_process_disk_volume(
+            existing=_existing_container.proxmox_vms.0 | default(None),
+            defaults={
+              'storage': proxmox_containers__default_disk_storage,
+              'options': proxmox_containers__default_disk_options,
+              'size': proxmox_containers__default_disk_size,
+            }
+          )
+        }}
+
+- name: Create container
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    # first screen of creation form
+    node: "{{ inventory_hostname }}"
+    vmid: "{{ _container.id | mandatory }}"
+    hostname: "{{ _container.hostname | mandatory }}"
+    features: "{{ _container.features | default(proxmox_containers__default_features) }}"
+    unprivileged: "{{ _container.unprivileged | default(proxmox_containers__default_unprivileged) }}"
+    tags: "{{ _container.tags | default([]) }}"
+    # throwaway password for root
+    password: "{{ lookup('community.general.random_string', length=16) }}"
+    # 2nd screen of creation form
+    ostemplate: "{{ _debian_template_local_name.stdout_lines | first | mandatory }}"
+    # 3rd screen of creation form
+    disk_volume: "{{ _disk_settings }}"
+    # 4th screen of creation form
+    cores: "{{ _container.cores | default(proxmox_containers__default_cores) }}"
+    # 5th screen of creation form
+    memory: "{{ _container.memory | default(proxmox_containers__default_memory) }}"
+    swap: "{{ _container.swap | default(proxmox_containers__default_swap) }}"
+    # 6th screen of creation form
+    netif: "{{ _container.netif | proxmox_netif_dict }}"
+    # more options
+    onboot: "{{ _container.onboot | default(proxmox_containers__default_onboot) }}"
+    # NOTE: protection is not supported :-(
+    # state, we must use present to have container updated
+    state: "{{ _container.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
+  # proxmoxer dependency makes it easier to run on localhost
+  delegate_to: localhost
+  become: false
+  register: _container_update
+
+- name: Check current VM status
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    # first screen of creation form
+    node: "{{ inventory_hostname }}"
+    vmid: "{{ _container.id | mandatory }}"
+  # proxmoxer dependency makes it easier to run on localhost
+  delegate_to: localhost
+  become: false
+  register: _container_info
+
+- ansible.builtin.debug:
+    msg: |
+      _container_update: {{ _container_update }}
+      restart_when:   {{  _container_update.changed and ( _container.state | default('started') ) == 'started' }}
+      restart_state: {{ 'restarted' if _existing_container.proxmox_vms else 'started' }}
+
+- name: Restart container if it has changed, or start if just created
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    # first screen of creation form
+    node: "{{ inventory_hostname }}"
+    vmid: "{{ _container.id | mandatory }}"
+    state: "{{ 'restarted' if (_existing_container.proxmox_vms and (_container_info.proxmox_vms.0.status | default('')) == 'running') else 'started' }}"
+  when: |
+    _container_update.changed and
+    ( _container.state | default('started') ) == 'started'
+  delegate_to: localhost
+  become: false
+
+- name: Install sudo using the lxc connection plugin
+  ansible.builtin.apt:
+    pkg:
+    - sudo
+    update_cache: true
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _container.id | mandatory }}"
+
+- name: Bootstrap config-op user using the lxc connection plugin
+  ansible.builtin.user:
+    name: config-op
+    shell: /bin/bash
+    create_home: true
+    groups: ['sudo']
+    password: >-
+      {{
+        hostvars[_container.hostname].ansible_become_password |
+        password_hash('sha512', hostvars[_container.hostname].ansible_user_password_salt)
+      }}
+    state: present
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _container.id | mandatory }}"
+
+- name: Bootstrap config-op ssh connection using the lxc connection plugin
+  ansible.posix.authorized_key:
+    user: '{{ ansible_ssh_user }}'
+    key: '{{ proxmox_containers__github_url }}/{{ item.github_name | default(item.name) }}.keys'
+    state: present
+  loop: '{{ proxmox_containers__github_authorized_users }}'
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _container.id | mandatory }}"
+
+# Tricky, because we use pct enter commands,
+# it might create file owend by root in config-op user
+# fix permissions
+- name: Fix permissions on config-op home
+  ansible.builtin.file:
+    path: '/home/{{ ansible_ssh_user }}'
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
+    recurse: true
+
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _container.id | mandatory }}"

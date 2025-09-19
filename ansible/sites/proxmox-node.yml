@@ -17,3 +17,11 @@
       vars:
         sanoid__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
+    - role: proxmox_containers
+      tags: ["proxmox", "containers"]
+      vars:
+        proxmox_containers__api_port: "{{ proxmox_api_local_port }}"
+        proxmox_containers__api_token_id: "{{ proxmox_api_token_id }}"
+        proxmox_containers__api_token_secret: "{{ proxmox_api_token_secret }}"
+        proxmox_containers__api_user: "{{ proxmox_api_user }}"
+        proxmox_containers__github_authorized_users: "{{ sshd_github_authorized_users }}"
