@@ -26,7 +26,7 @@
     _user_home: "{{ _user_home_stat.stat.path }}"
     _user_group: "{{ _user_group_cmd.stdout_lines[0] }}"
 
-- name: Ensure .ssh directory for folksonomy
+- name: Ensure .ssh directory for user
   ansible.builtin.file:
     path: "{{ _user_home }}/.ssh"
     state: directory
