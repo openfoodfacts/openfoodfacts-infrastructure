@@ -1,0 +1,61 @@
+# This task file is a helper to enable / start and eventually restart a service
+# Based on it's definition timestamp
+- name: Query service info
+  community.general.systemd_info:
+    unitname: "{{ git_based_configs__service_name }}"
+    extra_properties:
+      - "ActiveEnterTimestamp"
+      - "FragmentPath"
+      - "DropInPaths"
+  register: _service_info_query
+  ignore_errors: true
+
+- name: Get service info
+  ansible.builtin.set_fact:
+    _service_info: >-
+      {{ _service_info_query.units[git_based_configs__service_name] }}
+  when: not _service_info_query.failed
+
+- name: Get overall configurations last modified
+  ansible.builtin.stat:
+    path: "{{ item }}"
+    follow: true  # important to follow as our configs are symlinked
+  # we have FragmentPath and DropInPaths to check. We have a select, because dropinpath maybe empty
+  loop: "{{ ([_service_info.fragmentpath] + (_service_info.dropinpaths | default('') | split(',')) | select) }}"
+  register: _systemd_config_symlinks
+  when: not _service_info_query.failed
+
+- name: Check configurations last modified
+  ansible.builtin.set_fact:
+    _config_last_modified: >-
+      {{
+          _systemd_config_symlinks.results |
+          map(attribute="stat") |
+          map(attribute="mtime") |
+          max
+      }}
+  when: not _service_info_query.failed
+
+- name: Do we need service restart ?
+  ansible.builtin.set_fact:
+    # we remove the day from the start of the string
+    # also because localhost local might not match server local
+    _needs_restart: >-
+      {{
+        not _service_info_query.failed and (
+          (_config_last_modified | float) >
+          (
+            _service_info.activeentertimestamp |
+            regex_replace('^\w+ ', '') |
+            to_datetime('%Y-%m-%d %H:%M:%S %Z')
+          ).timestamp()
+        )
+      }}
+
+- name: Enable and (re)start service
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "{{ git_based_configs__service_name }}"
+    enabled: true
+    state: >-
+      {{ "restarted" if _needs_restart else "started" }}

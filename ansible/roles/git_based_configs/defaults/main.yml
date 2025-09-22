@@ -8,6 +8,11 @@ git_based_configs__repository_dest: ""
 git_based_configs__repository_name: "openfoodfacts-infrastructure"
 # owner of the repository
 git_based_configs__repository_owner: "openfoodfacts"
+# is the repository read only ?
+# It should be true for most deploy repositories
+git_based_configs__read_only_repository: true
+# which users own the local repository
+git_based_configs__user: "root"
 
 # Optional
 

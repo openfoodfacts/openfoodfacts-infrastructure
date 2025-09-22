@@ -10,24 +10,55 @@
     name: git
     state: present
 
+- name: Get user's primary group
+  ansible.builtin.command:
+    cmd: "id -gn {{ git_based_configs__user }}"
+  register: _user_group_cmd
+  changed_when: false
+
+- name: Get user's home directory
+  ansible.builtin.stat:
+    path: "~{{ git_based_configs__user }}"
+  register: _user_home_stat
+
+- name: Compute user's facts
+  ansible.builtin.set_fact:
+    _user_home: "{{ _user_home_stat.stat.path }}"
+    _user_group: "{{ _user_group_cmd.stdout_lines[0] }}"
+
+- name: Ensure .ssh directory for user
+  ansible.builtin.file:
+    path: "{{ _user_home }}/.ssh"
+    state: directory
+    owner: "{{ git_based_configs__user }}"
+    group: "{{ _user_group }}"
+    mode: '0700'
+
 - name: Create the deploy key for the server in the repository
   community.crypto.openssh_keypair:
-    path: /root/.ssh/id_rsa
+    path: "{{ _user_home }}/.ssh/id_rsa"
     mode: '0600'
     type: ed25519
     force: false
-    comment: "root@{{ ansible_hostname }}"
+    comment: "{{ git_based_configs__user }}@{{ ansible_hostname }}"
+  # we become with the right user instead of setting owner and group
+  become: true
+  become_user: "{{ git_based_configs__user }}"
 
 - name: Fetch public key content
   ansible.builtin.slurp:
-    src: /root/.ssh/id_rsa.pub
+    src: "{{ _user_home }}//.ssh/id_rsa.pub"
   register: _ssh_key_public
+  become: true
+  become_user: "{{ git_based_configs__user }}"
 
 - name: Add the key on github
+  # Important: the user associated PAT token must have admin role on the repository
+  # If you get "GitHub repository does not exist" it might be a lack of admin rights
   community.general.github_deploy_key:
     # slurp encode in base64, so we have to decode
     key: "{{ _ssh_key_public.content | ansible.builtin.b64decode }}"
-    read_only: false  # we want to be able to push changes
+    read_only: "{{ git_based_configs__read_only_repository }}"
     name: "{{ ansible_hostname }} deploy key"
     owner: "{{ git_based_configs__repository_owner }}"
     repo: "{{ git_based_configs__repository_name }}"
@@ -35,13 +66,15 @@
     state: present
   register: _github_deploy_key_result
 
-- name: Clone the repository in /opt
+- name: Clone the repository
   ansible.builtin.git:  # noqa: latest
     repo: "git@github.com:{{ git_based_configs__repository_owner }}/{{ git_based_configs__repository_name }}.git"
     dest: "{{ git_based_configs__repository_dest }}"
     update: false
     accept_newhostkey: true
-
+  # important here to use the right user !
+  become: true
+  become_user: "{{ git_based_configs__user }}"
 
 # this is important because most of the time we directly work on develop
 # with local changes and remote changes, but we want to keep a linear history

@@ -1,0 +1,15 @@
+# Installation of folksonomy engine in a container
+---
+- name: Folksonomy engine API
+  hosts:
+    - folksonomy-staging
+    # For now it doesn't work for production deployment
+    # We would need to re-install it first
+    # - folksonomy
+  gather_facts: true
+  become: true
+  roles:
+    - role: postgresql
+    - role: folksonomy_api
+      vars:
+        folksonomy_api__github_token: "{{ secret__github__bot_token_infrastructure }}"

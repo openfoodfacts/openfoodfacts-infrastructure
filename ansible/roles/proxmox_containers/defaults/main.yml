@@ -1,0 +1,51 @@
+# the api hosts
+# see README about SSH Tunneling
+proxmox_containers__api_host: 127.0.0.1
+proxmox_containers__api_port: 8006
+# mandatory to provide
+proxmox_containers__api_token_id: null
+proxmox_containers__api_token_secret: null
+proxmox_containers__api_user: null
+
+# containers on this host
+proxmox_containers__containers: []
+# each entry is a dict with (see defaults below)
+# id: container or vm id
+# hostname:
+# features: additional features, as a list of string "key=value" (eg. nesting=1)
+# unprivileged: bool, true, to run unprivileged container
+# tags: list of tags
+# disk:
+#  storage: which storage to use (eg. zfs-hdd)
+#  options: options on storage
+#  size: size in GiB
+# cores: number of cores
+# memory: memory size in MB
+# swap: swap size in MB
+# netif: network definition, (see plugins/filter/proxmox.py for all possible fields)
+#  netX: the key is net0, net1, net2, etc.
+#    name: name of the interface
+#    bridge: name of the bridge
+#    ip: ip address with makes
+#    ip6: ip6 address with makes
+#    gw: gateway address
+#    gw6: gateway address for ipv6
+# onboot: should the container/vm start on boot
+# state: (started / present / absent)
+
+proxmox_containers__default_unprivileged: true
+proxmox_containers__default_tags: rpool
+# default values for new containers disks
+proxmox_containers__default_disk_storage: rpool
+proxmox_containers__default_disk_options: {}
+proxmox_containers__default_disk_size: 8
+# containers defaults
+proxmox_containers__default_features: ["nesting=1"]
+proxmox_containers__default_cores: 1
+proxmox_containers__default_memory: 2048
+proxmox_containers__default_swap: 0
+proxmox_containers__default_onboot: true
+
+# for ssh access via public keys
+proxmox_containers__github_url: "https://github.com"
+proxmox_containers__github_authorized_users: []

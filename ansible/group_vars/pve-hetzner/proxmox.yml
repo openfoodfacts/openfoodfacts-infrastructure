@@ -11,3 +11,7 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 # FIXME
 #pve_ssl_private_key
 #pve_ssl_certificate
+
+# Access to PVE
+proxmox_api_user: agarel@pve
+proxmox_api_token_id: ansible-token

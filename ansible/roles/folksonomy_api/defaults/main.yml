@@ -1,0 +1,12 @@
+# this is the system username, as well as the database username
+folksonomy_api__username: folksonomy
+folksonomy_api__repository_owner: openfoodfacts
+folksonomy_api__repository_name: folksonomy_api
+folksonomy_api__install_directory: "/home/{{ folksonomy_api__username }}/folksonomy_api"
+folksonomy_api__github_token: null
+# This is normally provided as an --extra-vars to deploy the right version
+folksonomy_api__version:
+folksonomy_api__db_name: folksonomy
+
+# this is the expected poetry path after install
+folksonomy_api__poetry_path: /home/{{ folksonomy_api__username }}/.local/bin/poetry

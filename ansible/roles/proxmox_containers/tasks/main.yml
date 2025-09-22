@@ -1,0 +1,52 @@
+---
+- name: Verify we have credentials
+  ansible.builtin.fail:
+    msg: Mandatory parameters missing
+  when: |
+    not (proxmox_containers__api_token_id and proxmox_containers__api_token_secret and proxmox_containers__api_user)
+
+- name: Get name of debian template
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      set -o pipefail
+      pveam available |
+      grep -o debian-{{ ansible_distribution_major_version }}.*standard.*$
+  changed_when: false
+  register: _debian_template_name
+
+- name: Get debian template
+  # Note: parameters doc is also at
+  # <your-server>:8006/pve-docs/api-viewer/index.html#/nodes/{node}/storage/{storage}/download-url
+  community.proxmox.proxmox_template:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    # very important this must be the exact node name
+    # ansible_host is fully qualified, so not the right one
+    node: "{{ inventory_hostname }}"
+    url: "http://download.proxmox.com/images/system/{{ _debian_template_name.stdout_lines | first }}"
+  # proxmoxer dependency makes it easier to run on localhost
+  delegate_to: localhost
+  become: false
+  when: _debian_template_name.stdout_lines | length > 0
+
+- name: Add sudoers entry for ansible user to run pct
+  # needed to connect later with the community.proxmox.proxmox_pct_remote
+  ansible.builtin.copy:
+    content: '{{ ansible_user }} ALL = (root) NOPASSWD: /usr/sbin/pct'
+    dest: /etc/sudoers.d/ansible_pct
+    owner: root
+    group: root
+    mode: '0440'
+
+
+- name: Create containers (CT)
+  ansible.builtin.include_tasks:
+    file: create_container.yml
+  loop: "{{ proxmox_containers__containers }}"
+  loop_control:
+    loop_var: _container

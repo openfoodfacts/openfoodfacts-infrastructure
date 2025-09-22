@@ -1,0 +1,3 @@
+# If you don't want last version of Postgres, specify it here
+# It must be a version supported by Postqres official APT apt_repository
+postgresql__version: ""

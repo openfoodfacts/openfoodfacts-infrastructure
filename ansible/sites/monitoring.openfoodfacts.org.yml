@@ -25,6 +25,7 @@
       vars:
         git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
         git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
     - role: sanoid
       tags: ["base", "sanoid"]
       vars:
@@ -32,7 +33,7 @@
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
     - role: continuous-deployment
       tags: cd
-    - role: reverse-proxy
+    - role: reverse_proxy_docker
       tags: reverse-proxy
     # we do it last because it will require a first deployment
     - role: prometheus-secrets

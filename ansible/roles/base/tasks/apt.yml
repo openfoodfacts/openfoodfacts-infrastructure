@@ -31,6 +31,8 @@
       - apt-transport-https
       - aptitude
       - unattended-upgrades
+      # acl are useful also for ansible if we use become_user
+      - acl
       # sys admin tools
       - lsb-release
       - etckeeper

@@ -1,0 +1,9 @@
+# THIS FILES comes from ansible nginx proxy role,
+# DO NOT EDIT DIRECTLY
+
+# This enables prometheus exporter to get data from nginx
+server {
+        listen 127.0.0.1:8080;
+        stub_status on;
+}
+

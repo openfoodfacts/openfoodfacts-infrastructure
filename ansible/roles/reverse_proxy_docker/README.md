@@ -1,4 +1,4 @@
-# Reverse proxy role
+# Reverse proxy role using NGINX
 
 - Installs the `nginx` reverse proxy as a docker container and it's configuration.
 - Installs `certbot` to manage HTTPS certificates and a cron to start it regularly.
@@ -10,7 +10,7 @@
 In `host_vars/<node_name>/reverse-proxy.yml`, create a variable with the following shape:
 
 ```yml
-reverse_proxy_websites:
+reverse_proxy_docker__websites:
   - url: "example1.openfoodfacts.org"
     proxy_pass: "example1-webserver:80"
   - url: "example2.openfoodfacts.org"

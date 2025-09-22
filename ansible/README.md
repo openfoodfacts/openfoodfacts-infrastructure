@@ -86,7 +86,7 @@ ansible all -m ping
 If you are about to install a new host server (proxmox host, or standalone server),
 you must install debian.
 
-Then generate a random password.
+Then generate a random password (eg `pwgen -y 16 16`).
 Put that password as value for `ansible_become_password` in `host_vars/<server-name>/<server-name>-secrets.yml`.
 
 Then ssh to the new server to add config-op user:
@@ -107,6 +107,14 @@ Test you can connect to the new server using config-op user:
 
 ```bash
 ssh config-op@<server-ip>
+```
+
+Also if you are not using the `jobs/configure.yml` playbook,
+beware that you may need some pre-conditions for playbook to work.
+
+For example, you might need some packages installed.
+```bash
+sudo apt install acl python3-{apt,httplib2,pip,setuptools,psychopg2}
 ```
 
 #### Configure Servers
