@@ -1,5 +1,5 @@
 ---
-- name: run base fail2ban role
+- name: Run base fail2ban role
   ansible.builtin.include_role:
     name: oefenweb.fail2ban
   vars:
@@ -9,7 +9,7 @@
     fail2ban_loglevel: "{{ fail2ban_nftables_loglevel }}"
     fail2ban_ignoreips: "{{ fail2ban_nftables_ignoreips }}"
 
-- name: "copy fail2ban needed config files"
+- name: "Copy fail2ban needed config files"
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/fail2ban/{{ item | replace('--', '/') }}"

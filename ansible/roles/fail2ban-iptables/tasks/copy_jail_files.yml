@@ -17,9 +17,9 @@
   become: false
   register: jail_files
 
-- name: "debug jail files"
+- name: "Debug jail files"
   ansible.builtin.debug:
-    msg: "{{ _fail2ban_iptables_iter_jail }}: {{ jail_files.files }} {{ role_path}}"
+    msg: "{{ _fail2ban_iptables_iter_jail }}: {{ jail_files.files }} {{ role_path }}"
   when: fail2ban_iptables_debug
 
 - name: "Debug jail files"
@@ -33,7 +33,7 @@
 - name: "Copy jail files"
   ansible.builtin.copy:
     src: "{{ file.path }}"
-    dest: "/etc/fail2ban/{{ file.path | replace( role_path + '/files', '') | replace('--', '/') }}"
+    dest: "/etc/fail2ban/{{ file.path | replace(role_path + '/files', '') | replace('--', '/') }}"
   loop: "{{ jail_files.files }}"
   loop_control:
     loop_var: file

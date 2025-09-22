@@ -14,7 +14,7 @@
     label: "{{ item.label | default('gpt') }}"
     number: "{{ item.number }}"
     part_start: "{{ item.part_start | default('1') }}"
-    part_end: "{{ item.part_end | default('100%')}}"
+    part_end: "{{ item.part_end | default('100%') }}"
     part_type: "{{ item.part_type | default('primary') }}"
     resize: "{{ item.resize | default('false') }}"
   check_mode: "{{ not proxomox_node_mkparts }}"
