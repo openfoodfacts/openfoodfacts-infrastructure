@@ -15,7 +15,7 @@ resilver restarted.
 
 After one day, I observed that it was running at a far lower pace than expected.
 It had only resilvered about 500M in 24h, out of 52T,
-which would mean monthes before full resilver.
+which would mean months before full resilver.
 
 On munin I can see an impressive latency for sdf, around 140ms (instead of 4/8ms for other disks)
 
@@ -26,7 +26,7 @@ smartctl -t long /dev/sdf
 ```
 
 On friday I look at it again.
-Resilver was still unbearingly slow:
+Resilver was still unbearably slow:
 ```
   scan: resilver in progress since Tue Aug 19 12:29:32 2025
 	2.17T scanned at 8.63M/s, 2.03T issued at 8.06M/s, 53.2T total
@@ -122,7 +122,7 @@ config:
 
 I launched a
 ```bash
-zfs replace rpool /dev/sdf
+zpool replace rpool /dev/sdf
 ```
 
 I got:
