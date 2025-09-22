@@ -1,7 +1,7 @@
+---
 # you might set it to INFO on service with low traffic or to monitor more closely
 fail2ban_iptables_loglevel: NOTICE
 fail2ban_iptables_ignoreips: []
-
 fail2ban_iptables_backend: systemd
 
 fail2ban_iptables_services:
@@ -10,4 +10,4 @@ fail2ban_iptables_services:
 fail2ban_iptables_debug: false
 
 # internal variable for copy_jail_files
-_fail2ban_iptables_iter_jail: null
+_fail2ban_iptables_iter_jail:

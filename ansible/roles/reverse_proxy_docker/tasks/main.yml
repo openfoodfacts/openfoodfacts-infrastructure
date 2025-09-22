@@ -1,3 +1,4 @@
+---
 - name: Create linux user for reverse proxy
   ansible.builtin.user:
     name: "{{ reverse_proxy_user }}"

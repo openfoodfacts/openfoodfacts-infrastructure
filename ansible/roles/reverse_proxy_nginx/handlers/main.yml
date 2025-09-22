@@ -1,4 +1,4 @@
-
+---
 - name: reverse_proxy_nginx__reload_nginx
   ansible.builtin.service:
     name: nginx

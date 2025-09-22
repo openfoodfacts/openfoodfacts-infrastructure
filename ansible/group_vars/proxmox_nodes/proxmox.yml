@@ -19,18 +19,17 @@ proxmox_node__pve_groups:
     comment: Administrators
 proxmox_node__pve_acls:
   - path: /
-    roles: [ "Administrator" ]
-    groups: [ "admins" ]
+    roles: ["Administrator"]
+    groups: ["admins"]
   - path: /
-    roles: [ "PVEAuditor" ]
-    groups: [ "ro_users" ]
+    roles: ["PVEAuditor"]
+    groups: ["ro_users"]
 proxmox_node__pve_storages:
   - name: localdir
     type: dir
-    content: [ "images", "iso", "backup" ]
+    content: ["images", "iso", "backup"]
     path: /plop
     maxfiles: 4
-
 
 # ZFS ###########
 

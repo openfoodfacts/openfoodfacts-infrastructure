@@ -1,5 +1,4 @@
 ---
-
 - name: run base fail2ban role
   ansible.builtin.include_role:
     name: oefenweb.fail2ban

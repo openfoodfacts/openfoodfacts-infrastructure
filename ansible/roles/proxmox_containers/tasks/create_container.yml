@@ -36,17 +36,17 @@
 - name: Compute rootfs options
   ansible.builtin.set_fact:
     _disk_settings: |
-        {{
-          _container.disk |
-          proxmox_process_disk_volume(
-            existing=_existing_container.proxmox_vms.0 | default(None),
-            defaults={
-              'storage': proxmox_containers__default_disk_storage,
-              'options': proxmox_containers__default_disk_options,
-              'size': proxmox_containers__default_disk_size,
-            }
-          )
-        }}
+      {{
+        _container.disk |
+        proxmox_process_disk_volume(
+          existing=_existing_container.proxmox_vms.0 | default(None),
+          defaults={
+            'storage': proxmox_containers__default_disk_storage,
+            'options': proxmox_containers__default_disk_options,
+            'size': proxmox_containers__default_disk_size,
+          }
+        )
+      }}
 
 - name: Create container
   community.proxmox.proxmox:
@@ -123,7 +123,7 @@
 - name: Install sudo using the lxc connection plugin
   ansible.builtin.apt:
     pkg:
-    - sudo
+      - sudo
     update_cache: true
   # pct_remote does not need to become (in the container),
   # as it use pct exec (which already exec as root)
@@ -137,7 +137,7 @@
     name: config-op
     shell: /bin/bash
     create_home: true
-    groups: ['sudo']
+    groups: ["sudo"]
     password: >-
       {{
         hostvars[_container.hostname].ansible_become_password |
@@ -153,10 +153,10 @@
 
 - name: Bootstrap config-op ssh connection using the lxc connection plugin
   ansible.posix.authorized_key:
-    user: '{{ ansible_ssh_user }}'
-    key: '{{ proxmox_containers__github_url }}/{{ item.github_name | default(item.name) }}.keys'
+    user: "{{ ansible_ssh_user }}"
+    key: "{{ proxmox_containers__github_url }}/{{ item.github_name | default(item.name) }}.keys"
     state: present
-  loop: '{{ proxmox_containers__github_authorized_users }}'
+  loop: "{{ proxmox_containers__github_authorized_users }}"
   # pct_remote does not need to become (in the container),
   # as it use pct exec (which already exec as root)
   become: false
@@ -169,9 +169,9 @@
 # fix permissions
 - name: Fix permissions on config-op home
   ansible.builtin.file:
-    path: '/home/{{ ansible_ssh_user }}'
-    owner: '{{ ansible_ssh_user }}'
-    group: '{{ ansible_ssh_user }}'
+    path: "/home/{{ ansible_ssh_user }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
     recurse: true
 
   become: false

@@ -49,7 +49,7 @@
 
 - name: Switch branch of server clone
   # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
-  ansible.builtin.shell:  # noqa: command-instead-of-module
+  ansible.builtin.shell: # noqa: command-instead-of-module
     cmd: git fetch && git checkout "{{ _target_branch_name }}"
     chdir: "{{ git_based_configs__repository_dest }}"
   when: "_server_current_branch.stdout != _target_branch_name"
@@ -57,7 +57,7 @@
 
 - name: Update repository
   # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
-  ansible.builtin.command:  # noqa: command-instead-of-module
+  ansible.builtin.command: # noqa: command-instead-of-module
     # we only do a fast forward pull because we prefer to fail in case of conflicts
     cmd: git pull --ff-only
     chdir: "{{ git_based_configs__repository_dest }}"

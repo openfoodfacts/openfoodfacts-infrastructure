@@ -11,12 +11,12 @@
   ansible.builtin.user:
     name: "{{ _operator.username }}"
     state: present
-    password: "!"  # no password
+    password: "!" # no password
     shell: /bin/bash
   delegate_to: "{{ _operator.server }}"
 
 - name: List ZFS Pools
-  community.general.zpool_facts: null
+  community.general.zpool_facts:
   delegate_to: "{{ _operator.server }}"
 
 - name: Compute some variables
@@ -47,8 +47,8 @@
 
 - name: Authorize ssh public key for operator
   ansible.posix.authorized_key:
-    user: '{{ _operator.username }}'
-    key: '{{ _pubkey_content.content | ansible.builtin.b64decode }}'
+    user: "{{ _operator.username }}"
+    key: "{{ _pubkey_content.content | ansible.builtin.b64decode }}"
   delegate_to: "{{ _operator.server }}"
 
 - name: Get the server key

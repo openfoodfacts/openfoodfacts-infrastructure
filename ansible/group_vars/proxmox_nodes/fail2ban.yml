@@ -1,3 +1,4 @@
+---
 fail2ban_iptables_services:
   - name: sshd
   - name: proxmox

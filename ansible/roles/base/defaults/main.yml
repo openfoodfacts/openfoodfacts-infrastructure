@@ -5,7 +5,6 @@ motd_warning: |
 
 ntp_servers: "{{ base_ntp_servers | default([]) }}"
 
-
 ntp_fallback_servers: "{{base_ntp_fallback_servers | default(_default_ntp_servers) }}"
 _default_ntp_servers:
   - 0.pool.ntp.org

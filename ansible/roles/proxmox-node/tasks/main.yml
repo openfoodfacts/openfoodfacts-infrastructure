@@ -18,7 +18,7 @@
     zfs_volumes: "{{ proxmox_node_zfs_volumes }}"
     # we prefer to use inheritance as much as possible as defaults
     zfs_filesystems_properties_defaults: {}
-    zfs_zrepl_enabled: false  # we use sanoid / syncoid instead
+    zfs_zrepl_enabled: false # we use sanoid / syncoid instead
   tags: zfs
 
 - name: Ensure proxmox cluster name is defined, if enabled
@@ -30,7 +30,6 @@
   ansible.builtin.assert:
     that: proxmox_node__pve_cluster_enabled == false or proxmox_node__pve_cluster_addr0 is defined
     msg: "proxmox_node__pve_cluster_addr0 must be defined if proxmox_node__pve_cluster_enabled is true"
-
 
 - name: Run proxmox node install
   ansible.builtin.include_role:

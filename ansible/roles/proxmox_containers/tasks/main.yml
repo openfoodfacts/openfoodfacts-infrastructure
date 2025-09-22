@@ -37,12 +37,11 @@
 - name: Add sudoers entry for ansible user to run pct
   # needed to connect later with the community.proxmox.proxmox_pct_remote
   ansible.builtin.copy:
-    content: '{{ ansible_user }} ALL = (root) NOPASSWD: /usr/sbin/pct'
+    content: "{{ ansible_user }} ALL = (root) NOPASSWD: /usr/sbin/pct"
     dest: /etc/sudoers.d/ansible_pct
     owner: root
     group: root
-    mode: '0440'
-
+    mode: "0440"
 
 - name: Create containers (CT)
   ansible.builtin.include_tasks:

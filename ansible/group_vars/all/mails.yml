@@ -20,8 +20,8 @@ nullmailer__remotes:
 
 # All mails to <user>@localhost or <user>@<nullmailer__mailname>
 # are redirected to this email (ie. no local mailbox)
-nullmailer__admin: '{{ secrets_infra_email }}'
+nullmailer__admin: "{{ secrets_infra_email }}"
 
 # Configure to nullmailer to use host_domain as default mailing domain
 # so unconfigured mail are emited in @<host_domain>
-nullmailer__domain: '{{ host_domain }}'
+nullmailer__domain: "{{ host_domain }}"

@@ -1,7 +1,6 @@
 ---
 - name: Check if user exists
-  ansible.builtin.command:
-    id {{ user.name }}
+  ansible.builtin.command: id {{ user.name }}
   become: true
   ignore_errors: true
   register: user_exists_cmd
@@ -21,7 +20,7 @@
     state: "{{ user.state | default('present') }}"
     shell: "{{ '/usr/bin/false' if not user_has_password else '/bin/bash' }}"
     # We use a '*' password and handle users with password later
-    password: '*'
+    password: "*"
     update_password: "on_create"
 
 - name: Force user to set password on first login
@@ -31,5 +30,5 @@
 
 - name: Authorize ssh public key from github for this user
   ansible.posix.authorized_key:
-    user: '{{ user.name }}'
-    key: '{{ system_users__github_url }}/{{ user.github_name | default(user.name) }}.keys'
+    user: "{{ user.name }}"
+    key: "{{ system_users__github_url }}/{{ user.github_name | default(user.name) }}.keys"

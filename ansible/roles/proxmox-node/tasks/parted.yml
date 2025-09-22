@@ -1,6 +1,5 @@
 # Check and eventually create partitions
 ---
-
 - name: Install parted
   ansible.builtin.package:
     name: parted
@@ -30,7 +29,7 @@
   # it means partitions are not as expected
   ansible.builtin.assert:
     that:
-    - proxmox_node_parted_result.results | selectattr('changed', 'equalto', true) | list | length == 0
+      - proxmox_node_parted_result.results | selectattr('changed', 'equalto', true) | list | length == 0
     fail_msg: |
       Partitions are not as expected, if you want to create them,
       use -e 'proxomox_node_mkparts=true' on your command line

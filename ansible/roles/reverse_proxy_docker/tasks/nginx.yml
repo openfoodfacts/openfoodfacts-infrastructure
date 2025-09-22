@@ -1,3 +1,4 @@
+---
 - name: Fail if password is defined without username, or username without password
   ansible.builtin.fail:
     msg: >-

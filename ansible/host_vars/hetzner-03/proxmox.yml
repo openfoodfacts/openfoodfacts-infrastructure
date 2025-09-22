@@ -1,4 +1,4 @@
-
+---
 proxmox_node__pve_cluster_addr0: 10.12.0.3
 
 proxmox_node_zfs_pools:
@@ -9,8 +9,8 @@ proxmox_node_zfs_pools:
     filesystem_properties: "{{ proxmox_node_zfs_pools_filesystem_properties_defaults }}"
 
 proxmox_node_zfs_filesystems:
-- name: rpool/pve
-- name: rpool/backups
+  - name: rpool/pve
+  - name: rpool/backups
 
 proxmox_node__pve_storages:
   - name: rpool-pve

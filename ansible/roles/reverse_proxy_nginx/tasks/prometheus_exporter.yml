@@ -9,6 +9,6 @@
   ansible.builtin.copy:
     dest: /etc/nginx/sites-enabled/stub_status
     src: stub_status
-    mode: '0644'
+    mode: "0644"
   notify:
     - reverse_proxy_nginx__reload_nginx

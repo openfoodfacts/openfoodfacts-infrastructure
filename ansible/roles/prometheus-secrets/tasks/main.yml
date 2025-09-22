@@ -1,3 +1,4 @@
+---
 - name: Check if the monitoring folder exists
   ansible.builtin.stat:
     path: /home/off/monitoring

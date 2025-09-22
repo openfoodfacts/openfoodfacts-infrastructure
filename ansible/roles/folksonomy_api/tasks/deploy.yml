@@ -28,7 +28,7 @@
       }}
 
 - name: Checkout the right ref
-  ansible.builtin.git:  # noqa: latest
+  ansible.builtin.git: # noqa: latest
     repo: "git@github.com:{{ folksonomy_api__repository_owner }}/{{ folksonomy_api__repository_name }}.git"
     dest: "{{ folksonomy_api__install_directory }}"
     version: "{{ _git_ref }}"

@@ -1,3 +1,4 @@
+---
 # token to access github.
 # Must have rights to create deploy keys on infrastructure repository
 # Currently it means a classic token, with public_repo access
@@ -17,6 +18,6 @@ git_based_configs__user: "root"
 # Optional
 
 # branch to use, if not defined, we will use the same branch as local branch name
-git_based_configs__branch: null
+git_based_configs__branch:
 # force branch switch, on distant server (instead of asking confirmation)
 git_based_configs__force_branch_switch: false

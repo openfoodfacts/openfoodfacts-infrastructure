@@ -11,4 +11,3 @@
     # if configuration changes, the containers will be automatically recreated
     recreate: auto
     state: restarted
-...

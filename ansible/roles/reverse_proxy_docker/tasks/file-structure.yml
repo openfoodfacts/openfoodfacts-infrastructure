@@ -1,3 +1,4 @@
+---
 - name: Create certbot directory
   ansible.builtin.file:
     path: "{{ reverse_proxy_dir }}/certbot"

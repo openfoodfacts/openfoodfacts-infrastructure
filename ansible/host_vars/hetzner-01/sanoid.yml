@@ -1,3 +1,4 @@
+---
 sanoid__datasets_to_create:
   - hdd-zfs/off-backups
   - hdd-zfs/off-backups/ovh3-rpool

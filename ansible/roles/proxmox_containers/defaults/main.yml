@@ -1,11 +1,12 @@
+---
 # the api hosts
 # see README about SSH Tunneling
 proxmox_containers__api_host: 127.0.0.1
 proxmox_containers__api_port: 8006
 # mandatory to provide
-proxmox_containers__api_token_id: null
-proxmox_containers__api_token_secret: null
-proxmox_containers__api_user: null
+proxmox_containers__api_token_id:
+proxmox_containers__api_token_secret:
+proxmox_containers__api_user:
 
 # containers on this host
 proxmox_containers__containers: []

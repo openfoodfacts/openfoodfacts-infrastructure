@@ -1,2 +1,3 @@
+---
 - name: Install postgres packages
   ansible.builtin.include_tasks: install.yml

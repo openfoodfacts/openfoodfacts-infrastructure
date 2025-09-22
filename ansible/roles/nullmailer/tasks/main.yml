@@ -7,7 +7,7 @@
   with_filetree:
     - ../templates
   loop_control:
-    label: '{{ item.path }}'
+    label: "{{ item.path }}"
   notify: restart nullmailer
   tags:
     - config

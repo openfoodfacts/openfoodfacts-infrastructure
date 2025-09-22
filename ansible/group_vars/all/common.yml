@@ -1,3 +1,4 @@
+---
 _off_ansible_ssh_hosts_ips: |
   {{
     groups['all']

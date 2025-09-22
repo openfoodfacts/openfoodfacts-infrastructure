@@ -1,4 +1,4 @@
-
+---
 proxmox_node__pve_cluster_addr0: 10.12.0.2
 
 proxmox_node_zfs_pools:
@@ -9,8 +9,8 @@ proxmox_node_zfs_pools:
     filesystem_properties: "{{ proxmox_node_zfs_pools_filesystem_properties_defaults }}"
 
 proxmox_node_zfs_filesystems:
-- name: rpool/pve
-- name: rpool/backups
+  - name: rpool/pve
+  - name: rpool/backups
 
 proxmox_node__pve_storages:
   - name: rpool-pve
@@ -30,7 +30,7 @@ proxmox_containers__containers:
   - id: 100
     hostname: hetzner-02-proxy
     features:
-    - nesting=1
+      - nesting=1
     cores: 4
     memory: "{{ 2 * 1024 }}"
     netif:
@@ -59,7 +59,7 @@ proxmox_containers__containers:
   - id: 110
     hostname: folksonomy-staging
     features:
-    - nesting=1
+      - nesting=1
     cores: 4
     memory: "{{ 4 * 1024 }}"
     netif:
@@ -71,7 +71,6 @@ proxmox_containers__containers:
     disk:
       storage: rpool-pve
       size: 32
-
 
 # proxmox_node_partitions:
 # - name: nvme0n1p5
