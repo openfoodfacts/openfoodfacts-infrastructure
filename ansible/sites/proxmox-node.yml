@@ -5,7 +5,7 @@
   gather_facts: true
   become: true
   roles:
-    - role: proxmox-node
+    - role: proxmox_node
       tags: ["base", "proxmox"]
     - role: git_based_configs
       tags: ["base", "git-config"]

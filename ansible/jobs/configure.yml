@@ -8,13 +8,13 @@
       tags: base
     - role: sshd
       tags: ssh
-    - role: system-users
+    - role: system_users
       tags: users
     - role: nullmailer
       tags: mail
     - role: iptables
       tags: ["firewall", "iptables"]
-    - role: fail2ban-iptables
+    - role: fail2ban_iptables
       tags: fail2ban
 # TODO
 #    - role: munin-node
