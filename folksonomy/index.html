@@ -485,11 +485,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
+  <a href="#explain-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Deployment
+      Explain Deployment
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-deploy-a-new-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Deploy a new version
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Deploy a new version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using ansible
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manually-current-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manually (current production)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -503,20 +536,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrade" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrade
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       Install
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current staging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current production
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3915,11 +3963,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
+  <a href="#explain-deployment" class="md-nav__link">
     <span class="md-ellipsis">
-      Deployment
+      Explain Deployment
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-deploy-a-new-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Deploy a new version
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Deploy a new version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using ansible
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manually-current-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manually (current production)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3933,20 +4014,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrade" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrade
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       Install
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current staging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current production
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3977,24 +4073,31 @@
 <h1 id="folksonomy-api">Folksonomy API<a class="headerlink" href="#folksonomy-api" title="Permanent link">#</a></h1>
 <p>Folksonomy is a service to allow contributors to freely add labels and values to products.</p>
 <p>The code is at <a href="https://github.com/openfoodfacts/folksonomy_api/">https://github.com/openfoodfacts/folksonomy_api/</a></p>
-<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">#</a></h2>
-<p>Folksonomy is deployed on a LXC container.
-(108 at the time of writing)</p>
-<p>Code is in <code>/home/folksonomy/folksonomy_api</code></p>
+<h2 id="explain-deployment">Explain Deployment<a class="headerlink" href="#explain-deployment" title="Permanent link">#</a></h2>
+<ul>
+<li>Production instance for Folksonomy API is deployed on a LXC container.
+  (108 on OVH at the time of writing)</li>
+</ul>
+<ul>
+<li>Staging instance is deployed the same way (container 110 on hetzner-02)</li>
+</ul>
+<p>The code is in <code>/home/folksonomy/folksonomy_api</code></p>
 <p>It is started thanks to a systemd unit: <code>folksonomy.service</code> (config at <code>/etc/systemd/system/folksonomy.service</code>)</p>
 <p>Server is running uvicorn on port 8000 with user folksonomy.</p>
 <p>It is served behind the <a href="../nginx-reverse-proxy/">NGINX reverse proxy</a></p>
-<p>The python environment has been setup using uv, to get python3.10 and poetry on top of that.
+<p>In production: 
+The python environment has been setup using uv, to get python3.10 and poetry on top of that.
 So poetry executable is in <code>/home/folksonomy/.local/bin/poetry</code></p>
-<h2 id="useful-commands">Useful commands<a class="headerlink" href="#useful-commands" title="Permanent link">#</a></h2>
-<p>Status (reload/restart/etc.):
-</p><div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>folksonomy
+<p>In staging:
+The install / deployment was realized with ansible, <code>sites/folksonomy_api.yml</code> playbook.</p>
+<h2 id="how-to-deploy-a-new-version">How to Deploy a new version<a class="headerlink" href="#how-to-deploy-a-new-version" title="Permanent link">#</a></h2>
+<h3 id="using-ansible">Using ansible<a class="headerlink" href="#using-ansible" title="Permanent link">#</a></h3>
+<p>For staging, you can use the ansible playbook:
+</p><div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>ansible-playbook<span class="w"> </span>-l<span class="w"> </span>folksonomy-staging
 </code></pre></div><p></p>
-<p>See service logs:
-</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>folksonomy
-</code></pre></div><p></p>
-<h2 id="upgrade">Upgrade<a class="headerlink" href="#upgrade" title="Permanent link">#</a></h2>
-<p>Before every upgrade, make a snapshot of the Proxmox container. Then:</p>
+<h3 id="manually-current-production">Manually (current production)<a class="headerlink" href="#manually-current-production" title="Permanent link">#</a></h3>
+<p>In production,
+before every upgrade, make a snapshot of the Proxmox container. Then:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Switch to "folksonomy" user</span>
 su<span class="w"> </span>-<span class="w"> </span>folksonomy
 <span class="nb">cd</span><span class="w"> </span>~/folksonomy_api
@@ -4011,9 +4114,23 @@ poetry<span class="w"> </span>run<span class="w"> </span>yoyo<span class="w"> </
 systemctl<span class="w"> </span>daemon-reload
 systemctl<span class="w"> </span>restart<span class="w"> </span>folksonomy
 </code></pre></div>
+<h2 id="useful-commands">Useful commands<a class="headerlink" href="#useful-commands" title="Permanent link">#</a></h2>
+<p>Status (reload/restart/etc.):
+</p><div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>folksonomy
+</code></pre></div><p></p>
+<p>See service logs:
+</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>folksonomy
+</code></pre></div><p></p>
 <h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h2>
+<h3 id="current-staging">Current staging<a class="headerlink" href="#current-staging" title="Permanent link">#</a></h3>
+<ul>
+<li>We created the container on hetzner-02 using ansible (part of <code>sites/proxmox_node.yml</code> playbook)</li>
+<li>We configured the container with <code>jobs/configure.yml</code></li>
+<li>We installed folksonomy using <code>sites/folksonomy_api.yml</code> playbook</li>
+</ul>
+<h3 id="current-production">Current production<a class="headerlink" href="#current-production" title="Permanent link">#</a></h3>
 <p>We simply clone the repository in /home/folksonomy/folksonomy_api.</p>
-<p>We installed the python environment with uv:
+<p>We installed the python environment with uv (because system lacked python3.10):
 </p><div class="highlight"><pre><span></span><code><span class="c1"># as root</span>
 pip<span class="w"> </span>install<span class="w"> </span>uv
 /usr/local/bin/uv<span class="w"> </span>python<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.10
