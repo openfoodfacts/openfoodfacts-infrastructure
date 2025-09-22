@@ -17,9 +17,9 @@
     part_end: "{{ item.part_end | default('100%') }}"
     part_type: "{{ item.part_type | default('primary') }}"
     resize: "{{ item.resize | default('false') }}"
-  check_mode: "{{ not proxomox_node_mkparts }}"
-  loop: "{{ proxmox_node_partitions }}"
-  when: proxmox_node_partitions is defined
+  check_mode: "{{ not proxmox_node__mkparts }}"
+  loop: "{{ proxmox_node__partitions }}"
+  when: proxmox_node__partitions is defined
   register: proxmox_node_parted_result
   loop_control:
     label: "{{ item.device }} - {{ item.number }} - {{ item.state }}"
@@ -32,6 +32,6 @@
       - proxmox_node_parted_result.results | selectattr('changed', 'equalto', true) | list | length == 0
     fail_msg: |
       Partitions are not as expected, if you want to create them,
-      use -e 'proxomox_node_mkparts=true' on your command line
+      use -e 'proxmox_node__mkparts=true' on your command line
     success_msg: "Partitions are as expected"
-  when: "( proxmox_node_partitions is defined ) and ( not proxomox_node_mkparts )"
+  when: "( proxmox_node__partitions is defined ) and ( not proxmox_node__mkparts )"

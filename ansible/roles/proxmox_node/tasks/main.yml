@@ -13,9 +13,9 @@
     zfs_service_zed_enabled: true
     zfs_scrub_schedule: monthly
     zfs_trim_schedule: weekly
-    zfs_pools: "{{ proxmox_node_zfs_pools }}"
-    zfs_filesystems: "{{ proxmox_node_zfs_filesystems }}"
-    zfs_volumes: "{{ proxmox_node_zfs_volumes }}"
+    zfs_pools: "{{ proxmox_node__zfs_pools }}"
+    zfs_filesystems: "{{ proxmox_node__zfs_filesystems }}"
+    zfs_volumes: "{{ proxmox_node__zfs_volumes }}"
     # we prefer to use inheritance as much as possible as defaults
     zfs_filesystems_properties_defaults: {}
     zfs_zrepl_enabled: false # we use sanoid / syncoid instead
@@ -38,7 +38,7 @@
     # we are handling zfs stuff with aisbergg.zfs, above
     # but if we don't put this, the role will disable zfs loading !
     pve_zfs_enabled: true
-    pve_zfs_zed_email: "{{ proxmox_node_alerts_email }}"
+    pve_zfs_zed_email: "{{ proxmox_node__alerts_email }}"
     pve_cluster_enabled: "{{ proxmox_node__pve_cluster_enabled }}"
     pve_group: "{{ proxmox_node__pve_cluster_name }}"
     pve_cluster_addr0: "{{ proxmox_node__pve_cluster_addr0 }}"

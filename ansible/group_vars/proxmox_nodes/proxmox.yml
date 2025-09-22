@@ -5,7 +5,7 @@
 
 # General ######
 
-proxmox_node_alerts_email: "{{ secrets_root_email }}"
+proxmox_node__alerts_email: "{{ secrets_root_email }}"
 
 # permissions ######
 
@@ -33,8 +33,8 @@ proxmox_node__pve_storages:
 
 # ZFS ###########
 
-# this is a variable that can be used for proxmox_node_zfs_pools.filesystem_properties
-proxmox_node_zfs_pools_filesystem_properties_defaults:
+# this is a variable that can be used for proxmox_node__zfs_pools.filesystem_properties
+proxmox_node__zfs_pools_filesystem_properties_defaults:
   compression: "on"
   xattr: "sa"
   atime: "off"
