@@ -3798,6 +3798,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-08-19 OVH3 Disk Replace
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -3809,6 +3822,85 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-with-replaced-disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem with replaced disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem with replaced disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Symptoms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      remediation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-disk-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      New disk change
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trying-and-failing-to-stop-previous-resilver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trying (and failing) to stop previous resilver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#second-resilver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second resilver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3865,6 +3957,74 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-with-replaced-disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem with replaced disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem with replaced disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Symptoms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      remediation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-disk-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      New disk change
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trying-and-failing-to-stop-previous-resilver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trying (and failing) to stop previous resilver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#second-resilver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Second resilver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3889,7 +4049,244 @@
 
 <h1 id="2025-08-19-ovh3-disk-replace">2025-08-19 OVH3 Disk Replace<a class="headerlink" href="#2025-08-19-ovh3-disk-replace" title="Permanent link">#</a></h1>
 <p>This time sdf was failing (serial id: 8DH4VTRH) was replaced.</p>
-<p>But otherwise it's all the same as <a href="../2025-06-27-ovh3-disk-replace/">2025-06-27 OVH3 Disk Replace</a></p>
+<p>To start with it's all the same as <a href="../2025-06-27-ovh3-disk-replace/">2025-06-27 OVH3 Disk Replace</a></p>
+<p>But then there was a problem !</p>
+<h2 id="problem-with-replaced-disk">Problem with replaced disk<a class="headerlink" href="#problem-with-replaced-disk" title="Permanent link">#</a></h2>
+<h3 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h3>
+<p>After we do the <code>zpool replace</code> to integrate the new disk,
+resilver restarted.</p>
+<p>After one day, I observed that it was running at a far lower pace than expected.
+It had only resilvered about 500M in 24h, out of 52T,
+which would mean months before full resilver.</p>
+<p>On munin I can see an impressive latency for sdf, around 140ms (instead of 4/8ms for other disks)</p>
+<p>I asked myself if it was an artefact and decided to observe some day after.
+Meanwhile I launched a smartctl long test to see.
+</p><div class="highlight"><pre><span></span><code>smartctl<span class="w"> </span>-t<span class="w"> </span>long<span class="w"> </span>/dev/sdf
+</code></pre></div><p></p>
+<p>On friday I look at it again.
+Resilver was still unbearably slow:
+</p><div class="highlight"><pre><span></span><code>  scan: resilver in progress since Tue Aug 19 12:29:32 2025
+    2.17T scanned at 8.63M/s, 2.03T issued at 8.06M/s, 53.2T total
+    277G resilvered, 3.81% done, no estimated completion time
+</code></pre></div>
+and smartctl test result is clear:
+<div class="highlight"><pre><span></span><code>smartctl -a /dev/sdf
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: FAILED!
+Drive failure expected in less than 24 hours. SAVE ALL DATA.
+See vendor-specific Attribute list for failed Attributes.
+</code></pre></div><p></p>
+<h3 id="remediation">remediation<a class="headerlink" href="#remediation" title="Permanent link">#</a></h3>
+<p>Before asking ovh3 another disk replacement,
+I decided to put sdf offline,
+so that resilver is stopped,
+and all ZFS syncs can happen.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>zpool<span class="w"> </span>offline<span class="w"> </span>rpool<span class="w"> </span>/dev/sdf
+$<span class="w"> </span>zpool<span class="w"> </span>status
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">12</span>:29:32<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span><span class="m">2</span>.17T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span><span class="m">8</span>.59M/s,<span class="w"> </span><span class="m">2</span>.04T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span><span class="m">8</span>.09M/s,<span class="w"> </span><span class="m">53</span>.2T<span class="w"> </span>total
+<span class="w">    </span>280G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">3</span>.84%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span>no<span class="w"> </span>estimated<span class="w"> </span>completion<span class="w"> </span><span class="nb">time</span>
+config:
+
+<span class="w">    </span>NAME<span class="w">                        </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">                       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">                  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdc<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-5<span class="w">             </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>insufficient<span class="w"> </span>replicas
+<span class="w">          </span><span class="m">12927432126504181617</span><span class="w">  </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>was<span class="w"> </span>/dev/sdf1/old
+<span class="w">          </span>sdf<span class="w">                   </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span><span class="o">(</span>resilvering<span class="o">)</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div>
+<p>I did also lower the resilver latency
+</p><div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/zfs/parameters/zfs_resilver_min_time_ms
+</code></pre></div><p></p>
+<p>I then decided to let some time (at least 1 day) for zfs syncs to happen.</p>
+<h3 id="new-disk-change">New disk change<a class="headerlink" href="#new-disk-change" title="Permanent link">#</a></h3>
+<p>After the usual ticket exchanges, we got the disk changed.</p>
+<p>Although note that this time they had rebooted the server in "rescue mode"
+and I did have to go to the OVH management console to put it back to normal boot,
+and restart the server from there.</p>
+<h3 id="trying-and-failing-to-stop-previous-resilver">Trying (and failing) to stop previous resilver<a class="headerlink" href="#trying-and-failing-to-stop-previous-resilver" title="Permanent link">#</a></h3>
+<p>After the boot, the disk is there but the state is that the disk is still resilvering on the old disk !</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># zpool status</span>
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">12</span>:29:32<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span><span class="m">20</span>.6T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span>236M/s,<span class="w"> </span><span class="m">20</span>.4T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span>145M/s,<span class="w"> </span><span class="m">53</span>.2T<span class="w"> </span>total
+<span class="w">    </span>280G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">38</span>.32%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">2</span><span class="w"> </span>days<span class="w"> </span><span class="m">17</span>:57:14<span class="w"> </span>to<span class="w"> </span>go
+config:
+
+<span class="w">    </span>NAME<span class="w">                        </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">                       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">                  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdc<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-5<span class="w">             </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>insufficient<span class="w"> </span>replicas
+<span class="w">          </span><span class="m">12927432126504181617</span><span class="w">  </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>was<span class="w"> </span>/dev/sdf1/old
+<span class="w">          </span>sdf<span class="w">                   </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+</code></pre></div>
+<p>I launched a
+</p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sdf
+</code></pre></div><p></p>
+<p>I got:
+</p><div class="highlight"><pre><span></span><code><span class="c1"># zpool status</span>
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">12</span>:29:32<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span><span class="m">20</span>.6T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span>232M/s,<span class="w"> </span><span class="m">20</span>.4T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span>142M/s,<span class="w"> </span><span class="m">53</span>.2T<span class="w"> </span>total
+<span class="w">    </span>280G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">38</span>.33%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">2</span><span class="w"> </span>days<span class="w"> </span><span class="m">19</span>:24:49<span class="w"> </span>to<span class="w"> </span>go
+config:
+
+<span class="w">    </span>NAME<span class="w">                        </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">                       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">                  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdc<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">                     </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-5<span class="w">             </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span><span class="m">12927432126504181617</span><span class="w">  </span>UNAVAIL<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span>was<span class="w"> </span>/dev/sdf1/old
+<span class="w">          </span>old<span class="w">                   </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>sdf<span class="w">                   </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span><span class="o">(</span>awaiting<span class="w"> </span>resilver<span class="o">)</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div><p></p>
+<p>So I tried to remove 12927432126504181617 volume.
+</p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>detach<span class="w"> </span>rpool<span class="w"> </span><span class="m">12927432126504181617</span>
+</code></pre></div><p></p>
+<p>But resilver seems to continue…
+</p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>status
+<span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">12</span>:29:32<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span><span class="m">20</span>.6T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span>211M/s,<span class="w"> </span><span class="m">20</span>.4T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span>130M/s,<span class="w"> </span><span class="m">53</span>.2T<span class="w"> </span>total
+<span class="w">    </span>283G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">38</span>.36%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">3</span><span class="w"> </span>days<span class="w"> </span><span class="m">01</span>:29:09<span class="w"> </span>to<span class="w"> </span>go
+config:
+
+<span class="w">    </span>NAME<span class="w">             </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">            </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdc<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-5<span class="w">  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>old<span class="w">        </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>sdf<span class="w">        </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span><span class="o">(</span>resilvering<span class="o">)</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div><p></p>
+<p>So I tried a:</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>detach<span class="w"> </span>rpool<span class="w"> </span>sdf
+</code></pre></div>
+<p>But it does not stop resilver…
+</p><div class="highlight"><pre><span></span><code>zpool status
+  pool: rpool
+ state: DEGRADED
+status: One or more devices is currently being resilvered.  The pool will
+    continue to function, possibly in a degraded state.
+action: Wait for the resilver to complete.
+  scan: resilver in progress since Tue Aug 19 12:29:32 2025
+    20.6T scanned at 203M/s, 20.4T issued at 130M/s, 53.2T total
+    285G resilvered, 38.38% done, 3 days 01:35:30 to go
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    rpool       DEGRADED     0     0     0
+      raidz2-0  DEGRADED     0     0     0
+        sda     ONLINE       0     0     0
+        sdb     ONLINE       0     0     0
+        sdc     ONLINE       0     0     0
+        sdd     ONLINE       0     0     0
+        sde     ONLINE       0     0     0
+        sdf     OFFLINE      0     0     0
+
+errors: No known data errors
+</code></pre></div><p></p>
+<p>So finally I did a
+</p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>sdf
+</code></pre></div>
+And it's always the same:
+<div class="highlight"><pre><span></span><code><span class="w">  </span>pool:<span class="w"> </span>rpool
+<span class="w"> </span>state:<span class="w"> </span>DEGRADED
+status:<span class="w"> </span>One<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span>devices<span class="w"> </span>is<span class="w"> </span>currently<span class="w"> </span>being<span class="w"> </span>resilvered.<span class="w">  </span>The<span class="w"> </span>pool<span class="w"> </span>will
+<span class="w">    </span><span class="k">continue</span><span class="w"> </span>to<span class="w"> </span><span class="k">function</span>,<span class="w"> </span>possibly<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>degraded<span class="w"> </span>state.
+action:<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>resilver<span class="w"> </span>to<span class="w"> </span>complete.
+<span class="w">  </span>scan:<span class="w"> </span>resilver<span class="w"> </span><span class="k">in</span><span class="w"> </span>progress<span class="w"> </span>since<span class="w"> </span>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">12</span>:29:32<span class="w"> </span><span class="m">2025</span>
+<span class="w">    </span><span class="m">20</span>.8T<span class="w"> </span>scanned<span class="w"> </span>at<span class="w"> </span><span class="m">84</span>.9M/s,<span class="w"> </span><span class="m">20</span>.7T<span class="w"> </span>issued<span class="w"> </span>at<span class="w"> </span><span class="m">67</span>.1M/s,<span class="w"> </span><span class="m">53</span>.2T<span class="w"> </span>total
+<span class="w">    </span>337G<span class="w"> </span>resilvered,<span class="w"> </span><span class="m">38</span>.82%<span class="w"> </span><span class="k">done</span>,<span class="w"> </span><span class="m">5</span><span class="w"> </span>days<span class="w"> </span><span class="m">21</span>:14:03<span class="w"> </span>to<span class="w"> </span>go
+config:
+
+<span class="w">    </span>NAME<span class="w">             </span>STATE<span class="w">     </span>READ<span class="w"> </span>WRITE<span class="w"> </span>CKSUM
+<span class="w">    </span>rpool<span class="w">            </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">      </span>raidz2-0<span class="w">       </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sda<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdb<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdc<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sdd<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>sde<span class="w">          </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">        </span>replacing-5<span class="w">  </span>DEGRADED<span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>old<span class="w">        </span>OFFLINE<span class="w">      </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span>
+<span class="w">          </span>sdf<span class="w">        </span>ONLINE<span class="w">       </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">  </span><span class="o">(</span>resilvering<span class="o">)</span>
+
+errors:<span class="w"> </span>No<span class="w"> </span>known<span class="w"> </span>data<span class="w"> </span>errors
+</code></pre></div><p></p>
+<p>It's a bit weird, but it seems there is really no way to halt a resilver.</p>
+<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>scrub<span class="w"> </span>-s<span class="w"> </span>rpool
+cannot<span class="w"> </span>cancel<span class="w"> </span>scrubbing<span class="w"> </span>rpool:<span class="w"> </span>currently<span class="w"> </span>resilvering
+</code></pre></div>
+<p><strong>Conclusion</strong>: we are forced to wait for the end of the resilver and launch a new scrub after that…</p>
+<h3 id="second-resilver">Second resilver<a class="headerlink" href="#second-resilver" title="Permanent link">#</a></h3>
+<p>At the end of the current resilver,
+ZFS started by itself a new resilver (I tried to start a scrub but the new resilver did start immediately).</p>
+<p>```</p>
+<h1 id="zpool-status">zpool status<a class="headerlink" href="#zpool-status" title="Permanent link">#</a></h1>
+<p>pool: rpool
+ state: DEGRADED
+status: One or more devices is currently being resilvered.  The pool will
+        continue to function, possibly in a degraded state.
+action: Wait for the resilver to complete.
+  scan: resilver in progress since Fri Aug 29 00:09:16 2025
+        1.90T scanned at 70.9M/s, 1.90T issued at 70.6M/s, 53.8T total
+        262G resilvered, 3.52% done, 8 days 22:02:30 to go
+config: </p>
+<div class="highlight"><pre><span></span><code>    NAME             STATE     READ WRITE CKSUM
+    rpool            DEGRADED     0     0     0
+      raidz2-0       DEGRADED     0     0     0
+        sda          ONLINE       0     0     0
+        sdb          ONLINE       0     0     0
+        sdc          ONLINE       0     0     0
+        sdd          ONLINE       0     0     0
+        sde          ONLINE       0     0     0
+        replacing-5  DEGRADED     0     0     0
+          old        OFFLINE      0     0     0
+          sdf        ONLINE       0     0     0  (resilvering)
+</code></pre></div>
+<p>errors: No known data errors</p>
 
 
 
