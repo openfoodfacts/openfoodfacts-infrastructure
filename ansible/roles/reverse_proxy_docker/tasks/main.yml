@@ -1,7 +1,7 @@
 ---
 - name: Create linux user for reverse proxy
   ansible.builtin.user:
-    name: "{{ reverse_proxy_user }}"
+    name: "{{ reverse_proxy_docker__user }}"
     comment: "User used by nginx reverse proxy"
     append: true
     groups: docker # append the docker group to the user, to allow docker commands
@@ -15,9 +15,9 @@
 - name: Copy static configuration
   ansible.builtin.copy:
     src: .
-    dest: "{{ reverse_proxy_dir }}"
-    owner: "{{ reverse_proxy_user }}"
-    group: "{{ reverse_proxy_user }}"
+    dest: "{{ reverse_proxy_docker__dir }}"
+    owner: "{{ reverse_proxy_docker__user }}"
+    group: "{{ reverse_proxy_docker__user }}"
     mode: "0644"
   notify: Restart reverse proxy dockers
 
@@ -29,5 +29,5 @@
 
 - name: Start docker compose reverse proxy
   community.docker.docker_compose_v2:
-    project_src: "{{ reverse_proxy_dir }}"
+    project_src: "{{ reverse_proxy_docker__dir }}"
     state: present

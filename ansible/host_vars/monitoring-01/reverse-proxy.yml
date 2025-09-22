@@ -1,5 +1,5 @@
 ---
-reverse_proxy_docker__websites:
+reverse_proxy_docker__docker__websites:
   - url: "alertmanager.openfoodfacts.org"
     proxy_pass: "alertmanager:9093"
     username: "off"

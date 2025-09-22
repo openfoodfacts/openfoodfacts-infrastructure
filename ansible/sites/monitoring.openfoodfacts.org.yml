@@ -34,7 +34,7 @@
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
     - role: continuous-deployment
       tags: cd
-    - role: reverse_proxy_docker
+    - role: reverse_proxy_docker__docker
       tags: reverse-proxy
     # we do it last because it will require a first deployment
     - role: prometheus-secrets

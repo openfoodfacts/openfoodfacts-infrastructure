@@ -4,29 +4,29 @@
 APT::Periodic::Unattended-Upgrade "1";
 
 // Do "apt-get update" automatically every n-days (0=disable)
-APT::Periodic::Update-Package-Lists "{{ unattended_update_package_list }}";
+APT::Periodic::Update-Package-Lists "{{ base__unattended_update_package_list }}";
 
 // Do "apt-get upgrade --download-only" every n-days (0=disable)
-APT::Periodic::Download-Upgradeable-Packages "{{ unattended_download_upgradeable }}";
+APT::Periodic::Download-Upgradeable-Packages "{{ base__unattended_download_upgradeable }}";
 
 // Do "apt-get autoclean" every n-days (0=disable)
-APT::Periodic::AutocleanInterval "{{ unattended_autoclean_interval }}";
+APT::Periodic::AutocleanInterval "{{ base__unattended_autoclean_interval }}";
 
 // Do "apt-get clean" every n-days (0=disable)
-APT::Periodic::CleanInterval "{{ unattended_clean_interval }}";
+APT::Periodic::CleanInterval "{{ base__unattended_clean_interval }}";
 
 // Send report mail to root
 // 0:  no report
 // 1:  progress report
 // 2:  + command outputs (remove -qq, remove 2>/dev/null, add -d)
 // 3:  + trace on
-APT::Periodic::Verbose "{{ unattended_verbose }}";
+APT::Periodic::Verbose "{{ base__unattended_verbose }}";
 
-{% if unattended_random_sleep %}
+{% if base__unattended_random_sleep %}
 // When the apt job starts, it will sleep for a random period between 0
 // and APT::Periodic::RandomSleep seconds
 // The default value is "1800" so that the script will stall for up to 30
 // minutes (1800 seconds) so that the mirror servers are not crushed by
 // everyone running their updates all at the same time
-APT::Periodic::RandomSleep "{{ unattended_random_sleep }}";
+APT::Periodic::RandomSleep "{{ base__unattended_random_sleep }}";
 {% endif %}
