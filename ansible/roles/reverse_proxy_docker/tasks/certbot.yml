@@ -6,8 +6,11 @@
       - reverse_proxy_docker__certbot_ovh_application_key | length > 0
       - reverse_proxy_docker__certbot_ovh_application_secret | length > 0
       - reverse_proxy_docker__certbot_ovh_consumer_key | length > 0
-    fail_msg: "You need to set reverse_proxy_docker__certbot_ovh_application_key, reverse_proxy_docker__certbot_ovh_application_secret and reverse_proxy_docker__certbot_ovh_consumer_key
-      in your host_vars secrets. (See the role README)"
+    fail_msg: |
+      You need to set reverse_proxy_docker__certbot_ovh_application_key,
+      reverse_proxy_docker__certbot_ovh_application_secret and
+      reverse_proxy_docker__certbot_ovh_consumer_key
+      in your host_vars secrets. (See the role README)
 
 - name: Copy templated certbot ovh.ini config
   ansible.builtin.template:

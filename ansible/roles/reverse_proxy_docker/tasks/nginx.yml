@@ -35,8 +35,13 @@
   loop_control:
     label: "{{ item.path }}"
   vars:
-    active_names: "{{ reverse_proxy_docker__docker__websites | map(attribute='url') | map('regex_replace', '^', reverse_proxy_docker__dir + '/nginx/passwords/') |
-      list }}"
+    active_names: >-
+    {{
+      reverse_proxy_docker__docker__websites |
+      map(attribute='url') |
+      map('regex_replace', '^', reverse_proxy_docker__dir + '/nginx/passwords/') |
+      list
+    }}
 
 - name: Copy templated nginx sites config
   ansible.builtin.template:

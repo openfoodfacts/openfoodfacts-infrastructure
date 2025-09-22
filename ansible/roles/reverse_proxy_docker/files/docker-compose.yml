@@ -20,7 +20,7 @@ services:
 
   certbot:
     image: certbot/dns-ovh:v4.0.0
-    restart: no # no need to restart, it will be run by the cron job
+    restart: "no" # no need to restart, it will be run by the cron job
     entrypoint: sh /config/certbot-renew.sh
     volumes:
       - ./certbot/ovh.ini:/config/ovh.ini:ro
