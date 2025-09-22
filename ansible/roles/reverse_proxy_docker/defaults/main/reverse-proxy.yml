@@ -2,7 +2,7 @@
 reverse_proxy_docker__dir: "/opt/reverse_proxy"
 reverse_proxy_docker__user: "reverse-proxy"
 
-reverse_proxy_docker__docker__websites: []
+reverse_proxy_docker__websites: []
 reverse_proxy_docker__https_cert_domains:
   - "openfoodfacts.org"
 
