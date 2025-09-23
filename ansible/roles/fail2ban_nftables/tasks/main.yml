@@ -13,6 +13,7 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/fail2ban/{{ item | replace('--', '/') }}"
+    mode: "0644"
   notify: restart fail2ban
   loop:
     # fix nftables action

@@ -8,12 +8,12 @@
 
 # get files to copy or remove
 - name: "Get jail files"
-  local_action:
-    module: ansible.builtin.find
+  ansible.builtin.find:
     paths: "{{ role_path }}/files"
     patterns: ".*{{ _fail2ban_iptables_iter_jail }}\\..*"
     use_regex: true
     recurse: false
+  delegate_to: localhost
   become: false
   register: jail_files
 
@@ -34,6 +34,7 @@
   ansible.builtin.copy:
     src: "{{ file.path }}"
     dest: "/etc/fail2ban/{{ file.path | replace(role_path + '/files', '') | replace('--', '/') }}"
+    mode: "0644"
   loop: "{{ jail_files.files }}"
   loop_control:
     loop_var: file

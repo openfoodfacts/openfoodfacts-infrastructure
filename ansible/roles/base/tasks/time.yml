@@ -1,6 +1,6 @@
 ---
 - name: "Set base__timezone"
-  community.general.base__timezone:
+  community.general.timezone:
     name: "{{ base__timezone }}"
   notify:
     - "Reload systemd"

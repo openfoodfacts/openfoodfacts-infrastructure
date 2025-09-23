@@ -9,8 +9,8 @@ proxmox_node__pve_cluster_name: "pve-hetzner"
 # addr1 is public ip, addr0 is defined per host
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 # FIXME
-#pve_ssl_private_key
-#pve_ssl_certificate
+# pve_ssl_private_key
+# pve_ssl_certificate
 
 # Access to PVE
 proxmox_api_user: agarel@pve
