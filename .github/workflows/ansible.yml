@@ -1,0 +1,28 @@
+---
+name: Ansible checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - ansible/**
+
+jobs:
+  ansible_lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run ansible-lint
+        uses: ansible-actions/ansible-lint-action@2b94cc2f7d18afa65c1952d6d4135dd265b7310d # v1.0.3
+        with:
+          target: "ansible/"
+          collections_yml: "ansible/requirements.yml"
+          python_dependency_file: "ansible/requirements.pip"
