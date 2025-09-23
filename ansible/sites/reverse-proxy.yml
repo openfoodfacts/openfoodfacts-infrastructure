@@ -4,7 +4,7 @@
 # It has a nginx reverse-proxy. It may also have a stunnel server
 ---
 - name: Reverse proxy container
-  hosts: reverse_proxy_docker__hosts
+  hosts: reverse_proxy_hosts
   gather_facts: true
   become: true
   roles:
