@@ -37,6 +37,7 @@
       You are about to switch from branch {{ _server_current_branch.stdout }} to branch {{ _target_branch_name }}
       on server {{ ansible_hostname }}.
       Do you want to continue (y/n)?
+      (or c to continue without branch switch, at your own risks)
   register: _branch_switch_confirmation
   when: _needs_branch_switch
 
@@ -44,15 +45,22 @@
   ansible.builtin.fail:
     msg: "You must confirm to switch branch"
   when: |
-    _needs_branch_switch and
-    not _branch_switch_confirmation.user_input.lower().startswith("y")
+    _needs_branch_switch
+    and not
+    (
+      _branch_switch_confirmation.user_input.lower().startswith("y")
+      or
+      _branch_switch_confirmation.user_input.lower().startswith("c")
+    )
 
 - name: Switch branch of server clone
   # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
   ansible.builtin.shell: # noqa: command-instead-of-module
     cmd: git fetch && git checkout "{{ _target_branch_name }}"
     chdir: "{{ git_based_configs__repository_dest }}"
-  when: "_server_current_branch.stdout != _target_branch_name"
+  when: |
+    _server_current_branch.stdout != _target_branch_name
+    and _branch_switch_confirmation.user_input.lower().startswith("y")
   changed_when: true
 
 - name: Update repository
