@@ -36,6 +36,6 @@ jobs:
         run: |
           cd ansible
           # add rules to exclude secrets files
-          sed '/exclude_paths:/a   - *-secrets.yml\n    - secrets.yml\n    - Secrets.yml' -i .ansible-lint
+          sed '/exclude_paths:/a \ \ - "*-secrets.yml"\n  - "secrets.yml"\n  - "Secrets.yml"' -i .ansible-lint
           cat .ansible-lint
           venv/bin/ansible-lint
