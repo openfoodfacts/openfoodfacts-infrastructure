@@ -2,7 +2,7 @@
 - name: Check if the monitoring folder exists
   ansible.builtin.stat:
     path: /home/off/monitoring
-  register: monitoring_folder
+  register: _prometheus_secrets__monitoring_folder
 
 # we must not create a folder before the git clone, as it would avoid it
 - name: Ensure monitoring has been deployed at least once.
@@ -11,7 +11,7 @@
       The monitoring folder (/home/off/monitoring) does not exist.
       Please deploy the off-monitoring repo (using the CI/CD)
       at least once before running this role.
-  when: not monitoring_folder.stat.exists
+  when: not _prometheus_secrets__monitoring_folder.stat.exists
 
 - name: Create a directory for prometheus secrets
   ansible.builtin.file:

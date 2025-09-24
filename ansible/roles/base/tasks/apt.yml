@@ -18,7 +18,7 @@
 # TODO: this might not be useful as of today ;-)
 - name: "Find python package prefix"
   ansible.builtin.set_fact:
-    python_pkg_prefix: "python{% if ansible_python.version.major == 3 %}3{% endif %}"
+    base__python_pkg_prefix: "python{% if ansible_python.version.major == 3 %}3{% endif %}"
   tags:
     - system
 
@@ -52,11 +52,11 @@
       - screen
       - vim
       # ansible
-      - "{{ python_pkg_prefix }}-apt"
-      - "{{ python_pkg_prefix }}-httplib2"
-      - "{{ python_pkg_prefix }}-pip"
-      - "{{ python_pkg_prefix }}-setuptools"
-      - "{{ python_pkg_prefix }}-psycopg2"
+      - "{{ base__python_pkg_prefix }}-apt"
+      - "{{ base__python_pkg_prefix }}-httplib2"
+      - "{{ base__python_pkg_prefix }}-pip"
+      - "{{ base__python_pkg_prefix }}-setuptools"
+      - "{{ base__python_pkg_prefix }}-psycopg2"
       - ansible
     state: present
     update_cache: true

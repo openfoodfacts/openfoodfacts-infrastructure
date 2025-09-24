@@ -12,13 +12,13 @@
   # if we have a postgresql__version we don't install "logrotate-postgres"
   # and we need to add suffix to packages
   ansible.builtin.set_fact:
-    _version_suffix: '{{ "-" ~ postgresql__version if postgresql__version else "" }}'
+    _postgresql__version_suffix: '{{ "-" ~ postgresql__version if postgresql__version else "" }}'
 
 - name: Install packages
   ansible.builtin.apt:
     pkg:
       - libdbd-pg-perl # for munin
       - pg-activity
-      - postgresql{{ _version_suffix }}
-      - postgresql-contrib{{ _version_suffix }}
+      - postgresql{{ _postgresql__version_suffix }}
+      - postgresql-contrib{{ _postgresql__version_suffix }}
       - python3-psycopg2 # used by ansible

@@ -16,7 +16,7 @@
       pveam list local |
       grep -o '[^ ]*debian-{{ ansible_distribution_major_version }}.*standard[^ ]*'
   changed_when: false
-  register: _debian_template_local_name
+  register: _proxmox_containers__debian_template_local_name
 
 - name: Verify if container already exists
   community.proxmox.proxmox_vm_info:
@@ -31,15 +31,15 @@
     config: pending
   delegate_to: localhost
   become: false
-  register: _existing_container
+  register: _proxmox_containers__existing_container
 
 - name: Compute rootfs options
   ansible.builtin.set_fact:
-    _disk_settings: |
+    _proxmox_containers__disk_settings: |
       {{
         _container.disk |
         proxmox_process_disk_volume(
-          existing=_existing_container.proxmox_vms.0 | default(None),
+          existing=_proxmox_containers__existing_container.proxmox_vms.0 | default(None),
           defaults={
             'storage': proxmox_containers__default_disk_storage,
             'options': proxmox_containers__default_disk_options,
@@ -66,9 +66,9 @@
     # throwaway password for root
     password: "{{ lookup('community.general.random_string', length=16) }}"
     # 2nd screen of creation form
-    ostemplate: "{{ _debian_template_local_name.stdout_lines | first | mandatory }}"
+    ostemplate: "{{ _proxmox_containers__debian_template_local_name.stdout_lines | first | mandatory }}"
     # 3rd screen of creation form
-    disk_volume: "{{ _disk_settings }}"
+    disk_volume: "{{ _proxmox_containers__disk_settings }}"
     # 4th screen of creation form
     cores: "{{ _container.cores | default(proxmox_containers__default_cores) }}"
     # 5th screen of creation form
@@ -84,7 +84,7 @@
   # proxmoxer dependency makes it easier to run on localhost
   delegate_to: localhost
   become: false
-  register: _container_update
+  register: _proxmox_containers__container_update
 
 - name: Check current VM status
   community.proxmox.proxmox_vm_info:
@@ -100,7 +100,7 @@
   # proxmoxer dependency makes it easier to run on localhost
   delegate_to: localhost
   become: false
-  register: _container_info
+  register: _proxmox_containers__container_info
 
 - name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
@@ -113,9 +113,17 @@
     # first screen of creation form
     node: "{{ inventory_hostname }}"
     vmid: "{{ _container.id | mandatory }}"
-    state: "{{ 'restarted' if (_existing_container.proxmox_vms and (_container_info.proxmox_vms.0.status | default('')) == 'running') else 'started' }}"
+    state: >-
+      {{
+        'restarted'
+        if (
+          _proxmox_containers__existing_container.proxmox_vms and
+          (_proxmox_containers__container_info.proxmox_vms.0.status | default('')) == 'running'
+        )
+        else 'started'
+      }}
   when: |
-    _container_update.changed and
+    _proxmox_containers__container_update.changed and
     ( _container.state | default('started') ) == 'started'
   delegate_to: localhost
   become: false

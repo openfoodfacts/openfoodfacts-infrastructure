@@ -14,7 +14,7 @@
     user: "{{ folksonomy_api__repository_owner }}"
     repo: "{{ folksonomy_api__repository_name }}"
     action: latest_release
-  register: _latest_release
+  register: _folksonomy_api__latest_release
   when: "folksonomy_api__version == 'latest'"
   # do it locally because we need some libraries
   delegate_to: localhost
@@ -22,16 +22,16 @@
 
 - name: Get version to install
   ansible.builtin.set_fact:
-    _git_ref: >-
+    _folksonomy_api__git_ref: >-
       {{
-        _latest_release.tag if folksonomy_api__version == 'latest' else folksonomy_api__version
+        _folksonomy_api__latest_release.tag if folksonomy_api__version == 'latest' else folksonomy_api__version
       }}
 
 - name: Checkout the right ref
   ansible.builtin.git: # noqa: latest
     repo: "git@github.com:{{ folksonomy_api__repository_owner }}/{{ folksonomy_api__repository_name }}.git"
     dest: "{{ folksonomy_api__install_directory }}"
-    version: "{{ _git_ref }}"
+    version: "{{ _folksonomy_api__git_ref }}"
     update: true
   become: true
   become_user: "{{ folksonomy_api__username }}"
@@ -41,9 +41,9 @@
     cmd: >-
       {{ folksonomy_api__poetry_path }} install
     chdir: "{{ folksonomy_api__install_directory }}"
-  register: _poetry_install
+  register: _folksonomy_api__poetry_install
   changed_when: |
-    "No dependencies to install or update" not in _poetry_install.stdout
+    "No dependencies to install or update" not in _folksonomy_api__poetry_install.stdout
   become: true
   become_user: "{{ folksonomy_api__username }}"
 
@@ -52,14 +52,14 @@
     paths: "{{ folksonomy_api__install_directory }}/confs"
     recurse: true
     file_type: directory
-  register: _confs_dirs
+  register: _folksonomy_api__confs_dirs
 
 - name: Verify we have our expected confs dir
   ansible.builtin.fail:
     msg: "There are unknown or missing confs dir (you may need to update this role)"
   when: |
     (
-      _confs_dirs.files|map(attribute='path')|map('basename')|sort
+      _folksonomy_api__confs_dirs.files|map(attribute='path')|map('basename')|sort
     ) != [
       'systemd'
     ]
@@ -68,15 +68,15 @@
   git_based_config_symlinks:
     src: "{{ folksonomy_api__install_directory }}/confs/systemd"
     dst: "/etc/systemd/system"
-  register: _systemd_config_symlinks
+  register: _folksonomy_api__systemd_config_symlinks
 
 - name: Run yoyo migrations
   ansible.builtin.command:
     cmd: >-
       {{ folksonomy_api__poetry_path }} run yoyo apply  --batch --database postgresql:///{{ folksonomy_api__db_name }}
     chdir: "{{ folksonomy_api__install_directory }}"
-  register: _yoyo_migrations
-  changed_when: (_yoyo_migrations.stdout_lines | length) > 0
+  register: _folksonomy_api__yoyo_migrations
+  changed_when: (_folksonomy_api__yoyo_migrations.stdout_lines | length) > 0
   become: true
   become_user: "{{ folksonomy_api__username }}"
 

@@ -13,7 +13,7 @@
       pveam available |
       grep -o debian-{{ ansible_distribution_major_version }}.*standard.*$
   changed_when: false
-  register: _debian_template_name
+  register: _proxmox_containers__debian_template_name
 
 - name: Get debian template
   # Note: parameters doc is also at
@@ -28,11 +28,11 @@
     # very important this must be the exact node name
     # ansible_host is fully qualified, so not the right one
     node: "{{ inventory_hostname }}"
-    url: "http://download.proxmox.com/images/system/{{ _debian_template_name.stdout_lines | first }}"
+    url: "http://download.proxmox.com/images/system/{{ _proxmox_containers__debian_template_name.stdout_lines | first }}"
   # proxmoxer dependency makes it easier to run on localhost
   delegate_to: localhost
   become: false
-  when: _debian_template_name.stdout_lines | length > 0
+  when: _proxmox_containers__debian_template_name.stdout_lines | length > 0
 
 - name: Add sudoers entry for ansible user to run pct
   # needed to connect later with the community.proxmox.proxmox_pct_remote

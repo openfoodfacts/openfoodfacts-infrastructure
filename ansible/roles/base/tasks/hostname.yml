@@ -16,11 +16,11 @@
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
   ignore_errors: true
-  register: hostname_result
+  register: base__hostname_result
   failed_when: >
-    hostname_result.failed and
-    'read-only filesystem' not in hostname_result.msg and
-    'Could not set pretty hostname' not in hostname_result.msg
+    base__hostname_result.failed and
+    'read-only filesystem' not in base__hostname_result.msg and
+    'Could not set pretty hostname' not in base__hostname_result.msg
   tags:
     - host
 
@@ -66,4 +66,4 @@
 
 - name: "Set ansible_fqdn fact"
   ansible.builtin.set_fact:
-    ansible_fqdn: "{{ inventory_hostname }}.{{ host_domain }}"
+    ansible_fqdn: "{{ inventory_hostname }}.{{ host_domain }}"  # noqa: var-naming

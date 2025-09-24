@@ -3,7 +3,7 @@
   ansible.builtin.command: id {{ user.name }}
   become: true
   ignore_errors: true
-  register: user_exists_cmd
+  register: _system_users__user_exists_cmd
   changed_when: false
 
 - name: Create/update group
@@ -24,7 +24,7 @@
     update_password: "on_create"
 
 - name: Force user to set password on first login
-  when: user_has_password and user_exists_cmd.rc != 0
+  when: user_has_password and _system_users__user_exists_cmd.rc != 0
   ansible.builtin.command: "passwd -e -d {{ user.name }}"
   changed_when: true
 
