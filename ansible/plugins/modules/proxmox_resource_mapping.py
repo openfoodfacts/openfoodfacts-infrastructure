@@ -117,7 +117,7 @@ class ProxmoxResourceMapping(object):
         return (self.type, self.id) in self.existing_mappings
 
     def prepare_mapping_args(self, create=True):
-        args = {"map": self.map }
+        args = {"map": self.map}
         if self.description:
             args["description"] = self.description
         return args
