@@ -23,9 +23,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      # note: ansible-actions/ansible-lint-action@2b94cc2f7d18afa65c1952d6d4135dd265b7310d # v1.0.3
+      # is not working in our setup, so we do it manually
+      - name: Install project
+        run: |
+          cd ansible
+          python3 -m venv venv
+          venv/bin/pip install -r requirements.pip
+          venv/bin/ansible-galaxy install -y requirements.yml
+
       - name: Run ansible-lint
-        uses: ansible-actions/ansible-lint-action@2b94cc2f7d18afa65c1952d6d4135dd265b7310d # v1.0.3
-        with:
-          target: "ansible/"
-          collections_yml: "ansible/requirements.yml"
-          python_dependency_file: "ansible/requirements.pip"
+        run: |
+          cd ansible
+          ansible-lint
