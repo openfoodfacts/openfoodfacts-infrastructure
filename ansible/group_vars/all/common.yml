@@ -40,7 +40,3 @@ off_private_networks_v4:
 
 # FIXME
 off_private_networks_v6: []
-
-# This is needed because we may want to delegate to some server
-# while the server we are on use proxmox_api_local_port
-proxmox_api_local_port: 8006
