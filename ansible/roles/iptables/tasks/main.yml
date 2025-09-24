@@ -17,7 +17,7 @@
     dest: /etc/iptables/rules.v4
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   vars:
     iptables_rules_version: v4
 
@@ -27,7 +27,7 @@
     dest: /etc/iptables/rules.v6
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   vars:
     iptables_rules_version: v6
 
@@ -37,11 +37,12 @@
     dest: /etc/iptables/ipsets
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
 
 - name: Reload ipset rules
   ansible.builtin.shell: >-
     ipset restore -exist < /etc/iptables/ipsets
+  changed_when: true
 
 - name: Reload iptables rules
   community.general.iptables_state:
@@ -49,4 +50,4 @@
     path: /etc/iptables/rules.{{ item }}
     state: restored
     wait: 6
-  loop: ['v4', 'v6']
+  loop: ["v4", "v6"]

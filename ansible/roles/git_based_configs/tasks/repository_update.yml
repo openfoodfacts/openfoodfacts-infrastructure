@@ -8,58 +8,66 @@
     chdir: "{{ git_based_configs__repository_dest }}"
     cmd: git rev-parse --abbrev-ref HEAD
   changed_when: false
-  register: _server_current_branch
+  register: _git_based_configs__server_current_branch
 
 - name: Get local branch name
   ansible.builtin.command:
     cmd: git rev-parse --abbrev-ref HEAD
   changed_when: false
   delegate_to: localhost
-  register: _local_branch
+  register: _git_based_configs__local_branch
   become: false
 
 - name: Set target branch name
   ansible.builtin.set_fact:
-    _target_branch_name: >-
-      {{ git_based_configs__branch or _local_branch.stdout }}
+    _git_based_configs__target_branch_name: >-
+      {{ git_based_configs__branch or _git_based_configs__local_branch.stdout }}
 
 - name: Do we need to switch branch?
   ansible.builtin.set_fact:
-    _needs_branch_switch: |
+    _git_based_configs__needs_branch_switch: |
       {{
-        ( _server_current_branch.stdout  != _target_branch_name) or
+        ( _git_based_configs__server_current_branch.stdout  != _git_based_configs__target_branch_name) or
         git_based_configs__force_branch_switch
       }}
 
 - name: Eventually ask confirmation
   ansible.builtin.pause:
     prompt: >-
-      You are about to switch from branch {{ _server_current_branch.stdout }} to branch {{ _target_branch_name }}
+      You are about to switch from branch {{ _git_based_configs__server_current_branch.stdout }} to branch {{ _git_based_configs__target_branch_name }}
       on server {{ ansible_hostname }}.
       Do you want to continue (y/n)?
-  register: _branch_switch_confirmation
-  when: _needs_branch_switch
+      (or c to continue without branch switch, at your own risks)
+  register: _git_based_configs__branch_switch_confirmation
+  when: _git_based_configs__needs_branch_switch
 
 - name: Fail if user doesn't want to switch branch
   ansible.builtin.fail:
     msg: "You must confirm to switch branch"
   when: |
-    _needs_branch_switch and
-    not _branch_switch_confirmation.user_input.lower().startswith("y")
+    _git_based_configs__needs_branch_switch
+    and not
+    (
+      _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("y")
+      or
+      _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("c")
+    )
 
 - name: Switch branch of server clone
   # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
-  ansible.builtin.shell:  # noqa: command-instead-of-module
-    cmd: git fetch && git checkout "{{ _target_branch_name }}"
+  ansible.builtin.shell: # noqa: command-instead-of-module
+    cmd: git fetch && git checkout "{{ _git_based_configs__target_branch_name }}"
     chdir: "{{ git_based_configs__repository_dest }}"
-  when: "_server_current_branch.stdout != _target_branch_name"
+  when: |
+    _git_based_configs__server_current_branch.stdout != _git_based_configs__target_branch_name
+    and _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("y")
   changed_when: true
 
 - name: Update repository
   # note: we don't use ansible.builtin.git role here, because we want to avoid to use too many variables
-  ansible.builtin.command:  # noqa: command-instead-of-module
+  ansible.builtin.command: # noqa: command-instead-of-module
     # we only do a fast forward pull because we prefer to fail in case of conflicts
     cmd: git pull --ff-only
     chdir: "{{ git_based_configs__repository_dest }}"
-  register: _update_repository_result
-  changed_when: "'already up-to-date' not in _update_repository_result.stdout.lower()"
+  register: _git_based_configs__update_repository_result
+  changed_when: "'already up-to-date' not in _git_based_configs__update_repository_result.stdout.lower()"

@@ -37,9 +37,7 @@ monitoring__zfs_filesystems:
   - name: data-zfs/docker-volumes/monitoring_alertmanager-data
 
 monitoring__zfs_volumes: []
-
 # as we are using zfs only for backups we don't need high reading perfs
 # and so we can limit cache size in memory
 monitoring__zfs_kernel_module_parameters:
   zfs_arc_max: "{{ 3 * 1024**3 | int }}" # 3 Go
-...

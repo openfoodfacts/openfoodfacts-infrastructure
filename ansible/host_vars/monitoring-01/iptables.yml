@@ -3,4 +3,3 @@ iptables_public_ports:
   - 22
   - 80
   - 443
-...

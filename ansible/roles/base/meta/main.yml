@@ -6,14 +6,14 @@ galaxy_info:
 
   license: MIT
 
-  min_ansible_version: '6.1'
+  min_ansible_version: "6.1"
 
   platforms:
     - name: Debian
       versions:
-        - stretch   # Debian 9
-        - buster    # Debian 10
-        - bullseye  # Debian 11
-        - bookworm  # Debian 12
+        - stretch # Debian 9
+        - buster # Debian 10
+        - bullseye # Debian 11
+        - bookworm # Debian 12
 
 dependencies: []

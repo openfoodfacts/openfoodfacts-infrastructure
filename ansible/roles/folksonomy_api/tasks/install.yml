@@ -1,0 +1,52 @@
+# Steps specific to install for folksonomy_api
+---
+- name: Install needed packages
+  ansible.builtin.apt:
+    pkg:
+      - python3-pip
+      - curl
+
+- name: Create folksonomy user
+  ansible.builtin.user:
+    name: "{{ folksonomy_api__username }}"
+    comment: "User running folksonomy engine"
+    state: present
+    create_home: true
+    password: "*" # ie no password / no login (only via sudo)
+    shell: /bin/bash
+
+- name: Clone folksonomy git repository
+  ansible.builtin.import_role:
+    name: git_based_configs
+    tasks_from: main.yml
+  vars:
+    git_based_configs__branch: "{{ folksonomy_api__version | default('main') }}"
+    git_based_configs__repository_dest: "{{ folksonomy_api__install_directory }}"
+    git_based_configs__repository_owner: "{{ folksonomy_api__repository_owner }}"
+    git_based_configs__repository_name: "{{ folksonomy_api__repository_name }}"
+    git_based_configs__github_token: "{{ folksonomy_api__github_token }}"
+    git_based_configs__user: "{{ folksonomy_api__username }}"
+
+- name: Install Poetry # noqa command-instead-of-module
+  ansible.builtin.shell:
+    cmd: >-
+      set -o pipefail && curl -sSL https://install.python-poetry.org |
+      python3 -
+    creates: "/home/{{ folksonomy_api__username }}/.local/bin/poetry"
+    executable: /bin/bash
+  become: true
+  become_user: "{{ folksonomy_api__username }}"
+
+- name: Create the postgresql user
+  community.postgresql.postgresql_user:
+    # No password
+    name: "{{ folksonomy_api__username }}"
+  become: true
+  become_user: postgres
+
+- name: Create the postgresql database
+  community.postgresql.postgresql_db:
+    name: "{{ folksonomy_api__db_name }}"
+    owner: "{{ folksonomy_api__username }}"
+  become: true
+  become_user: postgres

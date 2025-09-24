@@ -1,4 +1,4 @@
-
+---
 # systematically ignore our servers ips
 fail2ban_iptables_ignoreips: >-
   {{

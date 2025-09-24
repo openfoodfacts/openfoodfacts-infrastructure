@@ -1,9 +1,9 @@
 
   [1;37mIPv4[0m		: {{ public_ipv4|default(ansible_default_ipv4.address) }}
-{% if motd_public_ipv6 %}  [1;37mIPv6[0m		: {{ motd_public_ipv6 }}
+{% if base__motd_public_ipv6 %}  [1;37mIPv6[0m		: {{ base__motd_public_ipv6 }}
 {% endif %}
   [1;37mHostname[0m	: {{ inventory_hostname }}.{{ host_domain }}
 
-{% if motd_warning %}  [1;31mWARNING[0m: {{ motd_warning }}
+{% if base__motd_warning %}  [1;31mWARNING[0m: {{ base__motd_warning }}
 {% endif %}
 [0m

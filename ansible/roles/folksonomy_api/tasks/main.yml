@@ -1,0 +1,11 @@
+# Install folksonomy engine
+---
+- name: Run install process
+  ansible.builtin.import_tasks:
+    file: install.yml
+  tags: install
+
+- name: Run deployment
+  ansible.builtin.import_tasks:
+    file: deploy.yml
+  tags: ["install", "deploy"]

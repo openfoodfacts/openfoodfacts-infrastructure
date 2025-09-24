@@ -1,0 +1,41 @@
+---
+name: Ansible checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - ansible/**
+
+permissions:
+  contents: read
+
+jobs:
+  ansible_lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # note: ansible-actions/ansible-lint-action@2b94cc2f7d18afa65c1952d6d4135dd265b7310d # v1.0.3
+      # is not working in our setup, so we do it manually
+      - name: Install project
+        run: |
+          cd ansible
+          python3 -m venv venv
+          venv/bin/pip install -r requirements.pip
+          venv/bin/ansible-galaxy install -r requirements.yml
+
+      - name: Run ansible-lint
+        run: |
+          cd ansible
+          # add rules to exclude secrets files
+          sed '/exclude_paths:/a \ \ - "*-secrets.yml"\n  - "secrets.yml"\n  - "Secrets.yml"' -i .ansible-lint
+          cat .ansible-lint
+          venv/bin/ansible-lint

@@ -1,3 +1,4 @@
+---
 - name: Configure monitoring server
   hosts: monitoring-01
   gather_facts: true
@@ -17,7 +18,7 @@
         zfs_kernel_module_parameters: "{{ monitoring__zfs_kernel_module_parameters }}"
         # we prefer to use inheritance as much as possible as defaults
         zfs_filesystems_properties_defaults: {}
-        zfs_zrepl_enabled: false  # we use sanoid / syncoid instead
+        zfs_zrepl_enabled: false # we use sanoid / syncoid instead
     - role: docker
       tags: docker
     - role: git_based_configs
@@ -25,16 +26,16 @@
       vars:
         git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
         git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
     - role: sanoid
       tags: ["base", "sanoid"]
       vars:
         sanoid__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
-    - role: continuous-deployment
+    - role: continuous_deployment
       tags: cd
-    - role: reverse-proxy
+    - role: reverse_proxy_docker
       tags: reverse-proxy
     # we do it last because it will require a first deployment
-    - role: prometheus-secrets
+    - role: prometheus_secrets
       tags: prometheus-secrets
-

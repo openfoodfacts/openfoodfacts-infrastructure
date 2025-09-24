@@ -1,11 +1,13 @@
 ---
 collections:
   - name: community.general
-    version: 10.0.1
+    version: 11.2.1
   - name: community.crypto
     version: 2.22.3
   - name: community.docker
     version: 4.5.2
+  - name: community.proxmox
+    version: 1.3.0
 
 roles:
   - src: willshersystems.sshd
@@ -15,7 +17,7 @@ roles:
   - src: lae.proxmox
     version: v1.9.1
   - name: aisbergg.zfs
-    src: ssh://git@github.com/aisbergg/ansible-role-zfs.git
+    src: https://github.com/aisbergg/ansible-role-zfs.git
     version: 8940f01615e1f8abf267967953e4f67eb1b27d52
     scm: git
   - src: geerlingguy.docker

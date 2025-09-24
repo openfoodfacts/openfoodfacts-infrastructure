@@ -4,12 +4,14 @@ Folksonomy is a service to allow contributors to freely add labels and values to
 
 The code is at [https://github.com/openfoodfacts/folksonomy_api/](https://github.com/openfoodfacts/folksonomy_api/)
 
-## Deployment
+## Explain Deployment
 
-Folksonomy is deployed on a LXC container.
-(108 at the time of writing)
+* Production instance for Folksonomy API is deployed on a LXC container.
+  (108 on OVH at the time of writing)
 
-Code is in `/home/folksonomy/folksonomy_api`
+* Staging instance is deployed the same way (container 110 on hetzner-02)
+
+The code is in `/home/folksonomy/folksonomy_api`
 
 It is started thanks to a systemd unit: `folksonomy.service` (config at `/etc/systemd/system/folksonomy.service`)
 
@@ -17,25 +19,26 @@ Server is running uvicorn on port 8000 with user folksonomy.
 
 It is served behind the [NGINX reverse proxy](./nginx-reverse-proxy.md)
 
+In production: 
 The python environment has been setup using uv, to get python3.10 and poetry on top of that.
 So poetry executable is in `/home/folksonomy/.local/bin/poetry`
 
+In staging:
+The install / deployment was realized with ansible, `sites/folksonomy_api.yml` playbook.
 
-## Useful commands
+## How to Deploy a new version
 
-Status (reload/restart/etc.):
+### Using ansible
+
+For staging, you can use the ansible playbook:
 ```bash
-systemctl status folksonomy
+time ansible-playbook -l folksonomy-staging
 ```
 
-See service logs:
-```bash
-sudo journalctl -u folksonomy
-```
+### Manually (current production)
 
-## Upgrade
-
-Before every upgrade, make a snapshot of the Proxmox container. Then:
+In production,
+before every upgrade, make a snapshot of the Proxmox container. Then:
 
 ```bash
 # Switch to "folksonomy" user
@@ -55,12 +58,31 @@ systemctl daemon-reload
 systemctl restart folksonomy
 ```
 
+## Useful commands
+
+Status (reload/restart/etc.):
+```bash
+systemctl status folksonomy
+```
+
+See service logs:
+```bash
+sudo journalctl -u folksonomy
+```
 
 ## Install
 
+### Current staging
+
+* We created the container on hetzner-02 using ansible (part of `sites/proxmox_node.yml` playbook)
+* We configured the container with `jobs/configure.yml`
+* We installed folksonomy using `sites/folksonomy_api.yml` playbook
+
+### Current production
+
 We simply clone the repository in /home/folksonomy/folksonomy_api.
 
-We installed the python environment with uv:
+We installed the python environment with uv (because system lacked python3.10):
 ```bash
 # as root
 pip install uv

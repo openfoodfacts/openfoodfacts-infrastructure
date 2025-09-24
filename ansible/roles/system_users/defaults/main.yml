@@ -1,0 +1,16 @@
+---
+# the list of authorized users
+system_users_github__authorized_users: []
+#  - name: alex
+#    github_name: alexgarel
+#    is_superuser: true
+#    state: present
+
+# Set it to true for servers that are jump proxies
+# this will only allow super users to log in
+# other users will only be able to use ssh
+# to proxy jump to another server (like a container)
+system_users__is_jump_proxy: false
+
+# Github url to fetch users keys
+system_users__github_url: "https://github.com"

@@ -4,10 +4,10 @@
   ansible.builtin.template:
     src: motd.sh
     dest: /etc/update-motd.d/10-uname
-    mode: '0755'
+    mode: "0755"
 
 - name: "Generate the static /etc/motd"
   ansible.builtin.template:
     src: motd
     dest: /etc/motd
-    mode: '0644'
+    mode: "0644"

@@ -1,5 +1,0 @@
-# you might set it to INFO on service with low traffic or to monitor more closely
-fail2ban_nftables_loglevel: NOTICE
-fail2ban_nftables_ignoreips:
-  # local network
-  - "10.0.0.0/8"

@@ -7,9 +7,24 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "dependencies"
     commit-message:
       prefix: "chore"
       include: "scope"
+- package-ecosystem: docker
+  directory: "/docker/argilla"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 30
+  - package-ecosystem: docker
+  directory: "/docker/label-studio"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 30
+  - package-ecosystem: docker
+  directory: "/docker/metrics"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 30
