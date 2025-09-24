@@ -1,7 +1,7 @@
 - name: Compute the mapping options
   ansible.builtin.set_fact:
-    _resource_mapping: |
-      {{ (_resource_mapping|default([])) +
+    _virtiofs__resource_mapping: |
+      {{ (_virtiofs__resource_mapping|default([])) +
       [ "node=" + item.node + ",path=" + item.path ] }}
   loop: "{{ _mapping.map }}"
 
@@ -9,7 +9,7 @@
   proxmox_resource_mapping:
     type: "dir"
     id: "{{ _mapping.id }}"
-    map: "{{ _resource_mapping }}"
+    map: "{{ _virtiofs__resource_mapping }}"
     description: "{{ _mapping.description | default('') }}"
     state: "{{ _mapping.state | default('present') }}"
 
