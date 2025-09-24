@@ -1,15 +1,15 @@
-ansible>=7.3.0
-ansible-compat>=3.0.1
-ansible-core>=2.14.3
-ansible-lint>=6.14.2
-passlib>=1.7.4
+ansible >=11, <12
+ansible-compat >=25
+ansible-core >=2.18, <2.19
+ansible-lint >=25, <26
+passlib >=1.7.4
 
 # needed for lae.proxmox role
-jmespath>=1.0.1
+jmespath >=1.0.1
 # needed for community.proxmox
-proxmoxer>=2.2.0
-requests>=2
+proxmoxer >=2.2.0
+requests >=2
 # needed for proxmox_pct_remote connection
-paramiko>=3.5.1
+paramiko >=3.5.1
 # needed for github_* actions
-github3.py>=4.0.1
+github3.py >=4.0.1
