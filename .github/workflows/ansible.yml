@@ -30,7 +30,7 @@ jobs:
           cd ansible
           python3 -m venv venv
           venv/bin/pip install -r requirements.pip
-          venv/bin/ansible-galaxy install -y requirements.yml
+          venv/bin/ansible-galaxy install -r requirements.yml
 
       - name: Run ansible-lint
         run: |
