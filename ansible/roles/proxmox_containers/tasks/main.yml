@@ -5,6 +5,10 @@
   when: |
     not (proxmox_containers__api_token_id and proxmox_containers__api_token_secret and proxmox_containers__api_user)
 
+- name: Verify containers are in inventory and have right variables
+  ansible.builtin.fail:
+    msg: Verify your containers {{ item.name }} is in inventory and 
+
 - name: Get name of debian template
   ansible.builtin.shell:
     executable: /bin/bash
