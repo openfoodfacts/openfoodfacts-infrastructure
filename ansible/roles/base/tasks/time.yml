@@ -1,7 +1,7 @@
 ---
-- name: "Set timezone"
+- name: "Set base__timezone"
   community.general.timezone:
-    name: "{{ timezone }}"
+    name: "{{ base__timezone }}"
   notify:
     - "Reload systemd"
     - "Restart systemd-timesyncd"
@@ -26,7 +26,7 @@
 - name: "Ensure no over-hardening prevent systemd-timedated to start (on Deb 11, full is OK, strict is KO)"
   ansible.builtin.lineinfile:
     path: /lib/systemd/system/systemd-timedated.service
-    regexp: '^ProtectSystem='
+    regexp: "^ProtectSystem="
     line: ProtectSystem=full
   when: ansible_distribution == 'Debian' and ansible_distribution_version >= '11'
   notify:
@@ -37,7 +37,7 @@
 - name: "Ensure no over-hardening prevent systemd-timesyncd to start (on Deb 11, full is OK, strict is KO)"
   ansible.builtin.lineinfile:
     path: /lib/systemd/system/systemd-timesyncd.service
-    regexp: '^ProtectSystem='
+    regexp: "^ProtectSystem="
     line: ProtectSystem=full
   when: ansible_distribution == 'Debian' and ansible_distribution_version >= '11'
   notify:
@@ -49,7 +49,7 @@
   ansible.builtin.template:
     src: timesyncd.conf
     dest: /etc/systemd/timesyncd.conf
-    mode: '0644'
+    mode: "0644"
   notify:
     - "Reload systemd"
     - "Restart systemd-timesyncd"

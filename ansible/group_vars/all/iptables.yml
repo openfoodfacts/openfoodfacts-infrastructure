@@ -1,4 +1,5 @@
-iptables_internal_hosts_ips_v4: '{{ off_internal_hosts_ips_v4}}'
-iptables_internal_hosts_ips_v6: '{{ off_internal_hosts_ips_v6}}'
-iptables_private_networks_v4: '{{ off_private_networks_v4 }}'
-iptables_private_networks_v6: '{{ off_private_networks_v6 }}'
+---
+iptables_internal_hosts_ips_v4: "{{ off_internal_hosts_ips_v4 }}"
+iptables_internal_hosts_ips_v6: "{{ off_internal_hosts_ips_v6 }}"
+iptables_private_networks_v4: "{{ off_private_networks_v4 }}"
+iptables_private_networks_v6: "{{ off_private_networks_v6 }}"

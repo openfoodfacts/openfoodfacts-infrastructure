@@ -1,0 +1,33 @@
+---
+- name: Check if the monitoring folder exists
+  ansible.builtin.stat:
+    path: /home/off/monitoring
+  register: _prometheus_secrets__monitoring_folder
+
+# we must not create a folder before the git clone, as it would avoid it
+- name: Ensure monitoring has been deployed at least once.
+  ansible.builtin.fail:
+    msg: |
+      The monitoring folder (/home/off/monitoring) does not exist.
+      Please deploy the off-monitoring repo (using the CI/CD)
+      at least once before running this role.
+  when: not _prometheus_secrets__monitoring_folder.stat.exists
+
+- name: Create a directory for prometheus secrets
+  ansible.builtin.file:
+    path: /home/off/monitoring/configs/prometheus/secrets
+    state: directory
+    owner: "off"
+    # nogroup, corresponds to the group of user running prometheus
+    # inside the container, it must be able to read the files
+    group: "nogroup"
+    mode: "0770"
+
+- name: Copy prometheus secrets
+  ansible.builtin.copy:
+    content: "{{ prometheus_auth_secrets[item] }}"
+    dest: /home/off/monitoring/configs/prometheus/secrets/{{ item }}.txt
+    owner: "off"
+    group: "nogroup"
+    mode: "0760"
+  loop: "{{ prometheus_auth_secrets.keys() }}"

@@ -1,3 +1,4 @@
+---
 # do we need syncoid enabled?
 sanoid__syncoid_enabled: true
 
@@ -12,10 +13,8 @@ sanoid__configurations_git_root_path: ""
 # this is the folder where there is one folder per server
 sanoid__configurations_src_path: ""
 
-
 # we might need to create some zfs datasets that hold backups
 sanoid__datasets_to_create: []
-
 # operators to create on distant machines
 sanoid__create_operators: []
 # - username: xxxoperator  # username on the distant server

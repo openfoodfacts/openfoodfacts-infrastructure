@@ -1,3 +1,4 @@
+---
 # Default authorized users from github
 sshd_github_authorized_users: "{{ system_users_github__authorized_users | selectattr('is_superuser') | rejectattr('state', 'equalto', 'absent') }}"
 

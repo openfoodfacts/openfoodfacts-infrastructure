@@ -1,5 +1,5 @@
 ---
-base_timezone: Europe/Paris
+base__timezone: Europe/Paris
 
 base_unattended_mail: "{{ secrets_infra_email }}"
 

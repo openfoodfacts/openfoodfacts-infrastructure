@@ -3,8 +3,8 @@
   ansible.builtin.import_role:
     name: willshersystems.sshd
   vars:
-    sshd_PasswordAuthentication: "no"  # noqa: var-naming[pattern]
-    sshd_X11Forwarding: "no"  # noqa: var-naming[pattern]
+    sshd_PasswordAuthentication: "no" # noqa: var-naming[pattern]
+    sshd_X11Forwarding: "no" # noqa: var-naming[pattern]
 
 # TODO: remove from here
 - name: Install mosh
@@ -17,13 +17,13 @@
 
 - name: Authorize ssh public keys from github for ansible operator
   ansible.posix.authorized_key:
-    user: '{{ ansible_ssh_user }}'
-    key: '{{ sshd_github_url }}/{{ item.github_name | default(item.name) }}.keys'
-  loop: '{{ sshd_github_authorized_users }}'
+    user: "{{ ansible_ssh_user }}"
+    key: "{{ sshd_github_url }}/{{ item.github_name | default(item.name) }}.keys"
+  loop: "{{ sshd_github_authorized_users }}"
 
 - name: Revoke ssh public keys from github for ansible operator
   ansible.posix.authorized_key:
-    user: '{{ ansible_ssh_user }}'
-    key: '{{ sshd_github_url }}/{{ item.github_name | default(item.name) }}.keys'
+    user: "{{ ansible_ssh_user }}"
+    key: "{{ sshd_github_url }}/{{ item.github_name | default(item.name) }}.keys"
     state: absent
-  loop: '{{ sshd_github_revoked_users }}'
+  loop: "{{ sshd_github_revoked_users }}"

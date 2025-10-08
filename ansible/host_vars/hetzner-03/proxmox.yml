@@ -1,16 +1,16 @@
-
+---
 proxmox_node__pve_cluster_addr0: 10.12.0.3
 
-proxmox_node_zfs_pools:
+proxmox_node__zfs_pools:
   - name: rpool
     vdev: raidz1 nvme0n1p5 nvme1n1p5
     properties:
       ashift: "12"
-    filesystem_properties: "{{ proxmox_node_zfs_pools_filesystem_properties_defaults }}"
+    filesystem_properties: "{{ proxmox_node__zfs_pools_filesystem_properties_defaults }}"
 
-proxmox_node_zfs_filesystems:
-- name: rpool/pve
-- name: rpool/backups
+proxmox_node__zfs_filesystems:
+  - name: rpool/pve
+  - name: rpool/backups
 
 proxmox_node__pve_storages:
   - name: rpool-pve
@@ -26,7 +26,7 @@ proxmox_node__pve_storages:
     content: vztmpl,snippets,iso
     shared: 0
 
-proxmox_node_partitions:
+proxmox_node__partitions:
   - name: nvme0n1p5
     device: /dev/nvme0n1
     state: present

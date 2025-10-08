@@ -1,3 +1,4 @@
+---
 # users that access the system via ssh
 # with their public keys taken from github
 # we have a state attribute than can be 'absent' to remove the user

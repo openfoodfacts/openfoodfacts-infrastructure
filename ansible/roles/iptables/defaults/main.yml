@@ -11,13 +11,11 @@ iptables_internal_hosts_ips_v6: []
 # List of private networks
 iptables_private_networks_v4: []
 iptables_private_networks_v6: []
-
 # you have to white list the accept policy
 # by default only filter.input is drop
 iptables_accept_policy:
-  filter: ['output', 'forward']
-  nat: ['prerouting', 'input', 'output', 'postrouting']
-
+  filter: ["output", "forward"]
+  nat: ["prerouting", "input", "output", "postrouting"]
 # you can provide a list of extra rule as a dict
 # where key is the comment and value is the rule
 # it will be sorted by key lexical orders
