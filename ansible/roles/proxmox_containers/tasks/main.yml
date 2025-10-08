@@ -5,6 +5,24 @@
   when: |
     not (proxmox_containers__api_token_id and proxmox_containers__api_token_secret and proxmox_containers__api_user)
 
+- name: Verify containers are in inventory
+  ansible.builtin.fail:
+    msg: |
+      Can't find container {{ item.hostname }} in inventory
+  when: "not (hostvars[item.hostname]|default(false))"
+  loop: "{{ proxmox_containers__containers }}"
+
+- name: Verify containers have needed variables for initial setup
+  ansible.builtin.fail:
+    msg: |
+      Can't find ansible_user_password_salt and ansible_become_password variables
+      for {{ item.hostname }}
+  when: |
+    (not (hostvars[item.hostname].ansible_user_password_salt|default(false)))
+    or
+    (not (hostvars[item.hostname].ansible_become_password|default(false)))
+  loop: "{{ proxmox_containers__containers }}"
+
 - name: Get name of debian template
   ansible.builtin.shell:
     executable: /bin/bash

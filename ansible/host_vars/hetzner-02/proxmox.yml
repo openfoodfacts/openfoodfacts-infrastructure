@@ -71,6 +71,21 @@ proxmox_containers__containers:
     disk:
       storage: rpool-pve
       size: 32
+  - id: 111
+    hostname: superset
+    features:
+      - nesting=1
+    cores: 4
+    memory: "{{ 4 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.12.1.111/16
+        gw: 10.12.0.2
+        bridge: vmbr1
+    disk:
+      storage: rpool-pve
+      size: 32
 
 # proxmox_node__partitions:
 # - name: nvme0n1p5

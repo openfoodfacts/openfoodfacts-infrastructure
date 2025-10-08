@@ -334,6 +334,8 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 
 ## Ansible
 
+
+### Installing proxmox host
 For new servers we use Ansible to install them.
 
 The base install is done using either a debian or the proxmox ISO
@@ -349,6 +351,17 @@ You must run following playbooks:
 Note that if you setup a proxmox cluster, sites/proxmox-node.yml must be run on all nodes at the same time to enable cluster creation.
 
 Read roles documentation to understand what they do.
+
+### How to create a new container with ansible
+
+* add the container to `proxmox_containers__containers` in `host_variables/<host-name>/proxmox.yml`
+* add the container in `inventory.production.ini`
+* create `host_variables/<container-name>/<container-name>-secrets.yml`
+  and add `ansible_become_password` and `ansible_user_password_salt` variables
+* create the container on the host and initialize, by running:
+  `ansible-playbook sites/proxmox_node.yml --tags containers -l <host-name>`
+* make base setup of container by running:
+  `ansible-playbook jobs/configure.yml -l <container-name>`
 
 ## Proxmox installation
 

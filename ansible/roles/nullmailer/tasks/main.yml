@@ -13,7 +13,7 @@
     - ../templates
   loop_control:
     label: "{{ item.path }}"
-  notify: restart nullmailer
+  notify: Restart nullmailer
   tags:
     - config
 
@@ -22,7 +22,7 @@
     dest: "/etc/mailname"
     content: "{{ nullmailer__mailname }}\n"
     mode: "0644"
-  notify: restart nullmailer
+  notify: Restart nullmailer
   tags:
     - config
 
