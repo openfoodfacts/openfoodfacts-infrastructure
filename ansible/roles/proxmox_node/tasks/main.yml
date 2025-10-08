@@ -49,3 +49,11 @@
     pve_users: "{{ proxmox_node__pve_users }}"
 
   tags: proxmox
+
+- name: Add distributions iso
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    checksum: "{{ item.checksum }}"
+    dest: /var/lib/vz/template/iso
+    mode: "0644"
+  loop: "{{ proxmox_node__iso }}"

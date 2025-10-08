@@ -47,5 +47,10 @@ proxmox_node__alerts_email: ""
 # should we create the partitions or just check if they are there?
 # NOTE: the idea is to set that manually to true on the command line,
 # when you want to create the partitions
-# -e "proxmox_node__mkparts=true"
+# -e "proxomox_node_mkparts=true"
 proxmox_node__mkparts: false
+
+# isos to download with url and checksum
+proxmox_node__iso: []
+#   - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+#     checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
