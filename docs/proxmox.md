@@ -354,7 +354,7 @@ Read roles documentation to understand what they do.
 
 ### How to create a new container with ansible
 
-* add the container to `proxmox_containers__containers` in `host_variables/<host-name>`
+* add the container to `proxmox_containers__containers` in `host_variables/<host-name>/proxmox.yml`
 * add the container in `inventory.production.ini`
 * create `host_variables/<container-name>/<container-name>-secrets.yml`
   and add `ansible_become_password` and `ansible_user_password_salt` variables
