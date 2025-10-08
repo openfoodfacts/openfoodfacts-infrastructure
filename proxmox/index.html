@@ -1503,6 +1503,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-proxmox-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing proxmox host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-create-a-new-container-with-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to create a new container with ansible
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4478,6 +4502,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-proxmox-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing proxmox host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-create-a-new-container-with-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to create a new container with ansible
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4773,6 +4821,7 @@ Failed to activate service 'org.freedesktop.login1': timed out (service_start_ti
 -&gt; Run `pam-auth-update` (and deselect `Register user sessions in the systemd control group hierarchy`)
 </code></pre></div>
 <h2 id="ansible">Ansible<a class="headerlink" href="#ansible" title="Permanent link">#</a></h2>
+<h3 id="installing-proxmox-host">Installing proxmox host<a class="headerlink" href="#installing-proxmox-host" title="Permanent link">#</a></h3>
 <p>For new servers we use Ansible to install them.</p>
 <p>The base install is done using either a debian or the proxmox ISO
 (this latest is prefered in order to also install system on ZFS).</p>
@@ -4785,6 +4834,17 @@ and add specific variables.</p>
 </ul>
 <p>Note that if you setup a proxmox cluster, sites/proxmox-node.yml must be run on all nodes at the same time to enable cluster creation.</p>
 <p>Read roles documentation to understand what they do.</p>
+<h3 id="how-to-create-a-new-container-with-ansible">How to create a new container with ansible<a class="headerlink" href="#how-to-create-a-new-container-with-ansible" title="Permanent link">#</a></h3>
+<ul>
+<li>add the container to <code>proxmox_containers__containers</code> in <code>host_variables/&lt;host-name&gt;/proxmox.yml</code></li>
+<li>add the container in <code>inventory.production.ini</code></li>
+<li>create <code>host_variables/&lt;container-name&gt;/&lt;container-name&gt;-secrets.yml</code>
+  and add <code>ansible_become_password</code> and <code>ansible_user_password_salt</code> variables</li>
+<li>create the container on the host and initialize, by running:
+  <code>ansible-playbook sites/proxmox_node.yml --tags containers -l &lt;host-name&gt;</code></li>
+<li>make base setup of container by running:
+  <code>ansible-playbook jobs/configure.yml -l &lt;container-name&gt;</code></li>
+</ul>
 <h2 id="proxmox-installation">Proxmox installation<a class="headerlink" href="#proxmox-installation" title="Permanent link">#</a></h2>
 <p>Proxmox is installed from a bootable USB disk based on Proxmox VE iso, the way you would install a Debian.</p>
 <h2 id="some-errors">Some errors<a class="headerlink" href="#some-errors" title="Permanent link">#</a></h2>
