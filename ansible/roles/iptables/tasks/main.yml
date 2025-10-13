@@ -50,4 +50,7 @@
     path: /etc/iptables/rules.{{ item }}
     state: restored
     wait: 6
+  # iptables_state restored needs poll to be 0 and async to be >2 < ansible_timeout
+  poll: 0
+  async: 5
   loop: ["v4", "v6"]

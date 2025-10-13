@@ -27,7 +27,7 @@ COMMIT
 *filter
 # Policies
 {% for name in ["INPUT", "FORWARD", "OUTPUT"] %}
-:{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.filter else 'DROP' }} - [0:0]
+:{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.filter else 'DROP' }} [0:0]
 {% endfor %}
 # Established connection
 -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
@@ -56,7 +56,7 @@ COMMIT
 # NAT START ##############
 *nat
 {% for name in ["PREROUTING", "INPUT", "OUTPUT", "POSTROUTING"] %}
-:{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.nat else 'DROP' }} - [0:0]
+:{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.nat else 'DROP' }} [0:0]
 {% endfor %}
 # masquerading private network
 -A POSTROUTING -m set --match-set {{ private_net_set }} src -j MASQUERADE

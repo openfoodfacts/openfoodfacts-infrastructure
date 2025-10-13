@@ -11,7 +11,7 @@ collections:
 
 roles:
   - src: willshersystems.sshd
-    version: v0.25.0
+    version: v0.28.0
   - src: oefenweb.fail2ban
     version: v4.0.10
   - src: lae.proxmox
