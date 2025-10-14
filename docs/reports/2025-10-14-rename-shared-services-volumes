@@ -38,3 +38,13 @@ sudo ln -sf /var/lib/docker/volumes/off_shared_mongodb_data/_data /var/lib/docke
 We now have the originally named volume and the new volume both pointing to the same location.
 
 Note that by keeping the data on the same device the `mv` commands are pretty quick so this could have been done in the deployment script without the need to retain teh old volume name.
+
+Once the new version of shared-services has been deployed with the new volume names the old aliases can be deleted:
+
+```sh
+docker volume rm dbdata
+docker volume rm po_redisdata
+
+# Note have to delete the external device for redis (symlink to the new path)
+sudo rm /srv/off/docker_data/redis
+```
