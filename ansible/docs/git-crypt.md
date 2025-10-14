@@ -13,6 +13,10 @@ Example:
 secrets.yml filter=git-crypt diff=git-crypt
 ```
 
+## How to check if a file is encrypted
+
+You can use `git-crypt status -e` to list encrypted files.
+
 ## Create a GPG key
 
 ```sh
