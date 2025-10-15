@@ -18,6 +18,23 @@
   changed_when: false
   register: _proxmox_containers__debian_template_local_name
 
+# we need this to determine if we need a restart
+- name: Get current container information
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_containers__api_host }}"
+    api_port: "{{ proxmox_containers__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_containers__api_user }}"
+    api_token_id: "{{ proxmox_containers__api_token_id }}"
+    api_token_secret: "{{ proxmox_containers__api_token_secret }}"
+    vmid: "{{ _container.id | mandatory }}"
+    config: current
+    network: true
+  delegate_to: localhost
+  become: false
+  register: _proxmox_containers__container_before
+
+# whereas we need this to determine if rootfs is already there
 - name: Verify if container already exists
   community.proxmox.proxmox_vm_info:
     api_host: "{{ proxmox_containers__api_host }}"
@@ -29,6 +46,8 @@
     vmid: "{{ _container.id | mandatory }}"
     # we need to grab rootfs information
     config: pending
+    # needed to get existing hwaddr
+    network: true
   delegate_to: localhost
   become: false
   register: _proxmox_containers__existing_container
@@ -75,7 +94,7 @@
     memory: "{{ _container.memory | default(proxmox_containers__default_memory) }}"
     swap: "{{ _container.swap | default(proxmox_containers__default_swap) }}"
     # 6th screen of creation form
-    netif: "{{ _container.netif | proxmox_netif_dict }}"
+    netif: "{{ _container.netif | proxmox_netif_dict(current_config=_proxmox_containers__existing_container.proxmox_vms[0].network) }}"
     # more options
     onboot: "{{ _container.onboot | default(proxmox_containers__default_onboot) }}"
     # NOTE: protection is not supported :-(
@@ -97,10 +116,33 @@
     # first screen of creation form
     node: "{{ inventory_hostname }}"
     vmid: "{{ _container.id | mandatory }}"
+    config: current
+    network: true
   # proxmoxer dependency makes it easier to run on localhost
   delegate_to: localhost
   become: false
   register: _proxmox_containers__container_info
+
+# _proxmox_containers__existing_container.change is always true, whereas it should not…
+# so we use the two states we got from proxmox_vm_info to check for ourselves
+- name: Compute if there was a configuration change
+  ansible.builtin.set_fact:
+    _proxmox_containers__config_changed: |
+      {{
+        (not _proxmox_containers__existing_container.proxmox_vms | default(None))
+        or
+        (
+          _proxmox_containers__container_before.proxmox_vms[0].config
+          !=
+          _proxmox_containers__container_info.proxmox_vms[0].config
+        )
+        or
+        (
+          _proxmox_containers__container_before.proxmox_vms[0].network
+          !=
+          _proxmox_containers__container_info.proxmox_vms[0].network
+        )
+      }}
 
 - name: Restart container if it has changed, or start if just created
   community.proxmox.proxmox:
@@ -123,7 +165,7 @@
         else 'started'
       }}
   when: |
-    _proxmox_containers__container_update.changed and
+    _proxmox_containers__config_changed and
     ( _container.state | default('started') ) == 'started'
   delegate_to: localhost
   become: false

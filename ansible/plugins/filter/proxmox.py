@@ -12,20 +12,33 @@ class FilterModule:
             'proxmox_process_disk_volume': self.proxmox_process_disk_volume,
         }
 
-    def proxmox_netif_dict(self, data):
+    def proxmox_netif_dict(self, data, current_config):
         """A filter to create netif data
         as a list of str (as requested by proxmox module)
         from a list of mappings definition
+
+        current_config is is the proxmox_vms network attribute of the promox_vm_info result
+        for this container
         """
         return {
-            key: self.proxmox_netif_data_to_str(definition)
+            key: self.proxmox_netif_data_to_str(definition,  current_config)
             for key, definition in data.items()
         }
 
-    def proxmox_netif_data_to_str(self, data):
+    def proxmox_netif_data_to_str(self, data,  current_config):
         """A filter to create netif str from a mapping definition
         """
         # see /pve-docs/api-viewer/index.html#/nodes/{node}/lxc
+        # get hardward address from current config
+        # to avoid having proxmox taking a new random one
+        if "hwaddr" not in data and current_config:
+            if "name" not in data:
+                raise AnsibleFilterError("You must provide a name for interfaces for proxmox_netif_dict to work")
+            # get the interface data
+            current_if_info = [if_info for if_info in current_config if if_info["name"] == data["name"]]
+            if current_if_info:
+                # upper because it's less disruptive… it seems !
+                data["hwaddr"] = current_if_info[0]["hwaddr"].upper()
         netif = []
         str_attrs = [
             "name", "ip", "ip6", "bridge", "gw", "gw6", "hwaddr", "mtu", "rate", "tag", "trunks", "type"
@@ -38,6 +51,8 @@ class FilterModule:
             if bool_key in data:
                 val = "1" if data[bool_key] else "0"
                 netif.append(f"{bool_key}={val}")
+        # make hwaddr predictable… otherwise it introduce unwanted changes each time
+        #
         return ",".join(netif)
 
     def proxmox_process_disk_volume(self, data, existing=None, defaults={}):
