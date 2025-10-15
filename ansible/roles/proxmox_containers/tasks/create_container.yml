@@ -136,12 +136,6 @@
           !=
           _proxmox_containers__container_info.proxmox_vms[0].config
         )
-        or
-        (
-          _proxmox_containers__container_before.proxmox_vms[0].network
-          !=
-          _proxmox_containers__container_info.proxmox_vms[0].network
-        )
       }}
 
 - name: Restart container if it has changed, or start if just created
