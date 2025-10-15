@@ -1,0 +1,11 @@
+---
+# Name of the OS user who runs the triton server (through Docker)
+triton_gpu__user: "off"
+
+# name of the repository to clone
+triton_gpu__repository_name: "robotoff"
+# owner of the repository
+triton_gpu__repository_owner: "openfoodfacts"
+
+# Name of the directory where the repository will be cloned
+triton_gpu__repository_dest: "/home/{{ triton_gpu__user }}/triton-org"
