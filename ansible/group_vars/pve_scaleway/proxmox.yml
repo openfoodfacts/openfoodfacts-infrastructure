@@ -1,0 +1,33 @@
+# variables for the Scaleway Proxmox cluster
+---
+# see defaults in https://github.com/lae/ansible-role-proxmox/blob/develop/defaults/main.yml
+# and common vars in proxmox_nodes
+# cluster name
+proxmox_node__pve_cluster_enabled: true
+# group name (in inventory), containing nodes, it must not contains "_"
+proxmox_node__pve_cluster_name: "pve-scaleway"
+# addr1 is public ip, addr0 is defined per host
+proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
+
+# directory mappings
+# TODO(FeatSetupScaleway)
+virtiofs__dir_mappings:
+  - id: qm-200-virtiofs
+    map:
+      - node: hetzner-02
+        path: /rpool/qm-200-virtiofs
+    description: "virtiofs dataset for qm-200"
+
+# FIXME
+# pve_ssl_private_key
+# pve_ssl_certificate
+
+# iso files
+# TODO(FeatSetupScaleway): Update to Debian 13?
+proxmox_node__iso:
+  - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
+
+# Access to PVE
+proxmox_api_user: agarel@pve
+proxmox_api_token_id: ansible-token

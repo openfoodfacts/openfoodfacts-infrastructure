@@ -1,0 +1,36 @@
+---
+# TODO(FeatSetupScaleway): Does this defines the IP or is it defined elsewhere and I should put it here?
+proxmox_node__pve_cluster_addr0: 10.13.0.2
+
+proxmox_node__zfs_pools:
+  - name: hdd-zfs
+    # TODO(FeatSetupScaleway)
+    vdev: raidz1 TODO
+    properties:
+      ashift: "12"
+    filesystem_properties: "{{ proxmox_node__zfs_pools_filesystem_properties_defaults }}"
+
+# TODO(FeatSetupScaleway)
+proxmox_node__zfs_filesystems:
+  - name: hdd-zfs/pve
+  - name: hdd-zfs/backups
+
+# TODO(FeatSetupScaleway)
+proxmox_node__pve_storages:
+  - name: hdd-zfs-pve
+    type: zfspool
+    pool: hdd-zfs/pve
+    content: rootdir,images
+    mountpoint: /hdd-zfs/pve
+    sparse: 0
+    shared: 0
+  - name: local
+    type: dir
+    path: /var/lib/vz
+    content: vztmpl,snippets,iso
+    shared: 0
+  # removing installed storage
+  - name: hdd-zfs
+    type: zfspool
+    pool: hdd-zfs
+    state: absent
