@@ -3,25 +3,32 @@
 proxmox_node__pve_cluster_addr0: 10.13.0.2
 
 proxmox_node__zfs_pools:
-  - name: hdd-zfs
-    # TODO(FeatSetupScaleway)
-    vdev: raidz1 TODO
+  - name: rpool
+    vdev: mirror nvme-eui.000000000000000100a07525513740ea-part3 nvme-eui.00000000000000007c35485224e769fa-part3
+    properties:
+      ashift: "12"
+    filesystem_properties: "{{ proxmox_node__zfs_pools_filesystem_properties_defaults }}"
+  - name: zfs-hdd
+    vdev: raidz2 sda1 sdb1 sdc1 sdd1 sde1 sdf1
     properties:
       ashift: "12"
     filesystem_properties: "{{ proxmox_node__zfs_pools_filesystem_properties_defaults }}"
 
-# TODO(FeatSetupScaleway)
 proxmox_node__zfs_filesystems:
-  - name: hdd-zfs/pve
-  - name: hdd-zfs/backups
+  - name: rpool/ROOT
+  - name: rpool/ROOT/pve-1
+  - name: rpool/data
+  - name: rpool/var-lib-vz
+  # TODO(FeatSetupScaleway): Those do not exist currently, should we create them?
+  - name: zfs-hdd/pve
+  - name: zfs-hdd/backups
 
-# TODO(FeatSetupScaleway)
 proxmox_node__pve_storages:
-  - name: hdd-zfs-pve
+  - name: zfs-hdd-pve
     type: zfspool
-    pool: hdd-zfs/pve
+    pool: zfs-hdd/pve
     content: rootdir,images
-    mountpoint: /hdd-zfs/pve
+    mountpoint: /zfs-hdd/pve
     sparse: 0
     shared: 0
   - name: local
@@ -30,7 +37,7 @@ proxmox_node__pve_storages:
     content: vztmpl,snippets,iso
     shared: 0
   # removing installed storage
-  - name: hdd-zfs
+  - name: zfs-hdd
     type: zfspool
-    pool: hdd-zfs
+    pool: zfs-hdd
     state: absent

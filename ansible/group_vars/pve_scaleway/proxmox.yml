@@ -11,21 +11,15 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 
 # directory mappings
 # TODO(FeatSetupScaleway)
-virtiofs__dir_mappings:
-  - id: qm-200-virtiofs
-    map:
-      - node: hetzner-02
-        path: /rpool/qm-200-virtiofs
-    description: "virtiofs dataset for qm-200"
+virtiofs__dir_mappings: []
 
 # FIXME
 # pve_ssl_private_key
 # pve_ssl_certificate
 
 # iso files
-# TODO(FeatSetupScaleway): Update to Debian 13?
 proxmox_node__iso:
-  - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+  - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
     checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
 
 # Access to PVE
