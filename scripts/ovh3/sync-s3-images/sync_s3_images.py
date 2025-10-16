@@ -108,11 +108,15 @@ def get_sync_filepaths(
                 yield barcode, product_dir / ocr_file_name
 
 
-def run(image_dir: Path, dataset_path: Optional[Path]) -> None:
+def run(
+    image_dir: Path, dataset_path: Optional[Path], force_upload: bool = False
+) -> None:
     """Launch the synchronization.
 
     :param image_dir: directory where images are stored
     :param dataset_path: path to the JSONL dataset
+    :param force_upload: if True, upload all images, even if they already exist
+        on S3
     """
     ds_path = Path(
         "~/.cache/openfoodfacts/datasets/openfoodfacts-products.jsonl.gz"
@@ -134,7 +138,7 @@ def run(image_dir: Path, dataset_path: Optional[Path]) -> None:
         key = "data/{}".format(file_path)
         dataset_keys.add(key)
 
-        if key in existing_keys:
+        if not force_upload and key in existing_keys:
             logger.debug("File %s already exists on S3", key)
             kept += 1
             continue
@@ -213,5 +217,10 @@ if __name__ == "__main__":
         type=Path,
         help="Directory where dataset is stored.",
     )
+    parser.add_argument(
+        "--force-upload",
+        action="store_true",
+        help="Force upload of all images, even if they already exist on S3.",
+    )
     args = parser.parse_args()
-    run(args.image_dir, args.dataset_path)
+    run(args.image_dir, args.dataset_path, force_upload=args.force_upload)
