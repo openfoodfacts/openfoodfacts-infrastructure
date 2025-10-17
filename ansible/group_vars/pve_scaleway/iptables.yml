@@ -1,0 +1,2 @@
+# we have ssh and munin
+iptables_public_ports: [22, 4949]
