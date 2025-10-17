@@ -22,7 +22,7 @@ We couldn't choose Debian 12, as it is not available with Deep Learning VM.
 
 Once first launched, we accept running the NVIDIA driver installation script.
 
-I (Raphaël) created the `config-op` user and added my public key to `/home/config-op/.ssh/authorized_keys`, as described in the [Ansible README](../../ansible/README.md).
+I (Raphaël) created the `config-op` user and added my public key to `/home/config-op/.ssh/authorized_keys`, as described in the [Ansible README](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/README.md).
 
 I also added the server in the Ansible inventory file with its IP address (`ansible/inventory.production.ini`) under the `gpu-01` name.
 
