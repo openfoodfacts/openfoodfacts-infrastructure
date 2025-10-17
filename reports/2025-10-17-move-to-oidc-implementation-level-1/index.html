@@ -3865,6 +3865,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-10-17 Move Production Services to OIDC Implementation level 1
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -3876,6 +3889,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1712-gmt-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      17:12 GMT Status
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3908,6 +3949,23 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1712-gmt-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      17:12 GMT Status
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -3945,6 +4003,10 @@
 <div class="highlight"><pre><span></span><code>sudo systemctl stop apache2 cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service; sudo systemctl start apache2 cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service
 </code></pre></div>
 <p>Log in to each platform, go to Account Parameters and edit my user name and verify that this is reflected in <a href="https://auth.openfoodfacts.org/admin/master/console/#/openfoodfacts/users/04399f5e-e791-4e3d-8ae2-ff789ac2d0d0/settings">Keycloak</a></p>
+<h2 id="1712-gmt-status">17:12 GMT Status<a class="headerlink" href="#1712-gmt-status" title="Permanent link">#</a></h2>
+<p>Found that auth.openfoodfacts.org was down when starting so manually restarted</p>
+<p>When working on OFF the oidc settings were not present at all so had to add.</p>
+<p>Had to revert as auth.openfoodfacts.org went down again. Need to investigate why...</p>
 
 
 
