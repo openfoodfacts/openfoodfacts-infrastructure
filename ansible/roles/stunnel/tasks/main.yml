@@ -25,12 +25,15 @@
     state: link
     force: true
 
-# Override default systemd config with override.conf 
+# Override default systemd config with override.conf
 
 - name: Create systemd override directory for stunnel
   ansible.builtin.file:
     path: /etc/systemd/system/stunnel@.service.d
     state: directory
+    mode: "0755"
+    owner: root
+    group: root
 
 - name: Symlink stunnel systemd override configuration file
   ansible.builtin.file:

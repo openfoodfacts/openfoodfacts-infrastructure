@@ -16,8 +16,9 @@
     state: present
 
 - name: Install uv by launching the install script
-  ansible.builtin.shell: |
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+  ansible.builtin.shell:
+    cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
+    executable: /bin/bash
   become: true
   become_user: "{{ triton_gpu__user }}"
   args:
@@ -44,7 +45,7 @@
 - name: Configure the docker container runtime with `nvidia-ctk`
   ansible.builtin.shell: |
     nvidia-ctk runtime configure --runtime=docker
-
+  changed_when: true
 
 - name: Restart docker to apply nvidia runtime configuration
   ansible.builtin.systemd_service:
