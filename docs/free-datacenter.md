@@ -16,9 +16,13 @@ They have at small label on them "Open Food Facts"
 
 ## Network
 
-On the scaleway bay we got a single 
+On the scaleway bay we have a single switch, directly using the optical fiber.
 
-We own the  range to be shared with OSM France.
+We own the following range to be shared with OSM France:
+IPv4 : 151.115.132.0/27, gateway 151.115.132.1
+IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48
+
+To have an internal network we use a VLAN.
 
 ## Servers
 
