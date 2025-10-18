@@ -6,7 +6,7 @@
   become: true
   roles:
     - role: proxmox_node
-      tags: ["base", "proxmox"]
+      tags: ["base", "proxmox", "proxmox-node"]
     - role: virtiofs
       tags: ["base", "virtiofs"]
     - role: git_based_configs

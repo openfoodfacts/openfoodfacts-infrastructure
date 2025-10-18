@@ -14,8 +14,10 @@ roles:
     version: v0.28.0
   - src: oefenweb.fail2ban
     version: v4.0.10
-  - src: lae.proxmox
-    version: v1.9.1
+  - name: lae.proxmox
+    src: https://github.com/lae/ansible-role-proxmox
+    version: 43df4c92447c5fe2c5d2ce54f109035e750bf59d
+    scm: git
   - name: aisbergg.zfs
     src: https://github.com/aisbergg/ansible-role-zfs.git
     version: 8940f01615e1f8abf267967953e4f67eb1b27d52

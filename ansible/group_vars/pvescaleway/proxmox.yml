@@ -4,8 +4,10 @@
 # and common vars in proxmox_nodes
 # cluster name
 proxmox_node__pve_cluster_enabled: true
-# group name (in inventory), containing nodes, it must not contains "_"
-proxmox_node__pve_cluster_name: "pve-scaleway"
+# group name (in inventory), containing nodes.
+# As a pve cluster name it must not contain "_"
+# As a Ansible inventory group it must not contain "-"
+proxmox_node__pve_cluster_name: "pvescaleway"
 # addr1 is public ip, addr0 is defined per host
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 

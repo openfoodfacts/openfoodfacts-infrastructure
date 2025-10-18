@@ -1,15 +1,11 @@
 ---
-# TODO(FeatSetupScaleway): Does this defines the IP or is it defined elsewhere and I should put it here?
-proxmox_node__pve_cluster_addr0: 10.13.0.3
+proxmox_node__pve_cluster_addr0: 10.0.0.13
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
 
-# Some ZFS other file systems were created manually. We keep them out of Ansible as they might be modified manually.
-proxmox_node__zfs_filesystems:
-  - name: zfs-hdd/pve
-  - name: zfs-hdd/backups
-
+# ZFS file systems were created manually. We keep them out of Ansible as they might be modified manually.
+proxmox_node__zfs_filesystems: []
 
 proxmox_node__pve_storages:
   - name: zfs-hdd-pve
@@ -29,3 +25,4 @@ proxmox_node__pve_storages:
     type: zfspool
     pool: zfs-hdd
     state: absent
+
