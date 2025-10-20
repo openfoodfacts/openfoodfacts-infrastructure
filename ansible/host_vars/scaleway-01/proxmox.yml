@@ -1,5 +1,5 @@
 ---
-proxmox_node__pve_cluster_addr0: 10.0.0.11
+proxmox_node__pve_cluster_addr0: 10.13.0.1
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
