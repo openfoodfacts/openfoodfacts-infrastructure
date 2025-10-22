@@ -176,14 +176,14 @@
         # don't be too specific on interpreter version
         ansible_python_interpreter: "/usr/bin/python3"
 
-- name: Install sudo using the lxc connection plugin 
+- name: Install sudo using the lxc connection plugin  # noqa: key-order
   ansible.builtin.apt:
     pkg:
       - sudo
     update_cache: true
   <<: *pct_connection
 
-- name: Bootstrap config-op user using the lxc connection plugin
+- name: Bootstrap config-op user using the lxc connection plugin  # noqa: key-order
   ansible.builtin.user:
     name: "{{ ansible_ssh_user }}"
     shell: /bin/bash
@@ -197,7 +197,7 @@
     state: present
   <<: *pct_connection
 
-- name: Bootstrap config-op ssh connection using the lxc connection plugin
+- name: Bootstrap config-op ssh connection using the lxc connection plugin  # noqa: key-order
   ansible.posix.authorized_key:
     user: "{{ ansible_ssh_user }}"
     key: "{{ proxmox_containers__github_url }}/{{ item.github_name | default(item.name) }}.keys"
@@ -208,7 +208,7 @@
 # Tricky, because we use pct enter commands,
 # it might create file owned by root in config-op user
 # fix permissions
-- name: Fix permissions on config-op home
+- name: Fix permissions on config-op home  # noqa: key-order
   ansible.builtin.file:
     path: "/home/{{ ansible_ssh_user }}"
     owner: "{{ ansible_ssh_user }}"
