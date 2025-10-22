@@ -38,7 +38,20 @@
       on server {{ ansible_hostname }}.
       Do you want to continue (y/n)?
       (or c to continue without branch switch, at your own risks)
-  register: _git_based_configs__branch_switch_confirmation
+  register: _git_based_configs__branch_switch_confirmation_input
+  when: >-
+    _git_based_configs__needs_branch_switch and
+    not git_based_configs__branch_switch_confirmation
+
+- name: Get confirmation string
+  ansible.builtin.set_fact:
+    _git_based_configs__branch_switch_confirmation: >-
+      {{
+        (
+          git_based_configs__branch_switch_confirmation or
+          _git_based_configs__branch_switch_confirmation_input.user_input
+        ).lower()
+      }}
   when: _git_based_configs__needs_branch_switch
 
 - name: Fail if user doesn't want to switch branch
@@ -48,9 +61,9 @@
     _git_based_configs__needs_branch_switch
     and not
     (
-      _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("y")
+      _git_based_configs__branch_switch_confirmation.startswith("y")
       or
-      _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("c")
+      _git_based_configs__branch_switch_confirmation.startswith("c")
     )
 
 - name: Switch branch of server clone
@@ -60,7 +73,7 @@
     chdir: "{{ git_based_configs__repository_dest }}"
   when: |
     _git_based_configs__server_current_branch.stdout != _git_based_configs__target_branch_name
-    and _git_based_configs__branch_switch_confirmation.user_input.lower().startswith("y")
+    and _git_based_configs__branch_switch_confirmation.startswith("y")
   changed_when: true
 
 - name: Update repository

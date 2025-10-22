@@ -4,8 +4,8 @@
 # and common vars in proxmox_nodes
 # cluster name
 proxmox_node__pve_cluster_enabled: true
-# group name (in inventory), containing nodes, it must not contains "_"
-proxmox_node__pve_cluster_name: "pve-hetzner"
+# group name (in inventory), containing nodes, it must not contains "_" neither "-"
+proxmox_node__pve_cluster_name: "pvehetzner"
 # addr1 is public ip, addr0 is defined per host
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 
@@ -23,8 +23,10 @@ virtiofs__dir_mappings:
 
 # iso files
 proxmox_node__iso:
-  - url: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
-    checksum: "sha256:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
+  - url: "https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/SHA256SUMS"
+  - url: "https://cdimage.debian.org/debian-cd/13.1.0/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/debian-cd/13.1.0/amd64/iso-cd/SHA256SUMS"
 
 # Access to PVE
 proxmox_api_user: agarel@pve
