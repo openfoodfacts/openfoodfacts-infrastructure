@@ -1,0 +1,19 @@
+---
+- name: This role is not ready, fail
+  ansible.builtin.fail:
+    msg: |
+      This role is not ready yet !
+      Refer to the readme.
+
+- name: Verify we have credentials
+  ansible.builtin.fail:
+    msg: Mandatory parameters missing
+  when: |
+    not (proxmox_vms__api_token_id and proxmox_vms__api_token_secret and proxmox_vms__api_user)
+
+- name: Create vms
+  ansible.builtin.include_tasks:
+    file: create_vm.yml
+  loop: "{{ proxmox_vms__vms }}"
+  loop_control:
+    loop_var: _vm

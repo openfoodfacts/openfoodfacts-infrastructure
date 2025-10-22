@@ -1,0 +1,199 @@
+# Create a VM
+# _vm contains the information
+---
+# This work is not yet ready and there are question about it's usefulness
+
+- name: Ensure CT id is < 300 > 200
+  ansible.builtin.fail:
+    msg: |
+      VM must have an id between 200 and 300 (current: {{ _vm.id }})
+  when: |
+    (( _vm.id | int ) >= 300) or (( _vm.id | int ) < 200)
+
+# this task is just an excuse to be able to use anchors to avoid repetition
+# note that when we use it, we have to add `# noqa: key-order` to entry
+- name: Define some anchors
+  ansible.builtin.set_fact:
+    # parameters for tasks using proxmox API
+    _proxmox_vms__api_connection: &proxmox_vms__api_connection
+      api_host: "{{ proxmox_vms__api_host }}"
+      api_port: "{{ proxmox_vms__api_port }}"
+      validate_certs: false
+      api_user: "{{ proxmox_vms__api_user }}"
+      api_token_id: "{{ proxmox_vms__api_token_id }}"
+      api_token_secret: "{{ proxmox_vms__api_token_secret }}"
+      node: "{{ inventory_hostname }}"
+    # meta parameters for tasks using proxmox API
+    # proxmoxer dependency makes it easier to run on localhost
+    _proxmox_vms__api_modifiers: &proxmox_vms__api_task
+      delegate_to: localhost
+      become: false
+
+- name: Get VM info before creation # noqa: key-order
+  community.proxmox.proxmox_vm_info:
+    <<: *proxmox_vms__api_connection
+    vmid: "{{ _vm.id | mandatory }}"
+  <<: *proxmox_vms__api_task
+  register: _proxmox_vms__before_creation
+
+- name: Ensure the VM to be cloned exists, if the VM does not yet exists # noqa: key-order
+  community.proxmox.proxmox_vm_info:
+    <<: *proxmox_vms__api_connection
+    vmid: "{{ _vm.clone_source | default(proxmox_vms__default_clone_source) }}"
+  <<: *proxmox_vms__api_task
+  register: _proxmox_vms__clone_source_vm
+  when: "_proxmox_vms__before_creation.proxmox_vms == []"
+
+- ansible.builtin.debug:
+    var: _proxmox_vms__clone_source_vm
+
+- name: Fail if clone source does not exist while we need to create VM
+  ansible.builtin.fail:
+    msg: "The vm that should be clone {{ _vm.clone_source }} was not found"
+  when: |
+    (_proxmox_vms__before_creation.proxmox_vms == []) and
+    (_proxmox_vms__clone_source_vm.proxmox_vms == [])
+
+- name: Create vm by clone if needed # noqa: key-order
+  community.proxmox.proxmox_kvm:
+    <<: *proxmox_vms__api_connection
+    # the cloned VM
+    vmid: "{{ _vm.clone_source | default(proxmox_vms__default_clone_source) }}"
+    clone: "yes"  # we need whatever string this to signal it's a clone
+    # the new VM properties
+    # correspond to fields of creation form
+    newid: "{{ _vm.id | mandatory }}"
+    name: "{{ _vm.name | mandatory }}"
+    storage: "{{ _vm.storage | mandatory }}"
+    # state, we must use present to have vm updated
+    state: "{{ _vm.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
+  <<: *proxmox_vms__api_task
+  register: _proxmox_vms__vm_update
+  when: "_proxmox_vms__before_creation.proxmox_vms == []"
+
+- name: Get VM info after clone # noqa: key-order
+  community.proxmox.proxmox_vm_info:
+    <<: *proxmox_vms__api_connection
+    vmid: "{{ _vm.id | mandatory }}"
+  <<: *proxmox_vms__api_task
+  register: _proxmox_vms__after_clone
+
+- ansible.builtin.debug:
+    var: _proxmox_vms__after_clone
+
+- name: FIXME
+  ansible.builtin.fail:
+    msg: "FIXME: code the rest"
+
+- name: Update VM configuration # noqa: key-order
+  community.proxmox.proxmox_kvm:
+    <<: *proxmox_vms__api_connection
+    # Tells cloud-init to bootstrap our config-op user in the VM
+    name: "{{ _vm.name | mandatory }}"
+    ciuser: "config-op"
+    cipassword: "{{ hostvars[_container.hostname].ansible_become_password | mandatory }}"
+    cores: "{{ _vm.cores | default(proxmox_vms__default_cores) }}"
+    cpu: "{{ _vm.cpu | default(proxmox_vms__default_cpu) }}"
+    ipconfig: "{{ _vm.ipconfig | proxmox_ipconfig_dict }}"
+    memory: "{{ _vm.memory | default(proxmox_vms__default_memory) }}"
+    net: "{{ _vm.net | proxmox_net_dict(current_config=_proxmox_vms__before_creation.proxmox_vms[0].config | default(None)) }}"
+    onboot: "{{ _vm.onboot | default(proxmox_vms__default_onboot) }}"
+    protection: "{{ _vm.protection | default(proxmox_vms__default_protection) }}"
+
+    state: "{{ _vm.state | default('started') | replace('started', 'present') | replace('stopped', 'present') }}"
+  when: |
+    ( _vm.state|default('started') ) != "absent"
+
+- name: Check current VM status # noqa: key-order
+  community.proxmox.proxmox_vm_info:
+    <<: *proxmox_vms__api_connection
+    vmid: "{{ _vm.id | mandatory }}"
+    network: true
+  # proxmoxer dependency makes it easier to run on localhost
+  <<: *proxmox_vms__api_task
+  register: _proxmox_vms__container_info
+
+- name: Restart container if it has changed, or start if just created
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_vms__api_host }}"
+    api_port: "{{ proxmox_vms__api_port }}"
+    validate_certs: false
+    api_user: "{{ proxmox_vms__api_user }}"
+    api_token_id: "{{ proxmox_vms__api_token_id }}"
+    api_token_secret: "{{ proxmox_vms__api_token_secret }}"
+    # first screen of creation form
+    node: "{{ inventory_hostname }}"
+    vmid: "{{ _vm.id | mandatory }}"
+    state: >-
+      {{
+        'restarted'
+        if (
+          _proxmox_vms__existing_container.proxmox_vms and
+          (_proxmox_vms__container_info.proxmox_vms.0.status | default('')) == 'running'
+        )
+        else 'started'
+      }}
+  when: |
+    _proxmox_vms__container_update.changed and
+    ( _vm.state | default('started') ) == 'started'
+  delegate_to: localhost
+  become: false
+
+- name: Install sudo using the lxc connection plugin
+  ansible.builtin.apt:
+    pkg:
+      - sudo
+    update_cache: true
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _vm.id | mandatory }}"
+
+- name: Bootstrap config-op user using the lxc connection plugin
+  ansible.builtin.user:
+    name: config-op
+    shell: /bin/bash
+    create_home: true
+    groups: ["sudo"]
+    password: >-
+      {{
+        hostvars[_vm.hostname].ansible_become_password |
+        password_hash('sha512', hostvars[_vm.hostname].ansible_user_password_salt)
+      }}
+    state: present
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _vm.id | mandatory }}"
+
+- name: Bootstrap config-op ssh connection using the lxc connection plugin
+  ansible.posix.authorized_key:
+    user: "{{ ansible_ssh_user }}"onboot
+    key: "{{ proxmox_vms__github_url }}/{{ item.github_name | default(item.name) }}.keys"
+    state: present
+  loop: "{{ proxmox_vms__github_authorized_users }}"
+  # pct_remote does not need to become (in the container),
+  # as it use pct exec (which already exec as root)
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _vm.id | mandatory }}"
+
+# Tricky, because we use pct enter commands,
+# it might create file owend by root in config-op user
+# fix permissions
+- name: Fix permissions on config-op home
+  ansible.builtin.file:
+    path: "/home/{{ ansible_ssh_user }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    recurse: true
+
+  become: false
+  connection: community.proxmox.proxmox_pct_remote
+  vars:
+    proxmox_vmid: "{{ _vm.id | mandatory }}"

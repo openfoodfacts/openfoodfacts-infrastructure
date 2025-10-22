@@ -12,6 +12,67 @@ class FilterModule:
             'proxmox_process_disk_volume': self.proxmox_process_disk_volume,
         }
 
+    def proxmox_ipconfig_dict(self, data):
+        """A filter to create ipconfig data
+        as a list of str (as requested by proxmox module)
+        """
+        return {
+            ipconfign: ",".join(
+                f"{key}={definition}"
+                for key, definition in sorted(ipdef.items())
+            )
+            for ipconfign, ipdef in data.items()
+        }
+
+    def proxmox_net_dict(self, data, current_config):
+        """A filter to create net data
+        as a list of str (as requested by proxmox module)
+        from a list of mappings definition
+
+        current_config is is the proxmox_vms config attribute of the promox_vm_info result
+        for this container
+        """
+        return {
+            key: self.proxmox_net_data_to_str(definition, key, current_config)
+            for key, definition in data.items()
+        }
+
+    def proxmox_net_data_to_str(self, data, net_key, current_config):
+        """A filter to create net str from a mapping definition
+        """
+        # normalize model=macaddr style
+        models = ["e1000", "e1000-82540em", "e1000-82544gc", "e1000-82545em", "i82551", "i82557b", "i82559er", "ne2k_isa", "ne2k_pci", "pcnet", "rtl8139", "virtio", "vmxnet3"]
+        model_key = list(set(data.keys()) & set(models))
+        if model_key:
+            if len(model_key) > 1:
+                raise AnsibleFilterError("Expected only one model key, got %r", model_key)
+            data["model"] = model_key[0]
+            data["macaddr"] = data.pop(model_key[0])
+        # see /pve-docs/api-viewer/index.html#/nodes/{node}/qemu
+        # get model MAC from current config
+        # to avoid having proxmox taking a new random one
+        if "macaddr" not in data and current_config:
+            # get the interface data
+            current_if_info = current_config.get(net_key)
+            if current_if_info:
+                # grep the macaddress inside using a regexp, because it's the simplest way
+                mac_match = re.search(r"=(?P<macaddr>[([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})(,|$)", current_if_info) 
+                if mac_match:
+                    data["macaddr"] = mac_match.group("macaddr")
+        netif = []
+        str_attrs = [
+            "model", "bridge", "macaddr", "mtu", "queues", "rate", "tag", "trunks",
+        ]
+        for key in str_attrs:
+            if key in data:
+                netif.append(f"{key}={data[key]}")
+        bool_attrs = ["firewall", "link_down"]
+        for bool_key in bool_attrs:
+            if bool_key in data:
+                val = "1" if data[bool_key] else "0"
+                netif.append(f"{bool_key}={val}")
+        return ",".join(netif)
+
     def proxmox_netif_dict(self, data, current_config):
         """A filter to create netif data
         as a list of str (as requested by proxmox module)
@@ -51,8 +112,6 @@ class FilterModule:
             if bool_key in data:
                 val = "1" if data[bool_key] else "0"
                 netif.append(f"{bool_key}={val}")
-        # make hwaddr predictable… otherwise it introduce unwanted changes each time
-        #
         return ",".join(netif)
 
     def proxmox_process_disk_volume(self, data, existing=None, defaults={}):
