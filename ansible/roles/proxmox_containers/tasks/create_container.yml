@@ -164,21 +164,28 @@
   delegate_to: localhost
   become: false
 
-- name: Install sudo using the lxc connection plugin
+- name: Dummy set fact to get an anchor on common pct connexion variables
+  ansible.builtin.set_fact:
+    _proxmox_containers_pct_connection: &pct_connection
+      # pct_remote does not need to become (in the container),
+      # as it use pct exec (which already exec as root)
+      become: false
+      connection: community.proxmox.proxmox_pct_remote
+      vars:
+        proxmox_vmid: "{{ _container.id | mandatory }}"
+        # don't be too specific on interpreter version
+        ansible_python_interpreter: "/usr/bin/python3"
+
+- name: Install sudo using the lxc connection plugin 
   ansible.builtin.apt:
     pkg:
       - sudo
     update_cache: true
-  # pct_remote does not need to become (in the container),
-  # as it use pct exec (which already exec as root)
-  become: false
-  connection: community.proxmox.proxmox_pct_remote
-  vars:
-    proxmox_vmid: "{{ _container.id | mandatory }}"
+  <<: *pct_connection
 
 - name: Bootstrap config-op user using the lxc connection plugin
   ansible.builtin.user:
-    name: config-op
+    name: "{{ ansible_ssh_user }}"
     shell: /bin/bash
     create_home: true
     groups: ["sudo"]
@@ -188,12 +195,7 @@
         password_hash('sha512', hostvars[_container.hostname].ansible_user_password_salt)
       }}
     state: present
-  # pct_remote does not need to become (in the container),
-  # as it use pct exec (which already exec as root)
-  become: false
-  connection: community.proxmox.proxmox_pct_remote
-  vars:
-    proxmox_vmid: "{{ _container.id | mandatory }}"
+  <<: *pct_connection
 
 - name: Bootstrap config-op ssh connection using the lxc connection plugin
   ansible.posix.authorized_key:
@@ -201,15 +203,10 @@
     key: "{{ proxmox_containers__github_url }}/{{ item.github_name | default(item.name) }}.keys"
     state: present
   loop: "{{ proxmox_containers__github_authorized_users }}"
-  # pct_remote does not need to become (in the container),
-  # as it use pct exec (which already exec as root)
-  become: false
-  connection: community.proxmox.proxmox_pct_remote
-  vars:
-    proxmox_vmid: "{{ _container.id | mandatory }}"
+  <<: *pct_connection
 
 # Tricky, because we use pct enter commands,
-# it might create file owend by root in config-op user
+# it might create file owned by root in config-op user
 # fix permissions
 - name: Fix permissions on config-op home
   ansible.builtin.file:
@@ -217,8 +214,4 @@
     owner: "{{ ansible_ssh_user }}"
     group: "{{ ansible_ssh_user }}"
     recurse: true
-
-  become: false
-  connection: community.proxmox.proxmox_pct_remote
-  vars:
-    proxmox_vmid: "{{ _container.id | mandatory }}"
+  <<: *pct_connection
