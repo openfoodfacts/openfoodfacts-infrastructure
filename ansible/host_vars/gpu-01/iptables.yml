@@ -1,0 +1,3 @@
+---
+# Allow traffic on SSH (22) and stunnel port (5506 and 5507) with iptables
+iptables_public_ports: [22, 5506, 5507]

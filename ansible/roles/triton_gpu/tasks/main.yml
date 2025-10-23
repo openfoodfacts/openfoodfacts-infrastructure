@@ -19,11 +19,10 @@
   ansible.builtin.shell:
     cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
     executable: /bin/bash
-  become: true
-  become_user: "{{ triton_gpu__user }}"
-  args:
     # Don't launch if '/home/off/.local/bin/uv' exists
     creates: "/home/{{ triton_gpu__user }}/.local/bin/uv"
+  become: true
+  become_user: "{{ triton_gpu__user }}"
 
 - name: Clone of the Robotoff repository
   ansible.builtin.git: # noqa: latest

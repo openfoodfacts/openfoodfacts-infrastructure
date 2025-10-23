@@ -1,17 +1,17 @@
 ---
 # Assert stunnel__psk_dst and stunnel__psk_content are defined
 
-- name: Assert stunnel__psk_dst is defined
+- name: Assert stunnel__psk_dst is defined and not empty
   ansible.builtin.assert:
     that:
-      - stunnel__psk_dst is defined
-    fail_msg: "stunnel__psk_dst is not defined. Please define it to specify the path where the PSK file will be stored on the server."
+      - stunnel__psk_dst | length > 0
+    fail_msg: "stunnel__psk_dst is not defined or is empty. Please define it to specify the destination path of the PSK file."
 
-- name: Assert stunnel__psk_content is defined
+- name: Assert stunnel__psk_content is defined and not empty
   ansible.builtin.assert:
     that:
-      - stunnel__psk_content is defined
-    fail_msg: "stunnel__psk_content is not defined. Please define it to specify the content of the PSK file."
+      - stunnel__psk_content | length > 0
+    fail_msg: "stunnel__psk_content is not defined or is empty. Please define it to specify the content of the PSK file."
 
 - name: Install stunnel4 package
   ansible.builtin.apt:
@@ -20,7 +20,7 @@
 
 - name: Symlink stunnel configuration file
   ansible.builtin.file:
-    src: "{{ infrastructure_repository_dest }}/confs/gpu-01/stunnel/off.conf"
+    src: "{{ infrastructure_repository_dest }}/confs/{{ inventory_hostname }}/stunnel/off.conf"
     dest: /etc/stunnel/off.conf
     state: link
     force: true
@@ -37,7 +37,7 @@
 
 - name: Symlink stunnel systemd override configuration file
   ansible.builtin.file:
-    src: "{{ infrastructure_repository_dest }}/confs/gpu-01/systemd/override.conf"
+    src: "{{ infrastructure_repository_dest }}/confs/{{ inventory_hostname }}/systemd/override.conf"
     dest: /etc/systemd/system/stunnel@.service.d/override.conf
     state: link
 
@@ -65,8 +65,12 @@
   vars:
     git_based_configs__service_name: stunnel@off.service
 
-# Allow traffic on stunnel port (5506 and 5507) with iptables
-- name: Allow incoming traffic on stunnel port 5506 and 5507
+
+# Check that port 5506 and 5507 are allowed in iptables
+# If the task is marked as changed, make sure that a `iptables_public_ports`
+# variable is defined for the host including ports 5506 and 5507 and re-run the
+# configure.yml playbook to apply the changes.
+- name: Assert port 5506 and 5507 is allowed in iptables
   ansible.builtin.iptables:
     chain: INPUT
     protocol: tcp
@@ -76,3 +80,4 @@
   loop:
     - 5506
     - 5507
+  check_mode: yes

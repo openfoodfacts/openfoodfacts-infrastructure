@@ -14,6 +14,8 @@
     state: present
   tags:
     - system
+  # Don't run the task if the version is bullseye or older
+  when: ansible_distribution_release not in ['bullseye', 'buster', 'stretch']
 
 # TODO: this might not be useful as of today ;-)
 - name: "Find python package prefix"

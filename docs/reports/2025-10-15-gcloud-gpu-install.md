@@ -36,7 +36,7 @@ ansible-playbook jobs/configure.yml -l gpu-01
 ansible-playbook sites/triton_gpu.yml
 ```
 
-An error occurred after running the task "Enable backport repository". It looks like backports are not available anymore for Debian 11. I commented this task in the Ansible role.
+An error occurred after running the task "Enable backport repository". It looks like backports are not available anymore for Debian 11. I added a `when` condition to skip this task on Debian 11 and some older versions of Debian.
 
 Then I re-ran the playbook again.
 
