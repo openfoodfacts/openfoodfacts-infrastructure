@@ -5,6 +5,14 @@
 - name: Prepare partitions
   ansible.builtin.import_tasks: parted.yml
 
+# This is necessary to avoid issues with Proxmox LXC/VM consoles
+- name: Ensure hosts file has localhost entry
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4"
+    state: present
+  tags: host_file
+
 - name: Prepare zpool and datasets
   ansible.builtin.include_role:
     name: aisbergg.zfs

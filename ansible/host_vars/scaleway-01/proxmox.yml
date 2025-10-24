@@ -25,3 +25,31 @@ proxmox_node__pve_storages:
     type: zfspool
     pool: zfs-hdd
     state: absent
+
+
+proxmox_containers__containers:
+  - id: 100
+    hostname: scaleway-01-proxy
+    features:
+      - nesting=1
+    cores: 6
+    memory: "{{ 3 * 1024 }}"
+    netif:
+      # public network
+      # we put it first so that it's the default route
+      net0:
+        name: eth0
+        # external IP TODO(FeatSetupReverseProxy): stop using this IP for the host
+        ip: 151.115.132.11/27
+        gw: 151.115.132.1
+        bridge: vmbr10
+      net1:
+        name: eth1
+        ip: 10.13.1.100/16
+        # we intentionally remove the gateway
+        # so that default route should be eth0
+        # gw:
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 32
