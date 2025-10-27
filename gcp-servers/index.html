@@ -3930,6 +3930,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-10-15-gcloud-gpu-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation of GPU VM on Google Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-10-15-off1-move-to-ssd/" class="md-nav__link">
         
   
@@ -4062,6 +4085,7 @@
 <p>We have one GCP server:</p>
 <ul>
 <li><code>monitoring-01</code>, managed using <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible">Ansible</a></li>
+<li><code>gpu-01</code>, managed using Ansible as well. This is used to run <a href="https://openfoodfacts.github.io/robotoff/explanations/triton/">Triton Inference Server</a> with GPUs for Robotoff and Open Prices (<a href="../reports/2025-10-15-gcloud-gpu-install/">install report</a>).</li>
 </ul>
 <h2 id="gcp-firewall">GCP Firewall<a class="headerlink" href="#gcp-firewall" title="Permanent link">#</a></h2>
 <p>There is a firewall between internet and our GCP servers.</p>
