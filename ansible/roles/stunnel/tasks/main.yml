@@ -80,4 +80,4 @@
   loop:
     - 5506
     - 5507
-  check_mode: yes
+  check_mode: true
