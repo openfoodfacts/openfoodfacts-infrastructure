@@ -1,6 +1,6 @@
 # NGINX Reverse proxy
 
-At OVH and at Free we have a LXC container dedicated to reverse proxy http/https applications.
+At OVH, Free, Hetzner and Scaleway we have a LXC container dedicated to reverse proxy http/https applications.
 
 It serves applications that are located in servers at the same provider (and same Proxmox cluster).
 
