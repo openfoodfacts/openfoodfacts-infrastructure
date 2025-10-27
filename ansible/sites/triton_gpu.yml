@@ -1,0 +1,25 @@
+---
+- name: Configure Triton GPU server
+  hosts: gpu-01
+  gather_facts: true
+  become: true
+  roles:
+    - role: docker
+      tags: docker
+    - role: triton_gpu
+      tags: triton_gpu
+    # Clone openfoodfacts-infrastructure repository to access config files
+    # (to install and configure stunnel)
+    - role: git_based_configs
+      tags: "git-config"
+      vars:
+        git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
+        git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
+    # Install and configure stunnel to encrypt communication between gpu-01 server and the rest
+    # of the infrastructure
+    - role: stunnel
+      tags: stunnel
+      vars:
+        stunnel__psk_dst: "{{ stunnel_triton_psk_dst }}"
+        stunnel__psk_content: "{{ stunnel_triton_psk_content }}"

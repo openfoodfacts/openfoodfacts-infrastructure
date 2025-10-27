@@ -1,0 +1,6 @@
+---
+# Destination of the PSK file on the server, must be defined by the user
+stunnel__psk_dst: ""
+
+# Content of the PSK file, must be defined by the user
+stunnel__psk_content: ""

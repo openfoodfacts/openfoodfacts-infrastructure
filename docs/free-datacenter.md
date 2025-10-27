@@ -1,6 +1,9 @@
 # Free Datacenter
 
-[Fondation Free](https://www.fondation-free.fr/) is graciously providing us hosting for two servers: off1 and off2.
+[Fondation Free](https://www.fondation-free.fr/) is graciously
+* providing us hosting for two servers: off1 and off2.
+* providing a bay at the Scaleway datacenter which is shared with OpenStreetMap France.
+
 They also provide network and electricity for free.
 
 ## Location
@@ -11,8 +14,29 @@ The two servers are piled one above another (off2 on top).
 It's a bay with different Open Source projects' servers.
 They have at small label on them "Open Food Facts"
 
+## Network
+
+On the scaleway bay we have a single switch, directly using the optical fiber.
+
+We own the following range to be shared with OSM France:
+IPv4 : 151.115.132.0/27, gateway 151.115.132.1
+IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48
+
+To have an internal network we use a VLAN.
 
 ## Servers
+
+### Scaleway-01 / 02 / 03
+
+Those are servers we acquire in 2025 to go in the new bay provided at Scaleway.
+
+They form a proxmox cluster.
+
+They were installed using ansible playbooks.
+
+Refer to `ansible/` variables and inventories to get more configuration information.
+
+### off1 and off2
 
 Those are DELL servers.
 
@@ -34,7 +58,7 @@ There is a blue led if all is ok (on the front and on the back). If something is
 
 You can make the LED blink to identify the server by a button on the left on the front side of the server.
 
-## IPMI
+### IPMI
 
 IPMI enables rebooting the server through the network.
 
@@ -42,7 +66,7 @@ Connecting to 213.36.253.209 with a browser or ssh we get access to an emergency
 
 It has to be configured with the right static network configuration in BIOS to be able to work (see below)
 
-## Network
+### Network
 
 We have three network physical interface on each server:
 - one dedicated to ipmi
@@ -51,7 +75,7 @@ We have three network physical interface on each server:
 
 ![Ethernet cables](img/2023-02-free-dc-ethernet.jpg "The three eternet cables on the server"){ width=50% }
 
-### IPv4
+#### IPv4
 
 We have the following static IP v4 addresses:
 - off1:
@@ -72,7 +96,7 @@ Reverse name is set to:
 Also we have a vmbr1 on each host with a private network,
 which is forwarded through vmbr0 on the host.
 
-### IPv6
+#### IPv6
 
 Policy for IPv6 we have the following:
 
@@ -94,7 +118,7 @@ The prefix is `fd28:7f08:b8fe`, so containers can have an ipv6 access to the int
 while not being publicly accessible.
 It is forwarded through vmbr0 on the host.
 
-## Disks
+### Disks
 
 SATA Disks are on the front panel. You just have to push a small red button, it makes a small handle comes out and you can rack them out.
 
@@ -103,7 +127,7 @@ We had to use Dell SATA disks because otherwise there maybe compatibility issues
 SSDs are in the back of the server (extension card)
 
 
-## off2 configuration
+### off2 configuration
 
 off2.openfoodfacts.org
 
@@ -119,20 +143,20 @@ The 14Tb disks are in a ZFS pool mounted as RAID 1 (rpool)
 Since Feb. 2023, off2 uses [Proxmox](./proxmox.md).
 
 
-### BIOS settings
+#### BIOS settings
 
-#### Slot bifurcation
+##### Slot bifurcation
 
 This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).
 
 In System BIOS / Integrated devices / Slot bifurcation: *Auto discovery of bifurcation*
 
-#### PERC adapter
+##### PERC adapter
 
 PERC Adapter Bios (Power Edge RAID Controller) is set to be  *HBA mode* for we use ZFS and don't want system RAID.
 
 
-#### IDRAC / IPMI settings
+##### IDRAC / IPMI settings
 
 Those settings are in the BIOS settings.
 They enable a distant reboot of the server through a specific interface.
@@ -144,7 +168,7 @@ They enable a distant reboot of the server through a specific interface.
 * Static DNS: 213.36.253.10
 * Static Alter: 213.36.252.131
 
-### Network
+#### Network
 
 Apart from the IDRAC address, off2 has the 213.36.253.208 IP address.
 

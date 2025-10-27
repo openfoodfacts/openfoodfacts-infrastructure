@@ -1,0 +1,53 @@
+---
+- name: Create user who will run the triton server through Docker
+  ansible.builtin.user:
+    name: "{{ triton_gpu__user }}"
+    comment: "User who launches docker containers"
+    append: true
+    groups: docker # append the docker group to the user, to allow docker commands
+    create_home: true
+    state: present
+    shell: /bin/bash
+    password: "*"
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+- name: Install uv by launching the install script
+  ansible.builtin.shell:
+    cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
+    executable: /bin/bash
+    # Don't launch if '/home/off/.local/bin/uv' exists
+    creates: "/home/{{ triton_gpu__user }}/.local/bin/uv"
+  become: true
+  become_user: "{{ triton_gpu__user }}"
+
+- name: Clone of the Robotoff repository
+  ansible.builtin.git: # noqa: latest
+    repo: "https://github.com/{{ triton_gpu__repository_owner }}/{{ triton_gpu__repository_name }}.git"
+    dest: "{{ triton_gpu__repository_dest }}"
+    update: false
+    accept_newhostkey: true
+  become: true
+  become_user: "{{ triton_gpu__user }}"
+
+- name: Copying the .env file
+  ansible.builtin.copy:
+    src: "files/env_file"
+    dest: "{{ triton_gpu__repository_dest }}/models/.env"
+    owner: "{{ triton_gpu__user }}"
+    group: "{{ triton_gpu__user }}"
+    mode: "0600"
+
+- name: Configure the docker container runtime with `nvidia-ctk`
+  ansible.builtin.shell: |
+    nvidia-ctk runtime configure --runtime=docker
+  changed_when: true
+
+- name: Restart docker to apply nvidia runtime configuration
+  ansible.builtin.systemd_service:
+    name: docker
+    state: restarted
+    enabled: true

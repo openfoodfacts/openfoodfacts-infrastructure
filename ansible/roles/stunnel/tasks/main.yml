@@ -1,0 +1,83 @@
+---
+# Assert stunnel__psk_dst and stunnel__psk_content are defined
+
+- name: Assert stunnel__psk_dst is defined and not empty
+  ansible.builtin.assert:
+    that:
+      - stunnel__psk_dst | length > 0
+    fail_msg: "stunnel__psk_dst is not defined or is empty. Please define it to specify the destination path of the PSK file."
+
+- name: Assert stunnel__psk_content is defined and not empty
+  ansible.builtin.assert:
+    that:
+      - stunnel__psk_content | length > 0
+    fail_msg: "stunnel__psk_content is not defined or is empty. Please define it to specify the content of the PSK file."
+
+- name: Install stunnel4 package
+  ansible.builtin.apt:
+    name: stunnel4
+    state: present
+
+- name: Symlink stunnel configuration file
+  ansible.builtin.file:
+    src: "{{ infrastructure_repository_dest }}/confs/{{ inventory_hostname }}/stunnel/off.conf"
+    dest: /etc/stunnel/off.conf
+    state: link
+    force: true
+
+# Override default systemd config with override.conf
+
+- name: Create systemd override directory for stunnel
+  ansible.builtin.file:
+    path: /etc/systemd/system/stunnel@.service.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Symlink stunnel systemd override configuration file
+  ansible.builtin.file:
+    src: "{{ infrastructure_repository_dest }}/confs/{{ inventory_hostname }}/systemd/override.conf"
+    dest: /etc/systemd/system/stunnel@.service.d/override.conf
+    state: link
+
+- name: Ensure directory for PSK file exists
+  ansible.builtin.file:
+    path: "{{ stunnel__psk_dst | dirname }}"
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+
+- name: Create PSK file for stunnel
+  ansible.builtin.template:
+    src: stunnel-psk.txt.j2
+    dest: "{{ stunnel__psk_dst }}"
+    mode: "0600"
+    owner: root
+    group: root
+
+# Enable and restart stunnel service if needed
+- name: Enable and restart stunnel service if needed
+  ansible.builtin.import_role:
+    name: git_based_configs
+    tasks_from: enable_service.yml
+  vars:
+    git_based_configs__service_name: stunnel@off.service
+
+
+# Check that port 5506 and 5507 are allowed in iptables
+# If the task is marked as changed, make sure that a `iptables_public_ports`
+# variable is defined for the host including ports 5506 and 5507 and re-run the
+# configure.yml playbook to apply the changes.
+- name: Assert port 5506 and 5507 is allowed in iptables
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    state: present
+  loop:
+    - 5506
+    - 5507
+  check_mode: true
