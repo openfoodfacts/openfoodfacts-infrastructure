@@ -26,7 +26,6 @@ proxmox_node__pve_storages:
     pool: zfs-hdd
     state: absent
 
-
 proxmox_containers__containers:
   - id: 100
     hostname: scaleway-01-proxy
@@ -39,7 +38,6 @@ proxmox_containers__containers:
       # we put it first so that it's the default route
       net0:
         name: eth0
-        # external IP TODO(FeatSetupReverseProxy): stop using this IP for the host
         ip: 151.115.132.11/27
         gw: 151.115.132.1
         bridge: vmbr10
