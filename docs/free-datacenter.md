@@ -25,7 +25,7 @@ IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48
 
 To have an internal network we use a VLAN.
 
-As mentionned in the [Ansible inventory](../ansible/inventory.production.ini), here are the public IPs of the Scaleway bay:
+As mentionned in the [Ansible inventory](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/inventory.production.ini), here are the public IPs of the Scaleway bay:
 
 | Machine                 | IPv4             | IPv6                     |
 | ----------------------- | ---------------- | ------------------------ |
