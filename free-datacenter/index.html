@@ -4417,6 +4417,39 @@ They have at small label on them "Open Food Facts"</p>
 IPv4 : 151.115.132.0/27, gateway 151.115.132.1
 IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48</p>
 <p>To have an internal network we use a VLAN.</p>
+<p>As mentionned in the <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/inventory.production.ini">Ansible inventory</a>, here are the public IPs of the Scaleway bay:</p>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scalway-01</td>
+<td>No</td>
+<td><code>2001:bc8:c025:11::</code></td>
+</tr>
+<tr>
+<td>Scaleway-01-proxy (LXC)</td>
+<td><code>151.115.132.11</code></td>
+<td><code>2001:bc8:c025:11:100::</code></td>
+</tr>
+<tr>
+<td>Scaleway-02</td>
+<td><code>151.115.132.12</code></td>
+<td><code>2001:bc8:c025:12::</code></td>
+</tr>
+<tr>
+<td>Scaleway-03</td>
+<td><code>151.115.132.13</code></td>
+<td><code>2001:bc8:c025:13::</code></td>
+</tr>
+</tbody>
+</table>
+<p>We could use another public IP for scaleway-01, but this is not very useful as it is only used for SSH and we don't have much IPs. If required, we can also ditch <code>151.115.132.12</code> and <code>151.115.132.13</code>.</p>
 <h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">#</a></h2>
 <h3 id="scaleway-01-02-03">Scaleway-01 / 02 / 03<a class="headerlink" href="#scaleway-01-02-03" title="Permanent link">#</a></h3>
 <p>Those are servers we acquire in 2025 to go in the new bay provided at Scaleway.</p>
@@ -4483,7 +4516,7 @@ last-part-of-ipv4-address is a two digit hexadecimal number.</p>
 <p>Gateway is <code>2a01:e0d:1:c::1</code> (gw6-vl12.free.org)</p>
 <p>We use ipv4 for DNS.</p>
 <p>Also we have a private ipv6 network (vmbr1) which can be shared between the two servers.
-The prefix is <code>fd28:7f08:b8fe</code>, so containers can have an ipv6 access to the internet, 
+The prefix is <code>fd28:7f08:b8fe</code>, so containers can have an ipv6 access to the internet,
 while not being publicly accessible.
 It is forwarded through vmbr0 on the host.</p>
 <h3 id="disks">Disks<a class="headerlink" href="#disks" title="Permanent link">#</a></h3>
@@ -4506,7 +4539,7 @@ It is forwarded through vmbr0 on the host.</p>
 <p>This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).</p>
 <p>In System BIOS / Integrated devices / Slot bifurcation: <em>Auto discovery of bifurcation</em></p>
 <h5 id="perc-adapter">PERC adapter<a class="headerlink" href="#perc-adapter" title="Permanent link">#</a></h5>
-<p>PERC Adapter Bios (Power Edge RAID Controller) is set to be  <em>HBA mode</em> for we use ZFS and don't want system RAID.</p>
+<p>PERC Adapter Bios (Power Edge RAID Controller) is set to be <em>HBA mode</em> for we use ZFS and don't want system RAID.</p>
 <h5 id="idrac-ipmi-settings">IDRAC / IPMI settings<a class="headerlink" href="#idrac-ipmi-settings" title="Permanent link">#</a></h5>
 <p>Those settings are in the BIOS settings.
 They enable a distant reboot of the server through a specific interface.</p>
