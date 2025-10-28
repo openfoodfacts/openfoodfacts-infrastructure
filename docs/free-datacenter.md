@@ -1,8 +1,9 @@
 # Free Datacenter
 
 [Fondation Free](https://www.fondation-free.fr/) is graciously
-* providing us hosting for two servers: off1 and off2.
-* providing a bay at the Scaleway datacenter which is shared with OpenStreetMap France.
+
+- providing us hosting for two servers: off1 and off2.
+- providing a bay at the Scaleway datacenter which is shared with OpenStreetMap France.
 
 They also provide network and electricity for free.
 
@@ -24,6 +25,17 @@ IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48
 
 To have an internal network we use a VLAN.
 
+As mentionned in the [Ansible inventory](../ansible/inventory.production.ini), here are the public IPs of the Scaleway bay:
+
+| Machine                 | IPv4             | IPv6                     |
+| ----------------------- | ---------------- | ------------------------ |
+| Scalway-01              | No               | `2001:bc8:c025:11::`     |
+| Scaleway-01-proxy (LXC) | `151.115.132.11` | `2001:bc8:c025:11:100::` |
+| Scaleway-02             | `151.115.132.12` | `2001:bc8:c025:12::`     |
+| Scaleway-03             | `151.115.132.13` | `2001:bc8:c025:13::`     |
+
+We could use another public IP for scaleway-01, but this is not very useful as it is only used for SSH and we don't have much IPs. If required, we can also ditch `151.115.132.12` and `151.115.132.13`.
+
 ## Servers
 
 ### Scaleway-01 / 02 / 03
@@ -44,13 +56,11 @@ On the back side of server cover you find some useful instructions.
 
 ![Server cover](img/2023-02-free-dc-instructions-on-server-cover.jpg "Instructions on the server cover"){ width=50% }
 
-
 To switch a server off, plug a screen and keyboard or use ssh, login and use shutdown command.
 
 The server switch on button is on the front panel, a small ⏼ button on the right.
 
 There is a double plug for power supply. A small velcro helps keeps plugs in place.
-
 
 ![Plugs velcro](img/2023-02-free-dc-plugs-velcro.jpg "A small velcro maintains plugs in place"){ width=50% }
 
@@ -69,6 +79,7 @@ It has to be configured with the right static network configuration in BIOS to b
 ### Network
 
 We have three network physical interface on each server:
+
 - one dedicated to ipmi
 - one for internal network - on a dedicated small switch between OFF and OSM machines
 - one for public network
@@ -78,6 +89,7 @@ We have three network physical interface on each server:
 #### IPv4
 
 We have the following static IP v4 addresses:
+
 - off1:
   - 213.36.253.206/27 used for the host (vmbr0)
   - 213.36.253.215/27 used for the reverse proxy container
@@ -90,6 +102,7 @@ Gateway is 213.36.253.222
 DNS is 213.36.253.10 (gw4-vl12.free.org)
 
 Reverse name is set to:
+
 - off1.openfoodfacts.org for 213.36.253.206
 - off2.openfoodfacts.org for 213.36.253.208
 
@@ -106,6 +119,7 @@ last-part-of-ipv4-address is a two digit hexadecimal number.
 For example `206` is `ce` in hexadecimal so `213.36.253.206` correspond to `2a01:e0d:0001:c:58bf:face::*/64`.
 
 So we have:
+
 - off2:
   - 2a01:e0d:0001:c:58bf:fad0:1/64 for the host (vmbr0)
 
@@ -114,7 +128,7 @@ Gateway is `2a01:e0d:1:c::1` (gw6-vl12.free.org)
 We use ipv4 for DNS.
 
 Also we have a private ipv6 network (vmbr1) which can be shared between the two servers.
-The prefix is `fd28:7f08:b8fe`, so containers can have an ipv6 access to the internet, 
+The prefix is `fd28:7f08:b8fe`, so containers can have an ipv6 access to the internet,
 while not being publicly accessible.
 It is forwarded through vmbr0 on the host.
 
@@ -125,7 +139,6 @@ SATA Disks are on the front panel. You just have to push a small red button, it 
 We had to use Dell SATA disks because otherwise there maybe compatibility issues (this is one of the limitation of DELL servers).
 
 SSDs are in the back of the server (extension card)
-
 
 ### off2 configuration
 
@@ -142,31 +155,29 @@ The 14Tb disks are in a ZFS pool mounted as RAID 1 (rpool)
 
 Since Feb. 2023, off2 uses [Proxmox](./proxmox.md).
 
-
 #### BIOS settings
 
 ##### Slot bifurcation
 
 This is to specify how the PCI card supporting SSD will work (16 port divided in 4x4).
 
-In System BIOS / Integrated devices / Slot bifurcation: *Auto discovery of bifurcation*
+In System BIOS / Integrated devices / Slot bifurcation: _Auto discovery of bifurcation_
 
 ##### PERC adapter
 
-PERC Adapter Bios (Power Edge RAID Controller) is set to be  *HBA mode* for we use ZFS and don't want system RAID.
-
+PERC Adapter Bios (Power Edge RAID Controller) is set to be _HBA mode_ for we use ZFS and don't want system RAID.
 
 ##### IDRAC / IPMI settings
 
 Those settings are in the BIOS settings.
 They enable a distant reboot of the server through a specific interface.
 
-* disable DHCP and auto-discovery
-* Static IP address: 213.36.253.209
-* Gateway: 213.36.253.222
-* Subnet Mask: 255.255.255.224
-* Static DNS: 213.36.253.10
-* Static Alter: 213.36.252.131
+- disable DHCP and auto-discovery
+- Static IP address: 213.36.253.209
+- Gateway: 213.36.253.222
+- Subnet Mask: 255.255.255.224
+- Static DNS: 213.36.253.10
+- Static Alter: 213.36.252.131
 
 #### Network
 

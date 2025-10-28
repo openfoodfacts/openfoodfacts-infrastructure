@@ -40,6 +40,8 @@ proxmox_containers__containers:
         name: eth0
         ip: 151.115.132.11/27
         gw: 151.115.132.1
+        ip6: "2001:bc8:c025:11:100::/48"
+        gw6: "2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f"
         bridge: vmbr10
       net1:
         name: eth1
