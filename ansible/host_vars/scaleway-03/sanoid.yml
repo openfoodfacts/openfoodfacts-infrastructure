@@ -1,0 +1,13 @@
+---
+sanoid__datasets_to_create: []
+
+sanoid__create_operators:
+  - username: scaleway03operator
+    server: scaleway-01
+    # scaleway-01.infra.openfoodfacts.org is currently only defined in /etc/hosts, not in DNS
+    server_fqdn: scaleway-01.infra.openfoodfacts.org
+    needs_sync_snap: false
+  - username: scaleway03operator
+    server: scaleway-02
+    server_fqdn: scaleway-02.infra.openfoodfacts.org
+    needs_sync_snap: false
