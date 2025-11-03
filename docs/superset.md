@@ -50,6 +50,7 @@ ALTER ROLE off SET client_encoding TO 'utf8';
 ALTER ROLE off SET default_transaction_isolation TO 'read committed';
 ALTER ROLE off SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE superset_db TO off;
+ALTER DATABASE superset_db OWNER TO off;
 EOF
 ```
 
@@ -65,7 +66,19 @@ cd /opt/superset
 python3 -m venv venv
 source venv/bin/activate
 
-pip install apache_superset
+cat > ./requirements.txt <<EOF
+apache-superset==5.0.0
+marshmallow==3.26.1 # To avoid incompatibility issues, see https://github.com/apache/superset/pull/33216
+# flask-limiter==3.12
+psycopg2-binary
+pillow
+gunicorn
+gevent
+redis
+EOF
+
+pip install -r /opt/superset/requirements.txt
+
 touch superset_config.py # Create the config file with off user permissions
 
 # Back to root to write the config file 
@@ -78,9 +91,10 @@ import os
 SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://off:$SUPERSET_POSTGRES_PASSWORD@localhost/superset_db"
 
 # Secret key (for sessions and security)
-SECRET_KEY = os.urandom(24)
+SECRET_KEY = os.urandom(24).hex()
 
 # Enable compression and cache
+# Initial cache configuration for setup; will be replaced by Redis configuration later in this guide.
 CACHE_CONFIG = {
     "CACHE_TYPE": "SimpleCache",
 }
@@ -99,17 +113,19 @@ Then, we need to **initialize the database**.
 
 ```bash
 sudo su off
+cd /opt/superset
 source /opt/superset/venv/bin/activate
 export SUPERSET_CONFIG_PATH=/opt/superset/superset_config.py
 export FLASK_APP=superset
-pip install psycopg2
+
+# The following command can take several minutes, as the following ones
 superset db upgrade
 ```
 
 Finish installing by running through the following commands:
 
 ```bash
-# Create a password for the 'postgres' user
+# Create a password for the superset admin user
 PASSWORD=$(openssl rand -base64 12)
 echo "Save this password for the superset admin user: $PASSWORD"
 
@@ -132,6 +148,9 @@ To verify that everything is working, we can start the development web server:
 # To start a development web server on port 8088, use -p to bind to another port
 superset run -p 8088 --with-threads --reload --debugger
 
+# Test the server by opening and ssh tunnel to access it from your local browser:
+# ssh -L 8088:localhost:8088 superset # "superset" is the name of the server in your ssh config file
+
 # To stop the server, use Ctrl+C in the terminal
 
 # Then deactivate the virtualenv
@@ -143,7 +162,7 @@ deactivate
 The development web server should not be used in production. We have to use a WSGI server like Gunicorn:
 
 ```bash
-gunicorn "superset.app:create_app()" -w 8 -k event --timeout 120 -b 127.0.0.1:8088
+gunicorn "superset.app:create_app()" -w 8 -k gevent --timeout 120 -b 127.0.0.1:8088
 ```
 
 It shouldn't be run directly, so we will create a systemd service to manage it.
