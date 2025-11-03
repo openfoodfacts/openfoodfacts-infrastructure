@@ -9,7 +9,8 @@ We choose to deploy it with PiPy, on a Debian 12 machine: https://superset.apach
 Install required dependencies.
 
 ```bash
-sudo apt install build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev default-libmysqlclient-dev
+sudo apt update && sudo apt upgrade -y
+sudo apt install build-essential libssl-dev libffi-dev python3-dev python3-pip libsasl2-dev libldap2-dev default-libmysqlclient-dev python3-venv
 ```
 
 Create the user: we use a specific user to deploy this app.
@@ -40,6 +41,8 @@ echo "Save this password for the 'postgres' user: $SUPERSET_POSTGRES_PASSWORD"
 
 # Verify it does work
 systemctl status postgresql
+
+# Create the database and 'off' user for superset
 sudo -u postgres psql <<EOF
 CREATE DATABASE superset_db;
 CREATE USER off WITH PASSWORD '$SUPERSET_POSTGRES_PASSWORD';
@@ -63,19 +66,19 @@ python3 -m venv venv
 source venv/bin/activate
 
 pip install apache_superset
+touch superset_config.py # Create the config file with off user permissions
 
-export SUPERSET_SECRET_KEY=$(openssl rand -base64 42)
+# Back to root to write the config file 
+exit
 
-export FLASK_APP=superset
-
-cat >> /etc/systemd/system/superset.service<<EOF
+cat >> /opt/superset/superset_config.py <<EOF
 import os
 
 # PostgreSQL database URL
 SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://off:$SUPERSET_POSTGRES_PASSWORD@localhost/superset_db"
 
 # Secret key (for sessions and security)
-SECRET_KEY = os.environ.get('SUPERSET_SECRET_KEY')
+SECRET_KEY = os.urandom(24)
 
 # Enable compression and cache
 CACHE_CONFIG = {
@@ -86,6 +89,7 @@ CACHE_CONFIG = {
 SUPERSET_HOME = "/opt/superset"
 
 EOF
+
 ```
 
 
@@ -94,7 +98,11 @@ EOF
 Then, we need to **initialize the database**.
 
 ```bash
+sudo su off
+source /opt/superset/venv/bin/activate
 export SUPERSET_CONFIG_PATH=/opt/superset/superset_config.py
+export FLASK_APP=superset
+pip install psycopg2
 superset db upgrade
 ```
 
