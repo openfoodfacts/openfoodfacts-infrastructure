@@ -4,8 +4,18 @@ Superset is an open-source data exploration and visualization platform designed 
 
 Open Food Facts superset is available at: https://sql.openfoodfacts.org
 
+## Superset functional administration
 
-## Superset administration
+### Adding rights to a user
+
+* Add non-registered user the possibility to see dashboards:
+  * Go to "Security" -> "List Roles"
+  * Edit the "Public" role
+  * In the "Permissions" tab, add the "datasource access on [Other].[products]" permission
+  * Save
+
+
+## Superset technical administration
 
 ### Start/stop/restart the service
 
