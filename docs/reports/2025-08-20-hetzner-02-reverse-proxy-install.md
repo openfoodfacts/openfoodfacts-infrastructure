@@ -20,7 +20,7 @@ This role use some tricks though:
 It did take a bit of time to debug all this, in particular,
 I had a misleading error message about TLS failure to validate certificate,
 while the real problem was about the node name being wrong,
-I documented it in the [README of proxmox_containers role](../../ansible/roles/proxmox_containers/README.md).
+I documented it in the [proxmox_containers role](../ansible/roles/proxmox_containers.md).
 
 I did create an access token using my user in Proxmox (in Datacenter, API Tokens).
 It's very important NOT to check the "privilege separation" option,

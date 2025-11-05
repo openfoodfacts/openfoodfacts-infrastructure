@@ -2,6 +2,30 @@
 
 # Renders markdown doc in docs to html in gh_pages
 
+# add documentation for ansible roles
+mkdir -p docs/ansible/roles
+for ROLE_NAME in $(ls ansible/roles)
+do
+  ROLE_PATH=ansible/roles/${ROLE_NAME}
+  if [[ -f $ROLE_PATH/README.md ]]
+  then
+    echo "generating docs for role $ROLE_NAME"
+    DOC_PATH=docs/ansible/roles/${ROLE_NAME}.md
+    cat $ROLE_PATH/README.md > $DOC_PATH
+    # add defaults
+    if [[ -f $ROLE_PATH/defaults/main.yml ]]
+    then
+      echo -e '\n## Defaults\n```\n' >> $DOC_PATH
+      cat $ROLE_PATH/defaults/main.yml >> $DOC_PATH
+      echo '```' >> $DOC_PATH
+    fi
+    # replace links
+    sed -i -e 's!../../../docs/!../../!g' $DOC_PATH
+  fi
+done
+
+
+
 # --check just checks for errors and warnings
 echo "OPTION IS $1"
 if [[ "$1" == "--check" ]]
@@ -35,5 +59,5 @@ docker run --rm \
 ERROR=$?
 # cleanup
 if [[ -n $TMP_BUILD_DIR ]]; then rm -rf $TMP_BUILD_DIR; fi
-
+rm -r docs/ansible/roles
 exit $ERROR
