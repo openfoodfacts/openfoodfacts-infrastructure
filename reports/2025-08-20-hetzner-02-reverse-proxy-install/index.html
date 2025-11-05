@@ -1,0 +1,4972 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2025-08-19-ovh3-disk-replace/">
+      
+      
+        <link rel="next" href="../2025-09-02-off2-postgres-migration/">
+      
+      
+      <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>2025-08-20 Hetzner-02 reverse proxy install - Open Food Facts Infrastructure documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2025-08-20-hetzner-02-reverse-proxy-install" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-header__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  <img src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open Food Facts Infrastructure documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2025-08-20 Hetzner-02 reverse proxy install
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open Food Facts Infrastructure documentation" class="md-nav__button md-logo" aria-label="Open Food Facts Infrastructure documentation" data-md-component="logo">
+      
+  <img src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" alt="logo">
+
+    </a>
+    Open Food Facts Infrastructure documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction to Open Food Facts Infrastructure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Continous Integration and Continuous Delivery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discourse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discourse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../disks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker at Open Food Facts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker_onboarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Onboarding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explain-server-config-in-git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explanation on server configuration with git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folksonomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Folksonomy API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../free-datacenter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Free Datacenter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gcp-servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Google Cloud Platform servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hetzner-servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hetzner Servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-add-disk-space-on-qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to add disk space on a Qemu VM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-deploy-a-new-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to deploy a new service
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-ban-bots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to use fail2ban to ban bots
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-fail2ban-debian-11%2B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to install fail2ban on debian 11+
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-handle-alerts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to handle alerts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-have-server-config-in-git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to have server config in git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-mitigate-crawlers-on-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to mitigate crawlers in case of too much traffic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-resync-zfs-replication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to resync ZFS replication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux-server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    off1 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    off2 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-off3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    off3 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ovh1 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ovh2 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs-ovh3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ovh3 server logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mail on Open Food Facts infrastructure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../matomo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matomo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../moji-datacenter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Moji Datacenter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mongodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MongoDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../munin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Munin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx-reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NGINX Reverse proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../odoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Odoo: our relationship management (connect.openfoodfacts.org)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../openfoodfacts-query/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Open Food Facts Query
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infrastructure overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ovh-servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OVH servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prod-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Production architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producers_sftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Producers SFTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-opener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Product Opener
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proxmox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rclone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rclone
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recipe-estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Recipe Estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sanoid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sanoid
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slackin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    auto Slack invitation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stunnel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stunnel
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../virtual-machines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtual Machines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zammad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Zammad
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ZFS overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53">
+        
+          
+          <label class="md-nav__link" for="__nav_53" id="__nav_53_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ansible
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_53">
+            <span class="md-nav__icon md-icon"></span>
+            Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Open Food Facts Ops using Ansible
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/git-crypt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git-crypt
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/Install-serveur-Hetzner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Note sur l'installation des serveurs Open Food Facts chez Hetzner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/policies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Policies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/pre-requisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-requisites
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53_6">
+        
+          
+          <label class="md-nav__link" for="__nav_53_6" id="__nav_53_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Roles
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_53_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_53_6">
+            <span class="md-nav__icon md-icon"></span>
+            Roles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/continuous_deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Continuous Deployment Role
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker role
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/folksonomy_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Folksonmy engine deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/git_based_configs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git based configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/iptables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Firewall using iptables rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/proxmox_containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proxmox Containers management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/proxmox_node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proxmox Node role
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/reverse_proxy_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reverse proxy role using NGINX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/reverse_proxy_nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NGINX reverse proxy role
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/stunnel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stunnel role
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible/roles/virtiofs_mounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtiofs mounts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_54" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_54" id="__nav_54_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reports
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_54_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_54">
+            <span class="md-nav__icon md-icon"></span>
+            Reports
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-02-22-matomo-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matomo install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-10-03-network-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    [Postmortem] OpenFoodFacts.net down (#1)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-21-disk-extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disk extension for preprod and containers prod (ovh2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2021-12-22-preprod-crash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Preprod crash 2021 12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-18-ovh-reverse-proxy-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    [Postmortem] Reverse proxy down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-proxmox-mail-gateway-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Install of proxmox gateway server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-02-remove-containers-ovh1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022-02 Removing some containers on ovh1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-03-zammad-elasticsearch-not-running/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Elasticsearch not running on Zammad
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-03-off2-PCI-NVMe-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022-03 Problem with PCI supporting NVMe
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-08-journey-to-deploy-off-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploying openfoodfacts-search to staging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-11-infra-workshop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infrastructure future - workshop on 11th July 2022
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-07-kibana-down-es-circuit-breaking-exception/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kibana down because of Elasticsearch circuit_breaking_exception
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-08-17-openfoodfacts-net-unreachable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022-08-17 openfoodfacts.net unreachable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup of Odoo for pro platform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-11-09-monitoring-move-to-own-vm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022-11 moving monitoring to its own machine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-13-zammad-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-02-13 Zammad down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-16-off2-shutdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 02 16 off2 shutdown
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-17-off2-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-02-17 Off2 Upgrade
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-24-zfs-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 02 24 zfs introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-03-14-off2-opff-reinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-03 OFF2 reinstall - opff migration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-04-27-moving-docker-stagging-to-ovh1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-04-27 moving docker staging to OVH1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-12-refresh-staging-clones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022-05-12 refresh staging clones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-19-overload-of-osm-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-05-18 Mongodb down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-23-move-images-to-zfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-05-23 move Images to ZFS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-05-off2-110-unreachable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-05-23 off2 - container 110 unreachable from 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-06-01 Robotoff backups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-07-off2-opf-obf-reinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-06-07 OPF and OBF reinstall on off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-08-stalled-zfs-sync-off-products/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2012-06-08 Stalled ZFS Sync for off products on ovh3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-06-30 Sanoid checks install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-16-ovh3-sdc-broken/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Post-mortem 2023-07-16 Disk sdc errors on OVH3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-26-off1-rpool-products-full/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-07-26 rpool/off/products dataset full on off1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off2-off-reinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-06-07 OFF and OFF-pro reinstall on off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-off-reinstall--prod-files-diff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 07 off reinstall  prod files diff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-08-31 OFF2 products snapshots clean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-10-14-mongodb-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-10-14: mongodb-down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-05-ovh3-disk-replace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-05 OVH3 Disk Replace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-google-drive-backup-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-11-28 setup a google drive backup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-11-28-ovh3-sdf-broken/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Post-mortem 2023-11-28 Disk sdf errors on OVH3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-08-off1-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-12-08 off1 upgrade
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-12-11-matomo-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023-12-11 Matomo down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-02-monitoring-disk-space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-01-02 monitoring disk space - filebeat
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-03-mongodb-migration-off1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-01-03 MongoDB migration on off3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-04-setting-up-stunnel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024 01 04 setting up stunnel
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-19-certbot-failure-off2-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-01-19 Certbot failure on off2 reverse proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-24-move-old-productopener-folders-to-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-01-24 Move old Product Opener folders to backup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-matomo-perf-tunning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-01 Matomo performance tunning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-06-cleanup-products-snapshots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-06 cleanup of products ssnapshots on off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-08 Production Redis install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-13-chatwoot-translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-13 Chatwoot translation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-13-matomo-fix-queue0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2014-02-13 Matomo fix Queue0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-20-exporter-on-mongodb-ct/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-20 Installing a prometheus exporter on mongodb container
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-28-proxmox-roles-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-28 proxmox roles search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-28-upgrade-redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-02-28 Upgrade Redis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-17-ovh1-down/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-03-17 OVH1 Down
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-restructure-backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-03 Restructure backups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-03-separate-hdd-docker-vms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-03 separate HDD on docker VMs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-03-moving-opf-obf-opff-logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-03-04 Moving opf, obf and opff logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-12-install-off-query-off1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-04 install off-query on off1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-18-matomo-multi-archival/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-04-18 Matomo multi archival
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-18-setup-dkim-google-workspace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-04-18 Setup DKIM on Google Workspace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-04-26-off2-obf-new-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-04-26 New install of OBF on OFF2 with new generic code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-05-27-nginx-exporter-off2-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nginx exporter on off2 proxy and off
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-05-off1-reverse-proxy-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-06 OFF1 reverse proxy install + OFF images container
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-10-move-off-query-volume-to-nvme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Move off query volume to NVME
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-06-20-move-ean8-directories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Move EAN8 directories
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-03-ovh-reverse-proxy-ip-lost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-08-03 OVH Reverse proxy IP lost
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-07-wordpress-off-contents-fresh-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-08-07-wordpress-off-contents-fresh-install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-13-moji-server-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Moji server installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-08-22 Adding postfix exporter to Proxmox Mail Gateway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-04-move-off-query-to-moji/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-09-04 Move off query to moji
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-05-adding-ipv6-to-off2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-09-05 adding ipv6 to off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-06-moji-post-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Moji - Post-installation &amp; backup sync
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-06-test-folksonomy-openproductsfacts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-09-06 test folksonomy Open Products Facts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-19-move-docker-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-09-19 move docker volumes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-24-kimsufi-stor-ks1-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kimsufi STOR - ks1 installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-09-30-ovh3-backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-09-30 OVH3 backups (wrong approach)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-10-23-deduplicate-products-in-multiple-flavors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-10-23 Deduplicate products in multiple flavors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-10-29-move-s3-sync-script-to-ovh3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-10-29 Move S3 sync script to OVH3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-10-30-keycloak-ct-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-10-30 keycloak container install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-10-30-ovh3-backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-10-30 OVH3 backups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-04-configure-aws-s3-copy-of-csv-exports-withl-minio-mc-on-product-opener-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-04 Configure AWS S3 copy of CSV exports with MinIO mc on Product Opener containers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-06-setup-cloud-vision-on-obf-opf-opff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-06 Setup cloud vision on OBF, OPF, OPFF containers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-14-hetzner-server-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-14 Server install at Hetzner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-15-merge-products-dirs-for-all-flavors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-15 Merge product dirs for all flavors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-11-22-create-clone-of-opff-for-keycloak-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-11-15 Create clone of opff container for Keycloak testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-12-01-add-stunnel-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-12-01 Add stunnel endpoints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-12-11-firmware-upgrade-on-off2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-12-11 Firmware upgrade on off2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-12-23-images-certificate-expired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024-12-23 SSL certificate on images.openfoodfacts.org expired
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-01-08-rename-o%2Af-new/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-01-08 Rename o*f-new
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-01-10-off-server-double-apache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-01-10 OFF server double apache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-01-27-firewall-off2-reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-01-27 firewall on off2 reverse proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-01-27-firewall-work-free/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-01-27 Work on firewall (free)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-01-28-firewall-work-ovh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-01-28 - Firewall work on OVH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-02-18-more-hetzner-server-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-02-18 more hetzner server install
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-05-hetzner-proxmox-cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-05 hetzner proxmox cluster
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-06-23-move-monitoring-to-google-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Move monitoring to Google Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-06-27-ovh3-disk-replace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-06-27 OVH3 Disk Replace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-06-30-ovh3-disk-full-post-mortem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-06-30 OVH3 disk full post-mortem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-07-02-ovh3-disk-replace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-07-02 OVH3 Disk Replace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-07-03-adding-disk-to-monitoring-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-07-03 Adding a disk to monitoring 01
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-07-08-osm45-gpu-passthrough/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GPU passthrough configuration on osm45
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-07-08-zpool-failure-on-hetzner-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-07-08 zpool failure on hetzner-01
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-08-07-testing-virtiofs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-08-07 testing virtiofs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-08-19-ovh3-disk-replace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-08-19 OVH3 Disk Replace
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-08-20 Hetzner-02 reverse proxy install
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-08-20 Hetzner-02 reverse proxy install
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-containers-using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating containers using Ansible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asking-for-an-ip-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asking for an IP address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-of-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation of the reverse proxy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation of the reverse proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-dns-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating DNS name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annex
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-code-to-create-the-zfs-volume-for-a-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible code to create the ZFS volume for a container
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-09-02-off2-postgres-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-09-02 OFF2 Postgres Upgrade
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-14-rename-shared-services-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-10-14 Renaming the shared services volumes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-14-scaleway-servers-zfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-10-14 Scaleway servers ZFS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-15-gcloud-gpu-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation of GPU VM on Google Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-15-off1-move-to-ssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025 10 15 off1 move to ssd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-17-move-to-oidc-implementation-level-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-10-17 Move Production Services to OIDC Implementation level 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-22-hetzner-proxmox-8-to-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-10-22 Hetzner Proxmox 8 to 9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2025-10-27-switch-from-sto-to-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-10-27 Switch to using JSON instead of STO for Product files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-containers-using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating containers using Ansible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asking-for-an-ip-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asking for an IP address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-of-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation of the reverse proxy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation of the reverse proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-dns-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating DNS name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annex
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-code-to-create-the-zfs-volume-for-a-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ansible code to create the ZFS volume for a container
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-08-20-hetzner-02-reverse-proxy-install.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+    </a>
+  
+  
+
+
+<h1 id="2025-08-20-hetzner-02-reverse-proxy-install">2025-08-20 Hetzner-02 reverse proxy install<a class="headerlink" href="#2025-08-20-hetzner-02-reverse-proxy-install" title="Permanent link">#</a></h1>
+<p>The reverse proxy is the first necessary container on Hetzner-02.</p>
+<p>It's also the occasion to develop ansible playbook to install it.</p>
+<h2 id="creating-containers-using-ansible">Creating containers using Ansible<a class="headerlink" href="#creating-containers-using-ansible" title="Permanent link">#</a></h2>
+<p>I was unsure if I should do this step using Ansible, but finally I did !</p>
+<p>I developed the proxmox_containers role for that.</p>
+<p>This role use some tricks though:</p>
+<ol>
+<li>it uses a persistent SSH connection with specific options to tunnel access to the proxmox API,
+   so that proxmox actions can be run from the local machine, making it easier to handle dependencies.</li>
+<li>it uses proxmox_pct connection plugin to
+   create the config-op user on newly created container, with ssh keys,
+   and install sudo.</li>
+</ol>
+<p>It did take a bit of time to debug all this, in particular,
+I had a misleading error message about TLS failure to validate certificate,
+while the real problem was about the node name being wrong,
+I documented it in the <a href="../../ansible/roles/proxmox_containers/">proxmox_containers role</a>.</p>
+<p>I did create an access token using my user in Proxmox (in Datacenter, API Tokens).
+It's very important NOT to check the "privilege separation" option,
+otherwise we would need to reconfigure every privilege for this token.</p>
+<p>Also, there where quite a few quirks in using community.proxmox roles.</p>
+<ul>
+<li>
+<p>If you just give it a storage and a size for rootfs,
+  it should create a volume but it did not work if you run an update</p>
+<ul>
+<li>My first attempt, led me to create the volume first using ZFS,
+  but I had to discover so attributes that proxmox is setting on containers datasets.
+  One way to get them is, using an existing container volume,
+  is to run <code>zfs get all &lt;volume-path&gt;|grep local</code>
+  (as ZFS indicates those properties were locally modified).
+  See below for <a href="#ansible-code-to-create-the-zfs-volume-for-a-container">the corresponding ansible code</a>.</li>
+</ul>
+<ul>
+<li>Finally I realized it was on the "update" phase that I absolutely needed
+  the volume name.
+  Thus I first had to seek for current configuration
+  (I already did that to know if the container was created),
+  also fetching the config.
+  Then I wrote the <code>proxmox_process_disk_volume</code> to make things simple,
+  and conciliate existing data, default data and the target settings.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>To avoid complex ansible processing, I created a filter to process container arguments.
+  See <code>plugins/filter/proxmox.py</code></li>
+</ul>
+<ul>
+<li>I still have a bug because the community.proxmox.proxmox role
+  always says that the container has changed, but I don't know why.
+  I would need to investigate.
+  This lead to a container restart every time we run the recipe,
+  this is quite annoying.</li>
+</ul>
+<ul>
+<li>I had difficulties with the network, because I wanted to use the seconde ethernet card
+  and I though I could just declare a bridge without IP
+  and use the bridge in my container, but of course it did not work
+  (but it took time to realize that).</li>
+</ul>
+<h2 id="asking-for-an-ip-address">Asking for an IP address<a class="headerlink" href="#asking-for-an-ip-address" title="Permanent link">#</a></h2>
+<p>Hetzner servers comes with only one IP address per server.</p>
+<p>But the reverse proxy needs its own private address.</p>
+<p>To get a new IP, I go in server management in robot <code>https://robot.hetzner.com/server</code>,
+on hetzner-02 server, and IPs tab.</p>
+<p>After that, as the IP is not use on the same link as the first,
+it's important to ask for a specific MAC.</p>
+<p>This MAC is to be used in ifnet definition as hwaddr for the container.
+(see <code>ansible/host_vars/hetzner-02/proxmox.yml</code>)</p>
+<h2 id="installation-of-the-reverse-proxy">Installation of the reverse proxy<a class="headerlink" href="#installation-of-the-reverse-proxy" title="Permanent link">#</a></h2>
+<p>Thomas had created a reverese proxy role for the monitoring container
+but this is based upon docker and this makes things a bit complex
+for normal sys admins,
+while different sys admins are interacting with it.</p>
+<p>So I renamed reverse-proxy role to reverse_proxy_docker and created a reverse_proxy_nginx role.</p>
+<p>I also developed the git_based_config_symlinks plugins module to keep things easier
+as we try to understand which links to create / remove in configurations
+(instead of a lot of complicated Jinja2 expressions).</p>
+<h3 id="creating-dns-name">Creating DNS name<a class="headerlink" href="#creating-dns-name" title="Permanent link">#</a></h3>
+<p>For now I didn't automate DNS handling,
+although there seems to exist an <a href="https://github.com/gheesh/ansible-ovh-dns">ansible module for OVH DNS</a></p>
+<p>I created a hetzner-02-proxy.openfoodfacts.org pointing to hetzner-02-proxy IP address.</p>
+<h2 id="annex">Annex<a class="headerlink" href="#annex" title="Permanent link">#</a></h2>
+<h3 id="ansible-code-to-create-the-zfs-volume-for-a-container">Ansible code to create the ZFS volume for a container<a class="headerlink" href="#ansible-code-to-create-the-zfs-volume-for-a-container" title="Permanent link">#</a></h3>
+<p>See above, while using community.proxmox.proxmox roles,
+I had problem if I didn't specify the volume name,
+but if I specify it, it has to be created.
+Finally I solved it differently because it was only needed in update mode.</p>
+<p>But this is the code I used to create the volume:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Compute default rootfs volume name</span>
+<span class="w">  </span><span class="nt">ansible.builtin.set_fact</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">_rootfs_default_volume_name</span><span class="p">:</span><span class="w"> </span><span class="s">"subvol-{{</span><span class="nv"> </span><span class="s">_container.id</span><span class="nv"> </span><span class="s">}}-disk-0"</span>
+
+<span class="l l-Scalar l-Scalar-Plain">needed for next action</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get storage information</span>
+<span class="w">  </span><span class="nt">community.proxmox.proxmox_storage_info</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">api_host</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">proxmox_containers__api_host</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">api_port</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">proxmox_containers__api_port</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">validate_certs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">api_user</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">proxmox_containers__api_user</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">api_token_id</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">proxmox_containers__api_token_id</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">api_token_secret</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">proxmox_containers__api_token_secret</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_container.disk.storage</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default(proxmox_containers__default_disk_storage)</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">  </span><span class="c1"># proxmoxer dependency makes it easier to run on localhost</span>
+<span class="w">  </span><span class="nt">delegate_to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_storage_info</span>
+<span class="w">  </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">"(_container.state</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default('started'))</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">('present',</span><span class="nv"> </span><span class="s">'started')"</span>
+
+<span class="c1"># normally community.proxmox.proxmox would use a special syntax</span>
+<span class="c1"># just specifying the storage and volume size, but it does not work…</span>
+<span class="c1"># so we create the volume manually with zfs</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create the rootfs volume</span>
+<span class="w">  </span><span class="nt">community.general.zfs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_storage_info.proxmox_storages[0].pool</span><span class="nv"> </span><span class="s">}}/{{</span><span class="nv"> </span><span class="s">_container.disk.volume</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">defaultrootfs_default_volume_name)</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+<span class="w">    </span><span class="nt">extra_zfs_properties</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">refquota</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_container.disk.size</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default(proxmox_containers__default_disk_size)</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">trimGg')</span><span class="nv"> </span><span class="s">}}G"</span>
+<span class="w">      </span><span class="c1"># needed by Proxmox</span>
+<span class="w">      </span><span class="c1"># retrieved by running `zfs get all &lt;volume-path&gt;|grep local` on a existing container volume</span>
+<span class="w">      </span><span class="nt">acltype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">posix</span>
+<span class="w">      </span><span class="nt">xattr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sa</span>
+<span class="w">  </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">"(_container.state</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default('started'))</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">('present',</span><span class="nv"> </span><span class="s">'started')"</span>
+
+<span class="w w-Error"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Give rootfs volume to right user</span>
+<span class="w"> </span><span class="nt">ansible.posix.acl</span><span class="p">:</span>
+<span class="w">   </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">"/{{</span><span class="nv"> </span><span class="s">_storage_info.proxmox_storages[0].pool</span><span class="nv"> </span><span class="s">}}/{{</span><span class="nv"> </span><span class="s">_container.disk.volume</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">defaultrootfs_default_volume_name)</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">   </span><span class="nt">entity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100000</span>
+<span class="w">   </span><span class="nt">etype</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="w">   </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span><span class="s">"rwX"</span>
+<span class="w">   </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s">"present"</span>
+<span class="w"> </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"user"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"group"</span><span class="p p-Indicator">]</span>
+
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_container.state</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default('started')</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">replace('started',</span><span class="nv"> </span><span class="s">'present')</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">replace('stopped',</span><span class="nv"> </span><span class="s">'present')</span><span class="nv"> </span><span class="s">}}"</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
