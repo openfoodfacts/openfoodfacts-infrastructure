@@ -20,21 +20,22 @@ They have at small label on them "Open Food Facts"
 On the scaleway bay we have a single switch, directly using the optical fiber.
 
 We own the following range to be shared with OSM France:
-IPv4 : 151.115.132.0/27, gateway 151.115.132.1
-IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48
+
+|      | OFF & OSM            | For OFF                 | Gateway                                  |
+| ---- | -------------------- | ----------------------- | ---------------------------------------- |
+| Ipv4 | `151.115.132.0/27`   | From `.10` to `.19`     | `151.115.132.1`                          |
+| IPv6 | `2001:bc8:c025::/48` | `2001:bc8:c025:10::/64` | `2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f` |
 
 To have an internal network we use a VLAN.
 
 As mentionned in the [Ansible inventory](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/inventory.production.ini), here are the public IPs of the Scaleway bay:
 
-| Machine                 | IPv4             | IPv6                     |
-| ----------------------- | ---------------- | ------------------------ |
-| Scalway-01              | No               | `2001:bc8:c025:11::`     |
-| Scaleway-01-proxy (LXC) | `151.115.132.11` | `2001:bc8:c025:11:100::` |
-| Scaleway-02             | `151.115.132.12` | `2001:bc8:c025:12::`     |
-| Scaleway-03             | `151.115.132.13` | `2001:bc8:c025:13::`     |
-
-We could use another public IP for scaleway-01, but this is not very useful as it is only used for SSH and we don't have much IPs. If required, we can also ditch `151.115.132.12` and `151.115.132.13`.
+| Machine                 | IPv4             | IPv6                  |
+| ----------------------- | ---------------- | --------------------- |
+| Scaleway-01-proxy (LXC) | `151.115.132.10` | `2001:bc8:c025:10::0` |
+| Scaleway-01             | `151.115.132.11` | `2001:bc8:c025:10::1` |
+| Scaleway-02             | `151.115.132.12` | `2001:bc8:c025:10::2` |
+| Scaleway-03             | `151.115.132.13` | `2001:bc8:c025:10::3` |
 
 ## Servers
 
