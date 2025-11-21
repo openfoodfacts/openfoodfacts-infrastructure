@@ -27,4 +27,4 @@ sanoid__create_operators: []
 
 sanoid__create_operators_needs_sync_snap_default: false
 
-sanoid__create_operators_pubkey_path_default: /root/.ssh/id_rsa.pub
+sanoid__create_operators_pubkey_path_default: /root/.ssh/id_ed25519.pub
