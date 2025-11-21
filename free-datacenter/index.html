@@ -4987,9 +4987,31 @@ It's a bay with different Open Source projects' servers.
 They have at small label on them "Open Food Facts"</p>
 <h2 id="network">Network<a class="headerlink" href="#network" title="Permanent link">#</a></h2>
 <p>On the scaleway bay we have a single switch, directly using the optical fiber.</p>
-<p>We own the following range to be shared with OSM France:
-IPv4 : 151.115.132.0/27, gateway 151.115.132.1
-IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48</p>
+<p>We own the following range to be shared with OSM France:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>OFF &amp; OSM</th>
+<th>For OFF</th>
+<th>Gateway</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ipv4</td>
+<td><code>151.115.132.0/27</code></td>
+<td>From <code>.10</code> to <code>.19</code></td>
+<td><code>151.115.132.1</code></td>
+</tr>
+<tr>
+<td>IPv6</td>
+<td><code>2001:bc8:c025::/48</code></td>
+<td><code>2001:bc8:c025:10::/64</code></td>
+<td><code>2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f</code></td>
+</tr>
+</tbody>
+</table>
 <p>To have an internal network we use a VLAN.</p>
 <p>As mentionned in the <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/inventory.production.ini">Ansible inventory</a>, here are the public IPs of the Scaleway bay:</p>
 <table>
@@ -5002,28 +5024,27 @@ IPv6 : 2001:bc8:c025::/48, gateway 2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f/48</p>
 </thead>
 <tbody>
 <tr>
-<td>Scalway-01</td>
-<td>No</td>
-<td><code>2001:bc8:c025:11::</code></td>
+<td>Scaleway-01-proxy (LXC)</td>
+<td><code>151.115.132.10</code></td>
+<td><code>2001:bc8:c025:10::0</code></td>
 </tr>
 <tr>
-<td>Scaleway-01-proxy (LXC)</td>
+<td>Scaleway-01</td>
 <td><code>151.115.132.11</code></td>
-<td><code>2001:bc8:c025:11:100::</code></td>
+<td><code>2001:bc8:c025:10::1</code></td>
 </tr>
 <tr>
 <td>Scaleway-02</td>
 <td><code>151.115.132.12</code></td>
-<td><code>2001:bc8:c025:12::</code></td>
+<td><code>2001:bc8:c025:10::2</code></td>
 </tr>
 <tr>
 <td>Scaleway-03</td>
 <td><code>151.115.132.13</code></td>
-<td><code>2001:bc8:c025:13::</code></td>
+<td><code>2001:bc8:c025:10::3</code></td>
 </tr>
 </tbody>
 </table>
-<p>We could use another public IP for scaleway-01, but this is not very useful as it is only used for SSH and we don't have much IPs. If required, we can also ditch <code>151.115.132.12</code> and <code>151.115.132.13</code>.</p>
 <h2 id="servers">Servers<a class="headerlink" href="#servers" title="Permanent link">#</a></h2>
 <h3 id="scaleway-01-02-03">Scaleway-01 / 02 / 03<a class="headerlink" href="#scaleway-01-02-03" title="Permanent link">#</a></h3>
 <p>Those are servers we acquire in 2025 to go in the new bay provided at Scaleway.</p>
