@@ -21,7 +21,7 @@ We have configured Anubis to run as a reverse proxy in front of the wiki applica
 The Debian package installs a systemd service named `anubis`. To enable and start it, use the following commands:
 
 ```bash
-sudo systemctl enable anubis
+sudo systemctl enable anubis@wiki.service
 sudo systemctl start anubis@wiki.service
 ```
 You can check the status of the service with:
