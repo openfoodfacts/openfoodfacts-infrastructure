@@ -15,8 +15,8 @@ bots:
   # - import: (data)/meta/default-config.yaml
 
   # White list our ips, in particular, the php code of the wiki will issue a request
-  # to get the content of a page for visual editor
-  # Without this, visual editor get anubis as the content of the page !
+  # to get the content of a page for visual editor.
+  # Without this, visual editor get anubis as the content of the page!
   - name: allow-our-ips
     action: WEIGH
     expression:

@@ -14,13 +14,14 @@ The [`wiki.env`](/confs/ovh1-reverse-proxy/anubis/wiki.env) file is containing a
 The [`wiki.botPolicies.yaml`](/confs/ovh1-reverse-proxy/anubis/wiki.botPolicies.yaml) file is containing the bot policies.
 
 We have configured Anubis to run as a reverse proxy in front of the wiki application, and behind nginx reverse proxy. It possible to use it through sockets too.
+
 We started from the default botPolicies of Anubis but tweak it in several ways:
 
 * only keep rules for known bots that give negative weights to legit bots (search engines)
 * give negative weights to user with an authentication cookie
-* give negative weights to ovh1 url,
-  This is needed because the mediawiki visual editor, does a request to the api on the wiki public url to get the content of the page to edit
+* give negative weights to ovh1 url; this is needed because the mediawiki visual editor does a request to the api on the wiki public url, to get the content of the page to edit
 * simplify the final rules and challenge every one but negative weights
+
 
 ## Usage
 
