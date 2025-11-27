@@ -12,7 +12,13 @@ proxmox_node__pve_cluster_name: "pvescaleway"
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 
 # directory mappings
-virtiofs__dir_mappings: []
+virtiofs__dir_mappings:
+  - id: qm-200-virtiofs-docker-volumes
+    map:
+      - node: scaleway-01
+        path: /rpool/virtiofs/qm-200/docker-volumes
+    description: "virtiofs dataset for qm-200 docker volumes"
+
 # FIXME
 # pve_ssl_private_key
 # pve_ssl_certificate

@@ -1,10 +1,28 @@
 ---
 proxmox_node__pve_cluster_addr0: 10.13.0.1
 
-# ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
-proxmox_node__zfs_pools: []
-# ZFS file systems were created manually. We keep them out of Ansible as they might be modified manually.
+proxmox_node__zfs_pools:
+  # some ZFS pools were created manually.
+  # We keep them out of Ansible as they might be modified manually.
+  # -name: rpool
+  # -name: zfs-hdd
+  - name: zfs-nvme
+    properties:
+      ashift: "12"
+    vdev: nvme-eui.000000000000000100a0752249f51d6e-part4 nvme-eui.00000000000000007c35485224e769cf-part4
+    filesystem_properties: "{{ proxmox_node__zfs_pools_filesystem_properties_defaults }}"
+
 proxmox_node__zfs_filesystems: []
+  # some ZFS file systems were created manually.
+  # We keep them out of Ansible as they might be modified manually.
+  # -name: rpool
+  # -name: rpool/ROOT
+  # -name: rpool/ROOT/pve1
+  # -name: rpool/data
+  # -name: zfs-hdd
+  # -name: zfs-hdd/pve
+  # -name: zfs-hdd/backups
+
 proxmox_node__pve_storages:
   - name: zfs-hdd-pve
     type: zfspool
