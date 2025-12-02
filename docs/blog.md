@@ -70,6 +70,9 @@ nano /etc/apache2/conf-available/fpm-generic.conf
 #    SetHandler "proxy:unix:/run/php/php-fpm.sock|fcgi://localhost/"
 #</FilesMatch>
 
+# Plus, if necessary, remove existing <FilesMatch>... </FilesMatch> blocks in other config files
+# See: grep -r 'php7.4-fpm.sock' /etc/apache2/
+
 a2disconf php7.4-fpm
 a2enmod proxy proxy_fcgi setenvif
 a2enconf fpm-generic
