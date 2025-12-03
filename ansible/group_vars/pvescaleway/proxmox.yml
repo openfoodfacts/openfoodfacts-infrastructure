@@ -11,6 +11,43 @@ proxmox_node__pve_cluster_name: "pvescaleway"
 # addr1 is public ip, addr0 is defined per host
 proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 
+# some common proxmox_node__zfs_filesystems to all nodes
+pvescaleway_common_proxmox_node__zfs_filesystems:
+  # Some ZFS file systems were created manually. We keep them out of Ansible as they might be modified manually.
+  # - name: rpool
+  # - name: rpool/ROOT
+  # - name: rpool/ROOT/pve-1
+  # - name: zfs-hdd/pve
+  # - name: zfs-hdd/backups
+  - name: zfs-nvme/pve
+
+
+# storages,
+# we need to declare all of them event if not present on all nodes
+proxmox_node__pve_storages:
+  - name: zfs-hdd-pve
+    type: zfspool
+    pool: zfs-hdd/pve
+    content: rootdir,images
+    mountpoint: /zfs-hdd/pve
+    sparse: 0
+  - name: zfs-nvme-pve
+    type: zfspool
+    pool: zfs-hdd/pve
+    content: rootdir,images
+    mountpoint: /zfs-nvme/pve
+    sparse: 0
+  - name: local
+    type: dir
+    path: /var/lib/vz
+    content: vztmpl,snippets,iso
+    shared: 0
+  # removing installed storage
+  - name: zfs-hdd
+    type: zfspool
+    pool: zfs-hdd
+    state: absent
+
 # directory mappings
 virtiofs__dir_mappings: []
 # FIXME

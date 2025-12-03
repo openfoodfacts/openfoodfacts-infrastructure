@@ -294,3 +294,21 @@ I follow exactly the same procedure as on scaleway-02
 * ```bash
   zpool create zfs-nvme -f -o ashift=12 mirror nvme-eui.00000000000000007c35485224e769e6-part4 nvme-eui.000000000000000100a0752249f51e2a-part4
   ```
+
+# Adding it to ZFS storages
+
+I edited `host_vars/scaleway-02/proxmox.yml`
+to add `zfs-nvme/pve` to `proxmox_node__zfs_filesystems`.
+
+I did the same for `scaleway-01` and `scaleway-03` (but can't apply it to scaleway-01) as it's currently down.
+
+As storage are the same on all nodes,
+I moved `proxmox_node__pve_storages` to `group_vars/pvescaleway/proxmox.yml`,
+and added the `zfs-nvme-pve` storage.
+
+Before running ansible, I dist-upgrade the hosts, to avoid the problem I had with scaleway-01
+
+I run:
+```bash
+ansible-playbook sites/proxmox-node.yml --tags zfs,storage -l scaleway-02,scaleway-03 -e _init_node=scaleway-02
+```

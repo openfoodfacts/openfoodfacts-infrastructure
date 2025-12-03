@@ -3,23 +3,4 @@ proxmox_node__pve_cluster_addr0: 10.13.0.3
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
-# ZFS file systems were created manually. We keep them out of Ansible as they might be modified manually.
-proxmox_node__zfs_filesystems: []
-proxmox_node__pve_storages:
-  - name: zfs-hdd-pve
-    type: zfspool
-    pool: zfs-hdd/pve
-    content: rootdir,images
-    mountpoint: /zfs-hdd/pve
-    sparse: 0
-    # shared: 0 # for some reason, this flag did make the setup crash
-  - name: local
-    type: dir
-    path: /var/lib/vz
-    content: vztmpl,snippets,iso
-    shared: 0
-  # removing installed storage
-  - name: zfs-hdd
-    type: zfspool
-    pool: zfs-hdd
-    state: absent
+proxmox_node__zfs_filesystems: "{{ pvescaleway_common_proxmox_node__zfs_filesystems }}"
