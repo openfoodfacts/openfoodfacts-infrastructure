@@ -33,7 +33,7 @@ proxmox_node__pve_storages:
     sparse: 0
   - name: zfs-nvme-pve
     type: zfspool
-    pool: zfs-hdd/pve
+    pool: zfs-nvme/pve
     content: rootdir,images
     mountpoint: /zfs-nvme/pve
     sparse: 0
