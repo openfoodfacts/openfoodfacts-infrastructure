@@ -5,7 +5,7 @@
 * Open Food Facts wiki is based on [MediaWiki](https://www.mediawiki.org/) wiki engine.
 * It is hosted on a Debian 11 server with Apache2, PHP-FPM (Sury) and MariaDB.
 * It is installed on a LXC container managed by Proxmox VE: CT 141 on ovh1 server.
-* At 2025-11, it runs MediaWiki 1.35.2.
+* In 2025-12, we upgrated MediaWiki 1.35.2 to 1.43.
 
 
 ## Good practices
@@ -41,9 +41,9 @@ These extensions have been manually installed:
 * MobileFrontend: https://www.mediawiki.org/wiki/Extension:MobileFrontend
 * FontAwesome: https://www.mediawiki.org/wiki/Extension:FontAwesome
 * UniversalLanguageSelector: https://www.mediawiki.org/wiki/Extension:UniversalLanguageSelector
-* ExternalData: https://www.mediawiki.org/wiki/Extension:ExternalData
 * Matomo: https://www.mediawiki.org/wiki/Extension:Matomo
   * There is 5.0 version but 4.0 is working fine without issues.
+* ExternalData: https://www.mediawiki.org/wiki/Extension:ExternalData
 
 These extensions are currently tested:
 
@@ -54,21 +54,33 @@ Other extensions that could be useful in the future:
 
 * SlackNotifications: https://www.mediawiki.org/wiki/Extension:SlackNotifications ; we were using it in the past but "This extension is incompatible with MediaWiki 1.39 or any later release!"
 
+
+
 ## Staging
 
 We put a basic authentication on the staging wiki to avoid being indexed by search engines and accessed by unauthorized users. It can leads to issues with VisualEditor and REST API if not properly configured.
 
-## 2025-11 upgrade notes
+
+
+## 2025-12 upgrade notes
 
 * MediaWiki 1.35.2 is used in production.
 * [MediaWiki 1.43](https://www.mediawiki.org/wiki/MediaWiki_1.43) is the latest LTS version ([supported until December 2027](https://www.mediawiki.org/wiki/Version_lifecycle#Versions_and_their_end-of-life)).
   * We choose not to upgrade to 1.44 because it is not LTS, and only maintained through June 2026.
-* PHP 8.2.x and 8.3.x are also supported by MediaWiki 1.43. PHP 8.4.x is not.
+* PHP 8.2.x and 8.3.x are also supported by MediaWiki 1.43. **PHP 8.4.x is not**.
 
 ```bash
+# Install PHP from Sury repository to get multiple PHP versions
+apt install extrepo
+extrepo enable sury # we use https://deb.sury.org/ repository to get multiple PHP versions
+apt update
+apt install php7.4-{cli,common,curl,fpm,gd,imagick,imap,intl,json,mbstring,mysql,opcache,readline,xml,zip}
+systemctl enable php7.4-fpm # Otherwise current website will lead to 500
+update-alternatives --install /usr/sbin/php-fpm php-fpm /usr/lib/php/7.4/sapi/fpm 74
+
+
 # Install PHP 8.3 from Sury repository
-apt install php8.3-{cli,common,curl,fpm,gd,imagick,imap,intl,mbstring,mysql,opcache,readline,xml,zip}
-systemctl disable php7.4-fpm
+apt install php8.3-{cli,common,curl,fpm,gd,imagick,imap,intl,json,mbstring,mysql,opcache,readline,xml,zip}
 systemctl enable php8.3-fpm
 systemctl start php8.3-fpm
 update-alternatives --install /usr/sbin/php-fpm php-fpm /usr/lib/php/8.3/sapi/fpm 83
@@ -79,14 +91,22 @@ php -v # verify
 
 # Modify Apache configuration to use PHP 8.3 FPM
 a2disconf php7.4-fpm
-a2disconf php8.4-fpm
+systemctl stop php7.4-fpm
+systemctl disable php7.4-fpm # stop at next reboot
+
 a2enconf php8.3-fpm
 systemctl restart apache2
 
 # Fix conf file
-mv /etc/apache2/sites-available/off-wiki.rn7.net.conf /etc/apache2/sites-available/wiki.openfoodfacts.org.conf
+cp /etc/apache2/sites-available/off-wiki.rn7.net.conf /etc/apache2/sites-available/wiki.openfoodfacts.org.conf
 ln -s /etc/apache2/sites-available/wiki.openfoodfacts.org.conf /etc/apache2/sites-enabled/wiki.openfoodfacts.org.conf
 rm /etc/apache2/sites-enabled/off-wiki.rn7.net.conf
+systemctl restart apache2
+
+nano /etc/apache2/sites-available/wiki.openfoodfacts.org.conf
+# Ensure the PHP-FPM socket path is correct for PHP 8.3:
+#    SetHandler "proxy:unix:/run/php/php8.3-fpm.sock|fcgi://localhost/" 
+systemctl restart apache2
 
 
 # Modify ./LocalSettings.php if necessary to adjust any deprecated settings
@@ -96,7 +116,7 @@ rm /etc/apache2/sites-enabled/off-wiki.rn7.net.conf
 
 # Backup existing wiki
 mkdir -p /var/www/wiki.openfoodfacts.org2/
-chown www-data:www-data /var/www/wiki.openfoodfacts.org2/
+chown -R www-data:www-data /var/www/wiki.openfoodfacts.org2/
 cp -r /var/www/wiki.openfoodfacts.org/* /var/www/wiki.openfoodfacts.org2/
 
 # Install MediaWiki 1.43.5
@@ -105,8 +125,6 @@ wget https://releases.wikimedia.org/mediawiki/1.43/mediawiki-1.43.5.tar.gz
 tar -xzf mediawiki-1.43.5.tar.gz --strip-components=1
 
 # Run update script
-php maintenance/update.php
-
 apt install composer
 runuser -u www-data -- composer update --no-dev
 runuser -u www-data -- php maintenance/run.php update.php
@@ -115,39 +133,13 @@ runuser -u www-data -- php maintenance/run.php update.php
 chown -R www-data:www-data /var/www/wiki.openfoodfacts.org
 chmod -R 755 /var/www/wiki.openfoodfacts.org/cache
 
-# Enable REST API routing (if rest.php returns 404)
-# The requests go through nginx reverse proxy with HTTP Basic Auth
-# Browser JavaScript cannot send Basic Auth credentials automatically
+```
 
-# Fix: Allow REST API endpoints without authentication in nginx config
-# Edit the nginx configuration on ovh1-reverse-proxy server
-# Location: /etc/nginx/sites-available/wiki.openfoodfacts.org
 
-# Add this location block before the main location block that requires auth:
-# location ~ ^/rest\.php {
-#     # No auth_basic here - allow public access to REST API
-#     proxy_pass http://backend_wiki;
-#     proxy_set_header Host $host;
-#     proxy_set_header X-Real-IP $remote_addr;
-#     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#     proxy_set_header X-Forwarded-Proto $scheme;
-# }
 
-# Similarly for api.php if needed:
-# location ~ ^/api\.php {
-#     proxy_pass http://backend_wiki;
-#     # ... same headers
-# }
+### Updating some extensions
 
-# After editing nginx config:
-# nginx -t
-# systemctl reload nginx
-
-# Test REST API without authentication:
-curl "https://test-wiki.openfoodfacts.org/rest.php/v1/search/title?q=Recent&limit=10"
-
-# The search-as-you-type should now work in the browser
-
+```bash
 # Update some extensions
 wget https://extdist.wmflabs.org/dist/extensions/MobileFrontend-REL1_43-148ff5d.tar.gz
 rm -rf ./extensions/MobileFrontend
@@ -160,8 +152,17 @@ tar -xzf UniversalLanguageSelector-REL1_43-88a9491.tar.gz -C extensions/
 rm ./UniversalLanguageSelector-REL1_43-88a9491.tar.gz
 ```
 
+
+
+### Visual Editor issue
+
+If the interface only shows the wikitext editor instead of the Visual Editor, even after enabling the VisualEditor extension, it can be because you're browsing the wiki in "mobile mode". To fix this, switch to the desktop mode by clicking on the "Desktop site" link at the bottom of the page. VisualEditor is not supported in mobile mode.
+
+
+
 ### Code change for wiki look and feel
 
+#### Vector-2022 skin usage
 ```php
 // Vector-2022 should be used instead of Vector. In LocalSettings.php:
 $wgDefaultSkin = "vector-2022";
@@ -172,39 +173,61 @@ $wgVectorNightMode['logged_out'] = true;
 $wgVectorNightMode['logged_in'] = true;
 $wgDefaultUserOptions['vector-theme'] = 'os';
 
+```
 
+
+#### Logo configuration
+
+With the Vector-2022 skin, the logo configuration has changed. Instead of using the old `$wgLogo` variable, we now use the `$wgLogos` array to define multiple logo versions for different uses.
+
+Vertical logo (icon) is not suited anymore, we have changed to an horizontal logo for better appearance in the header: https://wiki.openfoodfacts.org/File:CMJN_HORIZONTAL_WHITE_BG_OFF.svg
+
+```php
+// In LocalSettings.php
 ## Set the site logo(s) using the modern $wgLogos array
 $wgLogos = [
     // 1. The 'icon' key is REQUIRED for the Vector-2022 skin (upper-left, 50x50px)
-    'icon' => "$wgScriptPath/images/f/ff/Logo-135x135b.png",
+    'icon' => "$wgScriptPath/images/6/65/CMJN_HORIZONTAL_WHITE_BG_OFF.svg",
     
     // 2. '1x' and '2x' keys are for backwards compatibility with older skins (e.g., 135x135px)
     '1x' => "$wgScriptPath/images/f/ff/Logo-135x135b.png",
-    '2x' => "$wgScriptPath/images/openfoodfacts-logo-270x270.png",
+    //'2x' => "$wgScriptPath/images/openfoodfacts-logo-270x270.png",
     
     // Optional: Include a wordmark if you want text next to the icon in the header (Vector-2022)
-    'wordmark' => [ 
-        'src' => "$wgScriptPath/images/openfoodfacts-wordmark.svg", 
+    //'wordmark' => [ 
+        //'src' => "$wgScriptPath/images/openfoodfacts-wordmark.svg", 
         // Define max width/height for the wordmark if necessary
         // 'width' => 124, 
         // 'height' => 32 
-    ],
+    //],
 ];
-
 
 ```
 
-Modify Vector-2022 CSS if needed:
+We also have modified the [CSS related to Vector](https://test-wiki.openfoodfacts.org/MediaWiki:Vector-2022.css) to hide the wordmark text and adapt the logo size:
 
 ```css
-/* Open https://test-wiki.openfoodfacts.org/MediaWiki:Vector-2022.css */
+/* https://test-wiki.openfoodfacts.org/MediaWiki:Vector-2022.css */
 
 /* Hide the site name/wordmark text in the header for Vector-2022 skin */
 .mw-logo-wordmark {
     display: none !important;
 }
 
+/* Logo size */
+.mw-logo-icon {
+    width: 220px; 
+    height: 80px;
+}
+
+.vector-header {
+    padding-top: 0;
+    padding-bottom:0;
+}
+
 ```
+
+
 
 ### Font awesome extension usage
 
@@ -219,7 +242,12 @@ Verify it's working:
 * https://wiki.openfoodfacts.org/Wiki_Icons
 
 
+
 ### Code changes for custom extensions
+
+```bash
+nano /var/www/wiki.openfoodfacts.org/extensions/AuthProductOpener/AuthProductOpener.body.php
+```
 
 ```php
 /**
@@ -228,7 +256,7 @@ Verify it's working:
  *
  * Update custom extensions to use HttpRequestFactory
  * Example in AuthProductOpener or other custom extensions:
- * OLD: Http::get($url)
+ * OLD: Http::post
  * NEW:
  */
 use MediaWiki\MediaWikiServices;
@@ -278,3 +306,26 @@ $user = RequestContext::getMain()->getUser();
 //wfLoadExtension( 'UniversalLanguageSelector' );
 
 ```
+
+
+### Enabling REST API routing
+
+This is still an  issue to be addressed, as search-as-you-type is not working.
+
+
+
+### Dark mode
+
+There are several things to be addressed for better dark mode support.
+
+The wiki's logo should have a specific version for dark mode (light version for dark background).
+
+
+
+### Login
+
+The old login system using Open Food Facts's cookies need to be changed.
+
+See @hangy's proposal to use Keycloack: https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/543
+
+
