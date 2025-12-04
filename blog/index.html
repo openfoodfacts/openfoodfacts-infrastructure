@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../how-to-resync-zfs-replication/">
+        <link rel="prev" href="../anubis/">
       
       
-        <link rel="next" href="../logs-off1/">
+        <link rel="next" href="../cicd/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -17,7 +17,7 @@
     
     
       
-        <title>Linux server - Open Food Facts Infrastructure documentation</title>
+        <title>Blog - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#linux-server" class="md-skip">
+        <a href="#key-points" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Linux server
+              Blog
             
           </span>
         </div>
@@ -300,10 +300,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../blog/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -314,6 +334,69 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key points
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical administration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staging-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Staging environment
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -740,32 +823,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Linux server
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../linux-server/" class="md-nav__link">
         
   
   
@@ -776,80 +837,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#etckeeper" class="md-nav__link">
-    <span class="md-ellipsis">
-      Etckeeper
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#email" class="md-nav__link">
-    <span class="md-ellipsis">
-      Email
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#iptables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Iptables
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#root-bashrc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Root .bashrc
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-color-in-shell" class="md-nav__link">
-    <span class="md-ellipsis">
-      No color in shell
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-autocompletion-for-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      No autocompletion for commands
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4702,8 +4689,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -4712,54 +4697,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#etckeeper" class="md-nav__link">
+  <a href="#key-points" class="md-nav__link">
     <span class="md-ellipsis">
-      Etckeeper
+      Key points
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#email" class="md-nav__link">
+  <a href="#good-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Email
+      Good practices
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#iptables" class="md-nav__link">
+  <a href="#technical-administration" class="md-nav__link">
     <span class="md-ellipsis">
-      Iptables
+      Technical administration
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#root-bashrc" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Root .bashrc
+      Installation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#no-color-in-shell" class="md-nav__link">
+  <a href="#staging-environment" class="md-nav__link">
     <span class="md-ellipsis">
-      No color in shell
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-autocompletion-for-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      No autocompletion for commands
+      Staging environment
     </span>
   </a>
   
@@ -4781,7 +4757,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/linux-server.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/blog.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -4789,45 +4765,107 @@
   
 
 
-<h1 id="linux-server">Linux server<a class="headerlink" href="#linux-server" title="Permanent link">#</a></h1>
-<p>Here are some guidelines for linux servers.</p>
-<p><strong>FIXME:</strong> this doc is not up-to-date and must be reviewed.</p>
-<p>Note that we have some servers (which are bare metal installs.
-While others are <a href="../proxmox/">proxmox hosts</a>.
-On proxmox some VM are lxc containers, while other are QEMU VM.</p>
-<p>Every server is referenced in 
-<a href="https://docs.google.com/document/d/14x5yPdcJ8uLoc5zb0HYjb_EYUIWZzOlaPWYyLSuIcTw/edit?resourcekey=0-h0h9ksbTUBykEDuBkXH4fg#">CT and VM list of OFF infrastructure</a></p>
-<h2 id="etckeeper">Etckeeper<a class="headerlink" href="#etckeeper" title="Permanent link">#</a></h2>
-<p>We use <code>etckeeper</code> with <code>git</code> backend on as much server as possible.</p>
-<p>See https://etckeeper.branchable.com/README/</p>
-<p>So whenever you make a change to <code>/etc</code>.
-When possible before making your change, 
-as root, do a <code>git status</code> and then <code>etckeeper commit "save before changes"</code>.
-And after, do a <code>etckeeper commit "&lt;a descriptive message&gt;"</code> afterwards.</p>
-<h2 id="email">Email<a class="headerlink" href="#email" title="Permanent link">#</a></h2>
-<p>We use either postfix or exim as a satellite of a smart_host.</p>
-<p>Every outgoing mail must pass through the proxmox mail gateway,
-which is registered in spf record and adds DKIM signature.</p>
-<p>For configuration, see <a href="../mail/#servers">mail - Servers</a></p>
-<h2 id="iptables">Iptables<a class="headerlink" href="#iptables" title="Permanent link">#</a></h2>
-<p>We use iptables on a lot of servers (generally host servers).</p>
-<p>We use iptables-persistent to save rules, and restore them at startup.</p>
-<p>On ovh servers, rules are in <code>/etc/iptables/rule.v{4,6}</code>
-On off1, rules are in <code>/etc/iptables.up.rules</code></p>
-<p>Remember, that docker as it's own chains that are not affected by <code>INPUT</code> and <code>OUTPUT</code> rules.
-So it won't block a port exposed by docker. Use <code>DOCKER-USER</code> chain for that.
-see https://docs.docker.com/network/iptables/</p>
-<h2 id="root-bashrc">Root .bashrc<a class="headerlink" href="#root-bashrc" title="Permanent link">#</a></h2>
-<p>Most of the time root is created before auto completion package and so on are installed.
-If your shell is not full featured as you are root, you might have to copy <code>/etc/skel/.bashrc</code> to <code>/root</code></p>
-<h2 id="no-color-in-shell">No color in shell<a class="headerlink" href="#no-color-in-shell" title="Permanent link">#</a></h2>
-<p>Check your TERM variable: <code>echo $TERM</code>, it should be <code>xterm-256color</code> or <code>linux</code></p>
-<p>Check .bashrc is the right one <code>diff $HOME/.bashrc /etc/skel/.bashrc</code>
-if not copy the one from <code>/etc/skel/.bashrc</code></p>
-<h2 id="no-autocompletion-for-commands">No autocompletion for commands<a class="headerlink" href="#no-autocompletion-for-commands" title="Permanent link">#</a></h2>
-<p>Check <code>bash-completion</code> is installed: <code>dpkg --verify bash-completion &amp;&amp; echo ok</code></p>
-<p>Check .bashrc is the right one <code>diff $HOME/.bashrc /etc/skel/.bashrc</code>
-if not copy the one from <code>/etc/skel/.bashrc</code></p>
+  <h1>Blog</h1>
+
+<h2 id="key-points">Key points<a class="headerlink" href="#key-points" title="Permanent link">#</a></h2>
+<p>Open Food Facts blog is based on <a href="https://wordpress.org/">WordPress</a> CMS.</p>
+<p>It is hosted on a Debian 11 server with Apache2, PHP-FPM and MariaDB.</p>
+<p>It is installed on a LXC container managed by Proxmox VE: CT 140 on ovh1 server.</p>
+<h2 id="good-practices">Good practices<a class="headerlink" href="#good-practices" title="Permanent link">#</a></h2>
+<ul>
+<li>We don't install too much plugins, to avoid security issues and performance problems.</li>
+<li>Every new plugin should be discussed with the team before installation.</li>
+<li>We use a staging environment to test updates before applying them on production.</li>
+</ul>
+<h2 id="technical-administration">Technical administration<a class="headerlink" href="#technical-administration" title="Permanent link">#</a></h2>
+<p>Wordpress is auto-updated thanks to internal Wordpress update system.</p>
+<p>Fail2ban is installed on the reverse proxy to protect against brute-force attacks.</p>
+<p>One a year, we should have a look at the latest PHP versions and consider upgrading if relevant, see: https://www.php.net/supported-versions.php</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># From a fresh Debian 11 installation</span>
+apt<span class="w"> </span>update
+apt<span class="w"> </span>upgrade
+apt<span class="w"> </span>install<span class="w"> </span>sqlite3<span class="w"> </span>htop<span class="w"> </span>iftop<span class="w"> </span>recode<span class="w"> </span>screen<span class="w"> </span>git<span class="w"> </span>wget<span class="w"> </span>curl<span class="w"> </span>lynx<span class="w"> </span>sudo
+apt<span class="w"> </span>install<span class="w"> </span>apache2<span class="w"> </span>libapache2-mod-fcgid
+apt<span class="w"> </span>install<span class="w"> </span>php-<span class="o">{</span>fpm,cli,curl,gd,imagick,imap,json,mbstring,mysql,xml,zip<span class="o">}</span><span class="w"> </span>mariadb-server
+a2enconf<span class="w"> </span>php7.4-fpm
+a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+a2enmod<span class="w"> </span>deflate<span class="w"> </span><span class="c1"># allow gzip compression</span>
+a2enmod<span class="w"> </span>rewrite<span class="w"> </span><span class="c1"># activate mod_rewrite module (needed by many CMS (wordpress, mediawiki...))</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+systemctl<span class="w"> </span>status<span class="w"> </span>mariadb
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>mariadb
+mysql_secure_installation
+
+<span class="c1"># Modify php.ini:</span>
+<span class="c1"># upload_max_filesize = 50M</span>
+
+systemctl<span class="w"> </span>restart<span class="w"> </span>php7.4-fpm.service
+
+dpkg-reconfigure<span class="w"> </span>locales<span class="w"> </span><span class="c1"># choose en_US.UTF-8</span>
+</code></pre></div>
+<p>Installation of Sury repository to get multiple PHP versions and switch between them (2025-11):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install PHP from Sury repository to get multiple PHP versions</span>
+apt<span class="w"> </span>install<span class="w"> </span>extrepo
+extrepo<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>sury<span class="w"> </span><span class="c1"># we use https://deb.sury.org/ repository to get multiple PHP versions</span>
+apt<span class="w"> </span>update
+
+apt<span class="w"> </span>install<span class="w"> </span>php7.4-<span class="o">{</span>cli,common,curl,fpm,gd,imagick,imap,intl,json,mbstring,mysql,opcache,readline,xml,zip<span class="o">}</span>
+apt<span class="w"> </span>install<span class="w"> </span>php8.4-<span class="o">{</span>cli,common,curl,fpm,gd,imagick,imap,intl,mbstring,mysql,opcache,readline,xml,zip<span class="o">}</span>
+
+<span class="c1"># Setup generic php-fpm to allow switching between versions</span>
+nano<span class="w"> </span>/etc/apache2/conf-available/fpm-generic.conf
+<span class="c1">#&lt;FilesMatch \.php$&gt;</span>
+<span class="c1">#    SetHandler "proxy:unix:/run/php/php-fpm.sock|fcgi://localhost/"</span>
+<span class="c1">#&lt;/FilesMatch&gt;</span>
+
+<span class="c1"># Plus, if necessary, remove existing &lt;FilesMatch&gt;... &lt;/FilesMatch&gt; blocks in other config files</span>
+<span class="c1"># See: grep -r 'php7.4-fpm.sock' /etc/apache2/</span>
+
+a2disconf<span class="w"> </span>php7.4-fpm
+a2enmod<span class="w"> </span>proxy<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+a2enconf<span class="w"> </span>fpm-generic
+systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+
+update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/sbin/php-fpm<span class="w"> </span>php-fpm<span class="w"> </span>/usr/lib/php/7.4/sapi/fpm<span class="w"> </span><span class="m">74</span>
+update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/sbin/php-fpm<span class="w"> </span>php-fpm<span class="w"> </span>/usr/lib/php/8.4/sapi/fpm<span class="w"> </span><span class="m">84</span>
+
+<span class="c1"># To switch between PHP versions:</span>
+update-alternatives<span class="w"> </span>--set<span class="w"> </span>php-fpm<span class="w"> </span>/usr/lib/php/8.4/sapi/fpm
+update-alternatives<span class="w"> </span>--set<span class="w"> </span>php<span class="w"> </span>/usr/bin/php8.4
+systemctl<span class="w"> </span>restart<span class="w"> </span>php8.4-fpm
+systemctl<span class="w"> </span>stop<span class="w"> </span>php7.4-fpm
+
+<span class="c1"># Get back to PHP 7.4</span>
+update-alternatives<span class="w"> </span>--set<span class="w"> </span>php-fpm<span class="w"> </span>/usr/lib/php/7.4/sapi/fpm
+update-alternatives<span class="w"> </span>--set<span class="w"> </span>php<span class="w"> </span>/usr/bin/php7.4
+systemctl<span class="w"> </span>restart<span class="w"> </span>php7.4-fpm
+systemctl<span class="w"> </span>stop<span class="w"> </span>php8.4-fpm
+
+<span class="c1"># or</span>
+update-alternatives<span class="w"> </span>--config<span class="w"> </span>php-fpm
+update-alternatives<span class="w"> </span>--config<span class="w"> </span>php
+
+<span class="c1"># Verify</span>
+php<span class="w"> </span>-v
+</code></pre></div>
+<h2 id="staging-environment">Staging environment<a class="headerlink" href="#staging-environment" title="Permanent link">#</a></h2>
+<p>All tests will be made on a staging machine based on proxmox cloning:
+</p><div class="highlight"><pre><span></span><code><span class="c1"># create a "temp" named snapshot of CT with ID 140 (production): don't forget</span>
+<span class="c1"># to give it a unique name (e.g. with date)</span>
+pct<span class="w"> </span>snapshot<span class="w"> </span><span class="m">140</span><span class="w"> </span>temp_20251125
+pct<span class="w"> </span>shutdown<span class="w"> </span><span class="m">141</span><span class="w"> </span><span class="c1"># shutdown 141 machine</span>
+pct<span class="w"> </span>destroy<span class="w"> </span><span class="m">141</span><span class="w"> </span><span class="c1"># delete target machine</span>
+pct<span class="w"> </span>clone<span class="w"> </span><span class="m">140</span><span class="w"> </span><span class="m">141</span><span class="w"> </span>--hostname<span class="w"> </span>wp-staging<span class="w"> </span>--snapname<span class="w"> </span>temp_20251125<span class="w"> </span><span class="c1"># take the snapshot and create a new CT (141) named wp-staging</span>
+pct<span class="w"> </span>delsnapshot<span class="w"> </span><span class="m">140</span><span class="w"> </span>temp_20251125<span class="w"> </span><span class="c1"># del production snapshot</span>
+<span class="c1"># New CT configuration</span>
+pct<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">141</span><span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">1024</span><span class="w"> </span>--net0<span class="w"> </span><span class="nv">name</span><span class="o">=</span>eth0,bridge<span class="o">=</span>vmbr0,gw<span class="o">=</span><span class="m">10</span>.0.0.1,ip<span class="o">=</span><span class="m">10</span>.1.0.141/24
+pct<span class="w"> </span>start<span class="w"> </span><span class="m">141</span>
+
+lxc-attach<span class="w"> </span>-n<span class="w"> </span><span class="m">141</span><span class="w"> </span>--<span class="w"> </span>sudo<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>www-data<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"wp option update home 'https://test-blog.openfoodfacts.org' --path=/var/www/html"</span>
+lxc-attach<span class="w"> </span>-n<span class="w"> </span><span class="m">141</span><span class="w"> </span>--<span class="w"> </span>sudo<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>www-data<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"wp option update siteurl 'https://test-blog.openfoodfacts.org' --path=/var/www/html"</span>
+</code></pre></div><p></p>
 
 
 
