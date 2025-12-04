@@ -61,33 +61,57 @@ I tweak configuration to:
 - change cloudinit to:
   - user: config-op
   - password: *****
-  - ssh public keys: I took the content of /root/.ssh/authorized_keys on hetzner-02
+  - ssh public keys: I took part of the content of /root/.ssh/authorized_keys on scaleway-02
   - IPConfig: IP: 10.13.1.200/16 and Gateway: 10.13.0.2
 
 In ansible/ folder I:
 - add the VM to the inventory.
   ```
-  hetzner-02-docker-staging ansible_ssh_host=10.12.1.201 proxmox_node="hetzner-02"
+  scaleway-docker-prod proxmox_vm_id=200 proxmox_node="scaleway-02"
   ```
-- create `host_vars/hetzner-02-docker-staging/hetzner-02-docker-staging-secrets.yml`
+  and add it to the `scaleway_vms` group
+- create `host_vars/scaleway-docker-prod/scaleway-docker-prod-secrets.yml`
   and add the `ansible_become_password` inside (using the same password as in cloudinit)
 
 I will run the jobs/configure recipe after having configure virtio-fs.
 
+### Configuring virtio-fs
+
+I configure virtio-fs using ansible.
+
+At the moment, keycloak does not have any docker volume (it's only using the distant postgres).
+
+Nonetheless, I will add docker volumes virtiofs
+mapping on zfs-hdd for now.
+
+I edited `proxmox_node__zfs_filesystems` in `host_vars/scaleway-02/proxmox.yml` to add `zfs-hdd/virtiofs/qm-200/docker-volumes` and its parents, adding posix acl type to `zfs-hdd/virtiofs`.
+
+And edited `virtiofs__dir_mappings` in `group_vars/pvescaleway/proxmox.yml` to add the virtiofs mapping.
+
+I can then run:
+
+```bash
+ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags zfs,virtiofs
+```
+
+### Adding virtiofs volume to our VM
+
+I edited manually the VM to add the VIRTIOFS device:
+- in hardware, add virtiofs
+- directory id: qm-200-virtiofs-docker-volumes
+- enable posix acl
+- do not enable direct IO (would slow it down)
+
+The corresponding string is: `qm-200-virtiofs-docker-volumes,expose-acl=1`
 
 
-I will create a VM on scaleway-02 to use docker.
 
+## Setting up stunnel to connect to Postgres on off2
 
+We will need to connect to postgres currently on off2 in a secure way.
 
-I will use ansible recipe for that.
+To make things easy we will use stunnel.
 
-I will create a VM 200 and name it scaleway-docker-prod
-
-- I added the server to inventory, in scaleway_vms group
-- I added the scaleway-docker-prod-secrets in it's host vars to define the become password
-FIXME: to be continued !
-
-## Using stunnel to connect to Postgres on off2
-
-FIXME
+[TODO]
+I had to first create a container for stunnel,
+I did it by using 

@@ -1,0 +1,2 @@
+---
+docker__volumes_virtiofs: "qm-{{ proxmox_vm_id }}-virtiofs-docker-volumes"

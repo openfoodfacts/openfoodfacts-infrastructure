@@ -15,8 +15,8 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 virtiofs__dir_mappings:
   - id: qm-200-virtiofs-docker-volumes
     map:
-      - node: scaleway-01
-        path: /rpool/virtiofs/qm-200/docker-volumes
+      - node: scaleway-02
+        path: /zfs-hdd/virtiofs/qm-200/docker-volumes
     description: "virtiofs dataset for qm-200 docker volumes"
 
 # FIXME
