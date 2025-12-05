@@ -5260,7 +5260,33 @@ rm<span class="w"> </span>./UniversalLanguageSelector-REL1_43-88a9491.tar.gz
 <span class="x">//wfLoadExtension( 'UniversalLanguageSelector' );</span>
 </code></pre></div>
 <h3 id="enabling-rest-api-routing">Enabling REST API routing<a class="headerlink" href="#enabling-rest-api-routing" title="Permanent link">#</a></h3>
-<p>This is still an  issue to be addressed, as search-as-you-type is not working.</p>
+<p>The REST API is required for search-as-you-type functionality. The API needs proper URL rewriting to work correctly.</p>
+<p>The <code>.htaccess</code> file should have REST API rewrite rules. Verify it exists and contains this line at the beginning of the file (right after <code>RewriteEngine On</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">RewriteRule</span><span class="w"> </span>^/?rest\.php(/.*)?$<span class="w"> </span>%{DOCUMENT_ROOT}/rest.php<span class="w"> </span>[L]
+</code></pre></div>
+<p><strong>Also add Anubis rule on reverse proxy:</strong></p>
+<p>Edit the Anubis bot policies:
+</p><div class="highlight"><pre><span></span><code>nano<span class="w"> </span>/etc/anubis/wiki.botPolicies.yaml
+</code></pre></div><p></p>
+<p>Add this rule <strong>at the beginning of the bots section</strong> (before other rules):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">bots</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Allow REST API and standard API endpoints for search-as-you-type and other functionality</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-api-endpoints</span>
+<span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WEIGH</span>
+<span class="w">    </span><span class="nt">expression</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">any</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'path.startsWith("/rest.php")'</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'path.startsWith("/api.php")'</span>
+<span class="w">    </span><span class="nt">weight</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">adjust</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-100</span>
+</code></pre></div>
+<p>After updating the configuration, commit and deploy changes to ovh1-reverse-proxy, then reload Anubis.</p>
+<p><strong>Test the REST API:</strong>
+</p><div class="highlight"><pre><span></span><code><span class="c1"># Should return JSON with search results, not HTML</span>
+curl<span class="w"> </span><span class="s2">"https://wiki.openfoodfacts.org/rest.php/v1/search/title?q=Recent&amp;limit=10"</span>
+</code></pre></div><p></p>
+<p>Once working, search-as-you-type should function in the browser.</p>
 <h3 id="dark-mode">Dark mode<a class="headerlink" href="#dark-mode" title="Permanent link">#</a></h3>
 <p>There are several things to be addressed for better dark mode support.</p>
 <p>The wiki's logo should have a specific version for dark mode (light version for dark background).</p>
