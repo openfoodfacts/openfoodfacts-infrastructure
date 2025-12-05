@@ -13,10 +13,10 @@
 bots:
   # You can import the entire default config with this macro:
   # - import: (data)/meta/default-config.yaml
-
+ 
   # White list our ips, in particular, the php code of the wiki will issue a request
-  # to get the content of a page for visual editor.
-  # Without this, visual editor get anubis as the content of the page!
+  # to get the content of a page for visual editor
+  # Without this, visual editor get anubis as the content of the page !
   - name: allow-our-ips
     action: WEIGH
     expression:
@@ -31,8 +31,18 @@ bots:
     expression:
       all:
       - '"Cookie" in headers'
-      - 'headers["Cookie"].contains("user_id&")'
-      - 'headers["Cookie"].contains("user_session&")'
+      - 'headers["Cookie"].contains("user_id&")' 
+      - 'headers["Cookie"].contains("user_session&")' 
+    weight:
+      adjust: -100
+
+  # Allow REST API and standard API endpoints for search-as-you-type and other functionality
+  - name: allow-api-endpoints
+    action: WEIGH
+    expression:
+      any:
+        - 'path.startsWith("/rest.php")'
+        - 'path.startsWith("/api.php")'
     weight:
       adjust: -100
 
@@ -101,6 +111,7 @@ bots:
   #      - 45102 # Alibaba Cloud
   #  weight:
   #    adjust: 10
+
 
   # ## System load based checks.
   # # If the system is under high load, add weight.
@@ -210,7 +221,6 @@ dnsbl: false
 
 # Open Graph passthrough configuration, see here for more information:
 # https://anubis.techaro.lol/docs/admin/configuration/open-graph/
-
 openGraph:
   # Enables Open Graph passthrough
   enabled: false
@@ -282,3 +292,4 @@ widget:
   enabled: true
   inject: true
   position: "bottom-right"
+
