@@ -368,3 +368,12 @@ The old login system using Open Food Facts's cookies need to be changed.
 See @hangy's proposal to use Keycloack: https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/543
 
 
+### OpenID Connect Auth
+
+```bash
+# Download and extract OpenIDConnect extension
+curl -fsSL https://extdist.wmflabs.org/dist/extensions/OpenIDConnect-REL1_43-9b74c08.tar.gz -o /tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz && tar -xzf /tmp/OpenIDCon
+nect-REL1_43-9b74c08.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm /tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz
+# Download and extract PluggableAuth extension
+curl -fsSL https://extdist.wmflabs.org/dist/extensions/PluggableAuth-REL1_43-64604a4.tar.gz -o /tmp/PluggableAuth-REL1_43-64604a4.tar.gz && tar -xzf /tmp/PluggableAuth-REL1_43-64604a4.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm /tmp/PluggableAuth-REL1_43-64604a4.tar.gz
+```
