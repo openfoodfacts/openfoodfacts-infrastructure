@@ -1,6 +1,10 @@
 ---
-# Destination of the PSK file on the server, must be defined by the user
-stunnel__psk_dst: ""
+# PSK files definition
+stunnel__psk_secrets: []
+# - file: postgres.psk
+#    content: |
+#      scaleway-02: auentuaienrst
 
-# Content of the PSK file, must be defined by the user
-stunnel__psk_content: ""
+# git repostory with system config
+# This is mandatory
+stunnel__config_repository_path: null

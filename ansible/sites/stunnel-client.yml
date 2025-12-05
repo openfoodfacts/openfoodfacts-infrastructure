@@ -1,0 +1,9 @@
+# A stunnel client is a stunnel that MUST NOT be exposed publicly
+# It connects to a counter part stunnel server
+---
+- name: Stunnel client
+  hosts: stunnel_clients
+  gather_facts: true
+  become: true
+  roles:
+    - stunnel

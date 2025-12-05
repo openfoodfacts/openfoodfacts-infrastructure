@@ -112,6 +112,53 @@ We will need to connect to postgres currently on off2 in a secure way.
 
 To make things easy we will use stunnel.
 
-[TODO]
-I had to first create a container for stunnel,
-I did it by using 
+### Configuring stunnel server side on off2 proxy
+
+I changed config of off2 proxy to add an entry for postgres:
+```ini
+[OffPostgres]
+client = no
+accept = 5432
+connect = 10.1.0.120:5432
+ciphers = PSK
+PSKsecrets = /etc/stunnel/psk/postgres-psk.txt
+```
+in `postgres-psk.txt` I added a key (generated with `pwgen 32`) with user scaleway-02.
+
+Tested the config with `stunnel /etc/stunnel/off.conf`.
+
+Restarted the service: `systemctl restart stunnel@off.service && systemctl status stunnel@off.service`
+
+Test it's ok: `nc -v 127.0.0.1 5432`
+
+Edited `/etc/nftables.conf.d/001-off2-reverse-proxy.conf` to add port 5432 to `STUNNEL_PORTS`,
+and to add scaleway address ranges `151.115.132.0/27` to `OFF_SERVERS`.
+Then I `sudo systemctl reload nftable`.
+
+I can now test nc access from scaleway-02:
+```bash
+nc -vz 213.36.253.214 5432
+off2-2.free.org [213.36.253.214] 5432 (postgresql) open
+```
+
+### Configuring stunnel client side on scaleway-02
+
+We have to create a container running stunnel in client mode.
+
+So first we create the CT, for this I edited the scaleway-02 host_vars proxmox.yml
+to add an entry to `proxmox_containers__containers`,
+add my container in inventory as well as its secret [as stated in Proxmox / How to cerate a new container with ansible](../proxmox.md#how-to-create-a-new-container-with-ansible).
+and then run:
+```bash
+ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags containers
+```
+
+and then:
+
+```bash
+ansible-playbook jobs/configure.yml -l scaleway-docker-prod
+```
+
+Note: we don't have to add ports of stunnel in iptables config
+because, by default, internal address are whitelisted
+and our stunnel client is to be accessed only from the private network.

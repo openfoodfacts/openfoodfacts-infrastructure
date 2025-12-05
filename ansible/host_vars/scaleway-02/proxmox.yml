@@ -29,3 +29,20 @@ proxmox_node__pve_storages:
     type: zfspool
     pool: zfs-hdd
     state: absent
+
+proxmox_containers__containers:
+  - id: 101
+    hostname: scaleway-stunnel-client
+    features:
+      - nesting=1
+    cores: 2
+    memory: "{{ 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip:  10.13.1.101/16
+        gw: 10.13.0.2
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 10
