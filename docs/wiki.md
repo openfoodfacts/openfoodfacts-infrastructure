@@ -308,9 +308,48 @@ $user = RequestContext::getMain()->getUser();
 ```
 
 
+
 ### Enabling REST API routing
 
-This is still an  issue to be addressed, as search-as-you-type is not working.
+The REST API is required for search-as-you-type functionality. The API needs proper URL rewriting to work correctly.
+
+The `.htaccess` file should have REST API rewrite rules. Verify it exists and contains this line at the beginning of the file (right after `RewriteEngine On`):
+
+```apache
+RewriteRule ^/?rest\.php(/.*)?$ %{DOCUMENT_ROOT}/rest.php [L]
+```
+
+**Also add Anubis rule on reverse proxy:**
+
+Edit the Anubis bot policies:
+```bash
+nano /etc/anubis/wiki.botPolicies.yaml
+```
+
+Add this rule **at the beginning of the bots section** (before other rules):
+
+```yaml
+bots:
+  # Allow REST API and standard API endpoints for search-as-you-type and other functionality
+  - name: allow-api-endpoints
+    action: WEIGH
+    expression:
+      any:
+        - 'path.startsWith("/rest.php")'
+        - 'path.startsWith("/api.php")'
+    weight:
+      adjust: -100
+```
+
+After updating the configuration, commit and deploy changes to ovh1-reverse-proxy, then reload Anubis.
+
+**Test the REST API:**
+```bash
+# Should return JSON with search results, not HTML
+curl "https://wiki.openfoodfacts.org/rest.php/v1/search/title?q=Recent&limit=10"
+```
+
+Once working, search-as-you-type should function in the browser.
 
 
 
