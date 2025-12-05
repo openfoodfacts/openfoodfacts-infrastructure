@@ -7,4 +7,4 @@ stunnel__psk_secrets: []
 
 # git repostory with system config
 # This is mandatory
-stunnel__config_repository_path: null
+stunnel__config_repository_path:

@@ -40,7 +40,7 @@ proxmox_containers__containers:
     netif:
       net0:
         name: eth0
-        ip:  10.13.1.101/16
+        ip: 10.13.1.101/16
         gw: 10.13.0.2
         bridge: vmbr10
     disk:

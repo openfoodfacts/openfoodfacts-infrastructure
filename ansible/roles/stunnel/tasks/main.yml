@@ -31,7 +31,7 @@
 - name: Get local stunnel service names
   ansible.builtin.set_fact:
     _stunnel__conf_files: >-
-        {{ query('ansible.builtin.fileglob', _stunnel__conf_dir + '/*.conf') }}
+      {{ query('ansible.builtin.fileglob', _stunnel__conf_dir + '/*.conf') }}
 
 - name: Search psk file cited by stunnel configuration files
   ansible.builtin.set_fact:
@@ -66,7 +66,6 @@
     name: stunnel4
     state: present
 
-
 - name: Symlink stunnel configuration file
   git_based_config_symlinks:
     src: "{{ stunnel__config_repository_path }}/confs/stunnel"
@@ -100,7 +99,7 @@
 
 # Enable and restart stunnel service if needed
 - name: Enable and restart stunnel service if needed
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: git_based_configs
     tasks_from: enable_service.yml
   vars:

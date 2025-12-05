@@ -49,7 +49,7 @@
     path: "{{ item }}"
     follow: true # important to follow as our configs are symlinked
   # we also add specific config files
-  loop: "{{ (_git_based_configs_service_files|default([])) + git_based_configs__service_conf_files }}"
+  loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
   register: _git_based_configs__systemd_config_symlinks_targets
   # no need to compute if we will force restart
   when: not git_based_configs__force_service_restart
@@ -59,7 +59,7 @@
   ansible.builtin.stat:
     path: "{{ item }}"
     follow: false
-  loop: "{{ (_git_based_configs_service_files|default([])) + git_based_configs__service_conf_files }}"
+  loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
   register: _git_based_configs__systemd_config_symlinks
   # no need to compute if we will force restart
   when: not git_based_configs__force_service_restart
