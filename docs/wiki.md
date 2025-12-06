@@ -372,7 +372,7 @@ nect-REL1_43-9b74c08.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm
 curl -fsSL https://extdist.wmflabs.org/dist/extensions/PluggableAuth-REL1_43-64604a4.tar.gz -o /tmp/PluggableAuth-REL1_43-64604a4.tar.gz && tar -xzf /tmp/PluggableAuth-REL1_43-64604a4.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm /tmp/PluggableAuth-REL1_43-64604a4.tar.gz
 ```
 
-Remove `AuthProductOpener` settings from the `# Extension: AuthProductOpener` section of `LocalSettings.php`, and add new OIDC settings to `LocalSettings.php`:
+Remove `wfLoadExtension( 'AuthProductOpener' );` from the `# Extension: AuthProductOpener` section of `LocalSettings.php`, and add new OIDC settings to `LocalSettings.php`:
 
 ```php
 # OpenID & PluggableAuth extensions
@@ -381,8 +381,6 @@ Remove `AuthProductOpener` settings from the `# Extension: AuthProductOpener` se
 
 wfLoadExtension( 'PluggableAuth' );
 wfLoadExtension( 'OpenIDConnect' );
-
-$wgGroupPermissions['*']['autocreateaccount'] = true;
 
 $wgPluggableAuth_EnableAutoLogin = true;
 $wgPluggableAuth_EnableLocalLogin = false; # Disable local login form as users don't have a password
