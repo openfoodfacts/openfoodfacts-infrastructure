@@ -405,3 +405,9 @@ Remove old custom auth extension
 ```bash
 rm -rf /var/www/wiki.openfoodfacts.org/extensions/AuthProductOpener/
 ```
+
+Run update script to generate OIDC extension tables in the database
+
+ ```bash
+runuser -u www-data -- php maintenance/run.php update.php
+```
