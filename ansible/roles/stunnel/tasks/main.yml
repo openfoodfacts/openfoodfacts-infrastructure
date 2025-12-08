@@ -47,8 +47,6 @@
   loop: "{{ _stunnel__conf_files }}"
   when: stunnel__ensure_no_client
 
-
-
 - name: Search psk file cited by stunnel configuration files
   ansible.builtin.set_fact:
     # search PSKsecrets in all sections
