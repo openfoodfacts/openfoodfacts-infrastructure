@@ -2,9 +2,12 @@
 # PSK files definition
 stunnel__psk_secrets: []
 # - file: postgres.psk
-#    content: |
+#   content: |
 #      scaleway-02: auentuaienrst
 
 # git repostory with system config
 # This is mandatory
 stunnel__config_repository_path:
+
+# Set this to true if you are on a stunnel client
+stunnel__ensure_no_client: true

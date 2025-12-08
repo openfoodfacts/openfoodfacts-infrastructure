@@ -33,6 +33,22 @@
     _stunnel__conf_files: >-
       {{ query('ansible.builtin.fileglob', _stunnel__conf_dir + '/*.conf') }}
 
+- name: Verify we have no client stunnel configuration exposed by mistake
+  ansible.builtin.assert:
+    that:
+      - |
+        {{
+          lookup('ansible.builtin.file', item) |
+          from_ini |
+          items |
+          map(attribute="value") |
+          selectattr("client", "eq", "no")
+        }}
+  loop: "{{ _stunnel__conf_files }}"
+  when: stunnel__ensure_no_client
+
+
+
 - name: Search psk file cited by stunnel configuration files
   ansible.builtin.set_fact:
     # search PSKsecrets in all sections

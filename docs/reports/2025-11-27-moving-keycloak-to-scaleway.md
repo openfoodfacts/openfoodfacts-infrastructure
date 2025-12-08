@@ -156,9 +156,17 @@ ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags containers
 and then:
 
 ```bash
-ansible-playbook jobs/configure.yml -l scaleway-docker-prod
+ansible-playbook jobs/configure.yml -l scaleway-stunnel-client
 ```
 
 Note: we don't have to add ports of stunnel in iptables config
 because, by default, internal address are whitelisted
 and our stunnel client is to be accessed only from the private network.
+
+Now we use the stunnel-client playbook.
+
+
+### Testing it
+
+We can test our stunnel is working
+From our scaleway-02-proxy
