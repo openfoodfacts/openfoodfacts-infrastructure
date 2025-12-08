@@ -7,7 +7,8 @@ stunnel__psk_secrets: []
 
 # git repostory with system config
 # This is mandatory
-stunnel__config_repository_path:
+stunnel__config_repository_root:
+stunnel__config_repository_path: "{{ stunnel__config_repository_root }}/confs/{{ inventory_hostname }}"
 
 # Set this to true if you are on a stunnel client
 stunnel__ensure_no_client: true

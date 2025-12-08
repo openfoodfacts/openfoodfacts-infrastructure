@@ -2,7 +2,7 @@
 # It connects to a counter part stunnel server
 ---
 - name: Stunnel client
-  hosts: stunnel_clients
+  hosts: stunnel_client_hosts
   gather_facts: true
   become: true
   roles:
@@ -15,5 +15,5 @@
     - role: stunnel
       tags: ["stunnel"]
       vars:
-        # stunnel__ensure_no_client: false
-        stunnel__config_repository_path: "{{ infrastructure_repository_dest }}"
+        stunnel__ensure_no_client: false
+        stunnel__config_repository_root: "{{ infrastructure_repository_dest }}"

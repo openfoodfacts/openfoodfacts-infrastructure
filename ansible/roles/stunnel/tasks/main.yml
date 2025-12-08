@@ -4,47 +4,93 @@
 - name: Assert stunnel__config_repository_path is defined
   ansible.builtin.assert:
     that:
-      - stunnel__config_repository_path | defined
+      - stunnel__config_repository_path
     fail_msg: "stunnel__config_repository_path is not defined"
 
 - name: Assert all stunnel__psk_secrets have a content
   ansible.builtin.assert:
     that:
-      - item.content | length > 0
-    fail_msg: "In stunnel__psk_secrets, item with path '{{ item.path }} as no content"
-  loop: "{{ stunnel__psk_secrets }}"
+      - ( item.content | length ) > 0
+    fail_msg: "In stunnel__psk_secrets, item with path '{{ item.file }} as no content"
+  # replace content to avoid loging it
+  loop: "{{ stunnel__psk_secrets | mask_key(target=['content'], preserve_blank=True) }}"
+  loop_control:
+    label: "{{ item.file }}"
 
-- name: Assert all stunnel__psk_secrets path are simple files names ending with .psk
+- name: Assert all stunnel__psk_secrets path are simple files names
   ansible.builtin.assert:
     that:
-      - item.path | regex_search("^[/]+\.psk")
-    fail_msg: |
-      In stunnel__psk_secrets, item with path '{{ item.path }}
+      - item.file | regex_search("^[^/]+$")
+    fail_msg: >-
+      In stunnel__psk_secrets, item with path '{{ item.file }}''
       does not comply to <filename>.psk
-  loop: "{{ stunnel__psk_secrets }}"
+  # remove content to avoid logging it
+  loop: "{{ stunnel__psk_secrets | mask_key(target=['content'], preserve_blank=True) }}"
+  loop_control:
+    label: "{{ item.file }}"
 
 - name: Get stunnel local config directory
   ansible.builtin.set_fact:
     _stunnel__conf_dir: >-
-      {{ lookup("repo", "confs/{{ inventory_hostname }}/stunnel", filename=True)[0] | mandatory }}
+      {{ lookup("repo", "confs/" +  inventory_hostname + "/stunnel", filename=True) | mandatory }}
+
+
+- ansible.builtin.debug:
+    var: _stunnel__conf_dir
 
 - name: Get local stunnel service names
   ansible.builtin.set_fact:
     _stunnel__conf_files: >-
       {{ query('ansible.builtin.fileglob', _stunnel__conf_dir + '/*.conf') }}
 
+- ansible.builtin.debug:
+    var: _stunnel__conf_files
+
+- name: Verify we found configurations files
+  ansible.builtin.assert:
+    that:
+      - ( _stunnel__conf_files | length ) > 0
+    fail_msg: "No config files found for stunnel !"
+
+- name: Get our configs as dicts
+  ansible.builtin.set_fact:
+    # Note: we have to add "[global]" section to have a valid ini file
+    _stunnel__conf_dicts: |
+      {{
+        (_stunnel__conf_dicts | default([])) +
+        [
+          ("[global]\n" + lookup('ansible.builtin.file', item)) |
+          community.general.from_ini
+        ]
+      }}
+  loop: "{{ _stunnel__conf_files }}"
+
+- ansible.builtin.debug:
+    var: _stunnel__conf_dicts
+
+- ansible.builtin.debug:
+    msg: |
+      {{
+        item |
+        ansible.builtin.dict2items |
+        map(attribute="value")
+      }}
+  loop: "{{ _stunnel__conf_dicts }}"
+
 - name: Verify we have no client stunnel configuration exposed by mistake
   ansible.builtin.assert:
     that:
       - |
-        {{
-          lookup('ansible.builtin.file', item) |
-          from_ini |
-          items |
+        (
+          item |
+          ansible.builtin.dict2items |
           map(attribute="value") |
-          selectattr("client", "eq", "no")
-        }}
-  loop: "{{ _stunnel__conf_files }}"
+          selectattr("client", "defined") |
+          selectattr("client", "eq", "yes") |
+          length
+        )
+        == 0
+  loop: "{{ _stunnel__conf_dicts }}"
   when: stunnel__ensure_no_client
 
 - name: Search psk file cited by stunnel configuration files
@@ -55,23 +101,25 @@
       {{
         (_stunnel__psk_files | default([])) +
         (
-          lookup('ansible.builtin.file', item) |
-          from_ini |
-          items |
+          item |
+          ansible.builtin.dict2items |
           map(attribute="value") |
-          selectattr("PSKsecrets") |
+          selectattr("PSKsecrets", "defined") |
           map(attribute="PSKsecrets")
         )
       }}
-  loop: "{{ _stunnel__conf_files }}"
+  loop: "{{ _stunnel__conf_dicts }}"
+
+- ansible.builtin.debug:
+    var: _stunnel__psk_files
 
 - name: Verify every cited psk file is known to stunnel__psk_secrets
   ansible.builtin.assert:
     that:
-      - not (_stunnel__psk_files | intersect(stunnel__psk_secrets|map(attribute="path")))
+      - not (_stunnel__psk_files | intersect(stunnel__psk_secrets|map(attribute="file")))
     fail_msg: |
       {{
-        _stunnel__psk_files | intersect(stunnel__psk_secrets|map(attribute="path")) | join(", ")
+        _stunnel__psk_files | intersect(stunnel__psk_secrets|map(attribute="file")) | join(", ")
       }}
       are not in stunnel__psk_secrets while cited by one of stunnel configuration
 
@@ -80,15 +128,22 @@
     name: stunnel4
     state: present
 
+- name: Update repository to have recent configuration files
+  ansible.builtin.include_role:
+    name: git_based_configs
+    tasks_from: repository_update
+  vars:
+    git_based_configs__repository_dest: "{{ stunnel__config_repository_root }}"
+
 - name: Symlink stunnel configuration file
   git_based_config_symlinks:
-    src: "{{ stunnel__config_repository_path }}/confs/stunnel"
+    src: "{{ stunnel__config_repository_path }}/stunnel"
     dst: "/etc/stunnel"
   register: _stunnel__linked_confs
 
 - name: Symlink stunnel service override
   git_based_config_symlinks:
-    src: "{{ stunnel__config_repository_path }}/confs/systemd/system"
+    src: "{{ stunnel__config_repository_path }}/systemd/system"
     dst: "/etc/systemd/system"
   register: _stunnel__linked_confs
 
@@ -103,7 +158,7 @@
 - name: Create PSK files for stunnel
   ansible.builtin.template:
     src: stunnel-psk.txt.j2
-    dest: "/etc/stunnel/psk/item.path"
+    dest: "/etc/stunnel/psk/{{ item.file }}"
     mode: "0600"
     owner: root
     group: root
@@ -129,15 +184,14 @@
       {{
         (_stunnel__public_ports | default([])) +
         (
-          lookup('ansible.builtin.file', item) |
-          from_ini |
-          items |
+          item |
+          ansible.builtin.dict2items |
           map(attribute="value") |
           selectattr("accept") |
           map(attribute="accept")
         )
       }}
-  loop: "{{ _stunnel__conf_files }}"
+  loop: "{{ _stunnel__conf_dicts }}"
 
 # If we have "client = no" entries, check that corresponding ports are opened in iptables
 # If the task is marked as changed, make sure that a `iptables_public_ports`

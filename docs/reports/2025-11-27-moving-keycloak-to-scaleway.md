@@ -165,6 +165,12 @@ and our stunnel client is to be accessed only from the private network.
 
 Now we use the stunnel-client playbook.
 
+I launched:
+```bash
+ansible-playbook sites/stunnel-client.yml -l scaleway-stunnel-client
+
+```
+
 
 ### Testing it
 
