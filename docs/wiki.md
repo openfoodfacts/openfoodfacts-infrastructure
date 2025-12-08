@@ -382,7 +382,7 @@ Remove `wfLoadExtension( 'AuthProductOpener' );` from the `# Extension: AuthProd
 wfLoadExtension( 'PluggableAuth' );
 wfLoadExtension( 'OpenIDConnect' );
 
-$wgPluggableAuth_EnableAutoLogin = true;
+$wgPluggableAuth_EnableAutoLogin = false;
 $wgPluggableAuth_EnableLocalLogin = false; # Disable local login form as users don't have a password
 
 $wgPluggableAuth_Config['OpenFoodFacts Login'] = [
