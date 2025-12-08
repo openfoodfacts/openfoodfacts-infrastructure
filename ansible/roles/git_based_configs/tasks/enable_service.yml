@@ -35,7 +35,6 @@
         )
         |
         select
-        |
       }}
   when: |
     not
@@ -46,10 +45,12 @@
 
 - name: Get overall configurations last modified
   ansible.builtin.stat:
-    path: "{{ item }}"
+    path: "{{ _fpath }}"
     follow: true # important to follow as our configs are symlinked
   # we also add specific config files
   loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
+  loop_control:
+    loop_var: _fpath
   register: _git_based_configs__systemd_config_symlinks_targets
   # no need to compute if we will force restart
   when: not git_based_configs__force_service_restart
@@ -57,9 +58,11 @@
 - name: Add overall configurations symlink last modified
   # above we looked at symlikn by themselves as they might have just been created
   ansible.builtin.stat:
-    path: "{{ item }}"
+    path: "{{ _fpath }}"
     follow: false
   loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
+  loop_control:
+    loop_var: _fpath
   register: _git_based_configs__systemd_config_symlinks
   # no need to compute if we will force restart
   when: not git_based_configs__force_service_restart

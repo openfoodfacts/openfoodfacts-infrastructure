@@ -34,17 +34,10 @@
     _stunnel__conf_dir: >-
       {{ lookup("repo", "confs/" +  inventory_hostname + "/stunnel", filename=True) | mandatory }}
 
-
-- ansible.builtin.debug:
-    var: _stunnel__conf_dir
-
 - name: Get local stunnel service names
   ansible.builtin.set_fact:
     _stunnel__conf_files: >-
       {{ query('ansible.builtin.fileglob', _stunnel__conf_dir + '/*.conf') }}
-
-- ansible.builtin.debug:
-    var: _stunnel__conf_files
 
 - name: Verify we found configurations files
   ansible.builtin.assert:
@@ -64,18 +57,6 @@
         ]
       }}
   loop: "{{ _stunnel__conf_files }}"
-
-- ansible.builtin.debug:
-    var: _stunnel__conf_dicts
-
-- ansible.builtin.debug:
-    msg: |
-      {{
-        item |
-        ansible.builtin.dict2items |
-        map(attribute="value")
-      }}
-  loop: "{{ _stunnel__conf_dicts }}"
 
 - name: Verify we have no client stunnel configuration exposed by mistake
   ansible.builtin.assert:
@@ -110,9 +91,6 @@
       }}
   loop: "{{ _stunnel__conf_dicts }}"
 
-- ansible.builtin.debug:
-    var: _stunnel__psk_files
-
 - name: Verify every cited psk file is known to stunnel__psk_secrets
   ansible.builtin.assert:
     that:
@@ -145,7 +123,7 @@
   git_based_config_symlinks:
     src: "{{ stunnel__config_repository_path }}/systemd/system"
     dst: "/etc/systemd/system"
-  register: _stunnel__linked_confs
+  register: _stunnel__systemd_linked_confs
 
 - name: Ensure directory for PSK file exists
   ansible.builtin.file:
@@ -158,13 +136,13 @@
 - name: Create PSK files for stunnel
   ansible.builtin.template:
     src: stunnel-psk.txt.j2
-    dest: "/etc/stunnel/psk/{{ item.file }}"
+    dest: "/etc/stunnel/psk/{{ _stunnel__psk_secret.file }}"
     mode: "0600"
     owner: root
     group: root
   loop: "{{ stunnel__psk_secrets }}"
   loop_control:
-    loop_var: _stunnel_psk_secret
+    loop_var: _stunnel__psk_secret
 
 # Enable and restart stunnel service if needed
 - name: Enable and restart stunnel service if needed
@@ -178,8 +156,9 @@
 
 - name: Get stunnel address that should be public (client = no)
   ansible.builtin.set_fact:
-    # search PSKsecrets in all sections
-    # verify they are all in stunnel__psk_secrets paths
+    # search accept in all sections
+    # where client is no
+    # and accept is not 127.0.0.1
     _stunnel__public_addresses: |
       {{
         (_stunnel__public_ports | default([])) +
@@ -187,7 +166,10 @@
           item |
           ansible.builtin.dict2items |
           map(attribute="value") |
-          selectattr("accept") |
+          selectattr("client", "defined") |
+          selectattr("client", "eq", "no") |
+          selectattr("accept", "defined") |
+          rejectattr("accept", "match", ".*127\.\0\.0\.1.*") |
           map(attribute="accept")
         )
       }}
