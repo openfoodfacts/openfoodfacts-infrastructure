@@ -32,7 +32,7 @@
 - name: Get stunnel local config directory
   ansible.builtin.set_fact:
     _stunnel__conf_dir: >-
-      {{ lookup("repo", "confs/" +  inventory_hostname + "/stunnel", filename=True) | mandatory }}
+      {{ lookup("repo", "confs/" + inventory_hostname + "/stunnel", filename=True) | mandatory }}
 
 - name: Get local stunnel service names
   ansible.builtin.set_fact:
