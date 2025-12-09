@@ -143,6 +143,7 @@
   loop: "{{ stunnel__psk_secrets }}"
   loop_control:
     loop_var: _stunnel__psk_secret
+  no_log: true
 
 # Enable and restart stunnel service if needed
 - name: Enable and restart stunnel service if needed
