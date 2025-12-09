@@ -168,11 +168,30 @@ Now we use the stunnel-client playbook.
 I launched:
 ```bash
 ansible-playbook sites/stunnel-client.yml -l scaleway-stunnel-client
-
 ```
-
+(In reality there were debugging things, as the playbook was new and stunnel role was reworked).
 
 ### Testing it
 
 We can test our stunnel is working
-From our scaleway-02-proxy
+From our scaleway-stunnel-client, first, we can test:
+```bash
+nc -vz 10.13.1.101 5432
+Connection to 10.13.1.101 5432 port [tcp/postgresql] succeeded!
+```
+From our scaleway-docker-prod VM:
+```bash
+nc -vz 10.13.1.101 5432
+Connection to 10.13.1.101 5432 port [tcp/postgresql] succeeded!
+```
+
+## Installing docker on scaleway-prod-docker
+
+We:
+* add scaleway-docker-prod to docker_vm_hosts group
+* define docker__volumes_virtiofs variable in `host_vars/scaleway-docker-prod/docker.yml`
+and use the docker_vm playbook.
+
+## Deploying keycloak
+
+This is done on openfoodfacts-auth with a specific PR and a rule in the workflow.
