@@ -1,6 +1,8 @@
 ---
 # PSK files definition
 stunnel__psk_secrets: []
+# the content is username:psk
+# use pwgen 32 to generate psk
 # - file: postgres.psk
 #   content: |
 #      scaleway-02: auentuaienrst
