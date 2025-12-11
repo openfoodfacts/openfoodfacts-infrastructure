@@ -104,7 +104,47 @@ I edited manually the VM to add the VIRTIOFS device:
 
 The corresponding string is: `qm-200-virtiofs-docker-volumes,expose-acl=1`
 
+### Resizing partition
 
+I need to resize the VM disk which is small from 3G to 24G
+(to account for the space of docker images).
+
+On the host:`qm resize 200 scsi0 +21G`
+
+On the VM:
+```bash
+parted /dev/sda
+  Warning: Not all of the space available to /dev/sda appears to be used, you can fix the GPT to use
+  all of the space (an extra 44040192 blocks) or continue with the current setting? 
+  Fix/Ignore? fix
+  (parted) p
+  Model: QEMU QEMU HARDDISK (scsi)
+  Disk /dev/sda: 50331648s
+  Sector size (logical/physical): 512B/512B
+  Partition Table: gpt
+  Disk Flags:
+  Number  Start    End       Size      File system  Name  Flags
+  14      2048s    8191s     6144s                        bios_grub
+  15      8192s    262143s   253952s   fat16              boot, esp
+  1      262144s  6289407s  6027264s  ext4
+  (parted) resizepart 1 50329601s
+  Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+  Yes/No? y
+  (parted) quit
+resize2fs /dev/sda1
+  resize2fs 1.47.2 (1-Jan-2025)
+  Filesystem at /dev/sda1 is mounted on /; on-line resizing required
+  old_desc_blocks = 1, new_desc_blocks = 3
+  The filesystem on /dev/sda1 is now 6258432 (4k) blocks long.
+df -h /
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda1        24G  2.5G   20G  12% /
+```
+
+**Note** that, because of the start of the partition `6289407 mod 2048 == 1`,
+we had to take `50331648s - 2047` for the end, so that partition length is aligned. [^alignment]
+
+[^alignment]: https://pieterbakker.com/optimal-disk-alignment-with-parted/ is a good resource to understand alignment.
 
 ## Setting up stunnel to connect to Postgres on off2
 
@@ -171,6 +211,9 @@ ansible-playbook sites/stunnel-client.yml -l scaleway-stunnel-client
 ```
 (In reality there were debugging things, as the playbook was new and stunnel role was reworked).
 
+I realized afterward that we also need Redis connection.
+This one was already available on off1 side, so I just had to add it on my stunnel client configuration.
+
 ### Testing it
 
 We can test our stunnel is working
@@ -189,9 +232,37 @@ Connection to 10.13.1.101 5432 port [tcp/postgresql] succeeded!
 
 We:
 * add scaleway-docker-prod to docker_vm_hosts group
-* define docker__volumes_virtiofs variable in `host_vars/scaleway-docker-prod/docker.yml`
+* define `docker__volumes_virtiofs` and `continuous_deployment__ssh_public_keys` variables in `host_vars/scaleway-docker-prod/docker.yml` (I get the public key from current deployment on off1/104)
 and use the docker_vm playbook.
 
 ## Deploying keycloak
 
 This is done on openfoodfacts-auth with a specific PR and a rule in the workflow.
+
+See https://github.com/openfoodfacts/openfoodfacts-auth/pull/294
+
+## Reverse proxy configuration
+
+I added a configuration to the reverse proxy,
+with a temporary auth-new.openfoodfacts.org name.
+
+* added `auth-new.openfoodfacts.org` in OVH DNS as a CNAME to `scaleway-proxy.openfoodfacts.org`.
+* created a config on off1 reverse proxy, taking inspiration from the one existing for the old keycloak
+
+As I wanted to test it on auth.openfoodfacts.org (because keycloak won't accept another domain, as it is configured for this domain), I needed to copy the certificates on the reverse proxy:
+* on off2 proxy:
+  ```bash
+  tar cvzf /root/auth-certs.tgz /etc/letsencrypt/live/auth.openfoodfacts.org/ /etc/letsencrypt/archive/auth.openfoodfacts.org /etc/letsencrypt/renewal/auth.openfoodfacts.org.conf
+  chmod go-rw /root/auth-certs.tgz
+  chown alex:alex /root/auth-certs.tgz
+  mv /root/auth-certs.tgz /home/alex/
+  ```
+* I transfered it to (using `ssh -A proxy-off2`) `scp -J 151.115.132.12 auth-certs.tgz 10.13.1.100:`
+* I extract on the reverse proxy: `cd / ; tar xzf /home/alex/auth-certs.tgz`
+* test and restart nginx: `nginx -t && systemctl restart nginx`
+* remove the archives in /home/alex on both servers
+
+Now I can test by editing my `/etc/hosts` with:
+```
+151.115.132.10 auth.openfoodfacts.org
+```
