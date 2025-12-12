@@ -184,7 +184,7 @@
   ansible.builtin.iptables:
     chain: INPUT
     protocol: tcp
-    destination_port: "{{ item | split(':') | [-1] }}"
+    destination_port: "{{ (item | split(':') )[-1] }}"
     jump: ACCEPT
     state: present
   loop: |
