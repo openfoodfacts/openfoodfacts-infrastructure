@@ -23,4 +23,3 @@
       vars:
         stunnel__ensure_no_client: true
         stunnel__config_repository_root: "{{ infrastructure_repository_dest }}"
-
