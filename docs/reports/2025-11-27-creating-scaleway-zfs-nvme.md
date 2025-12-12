@@ -114,6 +114,18 @@ I tried to reboot to get the new kernel but it goes wrong and I lost the serverâ
 
 **So I decided to switch for an install scaleway-02 !**
 
+### Finishing (later on) on scaleway-01
+I returned to this task when scaleway-01 was back online (see report about disk problem on 2025-12-09).
+
+
+I Create the zpool manually:
+```bash
+zpool create zfs-nvme -f -o ashift=12 mirror nvme-eui.00000000000000007c35485224e769cf-part4 nvme-eui.000000000000000100a0752249f51d6e-part4
+```
+And then run locally ansible:
+```bash
+ansible-playbook sites/proxmox-node.yml --tags zfs -l scaleway-01
+```
 
 ## Adding a zpool for data on scaleway-02
 
@@ -236,25 +248,7 @@ to host_vars/scaleway-02/proxmox.yml using those ids
 
 Now I run the playbook to instanciate this:
 ```bash
-ansible-playbook sites/proxmox-node.yml --tags zfs -l scaleway-01
-```
-
-I bumped into a problem while running this because zfs-dkms would not installâ€¦
-
-Part of the log:
-
-```
-...
-Error! Module version 2.3.4-1~bpo13+1 for spl.ko
-is not newer than what is already found in kernel 6.14.11-4-pve (2.3.4-pve1).
-You may override by specifying --force.
-...
-Errors were encountered while processing:
- zfs-dkms
- proxmox-kernel-6.17.2-2-pve-signed
- proxmox-kernel-6.17
- proxmox-default-kernel
- proxmox-ve
+ansible-playbook sites/proxmox-node.yml --tags zfs -l scaleway-02
 ```
 
 ## Creating zfs-nvme on scaleway-03
@@ -295,7 +289,7 @@ I follow exactly the same procedure as on scaleway-02
   zpool create zfs-nvme -f -o ashift=12 mirror nvme-eui.00000000000000007c35485224e769e6-part4 nvme-eui.000000000000000100a0752249f51e2a-part4
   ```
 
-# Adding it to ZFS storages
+## Adding it to ZFS storages
 
 I edited `host_vars/scaleway-02/proxmox.yml`
 to add `zfs-nvme/pve` to `proxmox_node__zfs_filesystems`.
@@ -312,3 +306,4 @@ I run:
 ```bash
 ansible-playbook sites/proxmox-node.yml --tags zfs,storage -l scaleway-02,scaleway-03 -e _init_node=scaleway-02
 ```
+(and later when scaleway-01 was up again, on scaleway-01)
