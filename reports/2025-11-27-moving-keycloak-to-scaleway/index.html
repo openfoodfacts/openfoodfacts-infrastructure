@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2024-08-13-moji-server-installation/">
+        <link rel="prev" href="../2025-11-20-ovh3-disk-replace/">
       
-      
-        <link rel="next" href="../2024-09-04-move-off-query-to-moji/">
       
       
       <link rel="icon" href="https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png">
@@ -17,7 +15,7 @@
     
     
       
-        <title>2024-08-22 Adding postfix exporter to Proxmox Mail Gateway - Open Food Facts Infrastructure documentation</title>
+        <title>2025-11-27 Moving keycloak to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -79,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway" class="md-skip">
+        <a href="#2025-11-27-moving-keycloak-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-08-22 Adding postfix exporter to Proxmox Mail Gateway
+              2025-11-27 Moving keycloak to scaleway
             
           </span>
         </div>
@@ -3575,19 +3573,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-08-22-postfix-exporter-on-pmg/" class="md-nav__link">
         
   
   
@@ -3598,7 +3587,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -4643,10 +4631,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-11-27-moving-keycloak-to-scaleway/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    2025-11-27 Moving keycloak to scaleway
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -4657,6 +4667,155 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-template-vm-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a template VM on scaleway-02
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm-for-docker-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the VM for docker on scaleway-02
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the VM for docker on scaleway-02">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the VM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-virtio-fs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring virtio-fs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding virtiofs volume to our VM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resizing-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resizing partition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-to-connect-to-postgres-on-off2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up stunnel to connect to Postgres on off2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up stunnel to connect to Postgres on off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-stunnel-server-side-on-off2-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring stunnel server side on off2 proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-stunnel-client-side-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring stunnel client side on scaleway-02
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing it
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-docker-on-scaleway-prod-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing docker on scaleway-prod-docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-keycloak" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploying keycloak
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reverse-proxy-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse proxy configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4689,6 +4848,143 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-template-vm-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a template VM on scaleway-02
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm-for-docker-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the VM for docker on scaleway-02
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the VM for docker on scaleway-02">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the VM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-virtio-fs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring virtio-fs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding virtiofs volume to our VM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resizing-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resizing partition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-stunnel-to-connect-to-postgres-on-off2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up stunnel to connect to Postgres on off2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up stunnel to connect to Postgres on off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-stunnel-server-side-on-off2-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring stunnel server side on off2 proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-stunnel-client-side-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring stunnel client side on scaleway-02
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing it
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-docker-on-scaleway-prod-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing docker on scaleway-prod-docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-keycloak" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploying keycloak
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reverse-proxy-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse proxy configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -4703,7 +4999,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-08-22-postfix-exporter-on-pmg.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-11-27-moving-keycloak-to-scaleway.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -4711,48 +5007,220 @@
   
 
 
-<h1 id="2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway">2024-08-22 Adding postfix exporter to Proxmox Mail Gateway<a class="headerlink" href="#2024-08-22-adding-postfix-exporter-to-proxmox-mail-gateway" title="Permanent link">#</a></h1>
-<p>Email is very important either to get alerts or to send email to our users.</p>
-<p>We were not following email delivery on a regular basis.</p>
-<p>I decided to give it a try to add a postfix exporter to the PMG container.</p>
-<p>I installed the postfix exporter:</p>
-<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>prometheus-postfix-exporter
-</code></pre></div>
-<p>Tested it:
-</p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="m">10</span>.1.0.102:9154/metrics
-</code></pre></div>
-It was working.<p></p>
-<p>I then add the scrapping configuration to prometheus in the monitoring project:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># in prometheus/config.yml</span>
+<h1 id="2025-11-27-moving-keycloak-to-scaleway">2025-11-27 Moving keycloak to scaleway<a class="headerlink" href="#2025-11-27-moving-keycloak-to-scaleway" title="Permanent link">#</a></h1>
+<p>Keycloak is currently on off1.</p>
+<p>We want to move it to scaleway-01.</p>
+<p>It is currently using docker compose, running on a CT on proxmox.</p>
+<p>As they have been recent problem with this approach on Proxmox 9.1,
+I prefer to go for a VM as recommended by Proxmox.
+Also now that we have VirtioFS enabling direct write to ZFS Datasets,
+one important drawback is removed.</p>
+<h2 id="creating-a-template-vm-on-scaleway-02">Creating a template VM on scaleway-02<a class="headerlink" href="#creating-a-template-vm-on-scaleway-02" title="Permanent link">#</a></h2>
+<p>We need a template VM to create our VM.</p>
+<p>Following what we did on hetzner.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/alex
+<span class="c1"># navigate from https://cloud.debian.org/images/cloud to retrieve the name</span>
+wget<span class="w"> </span>https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
+apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libguestfs-tools<span class="w"> </span>dhcpcd-base
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--update
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--install<span class="w"> </span>qemu-guest-agent
 
-<span class="w">  </span>-<span class="w"> </span>job_name:<span class="w"> </span>pmg-postfix
-<span class="w">    </span>static_configs:
-<span class="w">      </span>-<span class="w"> </span>targets:
-<span class="w">        </span><span class="c1"># PMG</span>
-<span class="w">        </span>-<span class="w"> </span><span class="s2">"10.1.0.102:9154"</span>
-<span class="w">        </span>labels:
-<span class="w">          </span>app:<span class="w"> </span>Proxmox<span class="w"> </span>mail<span class="w"> </span>gateway
-<span class="w">          </span>service:<span class="w"> </span>postfix
-<span class="w">          </span>env:<span class="w"> </span>prod
-</code></pre></div>
-<p>and I configured a first alert to verify queues don't have too much stall emails:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># in  prometheus/alerts.yml</span>
+<span class="c1"># create the VM</span>
+qm<span class="w"> </span>create<span class="w"> </span><span class="m">998</span><span class="w"> </span>--name<span class="w"> </span>debian12-cloudinit<span class="w"> </span>--net0<span class="w"> </span>virtio,bridge<span class="o">=</span>vmbr10<span class="w"> </span>--scsihw<span class="w"> </span>virtio-scsi-single
 
-<span class="w">  </span>-<span class="w"> </span>alert:<span class="w"> </span>Postfix<span class="w"> </span>mail<span class="w"> </span>messages<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>high
-<span class="w">    </span>expr:<span class="w"> </span>postfix_showq_message_age_seconds_count<span class="w"> </span>&gt;<span class="w"> </span><span class="m">20</span>
-<span class="w">    </span><span class="k">for</span>:<span class="w"> </span>1h
-<span class="w">    </span>labels:
-<span class="w">      </span>severity:<span class="w"> </span>warning
-<span class="w">      </span>instance:<span class="w"> </span><span class="s2">"{{ </span><span class="nv">$labels</span><span class="s2">.instance }}"</span>
-<span class="w">    </span>annotations:
-<span class="w">      </span>summary:<span class="w"> </span>stalled<span class="w"> </span>messages<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.queue<span class="w"> </span><span class="o">}}</span><span class="w"> </span>of<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.app<span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="o">({{</span><span class="w"> </span><span class="nv">$labels</span>.instance<span class="w"> </span><span class="o">}})</span>
-<span class="w">      </span>description:<span class="w"> </span>Number<span class="w"> </span>of<span class="w"> </span>messages<span class="w"> </span><span class="k">for</span><span class="w"> </span>queue<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.queue<span class="w"> </span><span class="o">}}</span><span class="w"> </span>of<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$labels</span>.app<span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="o">({{</span><span class="w"> </span><span class="nv">$labels</span>.instance<span class="w"> </span><span class="o">}})</span><span class="w"> </span>is<span class="w"> </span><span class="o">{{</span><span class="w"> </span><span class="nv">$value</span><span class="w"> </span><span class="o">}}</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>than<span class="w"> </span>1h.
+<span class="c1"># add the disk, using zfs-hdd/pve</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--scsi0<span class="w"> </span>zfs-hdd-pve:0,iothread<span class="o">=</span><span class="m">1</span>,backup<span class="o">=</span>off,format<span class="o">=</span>qcow2,import-from<span class="o">=</span>/home/alex/debian-13-generic-amd64.qcow2
+<span class="c1"># set boot</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span>scsi0
+<span class="c1"># set some physical values</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--cpu<span class="w"> </span>host<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">4096</span>
+<span class="c1"># add cloudinit</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w">  </span><span class="m">998</span><span class="w"> </span>--ide2<span class="w"> </span>local:cloudinit
+<span class="c1"># set qemu agent</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--agent<span class="w"> </span><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="c1"># make it a template</span>
+qm<span class="w"> </span>template<span class="w"> </span><span class="m">998</span>
 </code></pre></div>
-<p>Related commit in openfoodfacts-monitoring <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/commit/295a8e174470482c759648a39ce53fd50631326f">295a8e1</a></p>
-<p>As I had deferred email currently in queue
-(because of a solved bug on ovh3 where bug were sent to the wrong host)
-I was able to test that is was working.</p>
-<p>I have a <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/113">PR to add an alert if the number of message sent drops significantly</a> but I have to wait that we have enough values in prometheus to activate it.</p>
+<h2 id="creating-the-vm-for-docker-on-scaleway-02">Creating the VM for docker on scaleway-02<a class="headerlink" href="#creating-the-vm-for-docker-on-scaleway-02" title="Permanent link">#</a></h2>
+<h3 id="creating-the-vm">Creating the VM<a class="headerlink" href="#creating-the-vm" title="Permanent link">#</a></h3>
+<p>I use the Template VM to create my VM:</p>
+<ul>
+<li>Target node: scaleway-02</li>
+<li>VM ID: 200</li>
+<li>Name: scaleway-docker-prod</li>
+<li>Mode: full-clone</li>
+<li>Target storage: zfs-hdd-pve</li>
+</ul>
+<p>I tweak configuration to:</p>
+<ul>
+<li>start at boot</li>
+<li>enable protection</li>
+<li>change cloudinit to:<ul>
+<li>user: config-op</li>
+<li>password: <strong>*</strong></li>
+<li>ssh public keys: I took part of the content of /root/.ssh/authorized_keys on scaleway-02</li>
+<li>IPConfig: IP: 10.13.1.200/16 and Gateway: 10.13.0.2</li>
+</ul>
+</li>
+</ul>
+<p>In ansible/ folder I:</p>
+<ul>
+<li>add the VM to the inventory.
+  <div class="highlight"><pre><span></span><code>scaleway-docker-prod proxmox_vm_id=200 proxmox_node="scaleway-02"
+</code></pre></div>
+  and add it to the <code>scaleway_vms</code> group</li>
+<li>create <code>host_vars/scaleway-docker-prod/scaleway-docker-prod-secrets.yml</code>
+  and add the <code>ansible_become_password</code> inside (using the same password as in cloudinit)</li>
+</ul>
+<p>I will run the jobs/configure recipe after having configure virtio-fs.</p>
+<h3 id="configuring-virtio-fs">Configuring virtio-fs<a class="headerlink" href="#configuring-virtio-fs" title="Permanent link">#</a></h3>
+<p>I configure virtio-fs using ansible.</p>
+<p>At the moment, keycloak does not have any docker volume (it's only using the distant postgres).</p>
+<p>Nonetheless, I will add docker volumes virtiofs
+mapping on zfs-hdd for now.</p>
+<p>I edited <code>proxmox_node__zfs_filesystems</code> in <code>host_vars/scaleway-02/proxmox.yml</code> to add <code>zfs-hdd/virtiofs/qm-200/docker-volumes</code> and its parents, adding posix acl type to <code>zfs-hdd/virtiofs</code>.</p>
+<p>And edited <code>virtiofs__dir_mappings</code> in <code>group_vars/pvescaleway/proxmox.yml</code> to add the virtiofs mapping.</p>
+<p>I can then run:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-02<span class="w"> </span>--tags<span class="w"> </span>zfs,virtiofs
+</code></pre></div>
+<h3 id="adding-virtiofs-volume-to-our-vm">Adding virtiofs volume to our VM<a class="headerlink" href="#adding-virtiofs-volume-to-our-vm" title="Permanent link">#</a></h3>
+<p>I edited manually the VM to add the VIRTIOFS device:</p>
+<ul>
+<li>in hardware, add virtiofs</li>
+<li>directory id: qm-200-virtiofs-docker-volumes</li>
+<li>enable posix acl</li>
+<li>do not enable direct IO (would slow it down)</li>
+</ul>
+<p>The corresponding string is: <code>qm-200-virtiofs-docker-volumes,expose-acl=1</code></p>
+<h3 id="resizing-partition">Resizing partition<a class="headerlink" href="#resizing-partition" title="Permanent link">#</a></h3>
+<p>I need to resize the VM disk which is small from 3G to 24G
+(to account for the space of docker images).</p>
+<p>On the host:<code>qm resize 200 scsi0 +21G</code></p>
+<p>On the VM:
+</p><div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/sda
+<span class="w">  </span>Warning:<span class="w"> </span>Not<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>space<span class="w"> </span>available<span class="w"> </span>to<span class="w"> </span>/dev/sda<span class="w"> </span>appears<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>used,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>fix<span class="w"> </span>the<span class="w"> </span>GPT<span class="w"> </span>to<span class="w"> </span>use
+<span class="w">  </span>all<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>space<span class="w"> </span><span class="o">(</span>an<span class="w"> </span>extra<span class="w"> </span><span class="m">44040192</span><span class="w"> </span>blocks<span class="o">)</span><span class="w"> </span>or<span class="w"> </span><span class="k">continue</span><span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>setting?<span class="w"> </span>
+<span class="w">  </span>Fix/Ignore?<span class="w"> </span>fix
+<span class="w">  </span><span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>p
+<span class="w">  </span>Model:<span class="w"> </span>QEMU<span class="w"> </span>QEMU<span class="w"> </span>HARDDISK<span class="w"> </span><span class="o">(</span>scsi<span class="o">)</span>
+<span class="w">  </span>Disk<span class="w"> </span>/dev/sda:<span class="w"> </span>50331648s
+<span class="w">  </span>Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span>512B/512B
+<span class="w">  </span>Partition<span class="w"> </span>Table:<span class="w"> </span>gpt
+<span class="w">  </span>Disk<span class="w"> </span>Flags:
+<span class="w">  </span>Number<span class="w">  </span>Start<span class="w">    </span>End<span class="w">       </span>Size<span class="w">      </span>File<span class="w"> </span>system<span class="w">  </span>Name<span class="w">  </span>Flags
+<span class="w">  </span><span class="m">14</span><span class="w">      </span>2048s<span class="w">    </span>8191s<span class="w">     </span>6144s<span class="w">                        </span>bios_grub
+<span class="w">  </span><span class="m">15</span><span class="w">      </span>8192s<span class="w">    </span>262143s<span class="w">   </span>253952s<span class="w">   </span>fat16<span class="w">              </span>boot,<span class="w"> </span>esp
+<span class="w">  </span><span class="m">1</span><span class="w">      </span>262144s<span class="w">  </span>6289407s<span class="w">  </span>6027264s<span class="w">  </span>ext4
+<span class="w">  </span><span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>resizepart<span class="w"> </span><span class="m">1</span><span class="w"> </span>50329601s
+<span class="w">  </span>Warning:<span class="w"> </span>Partition<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>being<span class="w"> </span>used.<span class="w"> </span>Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span><span class="k">continue</span>?
+<span class="w">  </span>Yes/No?<span class="w"> </span>y
+<span class="w">  </span><span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>quit
+resize2fs<span class="w"> </span>/dev/sda1
+<span class="w">  </span>resize2fs<span class="w"> </span><span class="m">1</span>.47.2<span class="w"> </span><span class="o">(</span><span class="m">1</span>-Jan-2025<span class="o">)</span>
+<span class="w">  </span>Filesystem<span class="w"> </span>at<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>mounted<span class="w"> </span>on<span class="w"> </span>/<span class="p">;</span><span class="w"> </span>on-line<span class="w"> </span>resizing<span class="w"> </span>required
+<span class="w">  </span><span class="nv">old_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">new_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="w">  </span>The<span class="w"> </span>filesystem<span class="w"> </span>on<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>now<span class="w"> </span><span class="m">6258432</span><span class="w"> </span><span class="o">(</span>4k<span class="o">)</span><span class="w"> </span>blocks<span class="w"> </span>long.
+df<span class="w"> </span>-h<span class="w"> </span>/
+<span class="w">  </span>Filesystem<span class="w">      </span>Size<span class="w">  </span>Used<span class="w"> </span>Avail<span class="w"> </span>Use%<span class="w"> </span>Mounted<span class="w"> </span>on
+<span class="w">  </span>/dev/sda1<span class="w">        </span>24G<span class="w">  </span><span class="m">2</span>.5G<span class="w">   </span>20G<span class="w">  </span><span class="m">12</span>%<span class="w"> </span>/
+</code></pre></div><p></p>
+<p><strong>Note</strong> that, because of the start of the partition <code>6289407 mod 2048 == 1</code>,
+we had to take <code>50331648s - 2047</code> for the end, so that partition length is aligned. <sup id="fnref:alignment"><a class="footnote-ref" href="#fn:alignment">1</a></sup></p>
+<h2 id="setting-up-stunnel-to-connect-to-postgres-on-off2">Setting up stunnel to connect to Postgres on off2<a class="headerlink" href="#setting-up-stunnel-to-connect-to-postgres-on-off2" title="Permanent link">#</a></h2>
+<p>We will need to connect to postgres currently on off2 in a secure way.</p>
+<p>To make things easy we will use stunnel.</p>
+<h3 id="configuring-stunnel-server-side-on-off2-proxy">Configuring stunnel server side on off2 proxy<a class="headerlink" href="#configuring-stunnel-server-side-on-off2-proxy" title="Permanent link">#</a></h3>
+<p>I changed config of off2 proxy to add an entry for postgres:
+</p><div class="highlight"><pre><span></span><code><span class="k">[OffPostgres]</span>
+<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
+<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5432</span>
+<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.120:5432</span>
+<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
+<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/postgres-psk.txt</span>
+</code></pre></div>
+in <code>postgres-psk.txt</code> I added a key (generated with <code>pwgen 32</code>) with user scaleway-02.<p></p>
+<p>Tested the config with <code>stunnel /etc/stunnel/off.conf</code>.</p>
+<p>Restarted the service: <code>systemctl restart stunnel@off.service &amp;&amp; systemctl status stunnel@off.service</code></p>
+<p>Test it's ok: <code>nc -v 127.0.0.1 5432</code></p>
+<p>Edited <code>/etc/nftables.conf.d/001-off2-reverse-proxy.conf</code> to add port 5432 to <code>STUNNEL_PORTS</code>,
+and to add scaleway address ranges <code>151.115.132.0/27</code> to <code>OFF_SERVERS</code>.
+Then I <code>sudo systemctl reload nftable</code>.</p>
+<p>I can now test nc access from scaleway-02:
+</p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">213</span>.36.253.214<span class="w"> </span><span class="m">5432</span>
+off2-2.free.org<span class="w"> </span><span class="o">[</span><span class="m">213</span>.36.253.214<span class="o">]</span><span class="w"> </span><span class="m">5432</span><span class="w"> </span><span class="o">(</span>postgresql<span class="o">)</span><span class="w"> </span>open
+</code></pre></div><p></p>
+<h3 id="configuring-stunnel-client-side-on-scaleway-02">Configuring stunnel client side on scaleway-02<a class="headerlink" href="#configuring-stunnel-client-side-on-scaleway-02" title="Permanent link">#</a></h3>
+<p>We have to create a container running stunnel in client mode.</p>
+<p>So first we create the CT, for this I edited the scaleway-02 host_vars proxmox.yml
+to add an entry to <code>proxmox_containers__containers</code>,
+add my container in inventory as well as its secret <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">as stated in Proxmox / How to cerate a new container with ansible</a>.
+and then run:
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-02<span class="w"> </span>--tags<span class="w"> </span>containers
+</code></pre></div><p></p>
+<p>and then:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-stunnel-client
+</code></pre></div>
+<p>Note: we don't have to add ports of stunnel in iptables config
+because, by default, internal address are whitelisted
+and our stunnel client is to be accessed only from the private network.</p>
+<p>Now we use the stunnel-client playbook.</p>
+<p>I launched:
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/stunnel-client.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-stunnel-client
+</code></pre></div>
+(In reality there were debugging things, as the playbook was new and stunnel role was reworked).<p></p>
+<p>I realized afterward that we also need Redis connection.
+This one was already available on off1 side, so I just had to add it on my stunnel client configuration.</p>
+<h3 id="testing-it">Testing it<a class="headerlink" href="#testing-it" title="Permanent link">#</a></h3>
+<p>We can test our stunnel is working
+From our scaleway-stunnel-client, first, we can test:
+</p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">5432</span>
+Connection<span class="w"> </span>to<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">5432</span><span class="w"> </span>port<span class="w"> </span><span class="o">[</span>tcp/postgresql<span class="o">]</span><span class="w"> </span>succeeded!
+</code></pre></div>
+From our scaleway-docker-prod VM:
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">5432</span>
+Connection<span class="w"> </span>to<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">5432</span><span class="w"> </span>port<span class="w"> </span><span class="o">[</span>tcp/postgresql<span class="o">]</span><span class="w"> </span>succeeded!
+</code></pre></div><p></p>
+<h2 id="installing-docker-on-scaleway-prod-docker">Installing docker on scaleway-prod-docker<a class="headerlink" href="#installing-docker-on-scaleway-prod-docker" title="Permanent link">#</a></h2>
+<p>We:</p>
+<ul>
+<li>add scaleway-docker-prod to docker_vm_hosts group</li>
+<li>define <code>docker__volumes_virtiofs</code> and <code>continuous_deployment__ssh_public_keys</code> variables in <code>host_vars/scaleway-docker-prod/docker.yml</code> (I get the public key from current deployment on off1/104)
+and use the docker_vm playbook.</li>
+</ul>
+<h2 id="deploying-keycloak">Deploying keycloak<a class="headerlink" href="#deploying-keycloak" title="Permanent link">#</a></h2>
+<p>This is done on openfoodfacts-auth with a specific PR and a rule in the workflow.</p>
+<p>See https://github.com/openfoodfacts/openfoodfacts-auth/pull/294</p>
+<h2 id="reverse-proxy-configuration">Reverse proxy configuration<a class="headerlink" href="#reverse-proxy-configuration" title="Permanent link">#</a></h2>
+<p>I added a configuration to the reverse proxy,
+with a temporary auth-new.openfoodfacts.org name.</p>
+<ul>
+<li>added <code>auth-new.openfoodfacts.org</code> in OVH DNS as a CNAME to <code>scaleway-proxy.openfoodfacts.org</code>.</li>
+<li>created a config on off1 reverse proxy, taking inspiration from the one existing for the old keycloak</li>
+</ul>
+<p>As I wanted to test it on auth.openfoodfacts.org (because keycloak won't accept another domain, as it is configured for this domain), I needed to copy the certificates on the reverse proxy:</p>
+<ul>
+<li>on off2 proxy:
+  <div class="highlight"><pre><span></span><code>tar<span class="w"> </span>cvzf<span class="w"> </span>/root/auth-certs.tgz<span class="w"> </span>/etc/letsencrypt/live/auth.openfoodfacts.org/<span class="w"> </span>/etc/letsencrypt/archive/auth.openfoodfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/auth.openfoodfacts.org.conf
+chmod<span class="w"> </span>go-rw<span class="w"> </span>/root/auth-certs.tgz
+chown<span class="w"> </span>alex:alex<span class="w"> </span>/root/auth-certs.tgz
+mv<span class="w"> </span>/root/auth-certs.tgz<span class="w"> </span>/home/alex/
+</code></pre></div></li>
+<li>I transfered it to (using <code>ssh -A proxy-off2</code>) <code>scp -J 151.115.132.12 auth-certs.tgz 10.13.1.100:</code></li>
+<li>I extract on the reverse proxy: <code>cd / ; tar xzf /home/alex/auth-certs.tgz</code></li>
+<li>test and restart nginx: <code>nginx -t &amp;&amp; systemctl restart nginx</code></li>
+<li>remove the archives in /home/alex on both servers</li>
+</ul>
+<p>Now I can test by editing my <code>/etc/hosts</code> with:
+</p><div class="highlight"><pre><span></span><code>151.115.132.10 auth.openfoodfacts.org
+</code></pre></div><p></p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:alignment">
+<p>https://pieterbakker.com/optimal-disk-alignment-with-parted/ is a good resource to understand alignment.&nbsp;<a class="footnote-backref" href="#fnref:alignment" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 

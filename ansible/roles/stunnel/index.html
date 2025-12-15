@@ -4682,6 +4682,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/2025-11-27-moving-keycloak-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-11-27 Moving keycloak to scaleway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -4751,15 +4774,26 @@
 <h1 id="stunnel-role">Stunnel role<a class="headerlink" href="#stunnel-role" title="Permanent link">#</a></h1>
 <p>This role installs and configures <a href="https://www.stunnel.org/">Stunnel</a>. We currently use Stunnel to secure connections between servers that are not on the same trusted network, using Pre-Shared Keys (PSK).</p>
 <p>This role can be used to set up either a client or server Stunnel instance.</p>
+<p>It uses git_based_config to configure stunnel.</p>
 <p>To know more about our use of Stunnel, please refer to the <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/stunnel/">infrastructure documentation</a>.</p>
 <p>This role assumes that the <code>configure.yml</code> playbook was run before, especially for setting up the firewall rules.</p>
 <h2 id="defaults">Defaults<a class="headerlink" href="#defaults" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code>---
-# Destination of the PSK file on the server, must be defined by the user
-stunnel__psk_dst: ""
+# PSK files definition
+stunnel__psk_secrets: []
+# the content is username:psk
+# use pwgen 32 to generate psk
+# - file: postgres.psk
+#   content: |
+#      scaleway-02: auentuaienrst
 
-# Content of the PSK file, must be defined by the user
-stunnel__psk_content: ""
+# git repostory with system config
+# This is mandatory
+stunnel__config_repository_root:
+stunnel__config_repository_path: "{{ stunnel__config_repository_root }}/confs/{{ inventory_hostname }}"
+
+# Set this to true if you are on a stunnel client
+stunnel__ensure_no_client: true
 </code></pre></div>
 
 

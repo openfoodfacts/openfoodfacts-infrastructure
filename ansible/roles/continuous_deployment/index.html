@@ -4691,6 +4691,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/2025-11-27-moving-keycloak-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-11-27 Moving keycloak to scaleway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -4771,18 +4794,25 @@
 Those are used to setup a CI/CD using GitHub Actions.</p>
 <h2 id="setup-a-new-node">Setup a new node<a class="headerlink" href="#setup-a-new-node" title="Permanent link">#</a></h2>
 <p>To setup a new node, create a file called <code>host_vars/&lt;node_name&gt;/continuous-deployment.yml</code> with the following variable:</p>
-<div class="highlight"><pre><span></span><code>continuous_deployment_ssh_public_key: "ssh-ed25519 AAAAC3Nz[...] off@&lt;node_name&gt;"
+<div class="highlight"><pre><span></span><code>continuous_deployment__ssh_public_keys:
+
+  - "ssh-ed25519 AAAAC3Nz[...] off@&lt;node_name&gt;"
 </code></pre></div>
-<p>The SSH public key put in this variable is used to authenticate the deployer user.
-The corresponding private key should be added to the GitHub Actions secrets.</p>
-<p>This public/private keypair can be generated with</p>
+<p>The SSH public keys put in this are used to authenticate the deployer users.
+The corresponding private key should be added to the GitHub Actions secrets
+(use a different key for each repository).</p>
+<p>A public/private keypair can be generated with</p>
 <div class="highlight"><pre><span></span><code>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">"off@&lt;node_name&gt;"</span>
 </code></pre></div>
 <h2 id="defaults">Defaults<a class="headerlink" href="#defaults" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code>---
-continuous_deployment_user: "off"
+# Deployment user
+continuous_deployment__user: "off"
 
-continuous_deployment_ssh_public_key: ""
+# Public keys of deployers (ideally one per repo that deploy on the VM)
+continuous_deployment__ssh_public_keys: []
+# Eventual proxy jump host
+continuous_deployment__proxy_jump_host:
 </code></pre></div>
 
 

@@ -4999,6 +4999,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2025-11-27-moving-keycloak-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025-11-27 Moving keycloak to scaleway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -5639,8 +5662,8 @@ and add specific variables.</p>
 <ul>
 <li>add the container to <code>proxmox_containers__containers</code> in <code>host_variables/&lt;host-name&gt;/proxmox.yml</code></li>
 <li>add the container in <code>inventory.production.ini</code></li>
-<li>create <code>host_variables/&lt;container-name&gt;/&lt;container-name&gt;-secrets.yml</code>
-  and add <code>ansible_become_password</code> and <code>ansible_user_password_salt</code> variables</li>
+<li>create <code>host_vars/&lt;container-name&gt;/&lt;container-name&gt;-secrets.yml</code>
+  and add <code>ansible_become_password</code> and <code>ansible_user_password_salt</code> variables (using <code>pwgen 20</code> for the first and <code>pwgen 10</code> for the second is a good idea)</li>
 <li>create the container on the host and initialize, by running:
   <code>ansible-playbook sites/proxmox_node.yml --tags containers -l &lt;host-name&gt;</code></li>
 <li>make base setup of container by running:
