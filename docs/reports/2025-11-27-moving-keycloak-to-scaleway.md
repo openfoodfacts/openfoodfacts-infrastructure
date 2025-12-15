@@ -15,7 +15,7 @@ one important drawback is removed.
 
 We need a template VM to create our VM.
 
-Following [what we did on hetzner](./2025-11-04-search-a-licious-staging-hetzner.md)
+Following what we did on hetzner.
 
 ```bash
 cd /home/alex
