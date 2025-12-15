@@ -1,14 +1,14 @@
 # 2025-11-27 creating scaleway zfs-nvme
 
-On scaleway servers, we setup the rpool zfs pool, and zfs-hdd.
+On scaleway servers, we setup the zfs pools `rpool` and `zfs-hdd`.
 But we still have a lot of space on nvme, that we will use for data.
-So we have to create zfs-nvme pool on each server.
+So we have to create `zfs-nvme` pool on each server.
 
 ## Adding a zpool for data on scaleway-01
 
-The host system is currently on the nvme in the rpool zpool.
+The host system is currently on the nvme in the `rpool` zfs pool.
 
-But we have plenty of space left on the disk. We will set it up in a zfs-nvme zpool.
+But we have plenty of space left on the disk. We will set it up in a `zfs-nvme` zfs pool.
 
 ### Creating partitions on scaleway-01
 
@@ -83,7 +83,7 @@ lrwxrwxrwx 1 root root 15 27 nov.  17:17 nvme-eui.000000000000000100a0752249f51d
 ```
 
 I added the ZPool and some zfs dataset that I wanted to create
-to host_vars/scaleway-01/proxmox.yml using those ids
+to `host_vars/scaleway-01/proxmox.yml` using those ids
 
 Now I run the playbook to instanciate this:
 ```bash
@@ -110,9 +110,9 @@ Errors were encountered while processing:
 
 `uname -a` tells be we are using kernel 6.15.11-4-pve.
 
-I tried to reboot to get the new kernel but it goes wrong and I lost the server… (and IPMI access was not yet setup !)
+I tried to reboot to get the new kernel but it goes wrong and I lost the server… (and IPMI access was not yet setup!)
 
-**So I decided to switch for an install scaleway-02 !**
+**So I decided to switch for an install scaleway-02!**
 
 ### Finishing (later on) on scaleway-01
 I returned to this task when scaleway-01 was back online (see report about disk problem on 2025-12-09).
@@ -129,9 +129,9 @@ ansible-playbook sites/proxmox-node.yml --tags zfs -l scaleway-01
 
 ## Adding a zpool for data on scaleway-02
 
-The host system is currently on the nvme in the rpool zpool.
+The host system is currently on the nvme in the `rpool` zpool.
 
-But we have plenty of space left on the disk. We will set it up in a zfs-nvme zpool.
+But we have plenty of space left on the disk. We will set it up in a `zfs-nvme` zpool.
 
 ### Upgrading the server
 
@@ -143,7 +143,7 @@ I simply did the
 sudo apt update
 sudo apt dist-upgrade
 ```
-it went well !
+it went well!
 
 ### Creating partitions on scaleway-02
 
@@ -300,10 +300,10 @@ As storage are the same on all nodes,
 I moved `proxmox_node__pve_storages` to `group_vars/pvescaleway/proxmox.yml`,
 and added the `zfs-nvme-pve` storage.
 
-Before running ansible, I dist-upgrade the hosts, to avoid the problem I had with scaleway-01
+Before running ansible, I dist-upgrade the hosts, to avoid the problem I had with `scaleway-01`.
 
 I run:
 ```bash
 ansible-playbook sites/proxmox-node.yml --tags zfs,storage -l scaleway-02,scaleway-03 -e _init_node=scaleway-02
 ```
-(and later when scaleway-01 was up again, on scaleway-01)
+(and later on `scaleway-01` when it was up again)
