@@ -1,21 +1,41 @@
 ---
-- name: Fail if 'continuous_deployment_ssh_public_key' is not defined or empty
+- name: Fail if 'continuous_deployment__ssh_public_keys' is not defined or empty
   ansible.builtin.fail:
-    msg: "The variable 'continuous_deployment_ssh_public_key' must be defined and not be an empty string."
-  when: continuous_deployment_ssh_public_key is not defined or continuous_deployment_ssh_public_key | length == 0
+    msg: "The variable 'continuous_deployment__ssh_public_keys' must be defined, not empty"
+  when: continuous_deployment__ssh_public_keys is not defined or continuous_deployment__ssh_public_keys | length == 0
 
 - name: Create linux user for deployer
   ansible.builtin.user:
-    name: "{{ continuous_deployment_user }}"
+    name: "{{ continuous_deployment__user }}"
     comment: "User used by the GitHub Actions to deploy"
     append: true
     groups: docker # append the docker group to the user, to allow docker commands
     state: present
     create_home: true
+    shell: /bin/bash
     password: "*" # ie no password / no login
 
-- name: Ensures SSH public key is present for deployer
+- name: Ensures all SSH public keys are present for deployers
   ansible.posix.authorized_key:
-    user: "{{ continuous_deployment_user }}"
-    key: "{{ continuous_deployment_ssh_public_key }}"
+    user: "{{ continuous_deployment__user }}"
+    key: "{{ continuous_deployment__ssh_public_keys | join('\n') }}"
     exclusive: true # remove all other non-specified keys from the authorized_keys file
+
+- name: Create linux user for deployers on jump proxy
+  ansible.builtin.user:
+    name: "{{ continuous_deployment__user }}"
+    comment: "User used by the GitHub Actions to deploy"
+    state: present
+    create_home: true
+    shell: /usr/sbin/nologin
+    password: "!" # ie no password / no login
+  delegate_to: "{{ continuous_deployment__proxy_jump_host }}"
+  when: continuous_deployment__proxy_jump_host | default(False)
+
+- name: Ensures all SSH public keys are present for deployers on jump proxy
+  ansible.posix.authorized_key:
+    user: "{{ continuous_deployment__user }}"
+    key: "{{ continuous_deployment__ssh_public_keys | join('\n') }}"
+    exclusive: false # there might be other proxy jump needed
+  delegate_to: "{{ continuous_deployment__proxy_jump_host }}"
+  when: continuous_deployment__proxy_jump_host | default(False)

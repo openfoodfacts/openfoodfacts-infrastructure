@@ -3,4 +3,41 @@ proxmox_node__pve_cluster_addr0: 10.13.0.2
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
+
 proxmox_node__zfs_filesystems: "{{ pvescaleway_common_proxmox_node__zfs_filesystems }}"
+
+proxmox_node__pve_storages:
+  - name: zfs-hdd-pve
+    type: zfspool
+    pool: zfs-hdd/pve
+    content: rootdir,images
+    mountpoint: /zfs-hdd/pve
+    sparse: 0
+    # shared: 0 # for some reason, this flag did make the setup crash
+  - name: local
+    type: dir
+    path: /var/lib/vz
+    content: vztmpl,snippets,iso
+    shared: 0
+  # removing installed storage
+  - name: zfs-hdd
+    type: zfspool
+    pool: zfs-hdd
+    state: absent
+
+proxmox_containers__containers:
+  - id: 101
+    hostname: scaleway-stunnel-client
+    features:
+      - nesting=1
+    cores: 2
+    memory: "{{ 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.13.1.101/16
+        gw: 10.13.0.2
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 10

@@ -1,6 +1,6 @@
 ---
 # This task file is a helper to enable / start and eventually restart a service
-# Based on it's definition timestamp
+# Based on it's definition timestamp and eventual config files
 - name: Query service info
   community.general.systemd_info:
     unitname: "{{ git_based_configs__service_name }}"
@@ -10,21 +10,62 @@
       - "DropInPaths"
   register: _git_based_configs__service_info_query
   ignore_errors: true
+  # no need to compute if we will force restart
+  when: not git_based_configs__force_service_restart
 
 - name: Get service info
   ansible.builtin.set_fact:
     _git_based_configs__service_info: >-
       {{ _git_based_configs__service_info_query.units[git_based_configs__service_name] }}
-  when: not _git_based_configs__service_info_query.failed
+  when: |
+    not
+    (
+      _git_based_configs__service_info_query.failed or
+      git_based_configs__force_service_restart
+    )
+
+- name: Get service definition files
+  ansible.builtin.set_fact:
+    # we have FragmentPath and DropInPaths to check. We have a select, because dropinpath maybe empty
+    _git_based_configs_service_files: >-
+      {{
+        (
+          [_git_based_configs__service_info.fragmentpath] +
+          (_git_based_configs__service_info.dropinpaths | default('') | split(','))
+        )
+        |
+        select
+      }}
+  when: |
+    not
+    (
+      _git_based_configs__service_info_query.failed or
+      git_based_configs__force_service_restart
+    )
 
 - name: Get overall configurations last modified
   ansible.builtin.stat:
-    path: "{{ item }}"
+    path: "{{ _fpath }}"
     follow: true # important to follow as our configs are symlinked
-  # we have FragmentPath and DropInPaths to check. We have a select, because dropinpath maybe empty
-  loop: "{{ ([_git_based_configs__service_info.fragmentpath] + (_git_based_configs__service_info.dropinpaths | default('') | split(',')) | select) }}"
+  # we also add specific config files
+  loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
+  loop_control:
+    loop_var: _fpath
+  register: _git_based_configs__systemd_config_symlinks_targets
+  # no need to compute if we will force restart
+  when: not git_based_configs__force_service_restart
+
+- name: Add overall configurations symlink last modified
+  # above we looked at symlikn by themselves as they might have just been created
+  ansible.builtin.stat:
+    path: "{{ _fpath }}"
+    follow: false
+  loop: "{{ (_git_based_configs_service_files | default([])) + git_based_configs__service_conf_files }}"
+  loop_control:
+    loop_var: _fpath
   register: _git_based_configs__systemd_config_symlinks
-  when: not _git_based_configs__service_info_query.failed
+  # no need to compute if we will force restart
+  when: not git_based_configs__force_service_restart
 
 - name: Check configurations last modified
   ansible.builtin.set_fact:
@@ -35,7 +76,8 @@
           map(attribute="mtime") |
           max
       }}
-  when: not _git_based_configs__service_info_query.failed
+  # no need to compute if we will force restart
+  when: not git_based_configs__force_service_restart
 
 - name: Do we need service restart ?
   ansible.builtin.set_fact:
@@ -43,13 +85,16 @@
     # also because localhost local might not match server local
     _git_based_configs__needs_restart: >-
       {{
-        not _git_based_configs__service_info_query.failed and (
-          (_git_based_configs__config_last_modified | float) >
-          (
-            _git_based_configs__service_info.activeentertimestamp |
-            regex_replace('^\w+ ', '') |
-            to_datetime('%Y-%m-%d %H:%M:%S %Z')
-          ).timestamp()
+        git_based_configs__force_service_restart or
+        (
+          not _git_based_configs__service_info_query.failed and (
+            (_git_based_configs__config_last_modified | float) >
+            (
+              _git_based_configs__service_info.activeentertimestamp |
+              regex_replace('^\w+ ', '') |
+              to_datetime('%Y-%m-%d %H:%M:%S %Z')
+            ).timestamp()
+          )
         )
       }}
 
