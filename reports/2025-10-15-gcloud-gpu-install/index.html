@@ -4869,7 +4869,7 @@ OS: Debian 11, with Deep Learning VM (Deep Learning VM with CUDA 12.4 M129)</p>
 <p>We also install stunnel using ansible (<code>stunnel</code> role) so that communication between the gpu-01 server and the rest of the infrastructure is encrypted. We use the same triton-psk.txt key as on osm45.</p>
 <p>I pushed <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/2c4e50c0e5cd58f0710e75f19ac0a7ba8d98e5e4">a commit</a> from the gpu-01 machine to save stunnel config.</p>
 <p>Before launching the triton server, we start by donwloading the models (with the <code>off</code> user).</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/robotoff/models
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/triton-org/models
 uv<span class="w"> </span>run<span class="w"> </span>manage.py<span class="w"> </span>download-models
 </code></pre></div>
 <p>We also copy the Triton model configuration files to the <code>triton</code> directory (read by Triton):</p>
@@ -4880,6 +4880,9 @@ uv<span class="w"> </span>run<span class="w"> </span>manage.py<span class="w"> <
 </code></pre></div>
 <p>and check that it is running:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>logs<span class="w"> </span>triton-triton-1
+</code></pre></div>
+<p>I also disabled (by commenting the entry) a cron job added by Google Cloud Compute to diagnose the GPU status, that produces a lot of emails:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>crontab<span class="w"> </span>-e
 </code></pre></div>
 
 
