@@ -16,6 +16,8 @@
       tags: ["firewall", "iptables"]
     - role: fail2ban_iptables
       tags: fail2ban
+    - role: systemd_email_failures
+      tags: ["systemd", "alerts"]
 # TODO
 #    - role: munin-node
 #      tags: [munin, munin-node]
