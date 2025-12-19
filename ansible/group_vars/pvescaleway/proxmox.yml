@@ -21,7 +21,6 @@ pvescaleway_common_proxmox_node__zfs_filesystems:
   # - name: zfs-hdd/backups
   - name: zfs-nvme/pve
 
-
 # storages,
 # we need to declare all of them event if not present on all nodes
 proxmox_node__pve_storages:

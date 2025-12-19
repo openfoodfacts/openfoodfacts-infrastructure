@@ -9,10 +9,4 @@
     src: email-failures@.service
     dest: /etc/systemd/system/email-failures@.service
     mode: "0644"
-  register: _systemd_email_failures__definition
-
-- name: Reload systemd if needed.
-  ansible.builtin.systemd_service:
-    # reload systemd daemon the before applying changes
-    daemon_reload: true
-  when: _systemd_email_failures__definition.changed
+  notify: "systemd_email_failures : Reload systemd"
