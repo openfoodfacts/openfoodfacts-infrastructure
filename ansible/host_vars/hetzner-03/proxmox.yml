@@ -20,7 +20,6 @@ proxmox_node__zfs_filesystems:
   # data of off-query postgres replication
   - name: rpool/virtiofs/qm-202/docker-volumes/off-query-replica_dbdata
 
-
 proxmox_node__pve_storages:
   - name: rpool-pve
     type: zfspool
