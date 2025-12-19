@@ -43,3 +43,21 @@ Progress:
 * OFF-PRO: Done
 * OFF: Done
 
+Running migration script `perl scripts/migrate_users_to_keycloak.pl` on OFF:
+
+[Tue Dec 16 12:41:04 2025] Started
+[Tue Dec 16 12:47:33 2025] Validated 10000 / 380436
+[Tue Dec 16 13:34:02 2025] Validated 50000 / 380436
+broken pipe
+
+Resumed using `screen -S keycloak-import`
+
+[Tue Dec 16 16:00:03 2025] Starting email validation
+[Tue Dec 16 16:05:53 2025] Validated 10000 / 380457
+[Tue Dec 16 21:08:29 2025] Validated 380457 / 380457
+[Tue Dec 16 21:41:02 2025] Migrated 10000 / 376346
+[Wed Dec 17 07:01:29 2025] Migrated 200000 / 376346
+[Wed Dec 17 09:33:31 2025] Migrated 250000 / 376346
+[Wed Dec 17 12:14:45 2025] Migrated 300000 / 376346
+[Wed Dec 17 16:50:42 2025] Migrated 376346 / 376346
+

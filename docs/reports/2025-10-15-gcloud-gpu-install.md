@@ -63,7 +63,7 @@ I pushed [a commit](https://github.com/openfoodfacts/openfoodfacts-infrastructur
 Before launching the triton server, we start by donwloading the models (with the `off` user).
 
 ```bash
-cd /home/off/robotoff/models
+cd /home/off/triton-org/models
 uv run manage.py download-models
 ```
 
@@ -83,4 +83,10 @@ and check that it is running:
 
 ```bash
 docker logs triton-triton-1
+```
+
+I also disabled (by commenting the entry) a cron job added by Google Cloud Compute to diagnose the GPU status, that produces a lot of emails:
+
+```bash
+sudo crontab -e
 ```
