@@ -11,16 +11,23 @@ proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
 
 # directory mappings
 virtiofs__dir_mappings:
+  # old virtiofs to remove
   - id: qm-200-virtiofs
     map:
       - node: hetzner-02
         path: /rpool/qm-200-virtiofs
     description: "virtiofs dataset for qm-200"
+    state: absent
   - id: qm-201-virtiofs-docker-volumes
     map:
       - node: hetzner-02
         path: /rpool/virtiofs/qm-201/docker-volumes
     description: "virtiofs dataset for qm-201 docker volumes"
+  - id: qm-202-virtiofs-docker-volumes
+    map:
+      - node: hetzner-03
+        path: /rpool/virtiofs/qm-202/docker-volumes
+    description: "virtiofs dataset for qm-202 docker volumes"
 
 # FIXME
 # pve_ssl_private_key
