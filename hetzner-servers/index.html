@@ -691,6 +691,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="vSwitch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshouting-vswitch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshouting vswitch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -5723,6 +5740,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-12-16-hetzner-vswitch-not-working/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-12-16 Hetzner vswitch not working
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-12-16-move-to-oidc-implementation-level-1/" class="md-nav__link">
         
   
@@ -5825,6 +5870,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="vSwitch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshouting-vswitch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshouting vswitch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -5861,6 +5923,12 @@
 we need to use a vSwitch to connect our servers in a private network
 (which is handy for a proxmox cluster).</p>
 <p><a href="https://docs.hetzner.com/robot/dedicated-server/network/vswitch/">Official documentation for vswitch</a></p>
+<h3 id="troubleshouting-vswitch">Troubleshouting vswitch<a class="headerlink" href="#troubleshouting-vswitch" title="Permanent link">#</a></h3>
+<p>If private network as problems,
+in particular if <code>ip neigh</code> shows you FAILED resolutions of ip,
+see <a href="https://docs.hetzner.com/robot/dedicated-server/network/vswitch/#troubleshooting-vswitch-connection-issues">hetzner vswitch section to troubleshout it</a>
+and try to reset, or remove servers and add them again
+(see <a href="../reports/2025-12-16-hetzner-vswitch-not-working/">this report</a>)</p>
 
 
 

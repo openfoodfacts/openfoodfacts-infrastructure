@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../2023-06-08-stalled-zfs-sync-off-products/">
+        <link rel="prev" href="../2025-11-27-moving-keycloak-to-scaleway/">
       
       
-        <link rel="next" href="../2023-07-16-ovh3-sdc-broken/">
+        <link rel="next" href="../2025-12-16-move-to-oidc-implementation-level-1/">
       
       
         
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-06-30 Sanoid checks install - Open Food Facts Infrastructure documentation</title>
+        <title>2025-12-16 Hetzner vswitch not working - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-06-30-sanoid-checks-install" class="md-skip">
+        <a href="#2025-12-16-hetzner-vswitch-not-working" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-06-30 Sanoid checks install
+              2025-12-16 Hetzner vswitch not working
             
           </span>
         </div>
@@ -3189,37 +3189,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2023-06-30 Sanoid checks install
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-06-30-sanoid-checks-install/" class="md-nav__link">
         
   
   
@@ -3235,70 +3208,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Goal
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#onfailure-for-sanoid-and-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OnFailure for sanoid and syncoid
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5744,10 +5653,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-12-16-hetzner-vswitch-not-working/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-12-16 Hetzner vswitch not working
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5763,6 +5699,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagnosis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnosis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5858,10 +5836,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
+  <a href="#diagnosis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Goal
+        Diagnosis
       
     </span>
   </a>
@@ -5869,32 +5847,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-check" class="md-nav__link">
+  <a href="#resolution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#onfailure-for-sanoid-and-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OnFailure for sanoid and syncoid
+        Resolution
       
     </span>
   </a>
@@ -5918,7 +5874,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2023-06-30-sanoid-checks-install.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-12-16-hetzner-vswitch-not-working.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -5926,37 +5882,64 @@
   
 
 
-<h1 id="2023-06-30-sanoid-checks-install">2023-06-30 Sanoid checks install<a class="headerlink" href="#2023-06-30-sanoid-checks-install" title="Permanent link">#</a></h1>
-<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">#</a></h2>
-<p>Be able to monitor if sanoid is running correctly, by running a regular check.</p>
-<h2 id="creating-check">Creating check<a class="headerlink" href="#creating-check" title="Permanent link">#</a></h2>
-<p>I created and tested sanoid_check.sh</p>
-<p>I then created the systemd unit and timer.</p>
-<h2 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">#</a></h2>
-<p>On off2:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/system/email-failures@.service<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/system/sanoid_check.*<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>sanoid_check.timer
+<h1 id="2025-12-16-hetzner-vswitch-not-working">2025-12-16 Hetzner vswitch not working<a class="headerlink" href="#2025-12-16-hetzner-vswitch-not-working" title="Permanent link">#</a></h1>
+<p>While installing the VM for setting up query postgres,
+tempting to "scp" a file between the cluster nodes,
+it was not working.</p>
+<h2 id="diagnosis">Diagnosis<a class="headerlink" href="#diagnosis" title="Permanent link">#</a></h2>
+<p>Trying to connect to ssh failed</p>
+<p></p><div class="highlight"><pre><span></span><code><span class="c1"># ssh -vvv 10.12.0.2</span>
+debug1:<span class="w"> </span>OpenSSH_10.0p2<span class="w"> </span>Debian-7,<span class="w"> </span>OpenSSL<span class="w"> </span><span class="m">3</span>.5.4<span class="w"> </span><span class="m">30</span><span class="w"> </span>Sep<span class="w"> </span><span class="m">2025</span>
+debug3:<span class="w"> </span>Running<span class="w"> </span>on<span class="w"> </span>Linux<span class="w"> </span><span class="m">6</span>.14.11-4-pve<span class="w"> </span><span class="c1">#1 SMP PREEMPT_DYNAMIC PMX 6.14.11-4 (2025-10-10T08:04Z) x86_64</span>
+debug3:<span class="w"> </span>Started<span class="w"> </span>with:<span class="w"> </span>ssh<span class="w"> </span>-vvv<span class="w"> </span><span class="m">10</span>.12.0.2
+...
+debug1:<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span><span class="m">10</span>.12.0.2<span class="w"> </span><span class="o">[</span><span class="m">10</span>.12.0.2<span class="o">]</span><span class="w"> </span>port<span class="w"> </span><span class="m">22</span>.
+debug3:<span class="w"> </span>set_sock_tos:<span class="w"> </span><span class="nb">set</span><span class="w"> </span>socket<span class="w"> </span><span class="m">3</span><span class="w"> </span>IP_TOS<span class="w"> </span>0x10
 </code></pre></div>
-<p>Test the check:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># check not already running</span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sanoid_check.service
-sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>sanoid_check.service
-sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sanoid_check.service
+it was stalled with this last line.<p></p>
+<p>I had the same problem with <code>10.12.0.1</code> and reciprocally,
+ping did not work either between hosts.
+I could connect from scaleway-02 to scaleway-01 though…</p>
+<p>After some times of trying various thing,
+and thinking that maybe my MASQUERADE rule in iptables was not correct <sup id="fnref:iptable-masquerade"><a class="footnote-ref" href="#fn:iptable-masquerade">1</a></sup>.</p>
+<p>But after sometimes I looked at arp cache.
+On scaleway-02 it gave me something like:
+</p><div class="highlight"><pre><span></span><code>arp
+<span class="w">    </span>Address<span class="w">                  </span>HWtype<span class="w">  </span>HWaddress<span class="w">           </span>Flags<span class="w"> </span>Mask<span class="w">            </span>Iface
+<span class="w">    </span>static.65.90.99.88.clie<span class="w">  </span>ether<span class="w">   </span><span class="m">40</span>:71:83:a5:eb:97<span class="w">   </span>C<span class="w">                     </span>vmbr0
+<span class="w">    </span>hetzner-01.infra.openfo<span class="w">  </span>ether<span class="w">   </span>a8:a1:59:82:3b:4a<span class="w">   </span>C<span class="w">                     </span>vmbr1
+<span class="w">    </span>hetzner-03.infra.openfo<span class="w">          </span><span class="o">(</span>incomplete<span class="o">)</span><span class="w">                              </span>vmbr1
+</code></pre></div>
+Using <code>ip neigh</code> is maybe a better command though.
+It gave me
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>neigh
+<span class="w">    </span><span class="m">88</span>.99.90.65<span class="w"> </span>dev<span class="w"> </span>vmbr0<span class="w"> </span>lladdr<span class="w"> </span><span class="m">40</span>:71:83:a5:eb:97<span class="w"> </span>REACHABLE<span class="w"> </span>
+<span class="w">    </span><span class="m">10</span>.12.0.1<span class="w"> </span>dev<span class="w"> </span>vmbr1<span class="w"> </span>lladdr<span class="w"> </span>a8:a1:59:82:3b:4a<span class="w"> </span>STALE<span class="w"> </span>
+<span class="w">    </span><span class="m">10</span>.12.0.3<span class="w"> </span>dev<span class="w"> </span>vmbr1<span class="w"> </span>FAILED<span class="w"> </span>
 </code></pre></div><p></p>
-<p>It worked !</p>
-<p>Same operation on ovh3 (but with ovh3 folder).</p>
-<h2 id="onfailure-for-sanoid-and-syncoid">OnFailure for sanoid and syncoid<a class="headerlink" href="#onfailure-for-sanoid-and-syncoid" title="Permanent link">#</a></h2>
-<p>While installing sanoid check, I realized <code>email-failures@.service</code> did not exists already,
-and that sanoid and syncoid did not email their failures !</p>
-<p>So I override sanoid.service and modify syncoid.service to add it.</p>
-<p>After adding relevant files to git,</p>
-<p>On off2:
-</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off2/systemd/sanoid.service.d/override.conf<span class="w"> </span>/etc/systemd/system/
-sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-</code></pre></div><p></p>
-<p>same on ovh3 (but with ovh3 folder).</p>
+<p>I tried <code>ip -s -s neigh flush all</code> to reset arp cache,
+but it did not help.</p>
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
+<p>I decided to re-read the vswitch documentation to see if I was doing something wrong
+(after re-reading my configurations various time).</p>
+<p>I found <a href="https://docs.hetzner.com/robot/dedicated-server/network/vswitch/#troubleshooting-vswitch-connection-issues">a section to troubleshout it</a></p>
+<p>I tried to use the "refresh" button, but it did nothing,
+so as proposed by their docs, I removed all servers, and add them again.
+After that it started to work !</p>
+<p>This is really sad !</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:iptable-masquerade">
+<p>indeed we could enhance it, changing from:
+  <code>iptables -t nat -I POSTROUTING -m set --match-set PrivateNet4 src -j MASQUERADE</code>
+  to
+  <code>iptables -t nat -I POSTROUTING -m set --match-set PrivateNet4 src -m set ! --match-set PrivateNet4 dst -j MASQUERADE</code>
+  and adequately for ipv6,
+  that is, avoid to masquerade connections happening within the private network.&nbsp;<a class="footnote-backref" href="#fnref:iptable-masquerade" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 
