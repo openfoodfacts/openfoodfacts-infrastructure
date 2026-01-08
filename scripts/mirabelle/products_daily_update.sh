@@ -107,7 +107,7 @@ echo "$(date +'%Y-%m-%dT%H:%M:%S') - Old CSV size $old_csv_lines"
 
 # Create a temporary DB if today's CSV is bigger than yesterday
 # TODO: better test new CSV (find newest product?)
-if (( "$new_csv_lines" > "$old_csv_lines"-5000 )); then
+if (( "$new_csv_lines" > "$old_csv_lines"-25000 )); then
   [[ "$mode" == "i" ]] && read -p "Press [Enter] key to create new db..."
   mv -f en.openfoodfacts.org.products.csv en.openfoodfacts.org.products.csv.bak
   mv newdata.csv en.openfoodfacts.org.products.csv
