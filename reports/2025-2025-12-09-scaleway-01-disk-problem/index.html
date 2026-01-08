@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2025-10-14-rename-shared-services-volumes/">
+        <link rel="prev" href="../2025-12-17-moji-down/">
       
-      
-        <link rel="next" href="../2025-10-15-gcloud-gpu-install/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2025-10-14 Scaleway servers ZFS - Open Food Facts Infrastructure documentation</title>
+        <title>2025-2025-12-09 scaleway 01 disk problem - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025-10-14-scaleway-servers-zfs" class="md-skip">
+        <a href="#2025-2025-12-09-scaleway-01-disk-problem" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025-10-14 Scaleway servers ZFS
+              2025-2025-12-09 scaleway 01 disk problem
             
           </span>
         </div>
@@ -5429,37 +5427,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2025-10-14 Scaleway servers ZFS
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2025-10-14-scaleway-servers-zfs/" class="md-nav__link">
         
   
   
@@ -5475,70 +5446,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#fixing-ssd-pools" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fixing SSD pools
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-hdd-pools" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating HDD pools
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dist-upgrade" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dist upgrade
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#turning-mitigations-off" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Turning mitigations off
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5828,10 +5735,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-2025-12-09-scaleway-01-disk-problem/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-2025-12-09 scaleway 01 disk problem
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5847,6 +5781,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symptoms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#missed-warnings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missed warnings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#after-though" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After though
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5886,10 +5884,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fixing-ssd-pools" class="md-nav__link">
+  <a href="#symptoms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fixing SSD pools
+        Symptoms
       
     </span>
   </a>
@@ -5897,10 +5895,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-hdd-pools" class="md-nav__link">
+  <a href="#resolution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating HDD pools
+        Resolution
       
     </span>
   </a>
@@ -5908,10 +5906,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dist-upgrade" class="md-nav__link">
+  <a href="#missed-warnings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dist upgrade
+        Missed warnings
       
     </span>
   </a>
@@ -5919,10 +5917,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#turning-mitigations-off" class="md-nav__link">
+  <a href="#after-though" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Turning mitigations off
+        After though
       
     </span>
   </a>
@@ -5946,7 +5944,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-10-14-scaleway-servers-zfs.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-2025-12-09-scaleway-01-disk-problem.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -5954,91 +5952,56 @@
   
 
 
-<h1 id="2025-10-14-scaleway-servers-zfs">2025-10-14 Scaleway servers ZFS<a class="headerlink" href="#2025-10-14-scaleway-servers-zfs" title="Permanent link">#</a></h1>
-<p>Christian installed new servers on our new scaleway bay.</p>
-<p>He did a base install using Proxmox iso.
-He only configured the rpool, zpool to hold the system (in mirror-0).</p>
-<p>He also configured zpool for the NVME but he then did some exchange of NVME between servers.
-(to mix pro and non pro SSD to have "pro" security on two servers).</p>
-<p>So as we looked at the servers they were in bad shape on the zpool side.</p>
-<p>Here is some notes about we did with Christian.</p>
-<h2 id="fixing-ssd-pools">Fixing SSD pools<a class="headerlink" href="#fixing-ssd-pools" title="Permanent link">#</a></h2>
-<p>On scaleway-01 and scaleway-03 we had the nvme-pool stalled.
-On both server, only the pro-SSD was setup correctly.</p>
-<p>What we did:</p>
-<ul>
-<li>remove the faulty drive <code>zpool detach rpool &lt;drive-name&gt;</code></li>
-<li>upgrade the rpool zpool, because we moved from proxmox8 to proxmox9 on scaleway-01
-  <code>zfs upgrade rpool</code></li>
-<li>prepare partition on the drive by mimicking the first drive.
-  <code>parted /dev/&lt;first-device&gt; unit s print</code> gives us the existing part.
-  We just have to recreate them <sup id="fnref:parted-print"><a class="footnote-ref" href="#fn:parted-print">1</a></sup>.</li>
-<li>get the id of the NVME using <code>ls -l /dev/disk/by-id/|grep &lt;device name&gt;</code>
-  where device-name is say nvme1n1p2</li>
-<li>add it to the pool. Note that we must attach it to the existing drive
-  as we don't have a specific vdev:<br>
-<code>zpool attach rpool &lt;eisting&gt; nvme-TS4TMTE250S_I209080271-part3</code></li>
-</ul>
-<p>Now we have our rpool in good shape again <code>zpool status</code> tells us so,
-but we need to make the second disk bootable, as the first.</p>
-<p>For this, in proxmox, there is a special tool.</p>
-<p>We just have to run (here for <code>nvme0n1p2</code>, the boot partition for <code>nvme0n1</code>):
-</p><div class="highlight"><pre><span></span><code>proxmox-boot-tool<span class="w"> </span>format<span class="w">  </span>/dev/nvme0n1p2<span class="w"> </span>--force
-proxmox-boot-tool<span class="w"> </span>init<span class="w">  </span>/dev/nvme0n1p2
-proxmox-boot-tool<span class="w"> </span>clean
-</code></pre></div><p></p>
-<h2 id="creating-hdd-pools">Creating HDD pools<a class="headerlink" href="#creating-hdd-pools" title="Permanent link">#</a></h2>
-<p>We have 6 disk on each server.</p>
-<p>We decide to go for a raidz2-0 meaning we have two disks of redondancy.</p>
-<p>ZFS pools are simply created with:
-</p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>create<span class="w"> </span>zfs-hdd<span class="w"> </span>-o<span class="w"> </span><span class="nv">ashift</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>raidz2<span class="w"> </span>sda<span class="w"> </span>sdb<span class="w"> </span>sdc<span class="w"> </span>sdd<span class="w"> </span>sde<span class="w"> </span>sdf<span class="w"> </span>-f
-</code></pre></div><p></p>
-<h2 id="dist-upgrade">Dist upgrade<a class="headerlink" href="#dist-upgrade" title="Permanent link">#</a></h2>
-<p>While at it we did a dist-upgrade on all servers.</p>
-<h2 id="turning-mitigations-off">Turning mitigations off<a class="headerlink" href="#turning-mitigations-off" title="Permanent link">#</a></h2>
-<p>Since we are only running our software on the servers
-(there is no hosting of other projects),
-we can turn off mitigations for attacks like spectre,
-to regain some CPU performance.</p>
-<p>So Christian edited <code>/etc/default/grub</code> to have:
-</p><div class="highlight"><pre><span></span><code>GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"
-</code></pre></div>
-and then run:
-<div class="highlight"><pre><span></span><code>proxmox-boot-tool<span class="w"> </span>refresh
-</code></pre></div>
-(and not <code>sudo update-grub</code> as on a normal debian distribution)<p></p>
-<div class="footnote">
-<hr>
-<ol>
-<li id="fn:parted-print">
-<p>this looks like:
-</p><div class="highlight"><pre><span></span><code>parted /dev/nvme2n1 unit s print 
-Model: TS4TMTE250S (nvme)
-Disk /dev/nvme2n1: 7814037168s
-Sector size (logical/physical): 512B/512B
-Partition Table: gpt
-Disk Flags: 
+<h1 id="2025-2025-12-09-scaleway-01-disk-problem">2025-2025-12-09 scaleway 01 disk problem<a class="headerlink" href="#2025-2025-12-09-scaleway-01-disk-problem" title="Permanent link">#</a></h1>
+<h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
+<p>On the 28/11, Alex was facing an apt upgrade problem (with zfs-dkms) on scaleway-01.
+He wanted to reboot, to try to switch to new kernel and get rid of the old one…
+but scaleway-01 never came back online.
+Unfortunately the IPMI was not yet reachable (it could have been but we did not know how to reach it).</p>
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
+<p>On 09/12, Christian did go to Scaleway data center and try to reboot the server.
+It was rebooting but not finishing with a lot of errors displayed by a disk.
+Indeed we had errors mail, but Alex didn't realize the importance of the alert
+(because of a problem in communication with Christian).</p>
+<p>Christian was initially going to Scaleway DC to replace a disk on off1 (which is close by)
+but he decided to use this disk on scaleway-01.
+So he removed the old disk, place the new disk, did a resilver.
+He also did a dist upgrade.</p>
+<h2 id="missed-warnings">Missed warnings<a class="headerlink" href="#missed-warnings" title="Permanent link">#</a></h2>
+<p>As I&nbsp;told, the disk state was reported as bad by smartd.
+Alerts where:</p>
+<p></p><div class="highlight"><pre><span></span><code>Subject: SMART error (CurrentPendingSector) detected on host: scaleway-01
 
-Number  Start     End         Size        File system  Name   Flags
-1      34s       2048s       2015s                    grub   bios_grub
-2      4096s     1953791s    1949696s    fat32        boot   boot, esp
-3      1953792s  537108479s  535154688s  zfs          rpool
+This message was generated by the smartd daemon running on:
+
+   host name:  scaleway-01
+   DNS domain: infra.openfoodfacts.org
+
+The following warning/error was logged by the smartd daemon:
+
+Device: /dev/sdd [SAT], 19 Offline uncorrectable sectors
+
+Device info:
+WDC  WUH721414ALE604, S/N:9JH5NR2T, WWN:5-000cca-258d0ab1c, FW:LDGNW400, 14.0 TB
+
+For details see host's SYSLOG.
+
+You can also use the smartctl utility for further investigation.
+The original message about this issue was sent at Mon Nov 17 05:05:02 2025 CET
+Another message will be sent in 24 hours if the problem persists.
 </code></pre></div>
-and can be recreated with:
-<div class="highlight"><pre><span></span><code>parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span>mklabel<span class="w"> </span>gpt
-parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>34s<span class="w"> </span>2048s
-parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>fat32<span class="w"> </span>4096s<span class="w"> </span>1953791s
-parted<span class="w"> </span>/dev/nvme2n1<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>zfs<span class="w"> </span>1953792s<span class="w"> </span>535154688s
-<span class="nb">set</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nv">bios_grub</span><span class="o">=</span>on
-<span class="nb">set</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="nv">boot</span><span class="o">=</span>on
-<span class="nb">set</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="nv">esp</span><span class="o">=</span>on
-name<span class="w"> </span><span class="m">1</span><span class="w"> </span>grub
-name<span class="w"> </span><span class="m">2</span><span class="w"> </span>boot
-name<span class="w"> </span><span class="m">3</span><span class="w"> </span>rpool
-</code></pre></div>&nbsp;<a class="footnote-backref" href="#fnref:parted-print" title="Jump back to footnote 1 in the text">↩</a><p></p>
-</li>
-</ol>
-</div>
+The relative small number of sectors did not trigger a high level of alert to Alex.<p></p>
+<p>Alex did launch a smartctl long test on the disk but on 28/11 it was not finished (it spans several days) </p>
+<p>Note that while searching this mail in my archive, that scaleway did send other mail with this error after the incident,
+but the number of <em>Offline uncorrectable sectors</em> was then far higher (160).</p>
+<h2 id="after-though">After though<a class="headerlink" href="#after-though" title="Permanent link">#</a></h2>
+<p>With this accident:</p>
+<ul>
+<li>We gain more experience on the importance of this kind of errors on the disk,
+  although it was hard to predict the reboot would have been such a problem… so it also happens</li>
+<li>We are setting up access to IPMI. This access must be done using ssh SOCKS proxy so that you reach IPMI on the right IP address.
+  (because otherwise it will refuse to connect).</li>
+</ul>
 
 
 
