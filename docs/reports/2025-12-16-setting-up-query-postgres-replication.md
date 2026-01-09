@@ -199,8 +199,8 @@ For that, I will use ansible:
 3. I added the secret psk on stunnel server on OVH (for postgres-query-net),
    and on osm45/moji (for postgres-query-org)
    and I modified the configuration on both to expose postgres on each stunnel-server.
-   I also had to add the port in the iptables rules (/etc/iptables/rules.v4 and v6)
-   **FIXME:** reference commits
+   I also had to add the port in the iptables rules (/etc/iptables/rules.v4 and v6).
+   see commit [9a70c296e0e05d7d0639e81f6b0ab42eb3b505d5](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9a70c296e0e05d7d0639e81f6b0ab42eb3b505d5) and [b6c687d923bfd4d72fc0927003d4fb4a875aaa51](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/b6c687d923bfd4d72fc0927003d4fb4a875aaa51)
 4. I added a config file for the new stunnel client in `confs/hetzner-stunnel-client/`:
     - in `stunnel/off.conf`
     - in `stunnel/systemd/system/stunnel@.service.d` (that symlinks `../../../common/systemd/system/stunnel@.service.d`)
