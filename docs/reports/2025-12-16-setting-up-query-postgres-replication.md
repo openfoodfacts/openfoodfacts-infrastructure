@@ -185,7 +185,7 @@ So we need a stunnel client endpoint on hetzner.
 For that, I will use ansible:
 
 1. added hetzner-stunnel-client to inventory
-2. created host_vars/hetzner-stunnel-client/hetzner-stunnel-client-secrets.yml with
+2. created `host_vars/hetzner-stunnel-client/hetzner-stunnel-client-secrets.yml` with
    - `ansible_become_password`
    - `ansible_user_password_salt`
    - `stunnel__psk_secrets`
@@ -200,8 +200,15 @@ For that, I will use ansible:
    and on osm45/moji (for postgres-query-org)
    and I modified the configuration on both to expose postgres on each stunnel-server.
    **FIXME:** reference commits
-4. I added a config file for the new stunnel client in `/home/alex/docker/infra/confs/hetzner-stunnel-client/stunnel/off.conf` and push it
+4. I added a config file for the new stunnel client in `confs/hetzner-stunnel-client/`:
+    - in `stunnel/off.conf`
+    - in `stunnel/systemd/system/stunnel@.service.d` (that symlinks `../../../common/systemd/system/stunnel@.service.d`)
+    and pushed it
 4. I added `hetzner-stunnel-client` to `stunnel_client_hosts` in inventory
+4. I then launched:
+   ```bash
+   ansible-playbook sites/stunnel-client.yml -l hetzner-stunnel-client
+   ```
 
 ## Deploying postgres on hetzner-docker-prod
 
