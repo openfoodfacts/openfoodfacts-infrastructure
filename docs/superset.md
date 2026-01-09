@@ -889,6 +889,27 @@ SELECT * FROM read_parquet('data/food.parquet');
 - Consider creating aggregated views for frequently-used queries
 
 
+## Syncing Parquet file
+
+To update the Parquet file from Open Food Facts data, you can use the scripts:
+* [parquet_sync.food.sh](../scripts/parquet_sync.food.sh)
+* [parquet_sync.prices.sh](../scripts/parquet_sync.prices.sh).
+
+These scripts are launched from a cron job as the `off` user.
+
+```bash
+sudo crontab -u off -e
+```
+
+Add the following lines to run the sync scripts daily at 2am and 3am:
+
+```
+0 2 * * * /opt/superset/parquet_sync.prices.sh >> /opt/superset/superset_sync.log 2>&1
+0 3 * * * /opt/superset/parquet_sync.food.sh >> /opt/superset/superset_sync.log 2>&1
+```
+
+
+
 ## Common Warnings and Issues
 
 ### Warning: "Unable to load SQLAlchemy dialect metricflow: No module named 'python_graphql_client'"
