@@ -24,7 +24,7 @@ sudo systemctl start superset
 sudo systemctl stop superset
 sudo systemctl restart superset
 ```
-Be aware that starting the service can take a while (), especially if Celery workers are also configured.
+Be aware that starting the service can take a while (3-5 minutes), especially if Celery workers are also configured.
 
 ### Logs
 
@@ -34,12 +34,15 @@ journalctl -u superset -f
 
 ### Update superset
 
-**Updates absolutely need to be tested on a staging server before being applied to production.**
+**Updates absolutely need to be tested on a staging server before being applied to production.** Also, don't forget to create a snapshot of the server before updating, in case something goes wrong.
 
 ```bash
+sudo su off
 cd /opt/superset
 source venv/bin/activate
-uv pip install --upgrade
+uv pip install apache_superset --upgrade
+superset db upgrade # Apply database migrations; can take several minutes
+superset init       # Recreate default roles and permissions
 ```
 
 ### Admin password lost
@@ -49,7 +52,7 @@ You have to reset it from the command line.
 ```bash
 sudo su off
 cd /opt/superset
-source /opt/superset/venv/bin/activate
+source venv/bin/activate
 export SUPERSET_CONFIG_PATH=/opt/superset/superset_config.py
 export FLASK_APP=superset
 superset fab reset-password --username admin
@@ -57,15 +60,36 @@ superset fab reset-password --username admin
 
 ## Theming Superset
 
-Superset allows for some theming and customization through its configuration file. You can change colors, fonts, and other visual aspects by modifying the `superset_config.py` file.
+### Add OFF branding
 
-Here's an interesting article about it: https://preset.io/blog/theming-superset-progress-update/
+We need to create a directory to store custom images:
 
-That said, as of today (2025-11-05), we probabbly should wait for Superset version 6, which is expected to have far more better theming support:
+```bash
+sudo su off
+cd /opt/superset/venv/lib/python3.11/site-packages/superset/static/assets/images/
+mv favicon.png favicon-orig.png
+wget https://world.openfoodfacts.org/images/favicon/off/favicon-32x32.png -O favicon.png
+wget https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg
+wget https://static.openfoodfacts.org/images/logos/off-logo-horizontal-dark.svg
+
+# Themes are then managed in the Superset UI: Settings -> Themes
+# Create two themes, one light and one dark, using these logos:
+# Eg.
+# {
+#   "token": {
+#     "brandLogoUrl": "/static/assets/images/off-logo-horizontal-light.svg",
+#     "colorPrimary": "#52443d",
+#     "colorInfo": "#52443d"
+#   }
+# }
+```
+
+
+### Theme customization
+
+We have installed Superset version 6, which now have theming support:
 * https://preset.io/events/superset-theming/
 * https://superset.apache.org/docs/6.0.0/configuration/theming/
-
-6.0.0RC2 is available since 2025-09, we should just wait for 6.0.0 in the next few months.
 
 
 ## Installation guide
