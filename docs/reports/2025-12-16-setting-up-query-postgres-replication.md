@@ -210,6 +210,12 @@ For that, I will use ansible:
    ansible-playbook sites/stunnel-client.yml -l hetzner-stunnel-client
    ```
 
+I can test it on hetzner-docker-prod by using:
+```bash
+nc -vz 10.12.1.112 16022
+nc -vz 10.12.1.112 16002
+```
+
 ## Deploying postgres on hetzner-docker-prod
 
 The [PR #225 in openfoodfacts-query](https://github.com/openfoodfacts/openfoodfacts-query/pull/225)
