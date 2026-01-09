@@ -1,0 +1,2 @@
+# we must open stunnel client ports
+iptables_public_ports: [22, 16022, 16002]

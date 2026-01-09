@@ -199,6 +199,7 @@ For that, I will use ansible:
 3. I added the secret psk on stunnel server on OVH (for postgres-query-net),
    and on osm45/moji (for postgres-query-org)
    and I modified the configuration on both to expose postgres on each stunnel-server.
+   I also had to add the port in the iptables rules (/etc/iptables/rules.v4 and v6)
    **FIXME:** reference commits
 4. I added a config file for the new stunnel client in `confs/hetzner-stunnel-client/`:
     - in `stunnel/off.conf`
@@ -209,11 +210,29 @@ For that, I will use ansible:
    ```bash
    ansible-playbook sites/stunnel-client.yml -l hetzner-stunnel-client
    ```
+4. As I forgot to open iptables open ports,
+   I add to definde `iptables_public_ports` in `host_vars/hetzner-stunnel-client/base.yml`
+  and then relaunch:
+  ```bash
+  ansible-playbook jobs/configure.yml -l hetzner-stunnel-client --tags firewall
+  ansible-playbook sites/stunnel-client.yml -l hetzner-stunnel-client --tags stunnel
+  ```
+  (Also I had to fix masquerading rule in ipv6 in iptables roles
+  because it was missing the right masquerading rule)
 
 I can test it on hetzner-docker-prod by using:
 ```bash
-nc -vz 10.12.1.112 16022
-nc -vz 10.12.1.112 16002
+alex@hetzner-docker-prod:~$ nc -vz 10.12.1.112 16002
+Connection to 10.12.1.112 16002 port [tcp/*] succeeded!
+alex@hetzner-docker-prod:~$ nc -vz 10.12.1.112 16022
+Connection to 10.12.1.112 16022 port [tcp/*] succeeded!
+
+alex@hetzner-docker-prod:~$ docker run -ti --rm --entrypoint sh pgautoupgrade/pgautoupgrade:16-alpine
+/var/lib/postgresql # pg_isready -h 10.12.1.112 -p 16022
+10.12.1.112:16022 - accepting connections
+/var/lib/postgresql # pg_isready -h 10.12.1.112 -p 16002
+10.12.1.112:16002 - accepting connections
+/var/lib/postgresql # exit
 ```
 
 ## Deploying postgres on hetzner-docker-prod
@@ -233,3 +252,9 @@ When this was ok, I run it also on .net branch (I wanted to test with .net befor
 
 I then run the command to use a backup from the primary for the replica:
 
+```bash
+docker compose run --rm --entrypoint sh query_postgres pg_basebackup
+
+# /usr/local/bin/pg_basebackup -h 10.12.1.112 -p 16022 -U replicator -D /var/lib
+/postgresql/data -P --wal-method=stream --write-recovery-conf -C -S hetzner-replica -v
+pg_basebackup: error: connection to server at "10.12.1.112", port 16022 failed: FATAL:  no pg_hba.conf entry for replication connection from host "10.1.0.101", user "replicator", no encryption
