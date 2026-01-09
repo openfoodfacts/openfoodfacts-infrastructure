@@ -173,5 +173,50 @@ corresponding to the public created before.
 
 Then I run:
 ```bash
-ansible-playbook sites/proxmox-node.yml -l hetzner-docker-prod
+ansible-playbook sites/docker_vm.yml -l hetzner-docker-prod
 ```
+
+## Adding stunnel client on hetzner
+
+We need to connect to remote postgres servers and we will do so through stunnel.
+
+So we need a stunnel client endpoint on hetzner.
+
+For that, I will use ansible:
+
+1. added hetzner-stunnel-client to inventory
+2. created host_vars/hetzner-stunnel-client/hetzner-stunnel-client-secrets.yml with
+   - `ansible_become_password`
+   - `ansible_user_password_salt`
+   - `stunnel__psk_secrets`
+3. edited `proxmox_containers__containers` variable in `ansible/host_vars/hetzner-02/proxmox.yml`
+   to add container definition
+3. I then launched:
+   ```bash
+   ansible-playbook sites/proxmox-node.yml -l hetzner-02 --tags containers
+   ansible-playbook jobs/configure.yml -l hetzner-stunnel-client
+   ```
+3. I added the secret psk on stunnel server on OVH (for postgres-query-net),
+   and on osm45/moji (for postgres-query-org)
+   and I modified the configuration on both to expose postgres on each stunnel-server.
+   **FIXME:** reference commits
+4. I added a config file for the new stunnel client in `/home/alex/docker/infra/confs/hetzner-stunnel-client/stunnel/off.conf` and push it
+4. I added `hetzner-stunnel-client` to `stunnel_client_hosts` in inventory
+
+## Deploying postgres on hetzner-docker-prod
+
+The [PR #225 in openfoodfacts-query](https://github.com/openfoodfacts/openfoodfacts-query/pull/225)
+contains the modifications to configuration of postgres and CI workflow
+to deploy postgres replica on hetzner-docker-prod.
+
+On caveat is that because of virtiofs mount and the folder for my docker volume being a dataset inside it,
+docker compose refuse to create the volume. So I had to declare it external and create it (I added a Make target for that).
+
+I first forced my deployment action to run for replica and staging (.net) on my branch.
+I systematically cancelled .net deployment until I got replica to the point of starting the docker compose
+and having it failed because database does not exists.
+
+When this was ok, I run it also on .net branch (I wanted to test with .net before .org).
+
+I then run the command to use a backup from the primary for the replica:
+
