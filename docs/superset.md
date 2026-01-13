@@ -45,6 +45,16 @@ superset db upgrade # Apply database migrations; can take several minutes
 superset init       # Recreate default roles and permissions
 ```
 
+Then restart the service:
+
+```bash
+sudo systemctl restart superset
+```
+
+**Verify that everything is working correctly after the update.**
+
+
+
 ### Admin password lost
 
 You have to reset it from the command line.
@@ -90,6 +100,47 @@ wget https://static.openfoodfacts.org/images/logos/off-logo-horizontal-dark.svg
 We have installed Superset version 6, which now have theming support:
 * https://preset.io/events/superset-theming/
 * https://superset.apache.org/docs/6.0.0/configuration/theming/
+
+
+## Add new menu entry
+
+To add a new personalized link in the Superset navigation bar, you can modify the `superset_config.py` file to include custom navigation links. Below is an example of how to add a "Help" link that points to the Open Food Facts wiki.
+
+```python
+# Personalized links
+from flask import Flask
+from flask_appbuilder import AppBuilder
+
+# Configuration for new links
+ADDITIONAL_LINKS = [
+    {
+        "name": "Help",
+        "label": "Help",
+        "href": "https://wiki.openfoodfacts.org",
+        "icon": "fa-question-circle",
+    },
+]
+
+# Include link at startup
+def setup_custom_navigation(app):
+    appbuilder = app.appbuilder
+    for link in ADDITIONAL_LINKS:
+        appbuilder.add_link(
+            name=link["name"],
+            label=link["label"],
+            href=link["href"],
+            icon=link["icon"]
+        )
+
+    # Manually reorganize navigation bar menus to let "Help" appear before "Dashboards"
+    menu = appbuilder.menu.menu
+    idx_dashboards = next((i for i, item in enumerate(menu) if item.name == 'Dashboards'), 0)
+    help_link = menu.pop()
+    menu.insert(idx_dashboards, help_link)
+
+# Register the function to be called at startup
+FLASK_APP_MUTATOR = setup_custom_navigation
+```
 
 
 ## Installation guide
