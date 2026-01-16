@@ -250,11 +250,54 @@ and having it failed because database does not exists.
 
 When this was ok, I run it also on .net branch (I wanted to test with .net before .org).
 
-I then run the command to use a backup from the primary for the replica:
+I also added a command to create the replication user in makefile and deployment.
+
+## Importing data from net (test)
+
+I then run the command to use a backup from the primary for the replica
+
 
 ```bash
-docker compose run --rm --entrypoint sh query_postgres pg_basebackup
+docker compose run --rm --entrypoint bash query_postgres 
 
-# /usr/local/bin/pg_basebackup -h 10.12.1.112 -p 16022 -U replicator -D /var/lib
-/postgresql/data -P --wal-method=stream --write-recovery-conf -C -S hetzner-replica -v
+# /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 16022 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v
 pg_basebackup: error: connection to server at "10.12.1.112", port 16022 failed: FATAL:  no pg_hba.conf entry for replication connection from host "10.1.0.101", user "replicator", no encryption
+Password: 
+pg_basebackup: initiating base backup, waiting for checkpoint to complete
+pg_basebackup: checkpoint completed
+pg_basebackup: write-ahead log start point: 45E/B4000028 on timeline 1
+pg_basebackup: starting background WAL receiver
+pg_basebackup: created replication slot "hetzner_replica"
+112581901/112581901 kB (100%), 1/1 tablespace                                         
+pg_basebackup: write-ahead log end point: 45E/B4000138
+pg_basebackup: waiting for background process to finish streaming ...
+pg_basebackup: syncing data to disk ...
+pg_basebackup: renaming backup_manifest.tmp to backup_manifest
+pg_basebackup: base backup completed
+# exit
+```
+
+Now we can try to start it: `docker compose up -d`
+
+It didn't start, but simply because I forgot to upgrade memory and cpus on the VM.
+
+Also it's at this point that I realized we need `hot_standby=on` to be able to run queries !
+
+Note: if you want to restart replication from scratch, or if you stop it,
+you need to remove the slot from primary postgres with `select pg_drop_replication_slot('hetzner_replica');`
+
+## Importing data from org
+
+To restart from a fresh instance:
+
+I did a `docker compose down` and `docker volume rm off-query-replica_dbdata` (which finish with an error but that's not a big deal) then `make create_external_volumes`
+
+Then I get the prod backup:
+
+
+```bash
+docker compose run --rm --entrypoint bash query_postgres 
+
+# /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 1602 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v
+```
+**FIXME: needs a deployment in prod first
