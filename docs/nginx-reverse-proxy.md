@@ -336,3 +336,33 @@ Along with nginx, some other tools can be installed:
 
 An ipv6 address was added to the reverse proxy CT, so that the reverse proxy can reach `docker-prod-2` VM on Moji,
 where Robotoff services are running. Moji server is currently only accessible through ipv6 as it does not have a public ipv4 address. See [Moji Datacenter](moji-datacenter.md) and [moji server installation report](reports/2024-08-13-moji-server-installation.md) for more information.
+
+## Certbot debugging tips
+
+**Important**: it's important to keep certbot certificates renewal request in control,
+because Let's Encrypt might temporary ban if we make too much wrong requests.
+
+If we have problems with certbot,
+
+- We can look at `journalctl -xe -u certbot` for errors
+- We can look at `/.well-known/acme-challenge/` traces in logs.
+- We can also launch a `certbot renew --test-cert --dry-run`.
+  Using `--test-cert` do it on a staging server preventing temporary ban.
+
+- To test manually, we can use the same kind of snippet than certbot use,
+  and add it to the config file:
+  ```nginx
+  location = /.well-known/acme-challenge/test1234{
+      default_type text/plain;
+      return 200 test1234;
+  }
+  ```
+  (for example if you want to modify the config so that there is no 401 problem)
+
+Some thing you should check:
+- the DNS is still pointing at this nginx (try a ping to see if ip matches).
+  Having no match of `.well-know/acme-challenge` in the access log can be a good indicator.
+
+certbot also tries to renew certificates that are not linked to a local website anymore.
+You can list active certificates with `certbot certificates`
+and you can remove a specific one with `certbot delete --cert-name <certificate-name>`
