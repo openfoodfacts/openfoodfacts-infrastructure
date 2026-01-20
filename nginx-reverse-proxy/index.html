@@ -1416,6 +1416,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#certbot-debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certbot debugging tips
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5984,6 +5995,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2026-01-19-cleaning-certbot-errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-01-19 Cleaning certbot errors on ovh1 reverse proxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -6189,6 +6228,17 @@
     <span class="md-ellipsis">
       
         Ipv6 configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certbot-debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certbot debugging tips
       
     </span>
   </a>
@@ -6474,6 +6524,34 @@ eg (for off server nginx):
 <h2 id="ipv6-configuration">Ipv6 configuration<a class="headerlink" href="#ipv6-configuration" title="Permanent link">#</a></h2>
 <p>An ipv6 address was added to the reverse proxy CT, so that the reverse proxy can reach <code>docker-prod-2</code> VM on Moji,
 where Robotoff services are running. Moji server is currently only accessible through ipv6 as it does not have a public ipv4 address. See <a href="../moji-datacenter/">Moji Datacenter</a> and <a href="../reports/2024-08-13-moji-server-installation/">moji server installation report</a> for more information.</p>
+<h2 id="certbot-debugging-tips">Certbot debugging tips<a class="headerlink" href="#certbot-debugging-tips" title="Permanent link">#</a></h2>
+<p><strong>Important</strong>: it's important to keep certbot certificates renewal request in control,
+because Let's Encrypt might temporary ban if we make too much wrong requests.</p>
+<p>If we have problems with certbot,</p>
+<ul>
+<li>We can look at <code>journalctl -xe -u certbot</code> for errors</li>
+<li>We can look at <code>/.well-known/acme-challenge/</code> traces in logs.</li>
+<li>We can also launch a <code>certbot renew --test-cert --dry-run</code>.
+  Using <code>--test-cert</code> do it on a staging server preventing temporary ban.</li>
+</ul>
+<ul>
+<li>To test manually, we can use the same kind of snippet than certbot use,
+  and add it to the config file:
+  <div class="highlight"><pre><span></span><code><span class="k">location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">/.well-known/acme-challenge/test1234</span><span class="p">{</span>
+<span class="w">    </span><span class="kn">default_type</span><span class="w"> </span><span class="s">text/plain</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">return</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="s">test1234</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+  (for example if you want to modify the config so that there is no 401 problem)</li>
+</ul>
+<p>Some thing you should check:</p>
+<ul>
+<li>the DNS is still pointing at this nginx (try a ping to see if ip matches).
+  Having no match of <code>.well-know/acme-challenge</code> in the access log can be a good indicator.</li>
+</ul>
+<p>certbot also tries to renew certificates that are not linked to a local website anymore.
+You can list active certificates with <code>certbot certificates</code>
+and you can remove a specific one with <code>certbot delete --cert-name &lt;certificate-name&gt;</code></p>
 <div class="footnote">
 <hr>
 <ol>
