@@ -286,7 +286,21 @@ Also it's at this point that I realized we need `hot_standby=on` to be able to r
 Note: if you want to restart replication from scratch, or if you stop it,
 you need to remove the slot from primary postgres with `select pg_drop_replication_slot('hetzner_replica');`
 
-## Importing data from org
+## Testing
+
+To test it's working, I logged in on the replica database with superset user to see it's
+all working fine.
+
+I also verified that the tables keeps being up to date
+after I did some changes on staging (and thus created some events).
+
+As some deployment of main branch also happened on staging at some point,
+thus removing my replication parameters, and stall replication.
+This was a good occasion to test resilience, that, when I restored the parameters,
+it worked again, getting back to last state smoothly.
+
+
+## Importing data from org (TO BE DONE)
 
 To restart from a fresh instance:
 
