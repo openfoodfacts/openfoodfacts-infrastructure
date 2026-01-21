@@ -5886,8 +5886,8 @@
 </ul>
 <p>Check that teh minion and redis_listener services were still running:</p>
 <div class="highlight"><pre><span></span><code>export SERVICE=$HOSTNAME
-sudo systemctl -l status -no-pager minion@$SERVICE.service 
-sudo systemctl -l status -no-pager redis_listener@$SERVICE.service 
+sudo systemctl -l status --no-pager minion@$SERVICE.service 
+sudo systemctl -l status --no-pager redis_listener@$SERVICE.service 
 </code></pre></div>
 <p>Edit Config2.pm using <code>sudo -u off vi /srv/$SERVICE/lib/ProductOpener/Config2.pm</code> and set <code>$oidc_implementation_level = 2;</code></p>
 <p>Restart services with:</p>
@@ -5908,13 +5908,36 @@ sudo systemctl restart cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service
 <h1 id="progress">Progress<a class="headerlink" href="#progress" title="Permanent link">#</a></h1>
 <ul>
 <li>OBF: Done</li>
-<li>OPFF: </li>
-<li>OPF: </li>
+<li>OPFF: Done</li>
+<li>OPF: Done</li>
 <li>OFF-PRO: </li>
 <li>OFF: </li>
 </ul>
 <h1 id="status-2026-01-21-1226-utc">Status 2026-01-21 12:26 UTC<a class="headerlink" href="#status-2026-01-21-1226-utc" title="Permanent link">#</a></h1>
 <p>OBF worked OK but OPFF wouldn't allow login at Level 2. Investigating...</p>
+<p>Root URL was worng (was set to https://world.new.openpetfoodfacts.org). Fixed this to https://world.openpetfoodfacts.org but still not working...</p>
+<p>It looks like opff is only at version v2.84.0 where obf is at v2.85.1</p>
+<p>Attempted to upgrade but got this error on checkout:</p>
+<p></p><div class="highlight"><pre><span></span><code>error: The following untracked working tree files would be overwritten by checkout:
+        conf/opf-minion_log.conf
+        conf/opff-minion_log.conf
+</code></pre></div>
+Removed the local copies as they were a temporary fix and completed upgrade but still not working.<p></p>
+<p>Eventually found an error in the Keycloak client events:
+</p><div class="highlight"><pre><span></span><code>January 21, 2026 at 3:59 PM No user details 
+LOGIN_ERROR 213.36.253.208
+reason
+Client requires user consent
+auth_method
+oauth_credentials
+grant_type
+password
+client_auth_method
+client-secret
+error
+consent_denied
+</code></pre></div><p></p>
+<p>Fixed the OPFF client in Keycloak.</p>
 
 
 
