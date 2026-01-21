@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2024-09-24-kimsufi-stor-ks1-installation/">
+        <link rel="prev" href="../2026-01-19-cleaning-certbot-errors/">
       
-      
-        <link rel="next" href="../2024-10-23-deduplicate-products-in-multiple-flavors/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-09-30 OVH3 backups (wrong approach) - Open Food Facts Infrastructure documentation</title>
+        <title>2026-01-21 Move Production Services to OIDC Implementation level 2 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-09-30-ovh3-backups-wrong-approach" class="md-skip">
+        <a href="#2026-01-21-move-production-services-to-oidc-implementation-level-2" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-09-30 OVH3 backups (wrong approach)
+              2026-01-21 Move Production Services to OIDC Implementation level 2
             
           </span>
         </div>
@@ -4533,37 +4531,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2024-09-30 OVH3 backups (wrong approach)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-09-30-ovh3-backups/" class="md-nav__link">
         
   
   
@@ -4579,103 +4550,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#moving-replication-to-a-pve-sub-dataset-abandonned" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Moving replication to a pve sub dataset (abandonned)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-sanoid-snapshots-to-replicated-volumes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding sanoid snapshots to replicated volumes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-sanoid-on-ovh1-and-ovh2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding sanoid on ovh1 and ovh2
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-sanoid-on-ovh3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring sanoid on ovh3
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#syncing-to-moji" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Syncing to MOJI
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#side-fix-fixing-vm-200-replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Side fix: fixing vm 200 replication
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#side-fix-removing-old-volumes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Side fix: removing old volumes
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5917,10 +5791,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-01-21-move-to-oidc-implementation-level-2/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5936,6 +5819,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -5968,91 +5852,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#moving-replication-to-a-pve-sub-dataset-abandonned" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Moving replication to a pve sub dataset (abandonned)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-sanoid-snapshots-to-replicated-volumes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding sanoid snapshots to replicated volumes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-sanoid-on-ovh1-and-ovh2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding sanoid on ovh1 and ovh2
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-sanoid-on-ovh3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring sanoid on ovh3
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#syncing-to-moji" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Syncing to MOJI
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#side-fix-fixing-vm-200-replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Side fix: fixing vm 200 replication
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#side-fix-removing-old-volumes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Side fix: removing old volumes
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -6068,7 +5867,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-09-30-ovh3-backups.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-01-21-move-to-oidc-implementation-level-2.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6076,138 +5875,44 @@
   
 
 
-<h1 id="2024-09-30-ovh3-backups-wrong-approach">2024-09-30 OVH3 backups (wrong approach)<a class="headerlink" href="#2024-09-30-ovh3-backups-wrong-approach" title="Permanent link">#</a></h1>
-<p><strong>VERY IMPORTANT:</strong> this approach does not work and at the time of writing, we are on the way to change the way we do it.</p>
-<p>We need an intervention to change a disk on ovh3.</p>
-<p>We still have very few backups for OVH services.</p>
-<p>Before the operation, I want to at least have replication of OVH backups on the new MOJI server.</p>
-<p>Ideally I would like to use sanoid for every kind of backups, but I don't want to disrupt the current setup, as I don't have the time to.</p>
-<p>What I wanted to do:</p>
+<h1 id="2026-01-21-move-production-services-to-oidc-implementation-level-2">2026-01-21 Move Production Services to OIDC Implementation level 2<a class="headerlink" href="#2026-01-21-move-production-services-to-oidc-implementation-level-2" title="Permanent link">#</a></h1>
+<p>For each service:</p>
 <ul>
-<li>add sanoid managed snapshots to current volumes replications of ovh1 / ovh2 containers and VMs</li>
-<li>add sanoid managed snapshots to current volumes ovh3 containers + add a backup of ovh3 system (it's not on ZFS)</li>
-<li>synchronize all those ZFS to MOJI, it may need some tweaking because of the replication snapshot, which should not be replicated.</li>
+<li>OBF</li>
+<li>OPFF</li>
+<li>OPF</li>
+<li>OFF-PRO</li>
+<li>OFF</li>
 </ul>
-<p>This is not feasible ! Because of the replication. The replication must start from last replication snapshot and cannot be done in reverse.</p>
-<p>What we can do instead:</p>
-<ul>
-<li>add sanoid snapshots on the ovh1 / ovh2 servers</li>
-<li>let replication of the container sync those snapshots to ovh3</li>
-<li>keep very few snapshots (1 or 2) on the ovh1/ ovh2 side (we have very few space left)</li>
-<li>keep snapshots for longer on the ovh3 side</li>
-</ul>
-<h2 id="moving-replication-to-a-pve-sub-dataset-abandonned">Moving replication to a pve sub dataset (abandonned)<a class="headerlink" href="#moving-replication-to-a-pve-sub-dataset-abandonned" title="Permanent link">#</a></h2>
-<p><strong>NOTE:</strong> finally <strong>not done</strong>, because I didn't succeed to make it work, and was not really confident about the procedure.</p>
-<p>Currently we have a replication landing in <code>/rpool</code>, 
-this is annoying because it does not enable to configure sanoid
-using recursive property (which would also ensure new volumes are under sanoid control).
-So I would like to move them to pve.</p>
-<p>To do this:</p>
-<ul>
-<li>first, 106 replication was stalled for a long time, I deleted the replication job and re-created it.</li>
-<li>Using the interface, I first disabled replication of all vm containers to ovh3.
-  It can also be done using <code>pvesr disable &lt;id&gt;</code></li>
-<li>I also stopped the two containers on ovh3 (100 (Munin) and 150 (gdrive-backup)).</li>
-</ul>
-<ul>
-<li>I then created a new dataset: <code>zfs create rpool/pve</code></li>
-<li>Then I changed  <code>/etc/pve/storage.cfg</code> to change the pool and mountpoint of the rpool storage</li>
-<li>I tried to move a first replication by using <code>zfs rename</code> to move a subvol from <code>rpool</code> to <code>rpool/pve</code> and then re-enabled the replication… but it failed with a zfs allow/unallow error. </li>
-<li>As I was not able to understand the error (there was no particular allowed user before (as showned by <code>zfs allow rpool</code>)), <strong>I stepped back</strong>:<ul>
-<li>disable replication on the container where I did re-enabled it</li>
-<li>rename the volume back to a child of <code>rpool</code></li>
-<li>restored <code>/etc/pve/storage.cfg</code> to its original state</li>
-</ul>
-</li>
-</ul>
-<h2 id="adding-sanoid-snapshots-to-replicated-volumes">Adding sanoid snapshots to replicated volumes<a class="headerlink" href="#adding-sanoid-snapshots-to-replicated-volumes" title="Permanent link">#</a></h2>
-<h2 id="adding-sanoid-on-ovh1-and-ovh2">Adding sanoid on ovh1 and ovh2<a class="headerlink" href="#adding-sanoid-on-ovh1-and-ovh2" title="Permanent link">#</a></h2>
-<p>I installed sanoid using the .deb that was on ovh3:
-</p><div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>libcapture-tiny-perl<span class="w"> </span>libconfig-inifiles-perl<span class="w"> </span>pv<span class="w"> </span>lzop<span class="w"> </span>mbuffer
-dpkg<span class="w"> </span>-i<span class="w"> </span>/opt/sanoid_2.2.0_all.deb
-</code></pre></div><p></p>
-<p>I then:</p>
-<ul>
-<li>created the email on failure unit</li>
-<li>personalized the sanoid systemctl unit</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/<span class="nv">$HOSTNAME</span>
-mkdir<span class="w"> </span>-p<span class="w"> </span>systemd/system
-<span class="nb">cd</span><span class="w"> </span>systemd/system
-ln<span class="w"> </span>-s<span class="w"> </span>../../../common/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>.
-ln<span class="w"> </span>-s<span class="w"> </span>../../../common/systemd/system/sanoid.service.d<span class="w"> </span>.
-
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/<span class="nv">$HOSTNAME</span>/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/<span class="nv">$HOSTNAME</span>/systemd/system/sanoid.service.d<span class="w"> </span>/etc/systemd/system
-systemctl<span class="w"> </span>daemon-reload
+<p>Check that teh minion and redis_listener services were still running:</p>
+<div class="highlight"><pre><span></span><code>export SERVICE=$HOSTNAME
+sudo systemctl -l status minion@$SERVICE.service 
+sudo systemctl -l status redis_listener@$SERVICE.service 
 </code></pre></div>
-<p>Then I added the sanoid.conf telling to snapshot the volumes but keeping only 2 snapshots
-and snapshot once an hour.</p>
-<p>Then we activate:
-</p><div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/<span class="nv">$HOSTNAME</span>/sanoid/sanoid.conf<span class="w"> </span>/etc/sanoid/
-systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>sanoid.timer
-</code></pre></div><p></p>
-<h2 id="configuring-sanoid-on-ovh3">Configuring sanoid on ovh3<a class="headerlink" href="#configuring-sanoid-on-ovh3" title="Permanent link">#</a></h2>
-<p>On ovh3 we want to keep more snapshots than on ovh1 and ovh2.
-So we configure sanoid to do so.</p>
-<h2 id="syncing-to-moji">Syncing to MOJI<a class="headerlink" href="#syncing-to-moji" title="Permanent link">#</a></h2>
-<p>On Moji, we don't currently sync data from ovh3.</p>
-<p>I <a href="../../sanoid/#how-to-setup-synchronization-without-using-root">setup an operator account</a> on ovh3 for moji.</p>
-<p>Created the syncoid-args.conf file.</p>
-<p>I did a first sync using:
-</p><div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">"^#"</span><span class="w"> </span>syncoid-args.conf<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-a<span class="w"> </span>sync_args<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$sync_args</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span>syncoid<span class="w">  </span><span class="s2">"</span><span class="si">${</span><span class="nv">sync_args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>&lt;/dev/null<span class="p">;</span><span class="k">done</span>
-</code></pre></div><p></p>
-<p>Setup syncoid service and timer, and enable them.</p>
-<h2 id="side-fix-fixing-vm-200-replication">Side fix: fixing vm 200 replication<a class="headerlink" href="#side-fix-fixing-vm-200-replication" title="Permanent link">#</a></h2>
-<p>VM 200 (docker staging) was stalled on ovh1.</p>
-<p>I tried to remove the replication job but it failed.
-To remove it I did:
-<code>pvesr delete 200-0 -force</code>
-and it worked.</p>
-<p>I then recreated the replication job.</p>
-<h2 id="side-fix-removing-old-volumes">Side fix: removing old volumes<a class="headerlink" href="#side-fix-removing-old-volumes" title="Permanent link">#</a></h2>
-<p>There are volumes remaining on ovh3 of containers that were deleted.</p>
-<p>To get an idea of the container it was from, I can cat the <code>/etc/hostname</code>. 
-For example, for container 112:
-</p><div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/rpool/subvol-112-disk-0/etc/hostname<span class="w"> </span>
-mongo2
-</code></pre></div><p></p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>num<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">109</span><span class="w"> </span><span class="m">115</span><span class="w"> </span><span class="m">116</span><span class="w"> </span><span class="m">117</span><span class="w"> </span><span class="m">119</span><span class="w"> </span><span class="m">120</span><span class="w"> </span><span class="m">122</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$num</span><span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/rpool/subvol-<span class="nv">$num</span>-disk-0/etc/hostname<span class="p">;</span><span class="k">done</span>
-<span class="m">109</span>
-slack
-<span class="m">115</span>
-robotoff-dev
-<span class="m">116</span>
-mongo-dev
-<span class="m">117</span>
-tensorflow-xp
-<span class="m">119</span>
-robotoff-net
-<span class="m">120</span>
-impact-estimator
-<span class="m">122</span>
-off-net2
-<span class="sb">``</span>
-
-I<span class="w"> </span>did<span class="w"> </span>destroy<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>volumes:
-<span class="sb">```</span>bash
-<span class="c1"># slack</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-109-disk-0<span class="w"> </span>-r
-<span class="c1"># mongo2</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-112-disk-0<span class="w"> </span>-r
-<span class="c1"># robotoff-dev</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-115-disk-0<span class="w"> </span>-r
-<span class="c1"># mongo-dev</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-116-disk-0<span class="w"> </span>-r
-<span class="c1"># tensorflow-xp</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-117-disk-0<span class="w"> </span>-r
-<span class="c1"># robotoff-net</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-119-disk-0<span class="w"> </span>-r
-<span class="c1"># impact estimator</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-120-disk-0<span class="w"> </span>-r
-<span class="c1"># off-net2</span>
-zfs<span class="w"> </span>destroy<span class="w"> </span>rpool/subvol-122-disk-0<span class="w"> </span>-r
+<p>Edit Config2.pm using <code>sudo -u off vi /srv/$SERVICE/lib/ProductOpener/Config2.pm</code> and set <code>$oidc_implementation_level = 2;</code></p>
+<p>Restart services with:</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl stop apache2 &amp;&amp; sudo systemctl start apache2
+[[ "$SERVICE" = off ]] &amp;&amp; sudo systemctl stop apache2@priority &amp;&amp; sudo systemctl start apache2@priority
+sudo systemctl restart cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service redis_listener@$SERVICE.service
 </code></pre></div>
+<p>To test:</p>
+<ul>
+<li>Log in to each flavour</li>
+<li>Go to the account screen in Keycloak (https://auth.openfoodfacts.org/realms/openfoodfacts/account) and edit Name</li>
+<li>Refresh PO page to see if Name updates in the top right</li>
+<li>Sign out of flavour</li>
+<li>Change password on Keycloak account screen</li>
+<li>Sign in to flavour with old password (should fail)</li>
+<li>Sign in to flavour with new password</li>
+</ul>
+<h1 id="progress">Progress<a class="headerlink" href="#progress" title="Permanent link">#</a></h1>
+<ul>
+<li>OBF: Done</li>
+<li>OPFF: </li>
+<li>OPF: </li>
+<li>OFF-PRO: </li>
+<li>OFF: </li>
+</ul>
 
 
 
