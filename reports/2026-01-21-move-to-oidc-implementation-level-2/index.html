@@ -5886,8 +5886,8 @@
 </ul>
 <p>Check that teh minion and redis_listener services were still running:</p>
 <div class="highlight"><pre><span></span><code>export SERVICE=$HOSTNAME
-sudo systemctl -l status minion@$SERVICE.service 
-sudo systemctl -l status redis_listener@$SERVICE.service 
+sudo systemctl -l status -no-pager minion@$SERVICE.service 
+sudo systemctl -l status -no-pager redis_listener@$SERVICE.service 
 </code></pre></div>
 <p>Edit Config2.pm using <code>sudo -u off vi /srv/$SERVICE/lib/ProductOpener/Config2.pm</code> and set <code>$oidc_implementation_level = 2;</code></p>
 <p>Restart services with:</p>
@@ -5913,6 +5913,8 @@ sudo systemctl restart cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service
 <li>OFF-PRO: </li>
 <li>OFF: </li>
 </ul>
+<h1 id="status-2026-01-21-1226-utc">Status 2026-01-21 12:26 UTC<a class="headerlink" href="#status-2026-01-21-1226-utc" title="Permanent link">#</a></h1>
+<p>OBF worked OK but OPFF wouldn't allow login at Level 2. Investigating...</p>
 
 
 
