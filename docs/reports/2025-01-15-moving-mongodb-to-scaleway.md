@@ -11,16 +11,16 @@ This is because, as already said [in this dicussion](https://github.com/openfood
 
 And because of this I decided to also deploy postgres and redis (though data migrations would be phased).
 
-## Preparing scaleway docker prod
+## Deploying scaleway docker prod
+
+### Preparing scaleway docker prod
 
 I just need to add the ZFS dataset for mongoDB data `off_shared_mongodb_data`
 (I want to isolate them). We create it on nvme,
 but we mount it at the right place so that it is visible in the VM
 
-I decided not to do a volume for redis yet, as it can well live in the upper dataset.
-Both needs to be on the SSD.
-
-I will do the same for the postgres data volume: `off_shared_pg_data`
+I will do the same for the redis and postgres data volume: `off_shared_pg_data`
+`off_shared_redis_data` because I need both on SSD.
 
 I did this setting using ansible with tags zfs
 
