@@ -104,13 +104,13 @@ So we apply the same fix.
 1. [DONE] modify docker compose of off-shared service
 2. [DONE] modify ci deploy scripto  of off-shared service to deploy to scaleway
 3. [DONE] create zfs datasets corresponding to docker volumes on scaleway-02 (ansible)
-3. 
+3. [DONE] deploy with CI on scaleway-02 for prod
 2. clone prod mongo dataset backup and use it as docker volume dataset
    * changer le path /db pour /
    * changer les permissions
-3. créer le deploy sur la VM scaleway docker prod
-4. config stunnel client (off2, autre tunnels, chercher dans les configs) et server sur scaleway
-5. vérifier accessiblité depuis off, et depuis les autres stunnel clients (sur un port temporaire, on fera le switch sur le port actuel du mongo lors de la balance)
-6. préparer la bascule
-   - bascule configs off
-   - bascule des configs stunnel client pour off-query / robotoff
+5. config stunnel server server on scaleway for mongo / postgres / redis
+4. config stunnel client (off2, other tunnels, search in configs)
+   and verify service is accessible for off / obf / opf etc. and other services that needs it
+6. prepare for switch
+   - switch o*f configs
+   - replace old  stunnel client port for off-query / robotoff
