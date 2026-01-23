@@ -15,11 +15,17 @@ _proxmox_node__zfs_filesystems_specific:
     properties:
       # this is mandatory for virtiofs to work well in linux
       acltype: posixacl
-    # data volumes
+  # data volumes
   - name: zfs-nvme/virtiofs/qm-200-off_shared_mongodb_data
     properties:
       # we need to mount it in the right place for docker in the VM
       mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_redis_data
+    state: absent
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_redisdata
+    properties:
+      # we need to mount it in the right place for docker in the VM
+      mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata
   - name: zfs-nvme/virtiofs/qm-200-off_shared_pg_data
     properties:
       # we need to mount it in the right place for docker in the VM
