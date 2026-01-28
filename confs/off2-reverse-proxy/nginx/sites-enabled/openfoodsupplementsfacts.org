@@ -1,22 +1,17 @@
-# This part allow to create a specific log for errors
-# This will be useful for analysis with fail2ban
-map $status $error_log {
-        default 0;
-        ~^[45]     1;
+# This part allow to create a specific log for rate limiting
+map $status $rate_limited {
+	default 0;
+	444     1;
 }
 
-
-# create zone "opf" for rate limiting 
-limit_req_zone $binary_remote_addr zone=opf:10m rate=240r/m;
+# create zone "ofsf" for rate limiting 
+limit_req_zone $binary_remote_addr zone=ofsf:10m rate=240r/m;
 
 
 server {
     listen 80;
     listen [::]:80;
-    # note that *.pro.openfoodfacts.org query are served by pro.openfoodfacts.org
-    # this works because nginx is smart about server_name matching
-    # see https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name
-    server_name openproductsfacts.org *.openproductsfacts.org;
+    server_name openfoodsupplementsfacts.org *.openfoodsupplementsfacts.org;
 
     return 301 https://$host$request_uri;
 }
@@ -24,12 +19,12 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name openproductsfacts.org *.openproductsfacts.org;
+    server_name openfoodsupplementsfacts.org *.openfoodsupplementsfacts.org;
 
     # SSL/TLS settings
-    ssl_certificate /etc/letsencrypt/live/openproductsfacts.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/openproductsfacts.org/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/openproductsfacts.org/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/openfoodsupplementsfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openfoodsupplementsfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openfoodsupplementsfacts.org/chain.pem;
 
     # Harden SSL
     ssl_protocols TLSv1.2 TLSv1.3;
@@ -53,19 +48,22 @@ server {
 
     # access logs only on the container
     access_log off;
-    # logs errors location
-    access_log  /var/log/nginx/openproductsfacts.org.access-errors.log  main buffer=256K flush=1s if=$error_log;
-    error_log   /var/log/nginx/openproductsfacts.org.errors.log;
+    # logs location
+    # access_log  /var/log/nginx/openfoodsupplementsfacts.org.log  main buffer=256K flush=1s;
+    error_log   /var/log/nginx/openfoodsupplementsfacts.org.errors.log;
+
+    #access_log /dev/shm/rate_limited.log main if=$rate_limited;
+    #
 
 
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
-    	proxy_cache_key $host$request_uri;
+    	proxy_cache_key changed$host$request_uri;
         proxy_cache_valid any 5m;
         add_header X-Cache-Status $upstream_cache_status;  
 
-        proxy_pass http://10.1.0.117:80;
+        proxy_pass http://10.1.0.123:80;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -81,12 +79,26 @@ server {
     # Cache GET /api/ requests for 5s
     # This is useful in particular for broken apps who request 100s of times the same product
     
-    location ~* /(api|cgi)/ {
+    location /api/ {
+
+    # 2024/24/09: python script making 50% of total requests using hundreds of IPs
+    # if ($http_user_agent = "-"){
+    #     rewrite ^ /stop-crawling.txt last;
+    #}
+
+    #if ($http_user_agent = "Mozilla/5.0 (compatible)"){
+    #     rewrite ^ /stop-crawling.txt last;
+    #}
+
+    #if ($http_user_agent = "python-requests/2.32.2"){
+    #     rewrite ^ /stop-crawling.txt last;
+    #}
+
     	proxy_cache mycache;
     	proxy_cache_key $host$request_uri$cookie_user;
         proxy_cache_valid any 5s;
         add_header X-Cache-Status $upstream_cache_status;  
-        proxy_pass http://10.1.0.117:80;
+        proxy_pass http://10.1.0.123:80;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -100,17 +112,32 @@ server {
     }
 
     location / {
+
+
+
 #    	proxy_cache mycache;
 #    	proxy_cache_key $host$request_uri$cookie_user;
 #        proxy_cache_valid any 5s;
 	# Adds an X-Cache-Status HTTP header in responses to clients: helps debugging the
+    # 2024/24/09: python script making 50% of total requests using hundreds of IPs
+    if ($http_user_agent = "-"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "Mozilla/5.0 (compatible)"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
+    if ($http_user_agent = "python-requests/2.32.2"){
+         rewrite ^ /stop-crawling.txt last;
+    }
+
         # cache.
         # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
         # Eg. X-Cache-Status: HIT
         add_header X-Cache-Status $upstream_cache_status;  
 
-
-        proxy_pass http://10.1.0.117:80/;
+        proxy_pass http://10.1.0.123:80/;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
         proxy_set_header X-Real-IP $remote_addr;
@@ -123,7 +150,7 @@ server {
         error_page 502 /502.html;
 
         # Rate limiting
-        limit_req zone=opf burst=120 nodelay; # burst=120 means you can do 240+120 requests
+        limit_req zone=ofsf burst=120 nodelay; # burst=120 means you can do 240+120 requests
                                               # before experimenting a 444 error
         #limit_req_log_level warn;   # not sure if necessary
         limit_req_status 444; # allows a specific http status code to clearly
@@ -135,7 +162,10 @@ server {
 
     }
     location ~* 502\.(html|jpg)  {
-       root /opt/openfoodfacts-infrastructure/html/;
+       root /opt/openfoodsupplementsfacts-infrastructure/html/;
+    }
+    location ~* stop-crawling.txt  {
+       root /opt/openfoodsupplementsfacts-infrastructure/html/;
     }
 
 }

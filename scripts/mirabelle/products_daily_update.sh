@@ -58,8 +58,8 @@ if [[ "${file}" == "" ]]; then
     counter=1
     # Trying to download the file. Attention: sometimes curl command does not return anything.
     while [[ ${export_date} == "" || "$(date -d "${export_date}" +%Y-%m-%d)" < "${TODAY}" ]]; do
-        # Exit after 60 tries.
-        [[ "${counter}" -gt 60 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - Retried ${counter} times, but en.openfoodfacts.org.products.csv is from ${export_date} and not ${TODAY}. Now exit..." | tee >(cat >&2); exit 1; }
+        # Exit after 90 tries (15 hours)
+        [[ "${counter}" -gt 90 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - Retried ${counter} times, but en.openfoodfacts.org.products.csv is from ${export_date} and not ${TODAY}. Now exit..." | tee >(cat >&2); exit 1; }
         ((counter++))
         echo "$(date +'%Y-%m-%dT%H:%M:%S') - CSV export is from ${export_date} and not today (${TODAY}). Retrying ${counter} in 10 minutes"
         sleep 10m
