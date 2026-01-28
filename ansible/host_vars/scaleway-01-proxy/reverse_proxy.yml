@@ -1,2 +1,3 @@
 ---
-iptables_public_ports: [22, 80, 443]
+# ssh + http(s) + stunnel (mongodb, redis, postgres)
+iptables_public_ports: [22, 80, 443, 27017, 6379, 5432]

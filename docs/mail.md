@@ -30,7 +30,7 @@ We have a DKIM record configured for the Brevo domain in the DNS, we also take i
 They use the **hello.openfoodfacts.org** subdomain.
 
 You can find the public key if you are logged as admin in Brevo, in the top right corner menu, going in "Senders, domains and dedicated IPs".
-Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records. 
+Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records.
 
 ## Proxmox Mail Gateway
 
