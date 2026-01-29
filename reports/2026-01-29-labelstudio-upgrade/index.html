@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2024-09-05-adding-ipv6-to-off2/">
+        <link rel="prev" href="../2026-01-21-move-to-oidc-implementation-level-2/">
       
-      
-        <link rel="next" href="../2024-09-06-test-folksonomy-openproductsfacts/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>Moji - Post-installation &amp; backup sync - Open Food Facts Infrastructure documentation</title>
+        <title>Upgrade of Label Studio - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#moji-post-installation-backup-sync" class="md-skip">
+        <a href="#upgrade-of-label-studio" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Moji - Post-installation &amp; backup sync
+              Upgrade of Label Studio
             
           </span>
         </div>
@@ -4421,37 +4419,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Moji - Post-installation &amp; backup sync
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-09-06-moji-post-installation/" class="md-nav__link">
         
   
   
@@ -4467,48 +4438,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#robotoff-nfs-share" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Robotoff - NFS share
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#snapshot-with-sanoid-synchro-with-syncoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Snapshot with Sanoid &amp; synchro with Syncoid
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5890,10 +5819,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-01-29-labelstudio-upgrade/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade of Label Studio
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5909,6 +5865,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#migration-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-backup-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Backup data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-upgrade-postgresql-to-version-1222" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Upgrade Postgresql to version 12.22
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-upgrade-to-label-studio-114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Upgrade to Label Studio 1.14
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-upgrade-postgresql-to-version-177" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Upgrade Postgresql to version 17.7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-upgrade-to-label-studio-1220" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Upgrade to Label Studio 1.22.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5948,21 +6007,82 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#robotoff-nfs-share" class="md-nav__link">
+  <a href="#migration-plan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Robotoff - NFS share
+        Migration Plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-backup-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Backup data
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#snapshot-with-sanoid-synchro-with-syncoid" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#step-2-upgrade-postgresql-to-version-1222" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Snapshot with Sanoid &amp; synchro with Syncoid
+        Step 2: Upgrade Postgresql to version 12.22
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-upgrade-to-label-studio-114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Upgrade to Label Studio 1.14
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-upgrade-postgresql-to-version-177" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Upgrade Postgresql to version 17.7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-upgrade-to-label-studio-1220" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Upgrade to Label Studio 1.22.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
       
     </span>
   </a>
@@ -5986,7 +6106,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-09-06-moji-post-installation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-01-29-labelstudio-upgrade.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -5994,26 +6114,52 @@
   
 
 
-<h1 id="moji-post-installation-backup-sync">Moji - Post-installation &amp; backup sync<a class="headerlink" href="#moji-post-installation-backup-sync" title="Permanent link">#</a></h1>
-<h2 id="robotoff-nfs-share">Robotoff - NFS share<a class="headerlink" href="#robotoff-nfs-share" title="Permanent link">#</a></h2>
-<p>We perform Robotoff DB backup in a ZFS dataset, shared using NFS between the host and the <code>docker-prod-2</code> VM.</p>
-<p>I installed NFS server on host (moji):</p>
-<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>nfs-kernel-server
+<h1 id="upgrade-of-label-studio">Upgrade of Label Studio<a class="headerlink" href="#upgrade-of-label-studio" title="Permanent link">#</a></h1>
+<p>Label Studio is a data labeling tool that we use for annotating datasets. We're currently using version 1.13.</p>
+<p>Version 1.14 migrates from Django 3 to Django 4, we therefore need to migrate first to version 1.14 before upgrading to the latest version (1.22
+ as of January 2026). Version 1.14 requires Postgresql 12 or higher. We are currently using Postgresql 1.11.5, so we will also need to upgrade our database server.</p>
+<p>Version 1.16 migrates to Django 5, which requires Postgresql 13 or higher.</p>
+<p>We can then migrate to version 1.22.0, which is the latest stable version as of January 2026.</p>
+<h2 id="migration-plan">Migration Plan<a class="headerlink" href="#migration-plan" title="Permanent link">#</a></h2>
+<h3 id="step-1-backup-data">Step 1: Backup data<a class="headerlink" href="#step-1-backup-data" title="Permanent link">#</a></h3>
+<p>Let's backup the two volumes used by Label Studio:</p>
+<ul>
+<li>app storage (label-studio-org_app-storage)</li>
+<li>database storage (label-studio-org_db-storage)</li>
+</ul>
+<p>Following <a href="https://docs.docker.com/engine/storage/volumes/#back-up-a-volume">Docker documentation</a>, after stopping the containers, we can create tarballs of the volumes:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--volumes-from<span class="w"> </span>label-studio-org-db-1<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/backup<span class="w"> </span>ubuntu<span class="w"> </span>tar<span class="w"> </span>cvzf<span class="w"> </span>/backup/db_backup.tar.gz<span class="w"> </span>/var/lib/postgresql/data
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--volumes-from<span class="w"> </span>label-studio-org-app-1<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/backups:/backup<span class="w"> </span>ubuntu<span class="w"> </span>tar<span class="w"> </span>cvzf<span class="w"> </span>/backup/app_backup.tar.gz<span class="w"> </span>/label-studio/data
 </code></pre></div>
-<p>I shared <code>hdd-zfs/backups/robotoff</code> dataset through NFS with <code>docker-prod-2</code> VM:</p>
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">sharenfs</span><span class="o">=</span><span class="nv">rw</span><span class="o">=</span>@10.3.0.200/32,no_root_squash<span class="w"> </span>hdd-zfs/backups/robotoff
+<h3 id="step-2-upgrade-postgresql-to-version-1222">Step 2: Upgrade Postgresql to version 12.22<a class="headerlink" href="#step-2-upgrade-postgresql-to-version-1222" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>docker exec -it label-studio-org-db-1 pg_dumpall -U postgres &gt; dump.sql
 </code></pre></div>
-<p>On <code>docker-prod-2</code> , I created a docker volume named <code>robotoff_backup</code> :</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>volume<span class="w"> </span>create<span class="w"> </span>--driver<span class="w"> </span><span class="nb">local</span><span class="w"> </span>--opt<span class="w"> </span><span class="nv">type</span><span class="o">=</span>nfs<span class="w"> </span>--opt<span class="w"> </span><span class="nv">o</span><span class="o">=</span><span class="nv">addr</span><span class="o">=</span><span class="m">10</span>.0.0.45,nolock,soft,rw<span class="w"> </span>--opt<span class="w"> </span><span class="nv">device</span><span class="o">=</span>:/hdd-zfs/backups/robotoff<span class="w"> </span>robotoff_backup
+<p>Then, stop the container. Remove all data in the <code>label-studio-org_db-storage</code> volume.</p>
+<p>Upgrade the <code>docker-compose.yml</code> file to use Postgresql 12:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:12.22</span>
 </code></pre></div>
-<p><code>10.0.0.45</code> is the internal IP address of the host (osm45). </p>
-<p>A systemd service and timer was added and activated (in <code>/etc/systemd/system/robotoff_db_backup.{service,timer}</code> to be launched every day at 8PM.</p>
-<h2 id="snapshot-with-sanoid-synchro-with-syncoid">Snapshot with Sanoid &amp; synchro with Syncoid<a class="headerlink" href="#snapshot-with-sanoid-synchro-with-syncoid" title="Permanent link">#</a></h2>
-<p>Sanoid was installed on host (osm45), and snapshots were configured <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/confs/moji/sanoid/sanoid.conf">as follow</a>.</p>
-<p>Next, we need to pull automatically snapshots from osm45 to ovh3 using syncoid. I created an <code>ovh3operator</code> user on moji server and <a href="https://openfoodfacts.github.io/openfoodfacts-infrastructure/sanoid/#how-to-setup-synchronization-without-using-root">followed the instructions</a> to allow ovh3 to pull snapshots.</p>
-<p>As osm45 server is not directly accessible from ovh3 (we have to jump through an OSM proxy to reach it), I used the <code>off</code> user on the OSM proxy to reach moji server.</p>
-<p>I added the public SSH key of root@OVH3 on OSM proxy (<code>off</code> user) and on osm45 (<code>ovh3operator</code> user).</p>
-<p>Synchronization is performed periodically by <code>syncoid.service</code> and works well with the new configuration.</p>
+<p>Pull latest version of the db service and relaunch it. Make sure it is running properly.</p>
+<p>Then, import the dump file:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-i<span class="w"> </span>label-studio-org-db-1<span class="w"> </span>psql<span class="w"> </span>-U<span class="w"> </span>postgres<span class="w"> </span>&lt;<span class="w"> </span>dump.sql
+</code></pre></div>
+<p>Make sure that the DB service runs correctly after the upgrade.</p>
+<h3 id="step-3-upgrade-to-label-studio-114">Step 3: Upgrade to Label Studio 1.14<a class="headerlink" href="#step-3-upgrade-to-label-studio-114" title="Permanent link">#</a></h3>
+<p>Update the <code>docker-compose.yml</code> file to use Label Studio version 1.14:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">label-studio</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">heartexlabs/label-studio:1.14.0</span>
+</code></pre></div>
+<p>Pull the new image, and relaunch the Label Studio service.</p>
+<h3 id="step-4-upgrade-postgresql-to-version-177">Step 4: Upgrade Postgresql to version 17.7<a class="headerlink" href="#step-4-upgrade-postgresql-to-version-177" title="Permanent link">#</a></h3>
+<p>Perform the same steps as in Step 2, but this time upgrade to Postgresql 17.7.
+There was a single error while importing the dump file related to a malformed JSON value during the import of a prediction. As it was not critical, we ignored it.</p>
+<h3 id="step-5-upgrade-to-label-studio-1220">Step 5: Upgrade to Label Studio 1.22.0<a class="headerlink" href="#step-5-upgrade-to-label-studio-1220" title="Permanent link">#</a></h3>
+<p>Perform the same steps as in Step 3, but this time upgrade to Label Studio version 1.22.0.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
+<p>The upgrade was successful. Label Studio is now running version 1.22.0 with Postgresql 17.7.
+As a note, we could have directly upgraded to Postgresql 17.7 in Step 2, as Label Studio 1.14 supports Postgresql 12 and higher.</p>
 
 
 
