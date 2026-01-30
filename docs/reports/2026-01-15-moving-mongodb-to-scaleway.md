@@ -261,7 +261,7 @@ I also augment the memory to min 128G, max 160G. (We need to keep memory for hos
 6. [DONE] augment VM config to use almost full node power
 4. [STARTED] config stunnel client (off2, other tunnels, search in configs)
    and verify service is accessible for off / obf / opf etc. and other services that needs it
-   * [DONE] configure on off2 stunnel client
+   * [DONE] configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
      * tested from current mongo container on off1 !
 6. prepare for switch
    - write switch procedure:
