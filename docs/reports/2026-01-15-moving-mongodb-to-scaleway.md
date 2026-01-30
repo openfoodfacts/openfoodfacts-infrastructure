@@ -57,8 +57,12 @@ connects to mongodb and redis.
 
 This is not currently implemented in ansible so we added it.
 
+It was quite easy.
 
-## Note PM on wrong volume name created
+We then configure the stunnel for mongodb, redis and postgres.
+
+
+## POst-Mortem Note: on wrong volume name created (with a ZFS dataset)
 
 I first created the volume with wrong name (redis_data instead of redisdata).
 
@@ -100,17 +104,171 @@ We also have a similar yet different problem with pg_data volume (because of a i
 So we apply the same fix.
 
 
+## Testing MongoDB with backup data
+
+### Trying the ZFS clone approach
+
+My idea is to use the synced mongodb dataset backup,
+clone it and use it in place of the current dataset.
+
+So it should go like
+1. stopped mongodb container on scaleway-docker-prod and remove it
+2. move the current dataset corresponding to mongodb data and it's mountpoint.
+3. create the clone of mongodb backup dataset and mount it in place of the old volume
+4. restart mongodb container
+
+But the problem is that step 2 does not work.
+We need to unmount the volume to rename it, but it fails.
+
+`zfs unmount zfs-nvme/virtiofs/qm-200-off_shared_mongodb_data` was giving
+cannot unmount '/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data': pool or dataset is busy.
+
+`fuser /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data` told me it is hold by process 31711 which is the `/usr/libexec/virtiofsd` process holding it
+(although the process acts on an upper folder).
+From inside the VM, the `fuser /var/lib/docker/volumes/off_shared_mongodb_data` does not give any process.
+
+I nevertheless tried `docker volume rm off_shared_mongodb_data`,
+
+But I still can umount the zfs dataset.
+I did a `kill -s SIGHUP 31711` but it killed the virtiofs process… (:bomb: I's a BAD IDEA !)
+(also [it seems to be intended](https://gitlab.com/virtio-fs/virtiofsd/-/blob/89a24d1eb57d20b497c53a11cbf60a79b5655de4/src/main.rs#L541))
+And now a `ls on the /var/lib/docker volume` in the VM is broken…
+I had to do a stop (shutdown or restart where not working) and start the VM.
+It makes all website down for some time…
+
+(Note: I also tried a `sync; echo 3 > /proc/sys/vm/drop_caches` in the VM but it does not allow the unmounting either)
+
+After reboot the dataset is unmounted, but at a very unconfortable cost of a production downtime.
+This is because the same VM host auth.openfoodfacts.org (keycloak) which is now central to our operations…
+
+So this is a warning that using virtiofs with a VM does not allow to do dataset manipulation while
+the VM is up, it is something we must bare in mind !
+
+This lead me to prefer a rsync based migration (using the local copy), than a syncoid one
+(if that proves fast enough).
+
+### Using rsync to test
+
+First I shutdown the container in the VM (as off):
+`docker compose stop mongodb`
+and cleanup data (as root) (:warning: think twice before copy/paste!):
+`rm -rf /var/lib/docker/volumes/off_shared_mongodb_data/_data/*`
+
+So I will mount use a snapshot of my MongoDB backup but just to sync it on my current dataset.
+
+I need launched mongodb container once to see the user id it will use for files.
+After inspection, it uses `999:999`
+(seen from inside the VM or from outside, as opposed to LXC, there is no id translation with VMs).
+
+Indeed `/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/db/` as very different identifiers.
+
+I can access snapshots directly thanks to the `.zfs/snapshot` folder at the root of the dataset.
+
+I will use the penultimate snapshot.
+
+So on the host I simply run:
+
+```bash
+time rsync -a --info=progress2 --chown 999:999 --delete \
+  /zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/autosnap_2026-01-29_13:00:10_hourly/db/ \
+  /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+
+ 59.709.905.821 100%   78,70MB/s    0:12:03 (xfr#678, to-chk=0/682)  
+
+real	12m3,710s
+user	0m26,351s
+sys	1m40,440s
+```
+I then rsync to the next snapshot (one hour later), to have a feeling of how much time it takes:
+
+```bash
+time rsync -a --info=progress2 --chown 999:999  --delete /zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/autosnap_2026-01-29_14\:00\:33_hourly/db/   /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+
+ 46.586.665.782  78%   70,04MB/s    0:10:34 (xfr#186, to-chk=0/681)  
+
+real	10m34,432s
+user	0m20,231s
+sys	1m16,518s
+```
+
+So it took as much time as the first copy… I just hope, on a 10 minutes stop it will be faster !
+Still a 10 minutes down is acceptable.
+
+### Testing
+
+I restart the container in scaleway-docker-prod VM,
+and try it:
+
+```
+docker compose exec mongodb mongo
+
+show dbs
+admin     0.000GB
+config    0.004GB
+local     0.000GB
+obf       0.420GB
+off      48.599GB
+off-pro   5.744GB
+ofsf      0.063GB
+opf       0.172GB
+opff      0.109GB
+test      0.000GB
+> show collections
+orgs
+products
+products_obsolete
+products_tags
+recent_changes
+> db.products.count()
+4282169
+> db.products_obsolete.count()
+27822
+> db.products_tags.count()
+3026949
+> db.recent_changes.count()
+35435116
+```
+
+This all seems consistent.
+
+## Modifying scaleway-docker-prod VM configuration
+
+We now need far more power on this VM.
+
+`lscpu` on scaleway-02 tells me we have:
+```
+CPU(s):                      96
+  On-line CPU(s) list:       0-95
+...
+    Thread(s) per core:      2
+    Core(s) per socket:      24
+    Socket(s):               2
+```
+I will allocate 70 cpus to this VM for now.
+As these is 24x2 thread per socket, I need to open at least 2 sockets of 35 cores.
+
+I also augment the memory to min 128G, max 160G. (We need to keep memory for host for ZFS cache)
+
 ## TODO
 1. [DONE] modify docker compose of off-shared service
 2. [DONE] modify ci deploy scripto  of off-shared service to deploy to scaleway
 3. [DONE] create zfs datasets corresponding to docker volumes on scaleway-02 (ansible)
 3. [DONE] deploy with CI on scaleway-02 for prod
-2. clone prod mongo dataset backup and use it as docker volume dataset
-   * changer le path /db pour /
-   * changer les permissions
-5. config stunnel server server on scaleway for mongo / postgres / redis
-4. config stunnel client (off2, other tunnels, search in configs)
+2. [DONE]~~clone~~ test rsync prod mongo dataset backup and use it as docker volume dataset
+   * change the /db path to  / (move files)
+   * change ownership
+5. [DONE] config stunnel server server on scaleway for mongo / postgres / redis
+6. [DONE] augment VM config to use almost full node power
+4. [STARTED] config stunnel client (off2, other tunnels, search in configs)
    and verify service is accessible for off / obf / opf etc. and other services that needs it
+   * [DONE] configure on off2 stunnel client
+     * tested from current mongo container on off1 !
 6. prepare for switch
-   - switch o*f configs
-   - replace old  stunnel client port for off-query / robotoff
+   - write switch procedure:
+     - stop new mongo
+     - syncoid + rsync
+     - stop old mongo
+     - syncoid + last rsync
+     - start new mongo
+     - switch o*f configs
+     - replace old  stunnel client port for off-query / robotoff
