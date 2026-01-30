@@ -57,10 +57,10 @@
 - name: Install the NVIDIA Container Toolkit packages
   ansible.builtin.apt:
     name:
-    - nvidia-container-toolkit=1.18.1-1
-    - nvidia-container-toolkit-base=1.18.1-1
-    - libnvidia-container-tools=1.18.1-1
-    - libnvidia-container1=1.18.1-1
+      - nvidia-container-toolkit=1.18.1-1
+      - nvidia-container-toolkit-base=1.18.1-1
+      - libnvidia-container-tools=1.18.1-1
+      - libnvidia-container1=1.18.1-1
     state: present
 
 - name: Configure the docker container runtime with `nvidia-ctk`
