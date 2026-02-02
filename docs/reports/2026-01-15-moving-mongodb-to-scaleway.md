@@ -249,6 +249,38 @@ As these is 24x2 thread per socket, I need to open at least 2 sockets of 35 core
 
 I also augment the memory to min 128G, max 160G. (We need to keep memory for host for ZFS cache)
 
+## Branching stunnel client to our services
+
+We configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
+It wast tested from current mongo container on off1 using mongo client !
+
+Grep hep me find where to add the new mongodb to stunnel clients:
+```bash
+rep -P '(213.36.253.214|proxy2)' -r confs/ --include=off.conf
+confs/ovh-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:27017
+confs/ovh-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:6379
+confs/moji-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:27017
+confs/moji-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:6379
+confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:5432
+confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:6379
+```
+
+So I need to do ovh and moji.
+I will add it as a new service, when migration is done, I can just remove the old service,
+and use the old service port for my new service.
+
+I did it on moji, serving on 27018. I tested  on docker prod2 VM using docker mongo client:
+```bash
+docker run -ti --rm mongo:4.4 mongo mongodb://10.3.0.101:27018/off
+> db.products.count()
+4282169
+```
+
+
+
+
+
+
 ## TODO
 1. [DONE] modify docker compose of off-shared service
 2. [DONE] modify ci deploy scripto  of off-shared service to deploy to scaleway
@@ -261,8 +293,8 @@ I also augment the memory to min 128G, max 160G. (We need to keep memory for hos
 6. [DONE] augment VM config to use almost full node power
 4. [STARTED] config stunnel client (off2, other tunnels, search in configs)
    and verify service is accessible for off / obf / opf etc. and other services that needs it
-   * [DONE] configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
-     * tested from current mongo container on off1 !
+   * [DONE] 
+   * 
 6. prepare for switch
    - write switch procedure:
      - stop new mongo

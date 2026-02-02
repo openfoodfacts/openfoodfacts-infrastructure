@@ -152,7 +152,12 @@
     tasks_from: enable_service.yml
   vars:
     git_based_configs__service_name: "stunnel@{{ (item | basename | split('.'))[0] }}.service"
-    git_based_configs__service_conf_files: "{{ ['/etc/stunnel/' + (item | basename)] }}"
+    # config files = conf + psk files
+    git_based_configs__service_conf_files: |
+        {{
+          ['/etc/stunnel/' + (item | basename)] +
+          ( stunnel__psk_secrets | map(attribute='file') | map('regex_replace', '^(.*)$', '/etc/stunnel/psk/\1'))
+        }}
   loop: "{{ _stunnel__conf_files }}"
 
 - name: Get stunnel address that should be public (client = no)
