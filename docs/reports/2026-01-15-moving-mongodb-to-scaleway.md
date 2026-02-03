@@ -269,19 +269,96 @@ So I need to do ovh and moji.
 I will add it as a new service, when migration is done, I can just remove the old service,
 and use the old service port for my new service.
 
-I did it on moji, serving on 27018. I tested  on docker prod2 VM using docker mongo client:
+I did it on moji [commit c1b2455112d](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/c1b2455112d374eaf46fe9870aa52deef618794d), serving on 27018. I tested  on docker prod2 VM using docker mongo client:
 ```bash
 docker run -ti --rm mongo:4.4 mongo mongodb://10.3.0.101:27018/off
 > db.products.count()
 4282169
 ```
 
+I did it on ovh [commit 1712d313f9](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/1712d313f9dae755ee48ab0f7f8d7bc695bc33f7), serving on 27018. I tested  on docker staging using docker mongo client:
+```bash
+docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
+> db.products.count()
+4282169
+```
+
+## Switch procedure
+
+1. Stop new MongoDB:
+   Log on scaleway-docker-prod:
+   ```bash
+   sudo -u off -i
+   cd /home/off/shared-org
+   docker compose stop mongodb
+   ```
+2. Resync mongodb data before migration
+   - On off1 as root, take a snapshot
+     ```bash
+     zfs snapshot zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-before-move-to-scaleway
+     ```
+   - On scaleway-02, as root run syncoid on this specific backup
+     ```bash
+     syncoid --no-sync-snap --no-privilege-elevation scaleway02operator@off1.openfoodfacts.org:zfs-nvme/pve/subvol-102-disk-0 zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0
+     ```
+   - and still on scaleway-02, as root, rsync mongodb data
+     ```bash
+     time ionice -n 0 rsync -a --info=progress2 --chown 999:999  --delete /zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/2026-02-before-move-to-scaleway/db/   /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+     ```
+3. Stop old mongo on off1, pct 102
+   ```bash
+   pct enter 102
+   systemctl stop mongod.service
+   ```
+4. Resync data
+   - On off1 as root, take a snapshot
+     ```bash
+     zfs snapshot zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-after-move-to-scaleway
+     ```
+   - On scaleway-02, as root run syncoid on this specific backup
+     ```bash
+     syncoid --no-sync-snap --no-privilege-elevation scaleway02operator@off1.openfoodfacts.org:zfs-nvme/pve/subvol-102-disk-0 zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0
+     ```
+   - and still on scaleway-02, as root, rsync mongodb data
+     ```bash
+     time ionice -n 0 rsync -a --info=progress2 --chown 999:999  --delete /zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/2026-02-after-move-to-scaleway/db/   /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+     ```
+   - start new mongo. On scaleway-docker-prod
+     ```bash
+     sudo -u off -i
+     cd /home/off/shared-org
+     docker compose start mongodb
+     ```
+   - change mongodb configuration on off and [restart services](https://openfoodfacts.github.io/openfoodfacts-server/dev/how-to-release/):
+     ```
+     vim /srv/off/lib/ProductOpener/Config2.pm
+     ...
+     $mongodb_host = "scaleway-proxy.openfoodfacts.org";
+     ...
+     sudo systemctl stop apache2 && sudo systemctl start apache2
+     [[ "$HOSTNAME" = off ]] && sudo systemctl stop apache2@priority && sudo systemctl start apache2@priority
+     sudo systemctl restart cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service redis_listener@$SERVICE.service
+     ```
+   - IMPORTANT: verify it's working by issuing [a search](https://world.openfoodfacts.org/cgi/search.pl?search_terms=petits+bruns&search_simple=1&action=process) !
+   - swap new and old mongo on stunnel-client at moji
+     ```bash
+     # on osm45 as root
+     pct enter 101
+     vim /etc/stunnel/off.conf
+     ...
+     # swap port 27017 and 27018 in accept = 
+     ...
+     systemctl restart stunnel@off.service
+    ```
+  - change mongodb configuration on all opff / obf / opf (as for oof above)
+  - same as for moji on ovh stunnel-client
+5. Do stuff that comes after:
+   - commit stunnel client config chanegs and push
+   - stop mongodb container on off1
+   - celebrate :tada:
 
 
-
-
-
-## TODO
+## Task list
 1. [DONE] modify docker compose of off-shared service
 2. [DONE] modify ci deploy scripto  of off-shared service to deploy to scaleway
 3. [DONE] create zfs datasets corresponding to docker volumes on scaleway-02 (ansible)
@@ -291,16 +368,18 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.3.0.101:27018/off
    * change ownership
 5. [DONE] config stunnel server server on scaleway for mongo / postgres / redis
 6. [DONE] augment VM config to use almost full node power
-4. [STARTED] config stunnel client (off2, other tunnels, search in configs)
+4. [DONE] config stunnel client (off2, other tunnels, search in configs)
    and verify service is accessible for off / obf / opf etc. and other services that needs it
-   * [DONE] 
-   * 
+   * [DONE] off2 --> scaleway
+   * [DONE] moji --> scaleway
+   * [DONE] ovh --> scaleway
 6. prepare for switch
    - write switch procedure:
      - stop new mongo
-     - syncoid + rsync
+     - take a snapshot +  syncoid + rsync
      - stop old mongo
-     - syncoid + last rsync
+     - take a snapshot + syncoid + last rsync
      - start new mongo
      - switch o*f configs
      - replace old  stunnel client port for off-query / robotoff
+7. [TODO]  sync of mongodb data to scaleway-03 + hetzner (or somewhere)
