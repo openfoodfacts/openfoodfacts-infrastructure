@@ -295,7 +295,7 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
 2. Resync mongodb data before migration
    - On off1 as root, take a snapshot
      ```bash
-     zfs snapshot zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-before-move-to-scaleway
+     zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-before-move-to-scaleway
      ```
    - On scaleway-02, as root run syncoid on this specific backup
      ```bash
@@ -313,7 +313,7 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
 4. Resync data
    - On off1 as root, take a snapshot
      ```bash
-     zfs snapshot zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-after-move-to-scaleway
+     zfs snapshot zfs-nvme/pve/subvol-102-disk-0@2026-02-after-move-to-scaleway
      ```
    - On scaleway-02, as root run syncoid on this specific backup
      ```bash
@@ -331,13 +331,13 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
      ```
    - change mongodb configuration on off and [restart services](https://openfoodfacts.github.io/openfoodfacts-server/dev/how-to-release/):
      ```
-     vim /srv/off/lib/ProductOpener/Config2.pm
+     sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
      ...
-     $mongodb_host = "scaleway-proxy.openfoodfacts.org";
+     $mongodb_host = "10.1.0.103";
      ...
      sudo systemctl stop apache2 && sudo systemctl start apache2
      [[ "$HOSTNAME" = off ]] && sudo systemctl stop apache2@priority && sudo systemctl start apache2@priority
-     sudo systemctl restart cloud_vision_ocr@$SERVICE.service minion@$SERVICE.service redis_listener@$SERVICE.service
+     sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.service redis_listener@$HOSTNAME.service
      ```
    - IMPORTANT: verify it's working by issuing [a search](https://world.openfoodfacts.org/cgi/search.pl?search_terms=petits+bruns&search_simple=1&action=process) !
    - swap new and old mongo on stunnel-client at moji
@@ -350,13 +350,17 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
      ...
      systemctl restart stunnel@off.service
     ```
+  - check robotoff healt is ok https://robotoff.openfoodfacts.org/api/v1/health
+    and off-query health as well https://query.openfoodfacts.org/health
   - change mongodb configuration on all opff / obf / opf (as for oof above)
   - same as for moji on ovh stunnel-client
 5. Do stuff that comes after:
-   - commit stunnel client config chanegs and push
+   - commit stunnel client config changes and push
    - stop mongodb container on off1
    - celebrate :tada:
 
+Note: first rsync took 12m0,202s, second resync took 11m52,720s…
+it was not worth a 2 times sync…
 
 ## Task list
 1. [DONE] modify docker compose of off-shared service
@@ -373,7 +377,7 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
    * [DONE] off2 --> scaleway
    * [DONE] moji --> scaleway
    * [DONE] ovh --> scaleway
-6. prepare for switch
+6. [DONE] prepare for switch
    - write switch procedure:
      - stop new mongo
      - take a snapshot +  syncoid + rsync
@@ -382,4 +386,6 @@ docker run -ti --rm mongo:4.4 mongo mongodb://10.1.0.113:27018/off
      - start new mongo
      - switch o*f configs
      - replace old  stunnel client port for off-query / robotoff
-7. [TODO]  sync of mongodb data to scaleway-03 + hetzner (or somewhere)
+7. [DONE] switch !
+7. [TODO] sync of mongodb data to scaleway-03 + hetzner (or somewhere)
+8. [TODO] expose exporters of scaleway + add monitoring deployment
