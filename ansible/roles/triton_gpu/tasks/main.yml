@@ -41,12 +41,13 @@
     group: "{{ triton_gpu__user }}"
     mode: "0600"
 
-- name: Configure the production repository for NVIDIA Container Toolkit
-  ansible.builtin.shell: |
-    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
-    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-      sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-      sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+- name: Configure the production repository for NVIDIA Container Too # noqa: risky-shell-pipe command-instead-of-module
+  ansible.builtin.shell:
+    cmd: |
+      curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
+      curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+        sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+        sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
   args:
     creates: /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
@@ -79,6 +80,7 @@
     cmd: /home/{{ triton_gpu__user }}/.local/bin/uv run manage.py download-models
     chdir: "{{ triton_gpu__repository_dest }}/models"
     executable: /bin/bash
+  changed_when: true
   become: true
   become_user: "{{ triton_gpu__user }}"
 
@@ -87,6 +89,7 @@
     cmd: /home/{{ triton_gpu__user }}/.local/bin/uv run manage.py copy-config
     chdir: "{{ triton_gpu__repository_dest }}/models"
     executable: /bin/bash
+  changed_when: true
   become: true
   become_user: "{{ triton_gpu__user }}"
 
