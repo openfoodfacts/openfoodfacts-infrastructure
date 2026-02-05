@@ -6384,11 +6384,8 @@ On some system, the real daemon is not <code>postfix.service</code> but <code>po
 <li>split config : no</li>
 </ul>
 <h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
-<p>To test that mail is well configured, you can use:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"Subject: sendmail test xxx"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>sendmail<span class="w"> </span>-f<span class="w"> </span>alex@openfoodfacts.org<span class="w"> </span>-v<span class="w"> </span>root
-</code></pre></div>
-<p>or, with the <code>bsd-mailx</code> package installed <sup id="fnref:bsd-mailx"><a class="footnote-ref" href="#fn:bsd-mailx">1</a></sup>:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"test message from xxx"</span><span class="w"> </span><span class="p">|</span>mailx<span class="w"> </span>-s<span class="w"> </span><span class="s2">"test root xxx"</span><span class="w"> </span>-r<span class="w"> </span>alex@openfoodfacts.org<span class="w"> </span>root
+<p>To test that mail is well configured, you can use (with the <code>bsd-mailx</code> package installed <sup id="fnref:bsd-mailx"><a class="footnote-ref" href="#fn:bsd-mailx">1</a></sup>):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"test message from </span><span class="nv">$HOSTNAME</span><span class="s2"> at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">"</span><span class="p">|</span>mailx<span class="w"> </span>-s<span class="w"> </span><span class="s2">"test root from </span><span class="nv">$HOSTNAME</span><span class="s2"> at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">"</span><span class="w">  </span>-r<span class="w"> </span>alex@openfoodfacts.org<span class="w"> </span>root
 </code></pre></div>
 <p>If you do not receive the email on expected group, here are some checks:</p>
 <ul>
