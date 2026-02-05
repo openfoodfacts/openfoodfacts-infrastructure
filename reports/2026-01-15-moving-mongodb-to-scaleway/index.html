@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../2024-09-30-ovh3-backups/">
+        <link rel="prev" href="../2025-2025-12-09-scaleway-01-disk-problem/">
       
       
-        <link rel="next" href="../2024-10-29-move-s3-sync-script-to-ovh3/">
+        <link rel="next" href="../2026-01-19-cleaning-certbot-errors/">
       
       
         
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-10-23 Deduplicate products in multiple flavors - Open Food Facts Infrastructure documentation</title>
+        <title>2025-01-15 Moving mongoDB (and redis and postgres) to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-10-23-deduplicate-products-in-multiple-flavors" class="md-skip">
+        <a href="#2025-01-15-moving-mongodb-and-redis-and-postgres-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-10-23 Deduplicate products in multiple flavors
+              2025-01-15 Moving mongoDB (and redis and postgres) to scaleway
             
           </span>
         </div>
@@ -4534,37 +4534,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2024-10-23 Deduplicate products in multiple flavors
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-10-23-deduplicate-products-in-multiple-flavors/" class="md-nav__link">
         
   
   
@@ -4580,87 +4553,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#identification-of-duplicate-products" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Identification of duplicate products
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#selection-of-product-to-keep" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Selection of product to keep
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Selection of product to keep">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#manual-review-for-top-products" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Manual review for top products
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#automatic-selection-for-non-manually-reviewed-products" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automatic selection for non manually reviewed products
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deduplication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deduplication
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5846,10 +5738,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-01-15-moving-mongodb-to-scaleway/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-01-15 Moving mongoDB (and redis and postgres) to scaleway
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5865,6 +5784,181 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-scaleway-docker-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploying scaleway docker prod
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploying scaleway docker prod">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-scaleway-docker-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing scaleway docker prod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-deploy-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing deploy script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-stunnel-on-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploying stunnel on the reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Mortem Note: on wrong volume name created (with a ZFS dataset)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-mongodb-with-backup-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing MongoDB with backup data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing MongoDB with backup data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trying-the-zfs-clone-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trying the ZFS clone approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-rsync-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using rsync to test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-scaleway-docker-prod-vm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying scaleway-docker-prod VM configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branching-stunnel-client-to-our-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branching stunnel client to our services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task list
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5988,33 +6082,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#identification-of-duplicate-products" class="md-nav__link">
+  <a href="#deploying-scaleway-docker-prod" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Identification of duplicate products
+        Deploying scaleway docker prod
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#selection-of-product-to-keep" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Selection of product to keep
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Selection of product to keep">
+    <nav class="md-nav" aria-label="Deploying scaleway docker prod">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#manual-review-for-top-products" class="md-nav__link">
+  <a href="#preparing-scaleway-docker-prod" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Manual review for top products
+        Preparing scaleway docker prod
       
     </span>
   </a>
@@ -6022,10 +6105,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#automatic-selection-for-non-manually-reviewed-products" class="md-nav__link">
+  <a href="#changing-deploy-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic selection for non manually reviewed products
+        Changing deploy script
       
     </span>
   </a>
@@ -6038,10 +6121,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deduplication" class="md-nav__link">
+  <a href="#deploying-stunnel-on-the-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deduplication
+        Deploying stunnel on the reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Mortem Note: on wrong volume name created (with a ZFS dataset)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-mongodb-with-backup-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing MongoDB with backup data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing MongoDB with backup data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trying-the-zfs-clone-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trying the ZFS clone approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-rsync-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using rsync to test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-scaleway-docker-prod-vm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying scaleway-docker-prod VM configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branching-stunnel-client-to-our-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branching stunnel client to our services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task list
       
     </span>
   </a>
@@ -6065,7 +6253,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-10-23-deduplicate-products-in-multiple-flavors.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-01-15-moving-mongodb-to-scaleway.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6073,35 +6261,328 @@
   
 
 
-<h1 id="2024-10-23-deduplicate-products-in-multiple-flavors">2024-10-23 Deduplicate products in multiple flavors<a class="headerlink" href="#2024-10-23-deduplicate-products-in-multiple-flavors" title="Permanent link">#</a></h1>
-<p>We are in the process of unifying the product databases for the different flavors: OFF, OBF, OPF and OPFF.</p>
-<p>In the near future, we will keep separate databases in MongoDB for each flavor, but we want to merge the directories for the product data (.sto files) and images, in order to avoid duplicate products (products that exist in multiple flavors).</p>
-<p>Before we can merge the product directories, we need to deduplicate products that already exist in multiple flavors.</p>
-<h2 id="identification-of-duplicate-products">Identification of duplicate products<a class="headerlink" href="#identification-of-duplicate-products" title="Permanent link">#</a></h2>
-<p>A script 2024_10_detect_duplicate_products_in_different_flavors.pl was developed to go through the off, obf, opf, and opff MongoDB collections to see which barcodes exist in multiple flavors.</p>
-<p>The script was run first on 2024/08/12 and it identified 8584 products that exist on multiple flavors.</p>
-<p>On 2024/10/23, the duplicate detection script found 8898 duplicate products.</p>
-<h2 id="selection-of-product-to-keep">Selection of product to keep<a class="headerlink" href="#selection-of-product-to-keep" title="Permanent link">#</a></h2>
-<h3 id="manual-review-for-top-products">Manual review for top products<a class="headerlink" href="#manual-review-for-top-products" title="Permanent link">#</a></h3>
-<p>The 8584 duplicate products from 2024/08/12 were put on Google Sheets and a lot of products were manually assigned to one flavor: https://docs.google.com/spreadsheets/d/1-2WMvUC4J7iRYe3587mHJ1htIxPFyo7JLDLKHVmSum0/edit?gid=1565589772#gid=1565589772</p>
-<p>In particular the manual review focused on popular products (with the most scans on OFF)</p>
-<h3 id="automatic-selection-for-non-manually-reviewed-products">Automatic selection for non manually reviewed products<a class="headerlink" href="#automatic-selection-for-non-manually-reviewed-products" title="Permanent link">#</a></h3>
-<p>For other products, we will keep the flavor that has the most data (size of .sto file).</p>
-<h2 id="deduplication">Deduplication<a class="headerlink" href="#deduplication" title="Permanent link">#</a></h2>
-<p>The script 2024_10_remove_duplicate_products_in_wrong_flavors.pl is used to move product data and images to the products/other-flavors-code directory (same for images/products). Removed products are also removed from the MongoDB collections of unkept flavors. A "deleted" Redis event is also sent.</p>
-<p>Before deduplication, there were 8898 duplicate products.
-after opff: 8730
-after opf: 7598
-after obf: 6817
-after off: 4686</p>
-<p>4663 duplicate products</p>
-<p>2024/10/28: 4595 duplicate products</p>
-<p>I manually reviewed the top 1000 products (by scans on OFF) of the 4595 products. For the rest, we will keep the flavor with the most data.</p>
-<p>Ran on all 4 flavors:
-./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241030_duplicate_products_reviewed_top_1000.tsv</p>
-<p>After that, ran the script again for the remaining products, using the flavor with the most data (and not a deleted product).</p>
-<p>I had forgotten to check the obsolete flavors as well, modified the detection script to do that.</p>
-<p>./scripts/migrations/2024_10_remove_duplicate_products_on_wrong_flavors.pl --flavor /home/off/20241115_duplicate_products.tsv </p>
+<h1 id="2025-01-15-moving-mongodb-and-redis-and-postgres-to-scaleway">2025-01-15 Moving mongoDB (and redis and postgres) to scaleway<a class="headerlink" href="#2025-01-15-moving-mongodb-and-redis-and-postgres-to-scaleway" title="Permanent link">#</a></h1>
+<p>We are moving MongoDB service to scaleway.</p>
+<p>I decided to use docker compose deployement of off-shared service.</p>
+<p>This is because, as already said <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/discussions/586">in this dicussion</a>:</p>
+<ol>
+<li>we use an old version, so if we want to deploy it on a recent proxmox we would need to do it in a VM (and not a container), while docker compose is feasible as it has less dependency on kernel (does not need to run system services as opposed to a container)</li>
+<li>it's already running smoothly in staging and it makes things more consistent</li>
+<li>thanks to virtiofs, docker volume can now be ZFS datasets and that's nice for backups, accessibility and so on</li>
+</ol>
+<p>And because of this I decided to also deploy postgres and redis (though data migrations would be phased).</p>
+<p>We also have the chance that current mongo has a separated volume for data (<code>subvol-102-disk-0</code>) (thanks to myself from the past). We might have to move things around (because instead of db/ we should have directly the data) and change owner, but that's a fast operation.</p>
+<h2 id="deploying-scaleway-docker-prod">Deploying scaleway docker prod<a class="headerlink" href="#deploying-scaleway-docker-prod" title="Permanent link">#</a></h2>
+<h3 id="preparing-scaleway-docker-prod">Preparing scaleway docker prod<a class="headerlink" href="#preparing-scaleway-docker-prod" title="Permanent link">#</a></h3>
+<p>I just need to add the ZFS dataset for mongoDB data <code>off_shared_mongodb_data</code>
+(I want to isolate them). We create it on nvme,
+but we mount it at the right place so that it is visible in the VM</p>
+<p>I will do the same for the redis and postgres data volume: <code>off_shared_pg_data</code>
+<code>off_shared_redis_data</code> because I need both on SSD.</p>
+<p>I did this setting using ansible with tags zfs
+<code>ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags zfs</code></p>
+<p>I verified that the volume is visible and writable in the VM.</p>
+<h3 id="changing-deploy-script">Changing deploy script<a class="headerlink" href="#changing-deploy-script" title="Permanent link">#</a></h3>
+<p>I did:</p>
+<ul>
+<li>create a private key (<code>ssh-keygen -t ed25519 -C "root+off-shared-prod-key@openfoodfacts.org" -f off-shared-prod-key</code>)</li>
+<li>add it to off-passworld keepassX</li>
+<li>add a private key to github settings shared-org</li>
+<li>the public key will be added to ss_public_keys for continuous deployment role in <code>ansible/host_vars/scaleway-docker-prod/docker.yml</code> and run <code>ansible-playbook sites/docker_vm.yml -l scaleway-docker-prod --tags cd</code></li>
+</ul>
+<p>I also took the opportunity to add POSTGRES_PASSWORD using the one in production,
+and add a PG_BOOTSTRAP_PASSWORD (randomly generated)</p>
+<p>I also have to understand how to setup some variables.</p>
+<p>On the current MongoDB container, I use <code>systemctl cat mongod.service</code>
+to see that conf is in <code>/etc/default/mongod</code> and <code>/etc/mongod.conf</code>
+and there are no real fine tunning, except a <code>MONGODB_CONFIG_OVERRIDE_NOFORK=1</code>
+directly in the service definition.</p>
+<p>See https://github.com/openfoodfacts/openfoodfacts-shared-services/pull/23 for the new deploy action.</p>
+<h2 id="deploying-stunnel-on-the-reverse-proxy">Deploying stunnel on the reverse proxy<a class="headerlink" href="#deploying-stunnel-on-the-reverse-proxy" title="Permanent link">#</a></h2>
+<p>We will need stunnel server so that services on off1/off2 as well on ovh / hetzner, etc.
+connects to mongodb and redis.</p>
+<p>This is not currently implemented in ansible so we added it.</p>
+<p>It was quite easy.</p>
+<p>We then configure the stunnel for mongodb, redis and postgres.</p>
+<h2 id="post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset">Post-Mortem Note: on wrong volume name created (with a ZFS dataset)<a class="headerlink" href="#post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset" title="Permanent link">#</a></h2>
+<p>I first created the volume with wrong name (redis_data instead of redisdata).</p>
+<p>I fix tart by editing in <code>ansible/host_vars/scaleway-02/proxmox.yml</code>,
+adding:
+</p><div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-nvme/virtiofs/qm-200-off_shared_redis_data</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-nvme/virtiofs/qm-200-off_shared_redisdata</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># we need to mount it in the right place for docker in the VM</span>
+<span class="w">      </span><span class="nt">mountpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata</span>
+</code></pre></div>
+and replaying <code>`ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags zfs</code><p></p>
+<p>Still the deployment was failing with:
+</p><div class="highlight"><pre><span></span><code>off_shared_redisdata/_data': failed to mount local volume: mount /srv/off/docker_data/off_shared_redisdata:/var/lib/docker/volumes/off_shared_redisdata/_data, flags: 0x1000: no such file or directory
+</code></pre></div>
+This is because it might have initialized it before I mount the new ZFS (John did a commit in between).<p></p>
+<p>To deal with it, <code>scaleway-docker-prod</code>:
+</p><div class="highlight"><pre><span></span><code># volume exists
+$ docker volume list |grep off_shared_redisdata
+local     off_shared_redisdata
+# first try to remove
+$ docker volume rm off_shared_redisdata
+Error response from daemon: remove off_shared_redisdata: umount /var/lib/docker/volumes/off_shared_redisdata/_data, flags: 0x2: no such file or directory
+# create the _data folder to make docker happy (otherwise it will refuse to remove the volume)
+$ mkdir -p /var/lib/docker/volumes/off_shared_redisdata/_data
+# remove the volume (it will fail because it can't remove the parent folder, but it's ok)
+$ docker volume rm off_shared_redisdata
+# it's not there anymore
+$ docker volume list |grep off_shared_redisdata
+# stop here, I will let the deploy script re-create it
+</code></pre></div>
+We also have a similar yet different problem with pg_data volume (because of a if condition, we created it as if on staging where it is deported, while it should not).
+So we apply the same fix.<p></p>
+<h2 id="testing-mongodb-with-backup-data">Testing MongoDB with backup data<a class="headerlink" href="#testing-mongodb-with-backup-data" title="Permanent link">#</a></h2>
+<h3 id="trying-the-zfs-clone-approach">Trying the ZFS clone approach<a class="headerlink" href="#trying-the-zfs-clone-approach" title="Permanent link">#</a></h3>
+<p>My idea is to use the synced mongodb dataset backup,
+clone it and use it in place of the current dataset.</p>
+<p>So it should go like</p>
+<ol>
+<li>stopped mongodb container on scaleway-docker-prod and remove it</li>
+<li>move the current dataset corresponding to mongodb data and it's mountpoint.</li>
+<li>create the clone of mongodb backup dataset and mount it in place of the old volume</li>
+<li>restart mongodb container</li>
+</ol>
+<p>But the problem is that step 2 does not work.
+We need to unmount the volume to rename it, but it fails.</p>
+<p><code>zfs unmount zfs-nvme/virtiofs/qm-200-off_shared_mongodb_data</code> was giving
+cannot unmount '/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data': pool or dataset is busy.</p>
+<p><code>fuser /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data</code> told me it is hold by process 31711 which is the <code>/usr/libexec/virtiofsd</code> process holding it
+(although the process acts on an upper folder).
+From inside the VM, the <code>fuser /var/lib/docker/volumes/off_shared_mongodb_data</code> does not give any process.</p>
+<p>I nevertheless tried <code>docker volume rm off_shared_mongodb_data</code>,</p>
+<p>But I still can umount the zfs dataset.
+I did a <code>kill -s SIGHUP 31711</code> but it killed the virtiofs process… (:bomb: I's a BAD IDEA !)
+(also <a href="https://gitlab.com/virtio-fs/virtiofsd/-/blob/89a24d1eb57d20b497c53a11cbf60a79b5655de4/src/main.rs#L541">it seems to be intended</a>)
+And now a <code>ls on the /var/lib/docker volume</code> in the VM is broken…
+I had to do a stop (shutdown or restart where not working) and start the VM.
+It makes all website down for some time…</p>
+<p>(Note: I also tried a <code>sync; echo 3 &gt; /proc/sys/vm/drop_caches</code> in the VM but it does not allow the unmounting either)</p>
+<p>After reboot the dataset is unmounted, but at a very unconfortable cost of a production downtime.
+This is because the same VM host auth.openfoodfacts.org (keycloak) which is now central to our operations…</p>
+<p>So this is a warning that using virtiofs with a VM does not allow to do dataset manipulation while
+the VM is up, it is something we must bare in mind !</p>
+<p>This lead me to prefer a rsync based migration (using the local copy), than a syncoid one
+(if that proves fast enough).</p>
+<h3 id="using-rsync-to-test">Using rsync to test<a class="headerlink" href="#using-rsync-to-test" title="Permanent link">#</a></h3>
+<p>First I shutdown the container in the VM (as off):
+<code>docker compose stop mongodb</code>
+and cleanup data (as root) (:warning: think twice before copy/paste!):
+<code>rm -rf /var/lib/docker/volumes/off_shared_mongodb_data/_data/*</code></p>
+<p>So I will mount use a snapshot of my MongoDB backup but just to sync it on my current dataset.</p>
+<p>I need launched mongodb container once to see the user id it will use for files.
+After inspection, it uses <code>999:999</code>
+(seen from inside the VM or from outside, as opposed to LXC, there is no id translation with VMs).</p>
+<p>Indeed <code>/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/db/</code> as very different identifiers.</p>
+<p>I can access snapshots directly thanks to the <code>.zfs/snapshot</code> folder at the root of the dataset.</p>
+<p>I will use the penultimate snapshot.</p>
+<p>So on the host I simply run:</p>
+<p></p><div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:999<span class="w"> </span>--delete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/autosnap_2026-01-29_13:00:10_hourly/db/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+
+<span class="w"> </span><span class="m">59</span>.709.905.821<span class="w"> </span><span class="m">100</span>%<span class="w">   </span><span class="m">78</span>,70MB/s<span class="w">    </span><span class="m">0</span>:12:03<span class="w"> </span><span class="o">(</span>xfr#678,<span class="w"> </span>to-chk<span class="o">=</span><span class="m">0</span>/682<span class="o">)</span><span class="w">  </span>
+
+real<span class="w">    </span>12m3,710s
+user<span class="w">    </span>0m26,351s
+sys<span class="w"> </span>1m40,440s
+</code></pre></div>
+I then rsync to the next snapshot (one hour later), to have a feeling of how much time it takes:<p></p>
+<div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:999<span class="w">  </span>--delete<span class="w"> </span>/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/autosnap_2026-01-29_14<span class="se">\:</span><span class="m">00</span><span class="se">\:</span>33_hourly/db/<span class="w">   </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+
+<span class="w"> </span><span class="m">46</span>.586.665.782<span class="w">  </span><span class="m">78</span>%<span class="w">   </span><span class="m">70</span>,04MB/s<span class="w">    </span><span class="m">0</span>:10:34<span class="w"> </span><span class="o">(</span>xfr#186,<span class="w"> </span>to-chk<span class="o">=</span><span class="m">0</span>/681<span class="o">)</span><span class="w">  </span>
+
+real<span class="w">    </span>10m34,432s
+user<span class="w">    </span>0m20,231s
+sys<span class="w"> </span>1m16,518s
+</code></pre></div>
+<p>So it took as much time as the first copy… I just hope, on a 10 minutes stop it will be faster !
+Still a 10 minutes down is acceptable.</p>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
+<p>I restart the container in scaleway-docker-prod VM,
+and try it:</p>
+<div class="highlight"><pre><span></span><code>docker compose exec mongodb mongo
+
+show dbs
+admin     0.000GB
+config    0.004GB
+local     0.000GB
+obf       0.420GB
+off      48.599GB
+off-pro   5.744GB
+ofsf      0.063GB
+opf       0.172GB
+opff      0.109GB
+test      0.000GB
+&gt; show collections
+orgs
+products
+products_obsolete
+products_tags
+recent_changes
+&gt; db.products.count()
+4282169
+&gt; db.products_obsolete.count()
+27822
+&gt; db.products_tags.count()
+3026949
+&gt; db.recent_changes.count()
+35435116
+</code></pre></div>
+<p>This all seems consistent.</p>
+<h2 id="modifying-scaleway-docker-prod-vm-configuration">Modifying scaleway-docker-prod VM configuration<a class="headerlink" href="#modifying-scaleway-docker-prod-vm-configuration" title="Permanent link">#</a></h2>
+<p>We now need far more power on this VM.</p>
+<p><code>lscpu</code> on scaleway-02 tells me we have:
+</p><div class="highlight"><pre><span></span><code>CPU(s):                      96
+  On-line CPU(s) list:       0-95
+...
+    Thread(s) per core:      2
+    Core(s) per socket:      24
+    Socket(s):               2
+</code></pre></div>
+I will allocate 70 cpus to this VM for now.
+As these is 24x2 thread per socket, I need to open at least 2 sockets of 35 cores.<p></p>
+<p>I also augment the memory to min 128G, max 160G. (We need to keep memory for host for ZFS cache)</p>
+<h2 id="branching-stunnel-client-to-our-services">Branching stunnel client to our services<a class="headerlink" href="#branching-stunnel-client-to-our-services" title="Permanent link">#</a></h2>
+<p>We configure on off2 stunnel client (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f">commit 5434c20c223</a>)
+It wast tested from current mongo container on off1 using mongo client !</p>
+<p>Grep hep me find where to add the new mongodb to stunnel clients:
+</p><div class="highlight"><pre><span></span><code>rep<span class="w"> </span>-P<span class="w"> </span><span class="s1">'(213.36.253.214|proxy2)'</span><span class="w"> </span>-r<span class="w"> </span>confs/<span class="w"> </span>--include<span class="o">=</span>off.conf
+confs/ovh-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:27017
+confs/ovh-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:6379
+confs/moji-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:27017
+confs/moji-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:6379
+confs/scaleway-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">213</span>.36.253.214:5432
+confs/scaleway-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">213</span>.36.253.214:6379
+</code></pre></div><p></p>
+<p>So I need to do ovh and moji.
+I will add it as a new service, when migration is done, I can just remove the old service,
+and use the old service port for my new service.</p>
+<p>I did it on moji <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/c1b2455112d374eaf46fe9870aa52deef618794d">commit c1b2455112d</a>, serving on 27018. I tested  on docker prod2 VM using docker mongo client:
+</p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span>--rm<span class="w"> </span>mongo:4.4<span class="w"> </span>mongo<span class="w"> </span>mongodb://10.3.0.101:27018/off
+&gt;<span class="w"> </span>db.products.count<span class="o">()</span>
+<span class="m">4282169</span>
+</code></pre></div><p></p>
+<p>I did it on ovh <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/1712d313f9dae755ee48ab0f7f8d7bc695bc33f7">commit 1712d313f9</a>, serving on 27018. I tested  on docker staging using docker mongo client:
+</p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span>--rm<span class="w"> </span>mongo:4.4<span class="w"> </span>mongo<span class="w"> </span>mongodb://10.1.0.113:27018/off
+&gt;<span class="w"> </span>db.products.count<span class="o">()</span>
+<span class="m">4282169</span>
+</code></pre></div><p></p>
+<h2 id="switch-procedure">Switch procedure<a class="headerlink" href="#switch-procedure" title="Permanent link">#</a></h2>
+<ol>
+<li>Stop new MongoDB:
+   Log on scaleway-docker-prod:
+   <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>-i
+<span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>mongodb
+</code></pre></div></li>
+<li>Resync mongodb data before migration<ul>
+<li>On off1 as root, take a snapshot
+   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>snapshot<span class="w"> </span>zfs-nvme/pve/subvol-102-disk-0@2026-02-before-move-to-scaleway
+</code></pre></div></li>
+<li>On scaleway-02, as root run syncoid on this specific backup
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway02operator@off1.openfoodfacts.org:zfs-nvme/pve/subvol-102-disk-0<span class="w"> </span>zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0
+</code></pre></div></li>
+<li>and still on scaleway-02, as root, rsync mongodb data
+   <div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>ionice<span class="w"> </span>-n<span class="w"> </span><span class="m">0</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:999<span class="w">  </span>--delete<span class="w"> </span>/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/2026-02-before-move-to-scaleway/db/<span class="w">   </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+</code></pre></div></li>
+</ul>
+</li>
+<li>Stop old mongo on off1, pct 102
+   <div class="highlight"><pre><span></span><code>pct<span class="w"> </span>enter<span class="w"> </span><span class="m">102</span>
+systemctl<span class="w"> </span>stop<span class="w"> </span>mongod.service
+</code></pre></div></li>
+<li>Resync data<ul>
+<li>On off1 as root, take a snapshot
+   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>snapshot<span class="w"> </span>zfs-nvme/pve/subvol-102-disk-0@2026-02-after-move-to-scaleway
+</code></pre></div></li>
+<li>On scaleway-02, as root run syncoid on this specific backup
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway02operator@off1.openfoodfacts.org:zfs-nvme/pve/subvol-102-disk-0<span class="w"> </span>zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0
+</code></pre></div></li>
+<li>and still on scaleway-02, as root, rsync mongodb data
+   <div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>ionice<span class="w"> </span>-n<span class="w"> </span><span class="m">0</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:999<span class="w">  </span>--delete<span class="w"> </span>/zfs-hdd/off-backups/off1-zfs-nvme/pve/subvol-102-disk-0/.zfs/snapshot/2026-02-after-move-to-scaleway/db/<span class="w">   </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data/_data/
+</code></pre></div></li>
+<li>start new mongo. On scaleway-docker-prod
+   <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>-i
+<span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>mongodb
+</code></pre></div></li>
+<li>change mongodb configuration on off and <a href="https://openfoodfacts.github.io/openfoodfacts-server/dev/how-to-release/">restart services</a>:
+   <div class="highlight"><pre><span></span><code>sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
+...
+$mongodb_host = "10.1.0.103";
+...
+sudo systemctl stop apache2 &amp;&amp; sudo systemctl start apache2
+[[ "$HOSTNAME" = off ]] &amp;&amp; sudo systemctl stop apache2@priority &amp;&amp; sudo systemctl start apache2@priority
+sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.service redis_listener@$HOSTNAME.service
+</code></pre></div></li>
+<li>IMPORTANT: verify it's working by issuing <a href="https://world.openfoodfacts.org/cgi/search.pl?search_terms=petits+bruns&amp;search_simple=1&amp;action=process">a search</a> !</li>
+<li>swap new and old mongo on stunnel-client at moji
+   <code>bash
+   # on osm45 as root
+   pct enter 101
+   vim /etc/stunnel/off.conf
+   ...
+   # swap port 27017 and 27018 in accept = 
+   ...
+   systemctl restart stunnel@off.service</code></li>
+<li>check robotoff healt is ok https://robotoff.openfoodfacts.org/api/v1/health
+  and off-query health as well https://query.openfoodfacts.org/health</li>
+<li>change mongodb configuration on all opff / obf / opf (as for oof above)</li>
+<li>same as for moji on ovh stunnel-client</li>
+</ul>
+</li>
+<li>Do stuff that comes after:<ul>
+<li>commit stunnel client config changes and push</li>
+<li>stop mongodb container on off1</li>
+<li>celebrate :tada:</li>
+</ul>
+</li>
+</ol>
+<p>Note: first rsync took 12m0,202s, second resync took 11m52,720s…
+it was not worth a 2 times sync…</p>
+<h2 id="task-list">Task list<a class="headerlink" href="#task-list" title="Permanent link">#</a></h2>
+<ol>
+<li>[DONE] modify docker compose of off-shared service</li>
+<li>[DONE] modify ci deploy scripto  of off-shared service to deploy to scaleway</li>
+<li>[DONE] create zfs datasets corresponding to docker volumes on scaleway-02 (ansible)</li>
+<li>[DONE] deploy with CI on scaleway-02 for prod</li>
+<li>[DONE]~~clone~~ test rsync prod mongo dataset backup and use it as docker volume dataset<ul>
+<li>change the /db path to  / (move files)</li>
+<li>change ownership</li>
+</ul>
+</li>
+<li>[DONE] config stunnel server server on scaleway for mongo / postgres / redis</li>
+<li>[DONE] augment VM config to use almost full node power</li>
+<li>[DONE] config stunnel client (off2, other tunnels, search in configs)
+   and verify service is accessible for off / obf / opf etc. and other services that needs it<ul>
+<li>[DONE] off2 --&gt; scaleway</li>
+<li>[DONE] moji --&gt; scaleway</li>
+<li>[DONE] ovh --&gt; scaleway</li>
+</ul>
+</li>
+<li>[DONE] prepare for switch<ul>
+<li>write switch procedure:<ul>
+<li>stop new mongo</li>
+<li>take a snapshot +  syncoid + rsync</li>
+<li>stop old mongo</li>
+<li>take a snapshot + syncoid + last rsync</li>
+<li>start new mongo</li>
+<li>switch o*f configs</li>
+<li>replace old  stunnel client port for off-query / robotoff</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>[DONE] switch !</li>
+<li>[TODO] sync of mongodb data to scaleway-03 + hetzner (or somewhere)</li>
+<li>[TODO] expose exporters of scaleway + add monitoring deployment</li>
+</ol>
 
 
 
