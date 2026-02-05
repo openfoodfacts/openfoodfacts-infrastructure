@@ -1,4 +1,4 @@
-# 2025-01-15 Moving mongoDB (and redis and postgers) to scaleway
+# 2025-01-15 Moving mongoDB (and redis and postgres) to scaleway
 
 We are moving MongoDB service to scaleway.
 
@@ -50,7 +50,7 @@ directly in the service definition.
 
 See https://github.com/openfoodfacts/openfoodfacts-shared-services/pull/23 for the new deploy action.
 
-## Deploying stunnel on the reveres proxy
+## Deploying stunnel on the reverse proxy
 
 We will need stunnel server so that services on off1/off2 as well on ovh / hetzner, etc.
 connects to mongodb and redis.
@@ -62,7 +62,7 @@ It was quite easy.
 We then configure the stunnel for mongodb, redis and postgres.
 
 
-## POst-Mortem Note: on wrong volume name created (with a ZFS dataset)
+## Post-Mortem Note: on wrong volume name created (with a ZFS dataset)
 
 I first created the volume with wrong name (redis_data instead of redisdata).
 
