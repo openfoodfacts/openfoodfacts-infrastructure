@@ -3,7 +3,6 @@ proxmox_node__pve_cluster_addr0: 10.13.0.2
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
-
 _proxmox_node__zfs_filesystems_specific:
   - name: zfs-hdd/virtiofs
     properties:
