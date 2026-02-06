@@ -35,7 +35,7 @@ export PATH="/usr/local/bin:$PATH"
 #TAGLINE="<p style='color: blue;'>DECEMBER CHALLENGE: we've done it!! Congrats everyone! (Will we go below 4.9% or even 4.8% ;-) ?)</p>"
 #TAGLINE="<p style='color: blue;'>Happy new year! DECEMBER CHALLENGE: we did it! We have gone below 4.9%. Thanks everyone!</p>"
 #TAGLINE="<p style='color: blue;'>Stats are not so good, don't forget to do your homework :) Thanks everyone!</p>"
-#TAGLINE=""
+#TAGLINE="We have removed more than 13,000 data quality errors on Friday 06/12. Stats should reflect this."
 
 # ---- Requirements
 # * sqlite (standard Debian package)
@@ -105,8 +105,8 @@ lastProductEditedOn=$(sqlite3 products.db "select last_modified_datetime from [a
 # Exit after 18 retries if the database is not up to date
 counter=1
 while [[ "${lastProductEditedOn}" != "${TODAY}"* ]]; do
-  # Exit after 60 tries (600 min = 10 hours)
-  [[ "${counter}" -gt 60 ]] && { log "Retried ${counter} times, now exit..."; exit 1; }
+  # Exit after 60 tries (900 min = 15 hours)
+  [[ "${counter}" -gt 90 ]] && { log "Retried ${counter} times, now exit..."; exit 1; }
   ((counter++))
   log "Last product edited on products.db: ${lastProductEditedOn}. DB is not up to date. Retrying in 10 minutes..."
   [[ ${mode} == "noupdates" ]] && break
@@ -342,6 +342,9 @@ EOF
 nbOfNewProductsWithIssues=$(sqlite3 dq-issues.db "select count(*) from distrib where entry_date == DATE('now');")
 log "nbOfNewProductsWithIssues: ${nbOfNewProductsWithIssues}"
 
+nbOfNewProductsWithIssuesYesterday=$(sqlite3 dq-issues.db "select count(*) from distrib where entry_date == DATE('now', '-1 day');")
+log "nbOfNewProductsWithIssuesYesterday: ${nbOfNewProductsWithIssuesYesterday}"
+
 nbOfProductsFixedYesterday=$(sqlite3 dq-issues.db "select count(*) from distrib where fixed_date == DATE('now');")
 #select * from distrib where fixed_date == DATE('now') order by fixed_date desc limit 7;
 log "nbOfProductsFixedYesterday: ${nbOfProductsFixedYesterday}"; echo
@@ -499,7 +502,7 @@ https://link.openfoodfacts.org/data-quality-errors-random</a>
 </p>
 
 <div style="background-color: lightgrey; padding: 10px; width: auto;">
-<p>Hard to fix some products? 
+<p>Hard to fix some products?
    First, you can a have look to this <a href="https://wiki.openfoodfacts.org/Data_quality_issues_which_can%27t_be_fixed">wiki page</a>.
    Then, you can either write us <a href="mailto:contact@openfoodfacts.org">an email</a>,
    ask your question in the <a href="https://forum.openfoodfacts.org/c/be-a-part-of-it/database/25">database
@@ -515,8 +518,9 @@ All data and stats in this email are made from the last CSV export, where last p
 <li>Nb of products modified yesterday (including new products): ${totalNBOfModifiedProducts}</li>
 <li>Nb of products created yesterday (new products): ${totalNBOfNewProducts}</li>
 <li>Nb of products created last seven days: ${spSD}</li>
-<li>Nb of products fixed yesterday: <strong>${nbOfProductsFixedYesterday}</strong></li>
-<li>Nb of products with new issues: ${nbOfNewProductsWithIssues}</li>
+<li>Nb of products with new issues two days ago: ${nbOfNewProductsWithIssuesYesterday}</li>
+<li>Nb of products fixed (yesterday): <strong>${nbOfProductsFixedYesterday}</strong></li>
+<li>Nb of products with new issues (yesterday): ${nbOfNewProductsWithIssues}</li>
 <li>FYI: <a href="https://mirabelle.openfoodfacts.org/_memory/errors_from">
     where do the errors come from?</a> (to help others optimize their contributions)
 </li>

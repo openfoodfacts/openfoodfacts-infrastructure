@@ -58,8 +58,8 @@ if [[ "${file}" == "" ]]; then
     counter=1
     # Trying to download the file. Attention: sometimes curl command does not return anything.
     while [[ ${export_date} == "" || "$(date -d "${export_date}" +%Y-%m-%d)" < "${TODAY}" ]]; do
-        # Exit after 60 tries.
-        [[ "${counter}" -gt 60 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - Retried ${counter} times, but en.openfoodfacts.org.products.csv is from ${export_date} and not ${TODAY}. Now exit..." | tee >(cat >&2); exit 1; }
+        # Exit after 90 tries (15 hours)
+        [[ "${counter}" -gt 90 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - Retried ${counter} times, but en.openfoodfacts.org.products.csv is from ${export_date} and not ${TODAY}. Now exit..." | tee >(cat >&2); exit 1; }
         ((counter++))
         echo "$(date +'%Y-%m-%dT%H:%M:%S') - CSV export is from ${export_date} and not today (${TODAY}). Retrying ${counter} in 10 minutes"
         sleep 10m
@@ -107,7 +107,7 @@ echo "$(date +'%Y-%m-%dT%H:%M:%S') - Old CSV size $old_csv_lines"
 
 # Create a temporary DB if today's CSV is bigger than yesterday
 # TODO: better test new CSV (find newest product?)
-if (( "$new_csv_lines" > "$old_csv_lines"-5000 )); then
+if (( "$new_csv_lines" > "$old_csv_lines"-25000 )); then
   [[ "$mode" == "i" ]] && read -p "Press [Enter] key to create new db..."
   mv -f en.openfoodfacts.org.products.csv en.openfoodfacts.org.products.csv.bak
   mv newdata.csv en.openfoodfacts.org.products.csv

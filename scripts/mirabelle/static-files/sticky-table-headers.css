@@ -1,0 +1,17 @@
+/* From: https://github.com/cldellow/datasette-ui-extras/blob/main/datasette_ui_extras/static/sticky-table-headers.css */
+
+
+.rows-and-columns {
+  border-collapse: separate;
+}
+
+.rows-and-columns thead {
+  background-color: white;
+  position: sticky;
+  top: 0;
+}
+
+.rows-and-columns thead th {
+  border-bottom: 1px solid #aaa;
+  font-weight: bold;
+}

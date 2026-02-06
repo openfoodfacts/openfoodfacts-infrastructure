@@ -1,0 +1,19 @@
+# A stunnel client is a stunnel that MUST NOT be exposed publicly
+# It connects to a counter part stunnel server
+---
+- name: Stunnel client
+  hosts: stunnel_client_hosts
+  gather_facts: true
+  become: true
+  roles:
+    - role: git_based_configs
+      tags: ["base", "git-config"]
+      vars:
+        git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
+        git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
+    - role: stunnel
+      tags: ["stunnel"]
+      vars:
+        stunnel__ensure_no_client: false
+        stunnel__config_repository_root: "{{ infrastructure_repository_dest }}"

@@ -1,7 +1,7 @@
 ---
-##
+# #
 # Mailjet smtp configuration (authentication in mails-secrets.yml)
-##
+# #
 mailjet__smtp_host: in-v3.mailjet.com
 mailjet__stmp_port: 587
 mailjet__smtp_tls: true

@@ -1,4 +1,8 @@
 ---
-continuous_deployment_user: "off"
+# Deployment user
+continuous_deployment__user: "off"
 
-continuous_deployment_ssh_public_key: ""
+# Public keys of deployers (ideally one per repo that deploy on the VM)
+continuous_deployment__ssh_public_keys: []
+# Eventual proxy jump host
+continuous_deployment__proxy_jump_host:

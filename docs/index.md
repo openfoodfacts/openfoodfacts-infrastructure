@@ -70,10 +70,6 @@ For more details about our servers and their configurations, see the following p
 - [Hetzner Servers](./hetzner-servers.md)
 - [GCP Servers](./gcp-servers.md)
 
-### Virtual machines
-
-See [Virtual machines](./virtual-machines.md)
-
 ## Production Architecture Overview
 
 Our production architecture consists of different services to run Open Food Facts and sibling projects.

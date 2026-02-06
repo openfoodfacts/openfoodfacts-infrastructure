@@ -11,7 +11,7 @@ ifneq (,$(wildcard ./${ENV_FILE}))
 endif
 
 NAME = "label-studio"
-DOCKER_COMPOSE=docker-compose --env-file=${ENV_FILE}
+DOCKER_COMPOSE=docker compose --env-file=${ENV_FILE}
 
 .DEFAULT_GOAL := up
 # avoid target corresponding to file names, to depends on them
@@ -30,7 +30,7 @@ goodbye:
 # Docker Compose #
 #----------------#
 up:
-# creates a docker network and runs docker-compose
+# creates a docker network and runs docker compose
 	@echo "🥫 Building and starting containers …"
 ifdef service
 	${DOCKER_COMPOSE} up -d ${service} 2>&1
@@ -55,7 +55,7 @@ status:
 	${DOCKER_COMPOSE} ps
 
 log:
-	@echo "🥫 Reading logs (docker-compose) …"
+	@echo "🥫 Reading logs (docker compose) …"
 	${DOCKER_COMPOSE} logs -f
 
 #------------#

@@ -1,6 +1,16 @@
 ---
-# Destination of the PSK file on the server, must be defined by the user
-stunnel__psk_dst: ""
+# PSK files definition
+stunnel__psk_secrets: []
+# the content is username:psk
+# use pwgen 32 to generate psk
+# - file: postgres.psk
+#   content: |
+#      scaleway-02: auentuaienrst
 
-# Content of the PSK file, must be defined by the user
-stunnel__psk_content: ""
+# git repostory with system config
+# This is mandatory
+stunnel__config_repository_root:
+stunnel__config_repository_path: "{{ stunnel__config_repository_root }}/confs/{{ inventory_hostname }}"
+
+# Set this to true if you are on a stunnel client
+stunnel__ensure_no_client: true

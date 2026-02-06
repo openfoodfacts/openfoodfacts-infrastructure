@@ -1,0 +1,12 @@
+---
+- name: Install mailx, used by email-failures
+  ansible.builtin.package:
+    name: bsd-mailx
+    state: present
+
+- name: Add email-failures service definition
+  ansible.builtin.copy:
+    src: email-failures@.service
+    dest: /etc/systemd/system/email-failures@.service
+    mode: "0644"
+  notify: "systemd_email_failures : Reload systemd"

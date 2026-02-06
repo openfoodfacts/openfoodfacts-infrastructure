@@ -180,3 +180,14 @@ cython_debug/
 
 # Ansible
 .ansible/
+
+# Mirabelle
+scripts/mirabelle/archives/
+scripts/mirabelle/logs/
+scripts/mirabelle/*.bak
+scripts/mirabelle/*.db
+scripts/mirabelle/*.db-shm
+scripts/mirabelle/*.db-wal
+scripts/mirabelle/*.csv
+scripts/mirabelle/*.tsv
+scripts/mirabelle/*.log

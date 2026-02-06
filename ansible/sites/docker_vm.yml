@@ -7,3 +7,8 @@
   roles:
     - role: docker
       tags: ["base", "docker"]
+    - role: continuous_deployment
+      tags: cd
+      vars:
+        # proxy jump host on vms, we get the value of proxmox_node variable
+        continuous_deployment__proxy_jump_host: "{{ hostvars[ansible_hostname].proxmox_node | default(None) }}"

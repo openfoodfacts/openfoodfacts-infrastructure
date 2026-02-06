@@ -94,8 +94,7 @@
     memory: "{{ _container.memory | default(proxmox_containers__default_memory) }}"
     swap: "{{ _container.swap | default(proxmox_containers__default_swap) }}"
     # 6th screen of creation form
-    # TODO: [...].0.[...] might cause issues
-    netif: "{{ _container.netif | proxmox_netif_dict(current_config=_proxmox_containers__existing_container.proxmox_vms[0].network) }}"
+    netif: "{{ _container.netif | proxmox_netif_dict(current_config=(_proxmox_containers__existing_container.proxmox_vms[0].network | default(None))) }}"
     # more options
     onboot: "{{ _container.onboot | default(proxmox_containers__default_onboot) }}"
     # NOTE: protection is not supported :-(
