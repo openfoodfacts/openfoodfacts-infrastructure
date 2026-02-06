@@ -1,4 +1,4 @@
-# 2025-11-06 Search-a-licious Staging on Hetzner
+# 2025-11-06 Hetzner Docker Staging VM
 
 We want to install Search-a-licious staging on Hetzner:
 * moving it from OVH
