@@ -23,3 +23,15 @@ sanoid__create_operators:
     server: hetzner-03
     server_fqdn: hetzner-03.openfoodfacts.org
     needs_sync_snap: false
+  - username: hetzner01operator
+    server: scaleway-01
+    server_fqdn: scaleway-01.infra.openfoodfacts.org
+    needs_sync_snap: false
+  - username: hetzner01operator
+    server: scaleway-02
+    server_fqdn: scaleway-02.infra.openfoodfacts.org
+    needs_sync_snap: false
+  - username: hetzner01operator
+    server: scaleway-03
+    server_fqdn: scaleway-03.infra.openfoodfacts.org
+    needs_sync_snap: false
