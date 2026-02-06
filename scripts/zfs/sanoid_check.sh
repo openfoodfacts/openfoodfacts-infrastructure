@@ -76,10 +76,12 @@ do
   fi
 done
 
-# if errors send email
+# if errors send email and log to stderr
 if [[ "${#ERRORS[@]}" -ne "0" ]]
 then
   printf '%s\n' "${ERRORS[@]}" | mailx -s "$0 error on $HOSTNAME" root
+  echo "ERRORS found - sending email" >&2
+  printf '%s\n' "${ERRORS[@]}" >&2
 fi
 
 
