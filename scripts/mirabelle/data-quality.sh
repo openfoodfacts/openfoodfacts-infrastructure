@@ -26,7 +26,7 @@ ifFailed "products.db: database error $?" "2" # Exit if the database is not reac
 # Build smaller database to speed-up queries
 #sqlite3 tempo.db <<EOF
 #ATTACH 'products.db' as products;
-#CREATE TABLE [all] AS 
+#CREATE TABLE [all] AS
 #  SELECT code, countries_en, data_quality_errors_tags, last_image_datetime, main_category_en, ingredients_tags, states_tags, unique_scans_n, brands
 #  FROM db2.t2 where data_quality_errors_tags != "";
 #EOF
@@ -65,6 +65,7 @@ cc["in"]="India"
 cc["jp"]="Japan"
 cc["lt"]="Lithuania"
 cc["lu"]="Luxembourg"
+cc["lv"]="Latvia"
 cc["ma"]="Morocco"
 cc["mx"]="Mexico"
 cc["nc"]="New Caledonia"
@@ -91,7 +92,7 @@ cc["za"]="South Africa"
 
 # Fill the countries for which we want stats
 #for country in world at be ch de es fr ie it nl pl pt uk us
-for country in world ae ar at au be bg ca ch cl co cz de dk es fi fr gr hr hu ie it in jp lt lu ma mx nc nl no nz pl pr pt re ro rs ru sa se sg th tn tr uk us za
+for country in world ae ar at au be bg ca ch cl co cz de dk es fi fr gr hr hu ie it in jp lt lu lv ma mx nc nl no nz pl pr pt re ro rs ru sa se sg th tn tr uk us za
 do
 #sleep 1
 [[ $country != "world" ]] && country_condition=" and countries_en like '%${cc[$country]}%' " || country_condition=""

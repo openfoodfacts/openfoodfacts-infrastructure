@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# TODO:
+# * convert OFF username into small caps
+# * validate OFF username
+
+salt="hjkhh6ghmxequnuavohdsch"
+
+# Function to decode URL-encoded strings: https://stackoverflow.com/questions/6250698/how-to-decode-url-encoded-string-in-shell
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+
+# REQUEST_URI=/-/data-quality-daily/subscribe?subscribe=unsubscribe&token=2d8d84fd0dd91b3cc94f921246a4cfa8
+request=$(echo ${REQUEST_URI} | sed -e "s/\/-\/data-quality-daily\/subscribe?//")
+declare -A param_get
+while IFS='=' read -r -d '&' key value && [[ -n "$key" ]]; do
+    param_get["$key"]=$value
+done <<<"${request}&"
+
+# Read POST or GET data
+read QUERY_STRING # email=charles%40nepote.org&name=charlesnepote
+declare -A param
+while IFS='=' read -r -d '&' key value && [[ -n "$key" ]]; do
+    param["$key"]=$value
+done <<<"${QUERY_STRING}&"
+name=$(urldecode "${param[name]}")
+email=$(urldecode "${param[email]}")
+
+# Test email adress format
+[[ "$email" != "" ]] && [[ ! "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,5}$ ]] && ERROR="Email is not correct."
+
+echo "Content-type: text/html" # Tells the browser what kind of content to expect
+echo "" # An empty line. Mandatory, if it is missed the page content will not load
+
+# When the user ask to subscribe
+if [[ ${ERROR} == "" && ${email} != "" && ${param[subscribe]} == "subscribe" ]]; then
+  #printenv
+  #echo "sqlite3 --echo dq-members.db \"INSERT INTO members (off_username,email) VALUES ('${name}','${email}');\""
+  sqlite3 dq-members.db "INSERT INTO members (off_username,email) VALUES ('${name}','${email}');"
+  #echo "Erreur code: "$?
+  #echo "----"
+fi
+
+# When the user ask to unsubscribe
+if [[ ${ERROR} == "" && ${email} != "" && ${param[subscribe]} == "unsubscribe" ]]; then
+  # Send email to validate
+  token=($(echo "${email}${salt}" | md5sum))
+  sqlite3 dq-members.db "UPDATE members set token = '${token}' where email == '${email}';"
+  u_mail=$(cat <<EOF
+From: Data Quality Daily<contact@openfoodfacts.org>
+Subject: Confirm your request to unsubscribe
+You have asked to unsubscribe to the Data Quality Daily email. Can you confirm this by clicking on the following link:
+http://mirabelle.openfoodfacts.org/-/data-quality-daily/subscribe?subscribe=unsubscribe&token=${token}
+EOF
+)
+  echo "${u_mail}" | sendmail -t ${email}
+fi
+
+# When the user validate http://mirabelle.openfoodfacts.org/-/data-quality-daily/subscribe?subscribe=unsubscribe&token=2d8d84fd0dd91b3cc94f921246a4cfa3
+if [[ ${ERROR} == "" && ${param_get[subscribe]} == "unsubscribe" && ${param_get[token]} != "" ]]; then
+  # delete the entry
+  token_exists=$(sqlite3 dq-members.db "select 1 from members where token == '${param_get[token]}' limit 1;")
+  echo "------------------------------ ${token_exists} - param_get[token]: ${param_get[token]}"
+  if [[ ${token_exists}  ]]; then
+    # Delete user
+    #echo "=========="
+    sqlite3 dq-members.db "DELETE from members where [token] like '${param_get[token]}' order by id desc limit 1;"
+    #echo "Erreur code: "$?
+    unsubscribe=1
+  fi
+fi
+
+
+
+html=$(cat <<EOF
+<!DOCTYPE html><html lang="en">
+<head><title>Data Quality Daily subscription</title></head>
+<body>
+
+<h3>Subscribe to Data quality daily<sup>(beta)</sup>!</h3>
+
+<p style="margin-bottom: 0.5rem;"><i>Data quality daily</i> is a daily email suggesting you 3 Open Food Facts products to fix.</p>
+<ul style="margin-top: 0.5rem;">
+<li>this is <i>your</i> mission, these products are not sent to other users</li>
+<li>these products should be fixable (photos)</li>
+<li>products' popularity is taken into account (number of scans last year): your fixes have a higher impact</li>
+<li>you also get nice daily stats about data quality</li>
+</ul>
+
+<form method="post" action="/-/data-quality-daily/subscribe">
+  <div>
+    <label for="email">Enter your email*: </label>
+    <input type="email" name="email" id="email">
+  </div>
+  <div style="margin-top: 0.5rem;">
+    <label for="name">Your Open Food Facts' username (needed for daily contributors board): </label>
+    <input type="text" pattern="[a-z0-9-]*" title="0 to 100 lowercase letters, numbers and hyphens" name="name" id="name">
+  </div>
+  <div style="margin-top: 0.5rem;">
+    <input type="radio" name="subscribe" value="subscribe" checked>
+    <label for="subscribe">I want to subscribe</label><br>
+    <input type="radio" name="subscribe" value="unsubscribe">
+    <label for="unsubscribe">I have already subscribed and I want to unsubscribe (email based)</label>
+  </div> <!-- o -->
+  <br>
+    <input type="submit" value="Submit">
+</form>
+
+<!-- <pre style="width:1px;">
+$(
+# Debugging data
+#printenv
+echo "$QUERY_STRING"
+echo "name: '${name}'"; echo "email: '${email}'"; echo "token: ${token}"; echo "param_get[token]: ${param_get[token]}"
+)
+</pre> -->
+
+$(
+# Display errors
+[[ ${ERROR} != "" ]] && echo "<p><strong>${ERROR}</strong></p>"
+# Display confirmation
+if [[ ${ERROR} == "" && ${email} != "" && ${param[subscribe]} == "subscribe" ]]; then
+  echo "<p>You have been <b>subscribed</b> to the Data Quality Daily, <strong>thanks a lot for your contribution</strong>. You will receive your first email tomorrow.</p>"
+fi
+if [[ ${ERROR} == "" && ${email} != "" && ${param[subscribe]} == "unsubscribe" ]]; then
+  echo "<p>We have send you an email to let you validate your request. Please check the confirmation link in the email. If you haven't received any email, please contact us.</p>"
+fi
+if [[ ${unsubscribe} -eq 1 ]]; then
+  echo "<p><b>You have been unsubscribed</b>. Thanks for your contributions. You can subscribe again at any time.</p>"
+fi
+)
+
+<br><hr><p>Ask us if you have any question! <a href="mailto:contact@openfoodfacts.org">contact@openfoodfacts.org</a>.</p>
+<p style="font-size: 8px; margin: 0px;">`date`</p>
+
+</body>
+</html>
+EOF
+)
+
+echo -e "${html}"

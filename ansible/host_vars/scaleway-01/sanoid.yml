@@ -1,0 +1,12 @@
+---
+sanoid__datasets_to_create: []
+
+sanoid__create_operators:
+  - username: scaleway01operator
+    server: off2
+    server_fqdn: off2.openfoodfacts.org
+    needs_sync_snap: false
+  - username: scaleway01operator
+    server: off1
+    server_fqdn: off1.openfoodfacts.org
+    needs_sync_snap: false

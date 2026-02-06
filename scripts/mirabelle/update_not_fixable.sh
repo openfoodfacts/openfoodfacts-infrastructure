@@ -66,3 +66,4 @@ EOF
 
 log "End of script. Normal exit with error code 0"
 exit 0
+

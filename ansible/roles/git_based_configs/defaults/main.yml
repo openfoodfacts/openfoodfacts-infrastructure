@@ -25,3 +25,9 @@ git_based_configs__force_branch_switch: false
 # Specific to be set on command line
 # Put there the answer to branch switch confirmation
 git_based_configs__branch_switch_confirmation:
+# force service restart
+# you might also use this if you import enable_service.yml
+git_based_configs__force_service_restart: false
+# some configuration files to consider for to decide wether service needs a restart
+# you might also use this if you import enable_service.yml
+git_based_configs__service_conf_files: []

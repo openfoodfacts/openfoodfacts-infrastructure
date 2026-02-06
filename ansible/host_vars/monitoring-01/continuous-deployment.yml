@@ -1,2 +1,3 @@
 ---
-continuous_deployment_ssh_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHVyrNwVTHGWSbkPyhNRrAGuyXE3IAGnAHHGqzkCGhWv off@monitoring-01"
+continuous_deployment__ssh_public_keys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHVyrNwVTHGWSbkPyhNRrAGuyXE3IAGnAHHGqzkCGhWv off@monitoring-01"

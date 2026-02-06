@@ -52,7 +52,7 @@ RETURN = """
 import os
 from pathlib import Path
 
-import ansible.errors
+import ansible.module_utils.errors
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.common.text.converters import to_native
 
@@ -77,7 +77,7 @@ class Result:
 # because Path.walk is only in Python3.11
 # also because we want to work with relative paths
 def walk_files(path):
-    for dirpath, dirnames, filenames in os.walk(str(path)):
+    for dirpath, dirnames, filenames in os.walk(str(path), followlinks=True):
         yield from ((Path(dirpath) / f).relative_to(path) for f in filenames)
 
 
@@ -96,7 +96,7 @@ class GitBasedConfigSymlinks:
         if not (self.dst.exists() and self.dst.is_dir()):
             errors.append(f"dst {self.src} is not a valid directory")
         if errors:
-            raise ansible.errors.AnsibleError("\n".join(errors))
+            raise ansible.module_utils.errors.AnsibleValidationError("\n".join(errors))
 
     def compute_symlinks_state(self):
         # We work with relative file path, which makes things easy
@@ -142,6 +142,9 @@ class GitBasedConfigSymlinks:
                 for p in result.removed:
                     p.unlink()
                 for p in result.created:
+                    # ensure directory
+                    if not (self.dst / p.parent).exists():
+                        (self.dst / p.parent).mkdir(parents=True)
                     (self.dst / p).symlink_to(self.src / p)
             self.module.exit_json(**result.as_dict())
 

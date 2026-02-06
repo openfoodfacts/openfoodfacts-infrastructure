@@ -18,3 +18,10 @@
       tags: ["nginx"]
       vars:
         reverse_proxy_nginx__nginx_git_root_path: "{{ infrastructure_repository_dest }}"
+    - role: stunnel
+      tags: ["stunnel"]
+      # no psk means no services
+      when: stunnel__psk_secrets | default(false)
+      vars:
+        stunnel__ensure_no_client: true
+        stunnel__config_repository_root: "{{ infrastructure_repository_dest }}"
