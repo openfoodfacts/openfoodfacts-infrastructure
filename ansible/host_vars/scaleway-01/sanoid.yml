@@ -10,3 +10,11 @@ sanoid__create_operators:
     server: off1
     server_fqdn: off1.openfoodfacts.org
     needs_sync_snap: false
+  - username: scaleway01operator
+    server: scaleway-02
+    server_fqdn: scaleway-02.infra.openfoodfacts.org
+    needs_sync_snap: false
+  - username: scaleway01operator
+    server: scaleway-03
+    server_fqdn: scaleway-03.infra.openfoodfacts.org
+    needs_sync_snap: false
