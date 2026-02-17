@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../2024-10-23-deduplicate-products-in-multiple-flavors/">
+        <link rel="prev" href="../2025-10-27-switch-from-sto-to-json/">
       
       
-        <link rel="next" href="../2024-10-30-keycloak-ct-install/">
+        <link rel="next" href="../2025-11-20-ovh3-disk-replace/">
       
       
         
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-10-29 Move S3 sync script to OVH3 - Open Food Facts Infrastructure documentation</title>
+        <title>2025-11-06 Hetzner Docker Staging VM - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-10-29-move-s3-sync-script-to-ovh3" class="md-skip">
+        <a href="#2025-11-06-hetzner-docker-staging-vm" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-10-29 Move S3 sync script to OVH3
+              2025-11-06 Hetzner Docker Staging VM
             
           </span>
         </div>
@@ -4562,19 +4562,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-10-29-move-s3-sync-script-to-ovh3/" class="md-nav__link">
         
   
   
@@ -4590,7 +4581,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -5552,10 +5542,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2025-11-04-hetzner-docker-staging-vm/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-11-06 Hetzner Docker Staging VM
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5571,6 +5588,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm-for-staging-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM for staging docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the VM for staging docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-template-vm-for-debian-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a template VM for debian 13
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-virtio-fs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring virtio-fs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding virtiofs volume to our VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring the VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5911,6 +6020,86 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm-for-staging-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM for staging docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the VM for staging docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-template-vm-for-debian-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a template VM for debian 13
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-virtio-fs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring virtio-fs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding virtiofs volume to our VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring the VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -5926,7 +6115,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-10-29-move-s3-sync-script-to-ovh3.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-11-04-hetzner-docker-staging-vm.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -5934,32 +6123,128 @@
   
 
 
-<h1 id="2024-10-29-move-s3-sync-script-to-ovh3">2024-10-29 Move S3 sync script to OVH3<a class="headerlink" href="#2024-10-29-move-s3-sync-script-to-ovh3" title="Permanent link">#</a></h1>
-<p>The script used to synchronize images to AWS S3 (through AWS S3 Open Dataset program) was run on off2 server.
-This server is overloaded (due to I/O), so we now run this script on the OVH3 server (that has a replicate of images through Sanoid snapshots).</p>
-<p>OVH3 server has Python 3.7, and the script requires at least Python 3.9. I wanted to install pyenv using the off user, but I didn't manage to get pyenv working with dash, which is the default shell for off user.</p>
-<p>As a result, I install <a href="https://docs.astral.sh/uv/">uv</a> on ovh3 as a replacement, for <code>off</code> user:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<h1 id="2025-11-06-hetzner-docker-staging-vm">2025-11-06 Hetzner Docker Staging VM<a class="headerlink" href="#2025-11-06-hetzner-docker-staging-vm" title="Permanent link">#</a></h1>
+<p>We want to install Search-a-licious staging on Hetzner:</p>
+<ul>
+<li>moving it from OVH</li>
+<li>on a VM with docker staging deployments</li>
+<li>using a ZFS Dataset through virtiofs for important docker volumes</li>
+</ul>
+<h2 id="creating-the-vm-for-staging-docker">Creating the VM for staging docker<a class="headerlink" href="#creating-the-vm-for-staging-docker" title="Permanent link">#</a></h2>
+<p>I tried to have the VM created with ansible, but as it happens to be too much work,
+I switch to doing it manually.</p>
+<p>I first take the occasion <a href="../2025-10-22-hetzner-proxmox-8-to-9/">to upgrade to Proxmox 9</a></p>
+<h3 id="creating-a-template-vm-for-debian-13">Creating a template VM for debian 13<a class="headerlink" href="#creating-a-template-vm-for-debian-13" title="Permanent link">#</a></h3>
+<p>I already have a template VM, but I want to do a new one,
+to have latest debian version.</p>
+<p>So I'm doing again what I did in <a href="../2025-08-07-testing-virtiofs/">2025-08-07 testing virtiofs</a></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/alex
+<span class="c1"># navigate from https://cloud.debian.org/images/cloud to retrieve the name</span>
+wget<span class="w"> </span>https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
+apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libguestfs-tools<span class="w"> </span>dhcpcd-base
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--update
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--install<span class="w"> </span>qemu-guest-agent
+<span class="c1"># NOTE: I needed to add dhcpcd-base package on the host (see above),</span>
+<span class="c1"># otherwise this install was failing with "Temporary failure resolving 'deb.debian.org'"</span>
+<span class="c1"># see https://forum.proxmox.com/threads/virt-customize-install-broken.130473/post-797805</span>
+qm<span class="w"> </span>create<span class="w"> </span><span class="m">998</span><span class="w"> </span>--name<span class="w"> </span>debian12-cloudinit<span class="w"> </span>--net0<span class="w"> </span>virtio,bridge<span class="o">=</span>vmbr1<span class="w"> </span>--scsihw<span class="w"> </span>virtio-scsi-single
+
+<span class="c1"># add the disk, using rpool-pve</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--scsi0<span class="w"> </span>rpool-pve:0,iothread<span class="o">=</span><span class="m">1</span>,backup<span class="o">=</span>off,format<span class="o">=</span>qcow2,import-from<span class="o">=</span>/home/alex/debian-13-generic-amd64.qcow2
+<span class="c1"># set boot</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span>scsi0
+<span class="c1"># set some physical values</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--cpu<span class="w"> </span>host<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">4096</span>
+<span class="c1"># add cloudinit</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w">  </span><span class="m">998</span><span class="w"> </span>--ide2<span class="w"> </span>local:cloudinit
+<span class="c1"># set qemu agent</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">998</span><span class="w"> </span>--agent<span class="w"> </span><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="c1"># make it a template</span>
+qm<span class="w"> </span>template<span class="w"> </span><span class="m">998</span>
 </code></pre></div>
-<p><code>uv</code> is installed automatically in <code>/home/off/.cargo/bin/uv</code>.</p>
-<p>Install Python 3.11:</p>
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>python<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.11
+<h3 id="creating-the-vm">Creating the VM<a class="headerlink" href="#creating-the-vm" title="Permanent link">#</a></h3>
+<p>I use the Template VM to create my VM:</p>
+<ul>
+<li>Target node: hetzner-02</li>
+<li>VM ID: 201</li>
+<li>Name: hetzner-02-docker-staging</li>
+<li>Mode: full-clone</li>
+<li>Target storage: rpool-pve</li>
+</ul>
+<p>I tweak configuration to:</p>
+<ul>
+<li>start at boot</li>
+<li>enable protection</li>
+<li>change cloudinit to:<ul>
+<li>user: config-op</li>
+<li>password: <strong>*</strong></li>
+<li>ssh public keys: I took the content of /root/.ssh/authorized_keys on hetzner-02</li>
+<li>IPConfig: IP: 10.12.1.201/16 and Gateway: 10.12.0.1</li>
+</ul>
+</li>
+</ul>
+<p>In ansible/ folder I:</p>
+<ul>
+<li>add the VM to the inventory.
+  <div class="highlight"><pre><span></span><code>hetzner-02-docker-staging ansible_ssh_host=10.12.1.201 proxmox_node="hetzner-02"
+</code></pre></div></li>
+<li>create <code>host_vars/hetzner-02-docker-staging/hetzner-02-docker-staging-secrets.yml</code>
+  and add the <code>ansible_become_password</code> inside (using the same password as in cloudinit)</li>
+</ul>
+<p>I will run the jobs/configure recipe after having configure virtio-fs.</p>
+<h3 id="configuring-virtio-fs">Configuring virtio-fs<a class="headerlink" href="#configuring-virtio-fs" title="Permanent link">#</a></h3>
+<p>In ansible:</p>
+<ul>
+<li>in <code>ansible/host_vars/hetzner-02/proxmox.yml</code>,
+  I added the ZFS configuration for our virtiofs volumes:
+  <div class="highlight"><pre><span></span><code><span class="nt">proxmox_node__zfs_filesystems</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain"># we will put all virtiofs volumes for QEMU vms under this</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rpool/virtiofs</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="c1"># this is mandatory for virtiofs to work well in linux</span>
+<span class="w">      </span><span class="nt">acltype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">posixacl</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rpool/virtiofs/qm-201</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rpool/virtiofs/qm-201/docker-volumes</span>
+<span class="w">  </span><span class="c1"># datasets for serach-a-licious ES data</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rpool/virtiofs/qm-201/docker-volumes/po_search_esdata01</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rpool/virtiofs/qm-201/docker-volumes/po_search_esdata02</span>
+</code></pre></div></li>
+<li>in <code>ansible/group_vars/pvehetzner/proxmox.yml</code>,
+  I added the virtiofs mappings
+  <div class="highlight"><pre><span></span><code><span class="c1"># directory mappings</span>
+<span class="nt">virtiofs__dir_mappings</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qm-201-virtiofs-docker-volumes</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">map</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hetzner-02</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">path</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/rpool/virtiofs/qm-201/docker-volumes</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"virtiofs</span><span class="nv"> </span><span class="s">dataset</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">qm-201</span><span class="nv"> </span><span class="s">docker</span><span class="nv"> </span><span class="s">volumes"</span>
+</code></pre></div></li>
+</ul>
+<p>I then run the playbook for proxmox cluster but only zfs and virtiofs tag:
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>-l<span class="w"> </span>hetzner-02<span class="w"> </span>--tags<span class="w"> </span>zfs,virtiofs
 </code></pre></div>
-<p>I moved S3 synchronization script to openfood facts infra repository, in the <code>scripts</code> directory (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/42dd4fcdb1f52d55767f33136bc94a6590fa4fd8">commit</a>).</p>
-<p>Note that Python version and dependencies can be directly declared at the top of the Python script, as comment:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># /// script</span>
-<span class="c1"># dependencies = [</span>
-<span class="c1"># "openfoodfacts==1.1.5",</span>
-<span class="c1"># "orjson==3.10.7",</span>
-<span class="c1"># "boto3==1.35.32",</span>
-<span class="c1"># "tqdm==4.66.5",</span>
-<span class="c1"># ]</span>
-<span class="c1"># requires-python = "&gt;=3.9"</span>
-<span class="c1"># ///</span>
-</code></pre></div>
-<p>I also copied the aws credentials in <code>~/.aws/credentials</code> on ovh3 server (<code>off</code> user).</p>
-<p>when launching the script with <code>uv run sync_s3_images.py</code>, <code>uv</code> automatically creates a virtualenv if needed, install the dependencies and run the script in the virtual environment.</p>
-<p>I installed the systemd service and timer on ovh3, and disabled the systemd service/timer on off2 server.</p>
+(Note: I had to fix some bug,
+for example I discovered the <a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html#tag-inheritance-for-includes-blocks-and-the-apply-keyword">weirdness of tags + role include</a> and moved to import !)<p></p>
+<h3 id="adding-virtiofs-volume-to-our-vm">Adding virtiofs volume to our VM<a class="headerlink" href="#adding-virtiofs-volume-to-our-vm" title="Permanent link">#</a></h3>
+<p>I edited manually the VM to add the VIRTIOFS device:</p>
+<ul>
+<li>in hardware, add virtiofs</li>
+<li>directory id: qm-201-virtiofs-docker-volumes</li>
+<li>enable posix acl</li>
+<li>do not enable direct IO (would slow it down)</li>
+</ul>
+<p>The corresponding string is: <code>qm-201-virtiofs-docker-volumes,expose-acl=1</code></p>
+<h3 id="configuring-the-vm">Configuring the VM<a class="headerlink" href="#configuring-the-vm" title="Permanent link">#</a></h3>
+<p>Now I can start the VM.</p>
+<p>I can run ansible playbooks:
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>hetzner-02-docker-staging
+ansible-playbook<span class="w"> </span>sites/docker_vm.yml<span class="w"> </span>-l<span class="w"> </span>hetzner-02-docker-staging
+</code></pre></div><p></p>
+<p><strong>Note:</strong> running the second playbook I had an issue because the "/" partition was saturated.
+To fix that, I only had to stop the VM, then, on the host, run: <code>qm resize 201 scsi0 +7G</code>
+(scis0 corresponding to the primary disk in proxmox config, and I decided to add 7GB).
+When I restarted the VM, the partition was already extended.</p>
 
 
 
