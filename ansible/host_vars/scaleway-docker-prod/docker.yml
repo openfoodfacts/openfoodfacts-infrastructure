@@ -1,4 +1,7 @@
 ---
 docker__volumes_virtiofs: "qm-{{ proxmox_vm_id }}-virtiofs-docker-volumes"
 continuous_deployment__ssh_public_keys:
+  # keycloak
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIITFwDowPxN/XGvO015AEq9Bg3rcIzBiDdwQqcthfCpN off@off-keycloak-org"
+  # shared org
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrteD/P9UgVrxa3ULYyyxIjsGf0IAzpOHC+OLE5UzfE root+off-shared-prod-key@openfoodfacts.org"

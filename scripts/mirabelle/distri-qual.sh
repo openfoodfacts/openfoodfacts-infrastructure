@@ -105,8 +105,8 @@ lastProductEditedOn=$(sqlite3 products.db "select last_modified_datetime from [a
 # Exit after 18 retries if the database is not up to date
 counter=1
 while [[ "${lastProductEditedOn}" != "${TODAY}"* ]]; do
-  # Exit after 60 tries (600 min = 10 hours)
-  [[ "${counter}" -gt 60 ]] && { log "Retried ${counter} times, now exit..."; exit 1; }
+  # Exit after 60 tries (900 min = 15 hours)
+  [[ "${counter}" -gt 90 ]] && { log "Retried ${counter} times, now exit..."; exit 1; }
   ((counter++))
   log "Last product edited on products.db: ${lastProductEditedOn}. DB is not up to date. Retrying in 10 minutes..."
   [[ ${mode} == "noupdates" ]] && break
@@ -502,7 +502,7 @@ https://link.openfoodfacts.org/data-quality-errors-random</a>
 </p>
 
 <div style="background-color: lightgrey; padding: 10px; width: auto;">
-<p>Hard to fix some products? 
+<p>Hard to fix some products?
    First, you can a have look to this <a href="https://wiki.openfoodfacts.org/Data_quality_issues_which_can%27t_be_fixed">wiki page</a>.
    Then, you can either write us <a href="mailto:contact@openfoodfacts.org">an email</a>,
    ask your question in the <a href="https://forum.openfoodfacts.org/c/be-a-part-of-it/database/25">database

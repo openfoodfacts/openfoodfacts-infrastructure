@@ -41,6 +41,29 @@
     group: "{{ triton_gpu__user }}"
     mode: "0600"
 
+- name: Configure the production repository for NVIDIA Container Too # noqa: risky-shell-pipe command-instead-of-module
+  ansible.builtin.shell:
+    cmd: |
+      curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
+      curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+        sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+        sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+  args:
+    creates: /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+- name: Update the packages list from the repository
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install the NVIDIA Container Toolkit packages
+  ansible.builtin.apt:
+    name:
+      - nvidia-container-toolkit=1.18.1-1
+      - nvidia-container-toolkit-base=1.18.1-1
+      - libnvidia-container-tools=1.18.1-1
+      - libnvidia-container1=1.18.1-1
+    state: present
+
 - name: Configure the docker container runtime with `nvidia-ctk`
   ansible.builtin.shell: |
     nvidia-ctk runtime configure --runtime=docker
@@ -51,3 +74,26 @@
     name: docker
     state: restarted
     enabled: true
+
+- name: "Download all models for Triton server"
+  ansible.builtin.shell:
+    cmd: /home/{{ triton_gpu__user }}/.local/bin/uv run manage.py download-models
+    chdir: "{{ triton_gpu__repository_dest }}/models"
+    executable: /bin/bash
+  changed_when: true
+  become: true
+  become_user: "{{ triton_gpu__user }}"
+
+- name: "Copy Triton config"
+  ansible.builtin.shell:
+    cmd: /home/{{ triton_gpu__user }}/.local/bin/uv run manage.py copy-config
+    chdir: "{{ triton_gpu__repository_dest }}/models"
+    executable: /bin/bash
+  changed_when: true
+  become: true
+  become_user: "{{ triton_gpu__user }}"
+
+- name: "Launching Triton server docker container"
+  community.docker.docker_compose_v2:
+    project_src: "{{ triton_gpu__repository_dest }}/models"
+    state: present

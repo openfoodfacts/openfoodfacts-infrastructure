@@ -3,7 +3,38 @@ proxmox_node__pve_cluster_addr0: 10.13.0.2
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
-proxmox_node__zfs_filesystems: "{{ pvescaleway_common_proxmox_node__zfs_filesystems }}"
+_proxmox_node__zfs_filesystems_specific:
+  - name: zfs-hdd/virtiofs
+    properties:
+      # this is mandatory for virtiofs to work well in linux
+      acltype: posixacl
+  - name: zfs-hdd/virtiofs/qm-200
+  - name: zfs-hdd/virtiofs/qm-200/docker-volumes
+  - name: zfs-nvme/virtiofs
+    properties:
+      # this is mandatory for virtiofs to work well in linux
+      acltype: posixacl
+  # data volumes
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_mongodb_data
+    properties:
+      # we need to mount it in the right place for docker in the VM
+      mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_redis_data
+    state: absent
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_redisdata
+    properties:
+      # we need to mount it in the right place for docker in the VM
+      mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata
+  - name: zfs-nvme/virtiofs/qm-200-off_shared_pg_data
+    properties:
+      # we need to mount it in the right place for docker in the VM
+      mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_pg_data
+
+proxmox_node__zfs_filesystems: |
+  {{
+    pvescaleway_common_proxmox_node__zfs_filesystems +
+    _proxmox_node__zfs_filesystems_specific
+  }}
 
 proxmox_node__pve_storages:
   - name: zfs-hdd-pve
