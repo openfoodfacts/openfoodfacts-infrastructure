@@ -76,8 +76,7 @@ I connect to kibana.openfoodfacts.org
 
 In Management > Stack Management > Index Management
 
-I see that finally I only one log index remaining !
-It is logs-current
+I see that finally I only have one log index remaining! It is `logs-current`.
 
 It is not under ILM …
 
