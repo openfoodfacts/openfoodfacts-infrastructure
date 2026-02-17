@@ -1,2 +1,5 @@
 ---
 docker__volumes_virtiofs: "qm-{{ proxmox_vm_id }}-virtiofs-docker-volumes"
+continuous_deployment__ssh_public_keys:
+  # filebeat (monitoring)
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEtCntlh1+qhy8CxFAPc+rtU91iRjCNlTgkrdVF4J8mF root+off-filbeat-hetzner-docker-staging@openfoodfacts.org"
