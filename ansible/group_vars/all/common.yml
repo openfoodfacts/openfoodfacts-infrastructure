@@ -37,6 +37,9 @@ off_internal_hosts_ips_v6: |
 off_private_networks_v4:
   # local network
   - "10.0.0.0/8"
+  # network used by docker
+  - "172.16.0.0/12"
+  - "192.168.0.0/16"
 
 # FIXME
 off_private_networks_v6: []
