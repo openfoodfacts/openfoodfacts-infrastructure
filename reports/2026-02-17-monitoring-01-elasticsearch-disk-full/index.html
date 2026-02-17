@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2025-06-23-move-monitoring-to-google-cloud/">
+        <link rel="prev" href="../2026-01-29-labelstudio-upgrade/">
       
-      
-        <link rel="next" href="../2025-06-30-ovh3-disk-full-post-mortem/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2025-06-27 OVH3 Disk Replace - Open Food Facts Infrastructure documentation</title>
+        <title>2026-02-17 monitoring 01, Elasticsearch disk full - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025-06-27-ovh3-disk-replace" class="md-skip">
+        <a href="#2026-02-17-monitoring-01-elasticsearch-disk-full" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025-06-27 OVH3 Disk Replace
+              2026-02-17 monitoring 01, Elasticsearch disk full
             
           </span>
         </div>
@@ -5094,37 +5092,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2025-06-27 OVH3 Disk Replace
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2025-06-27-ovh3-disk-replace/" class="md-nav__link">
         
   
   
@@ -5140,59 +5111,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#symptoms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Symptoms
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#asking-disk-replacement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Asking disk replacement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resilvering" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resilvering
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5958,10 +5876,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-02-17-monitoring-01-elasticsearch-disk-full/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-02-17 monitoring 01, Elasticsearch disk full
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -5977,6 +5922,137 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symptoms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listing-and-removing-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing and removing indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#looking-at-indices-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Looking at indices content
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-index-lifecycle-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Index Lifecycle Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#about-alert-on-disk-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About alert on disk threshold
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About alert on disk threshold">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diagnosis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnosis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixing-node-metrics-on-monitoring-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing node metrics on monitoring-01
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixing-the-alert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing the alert
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6027,10 +6103,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#asking-disk-replacement" class="md-nav__link">
+  <a href="#resolution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Asking disk replacement
+        Resolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listing-and-removing-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing and removing indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#looking-at-indices-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Looking at indices content
       
     </span>
   </a>
@@ -6038,13 +6142,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resilvering" class="md-nav__link">
+  <a href="#setting-index-lifecycle-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Resilvering
+        Setting Index Lifecycle Policy
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#about-alert-on-disk-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About alert on disk threshold
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About alert on disk threshold">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diagnosis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnosis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixing-node-metrics-on-monitoring-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing node metrics on monitoring-01
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixing-the-alert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing the alert
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6065,7 +6219,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-06-27-ovh3-disk-replace.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-02-17-monitoring-01-elasticsearch-disk-full.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6073,112 +6227,185 @@
   
 
 
-<h1 id="2025-06-27-ovh3-disk-replace">2025-06-27 OVH3 Disk Replace<a class="headerlink" href="#2025-06-27-ovh3-disk-replace" title="Permanent link">#</a></h1>
+<h1 id="2026-02-17-monitoring-01-elasticsearch-disk-full">2026-02-17 monitoring 01, Elasticsearch disk full<a class="headerlink" href="#2026-02-17-monitoring-01-elasticsearch-disk-full" title="Permanent link">#</a></h1>
 <h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
-<p>ZFS reported errors with /dev/sde on the rpool ZFS pool.</p>
-<div class="highlight"><pre><span></span><code>The number of I/O errors associated with a ZFS device exceeded
-acceptable levels. ZFS has marked the device as faulted.
-
- impact: Fault tolerance of the pool may be compromised.
-    eid: 4000890
-  class: statechange
-  state: FAULTED
-   host: ovh3
-   time: 2025-05-31 13:16:36+0000
-  vpath: /dev/sde1
-  vphys: pci-0000:00:1f.2-ata-5
-  vguid: 0xBE814F46F0DCFA0A
-  devid: ata-HGST_HUH721212ALE601_5PHAYBUF-part1
-   pool: 0x0600B76D0B2E72DB
+<p>After a deployment on monitoring-01,
+we got an alert that kibana was down.</p>
+<p>Looking at it on monitoring-01, I saw in its log that it's unable to start
+due to a migration that can't happen because disk is full.</p>
+<p>Looking at ES log, I see that the index is readonly because disk usage
+is above the threshold.</p>
+<p>Indeed the disk is at 96% capacity !</p>
+<div class="highlight"><pre><span></span><code>zfs list data-zfs -r
+  NAME                                                    USED  AVAIL  REFER  MOUNTPOINT
+  data-zfs                                                190G  2.79G    96K  /data-zfs
+  data-zfs/docker-volumes                                 190G  2.79G   128K  /data-zfs/docker-volumes
+  data-zfs/docker-volumes/monitoring_alertmanager-data     96K  2.79G    96K  /data-zfs  docker-volumes/monitoring_alertmanager-data
+  data-zfs/docker-volumes/monitoring_elasticsearch-data   164G  2.79G   164G  /data-zfs  docker-volumes/monitoring_elasticsearch-data
+  data-zfs/docker-volumes/monitoring_grafana-data        46.5M  2.79G  17.8M  /data-zfs  docker-volumes/monitoring_grafana-data
+  data-zfs/docker-volumes/monitoring_influxdb-data       1.73G  2.79G   110M  /data-zfs  docker-volumes/monitoring_influxdb-data
+  data-zfs/docker-volumes/monitoring_prometheus-data     24.1G  2.79G  2.13G  /data-zfs/docker-volumes/monitoring_prometheus-data
+df -h /data-zfs/docker-volumes/monitoring_elasticsearch-data
+  Filesystem                                             Size  Used Avail Use% Mounted on
+  data-zfs/docker-volumes/monitoring_elasticsearch-data  167G  164G  2.8G  99% /data-zfs  docker-volumes/monitoring_elasticsearch-data
 </code></pre></div>
-<p>I can see it with zpool status
-</p><div class="highlight"><pre><span></span><code>zpool status
-  pool: rpool
- state: DEGRADED
-status: One or more devices are faulted in response to persistent errors.
-    Sufficient replicas exist for the pool to continue functioning in a
-    degraded state.
-action: Replace the faulted device, or use 'zpool clear' to mark the device
-    repaired.
-  scan: resilvered 38.5G in 03:21:49 with 0 errors on Fri Jun  6 09:12:33 2025
-config:
-
-    NAME        STATE     READ WRITE CKSUM
-    rpool       DEGRADED     0     0     0
-      raidz2-0  DEGRADED     0     0     0
-        sda     ONLINE       0     0     0
-        sdb     ONLINE       0     0     0
-        sdc     ONLINE       0     0     0
-        sdd     ONLINE       0     0     0
-        sde     FAULTED    457     0     0  too many errors
-        sdf     ONLINE       0     0     0
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">#</a></h2>
+<p>My plan is to:</p>
+<ul>
+<li>list indexes that I can remove (old logs)</li>
+<li>~~remove the watermark temporarily~~</li>
+<li>remove indexes</li>
+<li>~~set back the watermark~~</li>
+</ul>
+<p>I will then consider if:</p>
+<ul>
+<li>some logging is too high</li>
+<li>ILM should be adjusted to trash log earlier</li>
+<li>seek why we did not get an alert on the disk</li>
+</ul>
+<p>To ease the work, as kibana is not accessible,
+I will use <a href="https://elasticvue.com/installation/">elasticvue app in standalone mode</a></p>
+<h3 id="listing-and-removing-indexes">Listing and removing indexes<a class="headerlink" href="#listing-and-removing-indexes" title="Permanent link">#</a></h3>
+<p>Elasticvue offers me a view with all indexes.
+I can see that some indices are very big:
+in particular: <code>logs-current-logs-2025.09.01-000308</code> is 18G and it's really old.</p>
+<p>I am able to remove it (no need to change threshold)</p>
+<p>It seems ILM is not working correctly as there are a lot of old indexes.
+I will remove them.
+I use the filter to get all indexes of 2024, and use bulk action to remove them.</p>
+<p>It has an immediate effect on disk use:
+</p><div class="highlight"><pre><span></span><code>data-zfs/docker-volumes/monitoring_elasticsearch-data  128G  125G  2.8G  98% /data-zfs/docker-volumes/monitoring_elasticsearch-data
 </code></pre></div><p></p>
-<h2 id="asking-disk-replacement">Asking disk replacement<a class="headerlink" href="#asking-disk-replacement" title="Permanent link">#</a></h2>
-<p>At 11:48, I asked OVH for disk replacement using their support.</p>
-<p>To get the serial number:
-<code>smartctl -i /dev/sde | grep "Serial Number"</code></p>
-<div class="highlight"><pre><span></span><code>Numéro de série du ou des disques défectueux :
-5PHAYBUF
-
-Si le ou les disques à remplacer ne sont pas détectés, renseignez ici les numéros de série des disques à conserver :
-5PHH715D
-5PG578XF
-8DJ8YH1H
-5PHAYLUF
-8DH4VTRH
-
-Pour les serveurs de type HG ou FS uniquement, si l’identification LED n’est pas disponible, merci de nous confirmer le changement de pièce en arrêtant votre serveur (coldswap) :
-No
-
-Possédez-vous une sauvegarde de vos données ?
-yes
-
-Quel est l'état de vos volumes RAID ?
-We don't have material RAID
-
-We use ZFS raidz2-0.
-
-zpool status
-  pool: rpool
- state: DEGRADED
-status: One or more devices are faulted in response to persistent errors.
- Sufficient replicas exist for the pool to continue functioning in a
- degraded state.
-action: Replace the faulted device, or use 'zpool clear' to mark the device
- repaired.
-  scan: resilvered 38.5G in 03:21:49 with 0 errors on Fri Jun  6 09:12:33 2025
-config:
-
- NAME        STATE     READ WRITE CKSUM
- rpool       DEGRADED     0     0     0
-   raidz2-0  DEGRADED     0     0     0
-     sda     ONLINE       0     0     0
-     sdb     ONLINE       0     0     0
-     sdc     ONLINE       0     0     0
-     sdd     ONLINE       0     0     0
-     sde     FAULTED    457     0     0  too many errors
-     sdf     ONLINE       0     0     0
-
-errors: No known data errors
-
-Informations complémentaires :
-We want to replace sde device asap.
+<p>I do the same for indexes before 2025-10, which are even more and huge.</p>
+<p>After that we are back to a very reasonable amount of data:
+</p><div class="highlight"><pre><span></span><code>data-zfs/docker-volumes/monitoring_elasticsearch-data  2.8G   51M  2.8G   2% /data-zfs/docker-volumes/monitoring_elasticsearch-data
+</code></pre></div><p></p>
+<p>Kibana is finally back !</p>
+<h2 id="looking-at-indices-content">Looking at indices content<a class="headerlink" href="#looking-at-indices-content" title="Permanent link">#</a></h2>
+<p>I connect to kibana.openfoodfacts.org</p>
+<p>In Management &gt; Stack Management &gt; Index Management</p>
+<p>I see that finally I only have one log index remaining! It is <code>logs-current</code>.</p>
+<p>It is not under ILM …</p>
+<p>Using analytics &gt; visualize library:</p>
+<ul>
+<li>I create a datatable</li>
+<li>Index pattern: logs-*</li>
+<li>I had a split row bucket on terms on com_docker_compose_project_working_dir by count, showing 50 items</li>
+<li>I also had to take care of the time window on top right corner and set last 3 years</li>
+</ul>
+<p>I see:
+</p><div class="highlight"><pre><span></span><code>/home/off/monitoring    54,179
+/home/off/off-search-org    25,799
+/home/off/open-prices-org   22,166
+/home/off/filebeat  18,558
+/home/off/robotoff-net  16,598
+/home/off/off-search-net    15,547
+/home/off/nutripatrol-org   13,217
+/home/off/argilla-org   12,305
+/home/off/metrics-net/docker/metrics    10,651
+/home/off/open-prices-net   10,276
 </code></pre></div>
-<p>The OVH services responded immediately and at 15:22 (3,5 hours later) the disk was replaced</p>
-<h2 id="resilvering">Resilvering<a class="headerlink" href="#resilvering" title="Permanent link">#</a></h2>
-<p>Then I logged on ovh3 and replace the old disk with the new one:</p>
-<div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sde
+From that I can see that moji is not sending logs,
+we will have to look into this…
+(hetzner and scaleway also but this is expected).<p></p>
+<h2 id="setting-index-lifecycle-policy">Setting Index Lifecycle Policy<a class="headerlink" href="#setting-index-lifecycle-policy" title="Permanent link">#</a></h2>
+<p>As we saw that logs-current is not under ILM,
+we want to add it.</p>
+<p>Normally filebeat should have done that itself,
+but it's not the case.</p>
+<p>The <code>configs/filebeat/config.yml</code> tells us the ILM config name is logs.</p>
+<p>In Management &gt; Stack Management &gt; Index Lifecycle Policies,</p>
+<p>I can see the policy <code>logs</code> exists
+and its content is conform to <code>configs/filebeat/ilm-config.json</code>.</p>
+<p>Before I can setup the policy, there is a problem to fix:
+<code>logs-current</code> is an indice when it should be an alias to an indice.
+Also in ES we can't rename an index.</p>
+<p>So first I do the following:</p>
+<ul>
+<li>put logs current in read only mode (there is an action on index in  elasticvue interface)</li>
+<li>clone it in <code>logs-2025.03.15-000001</code> (there is an action in elasticvue)</li>
+<li>remove <code>logs-current</code></li>
+<li>~~add alias <code>logs-current</code> to created log~~</li>
+</ul>
+<p>Last step does not work because filebeat immediately recreate the index…</p>
+<p>To disable this here is what I did:</p>
+<ul>
+<li>I generated a password hash using: <code>openssl passwd -5 -stdin</code></li>
+<li>I edited <code>/opt/reverse_proxy/nginx/passwords/elasticsearch.openfoodfacts.org</code><ul>
+<li>commented current off password</li>
+<li>added my new one</li>
+</ul>
+</li>
+<li>change password in elasticvue
+Then I:</li>
+<li>clone <code>logs-current</code> in <code>logs-2026.02.17-000001</code> (there is an action in elasticvue)</li>
+<li>remove <code>logs-current</code></li>
+<li>add alias <code>logs-current</code> to <code>logs-2026.02.17-000001</code>
+Finally I edit again <code>/opt/reverse_proxy/nginx/passwords/elasticsearch.openfoodfacts.org</code>
+to put back the old password, and put it back also in elasticvue.</li>
+</ul>
+<p>No I must apply the log policy my logs indices.
+For this, in kibana, I go in Management &gt; Stack Management &gt; Index Management,</p>
+<ul>
+<li>I search <code>logs-</code> and select <code>logs-2026.02.17-000001</code></li>
+<li>I use the action "add lifecycle policy"</li>
+<li>I select the <code>logs</code> lifecycle policy, with logs-current rolling alias and apply</li>
+</ul>
+<h2 id="about-alert-on-disk-threshold">About alert on disk threshold<a class="headerlink" href="#about-alert-on-disk-threshold" title="Permanent link">#</a></h2>
+<p>It would have been important to have an alert as the disk gets full.</p>
+<h3 id="diagnosis">Diagnosis<a class="headerlink" href="#diagnosis" title="Permanent link">#</a></h3>
+<p>In the configs/prometheus/alerts.yml, we have a <code>VMOutOfDiskSpace</code> alert,
+but it's looking at a specific device <code>/dev/sda1</code> and mountpoint <code>/</code>
+which only work for a very specific setting !</p>
+<p>So we need to change this.</p>
+<p>Testing in prometheus, the request <code>node_filesystem_avail_bytes{device!="tmpfs"}</code>
+only gives me two entries, which are from OVH.
+Why don't we have the one from <code>monitoring-01</code> ?</p>
+<h3 id="fixing-node-metrics-on-monitoring-01">Fixing node metrics on monitoring-01<a class="headerlink" href="#fixing-node-metrics-on-monitoring-01" title="Permanent link">#</a></h3>
+<p>on monitoring itself, if I do a:
+</p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>localhost:8281/metrics<span class="p">|</span>grep<span class="w"> </span>filesystem_avail
 </code></pre></div>
-<p>I speed up the resilver at max, since it's vital
-</p><div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="m">15000</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/zfs/parameters/zfs_resilver_min_time_ms
+I can see the zfs volumes, but it seems not to be harvested.<p></p>
+<p>But if I go in <code>/home/off/monitoring</code>, and use
+</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--user<span class="w"> </span>root<span class="w"> </span>prometheus<span class="w"> </span>sh
+wget<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>host.docker.internal:8281/metrics<span class="w"> </span>
+<span class="w">  </span>Connecting<span class="w"> </span>to<span class="w"> </span>host.docker.internal:8281<span class="w"> </span><span class="o">(</span><span class="m">172</span>.17.0.1:8281<span class="o">)</span>
+<span class="w">  </span>wget:<span class="w"> </span>can<span class="err">'</span>t<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>remote<span class="w"> </span>host<span class="w"> </span><span class="o">(</span><span class="m">172</span>.17.0.1<span class="o">)</span>:<span class="w"> </span>Connection<span class="w"> </span>timed<span class="w"> </span>out
+ping<span class="w"> </span><span class="m">172</span>.17.0.1
+PING<span class="w"> </span><span class="m">172</span>.17.0.1<span class="w"> </span><span class="o">(</span><span class="m">172</span>.17.0.1<span class="o">)</span>:<span class="w"> </span><span class="m">56</span><span class="w"> </span>data<span class="w"> </span>bytes
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">172</span>.17.0.1:<span class="w"> </span><span class="nv">seq</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.201<span class="w"> </span>ms
+</code></pre></div>
+So we got a connection problem, this is strange because the port seems exposed
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="p">|</span>grep<span class="w"> </span>node
+53ebef18c7a6<span class="w">   </span>prom/node-exporter:v1.2.2<span class="w">                                   </span><span class="s2">"/bin/node_exporter …"</span><span class="w">   </span><span class="m">7</span><span class="w"> </span>months<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">7</span><span class="w"> </span>months<span class="w">             </span><span class="m">0</span>.0.0.0:8281-&gt;9100/tcp,<span class="w"> </span><span class="o">[</span>::<span class="o">]</span>:8281-&gt;9100/tcp<span class="w">                                    </span>filebeat-node_exporter-1
+</code></pre></div>
+It might be a firewall problem ?
+We have the accept in INPUT for PrivateNet4,
+but the PrivateNet4 set only has 10.0.0.0/8.<p></p>
+<p>This is blocking requests.</p>
+<p>I modified the <code>off_private_networks_v4</code> in <code>group_vars/all/common.yml</code>
+and run:
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>monitoring-01<span class="w"> </span>--tags<span class="w"> </span>firewall
 </code></pre></div><p></p>
-<p>zpool estimates me it gonna take 1 day and 6 hours (but it took far more, at least 4 days).
-</p><div class="highlight"><pre><span></span><code>zpool status
-  ...
-  scan: resilver in progress since Fri Jun 27 14:10:32 2025
-    1.64T scanned at 1.16G/s, 690G issued at 490M/s, 52.2T total
-    109G resilvered, 1.29% done, 1 days 06:36:49 to go
+<p>back to my <code>prometheus</code> container on <code>monitoring-01</code>,
+I now have <code>wget -O - host.docker.internal:8281/metrics</code> working correctly !</p>
+<p>The change is contributed in https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/595</p>
+<p>The strange thing is that I see no alerts in prometheus logs
+about <code>host.docker.internal</code> not working…</p>
+<h3 id="fixing-the-alert">Fixing the alert<a class="headerlink" href="#fixing-the-alert" title="Permanent link">#</a></h3>
+<p>Now I want my alert to be more general.</p>
+<p>Playing around in prometheus graph interface,
+I came with this expression:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">node_filesystem_avail_bytes</span><span class="p">{</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">tmpfs</span><span class="p">",</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">ramfs</span><span class="p">"}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="o">(</span><span class="nv">app</span><span class="p">,</span><span class="nv">device</span><span class="p">,</span><span class="nv">env</span><span class="p">,</span><span class="nv">service</span><span class="p">,</span><span class="nv">fstype</span><span class="p">,</span><span class="nv">mountpoint</span><span class="o">)</span><span class="w"> </span><span class="nv">node_filesystem_size_bytes</span><span class="p">{</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">tmpfs</span><span class="p">",</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">ramfs</span><span class="p">"}</span>
+</code></pre></div>
+<p>The first term selects <code>node_filesystem_avail_bytes</code> that are not tmpfs or ramfs,
+We then do a division by metrics <code>node_filesystem_size_bytes</code>
+having the same <code>app,device,env,service,fstype,mountpoint</code> labels as the first one.</p>
+<p>But finally it seems the on is not mandatory, by default it will match all labels,
+so this simpler expression works:
+</p><div class="highlight"><pre><span></span><code><span class="o">(</span><span class="nv">node_filesystem_avail_bytes</span><span class="p">{</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">tmpfs</span><span class="p">",</span><span class="nl">device</span><span class="o">!=</span><span class="p">"</span><span class="s">ramfs</span><span class="p">"}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nv">node_filesystem_size_bytes</span><span class="o">)</span>
 </code></pre></div><p></p>
+<p>This is contributed in https://github.com/openfoodfacts/openfoodfacts-monitoring/pull/129</p>
 
 
 
