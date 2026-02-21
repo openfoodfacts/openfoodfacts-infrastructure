@@ -1855,10 +1855,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#login" class="md-nav__link">
+  <a href="#openid-connect-auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Login
+        OpenID Connect Auth
       
     </span>
   </a>
@@ -6341,10 +6341,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#login" class="md-nav__link">
+  <a href="#openid-connect-auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Login
+        OpenID Connect Auth
       
     </span>
   </a>
@@ -6419,7 +6419,6 @@ org/wiki/Extension:Interwiki</li>
 </ul>
 <p>These extensions have been manually installed:</p>
 <ul>
-<li>AuthProductOpener: custom extension to allow Open Food Facts user authentication on other Open Food Facts projects (blog, apps...)</li>
 <li>MobileFrontend: https://www.mediawiki.org/wiki/Extension:MobileFrontend</li>
 <li>FontAwesome: https://www.mediawiki.org/wiki/Extension:FontAwesome</li>
 <li>UniversalLanguageSelector: https://www.mediawiki.org/wiki/Extension:UniversalLanguageSelector</li>
@@ -6428,6 +6427,8 @@ org/wiki/Extension:Interwiki</li>
 </ul>
 </li>
 <li>ExternalData: https://www.mediawiki.org/wiki/Extension:ExternalData</li>
+<li>PluggableAuth: https://www.mediawiki.org/wiki/Extension:PluggableAuth</li>
+<li>OpenID Connect: https://www.mediawiki.org/wiki/Extension:OpenID_Connect</li>
 </ul>
 <p>These extensions are currently tested:</p>
 <ul>
@@ -6680,9 +6681,45 @@ curl<span class="w"> </span><span class="s2">"https://wiki.openfoodfacts.org/res
 <h3 id="dark-mode">Dark mode<a class="headerlink" href="#dark-mode" title="Permanent link">#</a></h3>
 <p>There are several things to be addressed for better dark mode support.</p>
 <p>The wiki's logo should have a specific version for dark mode (light version for dark background).</p>
-<h3 id="login">Login<a class="headerlink" href="#login" title="Permanent link">#</a></h3>
-<p>The old login system using Open Food Facts's cookies need to be changed.</p>
-<p>See @hangy's proposal to use Keycloack: https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/543</p>
+<h3 id="openid-connect-auth">OpenID Connect Auth<a class="headerlink" href="#openid-connect-auth" title="Permanent link">#</a></h3>
+<p>Download and extract additional extensions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download and extract OpenIDConnect extension</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://extdist.wmflabs.org/dist/extensions/OpenIDConnect-REL1_43-9b74c08.tar.gz<span class="w"> </span>-o<span class="w"> </span>/tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>-xzf<span class="w"> </span>/tmp/OpenIDCon
+nect-REL1_43-9b74c08.tar.gz<span class="w"> </span>-C<span class="w"> </span>/var/www/wiki.openfoodfacts.org/extensions/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>/tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz
+<span class="c1"># Download and extract PluggableAuth extension</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://extdist.wmflabs.org/dist/extensions/PluggableAuth-REL1_43-64604a4.tar.gz<span class="w"> </span>-o<span class="w"> </span>/tmp/PluggableAuth-REL1_43-64604a4.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>-xzf<span class="w"> </span>/tmp/PluggableAuth-REL1_43-64604a4.tar.gz<span class="w"> </span>-C<span class="w"> </span>/var/www/wiki.openfoodfacts.org/extensions/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>/tmp/PluggableAuth-REL1_43-64604a4.tar.gz
+</code></pre></div>
+<p>Remove <code>wfLoadExtension( 'AuthProductOpener' );</code> from the <code># Extension: AuthProductOpener</code> section of <code>LocalSettings.php</code>, and add new OIDC settings to <code>LocalSettings.php</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="x"># OpenID &amp; PluggableAuth extensions</span>
+<span class="x"># see: https://www.mediawiki.org/wiki/Extension:OpenID_Connect</span>
+<span class="x"># and https://www.mediawiki.org/wiki/Extension:PluggableAuth</span>
+
+<span class="x">wfLoadExtension( 'PluggableAuth' );</span>
+<span class="x">wfLoadExtension( 'OpenIDConnect' );</span>
+
+<span class="x">$wgPluggableAuth_EnableAutoLogin = false;</span>
+<span class="x">$wgPluggableAuth_EnableLocalLogin = false; # Disable local login form as users don't have a password</span>
+
+<span class="x">$wgPluggableAuth_Config['OpenFoodFacts Login'] = [</span>
+<span class="x">    'plugin' =&gt; 'OpenIDConnect',</span>
+<span class="x">    'data' =&gt; [</span>
+<span class="x">        'providerURL' =&gt; 'https://auth.openfoodfacts.net/realms/openfoodfacts',</span>
+<span class="x">        'clientID' =&gt; 'off-wiki-net', # Replace with your actual client ID from Keycloak</span>
+<span class="x">        'clientsecret' =&gt; 'zQX3q9XkBUwXs2EmrYs7kCNcKxtZEU9f', # Replace with your actual client secret from Keycloak</span>
+<span class="x">        'redirectURI' =&gt; "$wgServer/index.php?title=Special:PluggableAuthLogin&amp;action=openidconnect", # Redirect URI must match exactly</span>
+<span class="x">        'codeChallengeMethod' =&gt; 'S256', // Enable PKCE</span>
+<span class="x">    ]</span>
+<span class="x">];</span>
+
+<span class="x">$wgOpenIDConnect_MigrateUsersByUserName = true; # Migrate current users based on username</span>
+<span class="x">$wgOpenIDConnect_SingleLogout = true;</span>
+</code></pre></div>
+<p>Remove old custom auth extension</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/var/www/wiki.openfoodfacts.org/extensions/AuthProductOpener/
+</code></pre></div>
+<p>Run update script to generate OIDC extension tables in the database</p>
+<p><code>bash
+runuser -u www-data -- php maintenance/run.php update.php</code></p>
 
 
 
