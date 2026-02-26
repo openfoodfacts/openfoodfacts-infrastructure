@@ -1,0 +1,24 @@
+---
+- name: Pull a small set of server config files
+  hosts: all:!non_ansible_hosts
+  gather_facts: false
+  tasks:
+    - name: Ensure local directory exists for each host
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}"
+        state: directory
+        mode: "0755"
+      delegate_to: localhost
+      become: false
+
+    - name: Fetch /etc/hostname
+      ansible.builtin.fetch:
+        src: /etc/hostname
+        dest: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}/"
+        flat: true
+
+    - name: Fetch /etc/os-release
+      ansible.builtin.fetch:
+        src: /etc/os-release
+        dest: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}/"
+        flat: true
