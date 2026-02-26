@@ -2,10 +2,13 @@
 - name: Pull a small set of server config files
   hosts: all:!non_ansible_hosts
   gather_facts: false
+  vars:
+    repository_root: "{{ lookup('ansible.builtin.env', 'OFF_INFRA_REPOSITORY_ROOT') | default((playbook_dir | dirname | dirname), true) }}"
+    pulled_confs_dir: "{{ repository_root }}/pulled_confs/{{ inventory_hostname }}"
   tasks:
     - name: Ensure local directory exists for each host
       ansible.builtin.file:
-        path: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}"
+        path: "{{ pulled_confs_dir }}"
         state: directory
         mode: "0755"
       delegate_to: localhost
@@ -14,11 +17,11 @@
     - name: Fetch /etc/hostname
       ansible.builtin.fetch:
         src: /etc/hostname
-        dest: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}/"
+        dest: "{{ pulled_confs_dir }}/"
         flat: true
 
     - name: Fetch /etc/os-release
       ansible.builtin.fetch:
         src: /etc/os-release
-        dest: "{{ playbook_dir }}/../../pulled_confs/{{ inventory_hostname }}/"
+        dest: "{{ pulled_confs_dir }}/"
         flat: true
