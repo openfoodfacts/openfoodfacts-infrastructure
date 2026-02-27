@@ -1,6 +1,6 @@
 ---
-- name: Pull a small set of server config files
-  hosts: all:!non_ansible_hosts
+- name: Pull proxmox cluster config files
+  hosts: hetzner-01:scaleway-01
   gather_facts: false
   vars:
     repository_root: "{{ lookup('ansible.builtin.env', 'OFF_INFRA_REPOSITORY_ROOT') | default((playbook_dir | dirname | dirname), true) }}"
@@ -14,14 +14,15 @@
       delegate_to: localhost
       become: false
 
-    - name: Fetch /etc/hostname
-      ansible.builtin.fetch:
-        src: /etc/hostname
-        dest: "{{ pulled_confs_dir }}/"
-        flat: true
+    - name: Find /etc/pve files
+      ansible.builtin.find:
+        paths: /etc/pve
+        file_type: file
+        recurse: true
+      register: pve_files
 
-    - name: Fetch /etc/os-release
+    - name: Fetch /etc/pve files
       ansible.builtin.fetch:
-        src: /etc/os-release
-        dest: "{{ pulled_confs_dir }}/"
-        flat: true
+        src: "{{ item.path }}"
+        dest: "{{ repository_root }}/pulled_confs"
+      loop: "{{ pve_files.files }}"
