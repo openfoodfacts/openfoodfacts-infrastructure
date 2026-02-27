@@ -1,4 +1,4 @@
-# 2025-01-15 Moving mongoDB (and redis and postgres) to scaleway
+# 2025-01-15 Moving mongoDB to scaleway
 
 We are moving MongoDB service to scaleway.
 
@@ -387,5 +387,5 @@ it was not worth a 2 times sync…
      - switch o*f configs
      - replace old  stunnel client port for off-query / robotoff
 7. [DONE] switch !
-7. [TODO] sync of mongodb data to scaleway-03 + hetzner (or somewhere)
-8. [TODO] expose exporters of scaleway + add monitoring deployment
+7. [DONE] sync of mongodb data to scaleway-03 + hetzner (or somewhere)
+8. [DOING] expose exporters of scaleway + add monitoring deployment
