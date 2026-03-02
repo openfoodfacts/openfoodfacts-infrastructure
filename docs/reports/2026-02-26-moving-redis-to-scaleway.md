@@ -122,9 +122,21 @@ confs/moji-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:63
 confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:6379
 ```
 
-**TODO** So I need to do ovh and moji.
-I will add it as a new service, when migration is done, I can just remove the old service,
-and use the old service port for my new service.
+I connected scaleway redis on ovh, using a temporary port (until migration),
+and tested it using docker staging vm:
+```bash
+docker run --rm -ti redis:7.2-alpine redis-cli  -h 10.1.0.113 -p 6381
+10.1.0.113:6381> XINFO STREAM product_updates
+ 1) "length"
+ 2) (integer) 10000000
+ 3) "radix-tree-keys"
+ 4) (integer) 375238
+ 5) "radix-tree-nodes"
+ 6) (integer) 792738
+...
+```
+
+I did the same on Moji, using docker prod 2 to test it.
 
 
 ## Switch procedure
@@ -165,21 +177,26 @@ and use the old service port for my new service.
      cd /home/off/shared-org
      docker compose start redis
      ```
-*******
-**FIXME:** review from mongo to redis !
    - change redis configuration on off and [restart services](https://openfoodfacts.github.io/openfoodfacts-server/dev/how-to-release/):
      ```
      sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
      ...
-     $mongodb_host = "10.1.0.103";
+     $redis_url = "10.1.0.103:6379";
      ...
      sudo systemctl stop apache2 && sudo systemctl start apache2
      [[ "$HOSTNAME" = off ]] && sudo systemctl stop apache2@priority && sudo systemctl start apache2@priority
      sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.service redis_listener@$HOSTNAME.service
      ```
+   - IMPORTANT: verify it's working by making an edit on off, and verify products_update stream !
+     - make your change
+     - on scaleway-docker-prod, in `/home/off/shared-org`:
+       ```bash
+       sudo -u off docker compose exec redis redis-cli
+       127.0.0.1:6379> XINFO STREAM product_updates
+       ```
+       and `date -d @<timestamp> -u` to see if it's recent one.
    - change redis configuration on all opff / obf / opf (as for oof above)
-   - IMPORTANT: verify it's working by making an edit on off, and verify products_update stream ! **FIXME**
-   - **FIXME** swap new and old redis on stunnel-client at moji
+   - swap new and old redis on stunnel-client at moji
      ```bash
      # on osm45 as root
      pct enter 101
@@ -202,20 +219,12 @@ and use the old service port for my new service.
 2. [DONE]~~clone~~ test rsync prod redis dataset backup and use it as docker volume dataset
    * change ownership
 5. [DONE] config stunnel server server on scaleway for mongo / postgres / redis
-4. [DOING] config stunnel client (off2, other tunnels, search in configs)
+4. [DONE] config stunnel client (off2, other tunnels, search in configs)
    and verify service is accessible for off / obf / opf etc. and other services that needs it
    * [DONE] off2 --> scaleway
-   * [TODO] moji --> scaleway
-   * [TODO] ovh --> scaleway
-6. [DOING] prepare for switch
-   - write switch procedure:
-     - stop new mongo
-     - take a snapshot +  syncoid + rsync
-     - stop old mongo
-     - take a snapshot + syncoid + last rsync
-     - start new mongo
-     - switch o*f configs
-     - replace old  stunnel client port for off-query / robotoff
+   * [DONE] moji --> scaleway
+   * [DONE] ovh --> scaleway
+6. [DONE] write switch procedure:
 7. [TODO] switch !
 7. [DONE] sync of redis data to scaleway-03 + hetzner (or somewhere)
 8. [DOING] expose exporters of scaleway + add monitoring deployment
