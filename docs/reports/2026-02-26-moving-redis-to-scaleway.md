@@ -181,7 +181,7 @@ I did the same on Moji, using docker prod 2 to test it.
      ```
      sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
      ...
-     $redis_url = "10.1.0.103:6379";
+     $redis_url = "10.1.0.105:6379";
      ...
      sudo systemctl stop apache2 && sudo systemctl start apache2
      [[ "$HOSTNAME" = off ]] && sudo systemctl stop apache2@priority && sudo systemctl start apache2@priority
@@ -225,6 +225,6 @@ I did the same on Moji, using docker prod 2 to test it.
    * [DONE] moji --> scaleway
    * [DONE] ovh --> scaleway
 6. [DONE] write switch procedure:
-7. [TODO] switch !
+7. [DONE] switch !
 7. [DONE] sync of redis data to scaleway-03 + hetzner (or somewhere)
 8. [DOING] expose exporters of scaleway + add monitoring deployment
