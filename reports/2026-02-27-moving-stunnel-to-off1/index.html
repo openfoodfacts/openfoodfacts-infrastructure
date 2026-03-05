@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2024-02-06-cleanup-products-snapshots/">
+        <link rel="prev" href="../2026-02-26-moving-redis-to-scaleway/">
       
-      
-        <link rel="next" href="../2024-02-13-chatwoot-translation/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-02-08 Production Redis install - Open Food Facts Infrastructure documentation</title>
+        <title>2026-02-22 Moving stunnel to off1 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-02-08-production-redis-install" class="md-skip">
+        <a href="#2026-02-22-moving-stunnel-to-off1" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-02-08 Production Redis install
+              2026-02-22 Moving stunnel to off1
             
           </span>
         </div>
@@ -3722,37 +3720,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2024-02-08 Production Redis install
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
         
   
   
@@ -3768,70 +3739,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Created CT
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installed Redis
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding access for OVH through stunnel
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notifications on failure
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6081,10 +5988,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-02-27-moving-stunnel-to-off1/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-02-22 Moving stunnel to off1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6100,6 +6034,126 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cloning-and-moving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloning and moving
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing connections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Mongodb
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-off-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing off-query
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switching-to-new-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching to new stunnel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Switching to new stunnel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#switching-stunnel-in-product-opener-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching stunnel in product opener instances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switching-stunnel-in-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching stunnel in the reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#turning-off-the-old-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        turning off the old stunnel
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6139,10 +6193,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
+  <a href="#cloning-and-moving" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Created CT
+        Cloning and moving
       
     </span>
   </a>
@@ -6150,32 +6204,88 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
+  <a href="#testing-connections" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installed Redis
+        Testing connections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Mongodb
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#testing-off-query" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding access for OVH through stunnel
+        Testing off-query
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
+  <a href="#switching-to-new-stunnel" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notifications on failure
+        Switching to new stunnel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Switching to new stunnel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#switching-stunnel-in-product-opener-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching stunnel in product opener instances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switching-stunnel-in-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switching stunnel in the reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#turning-off-the-old-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        turning off the old stunnel
       
     </span>
   </a>
@@ -6199,7 +6309,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-02-08-prod-redis-install.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-02-27-moving-stunnel-to-off1.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6207,57 +6317,78 @@
   
 
 
-<h1 id="2024-02-08-production-redis-install">2024-02-08 Production Redis install<a class="headerlink" href="#2024-02-08-production-redis-install" title="Permanent link">#</a></h1>
-<h2 id="created-ct">Created CT<a class="headerlink" href="#created-ct" title="Permanent link">#</a></h2>
-<p>I created a CT on off2 followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a>:</p>
+<h1 id="2026-02-22-moving-stunnel-to-off1">2026-02-22 Moving stunnel to off1<a class="headerlink" href="#2026-02-22-moving-stunnel-to-off1" title="Permanent link">#</a></h1>
+<p>While moving <a href="../2026-02-26-moving-redis-to-scaleway/">redis to scaleway</a>,
+I saw that stunnel is taking quite a lot of CPU on off2,
+which is already really struggling.</p>
+<p>As I will move redis and postgres, this share might augment.</p>
+<p>So I decided to move stunnel to off1.</p>
+<h2 id="cloning-and-moving">Cloning and moving<a class="headerlink" href="#cloning-and-moving" title="Permanent link">#</a></h2>
+<p>I tried to move directly the 103 container to off2 using proxmox interface, but it failed.
+I had tried to first replicate it to off1, but it also failed.</p>
+<p>So I did a snapshot of the container (because it was mandatory),
+cloned the container with a new id 105,
+and moved it to off1 (while still shutdown).</p>
+<p>Then I did edit the network to change the ipv4 to <code>10.1.0.105/24</code>,
+and ipv6 to <code>fd28:7f08:b8fe:0::105/64</code> (that is I replaced <code>103</code> by <code>105</code> in both).</p>
+<p>I then started the container.</p>
+<p>Going inside it I was able to see my config was the expected one.</p>
+<p>I changed the accept ip address to my new one for all entries in <code>/etc/stunnel/off.conf</code>,
+and do a <code>systemctl restart stunnel@off.service</code></p>
+<h2 id="testing-connections">Testing connections<a class="headerlink" href="#testing-connections" title="Permanent link">#</a></h2>
+<p>We have two currently active connections:</p>
+<ol>
+<li>off-query (because it is in ipv6, we use stunnel from the reverse proxy)</li>
+<li>scaleway-mongodb (migrated to scaleway)</li>
+</ol>
+<h3 id="testing-mongodb">Testing Mongodb<a class="headerlink" href="#testing-mongodb" title="Permanent link">#</a></h3>
+<p>I go on off1, restarted vm 102 temporarily (mongodb),
+and in the mongodb container, i use:
+</p><div class="highlight"><pre><span></span><code>mongo<span class="w"> </span><span class="m">10</span>.1.0.105:27017/off
+&gt;<span class="w"> </span>db.products.count<span class="o">()</span>
+<span class="m">4365732</span>
+</code></pre></div>
+It works perfectly.<p></p>
+<h3 id="testing-off-query">Testing off-query<a class="headerlink" href="#testing-off-query" title="Permanent link">#</a></h3>
+<p>Now for off query, from the off2 reverse proxy,
+I do:
+</p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="m">10</span>.1.0.105:16001/health
+<span class="c1">#  {"status":"ok","info":{"postgres":{"status":"up"},"mongodb":{"status":"up"},"redis":{"status":"up"}}}a</span>
+</code></pre></div>
+There again it works.<p></p>
+<h2 id="switching-to-new-stunnel">Switching to new stunnel<a class="headerlink" href="#switching-to-new-stunnel" title="Permanent link">#</a></h2>
+<p>Now I can switch to the new stunnel.</p>
+<p>Using grep, I can see it used in <code>./confs/off2-reverse-proxy/nginx/sites-enabled/query.openfoodfacts.org</code>, as expected.
+But it's also used by off / obf / opff and opf.</p>
+<h3 id="switching-stunnel-in-product-opener-instances">Switching stunnel in product opener instances<a class="headerlink" href="#switching-stunnel-in-product-opener-instances" title="Permanent link">#</a></h3>
+<p>I'll do that for MongoDB address in off / obf / opff and opf first.</p>
+<p>For each instance, I will:</p>
 <ul>
-<li>id 122 (off-redis)</li>
-<li>20Gb disk on zfs-hdd, noatime</li>
-<li>added a disk on zfs-nvme mounted on /var/lib/redis/ with 5Gb size and noatime option.</li>
-<li>2 Cores</li>
-<li>2 Gb memory, 0B swap</li>
+<li>modify MongoDB url: <code>sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm</code>
+  to change <code>$mongodb_host</code> to <code>"10.1.0.105"</code>
+  and on off, to change <code>$query_url</code> to <code>"http://10.1.0.105:16001"</code>;</li>
 </ul>
-<p>I did not create a user.</p>
-<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and <a href="../../mail/#testing-that-the-gateway-is-well-configured">tested it</a>.</p>
-<p>Cloned this repository in <a href="../../how-to-have-server-config-in-git/">/opt using a root key as deploy key</a></p>
-<h2 id="installed-redis">Installed Redis<a class="headerlink" href="#installed-redis" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis
+<ul>
+<li>then: 
+  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>apache2<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>apache2
+<span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOSTNAME</span><span class="s2">"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>off<span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>apache2@priority<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>apache2@priority
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>cloud_vision_ocr@<span class="nv">$HOSTNAME</span>.service<span class="w"> </span>minion@<span class="nv">$HOSTNAME</span>.service<span class="w"> </span>redis_listener@<span class="nv">$HOSTNAME</span>.service
+</code></pre></div></li>
+</ul>
+<p>Each time to verify, I look at a facet and do a search on the corresponding website.</p>
+<h3 id="switching-stunnel-in-the-reverse-proxy">Switching stunnel in the reverse proxy<a class="headerlink" href="#switching-stunnel-in-the-reverse-proxy" title="Permanent link">#</a></h3>
+<p>As the service is not access often, I did the change in the <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/cd7408cd834af1e1d90fba2a401a9b229a4c1345">reverse same commit</a>,
+updated the reverse proxy <code>/opt/openfoodfacts-infrastructure</code>,
+restarted nginx, and tested <code>https://query.openfoodfacts.org/health</code>.</p>
+<h2 id="turning-off-the-old-stunnel">turning off the old stunnel<a class="headerlink" href="#turning-off-the-old-stunnel" title="Permanent link">#</a></h2>
+<p>Now we can look at the log of the old stunnel, on off2 / container 103
+to verify there is no more connections.</p>
+<p></p><div class="highlight"><pre><span></span><code>journalctl<span class="w"> </span>-xef<span class="w"> </span>-u<span class="w"> </span>-f<span class="w"> </span>stunnel@off.service
+...
+févr.<span class="w"> </span><span class="m">27</span><span class="w"> </span><span class="m">10</span>:57:46<span class="w"> </span>stunnel-client<span class="w"> </span>stunnel4<span class="o">[</span><span class="m">3530617</span><span class="o">]</span>:<span class="w"> </span><span class="m">2026</span>.02.27<span class="w"> </span><span class="m">10</span>:57:46<span class="w"> </span>LOG5<span class="o">[</span><span class="m">1261927</span><span class="o">]</span>:<span class="w"> </span>Connection<span class="w"> </span>closed:<span class="w"> </span><span class="m">197</span><span class="w"> </span>byte<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>sent<span class="w"> </span>to<span class="w"> </span>TLS,<span class="w"> </span><span class="m">246</span><span class="w"> </span>byte<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>sent<span class="w"> </span>to<span class="w"> </span>socket
 </code></pre></div>
-<p>Then I changed <code>/etc/redis/redis.conf</code> to use not protected mode and bind on all interfaces.
-I also moved the redis.conf file to the git repository and did a symlink in <code>/etc/redis</code> instead.</p>
-<p>Restarted redis: <code>systemctl restart redis.service</code></p>
-<h2 id="adding-access-for-ovh-through-stunnel">Adding access for OVH through stunnel<a class="headerlink" href="#adding-access-for-ovh-through-stunnel" title="Permanent link">#</a></h2>
-<p>On off2 reverse proxy added configuration to join redis in <code>/etc/stunnel/off.conf</code>:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to redis on off2</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.122:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
-</code></pre></div><p></p>
-<p>create psk: <code>echo ovh-proxy-redis:$(pwgen 32 1) &gt; /etc/stunnel/psk/redis-psk.txt</code></p>
-<p>On 113 container (stunnel-client) on ovh1, created the client side in <code>/etc/stunnel/off.conf</code>:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># connecting to mongodb on off1</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">yes</span>
-<span class="c1"># expose only in private network</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.113:6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">proxy2.openfoodfacts.org:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
-</code></pre></div>
-The psk file contains same content as the one on off2 proxy.<p></p>
-<h2 id="notifications-on-failure">Notifications on failure<a class="headerlink" href="#notifications-on-failure" title="Permanent link">#</a></h2>
-<p>I added the <code>email-failures@redis.service</code>, and override redis configuration to send email on failure:</p>
-<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system/
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/redis.service.d/<span class="w"> </span>/etc/systemd/system/
-systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># just to be sure</span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>redis
-</code></pre></div>
+while it's already <code>10:59:31</code><p></p>
+<p>So we can safely shut it down.</p>
 
 
 

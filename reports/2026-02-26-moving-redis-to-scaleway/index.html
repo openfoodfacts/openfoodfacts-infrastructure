@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../2024-02-06-cleanup-products-snapshots/">
+        <link rel="prev" href="../2026-02-25-finetuning-mongo/">
       
       
-        <link rel="next" href="../2024-02-13-chatwoot-translation/">
+        <link rel="next" href="../2026-02-27-moving-stunnel-to-off1/">
       
       
         
@@ -20,7 +20,7 @@
     
     
       
-        <title>2024-02-08 Production Redis install - Open Food Facts Infrastructure documentation</title>
+        <title>2025-01-15 Moving redis to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-02-08-production-redis-install" class="md-skip">
+        <a href="#2025-01-15-moving-redis-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-02-08 Production Redis install
+              2025-01-15 Moving redis to scaleway
             
           </span>
         </div>
@@ -3722,37 +3722,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2024-02-08 Production Redis install
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-02-08-prod-redis-install/" class="md-nav__link">
         
   
   
@@ -3768,70 +3741,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Created CT
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installed Redis
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding access for OVH through stunnel
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notifications on failure
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6053,10 +5962,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-02-26-moving-redis-to-scaleway/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-01-15 Moving redis to scaleway
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6072,6 +6008,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-data-backup-on-scaleway-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting data backup on scaleway-02
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-redis-with-backup-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Redis with backup data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Redis with backup data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsync-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rsync data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxying-redis-with-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxying redis with stunnel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branching-stunnel-client-to-our-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branching stunnel client to our services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task list
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6139,10 +6189,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#created-ct" class="md-nav__link">
+  <a href="#getting-data-backup-on-scaleway-02" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Created CT
+        Getting data backup on scaleway-02
       
     </span>
   </a>
@@ -6150,10 +6200,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installed-redis" class="md-nav__link">
+  <a href="#testing-redis-with-backup-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installed Redis
+        Testing Redis with backup data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Redis with backup data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsync-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rsync data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxying-redis-with-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxying redis with stunnel
       
     </span>
   </a>
@@ -6161,10 +6250,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-access-for-ovh-through-stunnel" class="md-nav__link">
+  <a href="#branching-stunnel-client-to-our-services" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding access for OVH through stunnel
+        Branching stunnel client to our services
       
     </span>
   </a>
@@ -6172,10 +6261,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notifications-on-failure" class="md-nav__link">
+  <a href="#switch-procedure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notifications on failure
+        Switch procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task list
       
     </span>
   </a>
@@ -6199,7 +6299,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-02-08-prod-redis-install.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-02-26-moving-redis-to-scaleway.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6207,57 +6307,199 @@
   
 
 
-<h1 id="2024-02-08-production-redis-install">2024-02-08 Production Redis install<a class="headerlink" href="#2024-02-08-production-redis-install" title="Permanent link">#</a></h1>
-<h2 id="created-ct">Created CT<a class="headerlink" href="#created-ct" title="Permanent link">#</a></h2>
-<p>I created a CT on off2 followings <a href="../../proxmox/#how-to-create-a-new-container">How to create a new Container</a>:</p>
-<ul>
-<li>id 122 (off-redis)</li>
-<li>20Gb disk on zfs-hdd, noatime</li>
-<li>added a disk on zfs-nvme mounted on /var/lib/redis/ with 5Gb size and noatime option.</li>
-<li>2 Cores</li>
-<li>2 Gb memory, 0B swap</li>
-</ul>
-<p>I did not create a user.</p>
-<p>I also <a href="../../mail/#postfix-configuration">configure postfix</a> and <a href="../../mail/#testing-that-the-gateway-is-well-configured">tested it</a>.</p>
-<p>Cloned this repository in <a href="../../how-to-have-server-config-in-git/">/opt using a root key as deploy key</a></p>
-<h2 id="installed-redis">Installed Redis<a class="headerlink" href="#installed-redis" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis
-</code></pre></div>
-<p>Then I changed <code>/etc/redis/redis.conf</code> to use not protected mode and bind on all interfaces.
-I also moved the redis.conf file to the git repository and did a symlink in <code>/etc/redis</code> instead.</p>
-<p>Restarted redis: <code>systemctl restart redis.service</code></p>
-<h2 id="adding-access-for-ovh-through-stunnel">Adding access for OVH through stunnel<a class="headerlink" href="#adding-access-for-ovh-through-stunnel" title="Permanent link">#</a></h2>
-<p>On off2 reverse proxy added configuration to join redis in <code>/etc/stunnel/off.conf</code>:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># enabling connections to redis on off2</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.122:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
+<h1 id="2025-01-15-moving-redis-to-scaleway">2025-01-15 Moving redis to scaleway<a class="headerlink" href="#2025-01-15-moving-redis-to-scaleway" title="Permanent link">#</a></h1>
+<p>We have <a href="../2026-01-15-moving-mongodb-to-scaleway/">already moved MongoDB service to scaleway</a>
+and as a byproduct,
+we installed a scaleway-docker-prod VM
+with openfoodfacts-shared-serivces deployed on it.</p>
+<p>The goal is now to migrate redis on scaleway</p>
+<h2 id="getting-data-backup-on-scaleway-02">Getting data backup on scaleway-02<a class="headerlink" href="#getting-data-backup-on-scaleway-02" title="Permanent link">#</a></h2>
+<p>Currently redis and postgres are on off2,
+and backed on scaleway-01.
+So we need to get a backup of thos on scaleway-02.</p>
+<p>To do this, I will also get the volumes I want from off2/pve backups on scaleway-02.
+First create destination datasets and copy them from scaleway-01, to avoid charging off2
+</p><div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-nvme
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-nvme/pve
+
+<span class="c1"># redis data</span>
+<span class="nb">time</span><span class="w"> </span>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway02operator@scaleway-01.infra.openfoodfacts.org:zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-122-disk-1<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-122-disk-1
+<span class="c1"># postgres data</span>
+<span class="nb">time</span><span class="w"> </span>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway02operator@scaleway-01.infra.openfoodfacts.org:zfs-nvme/off-backups/off2-zfs-nvme/pve/subvol-120-disk-0<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-nvme/pve/subvol-120-disk-0
 </code></pre></div><p></p>
-<p>create psk: <code>echo ovh-proxy-redis:$(pwgen 32 1) &gt; /etc/stunnel/psk/redis-psk.txt</code></p>
-<p>On 113 container (stunnel-client) on ovh1, created the client side in <code>/etc/stunnel/off.conf</code>:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># connecting to mongodb on off1</span>
-<span class="k">[OffRedis]</span>
-<span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">yes</span>
-<span class="c1"># expose only in private network</span>
-<span class="na">accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.1.0.113:6379</span>
-<span class="na">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">proxy2.openfoodfacts.org:6379</span>
-<span class="na">ciphers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">PSK</span>
-<span class="c1"># this file and directory are private</span>
-<span class="na">PSKsecrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/stunnel/psk/redis-psk.txt</span>
+<p>After that I modified the syncoid configuration to fetch new data from off2.
+See commit <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/92afa16f99f8e5aa0fadd81be9512ac95d5ac087">92afa16f</a>.</p>
+<h2 id="testing-redis-with-backup-data">Testing Redis with backup data<a class="headerlink" href="#testing-redis-with-backup-data" title="Permanent link">#</a></h2>
+<p>On off2, Redis is installed in the proxmox container 122.</p>
+<p><code>pct config 122</code> shows us we have a disk for redis data:
+</p><div class="highlight"><pre><span></span><code>mp0: zfs-hdd:subvol-122-disk-1,mp=/var/lib/redis,backup=1,mountoptions=noatime,size=5G
 </code></pre></div>
-The psk file contains same content as the one on off2 proxy.<p></p>
-<h2 id="notifications-on-failure">Notifications on failure<a class="headerlink" href="#notifications-on-failure" title="Permanent link">#</a></h2>
-<p>I added the <code>email-failures@redis.service</code>, and override redis configuration to send email on failure:</p>
-<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/email-failures<span class="se">\@</span>.service<span class="w"> </span>/etc/systemd/system/
-ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/off-redis/systemd/system/redis.service.d/<span class="w"> </span>/etc/systemd/system/
-systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># just to be sure</span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>redis
+We can look at the content:
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/zfs-hdd/pve/subvol-122-disk-1
 </code></pre></div>
+and we can see we only have the dump.rdb file (and eventually a temporary one).<p></p>
+<p>Now on scaleway-docker-prod VM we can look at <code>/var/lib/docker/volumes/off_shared_redisdata/_data#</code> and see it's the same. The db stands there, it is owned by <code>999:1000</code> (<code>ls -ln</code>)</p>
+<p>So in theory we can use a clone of a snapshot backup of redis
+to test the new redis instance on scaleway is working.
+The problem is that Virtiofs does not allow to do this on a mounted Virtiofs dataset…
+So we will have to use rsync.</p>
+<h3 id="rsync-data">Rsync data<a class="headerlink" href="#rsync-data" title="Permanent link">#</a></h3>
+<p>To do this:</p>
+<p>I stop the redis container in scaleway-docker-prod:
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>redis
+</code></pre></div>
+Remove the data:
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/docker/volumes/off_shared_redisdata/_data/*
+</code></pre></div><p></p>
+<p>On scaleway-02 copy the data:
+</p><div class="highlight"><pre><span></span><code>time rsync -a --info=progress2 --chown 999:1000 --delete \
+  /zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-122-disk-1/.zfs/snapshot/autosnap_2026-02-26_16:00:33_hourly/ \
+  /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata/_data/
+# real 0m2,715s
+</code></pre></div>
+It's fast !<p></p>
+<p>Then restart service on scaleway-docker-prod:
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>redis
+</code></pre></div><p></p>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
+<p>We can verify if our stream as last data (at the time of the snapshot):
+</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>redis<span class="w"> </span>redis-cli
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>XINFO<span class="w"> </span>STREAM<span class="w"> </span>product_updates
+...
+<span class="m">19</span><span class="o">)</span><span class="w"> </span><span class="s2">"last-entry"</span>
+<span class="m">20</span><span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">"1772121552510-0"</span>
+<span class="w">    </span><span class="m">2</span><span class="o">)</span><span class="w">  </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">"timestamp"</span>
+<span class="w">        </span><span class="m">2</span><span class="o">)</span><span class="w"> </span><span class="s2">"1772121552"</span>
+...
+</code></pre></div>
+and <code>date -d @1772121552 -u</code> correspond to <code>Thu Feb 26 15:59:12 UTC 2026</code>
+which is about the date of our snapshot.
+So it's working properly !<p></p>
+<h2 id="proxying-redis-with-stunnel">Proxying redis with stunnel<a class="headerlink" href="#proxying-redis-with-stunnel" title="Permanent link">#</a></h2>
+<p>It already configured scaleway stunnel server
+(<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/f2c50990e9c38322661a594b27362eede0cd0885">commit f2c50990e</a>)
+while <a href="../2026-01-15-moving-mongodb-to-scaleway/">moving mongodb</a></p>
+<h2 id="branching-stunnel-client-to-our-services">Branching stunnel client to our services<a class="headerlink" href="#branching-stunnel-client-to-our-services" title="Permanent link">#</a></h2>
+<p>We configure on off2 stunnel client (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/cd7408cd834af1e1d90fba2a401a9b229a4c1345">commit cd7408cd</a>)
+It wast tested from current redis container on off2 using redis-cli !</p>
+<p>We configure on off2 stunnel client (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f">commit 5434c20c223</a>)
+It wast tested from current mongo container on off1 using mongo client !</p>
+<p>Grep hep me find where to add the new redis to stunnel clients:
+</p><div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-P<span class="w"> </span><span class="s1">'(213.36.253.214|proxy2).*6379'</span><span class="w"> </span>-r<span class="w"> </span>confs/<span class="w"> </span>--include<span class="o">=</span>off.conf
+confs/ovh-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:6379
+confs/moji-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span>proxy2.openfoodfacts.org:6379
+confs/scaleway-stunnel-client/stunnel/off.conf:connect<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">213</span>.36.253.214:6379
+</code></pre></div><p></p>
+<p>I connected scaleway redis on ovh, using a temporary port (until migration),
+and tested it using docker staging vm:
+</p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-ti<span class="w"> </span>redis:7.2-alpine<span class="w"> </span>redis-cli<span class="w">  </span>-h<span class="w"> </span><span class="m">10</span>.1.0.113<span class="w"> </span>-p<span class="w"> </span><span class="m">6381</span>
+<span class="m">10</span>.1.0.113:6381&gt;<span class="w"> </span>XINFO<span class="w"> </span>STREAM<span class="w"> </span>product_updates
+<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="s2">"length"</span>
+<span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">10000000</span>
+<span class="w"> </span><span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="s2">"radix-tree-keys"</span>
+<span class="w"> </span><span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">375238</span>
+<span class="w"> </span><span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="s2">"radix-tree-nodes"</span>
+<span class="w"> </span><span class="m">6</span><span class="o">)</span><span class="w"> </span><span class="o">(</span>integer<span class="o">)</span><span class="w"> </span><span class="m">792738</span>
+...
+</code></pre></div><p></p>
+<p>I did the same on Moji, using docker prod 2 to test it.</p>
+<h2 id="switch-procedure">Switch procedure<a class="headerlink" href="#switch-procedure" title="Permanent link">#</a></h2>
+<ol>
+<li>Stop new Redis:
+   Log on scaleway-docker-prod:
+   <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>-i
+<span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>redis
+</code></pre></div></li>
+<li>Stop old redis on off2, pct 122
+   <div class="highlight"><pre><span></span><code>pct<span class="w"> </span>enter<span class="w"> </span><span class="m">122</span>
+systemctl<span class="w"> </span>stop<span class="w"> </span>redis-server.service
+</code></pre></div></li>
+<li>Copy redis data for migration<ul>
+<li>On off2 as root, take a snapshot
+   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>snapshot<span class="w"> </span>zfs-hdd/pve/subvol-122-disk-1@2026-02-before-move-to-scaleway
+</code></pre></div></li>
+<li>On scaleway-02, as root run syncoid on this specific backup
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway02operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-122-disk-1<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-122-disk-1
+</code></pre></div></li>
+<li>and still on scaleway-02, as root, rsync redis data
+   <div class="highlight"><pre><span></span><code><span class="nb">time</span><span class="w"> </span>ionice<span class="w"> </span>-n<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:1000<span class="w"> </span>--delete<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>/zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-122-disk-1/.zfs/snapshot/2026-02-before-move-to-scaleway/<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata/_data/
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata/_data/
+</code></pre></div></li>
+</ul>
+</li>
+<li>Migrate<ul>
+<li>start new redis. On scaleway-docker-prod
+   <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>-i
+<span class="nb">cd</span><span class="w"> </span>/home/off/shared-org
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>redis
+</code></pre></div></li>
+<li>change redis configuration on off and <a href="https://openfoodfacts.github.io/openfoodfacts-server/dev/how-to-release/">restart services</a>:
+   <div class="highlight"><pre><span></span><code>sudo -u off vim /srv/$HOSTNAME/lib/ProductOpener/Config2.pm
+...
+$redis_url = "10.1.0.105:6379";
+...
+sudo systemctl stop apache2 &amp;&amp; sudo systemctl start apache2
+[[ "$HOSTNAME" = off ]] &amp;&amp; sudo systemctl stop apache2@priority &amp;&amp; sudo systemctl start apache2@priority
+sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.service redis_listener@$HOSTNAME.service
+</code></pre></div></li>
+<li>IMPORTANT: verify it's working by making an edit on off, and verify products_update stream !<ul>
+<li>make your change</li>
+<li>on scaleway-docker-prod, in <code>/home/off/shared-org</code>:
+   <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>off<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>redis<span class="w"> </span>redis-cli
+<span class="m">127</span>.0.0.1:6379&gt;<span class="w"> </span>XINFO<span class="w"> </span>STREAM<span class="w"> </span>product_updates
+</code></pre></div>
+   and <code>date -d @&lt;timestamp&gt; -u</code> to see if it's recent one.</li>
+</ul>
+</li>
+<li>change redis configuration on all opff / obf / opf (as for oof above)</li>
+<li>swap new and old redis on stunnel-client at moji
+   <code>bash
+   # on osm45 as root
+   pct enter 101
+   vim /etc/stunnel/off.conf
+   ...
+   # swap port 27017 and 27018 in accept = 
+   ...
+   systemctl restart stunnel@off.service</code></li>
+<li>check robotoff health is ok https://robotoff.openfoodfacts.org/api/v1/health
+  and off-query health as well https://query.openfoodfacts.org/health</li>
+<li>same as for moji on ovh stunnel-client</li>
+</ul>
+</li>
+<li>Do stuff that comes after:<ul>
+<li>commit stunnel client config changes and push</li>
+<li>stop redis container on off2</li>
+<li>celebrate :tada:</li>
+</ul>
+</li>
+</ol>
+<h2 id="task-list">Task list<a class="headerlink" href="#task-list" title="Permanent link">#</a></h2>
+<ol>
+<li>[DONE]~~clone~~ test rsync prod redis dataset backup and use it as docker volume dataset<ul>
+<li>change ownership</li>
+</ul>
+</li>
+<li>[DONE] config stunnel server server on scaleway for mongo / postgres / redis</li>
+<li>[DONE] config stunnel client (off2, other tunnels, search in configs)
+   and verify service is accessible for off / obf / opf etc. and other services that needs it<ul>
+<li>[DONE] off2 --&gt; scaleway</li>
+<li>[DONE] moji --&gt; scaleway</li>
+<li>[DONE] ovh --&gt; scaleway</li>
+</ul>
+</li>
+<li>[DONE] write switch procedure:</li>
+<li>[DONE] switch !</li>
+<li>[DONE] sync of redis data to scaleway-03 + hetzner (or somewhere)</li>
+<li>[DOING] expose exporters of scaleway + add monitoring deployment</li>
+</ol>
 
 
 
