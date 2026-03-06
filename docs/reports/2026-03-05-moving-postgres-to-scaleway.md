@@ -192,10 +192,10 @@ confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:5432
      syncoid --no-sync-snap --no-privilege-elevation  scaleway02operator@off2.openfoodfacts.org:zfs-nvme/pve/subvol-120-disk-0 zfs-hdd/off-backups/off2-zfs-nvme/pve/subvol-120-disk-0
 
      ```
-   - and still on scaleway-02, as root, rsync redis data
+   - and still on scaleway-02, as root, rsync postgres data
      ```bash
      time ionice -n 0 rsync -a --info=progress2 --chown 70:70 --delete \
-  /zfs-hdd/off-backups/off2-zfs-nvme/pve/subvol-120-disk-0/.zfs/snapshot/autosnap_2026-03-05_15:01:20_hourly/17/main/ \
+  /zfs-hdd/off-backups/off2-zfs-nvme/pve/subvol-120-disk-0/.zfs/snapshot/2026-03-before-move-to-scaleway/17/main/ \
   /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_pg_data/_data/
      # verify
      ls -l /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_pg_data/_data/
@@ -228,7 +228,7 @@ confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:5432
      [[ "$HOSTNAME" = off ]] && sudo systemctl stop apache2@priority && sudo systemctl start apache2@priority
      sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.service redis_listener@$HOSTNAME.service
      ```
-   - IMPORTANT: verify it's working by creating and removing a user on off,
+   - IMPORTANT: verify by creating (and removing later) a user on off,
      and verify:
      - it's working
      - in https://auth.openfoodfacts.org/admin/master/console/#/openfoodfacts/users you can see the new user
@@ -239,7 +239,7 @@ confs/scaleway-stunnel-client/stunnel/off.conf:connect = 213.36.253.214:5432
        docker compose exec postgresql psql  -h localhost  -U off -W minion
        minion=> select * from minion_jobs where task='welcome_user' order by id desc limit 10;
      - you received an email for the new user
-   - change redis configuration on all opff / obf / opf (as for oof above)
+   - change redis configuration on all opff / obf / opf / off-pro (as for off above)
 5. Do stuff that comes after:
    - stop postgres container on off2
    - celebrate :tada:
