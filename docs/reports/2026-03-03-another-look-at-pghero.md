@@ -39,4 +39,4 @@ pg_stat_statements.track = all
 
 Restart the server for the changes to take effect.
 ```
-hum, so 
+hum, so it seems server restart is mandatory.
