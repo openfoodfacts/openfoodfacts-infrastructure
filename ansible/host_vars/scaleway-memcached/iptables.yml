@@ -1,0 +1,3 @@
+---
+# Allow traffic on SSH (22) and memcached ports with iptables
+iptables_public_ports: [22, 11211]
