@@ -28,3 +28,6 @@
   vars:
     git_based_configs__service_name: "memcached.service"
     git_based_configs__service_conf_files: ["/etc/memcached.conf"]
+
+- name: install exporter
+  ansible.builtin.import_tasks: memcached_exporter.yml
