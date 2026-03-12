@@ -1,26 +1,32 @@
 # Installing memcached prometheus exporter
 ---
-
 - name: Get the archive of the memcached exporter from github
   ansible.builtin.get_url:
-    url: https://github.com/prometheus/memcached_exporter/releases/download/v{{ memcached__exporter_version }}/memcached_exporter-{{ memcached__exporter_version }}.linux-amd64.tar.gz
+    url: >-
+      https://github.com/prometheus/memcached_exporter/releases/download/v{{
+        memcached__exporter_version
+      }}/memcached_exporter-{{
+        memcached__exporter_version
+      }}.linux-amd64.tar.gz
     dest: /tmp/memcached_exporter-{{ memcached__exporter_version }}.tar.gz
+    mode: "u=rw,g=r,o=r"
+
   register: _memcached__exporter_archive_download
 
 - name: Unpack the binary from archive
-  ansible.builtin.unarchive:
+  ansible.builtin.unarchive:  # noqa: no-handler
     remote_src: true
     src: "{{ _memcached__exporter_archive_download.dest }}"
     include:
-      - memcached_exporter-{{ memcached__exporter_version}}.linux-amd64/memcached_exporter
+      - memcached_exporter-{{ memcached__exporter_version }}.linux-amd64/memcached_exporter
     dest: /tmp/
   when: |
     _memcached__exporter_archive_download.changed
 
 - name: Install memcached exporter binary
-  ansible.builtin.copy:
+  ansible.builtin.copy:  # noqa: no-handler
     remote_src: true
-    src: "/tmp/memcached_exporter-{{ memcached__exporter_version}}.linux-amd64/memcached_exporter"
+    src: "/tmp/memcached_exporter-{{ memcached__exporter_version }}.linux-amd64/memcached_exporter"
     dest: /usr/local/bin
     mode: "u=rwx,g=rx,o=rx"
   when: |
