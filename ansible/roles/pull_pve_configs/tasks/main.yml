@@ -18,6 +18,7 @@
   ansible.builtin.fetch:
     src: "{{ item.path }}"
     dest: "{{ pull_pve_configs__pulled_confs_root }}"
+    flat: false
   loop: "{{ pull_pve_configs__files.files }}"
   loop_control:
     label: "{{ item.path }}"
