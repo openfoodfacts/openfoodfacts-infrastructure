@@ -20,7 +20,7 @@
     
     
       
-        <title>2025-01-15 Moving redis to scaleway - Open Food Facts Infrastructure documentation</title>
+        <title>2025-02-26 Moving redis to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025-01-15-moving-redis-to-scaleway" class="md-skip">
+        <a href="#2025-02-26-moving-redis-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025-01-15 Moving redis to scaleway
+              2025-02-26 Moving redis to scaleway
             
           </span>
         </div>
@@ -5981,7 +5981,7 @@
   <span class="md-ellipsis">
     
   
-    2025-01-15 Moving redis to scaleway
+    2025-02-26 Moving redis to scaleway
   
 
     
@@ -5999,7 +5999,7 @@
   <span class="md-ellipsis">
     
   
-    2025-01-15 Moving redis to scaleway
+    2025-02-26 Moving redis to scaleway
   
 
     
@@ -6108,6 +6108,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#post-mortem-note-openfoodfacts-auth-forgotten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST-MORTEM note: openfoodfacts-auth forgotten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#task-list" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6142,6 +6153,34 @@
     
   
     2026-02-22 Moving stunnel to off1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-05-moving-postgres-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-03-05 Moving Postgres to scaleway
   
 
     
@@ -6272,6 +6311,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#post-mortem-note-openfoodfacts-auth-forgotten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST-MORTEM note: openfoodfacts-auth forgotten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#task-list" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6307,7 +6357,7 @@
   
 
 
-<h1 id="2025-01-15-moving-redis-to-scaleway">2025-01-15 Moving redis to scaleway<a class="headerlink" href="#2025-01-15-moving-redis-to-scaleway" title="Permanent link">#</a></h1>
+<h1 id="2025-02-26-moving-redis-to-scaleway">2025-02-26 Moving redis to scaleway<a class="headerlink" href="#2025-02-26-moving-redis-to-scaleway" title="Permanent link">#</a></h1>
 <p>We have <a href="../2026-01-15-moving-mongodb-to-scaleway/">already moved MongoDB service to scaleway</a>
 and as a byproduct,
 we installed a scaleway-docker-prod VM
@@ -6481,6 +6531,10 @@ sudo systemctl restart cloud_vision_ocr@$HOSTNAME.service minion@$HOSTNAME.servi
 </ul>
 </li>
 </ol>
+<h2 id="post-mortem-note-openfoodfacts-auth-forgotten">POST-MORTEM note: openfoodfacts-auth forgotten<a class="headerlink" href="#post-mortem-note-openfoodfacts-auth-forgotten" title="Permanent link">#</a></h2>
+<p>One week after the change, I realized that openfoodfacts-auth was using redis,
+but I forgot to change its configuration during migration…</p>
+<p>This is now done…</p>
 <h2 id="task-list">Task list<a class="headerlink" href="#task-list" title="Permanent link">#</a></h2>
 <ol>
 <li>[DONE]~~clone~~ test rsync prod redis dataset backup and use it as docker volume dataset<ul>
