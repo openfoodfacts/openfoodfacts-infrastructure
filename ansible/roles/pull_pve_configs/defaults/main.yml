@@ -1,5 +1,5 @@
 ---
+# Default repository root assumes this role is invoked from playbooks under ansible/jobs/.
 pull_pve_configs__repository_root: "{{ lookup('ansible.builtin.env', 'OFF_INFRA_REPOSITORY_ROOT') | default((playbook_dir | dirname | dirname), true) }}"
 pull_pve_configs__pulled_confs_root: "{{ pull_pve_configs__repository_root }}/pulled_confs"
-pull_pve_configs__host_output_dir: "{{ pull_pve_configs__pulled_confs_root }}/{{ inventory_hostname }}"
 pull_pve_configs__source_dir: /etc/pve
