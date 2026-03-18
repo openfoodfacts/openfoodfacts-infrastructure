@@ -45,7 +45,7 @@ proxmox_containers__containers:
       # we put it first so that it's the default route
       net0:
         name: eth0
-        ip: 151.115.132.11/27
+        ip: 151.115.132.10/27
         gw: 151.115.132.1
         ip6: "2001:bc8:c025:11:100::/48"
         gw6: "2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f"
@@ -60,3 +60,19 @@ proxmox_containers__containers:
     disk:
       storage: zfs-hdd-pve
       size: 32
+  - id: 115
+    hostname: scaleway-01-proxy
+    features:
+      - nesting=1
+    cores: 6
+    memory: "{{ 12 * 1024 }}"
+    netif:
+      net0:
+        name: eth10
+        ip: 10.13.1.115/16
+        gw: 10.13.0.1
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 30
+
