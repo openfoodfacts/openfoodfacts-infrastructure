@@ -61,7 +61,7 @@ proxmox_containers__containers:
       storage: zfs-hdd-pve
       size: 32
   - id: 115
-    hostname: scaleway-01-proxy
+    hostname: opff
     features:
       - nesting=1
     cores: 6
@@ -75,4 +75,8 @@ proxmox_containers__containers:
     disk:
       storage: zfs-hdd-pve
       size: 30
-
+    idmap:
+      - content: "u 0 100000 999"
+      - content: "g 0 100000 999"
+      - content: "u 1000 1000 64536"
+      - content: "g 1000 1000 64536"
