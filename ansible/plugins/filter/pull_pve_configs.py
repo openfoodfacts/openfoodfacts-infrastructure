@@ -61,7 +61,7 @@ class FilterModule:
             if not path:
                 continue
             relative_path = path
-            if normalized_source_dir and path.startswith(normalized_source_dir):
+            if path.startswith(normalized_source_dir):
                 relative_path = path[len(normalized_source_dir):]
                 if relative_path.startswith("/"):
                     relative_path = relative_path[1:]
