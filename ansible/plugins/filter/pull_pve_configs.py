@@ -3,6 +3,7 @@ Filters used by pull_pve_configs role
 """
 
 import re
+from typing import Any, Dict, List, Optional
 from ansible.errors import AnsibleFilterError
 
 
@@ -14,7 +15,12 @@ class FilterModule:
             "pull_pve_configs_filter_paths": self.pull_pve_configs_filter_paths,
         }
 
-    def pull_pve_configs_filter_paths(self, files, exclude_regexes=None, source_dir=None):
+    def pull_pve_configs_filter_paths(
+        self,
+        files: List[Dict[str, Any]],
+        exclude_regexes: Optional[List[str]] = None,
+        source_dir: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
         """Filter file entries by excluding paths matching configured regexes.
 
         Args:

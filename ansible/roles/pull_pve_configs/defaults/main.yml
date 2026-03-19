@@ -5,9 +5,9 @@ pull_pve_configs__pulled_confs_root: "{{ pull_pve_configs__repository_root }}/pu
 pull_pve_configs__source_dir: /etc/pve
 pull_pve_configs__exclude_regexes:
   # Exclude private key files.
-  - ".*\\.key$"
-  - "(^|/)ssh_known_hosts$"
-  - "(^|/)authorized_keys$"
-  - "(^|/)shadow\\.cfg$"
-  - "(^|/)token\\.cfg$"
-  - "(^|/)priv(/|$)"
+  - '.*\.key$'
+  - '(^|/)ssh_known_hosts$'
+  - '(^|/)authorized_keys$'
+  - '(^|/)shadow\.cfg$'
+  - '(^|/)token\.cfg$'
+  - '(^|/)priv(/|$)'
