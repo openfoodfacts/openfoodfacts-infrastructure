@@ -18,7 +18,10 @@
   ansible.builtin.set_fact:
     pull_pve_configs__filtered_files: >-
       {{ pull_pve_configs__files.files
-         | pull_pve_configs_filter_paths(pull_pve_configs__exclude_regexes) }}
+         | pull_pve_configs_filter_paths(
+             pull_pve_configs__exclude_regexes,
+             pull_pve_configs__source_dir
+           ) }}
 
 - name: Fetch /etc/pve files
   ansible.builtin.fetch:

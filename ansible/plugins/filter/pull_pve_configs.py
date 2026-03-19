@@ -14,12 +14,13 @@ class FilterModule:
             "pull_pve_configs_filter_paths": self.pull_pve_configs_filter_paths,
         }
 
-    def pull_pve_configs_filter_paths(self, files, exclude_regexes=None):
+    def pull_pve_configs_filter_paths(self, files, exclude_regexes=None, source_dir="/etc/pve"):
         """Filter file entries by excluding paths matching configured regexes.
 
         Args:
             files: List of dictionaries returned by ansible.builtin.find.
             exclude_regexes: List of regex strings used to exclude paths.
+            source_dir: Directory prefix to strip before applying regexes.
 
         Returns:
             A filtered list of file dictionaries.
@@ -47,7 +48,12 @@ class FilterModule:
             path = entry.get("path") if isinstance(entry, dict) else None
             if not path:
                 continue
-            if any(regex.search(path) for regex in compiled_patterns):
+            relative_path = path
+            if source_dir and path.startswith(source_dir):
+                relative_path = path[len(source_dir):]
+                if relative_path.startswith("/"):
+                    relative_path = relative_path[1:]
+            if any(regex.search(relative_path) for regex in compiled_patterns):
                 continue
             filtered_files.append(entry)
         return filtered_files
