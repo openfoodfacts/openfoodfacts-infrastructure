@@ -7,6 +7,7 @@ from ansible.errors import AnsibleFilterError
 
 
 class FilterModule:
+    """Custom filters for the pull_pve_configs role."""
 
     def filters(self):
         return {
@@ -14,7 +15,18 @@ class FilterModule:
         }
 
     def pull_pve_configs_filter_paths(self, files, exclude_regexes=None):
-        """Return only files that do not match any exclusion regex."""
+        """Filter file entries by excluding paths matching configured regexes.
+
+        Args:
+            files: List of dictionaries returned by ansible.builtin.find.
+            exclude_regexes: List of regex strings used to exclude paths.
+
+        Returns:
+            A filtered list of file dictionaries.
+
+        Raises:
+            AnsibleFilterError: If regex inputs are not valid.
+        """
         if exclude_regexes is None:
             exclude_regexes = []
 
