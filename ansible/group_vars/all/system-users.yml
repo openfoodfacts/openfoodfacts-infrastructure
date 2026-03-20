@@ -2,7 +2,9 @@
 # users that access the system via ssh
 # with their public keys taken from github
 # we have a state attribute than can be 'absent' to remove the user
-system_users_github__authorized_users:
+
+# base to be combined with host defined users
+system_users_github__authorized_users_base:
   - name: alex
     github_name: alexgarel
     is_superuser: true
@@ -26,3 +28,10 @@ system_users_github__authorized_users:
   - name: thomassauvage
     is_superuser: true
     state: present
+# host specefic users
+system_users_github__authorized_users_host: []
+system_users_github__authorized_users: |
+  {{
+    system_users_github__authorized_users_base |
+    union(system_users_github__authorized_users_host)
+  }}
