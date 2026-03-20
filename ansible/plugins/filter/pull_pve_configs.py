@@ -124,7 +124,7 @@ class FilterModule:
             raise AnsibleFilterError("corosync_conf_content must be a string")
 
         in_nodelist = False
-        waiting_nodelist_open = False
+        awaiting_nodelist_brace = False
         nodelist_depth = 0
         active_nodes = []
 
@@ -136,21 +136,22 @@ class FilterModule:
             line_brace_delta = self._brace_delta(line)
             current_line_starts_nodelist = False
 
-            if not in_nodelist and re.match(r"^nodelist\b", line):
+            if not in_nodelist and re.match(r"^nodelist(?:\s|{|$)", line):
                 current_line_starts_nodelist = True
+                # nodelist_depth > 0 means opening "{" is on this line, otherwise it's on a following line.
                 nodelist_depth = line_brace_delta
                 in_nodelist = nodelist_depth > 0
-                waiting_nodelist_open = nodelist_depth <= 0
+                awaiting_nodelist_brace = nodelist_depth <= 0
 
-            if waiting_nodelist_open and not current_line_starts_nodelist:
+            if awaiting_nodelist_brace and not current_line_starts_nodelist:
                 nodelist_depth += line_brace_delta
                 if nodelist_depth > 0:
                     in_nodelist = True
-                    waiting_nodelist_open = False
+                    awaiting_nodelist_brace = False
                 continue
 
             if in_nodelist:
-                # Capture hostname-like node names (no whitespace, "#" comments, or ":" separator).
+                # Capture hostname-like node names (no whitespace, # comments, or : separator).
                 name_match = self._COROSYNC_NODE_NAME_PATTERN.match(line)
                 if name_match:
                     active_nodes.append(name_match.group(1))
@@ -158,7 +159,7 @@ class FilterModule:
                     nodelist_depth += line_brace_delta
                 if nodelist_depth <= 0:
                     in_nodelist = False
-                    waiting_nodelist_open = False
+                    awaiting_nodelist_brace = False
                     nodelist_depth = 0
 
         return active_nodes
