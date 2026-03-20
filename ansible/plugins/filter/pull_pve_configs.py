@@ -113,6 +113,7 @@ class FilterModule:
             raise AnsibleFilterError("corosync_conf_content must be a string")
 
         in_nodelist = False
+        waiting_nodelist_open = False
         nodelist_depth = 0
         active_nodes = []
 
@@ -126,15 +127,24 @@ class FilterModule:
             if not in_nodelist and re.match(r"^nodelist\b", line):
                 nodelist_depth = line_brace_delta
                 in_nodelist = nodelist_depth > 0
+                waiting_nodelist_open = nodelist_depth <= 0
+                continue
+
+            if waiting_nodelist_open:
+                nodelist_depth += line_brace_delta
+                if nodelist_depth > 0:
+                    in_nodelist = True
+                    waiting_nodelist_open = False
                 continue
 
             if in_nodelist:
-                name_match = re.match(r"^name\s*:\s*([^\s#:]+)\s*$", line)
+                name_match = re.match(r"^name\s*:\s*([^\s#:]+)(?:\s|$)", line)
                 if name_match:
                     active_nodes.append(name_match.group(1))
                 nodelist_depth += line_brace_delta
                 if nodelist_depth <= 0:
                     in_nodelist = False
+                    waiting_nodelist_open = False
                     nodelist_depth = 0
 
         return active_nodes
