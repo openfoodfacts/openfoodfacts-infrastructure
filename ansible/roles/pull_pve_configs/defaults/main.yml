@@ -12,3 +12,5 @@ pull_pve_configs__exclude_regexes:
   - '(^|/)shadow\.cfg$'
   - '(^|/)token\.cfg$'
   - '(^|/)priv(/|$)'
+  # Exclude fast moving file, not really a config
+  - '(^|/)lrm_status$'
