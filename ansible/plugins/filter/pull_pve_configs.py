@@ -22,6 +22,10 @@ class FilterModule:
 
     @staticmethod
     def _is_inactive_node_path(relative_path: str, active_nodes_set: set) -> bool:
+        """Return True only for nodes/<name>/... paths not present in active_nodes_set.
+
+        If active_nodes_set is empty, this returns False so no node path is dropped.
+        """
         relative_path_parts = relative_path.split("/")
         return (
             len(relative_path_parts) > 1
@@ -138,7 +142,7 @@ class FilterModule:
                 in_nodelist = nodelist_depth > 0
                 waiting_nodelist_open = nodelist_depth <= 0
 
-            if waiting_nodelist_open:
+            if waiting_nodelist_open and not current_line_starts_nodelist:
                 nodelist_depth += line_brace_delta
                 if nodelist_depth > 0:
                     in_nodelist = True
