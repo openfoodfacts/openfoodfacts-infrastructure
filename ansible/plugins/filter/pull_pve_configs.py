@@ -10,6 +10,8 @@ from ansible.errors import AnsibleFilterError
 class FilterModule:
     """Custom filters for the pull_pve_configs role."""
 
+    _COROSYNC_NODE_NAME_PATTERN = re.compile(r"^name\s*:\s*([^\s#:]+)(?:\s|$)")
+
     @staticmethod
     def _line_without_comment(line: str) -> str:
         return line.partition("#")[0].strip()
@@ -17,6 +19,16 @@ class FilterModule:
     @staticmethod
     def _brace_delta(line: str) -> int:
         return line.count("{") - line.count("}")
+
+    @staticmethod
+    def _is_inactive_node_path(relative_path: str, active_nodes_set: set) -> bool:
+        relative_path_parts = relative_path.split("/")
+        return (
+            len(relative_path_parts) > 1
+            and relative_path_parts[0] == "nodes"
+            and active_nodes_set
+            and relative_path_parts[1] not in active_nodes_set
+        )
 
     def filters(self):
         return {
@@ -84,13 +96,7 @@ class FilterModule:
                 relative_path = path[len(normalized_source_dir):]
                 if relative_path.startswith("/"):
                     relative_path = relative_path[1:]
-            relative_path_parts = relative_path.split("/")
-            if (
-                len(relative_path_parts) > 1
-                and relative_path_parts[0] == "nodes"
-                and active_nodes_set
-                and relative_path_parts[1] not in active_nodes_set
-            ):
+            if self._is_inactive_node_path(relative_path, active_nodes_set):
                 continue
             if any(regex.search(relative_path) for regex in compiled_patterns):
                 continue
@@ -140,7 +146,8 @@ class FilterModule:
                 continue
 
             if in_nodelist:
-                name_match = re.match(r"^name\s*:\s*([^\s#:]+)(?:\s|$)", line)
+                # Capture hostname-like node names (no whitespace, "#" comments, or ":" separator).
+                name_match = self._COROSYNC_NODE_NAME_PATTERN.match(line)
                 if name_match:
                     active_nodes.append(name_match.group(1))
                 if not current_line_starts_nodelist:
