@@ -26,6 +26,7 @@ map $upstream_status $log_access_error {
 # create zone "off" for rate limiting 
 limit_req_zone $limit zone=off:10m rate=15r/m;
 limit_req_zone $limit zone=off-api:10m rate=15r/m;
+limit_req_zone "one_limit_for_all" zone=facet_limit:10m rate=60r/m;
 
 
 server {
@@ -140,6 +141,37 @@ server {
 
  	proxy_intercept_errors on;
         error_page 502 /502.html;
+    }
+
+    location /facets/ {
+        # Rate limiting
+        #limit_req_log_level error;
+        limit_req zone=facet_limit burst=10 nodelay; # burst=120 means you can do 240+120 requests
+                                              # before experimenting a 444 error
+        limit_req_status 444; # allows a specific http status code to clearly
+                              # identify rate limiting
+        limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the
+                              # shared memory zone, the number of excessive requests
+                              # is accounted as usual.
+
+        # cache.
+        # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
+        # Eg. X-Cache-Status: HIT
+        add_header X-Cache-Status $upstream_cache_status;  
+
+        proxy_pass http://10.1.0.113:80/;
+        # proxy_buffering off disables caching
+        #proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $host;
+        client_max_body_size 512M;
+
+        proxy_intercept_errors on;
+        error_page 502 /502.html;
+
     }
 
     location / {
