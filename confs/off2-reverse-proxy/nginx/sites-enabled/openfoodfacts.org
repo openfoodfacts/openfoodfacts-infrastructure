@@ -15,6 +15,10 @@ geo $whitelist {
 
 map $whitelist $limit {
    0     $binary_remote_addr;
+   # In limit_req_zone, requests with an empty key are not accounted. See:
+   # https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone
+   # So if the IP address is in the whitelist, it disables the rate-limiter for
+   # this IP.
    1     "";
 }
 
@@ -115,10 +119,10 @@ server {
 
         # Rate limiting
         #limit_req_log_level error;
-        limit_req zone=off-api burst=10 nodelay; # burst=120 means you can do 240+120 requests
-                                              # before experimenting a 444 error
+        limit_req zone=off-api burst=10 nodelay; # burst=10 means you can do 15+10 requests
+                                              # before experimenting a 429 error
         #limit_req_log_level warn;   # not sure if necessary
-        limit_req_status 444; # allows a specific http status code to clearly
+        limit_req_status 429; # allows a specific http status code to clearly
                               # identify rate limiting
         #limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
                               # processing rate is not limited, however, in the
@@ -144,8 +148,6 @@ server {
 
     location / {
 
-
-
 #    	proxy_cache mycache;
 #    	proxy_cache_key $host$request_uri$cookie_user;
 #        proxy_cache_valid any 5s;
@@ -163,6 +165,17 @@ server {
          rewrite ^ /contact-us.txt last;
     }
 
+        # Rate limiting
+        limit_req zone=off burst=10 nodelay; # burst=10 means you can do 15+10 requests
+                                              # before experimenting a 429 error
+        #limit_req_log_level warn;   # not sure if necessary
+        limit_req_status 429; # allows a specific http status code to clearly
+                              # identify rate limiting
+        #limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
+                              # processing rate is not limited, however, in the 
+                              # shared memory zone, the number of excessive requests 
+                              # is accounted as usual.
+
         # cache.
         # https://www.nginx.com/blog/nginx-caching-guide/#Frequently-Asked-Questions-(FAQ)
         # Eg. X-Cache-Status: HIT
@@ -179,18 +192,6 @@ server {
 
  	proxy_intercept_errors on;
         error_page 502 /502.html;
-
-        # Rate limiting
-        limit_req zone=off burst=10 nodelay; # burst=120 means you can do 240+120 requests
-                                              # before experimenting a 444 error
-        #limit_req_log_level warn;   # not sure if necessary
-        limit_req_status 444; # allows a specific http status code to clearly
-                              # identify rate limiting
-        #limit_req_dry_run on; # Enables the dry run mode. In this mode, requests
-                              # processing rate is not limited, however, in the 
-                              # shared memory zone, the number of excessive requests 
-                              # is accounted as usual.
-
     }
     location ~* 502\.(html|jpg)  {
        root /opt/openfoodfacts-infrastructure/html/;
