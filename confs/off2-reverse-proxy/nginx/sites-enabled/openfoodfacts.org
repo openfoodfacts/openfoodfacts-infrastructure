@@ -22,6 +22,23 @@ map $whitelist $limit {
    1     "";
 }
 
+# add a new $no_auth variable if the "session" cookie is not present
+# `$cookie_session` returns the value of the 'session' cookie.
+map $cookie_session $no_auth {
+    default 0;  # cookie as a value, set `$no_auth=0`
+    '' 1;  # Cookie is not present (empty value), set `$no_auth=1`
+}
+
+map "$whitelist$no_auth" $limit_facets {
+   # $whitelist$no_auth values:
+   # - "11" = whitelisted IP + not logged in -> don't rate limit
+   # - "10" = whitelisted IP + logged in -> don't rate limit
+   # - "01" = not whitelisted + logged in -> don't rate limit
+   # - "00" = not whitelisted + not logged in -> DO rate limit (facets)
+   ~^0   "facets";  # the value starts with a 0
+   ~^1    "";  # the value starts with a 1
+}
+
 map $whitelist $limit_facets {
    0     "facets";
    1     "";
