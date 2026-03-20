@@ -10,9 +10,18 @@ from ansible.errors import AnsibleFilterError
 class FilterModule:
     """Custom filters for the pull_pve_configs role."""
 
+    @staticmethod
+    def _line_without_comment(line: str) -> str:
+        return line.partition("#")[0].strip()
+
+    @staticmethod
+    def _brace_delta(line: str) -> int:
+        return line.count("{") - line.count("}")
+
     def filters(self):
         return {
             "pull_pve_configs_filter_paths": self.pull_pve_configs_filter_paths,
+            "pull_pve_configs_extract_active_nodes": self.pull_pve_configs_extract_active_nodes,
         }
 
     def pull_pve_configs_filter_paths(
@@ -20,6 +29,7 @@ class FilterModule:
         files: List[Dict[str, Any]],
         exclude_regexes: Optional[List[str]] = None,
         source_dir: Optional[str] = None,
+        active_nodes: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Filter file entries by excluding paths matching configured regexes.
 
@@ -27,6 +37,7 @@ class FilterModule:
             files: List of dictionaries returned by ansible.builtin.find.
             exclude_regexes: List of regex strings used to exclude paths.
             source_dir: Directory prefix to strip before applying regexes.
+            active_nodes: List of active node names allowed under nodes/.
 
         Returns:
             A filtered list of file dictionaries.
@@ -55,6 +66,14 @@ class FilterModule:
             raise AnsibleFilterError("source_dir must be a string")
         normalized_source_dir = source_dir.rstrip("/")
 
+        if active_nodes is None:
+            active_nodes = []
+        if not isinstance(active_nodes, list):
+            raise AnsibleFilterError("active_nodes must be a list")
+        if not all(isinstance(node, str) for node in active_nodes):
+            raise AnsibleFilterError("each active node must be a string")
+        active_nodes_set = set(active_nodes)
+
         filtered_files = []
         for entry in files or []:
             path = entry.get("path") if isinstance(entry, dict) else None
@@ -65,7 +84,57 @@ class FilterModule:
                 relative_path = path[len(normalized_source_dir):]
                 if relative_path.startswith("/"):
                     relative_path = relative_path[1:]
+            relative_path_parts = relative_path.split("/")
+            if (
+                len(relative_path_parts) > 1
+                and relative_path_parts[0] == "nodes"
+                and active_nodes_set
+                and relative_path_parts[1] not in active_nodes_set
+            ):
+                continue
             if any(regex.search(relative_path) for regex in compiled_patterns):
                 continue
             filtered_files.append(entry)
         return filtered_files
+
+    def pull_pve_configs_extract_active_nodes(self, corosync_conf_content: str) -> List[str]:
+        """Extract active node names from corosync.conf content.
+
+        Args:
+            corosync_conf_content: Full text content of /etc/pve/corosync.conf.
+
+        Returns:
+            List of node names declared inside nodelist node blocks.
+
+        Raises:
+            AnsibleFilterError: If input content type is invalid.
+        """
+        if not isinstance(corosync_conf_content, str):
+            raise AnsibleFilterError("corosync_conf_content must be a string")
+
+        in_nodelist = False
+        nodelist_depth = 0
+        active_nodes = []
+
+        for raw_line in corosync_conf_content.splitlines():
+            line = self._line_without_comment(raw_line)
+            if not line:
+                continue
+
+            line_brace_delta = self._brace_delta(line)
+
+            if not in_nodelist and re.match(r"^nodelist\b", line):
+                nodelist_depth = line_brace_delta
+                in_nodelist = nodelist_depth > 0
+                continue
+
+            if in_nodelist:
+                name_match = re.match(r"^name\s*:\s*([^\s#:]+)\s*$", line)
+                if name_match:
+                    active_nodes.append(name_match.group(1))
+                nodelist_depth += line_brace_delta
+                if nodelist_depth <= 0:
+                    in_nodelist = False
+                    nodelist_depth = 0
+
+        return active_nodes

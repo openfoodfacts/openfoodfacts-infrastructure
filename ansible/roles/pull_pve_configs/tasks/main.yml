@@ -14,13 +14,25 @@
     recurse: true
   register: pull_pve_configs__files
 
+- name: Read corosync configuration
+  ansible.builtin.slurp:
+    src: "{{ pull_pve_configs__corosync_conf_path }}"
+  register: pull_pve_configs__corosync_conf
+
+- name: Extract active cluster nodes from corosync nodelist
+  ansible.builtin.set_fact:
+    pull_pve_configs__active_nodes: >-
+      {{ (pull_pve_configs__corosync_conf.content | b64decode)
+         | pull_pve_configs_extract_active_nodes }}
+
 - name: Filter /etc/pve files to exclude sensitive paths
   ansible.builtin.set_fact:
     pull_pve_configs__filtered_files: >-
       {{ pull_pve_configs__files.files
          | pull_pve_configs_filter_paths(
              pull_pve_configs__exclude_regexes,
-             pull_pve_configs__source_dir
+             pull_pve_configs__source_dir,
+             pull_pve_configs__active_nodes
            ) }}
 
 - name: Fetch /etc/pve files
