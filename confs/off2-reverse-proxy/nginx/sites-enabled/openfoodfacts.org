@@ -22,6 +22,11 @@ map $whitelist $limit {
    1     "";
 }
 
+map $whitelist $limit_facets {
+   0     "facets";
+   1     "";
+}
+
 map $upstream_status $log_access_error {
 	default 0;
 	~^[45]     1;
@@ -30,6 +35,7 @@ map $upstream_status $log_access_error {
 # create zone "off" for rate limiting 
 limit_req_zone $limit zone=off:10m rate=15r/m;
 limit_req_zone $limit zone=off-api:10m rate=15r/m;
+limit_req_zone $limit_facets zone=off-facets:10m rate=100r/m;
 
 
 server {
@@ -146,6 +152,15 @@ server {
         error_page 502 /502.html;
     }
 
+    location /facets {
+        limit_req zone=off-facets nodelay;
+        limit_req zone=off burst=10 nodelay;
+        limit_req_status 429;
+
+        proxy_pass http://10.1.0.113:80;
+        include snippets/backend-proxy.conf;
+    }
+
     location / {
 
 #    	proxy_cache mycache;
@@ -184,14 +199,7 @@ server {
         proxy_pass http://10.1.0.113:80/;
 	# proxy_buffering off disables caching
         #proxy_buffering off;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header Host $host;
-        client_max_body_size 512M;
-
- 	proxy_intercept_errors on;
-        error_page 502 /502.html;
+        include snippets/backend-proxy.conf;
     }
     location ~* 502\.(html|jpg)  {
        root /opt/openfoodfacts-infrastructure/html/;
