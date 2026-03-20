@@ -105,6 +105,7 @@ class FilterModule:
 
         Returns:
             List of node names declared inside nodelist node blocks.
+            Assumes node names are hostname-like tokens without spaces or ":".
 
         Raises:
             AnsibleFilterError: If input content type is invalid.
@@ -123,12 +124,13 @@ class FilterModule:
                 continue
 
             line_brace_delta = self._brace_delta(line)
+            current_line_starts_nodelist = False
 
             if not in_nodelist and re.match(r"^nodelist\b", line):
+                current_line_starts_nodelist = True
                 nodelist_depth = line_brace_delta
                 in_nodelist = nodelist_depth > 0
                 waiting_nodelist_open = nodelist_depth <= 0
-                continue
 
             if waiting_nodelist_open:
                 nodelist_depth += line_brace_delta
@@ -141,7 +143,8 @@ class FilterModule:
                 name_match = re.match(r"^name\s*:\s*([^\s#:]+)(?:\s|$)", line)
                 if name_match:
                     active_nodes.append(name_match.group(1))
-                nodelist_depth += line_brace_delta
+                if not current_line_starts_nodelist:
+                    nodelist_depth += line_brace_delta
                 if nodelist_depth <= 0:
                     in_nodelist = False
                     waiting_nodelist_open = False
