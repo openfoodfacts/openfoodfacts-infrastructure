@@ -410,7 +410,7 @@ done
 
 I edited my `/etc/hosts` to add:
 ```
-151.115.132.10 world.openpetfoodfacts.org fr.openpetfoodfacts.org
+151.115.132.10 world.openpetfoodfacts.org fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org
 ```
 I will test sync between data using uk.openpetfoodfacts.org
 
@@ -480,17 +480,24 @@ Now we hurry:
 1. [DONE] It's live !
 
 After migration:
-* rename opff data on off2 to avoid confusion
+* [DONE] rename subvol-118 to avoid confusino
   ```bash
   zfs rename zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/backups/subvol-118-disk-0
   ```
-* verify backups of the new datasets are done
-  * [WIP] modified scaleway-03 conifg
-* [WIP] run the ansible:
+* [DONE] verify backups of the new datasets are done
+  * remove the conflicting `zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0`
+    backup, as we re-created it:
+    `zfs destroy zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0`
+    wait for next syncoid, and verify it's recreated:
+    `zfs list zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0`
+  * modify scaleway-03 config to save scaleway-01's `zfs-hdd/podata`
+  * then after some time, verify it's working: `zfs list zfs-hdd/off-backups/scaleway-01-podata-hdd -r`
+* [DONE] run the ansible:
   * container creation on scaleway-01:
     `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
   * jobs/configure for opff:
-* remove the backup datasets on off1 and ovh3
+    `ansible-playbook jobs/configure.yml -l opff`
+* remove the backup datasets at ovh3
 * add backups of opff data from scaleway-01 on ovh3
 * put back the TTL for domain to a normal level
 
