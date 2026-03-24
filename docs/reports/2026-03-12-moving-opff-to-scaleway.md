@@ -362,7 +362,7 @@ Then I `pct enter 115` to see if services are ok with `systemctl status apache2.
 ### Changing opff configuration
 
 For opff to work in new environment we have to change its configuration,
-in `/srv/opff/lib/ProductOpener/Config2.pm` (in `/zfs-hdd/pve/subvol-115-disk-0/`)
+in `srv/opff/lib/ProductOpener/Config2.pm` (in `/zfs-hdd/pve/subvol-115-disk-0/`)
 we have to change services ips:
 * 10.13.1.200 for mongodb / redis / postgresql
 * 10.13.1.102 for memcached
@@ -427,9 +427,10 @@ TODO: gen feeds daily.
 
 ### Steps to execute
 
-1. [DONE] in OVH, change TTL of opff names to a lower TTL 
-1. on scaleway-01, stop the opff container: `pct shutdown 115`
-1. on scaleway-01, remove the clones:
+1. [DONE] in OVH, change TTL of opff names to a lower TTL
+1. [DONE] on scaleway-01 comment opff backups in /etc/sanoid/syncoid-args.conf
+1. [DONE] on scaleway-01, stop the opff container: `pct shutdown 115`
+1. [DONE] on scaleway-01, remove the clones:
    ```bash
    zfs destroy -r zfs-hdd/pve/subvol-115-disk-0
    zfs destroy -r zfs-hdd/podata/opff
@@ -437,47 +438,63 @@ TODO: gen feeds daily.
 
 Now we hurry:
 
-1. on off2, stop opff container `pct shutdowm 118`
-1. on off2, create a last snapshot:
-   ```bash
-   # mimic sanoid
-   SNAP_NAME=autosnap_$(date --utc +"%Y_%m_%d_%H:%M:%S")_hourly
-   for dataset in zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/opff{,/cache,/html_data}; \
-   do \
-     zfs snapshot $dataset@$SNAP_NAME; \
-   done
-   ```
-1. on scalway-01, make a last sync of datasets:
+1. [DONE] on off2, stop opff container `pct shutdowm 118`
+1. [DONE] on off2, create a last snapshot:
+  ```bash
+  # mimic sanoid
+  SNAP_NAME=autosnap_$(date --utc +"%Y_%m_%d_%H:%M:%S")_hourly
+  for dataset in zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/opff{,/cache,/html_data}; \
+  do \
+    zfs snapshot $dataset@$SNAP_NAME; \
+    echo DONE: $dataset@$SNAP_NAME; \
+  done
+  ```
+1. [DONE] on scalway-01, make a last sync of datasets:
    ```bash
    syncoid --no-sync-snap --no-privilege-elevation scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-hdd/opff zfs-hdd/off-backups/off2-zfs-hdd/opff
    ```
-1. move the backup zfs to their new location:
+   verify:
+   ```bash
+   zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0 |tail -n 1
+   for dataset in opff{,/cache,/html_data}; \
+   do \
+     zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
+   done
+1. [DONE] move the backup zfs to their new location:
     ```bash
     zfs rename zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/pve/subvol-115-disk-0
-
-    for dataset in opff{,/cache,/html_data}; \
-    do \
-      zfs rename zfs-hdd/off-backups/off2-zfs-hdd/$dataset zfs-hdd/podata/$dataset;
-    done
+    zfs rename zfs-hdd/off-backups/off2-zfs-hdd/opff zfs-hdd/podata/opff
     ```
-1. modify the configuration, as done above, [see Changing OPFF configuration](#changing-opff-configuration)
-1. on scaleway-01, start the service `pct start 115`
-1. on your computer, verify the service is working with a modified /etc/hosts
-1. in OVH, change the domain name to point to CNAME scaleway-proxy.openfoodfacts.org
-1. on your computer remove you /etc/hosts specific configuration and test again
-1. It's live !
+1. [DONE] modify the configuration, as done above, [see Changing OPFF configuration](#changing-opff-configuration)
+1. [DONE] on scaleway-01, start the service `pct start 115`
+1. [DONE] on your computer, verify the service is working with a modified /etc/hosts
+1. [DONE]in OVH, change the `openpetfoodfacts.org` `A` entry to point to `151.115.132.10`
+1. [DONE] on your computer remove you /etc/hosts specific configuration and test again
+1. [DONE] It's live !
 
 After migration:
+* on scaleway-01: remove the opff/products,images datasets as they are useless
+  ```bash
+  zfs destroy -r zfs-hdd/podata/opff/products
+  zfs destroy -r zfs-hdd/podata/opff/images
+  ```
+* rename opff data on off2 to avoid confusion
+  ```bash
+  zfs rename zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/backups/subvol-118-disk-0
+  ```
 * verify backups of the new datasets are done
-* run the ansible:
-  * container creation on off1
-  * jobs/configure on opff
-* cleanup opff data on off2:
-  * remove the datasets, do it as well on the 
+  * [WIP] modified scaleway-03 conifg
+* [WIP] run the ansible:
+  * container creation on scaleway-01:
+    `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
+  * jobs/configure for opff:
+* remove the backup datasets on off1 and ovh3
+* add backups of opff data from scaleway-01 on ovh3
+* put back the TTL for domain to a normal level
 
 Later:
-
+* on off2: remove the pct 118: `pct remove 118`
 
 ## Annex
 
