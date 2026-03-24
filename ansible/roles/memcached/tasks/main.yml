@@ -10,7 +10,7 @@
     path: "/etc/memcached.conf"
   register: _memcached__config_file
 
-- name: Remove enventual default memcached configuration
+- name: Remove eventual default memcached configuration
   ansible.builtin.file:
     path: "/etc/memcached.conf"
     state: absent
