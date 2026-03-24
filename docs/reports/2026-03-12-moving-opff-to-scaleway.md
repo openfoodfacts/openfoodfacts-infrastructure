@@ -466,6 +466,12 @@ Now we hurry:
     zfs rename zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/pve/subvol-115-disk-0
     zfs rename zfs-hdd/off-backups/off2-zfs-hdd/opff zfs-hdd/podata/opff
     ```
+1. [DONE] on scaleway-01, remove the opff/products,images datasets as they are useless
+  and may conflict with the real mount we need in the container
+  ```bash
+  zfs destroy -r zfs-hdd/podata/opff/products
+  zfs destroy -r zfs-hdd/podata/opff/images
+  ```
 1. [DONE] modify the configuration, as done above, [see Changing OPFF configuration](#changing-opff-configuration)
 1. [DONE] on scaleway-01, start the service `pct start 115`
 1. [DONE] on your computer, verify the service is working with a modified /etc/hosts
@@ -474,11 +480,6 @@ Now we hurry:
 1. [DONE] It's live !
 
 After migration:
-* on scaleway-01: remove the opff/products,images datasets as they are useless
-  ```bash
-  zfs destroy -r zfs-hdd/podata/opff/products
-  zfs destroy -r zfs-hdd/podata/opff/images
-  ```
 * rename opff data on off2 to avoid confusion
   ```bash
   zfs rename zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/backups/subvol-118-disk-0
