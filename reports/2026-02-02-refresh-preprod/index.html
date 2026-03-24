@@ -6,10 +6,10 @@
       
       
       
-        <link rel="prev" href="../2023-05-off2-110-unreachable/">
+        <link rel="prev" href="../2026-01-29-labelstudio-upgrade/">
       
       
-        <link rel="next" href="../2023-06-07-off2-opf-obf-reinstall/">
+        <link rel="next" href="../2026-02-17-monitoring-01-elasticsearch-disk-full/">
       
       
         
@@ -20,7 +20,7 @@
     
     
       
-        <title>2023-06-01 Robotoff backups - Open Food Facts Infrastructure documentation</title>
+        <title>2026-02-02 refresh preprod - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-06-01-robotoff-backups" class="md-skip">
+        <a href="#2026-02-02-refresh-preprod" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-06-01 Robotoff backups
+              2026-02-02 refresh preprod
             
           </span>
         </div>
@@ -3134,37 +3134,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2023-06-01 Robotoff backups
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-06-01-robotoff-backups/" class="md-nav__link">
         
   
   
@@ -3180,37 +3153,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#adding-snapshot-with-sanoid" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding snapshot with sanoid
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6020,10 +5962,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-02-02-refresh-preprod/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-02-02 refresh preprod
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6039,6 +6008,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#refreshing-products-clones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refreshing products clones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refreshing-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refreshing MongoDB
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6218,10 +6229,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#adding-snapshot-with-sanoid" class="md-nav__link">
+  <a href="#refreshing-products-clones" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding snapshot with sanoid
+        Refreshing products clones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refreshing-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refreshing MongoDB
       
     </span>
   </a>
@@ -6245,7 +6267,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2023-06-01-robotoff-backups.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-02-02-refresh-preprod.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6253,28 +6275,66 @@
   
 
 
-<h1 id="2023-06-01-robotoff-backups">2023-06-01 Robotoff backups<a class="headerlink" href="#2023-06-01-robotoff-backups" title="Permanent link">#</a></h1>
-<p>So far, Robotoff backups were performed manually. We wish to automate the process.</p>
-<p>On ovh3, I created a zfs dataset for Robotoff backups:</p>
-<p><code>zfs create rpool/backups/robotoff</code></p>
-<p>I updated the dataset <code>sharenfs</code> settings to allow nfs mount from 10.1.0.201:</p>
-<p><code>zfs set sharenfs='rw=@10.0.0.0/28,rw=@10.1.0.201/32,no_root_squash' rpool/backups/robotoff</code></p>
-<p>The NFS share was then mounted as a docker volume on Robotoff instance. (see https://github.com/openfoodfacts/robotoff/pull/1127)</p>
-<h2 id="adding-snapshot-with-sanoid">Adding snapshot with sanoid<a class="headerlink" href="#adding-snapshot-with-sanoid" title="Permanent link">#</a></h2>
-<p>In /etc/sanoid/sanoid.conf We added:</p>
-<p></p><div class="highlight"><pre><span></span><code>[rpool/backups/robotoff]
-  use_template=prod_data
-  recursive=no
-</code></pre></div>
-(and tweaked a bit the retention policy).<p></p>
-<p>Wait until sanoid is launched.</p>
-<p>Commit changes:
-</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt/openfoodfacts-infrastructure
-git<span class="w"> </span>status
-git<span class="w"> </span>diff
-git<span class="w"> </span>commit<span class="w"> </span>-a<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: added robotoff backups + review retention"</span><span class="w"> </span>--author<span class="w"> </span><span class="s2">"Alex Garel …"</span>
-</code></pre></div>
-<strong>Note:</strong> because of current off2 migration, this was pushed to that branch.<p></p>
+<h1 id="2026-02-02-refresh-preprod">2026-02-02 refresh preprod<a class="headerlink" href="#2026-02-02-refresh-preprod" title="Permanent link">#</a></h1>
+<p>We need to refresh products in preprod.</p>
+<p>This means:</p>
+<ul>
+<li>refreshing MongoDB</li>
+<li>refreshing products clones</li>
+</ul>
+<ul>
+<li>TODO: refreshing off query ?</li>
+</ul>
+<h2 id="refreshing-products-clones">Refreshing products clones<a class="headerlink" href="#refreshing-products-clones" title="Permanent link">#</a></h2>
+<p>I logged on docker staging VM as off, and run:
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/off-net
+docker<span class="w"> </span>compose<span class="w"> </span>stop
+</code></pre></div><p></p>
+<p>I logged on OVH3 as root and run:
+</p><div class="highlight"><pre><span></span><code>/opt/openfoodfacts-infrastructure/scripts/ovh3/maj-clones-nfs-VM-dockers.sh
+</code></pre></div><p></p>
+<p>then back in the docker staging VM:
+</p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>start
+</code></pre></div><p></p>
+<h2 id="refreshing-mongodb">Refreshing MongoDB<a class="headerlink" href="#refreshing-mongodb" title="Permanent link">#</a></h2>
+<p>On OVH3 as root I can see what was the origin of the products clone, and the snapshot time:
+</p><div class="highlight"><pre><span></span><code><span class="w"> </span>zfs<span class="w"> </span>get<span class="w"> </span>origin<span class="w"> </span>rpool/staging-clones/off-products
+NAME<span class="w">                               </span>PROPERTY<span class="w">  </span>VALUE<span class="w">                                                  </span>SOURCE
+rpool/staging-clones/off-products<span class="w">  </span>origin<span class="w">    </span>rpool/off/products@autosnap_2026-02-02_00:01:49_daily<span class="w">  </span>-
+</code></pre></div><p></p>
+<p>So I will take the corresponding snapshot for mongodb data,
+which on OVH3 are in <code>/rpool/off-backups/off1-pve-nvme/subvol-102-disk-0/</code>
+</p><div class="highlight"><pre><span></span><code><span class="c1"># find corresponding backup</span>
+zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>rpool/off-backups/off1-pve-nvme/subvol-102-disk-0<span class="p">|</span>grep<span class="w"> </span><span class="m">2026</span>-02-02_00
+<span class="w">  </span>rpool/off-backups/off1-pve-nvme/subvol-102-disk-0@autosnap_2026-02-02_00:00:38_daily<span class="w">    </span><span class="m">3</span>.92G<span class="w">    </span>
+</code></pre></div><p></p>
+<p>Going on staging docker VM as off, I stop the mongodb.
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>shared-net
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>mongodb
+</code></pre></div><p></p>
+<p>I also checked space is sufficient:
+</p><div class="highlight"><pre><span></span><code>df -h /var/lib/docker/volumes
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda1       423G  285G  118G  71% /var/lib/docker/volumes
+du -sh /var/lib/docker/volumes/off_shared_mongodb_data/_data/
+</code></pre></div><p></p>
+<p>Now I rsync data from OVH3, for this I use <code>ssh -A</code> to connect to OVH3,
+and then
+</p><div class="highlight"><pre><span></span><code><span class="c1"># preserve env to SSH AGENT</span>
+sudo<span class="w"> </span>-E<span class="w"> </span>bash
+<span class="c1"># rsync with proxyjump</span>
+<span class="c1"># beware to use db/ in the origin !</span>
+rsync<span class="w"> </span>-e<span class="w"> </span><span class="s1">'ssh -J 10.0.0.1'</span><span class="w"> </span>-a<span class="w"> </span>--chown<span class="w"> </span><span class="m">999</span>:999<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>/rpool/off-backups/off1-pve-nvme/subvol-102-disk-0/.zfs/snapshot/autosnap_2026-02-02_00:00:38_daily/db/<span class="w"> </span><span class="m">10</span>.1.0.200:/var/lib/docker/volumes/off_shared_mongodb_data/_data/
+</code></pre></div><p></p>
+<p>I tried to speed things a bit, by on OVH3 and on off staging VM,
+getting rsync process and doing a <code>ionice -n 0 -p &lt;pid&gt;</code>
+but it's not very fast (around 12MB/s).
+It took 50 minutes…</p>
+<p>Then restart the service on the docker staging VM, as off:
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off/shared-net
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>mongodb
+</code></pre></div><p></p>
+<p>Note: it should be possible to use the same technic to update postgresql for off-query…</p>
 
 
 
