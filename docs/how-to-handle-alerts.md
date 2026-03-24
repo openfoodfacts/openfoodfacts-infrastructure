@@ -29,7 +29,7 @@ Finally when you are done, you can empty the queues.
 you can use the "Console" of the developers toolbar with this expression:
 
 ```javascript
-$x('//div[contains(@id, "pmgPostfixMailQueue")]//div[@class="x-grid-item-container"]//table//td[4]//text()').map(x => x.nodeValue).join("\n")
+$x("//*[starts-with(@id, 'pmgQueueAdministration')]//table[contains(@class, 'x-grid-item')]//td[contains(@class,'x-grid-cell')][4]/*[contains(text(), '@')]/text()").map(x => x.nodeValue).join("\n")
 ```
 
 ## sanoid_check.sh error on `<server>` (email)

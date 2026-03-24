@@ -19,10 +19,8 @@ server {
 
 # map from service to exporter
 map $uri $exporter {
-    # mongodb
-    "/mongo/mongodb/metrics" 10.1.0.102:9216;
-    # nginx on the off1 proxy
-    "/off1-proxy/nginx/metrics" 10.1.0.100:9113;
+    # mongodb - moved to scalezay
+    #"/mongo/mongodb/metrics" 10.1.0.102:9216;
     # nginx on this proxy
     "/proxy/nginx/metrics" 127.0.0.1:9113;
     # nginx on off container

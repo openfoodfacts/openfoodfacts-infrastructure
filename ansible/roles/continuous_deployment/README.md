@@ -21,3 +21,19 @@ A public/private keypair can be generated with
 ```sh
 ssh-keygen -t ed25519 -C "off@<node_name>"
 ```
+
+
+## Note on testing connection
+
+If you want to test the connection is ok, with the private key,
+you have to remember that `-i` option only applies to the final connection,
+not the proxy jump connection.
+
+So you have to either configure the proxy connection in your .ssh/config,
+or specify the whole proxy command.
+Something like:
+```bash
+ssh -F /dev/null \
+  off@10.13.1.200 -o "IdentitiesOnly=yes"  -i ~/.ssh/test-key \
+  -o "ProxyCommand=ssh -i ~/.ssh/test-key -o IdentitiesOnly=yes -W %h:%p off@scaleway-02.infra.openfoodfacts.org"
+```

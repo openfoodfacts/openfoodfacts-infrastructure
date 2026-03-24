@@ -37,13 +37,14 @@ org/wiki/Extension:Interwiki
 
 These extensions have been manually installed:
 
-* AuthProductOpener: custom extension to allow Open Food Facts user authentication on other Open Food Facts projects (blog, apps...)
 * MobileFrontend: https://www.mediawiki.org/wiki/Extension:MobileFrontend
 * FontAwesome: https://www.mediawiki.org/wiki/Extension:FontAwesome
 * UniversalLanguageSelector: https://www.mediawiki.org/wiki/Extension:UniversalLanguageSelector
 * Matomo: https://www.mediawiki.org/wiki/Extension:Matomo
   * There is 5.0 version but 4.0 is working fine without issues.
 * ExternalData: https://www.mediawiki.org/wiki/Extension:ExternalData
+* PluggableAuth: https://www.mediawiki.org/wiki/Extension:PluggableAuth
+* OpenID Connect: https://www.mediawiki.org/wiki/Extension:OpenID_Connect
 
 These extensions are currently tested:
 
@@ -359,12 +360,54 @@ There are several things to be addressed for better dark mode support.
 
 The wiki's logo should have a specific version for dark mode (light version for dark background).
 
+### OpenID Connect Auth
 
+Download and extract additional extensions:
 
-### Login
+```bash
+# Download and extract OpenIDConnect extension
+curl -fsSL https://extdist.wmflabs.org/dist/extensions/OpenIDConnect-REL1_43-9b74c08.tar.gz -o /tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz && tar -xzf /tmp/OpenIDCon
+nect-REL1_43-9b74c08.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm /tmp/OpenIDConnect-REL1_43-9b74c08.tar.gz
+# Download and extract PluggableAuth extension
+curl -fsSL https://extdist.wmflabs.org/dist/extensions/PluggableAuth-REL1_43-64604a4.tar.gz -o /tmp/PluggableAuth-REL1_43-64604a4.tar.gz && tar -xzf /tmp/PluggableAuth-REL1_43-64604a4.tar.gz -C /var/www/wiki.openfoodfacts.org/extensions/ && rm /tmp/PluggableAuth-REL1_43-64604a4.tar.gz
+```
 
-The old login system using Open Food Facts's cookies need to be changed.
+Remove `wfLoadExtension( 'AuthProductOpener' );` from the `# Extension: AuthProductOpener` section of `LocalSettings.php`, and add new OIDC settings to `LocalSettings.php`:
 
-See @hangy's proposal to use Keycloack: https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/543
+```php
+# OpenID & PluggableAuth extensions
+# see: https://www.mediawiki.org/wiki/Extension:OpenID_Connect
+# and https://www.mediawiki.org/wiki/Extension:PluggableAuth
 
+wfLoadExtension( 'PluggableAuth' );
+wfLoadExtension( 'OpenIDConnect' );
 
+$wgPluggableAuth_EnableAutoLogin = false;
+$wgPluggableAuth_EnableLocalLogin = false; # Disable local login form as users don't have a password
+
+$wgPluggableAuth_Config['OpenFoodFacts Login'] = [
+    'plugin' => 'OpenIDConnect',
+    'data' => [
+        'providerURL' => 'https://auth.openfoodfacts.net/realms/openfoodfacts',
+        'clientID' => 'off-wiki-net', # Replace with your actual client ID from Keycloak
+        'clientsecret' => 'zQX3q9XkBUwXs2EmrYs7kCNcKxtZEU9f', # Replace with your actual client secret from Keycloak
+        'redirectURI' => "$wgServer/index.php?title=Special:PluggableAuthLogin&action=openidconnect", # Redirect URI must match exactly
+        'codeChallengeMethod' => 'S256', // Enable PKCE
+    ]
+];
+
+$wgOpenIDConnect_MigrateUsersByUserName = true; # Migrate current users based on username
+$wgOpenIDConnect_SingleLogout = true;
+```
+
+Remove old custom auth extension
+
+```bash
+rm -rf /var/www/wiki.openfoodfacts.org/extensions/AuthProductOpener/
+```
+
+Run update script to generate OIDC extension tables in the database
+
+ ```bash
+runuser -u www-data -- php maintenance/run.php update.php
+```

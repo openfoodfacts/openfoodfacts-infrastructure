@@ -49,6 +49,10 @@
       # network tools
       - curl
       - rsync
+      - netcat-openbsd
+      - net-tools
+      # file tools
+      - unzip
       # dev tools
       - git
       # security tools

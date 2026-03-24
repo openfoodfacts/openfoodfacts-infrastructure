@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Temporarily Unavailable - Open Food Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #fdf6e3 0%, #fff8e7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333333;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 48px 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: #fff3e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #333333;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: #666666;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #ff6600;
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+        }
+
+        .btn-secondary:hover {
+            background: #fff3e0;
+        }
+
+        .footer {
+            margin-top: 32px;
+            font-size: 13px;
+            color: #999999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">⚠</div>
+        <h1 id="title">Service Temporarily Unavailable</h1>
+        <p id="message">Our services are currently experiencing unusually high demand. We apologize for any
+            inconvenience.</p>
+        <div class="actions">
+            <a href="https://world.openfoodfacts.org/cgi/session.pl" class="btn btn-primary" id="signin-btn">Sign In</a>
+            <a href="https://world.openfoodfacts.org/cgi/user.pl" class="btn btn-secondary"
+                id="register-btn">Register</a>
+        </div>
+        <p class="footer" id="footer">Registered users are not subject to request limits and get priority access during
+            peak times.</p>
+    </div>
+
+    <script>
+        (function () {
+            var translations = {
+                en: {
+                    title: "Service Temporarily Unavailable",
+                    message: "Our services are currently experiencing unusually high demand. We apologize for any inconvenience.",
+                    signin: "Sign In",
+                    register: "Register",
+                    footer: "Registered users are not subject to request limits and get priority access during peak times."
+                },
+                es: {
+                    title: "Servicio Temporalmente No Disponible",
+                    message: "Nuestros servicios están experimentando una demanda inusualmente alta. Lamentamos los inconvenientes.",
+                    signin: "Iniciar Sesión",
+                    register: "Registrarse",
+                    footer: "Los usuarios registrados no están sujetos a límites de solicitud y tienen acceso prioritario durante los momentos de mayor actividad."
+                },
+                fr: {
+                    title: "Service temporairement indisponible",
+                    message: "Nos services connaissent actuellement une demande inhabituellement élevée. Nous nous excusons pour la gêne occasionnée.",
+                    signin: "Se Connecter",
+                    register: "S'inscrire",
+                    footer: "Les utilisateurs enregistrés ne sont pas soumis aux limites de requêtes et bénéficient d'un accès prioritaire pendant les périodes de pointe."
+                },
+                de: {
+                    title: "Dienst Vorübergehend Nicht Verfügbar",
+                    message: "Unsere Dienste erleben derzeit eine ungewöhnlich hohe Nachfrage. Wir entschuldigen uns für die Unannehmlichkeiten.",
+                    signin: "Anmelden",
+                    register: "Registrieren",
+                    footer: "Registrierte Benutzer unterliegen keinen Anfragebeschränkungen und erhalten priorisierten Zugang zu Stoßzeiten."
+                },
+                it: {
+                    title: "Servizio Temporaneamente Non Disponibile",
+                    message: "I nostri servizi stanno attualmente riscontrando una domanda insolitamente alta. Ci scusiamo per eventuali inconvenienti.",
+                    signin: "Accedi",
+                    register: "Registrati",
+                    footer: "Gli utenti registrati non sono soggetti a limiti di richiesta e hanno accesso prioritario nei periodi di picco."
+                },
+                pt: {
+                    title: "Serviço Temporariamente Indisponível",
+                    message: "Nossos serviços estão enfrentando uma demanda anormalmente alta. Pedimos desculpas por qualquer inconveniência.",
+                    signin: "Entrar",
+                    register: "Registrar",
+                    footer: "Usuários registrados não estão sujeitos a limites de solicitações e têm acesso prioritário nos horários de pico."
+                },
+                nl: {
+                    title: "Dienst Tijdelijk Niet Beschikbaar",
+                    message: "Onze diensten ervaren momenteel ongewoon hoge vraag. Onze excuses voor eventuele ongemakken.",
+                    signin: "Inloggen",
+                    register: "Registreren",
+                    footer: "Geregistreerde gebruikers zijn niet onderworpen aan aanvraaglimieten en krijgen prioriteitsaccess tijdens piektijden."
+                },
+                ru: {
+                    title: "Сервис Временно Недоступен",
+                    message: "Наши службы в настоящее время испытывают необычно высокую нагрузку. Приносим извинения за неудобства.",
+                    signin: "Войти",
+                    register: "Регистрация",
+                    footer: "Зарегистрированные пользователи не подвергаются ограничениям запросов и получают приоритетный доступ в часы пик."
+                },
+                ja: {
+                    title: "サービス一時停止中",
+                    message: "現在、通常よりも多くのアクセスがあり、ご不便をおかけしておりますことをお詫び申し上げます。",
+                    signin: "ログイン",
+                    register: "登録",
+                    footer: "登録ユーザーはリクエスト制限の対象外であり、ピーク時間中は優先的にアクセスできます。"
+                },
+                zh: {
+                    title: "服务暂时不可用",
+                    message: "我们的服务目前正经历异常高的访问量。对于给您带来的不便，我们深表歉意。",
+                    signin: "登录",
+                    register: "注册",
+                    footer: "注册用户不受请求限制，高峰时段可优先访问。"
+                },
+                ko: {
+                    title: "서비스 일시 중단",
+                    message: "현재 예외적으로 많은 요청이 있어 불편을 드려 죄송합니다.",
+                    signin: "로그인",
+                    register: "회원가입",
+                    footer: "등록된 사용자는 요청 제한을 받지 않으며 피크 시간대에 우선 접근이 가능합니다."
+                },
+                ar: {
+                    title: "الخدمة غير متاحة مؤقتًا",
+                    message: "خدماتنا تشهد حاليًا طلبًا غير معتاد. نعتذر عن أي إزعاج.",
+                    signin: "تسجيل الدخول",
+                    register: "التسجيل",
+                    footer: "المستخدمون المسجلون ليسوا خاضعين لحدود الطلبات ويحصلون على وصول أولوي خلال فترات الذروة."
+                },
+                hi: {
+                    title: "सेवा अस्थायी रूप से अनुपलब्ध",
+                    message: "हमारी सेवाएं वर्तमान में असामान्य रूप से उच्च मांग का अनुभव कर रही हैं। किसी असुविधा के लिए हम क्षमा चाहते हैं।",
+                    signin: "साइन इन",
+                    register: "पंजीकरण",
+                    footer: "पंजीकृत उपयोगकर्ता अनुरोध सीमाओं के अधीन नहीं हैं और पीक समय के दौरान प्राथमिकता पहुंच प्राप्त करते हैं."
+                },
+                tr: {
+                    title: "Hizmet Geçici Olarak Kullanılamaz",
+                    message: "Hizmetlerimiz şu anda olağandışı yüksek talep görüyor. Herhangi bir rahatsızlıktan dolayı özür dileriz.",
+                    signin: "Giriş Yap",
+                    register: "Kayıt Ol",
+                    footer: "Kayıtlı kullanıcılar istek sınırlamalarına tabi değildir ve yoğun saatlerde öncelikli erişim elde eder."
+                },
+                pl: {
+                    title: "Usługa Tymczasowo Niedostępna",
+                    message: "Nasze usługi aktualnie doświadczają niezwykle wysokiego popytu. Przepraszamy za wszelkie niedogodności.",
+                    signin: "Zaloguj się",
+                    register: "Zarejestruj się",
+                    footer: "Zarejestrowani użytkownicy nie podlegają limitom zapytań i mają priorytetowy dostęp w godzinach szczytu."
+                },
+                sv: {
+                    title: "Tjänsten Tillfälligt Otillgänglig",
+                    message: "Våra tjänster upplever för närvarande ovanligt hög efterfrågan. Vi ber om ursäkt för eventuella olägenheter.",
+                    signin: "Logga In",
+                    register: "Registrera",
+                    footer: "Registrerade användare omfattas inte av begärandegränser och får prioritetsåtkomst under topptider."
+                },
+                da: {
+                    title: "Tjeneste Midlertidigt Utilgængelig",
+                    message: "Vores tjenester oplever i øjeblikket usædvanlig høj efterspørgsel. Vi undskylder for eventuelle ulemper.",
+                    signin: "Log Ind",
+                    register: "Tilmeld",
+                    footer: "Registrerede brugere er ikke underlagt anmodningsgrænser og får prioriteret adgang i spidsbelastningsperioder."
+                },
+                no: {
+                    title: "Tjeneste Midlertidig Utilgjengelig",
+                    message: "Våre tjenester opplever for tiden uvanlig høy etterspørsel. Vi beklager eventuelle ulemper.",
+                    signin: "Logg Inn",
+                    register: "Registrer",
+                    footer: "Registrerte brukere er ikke underlagt forespørselsgrenser og får prioritert tilgang i toppperioder."
+                },
+                fi: {
+                    title: "Palvelu Väliaikaisesti Ei Käytettävissä",
+                    message: "Palvelumme kokee tällä hetkellä poikkeuksellisen korkean kysynnän. Pahoitamme mahdollisia haittoja.",
+                    signin: "Kirjaudu Sisään",
+                    register: "Rekisteröidy",
+                    footer: "Rekisteröidyt käyttäjät eivät ole rajoituspyyntöjen alaisia ja saavat etuoikeutetun pääsyn huippuaikoina."
+                },
+                cs: {
+                    title: "Služba Dočasně Nedostupná",
+                    message: "Naše služby v současné době zaznamenávají neobvykle vysokou poptávku. Omlouváme se za jakékoli nepříjemnosti.",
+                    signin: "Přihlásit Se",
+                    register: "Registrovat",
+                    footer: "Registrovaní uživatelé nepodléhají limitům požadavků a mají prioritní přístup v době špičky."
+                }
+            };
+
+            var getLanguage = function () {
+                var lang = navigator.language || navigator.userLanguage || 'en';
+                lang = lang.toLowerCase();
+
+                if (translations[lang]) {
+                    return lang;
+                }
+
+                var baseLang = lang.split('-')[0];
+                if (translations[baseLang]) {
+                    return baseLang;
+                }
+
+                var browserLangs = navigator.languages || [];
+                for (var i = 0; i < browserLangs.length; i++) {
+                    var l = browserLangs[i].toLowerCase();
+                    if (translations[l]) {
+                        return l;
+                    }
+                    var bl = l.split('-')[0];
+                    if (translations[bl]) {
+                        return bl;
+                    }
+                }
+
+                return 'en';
+            };
+
+            var lang = getLanguage();
+            var t = translations[lang] || translations['en'];
+
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('message').textContent = t.message;
+            document.getElementById('signin-btn').textContent = t.signin;
+            document.getElementById('register-btn').textContent = t.register;
+            document.getElementById('footer').textContent = t.footer;
+            document.documentElement.lang = lang;
+        })();
+    </script>
+</body>
+
+</html>

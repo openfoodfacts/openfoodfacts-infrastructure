@@ -152,10 +152,15 @@
     tasks_from: enable_service.yml
   vars:
     git_based_configs__service_name: "stunnel@{{ (item | basename | split('.'))[0] }}.service"
-    git_based_configs__service_conf_files: "{{ ['/etc/stunnel/' + (item | basename)] }}"
+    # config files = conf + psk files
+    git_based_configs__service_conf_files: |
+      {{
+        ['/etc/stunnel/' + (item | basename)] +
+        ( stunnel__psk_secrets | map(attribute='file') | map('regex_replace', '^(.*)$', '/etc/stunnel/psk/\1'))
+      }}
   loop: "{{ _stunnel__conf_files }}"
 
-- name: Get stunnel address that should be public (client = no)
+- name: Get stunnel address that should be public (not served only on localhost)
   ansible.builtin.set_fact:
     # search accept in all sections
     # where client is no
@@ -168,24 +173,40 @@
           ansible.builtin.dict2items |
           map(attribute="value") |
           selectattr("client", "defined") |
-          selectattr("client", "eq", "no") |
-          selectattr("accept", "defined") |
-          rejectattr("accept", "match", ".*127\.\0\.0\.1.*") |
+          rejectattr("accept", "match", ".*127\.0\.0\.1.*") |
           map(attribute="accept")
         )
       }}
   loop: "{{ _stunnel__conf_dicts }}"
 
 # If we have "client = no" entries, check that corresponding ports are opened in iptables
-# If the task is marked as changed, make sure that a `iptables_public_ports`
+# If the task is marked as failed, make sure that a `iptables_public_ports`
 # variable is defined for the host including ports
 # and re-run the configure.yml playbook to apply the changes.
-- name: Assert public ports are open
+# TODO: maybe add a variable if we need some exceptions ?
+- name: Check public ports firewall rules
   ansible.builtin.iptables:
     chain: INPUT
     protocol: tcp
     destination_port: "{{ (item | split(':'))[-1] }}"
     jump: ACCEPT
     state: present
+  check_mode: true
   loop: |
     {{ _stunnel__public_addresses }}
+  register: _stunnel__public_ports_iptables_check
+
+- name: Assert public ports are opened in iptables
+  ansible.builtin.assert:
+    that:
+      - not _stunnel__public_ports_iptables_check.changed
+    fail_msg: |
+      Some ports that needs to be open seems closed in firewall.
+      Modify your configuration and rerun this playbook.
+      Already opened ports:
+      {{ _stunnel__public_ports_iptables_check.results | rejectattr("changed") | map(attribute="item") | join(", ") }}
+      Ports that needs to be opened:
+      {{ _stunnel__public_ports_iptables_check.results | selectattr("changed") | map(attribute="item") | join(", ") }}
+    success_msg: |
+      Ports are opened in firewall:
+      {{ _stunnel__public_ports_iptables_check.results | rejectattr("changed") | map(attribute="item") | join(", ") }}

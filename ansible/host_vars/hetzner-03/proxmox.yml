@@ -11,6 +11,14 @@ proxmox_node__zfs_pools:
 proxmox_node__zfs_filesystems:
   - name: rpool/pve
   - name: rpool/backups
+  - name: rpool/virtiofs
+    properties:
+      # this is mandatory for virtiofs to work well in linux
+      acltype: posixacl
+  - name: rpool/virtiofs/qm-202
+  - name: rpool/virtiofs/qm-202/docker-volumes
+  # data of off-query postgres replication
+  - name: rpool/virtiofs/qm-202/docker-volumes/off-query-replica_dbdata
 
 proxmox_node__pve_storages:
   - name: rpool-pve

@@ -1,0 +1,7 @@
+---
+docker__volumes_virtiofs: "qm-{{ proxmox_vm_id }}-virtiofs-docker-volumes"
+continuous_deployment__ssh_public_keys:
+  # off query replica
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE5ppw7bLjal2ZRvluiM3rFRa+oJtO2iSGkchHkR9s0X off-query-replica-org@hetzner-docker-prod"
+  # filebeat
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEW90UgK/fmgXDd5QK6An4p0Tgb/EWh3G7bRR7mIyuZY root+off-filbeat-hetzner-docker-prod@openfoodfacts.org"

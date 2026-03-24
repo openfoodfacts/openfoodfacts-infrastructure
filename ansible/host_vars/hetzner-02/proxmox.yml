@@ -96,7 +96,23 @@ proxmox_containers__containers:
     disk:
       storage: rpool-pve
       size: 32
-
+  - id: 112
+    hostname: hetzner-stunnel-client
+    features:
+      - nesting=1
+    cores: 2
+    memory: "{{ 2 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.12.1.112/16
+        gw: 10.12.0.2
+        bridge: vmbr1
+        ip6: fded:b8d9:a973:1:2::112/64
+        gw6: "fded:b8d9:a973:1:2::"
+    disk:
+      storage: rpool-pve
+      size: 32
 # proxmox_node__partitions:
 # - name: nvme0n1p5
 #     device: "{{ item.device }}"

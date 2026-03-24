@@ -11,23 +11,45 @@ map $uri $response_size {
 	"~*\.full\.jpg" big_size;
 	"~*/\d+\.jpg" big_size;
 }
-map $response_size $big_rate_key {
+map $response_size $big_rate_key_pre {
 	default $binary_remote_addr;
 	small_size '';  # skipped
 }
-map $response_size $small_rate_key {
+map $response_size $small_rate_key_pre {
 	default $binary_remote_addr;
 	big_size '';  # skipped
 }
+geo $rate_limit_whitelist {
+  default 0;
+  # CIDR in the list below are not limited
+  # images.openfoodfacts.org
+  217.182.132.133/24 1;
+  # internal trafic
+  10.1.0.0/16 1;
+  # moji
+  2a06:c484:5::200 1;
+  91.175.166.38 1;
+  # robotoff
+  45.147.209.254 1;
+}
+map $rate_limit_whitelist $big_rate_key {
+  default $big_rate_key_pre;
+  1 ''; # deactivate
+}
+map $rate_limit_whitelist $small_rate_key {
+  default $small_rate_key_pre;
+  1 ''; # deactivate
+}
+
 
 # rate limit, differentiate between small an full req
 # small (loading search page: 100 product images + burst for assets) * 60
 limit_req_zone $small_rate_key zone=small_size:10m rate=6000r/m;
 # some full image per minutes should be enough
-limit_req_zone $big_rate_key zone=big_size:10m rate=100r/m;
+limit_req_zone $big_rate_key zone=big_size:10m rate=200r/m;
 
 # DRY RUN until we decide to activate it
-limit_req_dry_run on;
+limit_req_dry_run off;
 
 # use a clear status
 limit_req_status 429;

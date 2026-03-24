@@ -1,0 +1,7 @@
+---
+# where is the configurations git root path (eg /opt/openfoodfacts-infrastructure/)
+memcached__configurations_git_root_path: ""
+
+memcached__git_config_path: "{{ memcached__configurations_git_root_path }}/confs/{{ inventory_hostname }}/memcached"
+memcached__git_config_path_systemd: "{{ memcached__configurations_git_root_path }}/confs/{{ inventory_hostname }}/systemd/system"
+memcached__exporter_version: "0.15.5"

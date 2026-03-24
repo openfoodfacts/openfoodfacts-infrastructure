@@ -5,6 +5,16 @@ Sysadmin repository for the various parts of the Open Food Facts infrastructure.
 * We have a status page at https://status.openfoodfacts.org/, driven by https://github.com/openfoodfacts/openfoodfacts-upptime
 * We also have a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring)
 
+For the big picture, the Open Food Facts infrastructure is supporting the following major components.
+<img width="1926" height="1078" alt="image" src="https://github.com/user-attachments/assets/e882321e-1c94-4402-adb4-25f23f1eac74" />
+
+## Documentation
+
+See our [Introduction](./docs/index.md),
+also on [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
+
+Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
+
 ## Incident logs
 
 We started logging incidents by server:
@@ -16,12 +26,6 @@ We started logging incidents by server:
 * [ovh2 incident logs](./docs/logs-ovh2.md)
 * [ovh3 incident logs](./docs/logs-ovh3.md)
 
-## Documentation
-
-See our [Introduction](./docs/index.md),
-also on [Github Page](https://openfoodfacts.github.io/openfoodfacts-infrastructure/)
-
-Also look at all install and post-mortem reports in [docs/reports](./docs/reports/)
 
 <details><summary><h2>Monthly meetings</h2></summary>
 

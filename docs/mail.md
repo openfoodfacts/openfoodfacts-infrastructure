@@ -30,7 +30,7 @@ We have a DKIM record configured for the Brevo domain in the DNS, we also take i
 They use the **hello.openfoodfacts.org** subdomain.
 
 You can find the public key if you are logged as admin in Brevo, in the top right corner menu, going in "Senders, domains and dedicated IPs".
-Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records. 
+Clicking on domains, and then the hello.openfoodfacts.org domain, you can see the needed DNS records.
 
 ## Proxmox Mail Gateway
 
@@ -178,16 +178,10 @@ Run: `dpkg-reconfigure exim4-config`:
 
 ### Testing
 
-To test that mail is well configured, you can use:
+To test that mail is well configured, you can use (with the `bsd-mailx` package installed [^bsd-mailx]):
 
 ```bash
-echo "Subject: sendmail test xxx" | sudo sendmail -f alex@openfoodfacts.org -v root
-```
-
-or, with the `bsd-mailx` package installed [^bsd-mailx]:
-
-```bash
-echo "test message from xxx" |mailx -s "test root xxx" -r alex@openfoodfacts.org root
+echo "test message from $HOSTNAME at $(date)"|mailx -s "test root from $HOSTNAME at $(date)"  -r alex@openfoodfacts.org root
 ```
 
 If you do not receive the email on expected group, here are some checks:
