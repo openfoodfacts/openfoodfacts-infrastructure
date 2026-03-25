@@ -383,7 +383,7 @@ $memd_servers = [ "10.13.1.102:11211" ];
 I also changed `products` and `images` location as we moved them to `/mnt/opff`
 (found using `find . -type l -print0|xargs -0 ls -l |grep -i mnt/off`)
 ```bash
-cd `/zfs-hdd/pve/subvol-115-disk-0/`
+cd /zfs-hdd/pve/subvol-115-disk-0/
 unlink srv/opff/products
 ln -s /mnt/opff/products srv/opff/products
 unlink srv/opff/html/images/products
@@ -438,11 +438,11 @@ TODO: gen feeds daily.
 
 Now we hurry:
 
-1. [DONE] on off2, stop opff container `pct shutdowm 118`
+1. [DONE] on off2, stop opff container `pct shutdown 118`
 1. [DONE] on off2, create a last snapshot:
   ```bash
   # mimic sanoid
-  SNAP_NAME=autosnap_$(date --utc +"%Y_%m_%d_%H:%M:%S")_hourly
+  SNAP_NAME=autosnap_$(date --utc +"%Y-%m-%d_%H:%M:%S")_hourly
   for dataset in zfs-hdd/pve/subvol-118-disk-0 zfs-hdd/opff{,/cache,/html_data}; \
   do \
     zfs snapshot $dataset@$SNAP_NAME; \
