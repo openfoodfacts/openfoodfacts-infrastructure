@@ -15,7 +15,18 @@ class FilterModule:
         flatten that element, repeating the rest of the list
         """
         result = []
-        for item in data:
+        for num, item in enumerate(data):
+            if not isinstance(item, list):
+                raise AnsibleFilterError(
+                    "List number (%d) is not a list",
+                    num
+                )
+            if len(item) <= indice:
+                raise AnsibleFilterError(
+                    "List number (%d) of the list as two few items (%d)",
+                    num,
+                    len(item)
+                )
             for subitem in item[indice]:
                 newitem = list(item)
                 newitem[indice] = subitem

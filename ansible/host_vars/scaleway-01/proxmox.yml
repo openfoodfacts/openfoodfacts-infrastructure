@@ -68,7 +68,7 @@ proxmox_containers__containers:
     memory: "{{ 12 * 1024 }}"
     netif:
       net0:
-        name: eth10
+        name: eth0
         ip: 10.13.1.115/16
         gw: 10.13.0.1
         bridge: vmbr10

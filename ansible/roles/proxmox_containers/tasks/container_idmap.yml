@@ -18,14 +18,14 @@
   loop: ["u", "g"]
   register: _proxmox_containers__sub_id_content
 
-- name: Normalize idmap, to eas filtering
+- name: Normalize idmap, to ease filtering
   ansible.builtin.set_fact:
     _proxmox_containers__idmap_normalized: |
       {{
         (_proxmox_containers__idmap_normalized | default([]))
-        + [{"state": (item.name|default('present')), "content": item.content}]
+        + [{"state": (item.state|default('present')), "content": item.content}]
       }}
-  loop: "{{ _container.idmap }}"
+  loop: "{{ _container.idmap | default([]) }}"
 
 - name: Verify /etc/subuid /etc/subgid coherence with settings
   ansible.builtin.set_fact:
