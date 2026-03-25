@@ -255,8 +255,6 @@ While `images` and `products` were not mounted under `/mnt/off` on off2,
 we decided to mount them under `/mnt/opff` in the new container,
 to be more coherent with what we did on `users` and `orgs`.
 
-We might want to change that to simplify (mount all under `/mnt/opff`)
-
 ### User mapping
 
 We need specific user mapping in the container, to keep ids above 1000 the same.
