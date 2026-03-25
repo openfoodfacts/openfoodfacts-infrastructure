@@ -53,7 +53,17 @@ sudo systemctl restart superset
 
 **Verify that everything is working correctly after the update.**
 
+### Testing superset with a small database
 
+You can create a small test database to verify that Superset is working correctly after an update.
+
+You can upload a small CSV file in the SQL Lab:
+```csv
+date,time,flag
+2025,12:09,yes
+2026,13:10,no
+2027,14:11,yes
+```
 
 ### Admin password lost
 
@@ -334,7 +344,15 @@ User=off
 Group=off
 WorkingDirectory=/opt/superset
 Environment="SUPERSET_CONFIG_PATH=/opt/superset/superset_config.py"
-ExecStart=/opt/superset/venv/bin/gunicorn -w 16 -k gevent --worker-connections 1000 --timeout 300 --max-requests 1000 --max-requests-jitter 50 -b 127.0.0.1:8088 "superset.app:create_app()"
+ExecStart=/opt/superset/venv/bin/gunicorn \
+    --workers 16 \ 
+    --worker-class gevent \
+    --worker-connections 1000 \
+    --timeout 300 \
+    --max-requests 1000 \
+    --max-requests-jitter 50 \
+    --bind 127.0.0.1:8088 \
+    "superset.app:create_app()"
 Restart=always
 
 [Install]
@@ -726,16 +744,18 @@ sudo systemctl restart superset
 
 Users will now see a "Login with keycloak" button on the login page.
 
+
+
 #### Redis installation for caching (not yet installed)
 
 Install Redis and Python bindings:
 
 ```bash
 sudo apt install -y redis-server
-sudo systemctl enable redis
-sudo systemctl start redis
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
 source /opt/superset/venv/bin/activate
-pip install redis
+uv pip install redis
 ```
 
 Add the following lines to the `superset_config.py` file:
@@ -774,6 +794,8 @@ FILTER_STATE_CACHE_CONFIG = {
 }
 ```
 
+
+
 #### Celery installation for async queries and alerts
 
 This needs to be evaluated.
@@ -782,7 +804,7 @@ Install Celery and Python bindings:
 
 ```bash
 source /opt/superset/venv/bin/activate
-pip install celery[redis] flower
+uv pip install celery[redis] flower
 ```
 
 Add the following lines to the `superset_config.py` file:
@@ -809,6 +831,8 @@ FEATURE_FLAGS = {
     'ENABLE_SCHEDULED_QUERIES': True,
 }
 ```
+
+
 
 #### Running Celery workers
 To run the Celery worker and beat scheduler, create systemd service files:
@@ -861,11 +885,15 @@ systemctl start superset-celery-beat
 
 ```
 
+
+
 ## Reading Parquet Files
 
 Superset can read Parquet files using DuckDB, which provides excellent performance for analytical queries on Parquet files.
 
-#### Install DuckDB Support
+
+
+### Install DuckDB Support
 
 ```bash
 sudo su off
@@ -910,26 +938,27 @@ exit
 ```
 
 Then in Superset:
-1. [Add database connection](https://sql.openfoodfacts.org/databaseview/list/) (select "other" and enter the following in the SQLAlchemy URI): `duckdb:////opt/superset/data/analytics.duckdb`
+1. [Add database connection](https://sql.openfoodfacts.org/databaseview/list/) (select "other" and enter the following in the SQLAlchemy URI): `duckdb:////opt/superset/data/analytics.duckdb?access_mode=read_only`
+    a. The read_only mode is important to prevent multi-access issues.
 2. Your view `products` will appear as a regular table
 3. Create datasets and charts as normal
 4. In SQL Lab, you can query Parquet files directly:
    ```sql
    -- Query a single Parquet file
-   SELECT * FROM read_parquet('data/file.parquet');
+   SELECT * FROM 'data/file.parquet';
    
    -- Query multiple Parquet files with wildcards
-   SELECT * FROM read_parquet('data/*.parquet');
+   SELECT * FROM 'data/*.parquet';
    
    -- Create a view for easier access
    CREATE VIEW my_data AS 
-   SELECT * FROM read_parquet('data/*.parquet');
+   SELECT * FROM 'data/*.parquet';
    ```
 
 Eg. in the [SQL Lab](https://sql.openfoodfacts.org/sqllab/), you can run:
 
 ```sql
-SELECT * FROM read_parquet('data/food.parquet');
+SELECT * FROM 'data/food.parquet';
 ```
 
 
@@ -938,6 +967,7 @@ SELECT * FROM read_parquet('data/food.parquet');
 - Use partitioned Parquet files for better query performance
 - DuckDB automatically uses column pruning and predicate pushdown
 - Consider creating aggregated views for frequently-used queries
+
 
 
 ## Syncing Parquet file
@@ -959,9 +989,24 @@ Add the following lines to run the sync scripts daily at 2am and 3am:
 0 3 * * * /opt/superset/parquet_sync.food.sh >> /opt/superset/superset_sync.log 2>&1
 ```
 
+### Recreate the DuckDB views after updating the Parquet files
+
+After the Parquet files are updated, you may want to recreate the DuckDB views to ensure they reflect the latest data. You can do this by running the `setup_duckdb.py` script again:
+
+```bash
+sudo su off
+cd /opt/superset
+source venv/bin/activate
+# CREATE OR REPLACE VIEW food_products AS SELECT * FROM '/opt/superset/data/food.parquet';
+# CREATE OR REPLACE VIEW food_prices AS SELECT * FROM '/opt/superset/data/prices.parquet';
+python setup_duckdb.py
+deactivate
+exit
+```
 
 
 ## Common Warnings and Issues
+
 
 ### Warning: "Unable to load SQLAlchemy dialect metricflow: No module named 'python_graphql_client'"
 
@@ -979,6 +1024,7 @@ sudo systemctl restart superset
 ```
 
 Or just ignore it - it doesn't affect Superset's functionality.
+
 
 ### Other common warnings you can ignore:
 - `Unable to load SQLAlchemy dialect [dialect_name]` - These are warnings about optional database drivers
