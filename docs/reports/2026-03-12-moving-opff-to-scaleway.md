@@ -497,12 +497,23 @@ After migration:
     `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
   * jobs/configure for opff:
     `ansible-playbook jobs/configure.yml -l opff`
-* remove the backup datasets at ovh3
-* add backups of opff data from scaleway-01 on ovh3
-* put back the TTL for domain to a normal level
+* [DONE] remove the backup datasets at ovh3
+* [DONE]add backups of opff data from scaleway-01 on ovh3
+* [DONE] put back the TTL for domain to a normal level
 
 Later:
 * on off2: remove the pct 118: `pct remove 118`
+
+Note: while destroying `rpool/opff/products` on OVH3, I had:
+```
+cannot destroy snapshot rpool/opff/products@autosnap_2024-10-26_00:04:32_daily: dataset is busy
+...
+```
+on different dataset, this because there were "holds" see https://openzfs.github.io/openzfs-docs/man/v2.0/8/zfs-hold.8.html. Those datasets had a hold with tag backup.
+I just removed them all, with 
+```bash
+for SNAP in $(zfs list -t snap rpool/opff/products -o name|grep -v NAME); do zfs release backup $SNAP; done
+```
 
 ## Annex
 
