@@ -6,7 +6,7 @@
 - name: Add idmap to container configuration
   ansible.builtin.lineinfile:
     path: "/etc/pve/lxc/{{ _container.id }}.conf"
-    regexp: "lxc\\.idmap: *{{ item.content }}"
+    regexp: "^lxc\\.idmap:\\s+{{ item.content | regex_replace(' +', '\\\\s+') }}\\s*$"
     line: "lxc.idmap: {{ item.content }}"
     state: "{{ item.state | default('present') }}"
   loop: "{{ _container.idmap | default([]) }}"

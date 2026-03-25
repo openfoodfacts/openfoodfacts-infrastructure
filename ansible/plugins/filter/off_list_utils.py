@@ -1,4 +1,4 @@
-""""
+"""
 Some filters useful to avoid complex expressions in specific case
 """
 from ansible.errors import AnsibleFilterError

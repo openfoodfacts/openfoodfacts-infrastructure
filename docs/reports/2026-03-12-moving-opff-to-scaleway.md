@@ -2,7 +2,7 @@
 
 We are migrating all our instance from off1/off2 to scaleway new servers.
 
-We already moved [mongodb](./2026-01-15-moving-mongodb-to-scaleway.md), [redis](./2026-02-26-moving-redis-to-scaleway.md) [postgresql](./2026-02-26-moving-redis-to-scaleway.md) and installed a [new memcached instance](https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/610/changes) on scaleway-02
+We already moved [mongodb](./2026-01-15-moving-mongodb-to-scaleway.md), [redis (and postgres backups)](./2026-02-26-moving-redis-to-scaleway.md) and installed a [new memcached instance](https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/610/changes) on scaleway-02
 
 We now want to move the first opff instance there.
 
@@ -353,9 +353,9 @@ unlink /zfs-hdd/pve/subvol-115-disk-0/etc/systemd/system/multi-user.target.wants
 Note: As we are working on a clone of the system disk, no need to remove that afterwards,
 at migration time, we will use the new opff snapshot.
 
-We are ready to start the container: `pct start 155`
+We are ready to start the container: `pct start 115`
 
-Note: in reality I had to run `pct start 155 --debug` to debug my errors before being ables to start it.
+Note: in reality I had to run `pct start 115 --debug` to debug my errors before being ables to start it.
 
 Then I `pct enter 115` to see if services are ok with `systemctl status apache2.service nginx.service redis_listener@opff.service`.
 

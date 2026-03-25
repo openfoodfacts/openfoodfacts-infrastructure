@@ -82,11 +82,21 @@ class FilterModule:
         return result
 
     def proxmox_subuid_compare(self, data, id_type, subuid_content, user="root"):
-        """Compare lxc.idmap settings to /etc/subuid or subgid
+        """Compare lxc.idmap settings to /etc/subuid or /etc/subgid.
+
+        Each idmap entry is expected to look like ``"u 0 100000 999"`` or
+        ``"g 0 100000 999"``, where the 3rd and 4th fields are the host-id
+        (``start_id``) and the number of ids (``num_ids``) respectively.
+        Internally, this function represents these as half-open intervals
+        ``[start_id, start_id + num_ids)`` when comparing to existing entries,
+        and converts them back to ``start_id`` and ``num_ids`` when generating
+        lines for ``/etc/subuid`` or ``/etc/subgid``. Ranges are therefore
+        treated as half-open intervals to avoid off-by-one errors.
 
         :param data: list of idmap settings, like "u 0 100000 999"
-        :param id_type: 'u' or 'g' if we care about user or gourp subuid
+        :param id_type: 'u' or 'g' if we care about user or group subuid/subgid
         :param subuid_content: the content of /etc/subuid or /etc/subgid
+        :param user: the user whose subuid/subgid ranges are being compared
 
         :return: a list of lines that should be added to the file
         """
@@ -102,27 +112,38 @@ class FilterModule:
         existing_entries.sort()
         entries_to_add = []
         for start_id, end_id in expected_entries:
-            # get the existing entry overlapping
-            corresponding = [
-                (candidate_start_id, candidate_end_id)
-                for candidate_start_id, candidate_end_id in existing_entries
-                if (
-                    (candidate_start_id <= start_id and candidate_end_id >= start_id)
-                    or (candidate_start_id <= end_id and candidate_end_id >= end_id)
+            # find existing entries that overlap this expected half-open range [start_id, end_id)
+            overlapping = [
+                (
+                    max(start_id, candidate_start_id),
+                    min(end_id, candidate_end_id),
                 )
+                for candidate_start_id, candidate_end_id in existing_entries
+                if candidate_end_id > start_id and candidate_start_id < end_id
             ]
-            if not corresponding:
+            # if nothing overlaps, the whole expected range is missing
+            if not overlapping:
                 entries_to_add.append((start_id, end_id))
-            if corresponding:
-                # check we don't have holes
-                # note: corresponding is already sorted
-                range_start, range_end = corresponding[0]
-                for candidate_start_id, candidate_end_id in corresponding[1:]:
-                    if candidate_start_id > range_end + 1:
-                        entries_to_add.append((range_end + 1, candidate_start_id - 1))
-                    range_end = max(range_end, candidate_end_id)
-                if range_end < end_id + 1:
-                    entries_to_add.append((range_end + 1, end_id))
+                continue
+            # normalize and sort the overlapping segments within [start_id, end_id)
+            overlapping = sorted(overlapping)
+            current_start = start_id
+            for covered_start, covered_end in overlapping:
+                # skip empty or fully redundant segments
+                if covered_end <= covered_start:
+                    continue
+                # any gap before this covered segment is a missing range
+                if covered_start > current_start:
+                    entries_to_add.append((current_start, covered_start))
+                # advance the current_start to the end of the covered segment
+                if covered_end > current_start:
+                    current_start = covered_end
+                # if we've already covered up to or beyond end_id, we can stop
+                if current_start >= end_id:
+                    break
+            # if there is a remaining tail gap, add it as missing
+            if current_start < end_id:
+                entries_to_add.append((current_start, end_id))
         entries_to_add.sort()
         # we could remove or merge entries, won't do it for now as it's not really probable
         lines_to_add = [
