@@ -26,7 +26,7 @@ class FilterModule:
         }
 
     @staticmethod
-    def _iter_fact_entries(fact_results: Iterable[Any]) -> Iterable[Dict[str, Any]]:
+    def _iter_zfs_fact_entries(fact_results: Iterable[Any]) -> Iterable[Dict[str, Any]]:
         for result in fact_results or []:
             if not isinstance(result, dict):
                 continue
@@ -45,6 +45,12 @@ class FilterModule:
 
     @staticmethod
     def _property_source(property_data: Any) -> Optional[str]:
+        """Extract source from a property payload returned by facts modules.
+
+        community.general facts payloads may expose source metadata as `source`,
+        `source_info`, or `source_code` depending on module/version/field shape.
+        We check in that order and return the first non-empty string.
+        """
         if isinstance(property_data, dict):
             for key in ("source", "source_info", "source_code"):
                 source = property_data.get(key)
@@ -54,6 +60,13 @@ class FilterModule:
 
     @staticmethod
     def _property_value(property_data: Any) -> Optional[str]:
+        """Extract a displayable value from a property payload.
+
+        Facts modules usually return property dictionaries with `value` (and
+        sometimes `raw`). We prefer `value` because it is the canonical field
+        and only fall back to `raw` when needed. Non-dict payloads are treated
+        as direct values.
+        """
         if isinstance(property_data, dict):
             if "value" in property_data:
                 value = property_data.get("value")
@@ -93,7 +106,7 @@ class FilterModule:
         sources_filter = set(allowed_sources)
         grouped_properties: Dict[str, Dict[str, str]] = {}
 
-        for entry in self._iter_fact_entries(fact_results):
+        for entry in self._iter_zfs_fact_entries(fact_results):
             zfs_name = entry.get("name")
             if not isinstance(zfs_name, str) or not zfs_name:
                 continue
