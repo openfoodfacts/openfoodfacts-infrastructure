@@ -1,0 +1,34 @@
+---
+- name: Install memcached package
+  ansible.builtin.apt:
+    pkg:
+      - memcached
+    state: present
+
+- name: Check if memcached config is the default one (not symlinked)
+  ansible.builtin.stat:
+    path: "/etc/memcached.conf"
+  register: _memcached__config_file
+
+- name: Remove eventual default memcached configuration
+  ansible.builtin.file:
+    path: "/etc/memcached.conf"
+    state: absent
+  when: |
+    not _memcached__config_file.stat.islnk
+
+- name: Symlink configurations files
+  git_based_config_symlinks:
+    src: "{{ memcached__git_config_path }}"
+    dst: "/etc/"
+
+- name: Enable and restart memcached service if needed
+  ansible.builtin.include_role:
+    name: git_based_configs
+    tasks_from: enable_service.yml
+  vars:
+    git_based_configs__service_name: "memcached.service"
+    git_based_configs__service_conf_files: ["/etc/memcached.conf"]
+
+- name: Install exporter
+  ansible.builtin.import_tasks: memcached_exporter.yml

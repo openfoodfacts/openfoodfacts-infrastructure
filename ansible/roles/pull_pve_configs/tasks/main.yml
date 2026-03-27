@@ -1,0 +1,45 @@
+---
+- name: Ensure local pulled_confs root exists
+  ansible.builtin.file:
+    path: "{{ pull_pve_configs__pulled_confs_root }}"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+
+- name: Find /etc/pve files
+  ansible.builtin.find:
+    paths: "{{ pull_pve_configs__source_dir }}"
+    file_type: file
+    recurse: true
+  register: pull_pve_configs__files
+
+- name: Read corosync configuration
+  ansible.builtin.slurp:
+    src: "{{ pull_pve_configs__corosync_conf_path }}"
+  register: pull_pve_configs__corosync_conf
+
+- name: Extract active cluster nodes from corosync nodelist
+  ansible.builtin.set_fact:
+    pull_pve_configs__active_nodes: >-
+      {{ (pull_pve_configs__corosync_conf.content | b64decode)
+         | pull_pve_configs_extract_active_nodes }}
+
+- name: Filter /etc/pve files to exclude sensitive paths
+  ansible.builtin.set_fact:
+    pull_pve_configs__filtered_files: >-
+      {{ pull_pve_configs__files.files
+         | pull_pve_configs_filter_paths(
+             pull_pve_configs__exclude_regexes,
+             pull_pve_configs__source_dir,
+             pull_pve_configs__active_nodes
+           ) }}
+
+- name: Fetch /etc/pve files
+  ansible.builtin.fetch:
+    src: "{{ item.path }}"
+    dest: "{{ pull_pve_configs__pulled_confs_root }}"
+    flat: false
+  loop: "{{ pull_pve_configs__filtered_files }}"
+  loop_control:
+    label: "{{ item.path }}"

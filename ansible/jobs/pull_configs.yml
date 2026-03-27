@@ -1,0 +1,7 @@
+---
+- name: Pull proxmox cluster config files
+  hosts: hetzner-01:scaleway-01
+  gather_facts: false
+  become: true
+  roles:
+    - pull_pve_configs

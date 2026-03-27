@@ -1,0 +1,12 @@
+[Unit]
+Description=Memcached Prometheus Exporter
+Documentation=https://github.com/prometheus/memcached_exporter
+After=network.target memcached.service
+
+[Service]
+Restart=on-failure
+User=prometheus
+ExecStart=/usr/local/bin/memcached_exporter
+
+[Install]
+WantedBy=multi-user.target

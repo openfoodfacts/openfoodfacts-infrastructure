@@ -1,0 +1,7 @@
+# <file system> <mount point> <type> <options> <dump> <pass>
+proc /proc proc defaults 0 0
+
+213.36.253.208:/zfs-hdd/off/orgs /mnt/nfs/off/orgs nfs nfsvers=4.2,proto=tcp,port=2049 0 0
+213.36.253.208:/zfs-hdd/off/images /mnt/nfs/off/images nfs nfsvers=4.2,proto=tcp,port=2049 0 0
+213.36.253.208:/zfs-hdd/off/users /mnt/nfs/off/users nfs nfsvers=4.2,proto=tcp,port=2049 0 0
+213.36.253.208:/zfs-nvme/off/products /mnt/nfs/off/products nfs nfsvers=4.2,proto=tcp,port=2049 0 0

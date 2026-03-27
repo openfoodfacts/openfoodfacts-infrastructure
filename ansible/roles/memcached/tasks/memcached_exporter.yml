@@ -1,0 +1,67 @@
+# Installing memcached prometheus exporter
+---
+- name: Get the archive of the memcached exporter from github
+  ansible.builtin.get_url:
+    url: >-
+      https://github.com/prometheus/memcached_exporter/releases/download/v{{
+        memcached__exporter_version
+      }}/memcached_exporter-{{
+        memcached__exporter_version
+      }}.linux-amd64.tar.gz
+    dest: /tmp/memcached_exporter-{{ memcached__exporter_version }}.tar.gz
+    mode: "u=rw,g=r,o=r"
+
+  register: _memcached__exporter_archive_download
+
+- name: Unpack the binary from archive
+  ansible.builtin.unarchive:  # noqa: no-handler
+    remote_src: true
+    src: "{{ _memcached__exporter_archive_download.dest }}"
+    include:
+      - memcached_exporter-{{ memcached__exporter_version }}.linux-amd64/memcached_exporter
+    dest: /tmp/
+  when: |
+    _memcached__exporter_archive_download.changed
+
+- name: Install memcached exporter binary
+  ansible.builtin.copy:  # noqa: no-handler
+    remote_src: true
+    src: "/tmp/memcached_exporter-{{ memcached__exporter_version }}.linux-amd64/memcached_exporter"
+    dest: /usr/local/bin
+    mode: "u=rwx,g=rx,o=rx"
+  when: |
+    _memcached__exporter_archive_download.changed
+
+- name: Symlink systemd service definition using git_based_config
+  git_based_config_symlinks:
+    src: "{{ memcached__git_config_path_systemd }}"
+    dst: "/etc/systemd/system"
+  notify: Reload systemd
+
+- name: Ensure prometheus group exists
+  ansible.builtin.group:
+    name: prometheus
+    system: true
+    state: present
+
+- name: Ensure prometheus user exists
+  ansible.builtin.user:
+    # we mimic what debian packages do:
+    # adduser --quiet --system --home /var/lib/prometheus --no-create-home \
+    # --group --gecos "Prometheus daemon" prometheus
+    name: prometheus
+    comment: "Prometheus daemon"
+    system: true
+    create_home: false
+    home: /var/lib/prometheus
+    shell: /usr/sbin/nologin
+    group: prometheus
+    state: present
+
+- name: Enable and restart memcached exporter service if needed
+  ansible.builtin.include_role:
+    name: git_based_configs
+    tasks_from: enable_service.yml
+  vars:
+    git_based_configs__service_name: "prometheus-memcached-exporter.service"
+    git_based_configs__service_conf_files: []

@@ -1,4 +1,4 @@
-# 2025-01-15 Moving redis to scaleway
+# 2025-02-26 Moving redis to scaleway
 
 We have [already moved MongoDB service to scaleway](./2026-01-15-moving-mongodb-to-scaleway.md)
 and as a byproduct,
@@ -214,6 +214,13 @@ I did the same on Moji, using docker prod 2 to test it.
    - stop redis container on off2
    - celebrate :tada:
 
+
+## POST-MORTEM note: openfoodfacts-auth forgotten
+
+One week after the change, I realized that openfoodfacts-auth was using redis,
+but I forgot to change its configuration during migration…
+
+This is now done…
 
 ## Task list
 2. [DONE]~~clone~~ test rsync prod redis dataset backup and use it as docker volume dataset
