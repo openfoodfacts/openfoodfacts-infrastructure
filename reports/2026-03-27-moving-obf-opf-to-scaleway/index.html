@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2023-07-off-reinstall--prod-files-diff/">
+        <link rel="prev" href="../2026-03-12-moving-opff-to-scaleway/">
       
-      
-        <link rel="next" href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2023-08-31 OFF2 products snapshots clean - Open Food Facts Infrastructure documentation</title>
+        <title>2026-03-27 moving obf and opf to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-08-31-off2-products-snapshots-clean" class="md-skip">
+        <a href="#2026-03-27-moving-obf-and-opf-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-08-31 OFF2 products snapshots clean
+              2026-03-27 moving obf and opf to scaleway
             
           </span>
         </div>
@@ -3358,37 +3356,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2023-08-31 OFF2 products snapshots clean
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-08-31-off2-products-snapshots-clean/" class="md-nav__link">
         
   
   
@@ -3404,59 +3375,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#modifying-the-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Modifying the script
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#purging-snapshots-for-opf-and-obf" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Purging snapshots for opf and obf
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removing-atime" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Removing atime
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6238,10 +6156,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-03-27-moving-obf-opf-to-scaleway/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-27 moving obf and opf to scaleway
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6257,6 +6202,126 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#procedure-for-obf-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure for OBF migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedure for OBF migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedure-for-opf-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure for OPF migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedure for OPF migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-container_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-migration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6296,35 +6361,102 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#modifying-the-script" class="md-nav__link">
+  <a href="#procedure-for-obf-migration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Modifying the script
+        Procedure for OBF migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedure for OBF migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing container
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#purging-snapshots-for-opf-and-obf" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-migration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purging snapshots for opf and obf
+        Preparing Migration
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#removing-atime" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Removing atime
+        Migration
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedure-for-opf-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure for OPF migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedure for OPF migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-container_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-migration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6345,7 +6477,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2023-08-31-off2-products-snapshots-clean.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-03-27-moving-obf-opf-to-scaleway.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6353,32 +6485,266 @@
   
 
 
-<h1 id="2023-08-31-off2-products-snapshots-clean">2023-08-31 OFF2 products snapshots clean<a class="headerlink" href="#2023-08-31-off2-products-snapshots-clean" title="Permanent link">#</a></h1>
-<p>We had an inode alert problem on off2 <code>zfs-nvme</code> ZFS pool from munin (in fact this is not a problem in ZFS itself) which in facts showed a disk space error on <code>zfs-nvme</code> ZFS pool.</p>
-<p>Raphaël did some cleaning of snapshots to recover space.</p>
-<p>Christian Quest signals that the snapshot_purge script on off2 (running thanks to cron) was not working correctly since it was targeting <code>zfs-hdd</code> instead off <code>zfs-nvme</code> for <code>off/products</code>.
-I forgot to change that when I moved the dataset to zfs-nvme during <a href="../2023-07-off2-off-reinstall/">off install on off2</a>.</p>
-<p>It's also the occasion to stop it on opf and obf dataset and do some cleanup.</p>
-<h2 id="modifying-the-script">Modifying the script<a class="headerlink" href="#modifying-the-script" title="Permanent link">#</a></h2>
-<p>I modified the snapshot_purge script, rewrite it using a function, to be able to target the right ZFS pool depending on the dataset. I also removed the purge on opf and obf as we don't need it anymore (handled by sanoid).</p>
-<p>I then launched it manually to verify it was working as expected.</p>
-<h2 id="purging-snapshots-for-opf-and-obf">Purging snapshots for opf and obf<a class="headerlink" href="#purging-snapshots-for-opf-and-obf" title="Permanent link">#</a></h2>
-<p>It's also the occasion to do some cleanup.</p>
-<p>I used commands like:
-</p><div class="highlight"><pre><span></span><code><span class="c1"># verify</span>
-zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/opf/products<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'2023070[2-5]'</span>
-<span class="c1"># remove</span>
-zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/opf/products<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'2023070[2-5]'</span><span class="p">|</span>xargs<span class="w"> </span>--verbose<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>zfs<span class="w"> </span>destroy
+<h1 id="2026-03-27-moving-obf-and-opf-to-scaleway">2026-03-27 moving obf and opf to scaleway<a class="headerlink" href="#2026-03-27-moving-obf-and-opf-to-scaleway" title="Permanent link">#</a></h1>
+<p>We did <a href="../2026-03-12-moving-opff-to-scaleway/">move Open Pet Food Facts (opff) to scaleway</a>
+the next that we will move are Open Beauty Facts (obf)
+and Open Products Facts (opff).</p>
+<p>We will do it directly without primary tests
+as it is so close to OPF in term of migration.</p>
+<p>We already have the NFS shares available for data shared with off.
+We just have to create the containers and adjust file systems.</p>
+<h2 id="procedure-for-obf-migration">Procedure for OBF migration<a class="headerlink" href="#procedure-for-obf-migration" title="Permanent link">#</a></h2>
+<h3 id="preparing-container">Preparing container<a class="headerlink" href="#preparing-container" title="Permanent link">#</a></h3>
+<p>First create the 113 container named obf using ansible (see <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">proxmox - How to create a new container with ansible</a>)
+following what was done for 115 (opff).</p>
+<p>On scaleway-01:</p>
+<ol>
+<li>shutdown the container: <code>pct shutdown 113</code></li>
+<li>edit the container configuration to add mountpoints:
+   <code>mp0: /zfs-hdd/podata/obf,mp=/mnt/obf
+    mp1: /zfs-hdd/podata/obf/cache,mp=/mnt/obf/cache
+    mp2: /zfs-hdd/podata/obf/html_data,mp=/mnt/obf/html_data
+    mp3: /mnt/nfs/off/products,mp=/mnt/obf/products
+    mp4: /mnt/nfs/off/images,mp=/mnt/obf/images
+    mp5: /mnt/nfs/off/users,mp=/mnt/obf/users
+    mp6: /mnt/nfs/off/orgs,mp=/mnt/obf/orgs</code>
+    also added:
+    <code>lxc.cap.drop: "sys_rawio audit_read"</code></li>
+<li>remove the created disk: <code>zfs destroy zfs-hdd/pve/subvol-113-disk-0</code></li>
+</ol>
+<h3 id="preparing-migration">Preparing Migration<a class="headerlink" href="#preparing-migration" title="Permanent link">#</a></h3>
+<p>On OVH web console: modify TTL on openbeautyfacts.org and *.openbeautyfacts.org to 60s</p>
+<p>On your desktop prepare the following lines to add to your <code>/etc/hosts</code> (comment them until migration):</p>
+<div class="highlight"><pre><span></span><code>151.115.132.10 world.openbeautyfacts.org fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org
 </code></pre></div>
-to selectively destroy old snpashots and only keep a few.<p></p>
-<h2 id="removing-atime">Removing atime<a class="headerlink" href="#removing-atime" title="Permanent link">#</a></h2>
-<p>Christian also reported that atime was on, while it might hinder performance. I turned it off on all products datasets:</p>
-<div class="highlight"><pre><span></span><code>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-nvme/off/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-nvme/off-pro/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/obf/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/opf/products
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">atime</span><span class="o">=</span>off<span class="w"> </span>zfs-hdd/opff/products
+<h3 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">#</a></h3>
+<ol>
+<li>on scaleway-01 comment obf backups in /etc/sanoid/syncoid-args.conf</li>
+</ol>
+<p>Now we hurry:</p>
+<ol>
+<li>on off2, stop obf container <code>pct shutdown 116</code></li>
+<li>on off2, create a last snapshot:
+  <div class="highlight"><pre><span></span><code><span class="c1"># mimic sanoid</span>
+<span class="nv">SNAP_NAME</span><span class="o">=</span>autosnap_<span class="k">$(</span>date<span class="w"> </span>--utc<span class="w"> </span>+<span class="s2">"%Y-%m-%d_%H:%M:%S"</span><span class="k">)</span>_hourly
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/obf<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>zfs<span class="w"> </span>snapshot<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span>DONE:<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div></li>
+<li>on <code>scalway-01</code>, make a last sync of datasets:
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0
+syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/obf<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/obf
 </code></pre></div>
+   verify:
+   ```bash
+   zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0 |tail -n 1
+   for dataset in obf{,/cache,/html_data}; \
+   do \
+     zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
+   done</li>
+<li>move the backup zfs to their new location:
+    <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/pve/subvol-113-disk-0
+zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/obf<span class="w"> </span>zfs-hdd/podata/obf
+</code></pre></div></li>
+<li>on scaleway-01, remove the obf/products,images datasets as they are useless
+  and may conflict with the real mount we need in the container
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/obf/products
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/obf/images
+</code></pre></div></li>
+<li>
+<p>modify the configuration <code>srv/obf/lib/ProductOpener/Config2.pm</code> in /<code>zfs-hdd/pve/subvol-113-disk-0/</code>:
+   ```
+   $mongodb_host = "10.13.1.200";
+    ...
+    $redis_url = '10.13.1.200:6379';
+    ...
+    %server_options = (</p>
+<div class="highlight"><pre><span></span><code>      cookie_domain =&gt; "openpetfoodfacts.org",   # if not set, default to $server_domain
+      minion_backend =&gt; {'Pg' =&gt; 'postgresql://off:********@10.13.1.200/minion'},
+      minion_local_queue =&gt; "openpetfoodfacts.org",
+</code></pre></div>
+<p>...
+  $memd_servers = [ "10.13.1.102:11211" ];
+  ```</p>
+</li>
+<li>
+<p>modify links to folders:
+    </p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/zfs-hdd/pve/subvol-113-disk-0/
+unlink<span class="w"> </span>srv/obf/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/obf/products<span class="w"> </span>srv/obf/products
+unlink<span class="w"> </span>srv/obf/html/images/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/obf/images/products<span class="w"> </span>srv/obf/html/images/products
+<span class="c1"># some strange old refs</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>srv/off/new_images/1730024919.opf:84165435.search.2.jpg
+<span class="c1"># remove old refs</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+unlink<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div><p></p>
+</li>
+<li>on scaleway-01, start the service <code>pct start 113</code></li>
+<li>on your computer, verify the service is working with a modified <code>/etc/hosts</code></li>
+<li>in OVH web console, change the <code>openbeautyfacts.org</code> <code>A</code> entry to point to <code>151.115.132.10</code></li>
+<li>on your computer remove you <code>/etc/hosts</code> specific configuration and test again</li>
+<li>It's live !</li>
+</ol>
+<p>After migration:</p>
+<ul>
+<li>on off2: rename subvol-116 to avoid confusino
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-116-disk-0
+</code></pre></div></li>
+<li>verify backups of the new datasets are done on scaleway-03:<ul>
+<li><code>zfs list zfs-hdd/off-backups/scaleway-01-podata-hdd -r</code></li>
+</ul>
+</li>
+<li>rerun the ansible:<ul>
+<li>container creation on scaleway-01:
+  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
+<li>jobs/configure for obf:
+  <code>ansible-playbook jobs/configure.yml -l obf</code></li>
+</ul>
+</li>
+<li>remove the backup datasets at ovh3</li>
+<li>Verify podata is synced on ovh3</li>
+<li>put back the TTL for domain to a normal level</li>
+</ul>
+<p>Later:</p>
+<ul>
+<li>on off2: remove the pct 116: <code>pct remove 116</code></li>
+</ul>
+<h2 id="procedure-for-opf-migration">Procedure for OPF migration<a class="headerlink" href="#procedure-for-opf-migration" title="Permanent link">#</a></h2>
+<h3 id="preparing-container_1">Preparing container<a class="headerlink" href="#preparing-container_1" title="Permanent link">#</a></h3>
+<p>First create the 114 container named opf using ansible (see <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">proxmox - How to create a new container with ansible</a>)
+following what was done for 115 (opff).</p>
+<p>On scaleway-01:</p>
+<ol>
+<li>shutdown the container: <code>pct shutdown 114</code></li>
+<li>edit the container configuration to add mountpoints:
+   <code>mp0: /zfs-hdd/podata/opf,mp=/mnt/opf
+    mp1: /zfs-hdd/podata/opf/cache,mp=/mnt/opf/cache
+    mp2: /zfs-hdd/podata/opf/html_data,mp=/mnt/opf/html_data
+    mp3: /mnt/nfs/off/products,mp=/mnt/opf/products
+    mp4: /mnt/nfs/off/images,mp=/mnt/opf/images
+    mp5: /mnt/nfs/off/users,mp=/mnt/opf/users
+    mp6: /mnt/nfs/off/orgs,mp=/mnt/opf/orgs</code>
+    also added:
+    <code>lxc.cap.drop: "sys_rawio audit_read"</code></li>
+<li>remove the created disk: <code>zfs destroy zfs-hdd/pve/subvol-114-disk-0</code></li>
+</ol>
+<h3 id="preparing-migration_1">Preparing Migration<a class="headerlink" href="#preparing-migration_1" title="Permanent link">#</a></h3>
+<p>On OVH web console: modify TTL on openproductsfacts.org and *.openproductsfacts.org to 60s</p>
+<p>On your desktop prepare the following lines to add to your <code>/etc/hosts</code> (comment them until migration):</p>
+<div class="highlight"><pre><span></span><code>151.115.132.10 world.openproductsfacts.org fr.openproductsfacts.org static.openproductsfacts.org images.openproductsfacts.org
+</code></pre></div>
+<h3 id="migration_1">Migration<a class="headerlink" href="#migration_1" title="Permanent link">#</a></h3>
+<ol>
+<li>on scaleway-01 comment opf backups in /etc/sanoid/syncoid-args.conf</li>
+</ol>
+<p>Now we hurry:</p>
+<ol>
+<li>on off2, stop opf container <code>pct shutdown 117</code></li>
+<li>on off2, create a last snapshot:
+  <div class="highlight"><pre><span></span><code><span class="c1"># mimic sanoid</span>
+<span class="nv">SNAP_NAME</span><span class="o">=</span>autosnap_<span class="k">$(</span>date<span class="w"> </span>--utc<span class="w"> </span>+<span class="s2">"%Y-%m-%d_%H:%M:%S"</span><span class="k">)</span>_hourly
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/pve/subvol-117-disk-0<span class="w"> </span>zfs-hdd/opf<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>zfs<span class="w"> </span>snapshot<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span>DONE:<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div></li>
+<li>on <code>scalway-01</code>, make a last sync of datasets:
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-117-disk-0<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-117-disk-0
+syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/opf<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/opf
+</code></pre></div>
+   verify:
+   ```bash
+   zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-117-disk-0 |tail -n 1
+   for dataset in opf{,/cache,/html_data}; \
+   do \
+     zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
+   done</li>
+<li>move the backup zfs to their new location:
+    <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-117-disk-0<span class="w"> </span>zfs-hdd/pve/subvol-114-disk-0
+zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/opf<span class="w"> </span>zfs-hdd/podata/opf
+</code></pre></div></li>
+<li>on scaleway-01, remove the opf/products,images datasets as they are useless
+  and may conflict with the real mount we need in the container
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opf/products
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opf/images
+</code></pre></div></li>
+<li>
+<p>modify the configuration <code>srv/opf/lib/ProductOpener/Config2.pm</code> in /<code>zfs-hdd/pve/subvol-114-disk-0/</code>:
+   ```
+   $mongodb_host = "10.13.1.200";
+    ...
+    $redis_url = '10.13.1.200:6379';
+    ...
+    %server_options = (</p>
+<div class="highlight"><pre><span></span><code>      cookie_domain =&gt; "openproductsfacts.org",   # if not set, default to $server_domain
+      minion_backend =&gt; {'Pg' =&gt; 'postgresql://off:********@10.13.1.200/minion'},
+      minion_local_queue =&gt; "openproductsfacts.org",
+</code></pre></div>
+<p>...
+  $memd_servers = [ "10.13.1.102:11211" ];
+  ```</p>
+</li>
+<li>
+<p>modify links to folders:
+    </p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/zfs-hdd/pve/subvol-114-disk-0/
+unlink<span class="w"> </span>srv/opf/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opf/products<span class="w"> </span>srv/opf/products
+unlink<span class="w"> </span>srv/opf/html/images/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opf/images/products<span class="w"> </span>srv/opf/html/images/products
+<span class="c1"># some strange old refs</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>srv/off/new_images/1730024919.opf:84165435.search.2.jpg
+<span class="c1"># remove old refs</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+unlink<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div><p></p>
+</li>
+<li>on scaleway-01, start the service <code>pct start 114</code></li>
+<li>on your computer, verify the service is working with a modified <code>/etc/hosts</code></li>
+<li>in OVH web console, change the <code>openproductsfacts.org</code> <code>A</code> entry to point to <code>151.115.132.10</code></li>
+<li>on your computer remove you <code>/etc/hosts</code> specific configuration and test again</li>
+<li>It's live !</li>
+</ol>
+<p>After migration:</p>
+<ul>
+<li>on off2: rename subvol-117 to avoid confusino
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-117-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-117-disk-0
+</code></pre></div></li>
+<li>verify backups of the new datasets are done on scaleway-03:<ul>
+<li><code>zfs list zfs-hdd/off-backups/scaleway-01-podata-hdd -r</code></li>
+</ul>
+</li>
+<li>rerun the ansible:<ul>
+<li>container creation on scaleway-01:
+  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
+<li>jobs/configure for opf:
+  <code>ansible-playbook jobs/configure.yml -l opf</code></li>
+</ul>
+</li>
+<li>remove the backup datasets at ovh3</li>
+<li>Verify podata is synced on ovh3</li>
+<li>put back the TTL for domain to a normal level</li>
+</ul>
+<p>Later:</p>
+<ul>
+<li>on off2: remove the pct 117: <code>pct remove 117</code></li>
+</ul>
 
 
 
