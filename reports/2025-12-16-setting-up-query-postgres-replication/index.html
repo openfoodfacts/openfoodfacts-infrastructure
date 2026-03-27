@@ -5967,10 +5967,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#importing-data-from-org-to-be-done" class="md-nav__link">
+  <a href="#importing-data-from-org" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Importing data from org (TO BE DONE)
+        Importing data from org
       
     </span>
   </a>
@@ -6322,6 +6322,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-03-12-moving-opff-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-12 moving opff to scaleway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -6494,10 +6522,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#importing-data-from-org-to-be-done" class="md-nav__link">
+  <a href="#importing-data-from-org" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Importing data from org (TO BE DONE)
+        Importing data from org
       
     </span>
   </a>
@@ -6765,15 +6793,18 @@ after I did some changes on staging (and thus created some events).</p>
 thus removing my replication parameters, and stall replication.
 This was a good occasion to test resilience, that, when I restored the parameters,
 it worked again, getting back to last state smoothly.</p>
-<h2 id="importing-data-from-org-to-be-done">Importing data from org (TO BE DONE)<a class="headerlink" href="#importing-data-from-org-to-be-done" title="Permanent link">#</a></h2>
+<h2 id="importing-data-from-org">Importing data from org<a class="headerlink" href="#importing-data-from-org" title="Permanent link">#</a></h2>
+<p>Before the release,
+I had to change the <code>POSTGRES_REPLICATION_PASSWORD</code> in github settings
+for <code>replica-off-org</code> environment
+to be aligned with the one in <code>off-query-replica-org</code> environment.</p>
 <p>To restart from a fresh instance:</p>
 <p>I did a <code>docker compose down</code> and <code>docker volume rm off-query-replica_dbdata</code> (which finish with an error but that's not a big deal) then <code>make create_external_volumes</code></p>
 <p>Then I get the prod backup:</p>
-<p></p><div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>query_postgres<span class="w"> </span>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>query_postgres<span class="w"> </span>
 
-<span class="c1"># /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 1602 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v</span>
+<span class="c1"># /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 16002 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v</span>
 </code></pre></div>
-**FIXME: needs a deployment in prod first<p></p>
 
 
 

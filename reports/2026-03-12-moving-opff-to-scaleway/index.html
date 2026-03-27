@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2024-08-03-ovh-reverse-proxy-ip-lost/">
+        <link rel="prev" href="../2026-03-05-moving-postgres-to-scaleway/">
       
-      
-        <link rel="next" href="../2024-08-13-moji-server-installation/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2024-08-07-wordpress-off-contents-fresh-install - Open Food Facts Infrastructure documentation</title>
+        <title>2026-03-12 moving opff to scaleway - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2024-08-07-wordpress-off-contents-fresh-install" class="md-skip">
+        <a href="#2026-03-12-moving-opff-to-scaleway" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2024-08-07-wordpress-off-contents-fresh-install
+              2026-03-12 moving opff to scaleway
             
           </span>
         </div>
@@ -4310,37 +4308,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2024-08-07-wordpress-off-contents-fresh-install
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2024-08-07-wordpress-off-contents-fresh-install/" class="md-nav__link">
         
   
   
@@ -4356,81 +4327,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#wiping-the-old-wordpress" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Wiping the old wordpress
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#change-mariadb-root-password" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Change mariadb root password
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#change-mariadb-wp-user-password" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Change mariadb wp user password
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-last-wordpress-version" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install last wordpress version
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wordpress-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Wordpress Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6232,10 +6128,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-03-12-moving-opff-to-scaleway/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-12 moving opff to scaleway
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6251,6 +6174,254 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nfs-shares-on-off2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFS shares on off2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NFS shares on off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stunnel-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stunnel setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#going-without-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Going Without stunnel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-a-test-opff-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up a test opff instance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up a test opff instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-ct-and-cloning-the-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating CT and cloning the volumes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-mountpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding the mountpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-opff-for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting opff for testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-opff-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing opff configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-the-opff-clone-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing the opff clone instance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        migrating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="migrating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-to-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps to execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opff-configuration-on-off2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        opff configuration on off2:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6290,10 +6461,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#wiping-the-old-wordpress" class="md-nav__link">
+  <a href="#plan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wiping the old wordpress
+        Plan
       
     </span>
   </a>
@@ -6301,10 +6472,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#change-mariadb-root-password" class="md-nav__link">
+  <a href="#nfs-shares-on-off2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Change mariadb root password
+        NFS shares on off2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NFS shares on off2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stunnel-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stunnel setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#going-without-stunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Going Without stunnel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-a-test-opff-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up a test opff instance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up a test opff instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-ct-and-cloning-the-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating CT and cloning the volumes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-mountpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding the mountpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the reverse proxy
       
     </span>
   </a>
@@ -6312,35 +6583,108 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#change-mariadb-wp-user-password" class="md-nav__link">
+  <a href="#testing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Change mariadb wp user password
+        Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-opff-for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting opff for testing
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#install-last-wordpress-version" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#changing-opff-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install last wordpress version
+        Changing opff configuration
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#wordpress-configuration" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#testing-the-opff-clone-instance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wordpress Configuration
+        Testing the opff clone instance
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        migrating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="migrating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-to-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps to execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opff-configuration-on-off2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        opff configuration on off2:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6361,7 +6705,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2024-08-07-wordpress-off-contents-fresh-install.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-03-12-moving-opff-to-scaleway.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6369,40 +6713,478 @@
   
 
 
-<h1 id="2024-08-07-wordpress-off-contents-fresh-install">2024-08-07-wordpress-off-contents-fresh-install<a class="headerlink" href="#2024-08-07-wordpress-off-contents-fresh-install" title="Permanent link">#</a></h1>
-<p>We had a contents container on OVH with a wordpress install.
-But we wanted to wipe it out and install it again.</p>
-<h2 id="wiping-the-old-wordpress">Wiping the old wordpress<a class="headerlink" href="#wiping-the-old-wordpress" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/var/www/html
-wp<span class="w"> </span>db<span class="w"> </span>clean<span class="w"> </span>--yes
-rm<span class="w"> </span>-rf<span class="w"> </span>/var/www/html
+<h1 id="2026-03-12-moving-opff-to-scaleway">2026-03-12 moving opff to scaleway<a class="headerlink" href="#2026-03-12-moving-opff-to-scaleway" title="Permanent link">#</a></h1>
+<p>We are migrating all our instance from off1/off2 to scaleway new servers.</p>
+<p>We already moved <a href="../2026-01-15-moving-mongodb-to-scaleway/">mongodb</a>, <a href="../2026-02-26-moving-redis-to-scaleway/">redis (and postgres backups)</a> and installed a <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/pull/610/changes">new memcached instance</a> on scaleway-02</p>
+<p>We now want to move the first opff instance there.</p>
+<h2 id="plan">Plan<a class="headerlink" href="#plan" title="Permanent link">#</a></h2>
+<p>We first need to add NFS shares on files that are common to the different instances:</p>
+<ul>
+<li><code>zfs-hdd/off/products</code></li>
+<li><code>zfs-hdd/off/images</code></li>
+<li><code>zfs-hdd/off/users</code></li>
+<li><code>zfs-hdd/off/orgs</code> (it's not sure it's still needed, but let's not add a risk to the migration)</li>
+</ul>
+<p>Note that previously we used to also cross mount products and images folders but we don't need them anymore, since database is centralized.</p>
+<p>There are ZFS volumes that we don't need anymore since the merge of database,
+it's a good occasion to get rid of them:</p>
+<ul>
+<li><code>opff/products</code></li>
+<li><code>opff/images</code></li>
+</ul>
+<p>There are volumes where, during tests, we will use a clone of a backup of the volume,
+and then, as we migrate, we will rename the backup instead to become the volume.
+This is, all what is under zfs-hdd/opff currently:</p>
+<ul>
+<li><code>/zfs-hdd/opff</code></li>
+<li><code>/zfs-hdd/opff/html_data</code></li>
+<li><code>/zfs-hdd/opff/cache</code>
+and of course the container system disk: zfs-hdd/pve/subvol-118-disk-0</li>
+</ul>
+<h2 id="nfs-shares-on-off2">NFS shares on off2<a class="headerlink" href="#nfs-shares-on-off2" title="Permanent link">#</a></h2>
+<p>We will add NFS shares on off2, but only allowing scaleway ips to connect to them.</p>
+<p>As there is user information that is circulating,
+we will use stunnel to encrypt NFS communication.</p>
+<p>On off2, I just add the nfs share property, enabling access from stunnel server
+(on reverse proxy):
+</p><div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/off/<span class="o">{</span>images,users,orgs<span class="o">}</span><span class="w"> </span>zfs-nvme/off/products
+<span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$dataset</span>
+<span class="w">  </span>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">sharenfs</span><span class="o">=</span><span class="s2">"rw=@10.1.0.101,no_root_squash"</span><span class="w"> </span><span class="nv">$dataset</span>
+<span class="k">done</span>
+
+zfs<span class="w"> </span>share<span class="w"> </span>-a
+<span class="c1"># verification</span>
+cat<span class="w"> </span>/etc/exports.d/zfs.exports
+</code></pre></div><p></p>
+<p>Restart NFS server using: <code>systemctl restart nfs-server.service</code></p>
+<p>I can now test from off2 reverse proxy.
+First I add to change the network configuration on off2 reverse proxy
+which was wrongly using <code>10.1.0.101/24</code> instead of <code>10.1.0.101/8</code> for it's internal ip
+(leading to not being able to reach off2 through <code>10.0.0.2</code>).
+</p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.0.0.2<span class="w"> </span><span class="m">2049</span>
+<span class="m">10</span>.0.0.2:<span class="w"> </span>inverse<span class="w"> </span>host<span class="w"> </span>lookup<span class="w"> </span>failed:<span class="w"> </span>Unknown<span class="w"> </span>host
+<span class="o">(</span>UNKNOWN<span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="m">10</span>.0.0.2<span class="o">]</span><span class="w"> </span><span class="m">2049</span><span class="w"> </span><span class="o">(</span>nfs<span class="o">)</span><span class="w"> </span>open
+
+apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+<span class="c1"># -e shows all exports</span>
+showmount<span class="w"> </span>-e<span class="w"> </span><span class="m">10</span>.0.0.2
+...
+/zfs-hdd/off/images<span class="w"> </span><span class="m">10</span>.1.0.101<span class="o">(</span><span class="nv">sec</span><span class="o">=</span>sys,rw,no_subtree_check,mountpoint,no_root_squash<span class="o">)</span>
+/zfs-hdd/off/orgs<span class="w"> </span><span class="m">10</span>.1.0.101<span class="o">(</span><span class="nv">sec</span><span class="o">=</span>sys,rw,no_subtree_check,mountpoint,no_root_squash<span class="o">)</span>
+/zfs-hdd/off/users<span class="w"> </span><span class="m">10</span>.1.0.101<span class="o">(</span><span class="nv">sec</span><span class="o">=</span>sys,rw,no_subtree_check,mountpoint,no_root_squash<span class="o">)</span>
+...
+/zfs-nvme/off/products<span class="w"> </span><span class="m">10</span>.1.0.101<span class="o">(</span><span class="nv">sec</span><span class="o">=</span>sys,rw,no_subtree_check,mountpoint,no_root_squash<span class="o">)</span>
+...
+</code></pre></div><p></p>
+<h3 id="stunnel-setup">Stunnel setup<a class="headerlink" href="#stunnel-setup" title="Permanent link">#</a></h3>
+<p>Now we will configure an access to the on off2 server, and on scaleway-stunnel.</p>
+<p>I edited <code>scaleway-stunnel-client-secrets.yml</code> to add the secret psk,
+run <code>ansible-playbook sites/stunnel-client.yml --tags stunnel -l scaleway-stunnel-client</code>
+to create the secret file. On off2 reverse proxy, I did it manually.</p>
+<p>I then edit the configuration of <code>/etc/stunnel/off.conf</code> on off2 reverse proxy
+and on <code>scaleway-stunnel-client</code> to add the server and client part.</p>
+<p>On off2 reverse proxy I also had to edit <code>/etc/nftables.conf.d/001-off2-reverse-proxy.conf</code>
+to add the new port to <code>STUNNEL_PORTS</code></p>
+<p>I then test on the <code>scaleway-stunnel-client</code> directly:
+</p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">2049</span>
+scaleway-stunnel-client.infra.openfoodfacts.org<span class="w"> </span><span class="o">[</span><span class="m">10</span>.13.1.101<span class="o">]</span><span class="w"> </span><span class="m">2049</span><span class="w"> </span><span class="o">(</span>nfs<span class="o">)</span><span class="w"> </span>open
+
+apt<span class="w">  </span>install<span class="w"> </span>nfs-common
+<span class="c1"># -e shows all exports</span>
+showmount<span class="w"> </span>-e<span class="w"> </span><span class="m">10</span>.13.1.101
 </code></pre></div>
-<h2 id="change-mariadb-root-password">Change mariadb root password<a class="headerlink" href="#change-mariadb-root-password" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>mariadb
-sudo<span class="w"> </span>mysqld_safe<span class="w"> </span>--skip-grant-tables<span class="w"> </span><span class="p">&amp;</span>
-mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>mysql
-FLUSH<span class="w"> </span>PRIVILEGES<span class="p">;</span>
-ALTER<span class="w"> </span>USER<span class="w"> </span><span class="s1">'root'</span>@<span class="s1">'localhost'</span><span class="w"> </span>IDENTIFIED<span class="w"> </span>BY<span class="w"> </span><span class="s1">'*******'</span><span class="p">;</span>
-FLUSH<span class="w"> </span>PRIVILEGES<span class="p">;</span>
-EXIT<span class="p">;</span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>mariadb
+It's not working, but it might be because LXC container can't use NFS directly.<p></p>
+<p>So I tried from off2:
+</p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.13.1.101<span class="w"> </span><span class="m">2049</span>
+<span class="w">  </span><span class="m">10</span>.13.1.101:<span class="w"> </span>inverse<span class="w"> </span>host<span class="w"> </span>lookup<span class="w"> </span>failed:<span class="w"> </span>Unknown<span class="w"> </span>host
+<span class="w">  </span><span class="o">(</span>UNKNOWN<span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="m">10</span>.13.1.101<span class="o">]</span><span class="w"> </span><span class="m">2049</span><span class="w"> </span><span class="o">(</span>nfs<span class="o">)</span><span class="w"> </span>open
+
+apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+...
+showmount<span class="w"> </span>-e<span class="w"> </span><span class="m">10</span>.13.1.101
+<span class="w">  </span>clnt_create:<span class="w"> </span>RPC:<span class="w"> </span>Program<span class="w"> </span>not<span class="w"> </span>registered
+
+<span class="c1"># trying a mount</span>
+mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>-o<span class="w"> </span><span class="s2">"nfsvers=4.2,proto=tcp,port=2049"</span><span class="w"> </span><span class="m">10</span>.13.1.101:/zfs-hdd/off/orgs<span class="w"> </span>/mnt/test/
+<span class="w">  </span>mount.nfs:<span class="w"> </span>Operation<span class="w"> </span>not<span class="w"> </span>permitted<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">10</span>.13.1.101:/zfs-hdd/off/orgs<span class="w"> </span>on<span class="w"> </span>/mnt/test
+</code></pre></div><p></p>
+<h3 id="going-without-stunnel">Going Without stunnel<a class="headerlink" href="#going-without-stunnel" title="Permanent link">#</a></h3>
+<p>As this will only be a temporary mount point, and servers are in the same datacenter,
+we decided it's acceptable to go for a direct mount.</p>
+<p>On off2, I changed the <code>sharenfs</code> option for the datasets:
+</p><div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/off/<span class="o">{</span>images,users,orgs<span class="o">}</span><span class="w"> </span>zfs-nvme/off/products
+<span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$dataset</span>
+<span class="w">  </span>zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">sharenfs</span><span class="o">=</span><span class="s2">"rw=@151.115.132.10/31,rw=@151.115.132.12/31,rw=@10.1.0.101,no_root_squash"</span><span class="w"> </span><span class="nv">$dataset</span>
+<span class="k">done</span>
+
+zfs<span class="w"> </span>share<span class="w"> </span>-a
+<span class="c1"># verification</span>
+cat<span class="w"> </span>/etc/exports.d/zfs.exports
+</code></pre></div><p></p>
+<p>And let firewall pass:
+</p><div class="highlight"><pre><span></span><code>root@off2:~#<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span><span class="m">151</span>.115.132.10/31<span class="w"> </span>--dport<span class="w"> </span><span class="m">2049</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+root@off2:~#<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span><span class="m">151</span>.115.132.12/31<span class="w"> </span>--dport<span class="w"> </span><span class="m">2049</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
 </code></pre></div>
-<h2 id="change-mariadb-wp-user-password">Change mariadb wp user password<a class="headerlink" href="#change-mariadb-wp-user-password" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p
-ALTER<span class="w"> </span>USER<span class="w"> </span><span class="s1">'wp'</span>@<span class="s1">'localhost'</span><span class="w"> </span>IDENTIFIED<span class="w"> </span>BY<span class="w"> </span><span class="s1">'********'</span><span class="p">;</span>
-FLUSH<span class="w"> </span>PRIVILEGES<span class="p">;</span>
-EXIT<span class="p">;</span>
+I also edited <code>/etc/iptables/rules.v4</code> to add the rules.<p></p>
+<p>Now on scaleway-01
+</p><div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>nfs-common
+nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">213</span>.36.253.208<span class="w"> </span><span class="m">2049</span>
+<span class="w">  </span>off2.free.org<span class="w"> </span><span class="o">[</span><span class="m">213</span>.36.253.208<span class="o">]</span><span class="w"> </span><span class="m">2049</span><span class="w"> </span><span class="o">(</span>nfs<span class="o">)</span><span class="w"> </span>open
+
+showmount<span class="w"> </span>-e<span class="w"> </span><span class="m">213</span>.36.253.208
+<span class="w">  </span>clnt_create:<span class="w"> </span>RPC:<span class="w"> </span>Timed<span class="w"> </span>out
+
+mkdir<span class="w"> </span>/mnt/test
+mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>-o<span class="w"> </span><span class="s2">"nfsvers=4.2,proto=tcp,port=2049"</span><span class="w"> </span><span class="m">213</span>.36.253.208:/zfs-hdd/off/orgs<span class="w"> </span>/mnt/test/
+
+ls<span class="w"> </span>-l<span class="w"> </span>/mnt/test/off-test.sto
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>config-op<span class="w"> </span>config-op<span class="w"> </span><span class="m">840</span><span class="w"> </span><span class="m">16</span><span class="w"> </span>mars<span class="w">  </span><span class="m">03</span>:20<span class="w"> </span>/mnt/test/off-test.sto
+umount<span class="w"> </span>/mnt/test/
 </code></pre></div>
-<h2 id="install-last-wordpress-version">Install last wordpress version<a class="headerlink" href="#install-last-wordpress-version" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>www-data:www-data<span class="w"> </span>var/www/html
-sudo<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">755</span><span class="w"> </span>/var/www/html
-<span class="nb">cd</span><span class="w"> </span>/var/www/html
-sudo<span class="w"> </span>-u<span class="w"> </span>www-data<span class="w"> </span>wp<span class="w"> </span>core<span class="w"> </span>download
+So this is working :tada:<p></p>
+<p>So I added the NFS mounts to fstab:
+</p><div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/nfs/off/<span class="o">{</span>orgs,images,users,products<span class="o">}</span>
+
+
+cp<span class="w"> </span>/etc/fstab<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-01/
+rm<span class="w"> </span>/etc/fstab<span class="p">;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-01/fstab<span class="w"> </span>/etc/fstab
 </code></pre></div>
-<h2 id="wordpress-configuration">Wordpress Configuration<a class="headerlink" href="#wordpress-configuration" title="Permanent link">#</a></h2>
-<p>Settings &gt; Reading &gt; Search engine visibility &gt; tick "Discourage search engine from indexing this site"<br>
-Settings &gt; Permalinks &gt; Permalink structure &gt; chose 'Post name'</p>
-<p>Later on we also added a basic auth on reverse proxy with off:off just in case.</p>
+Edited fstab to add entries (<a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commits/4ac8a7a33e4a183a2ebfdd36d3b83cbb7a7aea41">see commit 4ac8a7a33e</a>) .
+Then:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>daemon-reload
+mount<span class="w"> </span>-a
+</code></pre></div><p></p>
+<h2 id="setting-up-a-test-opff-instance">Setting up a test opff instance<a class="headerlink" href="#setting-up-a-test-opff-instance" title="Permanent link">#</a></h2>
+<p>We will do a test with opff instance,
+where we will</p>
+<ul>
+<li>mount NFS mountpoints (so it will be on the live production data)</li>
+<li>clone the other volumes we need using the backups and mount them in the VM</li>
+</ul>
+<p>We will change the configuration of openfoodfacts-server to point to the right IPs
+for redis / memcached / postgres / mongodb.</p>
+<p>Then we will need to setup NGINX reverse proxy to serve it on a specific domain.</p>
+<p>We will keep the instance private because modifying some data but not others might leads to inconsistencies.</p>
+<h3 id="creating-the-container">Creating the container<a class="headerlink" href="#creating-the-container" title="Permanent link">#</a></h3>
+<p>To create the container I used ansible, promox-node site.
+But I didn't use the configure job, as I will replace the root dir
+with the one from off2.
+See <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">proxmox - How to create a new container with ansible</a></p>
+<p>We create the container with a disk, but this disk will be throne away to replace with opff current disk (or a clone, while testing).</p>
+<p>Note: We take the opportunity to also re-order container number.
+So we will have:</p>
+<ul>
+<li>off - 111 (was 113)</li>
+<li>off-pro - 112 (was 114)</li>
+<li>obf - 113 (was 116)</li>
+<li>opf - 114 (was 117)</li>
+<li>opff - 115 (was 118)</li>
+</ul>
+<h3 id="creating-ct-and-cloning-the-volumes">Creating CT and cloning the volumes<a class="headerlink" href="#creating-ct-and-cloning-the-volumes" title="Permanent link">#</a></h3>
+<p>Here are the volumes we will need to clone (after reading <code>/etc/pve/lxc/118.conf</code> on off2, but removing datasets that are not used anymore)</p>
+<ul>
+<li>the root dir: <code>zfs-hdd/pve/subvol-118-disk-0</code></li>
+<li><code>zfs-hdd/opff</code></li>
+<li><code>zfs-hdd/opff/html_data</code></li>
+<li><code>zfs-hdd/opff/cache</code></li>
+</ul>
+<p>I now clone the original disk in place of the disk, and created the other clones:
+</p><div class="highlight"><pre><span></span><code><span class="c1"># get last daily snapshot</span>
+<span class="nb">declare</span><span class="w"> </span>-A<span class="w"> </span>snapshot
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/opff<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>snapshot<span class="o">[</span><span class="nv">$dataset</span><span class="o">]=</span><span class="k">$(</span>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span><span class="nv">$dataset</span><span class="w"> </span>-o<span class="w"> </span>name<span class="p">|</span>grep<span class="w"> </span><span class="s2">"_daily"</span><span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+
+pct<span class="w"> </span>shutdown<span class="w"> </span><span class="m">115</span>
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/pve/subvol-115-disk-0
+
+zfs<span class="w"> </span>clone<span class="w"> </span><span class="si">${</span><span class="nv">snapshot</span><span class="p">[</span><span class="s2">"zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0"</span><span class="p">]</span><span class="si">}</span><span class="w"> </span>zfs-hdd/pve/subvol-115-disk-0
+
+zfs<span class="w"> </span>create<span class="w"> </span>zfs-hdd/podata
+
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>opff<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>zfs<span class="w"> </span>clone<span class="w"> </span><span class="si">${</span><span class="nv">snapshot</span><span class="p">[</span><span class="s2">"zfs-hdd/off-backups/off2-zfs-hdd/</span><span class="nv">$dataset</span><span class="s2">"</span><span class="p">]</span><span class="si">}</span><span class="w"> </span>zfs-hdd/podata/<span class="nv">$dataset</span><span class="p">;</span>
+<span class="k">done</span>
+</code></pre></div><p></p>
+<h3 id="adding-the-mountpoints">Adding the mountpoints<a class="headerlink" href="#adding-the-mountpoints" title="Permanent link">#</a></h3>
+<p>Before we must add the mountpoints to the container.
+I did it by editing <code>/etc/pve/lxc/115.conf</code> to add:
+</p><div class="highlight"><pre><span></span><code>mp0: /zfs-hdd/podata/opff,mp=/mnt/opff
+mp1: /zfs-hdd/podata/opff/cache,mp=/mnt/opff/cache
+mp2: /zfs-hdd/podata/opff/html_data,mp=/mnt/opff/html_data
+mp3: /mnt/nfs/off/products,mp=/mnt/opff/products
+mp4: /mnt/nfs/off/images,mp=/mnt/opff/images
+mp5: /mnt/nfs/off/users,mp=/mnt/opff/users
+mp6: /mnt/nfs/off/orgs,mp=/mnt/opff/orgs
+</code></pre></div><p></p>
+<p>While <code>images</code> and <code>products</code> were not mounted under <code>/mnt/off</code> on off2,
+we decided to mount them under <code>/mnt/opff</code> in the new container,
+to be more coherent with what we did on <code>users</code> and <code>orgs</code>.</p>
+<h3 id="user-mapping">User mapping<a class="headerlink" href="#user-mapping" title="Permanent link">#</a></h3>
+<p>We need specific user mapping in the container, to keep ids above 1000 the same.</p>
+<p>I edited the container creation role to support it.</p>
+<p>It modified <code>/etc/pve/lxc/115.conf</code> to add:</p>
+<p></p><div class="highlight"><pre><span></span><code>lxc.idmap: u 0 100000 999
+lxc.idmap: g 0 100000 999
+lxc.idmap: u 1000 1000 64536
+lxc.idmap: g 1000 1000 64536
+lxc.cap.drop: "sys_rawio audit_read"
+</code></pre></div>
+and added <code>root:1000:64536</code> to <code>/etc/subuid</code> and <code>/etc/subgid</code><p></p>
+<p>But for that to work I need to enable root to map such subid.</p>
+<p>I modified the containers role to support for it.</p>
+<h2 id="setting-up-the-reverse-proxy">Setting up the reverse proxy<a class="headerlink" href="#setting-up-the-reverse-proxy" title="Permanent link">#</a></h2>
+<p>We have to setup the reverse proxy in <code>scaleway-proxy</code></p>
+<p>First we copy the certificates from off2-proxy to scaleway-proxy
+(following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)
+On off2-proxy:
+</p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openpetfoodfacts.org
+<span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
+chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+</code></pre></div>
+I then copied it to scaleway-proxy (using scp).
+And on scaleway:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
+tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/*/openpetfoodfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/openpetfoodfacts.org.conf
+</code></pre></div><p></p>
+<p>On scaleway-proxy
+I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir:
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt/openfoodfacts-infrastructure/
+<span class="c1"># verify we have the log format conf</span>
+ls<span class="w"> </span>-l<span class="w"> </span>confs/scaleway-proxy/nginx/conf.d/log_format.conf
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/nginx/conf.d/log_format.conf
+<span class="c1"># copy needed configs</span>
+cp<span class="w"> </span>confs/off2-reverse-proxy/nginx/sites-enabled/openpetfoodfacts.org<span class="w"> </span>confs/scaleway-proxy/nginx/sites-enabled/
+<span class="c1"># link at system level</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/sites-enabled/openpetfoodfacts.org<span class="w"> </span>/etc/nginx/sites-enabled/
+</code></pre></div>
+I also add to add some specific configs,
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/nginx.conf<span class="w"> </span>/etc/nginx/
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/conf.d/proxy_cache.conf<span class="w"> </span>/etc/nginx/conf.d/
+</code></pre></div><p></p>
+<p>I also edited openfoodfacts.org conf because
+<code>listen 443 ... http2</code> is now deprecated in favour of <code>http2 on;</code>
+And to substitute any occurrence of <code>10.1.0.118</code> for <code>10.13.1.115</code>.</p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
+<h3 id="starting-opff-for-testing">Starting opff for testing<a class="headerlink" href="#starting-opff-for-testing" title="Permanent link">#</a></h3>
+<p>After discussion on the impact of the test instance of prod.</p>
+<p>The new opff container on scaleway has separate volume for all but for users / orgs / products /images, where it uses the NFS mounts of production. It will also use same Mongo / Postgres and Redis as production.
+Starting this instance in // with production, is safe because:</p>
+<ul>
+<li>products changes will impact the mongo of prod, so might not be a problem</li>
+<li>redis listener does not process global events, it might eventually conflict with opff --&gt; shut down redis listener (but it's not a problem)</li>
+<li>daily feeds generally will create file on a separate filesystem, it adds a small loads </li>
+<li>Also we will:<ul>
+<li>stop OCR service to avoid submitting images twice</li>
+<li>stop the minion to avoid stilling production tasks</li>
+</ul>
+</li>
+</ul>
+<p>To stop the OCR and minion service, I will disable them,
+an easy way to do that is to unlink them in <code>/etc/systemd/system/multi-user.target.wants</code>,
+I can do this before starting the container, from <code>scaleway-01</code> host:</p>
+<div class="highlight"><pre><span></span><code>unlink<span class="w"> </span>/zfs-hdd/pve/subvol-115-disk-0/etc/systemd/system/multi-user.target.wants/cloud_vision_ocr@opff.service
+unlink<span class="w"> </span>/zfs-hdd/pve/subvol-115-disk-0/etc/systemd/system/multi-user.target.wants/minion@opff.service
+</code></pre></div>
+<p>Note: As we are working on a clone of the system disk, no need to remove that afterwards,
+at migration time, we will use the new opff snapshot.</p>
+<p>We are ready to start the container: <code>pct start 115</code></p>
+<p>Note: in reality I had to run <code>pct start 115 --debug</code> to debug my errors before being ables to start it.</p>
+<p>Then I <code>pct enter 115</code> to see if services are ok with <code>systemctl status apache2.service nginx.service redis_listener@opff.service</code>.</p>
+<h3 id="changing-opff-configuration">Changing opff configuration<a class="headerlink" href="#changing-opff-configuration" title="Permanent link">#</a></h3>
+<p>For opff to work in new environment we have to change its configuration,
+in <code>srv/opff/lib/ProductOpener/Config2.pm</code> (in <code>/zfs-hdd/pve/subvol-115-disk-0/</code>)
+we have to change services ips:</p>
+<ul>
+<li>10.13.1.200 for mongodb / redis / postgresql</li>
+<li>10.13.1.102 for memcached
+<div class="highlight"><pre><span></span><code>$mongodb_host = "10.13.1.200";
+...
+$redis_url = '10.13.1.200:6379';
+...
+%server_options = (
+
+        cookie_domain =&gt; "openpetfoodfacts.org",   # if not set, default to $server_domain
+        minion_backend =&gt; {'Pg' =&gt; 'postgresql://off:********@10.13.1.200/minion'},
+        minion_local_queue =&gt; "openpetfoodfacts.org",
+...
+$memd_servers = [ "10.13.1.102:11211" ];
+</code></pre></div></li>
+</ul>
+<p>I also changed <code>products</code> and <code>images</code> location as we moved them to <code>/mnt/opff</code>
+(found using <code>find . -type l -print0|xargs -0 ls -l |grep -i mnt/off</code>)
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/zfs-hdd/pve/subvol-115-disk-0/
+unlink<span class="w"> </span>srv/opff/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opff/products<span class="w"> </span>srv/opff/products
+unlink<span class="w"> </span>srv/opff/html/images/products
+ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opff/images/products<span class="w"> </span>srv/opff/html/images/products
+<span class="c1"># some strange old refs</span>
+unlink<span class="w"> </span>srv/obf/log.conf
+unlink<span class="w"> </span>srv/obf/minion_log.conf
+unlink<span class="w"> </span>srv/opf/new_images/1730024919.opf:84165435.search.2.jpg
+rmdir<span class="w"> </span>srv/opf/new_images/
+<span class="c1"># remove old refs</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>unlink<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+rmdir<span class="w"> </span>mnt/off/users
+rmdir<span class="w"> </span>mnt/off/orgs
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div><p></p>
+<h3 id="testing-the-opff-clone-instance">Testing the opff clone instance<a class="headerlink" href="#testing-the-opff-clone-instance" title="Permanent link">#</a></h3>
+<p>I edited my <code>/etc/hosts</code> to add:
+</p><div class="highlight"><pre><span></span><code>151.115.132.10 world.openpetfoodfacts.org fr.openpetfoodfacts.org static.openpetfoodfacts.org images.openpetfoodfacts.org
+</code></pre></div>
+I will test sync between data using uk.openpetfoodfacts.org<p></p>
+<p>I edited my user:</p>
+<ul>
+<li>if I change the country it does not change on the other part</li>
+<li>if I change the "team" field it changes succesfully</li>
+<li>editing a product worked<ul>
+<li>I can see changes on the current instance</li>
+</ul>
+</li>
+</ul>
+<p>TODO: gen feeds daily.</p>
+<h2 id="migrating">migrating<a class="headerlink" href="#migrating" title="Permanent link">#</a></h2>
+<h3 id="steps-to-execute">Steps to execute<a class="headerlink" href="#steps-to-execute" title="Permanent link">#</a></h3>
+<ol>
+<li>[DONE] in OVH, change TTL of opff names to a lower TTL</li>
+<li>[DONE] on scaleway-01 comment opff backups in /etc/sanoid/syncoid-args.conf</li>
+<li>[DONE] on scaleway-01, stop the opff container: <code>pct shutdown 115</code></li>
+<li>[DONE] on scaleway-01, remove the clones:
+   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/pve/subvol-115-disk-0
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opff
+</code></pre></div></li>
+</ol>
+<p>Now we hurry:</p>
+<ol>
+<li>[DONE] on off2, stop opff container <code>pct shutdown 118</code></li>
+<li>[DONE] on off2, create a last snapshot:
+  <div class="highlight"><pre><span></span><code><span class="c1"># mimic sanoid</span>
+<span class="nv">SNAP_NAME</span><span class="o">=</span>autosnap_<span class="k">$(</span>date<span class="w"> </span>--utc<span class="w"> </span>+<span class="s2">"%Y-%m-%d_%H:%M:%S"</span><span class="k">)</span>_hourly
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>zfs-hdd/pve/subvol-118-disk-0<span class="w"> </span>zfs-hdd/opff<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>zfs<span class="w"> </span>snapshot<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span>DONE:<span class="w"> </span><span class="nv">$dataset</span>@<span class="nv">$SNAP_NAME</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div></li>
+<li>[DONE] on scalway-01, make a last sync of datasets:
+   <div class="highlight"><pre><span></span><code>syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-118-disk-0<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0
+syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/opff<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/opff
+</code></pre></div>
+   verify:
+   ```bash
+   zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0 |tail -n 1
+   for dataset in opff{,/cache,/html_data}; \
+   do \
+     zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
+   done</li>
+<li>[DONE] move the backup zfs to their new location:
+    <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-118-disk-0<span class="w"> </span>zfs-hdd/pve/subvol-115-disk-0
+zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/opff<span class="w"> </span>zfs-hdd/podata/opff
+</code></pre></div></li>
+<li>[DONE] on scaleway-01, remove the opff/products,images datasets as they are useless
+  and may conflict with the real mount we need in the container
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opff/products
+zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opff/images
+</code></pre></div></li>
+<li>[DONE] modify the configuration, as done above, <a href="#changing-opff-configuration">see Changing OPFF configuration</a></li>
+<li>[DONE] on scaleway-01, start the service <code>pct start 115</code></li>
+<li>[DONE] on your computer, verify the service is working with a modified /etc/hosts</li>
+<li>[DONE]in OVH, change the <code>openpetfoodfacts.org</code> <code>A</code> entry to point to <code>151.115.132.10</code></li>
+<li>[DONE] on your computer remove you /etc/hosts specific configuration and test again</li>
+<li>[DONE] It's live !</li>
+</ol>
+<p>After migration:</p>
+<ul>
+<li>[DONE] rename subvol-118 to avoid confusino
+  <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-118-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-118-disk-0
+</code></pre></div></li>
+<li>[DONE] verify backups of the new datasets are done<ul>
+<li>remove the conflicting <code>zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0</code>
+  backup, as we re-created it:
+  <code>zfs destroy zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0</code>
+  wait for next syncoid, and verify it's recreated:
+  <code>zfs list zfs-hdd/off-backups/scaleway-01-pve/subvol-115-disk-0</code></li>
+<li>modify scaleway-03 config to save scaleway-01's <code>zfs-hdd/podata</code></li>
+<li>then after some time, verify it's working: <code>zfs list zfs-hdd/off-backups/scaleway-01-podata-hdd -r</code></li>
+</ul>
+</li>
+<li>[DONE] run the ansible:<ul>
+<li>container creation on scaleway-01:
+  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
+<li>jobs/configure for opff:
+  <code>ansible-playbook jobs/configure.yml -l opff</code></li>
+</ul>
+</li>
+<li>[DONE] remove the backup datasets at ovh3</li>
+<li>[DONE]add backups of opff data from scaleway-01 on ovh3</li>
+<li>[DONE] put back the TTL for domain to a normal level</li>
+</ul>
+<p>Later:</p>
+<ul>
+<li>on off2: remove the pct 118: <code>pct remove 118</code></li>
+</ul>
+<p>Note: while destroying <code>rpool/opff/products</code> on OVH3, I had:
+</p><div class="highlight"><pre><span></span><code>cannot destroy snapshot rpool/opff/products@autosnap_2024-10-26_00:04:32_daily: dataset is busy
+...
+</code></pre></div>
+on different dataset, this because there were "holds" see https://openzfs.github.io/openzfs-docs/man/v2.0/8/zfs-hold.8.html. Those datasets had a hold with tag backup.
+I just removed them all, with 
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>SNAP<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>rpool/opff/products<span class="w"> </span>-o<span class="w"> </span>name<span class="p">|</span>grep<span class="w"> </span>-v<span class="w"> </span>NAME<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>zfs<span class="w"> </span>release<span class="w"> </span>backup<span class="w"> </span><span class="nv">$SNAP</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div><p></p>
+<h2 id="annex">Annex<a class="headerlink" href="#annex" title="Permanent link">#</a></h2>
+<h3 id="opff-configuration-on-off2">opff configuration on off2:<a class="headerlink" href="#opff-configuration-on-off2" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/etc/pve/lxc/118.conf
+<span class="w">  </span>arch:<span class="w"> </span>amd64
+<span class="w">  </span>cores:<span class="w"> </span><span class="m">4</span>
+<span class="w">  </span>features:<span class="w"> </span><span class="nv">nesting</span><span class="o">=</span><span class="m">1</span>
+<span class="w">  </span>hostname:<span class="w"> </span>opff
+<span class="w">  </span>memory:<span class="w"> </span><span class="m">12288</span>
+<span class="w">  </span>mp0:<span class="w"> </span>/zfs-hdd/opff,mp<span class="o">=</span>/mnt/opff,replicate<span class="o">=</span><span class="m">0</span>
+<span class="w">  </span>mp1:<span class="w"> </span>/zfs-hdd/obf/products/,mp<span class="o">=</span>/mnt/obf/products
+<span class="w">  </span>mp10:<span class="w"> </span>/zfs-hdd/opf/products/,mp<span class="o">=</span>/mnt/opf/products
+<span class="w">  </span>mp11:<span class="w"> </span>/zfs-hdd/opf/images,mp<span class="o">=</span>/mnt/opf/images
+<span class="w">  </span>mp12:<span class="w"> </span>/zfs-hdd/off/orgs,mp<span class="o">=</span>/mnt/opff/orgs
+<span class="w">  </span>mp2:<span class="w"> </span>/zfs-hdd/off/users,mp<span class="o">=</span>/mnt/opff/users
+<span class="w">  </span>mp3:<span class="w"> </span>/zfs-hdd/obf/images,mp<span class="o">=</span>/mnt/obf/images
+<span class="w">  </span>mp4:<span class="w"> </span>/zfs-hdd/opff/html_data,mp<span class="o">=</span>/mnt/opff/html_data
+<span class="w">  </span>mp5:<span class="w"> </span>/zfs-hdd/opff/cache,mp<span class="o">=</span>/mnt/opff/cache
+<span class="w">  </span>mp6:<span class="w"> </span>/zfs-nvme/off/products,mp<span class="o">=</span>/mnt/off/products
+<span class="w">  </span>mp7:<span class="w"> </span>/zfs-hdd/off/images,mp<span class="o">=</span>/mnt/off/images
+<span class="w">  </span>mp8:<span class="w"> </span>/zfs-hdd/opff/products,mp<span class="o">=</span>/mnt/opff/products
+<span class="w">  </span>mp9:<span class="w"> </span>/zfs-hdd/opff/images,mp<span class="o">=</span>/mnt/opff/images
+<span class="w">  </span>net0:<span class="w"> </span><span class="nv">name</span><span class="o">=</span>eth0,bridge<span class="o">=</span>vmbr1,firewall<span class="o">=</span><span class="m">1</span>,gw<span class="o">=</span><span class="m">10</span>.0.0.2,hwaddr<span class="o">=</span>1A:01:25:5B:5F:7C,ip<span class="o">=</span><span class="m">10</span>.1.0.118/<span class="w">  </span><span class="m">24</span>,type<span class="o">=</span>veth
+<span class="w">  </span>onboot:<span class="w"> </span><span class="m">1</span>
+<span class="w">  </span>ostype:<span class="w"> </span>debian
+<span class="w">  </span>protection:<span class="w"> </span><span class="m">1</span>
+<span class="w">  </span>rootfs:<span class="w"> </span>zfs-hdd:subvol-118-disk-0,size<span class="o">=</span>30G
+<span class="w">  </span>swap:<span class="w"> </span><span class="m">0</span>
+<span class="w">  </span>unprivileged:<span class="w"> </span><span class="m">1</span>
+<span class="w">  </span>lxc.idmap:<span class="w"> </span>u<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100000</span><span class="w"> </span><span class="m">999</span>
+<span class="w">  </span>lxc.idmap:<span class="w"> </span>g<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100000</span><span class="w"> </span><span class="m">999</span>
+<span class="w">  </span>lxc.idmap:<span class="w"> </span>u<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">64536</span>
+<span class="w">  </span>lxc.idmap:<span class="w"> </span>g<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">64536</span>
+<span class="w">  </span>lxc.cap.drop:<span class="w"> </span><span class="s2">"sys_rawio audit_read"</span>
+</code></pre></div>
+<p>We don't need a lot of the mount points, and will evict them.
+We just create the container, </p>
 
 
 

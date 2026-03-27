@@ -6565,6 +6565,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/2026-03-12-moving-opff-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-12 moving opff to scaleway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7273,7 +7301,7 @@ and add specific variables.</p>
 <li>create <code>host_vars/&lt;container-name&gt;/&lt;container-name&gt;-secrets.yml</code>
   and add <code>ansible_become_password</code> and <code>ansible_user_password_salt</code> variables (using <code>pwgen 20</code> for the first and <code>pwgen 10</code> for the second is a good idea)</li>
 <li>create the container on the host and initialize, by running:
-  <code>ansible-playbook sites/proxmox_node.yml --tags containers -l &lt;host-name&gt;</code></li>
+  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l &lt;host-name&gt;</code></li>
 <li>make base setup of container by running:
   <code>ansible-playbook jobs/configure.yml -l &lt;container-name&gt;</code></li>
 </ul>
