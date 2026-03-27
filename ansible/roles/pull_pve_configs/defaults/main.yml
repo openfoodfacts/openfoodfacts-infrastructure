@@ -6,11 +6,11 @@ pull_pve_configs__source_dir: /etc/pve
 pull_pve_configs__corosync_conf_path: "{{ pull_pve_configs__source_dir }}/corosync.conf"
 pull_pve_configs__exclude_regexes:
   # Exclude private key files anywhere under pull_pve_configs__source_dir.
-  - '.*\.key$'
-  - '(^|/)ssh_known_hosts$'
-  - '(^|/)authorized_keys$'
-  - '(^|/)shadow\.cfg$'
-  - '(^|/)token\.cfg$'
-  - '(^|/)priv(/|$)'
+  - ".*\\.key$"
+  - "(^|/)ssh_known_hosts$"
+  - "(^|/)authorized_keys$"
+  - "(^|/)shadow\\.cfg$"
+  - "(^|/)token\\.cfg$"
+  - "(^|/)priv(/|$)"
   # Exclude fast moving file, not really a config
-  - '(^|/)lrm_status$'
+  - "(^|/)lrm_status$"
