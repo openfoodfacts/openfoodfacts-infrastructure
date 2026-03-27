@@ -8,80 +8,35 @@ from ansible.errors import AnsibleFilterError
 class FilterModule:
     """Custom filters for pull_zfs_config role."""
 
-    _IGNORED_PROPERTY_KEYS = {
-        "name",
-        "pool",
-        "type",
-        "guid",
-        "state",
-        "source",
-        "source_info",
-        "source_code",
-        "value",
-    }
-
     def filters(self):
         return {
-            "pull_zfs_config_facts_by_name": self.pull_zfs_config_facts_by_name,
+            "pull_zfs_config_properties_by_name": self.pull_zfs_config_properties_by_name,
         }
 
     @staticmethod
-    def _iter_fact_entries(fact_results: Iterable[Any]) -> Iterable[Dict[str, Any]]:
-        for result in fact_results or []:
-            if not isinstance(result, dict):
-                continue
+    def _iter_stdout_lines(command_results: Iterable[Any]) -> Iterable[str]:
+        for result in command_results or []:
+            if isinstance(result, dict):
+                lines = result.get("stdout_lines") or []
+                if isinstance(lines, list):
+                    for line in lines:
+                        if isinstance(line, str) and line:
+                            yield line
 
-            if "ansible_facts" in result:
-                ansible_facts = result.get("ansible_facts") or {}
-                if isinstance(ansible_facts, dict):
-                    datasets = ansible_facts.get("ansible_zfs_datasets")
-                    if isinstance(datasets, list):
-                        for dataset in datasets:
-                            if isinstance(dataset, dict):
-                                yield dataset
-                continue
-
-            yield result
-
-    @staticmethod
-    def _property_source(property_data: Any) -> Optional[str]:
-        if isinstance(property_data, dict):
-            for key in ("source", "source_info", "source_code"):
-                source = property_data.get(key)
-                if isinstance(source, str) and source:
-                    return source
-        return None
-
-    @staticmethod
-    def _property_value(property_data: Any) -> Optional[str]:
-        if isinstance(property_data, dict):
-            if "value" in property_data:
-                value = property_data.get("value")
-            else:
-                value = property_data.get("raw")
-        else:
-            value = property_data
-
-        if value is None:
-            return None
-        if isinstance(value, bool):
-            return "on" if value else "off"
-        return str(value)
-
-    def pull_zfs_config_facts_by_name(
+    def pull_zfs_config_properties_by_name(
         self,
-        fact_results: List[Dict[str, Any]],
+        command_results: List[Dict[str, Any]],
         allowed_sources: Optional[List[str]] = None,
     ) -> Dict[str, Dict[str, str]]:
-        """Build sorted name->properties map from zpool_facts/zfs_facts output.
+        """Build a sorted name->properties map from zfs/zpool get output lines.
 
         Args:
-            fact_results: Either a list of `ansible_zfs_pools` dictionaries,
-                or loop results containing `ansible_facts.ansible_zfs_datasets`.
-            allowed_sources: Accepted property source values.
+            command_results: Loop results containing stdout_lines in
+                "name\tproperty\tvalue\tsource" format.
+            allowed_sources: Optional list of accepted source values.
 
         Returns:
-            Dict sorted by object name with properties sorted by key.
+            A dict sorted by ZFS object name, each containing properties sorted by key.
         """
         if allowed_sources is None:
             allowed_sources = []
@@ -93,33 +48,25 @@ class FilterModule:
         sources_filter = set(allowed_sources)
         grouped_properties: Dict[str, Dict[str, str]] = {}
 
-        for entry in self._iter_fact_entries(fact_results):
-            zfs_name = entry.get("name")
-            if not isinstance(zfs_name, str) or not zfs_name:
+        for line in self._iter_stdout_lines(command_results):
+            fields = line.split("\t")
+            if len(fields) != 4:
+                raise AnsibleFilterError(
+                    "unexpected zfs property line format (expected 4 tab-separated fields): "
+                    f"{line}"
+                )
+
+            zfs_name, property_name, value, source = fields
+            if sources_filter and source not in sources_filter:
                 continue
 
-            properties: Dict[str, str] = {}
-            for property_name, property_data in entry.items():
-                if property_name in self._IGNORED_PROPERTY_KEYS:
-                    continue
+            grouped_properties.setdefault(zfs_name, {})[property_name] = value
 
-                source = self._property_source(property_data)
-                if sources_filter and source not in sources_filter:
-                    continue
+        sorted_grouped_properties: Dict[str, Dict[str, str]] = {}
+        for zfs_name in sorted(grouped_properties):
+            sorted_grouped_properties[zfs_name] = {
+                property_name: grouped_properties[zfs_name][property_name]
+                for property_name in sorted(grouped_properties[zfs_name])
+            }
 
-                value = self._property_value(property_data)
-                if value is None:
-                    continue
-
-                properties[property_name] = value
-
-            if properties:
-                grouped_properties[zfs_name] = {
-                    property_name: properties[property_name]
-                    for property_name in sorted(properties)
-                }
-
-        return {
-            zfs_name: grouped_properties[zfs_name]
-            for zfs_name in sorted(grouped_properties)
-        }
+        return sorted_grouped_properties
