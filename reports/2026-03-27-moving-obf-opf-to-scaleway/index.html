@@ -6242,10 +6242,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#preparing-migration" class="md-nav__link">
+  <a href="#preparing-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparing Migration
+        Preparing Reverse Proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing DNS
       
     </span>
   </a>
@@ -6292,10 +6303,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#preparing-migration_1" class="md-nav__link">
+  <a href="#preparing-reverse-proxy_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparing Migration
+        Preparing Reverse Proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-dns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing DNS
       
     </span>
   </a>
@@ -6384,10 +6406,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#preparing-migration" class="md-nav__link">
+  <a href="#preparing-reverse-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparing Migration
+        Preparing Reverse Proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing DNS
       
     </span>
   </a>
@@ -6434,10 +6467,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#preparing-migration_1" class="md-nav__link">
+  <a href="#preparing-reverse-proxy_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparing Migration
+        Preparing Reverse Proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-dns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparing DNS
       
     </span>
   </a>
@@ -6512,7 +6556,42 @@ following what was done for 115 (opff).</p>
     <code>lxc.cap.drop: "sys_rawio audit_read"</code></li>
 <li>remove the created disk: <code>zfs destroy zfs-hdd/pve/subvol-113-disk-0</code></li>
 </ol>
-<h3 id="preparing-migration">Preparing Migration<a class="headerlink" href="#preparing-migration" title="Permanent link">#</a></h3>
+<h3 id="preparing-reverse-proxy">Preparing Reverse Proxy<a class="headerlink" href="#preparing-reverse-proxy" title="Permanent link">#</a></h3>
+<p>We have to setup the reverse proxy in <code>scaleway-proxy</code></p>
+<p>First we copy the certificates from off2-proxy to scaleway-proxy
+(following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)
+On off2-proxy:
+</p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openbeautyfacts.org
+<span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>alex:alex<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+</code></pre></div>
+I then copied it to scaleway-proxy (using scp).
+And on scaleway-proxy:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
+tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/openbeautyfacts.org.tar.gz
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/*/openbeautyfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/openbeautyfacts.org.conf
+</code></pre></div><p></p>
+<p>On scaleway-proxy
+I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir (common config were already copied and linked while moving opff):
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt/openfoodfacts-infrastructure/
+cp<span class="w"> </span>confs/off2-reverse-proxy/nginx/sites-enabled/openbeautyfacts.org<span class="w"> </span>confs/scaleway-proxy/nginx/sites-enabled/
+<span class="c1"># link at system level</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/sites-enabled/openbeautyfacts.org<span class="w"> </span>/etc/nginx/sites-enabled/
+</code></pre></div><p></p>
+<p>I also edited openbeautyfacts.org conf</p>
+<ul>
+<li><code>listen 443 ... http2</code> is now deprecated in favour of <code>http2 on;</code></li>
+<li>comment <code>ssl_stapling</code> and <code>ssl_stapling_verify</code> directives (deprecated)</li>
+<li>to substitute any occurrence of <code>10.1.0.116</code> for <code>10.13.1.113</code>.</li>
+</ul>
+<h3 id="preparing-dns">Preparing DNS<a class="headerlink" href="#preparing-dns" title="Permanent link">#</a></h3>
 <p>On OVH web console: modify TTL on openbeautyfacts.org and *.openbeautyfacts.org to 60s</p>
 <p>On your desktop prepare the following lines to add to your <code>/etc/hosts</code> (comment them until migration):</p>
 <div class="highlight"><pre><span></span><code>151.115.132.10 world.openbeautyfacts.org fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org
@@ -6538,12 +6617,12 @@ following what was done for 115 (opff).</p>
 syncoid<span class="w"> </span>--no-sync-snap<span class="w"> </span>--no-privilege-elevation<span class="w"> </span>--recursive<span class="w"> </span>scaleway01operator@off2.openfoodfacts.org:zfs-hdd/obf<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/obf
 </code></pre></div>
    verify:
-   ```bash
-   zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0 |tail -n 1
-   for dataset in obf{,/cache,/html_data}; \
-   do \
-     zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
-   done</li>
+   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span><span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>obf<span class="o">{</span>,/cache,/html_data<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>zfs<span class="w"> </span>list<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/<span class="nv">$dataset</span><span class="w"> </span><span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+</code></pre></div></li>
 <li>move the backup zfs to their new location:
     <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/pve/subvol-113-disk-0
 zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off2-zfs-hdd/obf<span class="w"> </span>zfs-hdd/podata/obf
@@ -6554,16 +6633,16 @@ zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off
 zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/obf/images
 </code></pre></div></li>
 <li>
-<p>modify the configuration <code>srv/obf/lib/ProductOpener/Config2.pm</code> in /<code>zfs-hdd/pve/subvol-113-disk-0/</code>:
+<p>modify the configuration <code>srv/obf/lib/ProductOpener/Config2.pm</code> in <code>/zfs-hdd/pve/subvol-113-disk-0/</code>:
    ```
    $mongodb_host = "10.13.1.200";
     ...
     $redis_url = '10.13.1.200:6379';
     ...
     %server_options = (</p>
-<div class="highlight"><pre><span></span><code>      cookie_domain =&gt; "openpetfoodfacts.org",   # if not set, default to $server_domain
+<div class="highlight"><pre><span></span><code>      cookie_domain =&gt; "openbeautyfacts.org",   # if not set, default to $server_domain
       minion_backend =&gt; {'Pg' =&gt; 'postgresql://off:********@10.13.1.200/minion'},
-      minion_local_queue =&gt; "openpetfoodfacts.org",
+      minion_local_queue =&gt; "openbeautyfacts.org",
 </code></pre></div>
 <p>...
   $memd_servers = [ "10.13.1.102:11211" ];
@@ -6579,11 +6658,11 @@ ln<span class="w"> </span>-s<span class="w"> </span>/mnt/obf/images/products<spa
 <span class="c1"># some strange old refs</span>
 rm<span class="w"> </span>-rf<span class="w"> </span>srv/off/new_images/1730024919.opf:84165435.search.2.jpg
 <span class="c1"># remove old refs</span>
-<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opff<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">do</span><span class="w"> </span><span class="se">\</span>
 unlink<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">done</span>
-<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,obf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,opff<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opff<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">do</span><span class="w"> </span><span class="se">\</span>
 rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">done</span>
@@ -6597,7 +6676,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 </ol>
 <p>After migration:</p>
 <ul>
-<li>on off2: rename subvol-116 to avoid confusino
+<li>on off2: rename subvol-116 to avoid confusion
   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-116-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-116-disk-0
 </code></pre></div></li>
 <li>verify backups of the new datasets are done on scaleway-03:<ul>
@@ -6608,7 +6687,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <li>container creation on scaleway-01:
   <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
 <li>jobs/configure for obf:
-  <code>ansible-playbook jobs/configure.yml -l obf</code></li>
+  <code>ansible-playbook jobs/configure.yml -l obf</code> <sup id="fnref:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">1</a></sup></li>
 </ul>
 </li>
 <li>remove the backup datasets at ovh3</li>
@@ -6638,7 +6717,42 @@ following what was done for 115 (opff).</p>
     <code>lxc.cap.drop: "sys_rawio audit_read"</code></li>
 <li>remove the created disk: <code>zfs destroy zfs-hdd/pve/subvol-114-disk-0</code></li>
 </ol>
-<h3 id="preparing-migration_1">Preparing Migration<a class="headerlink" href="#preparing-migration_1" title="Permanent link">#</a></h3>
+<h3 id="preparing-reverse-proxy_1">Preparing Reverse Proxy<a class="headerlink" href="#preparing-reverse-proxy_1" title="Permanent link">#</a></h3>
+<p>We have to setup the reverse proxy in <code>scaleway-proxy</code></p>
+<p>First we copy the certificates from off2-proxy to scaleway-proxy
+(following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)
+On off2-proxy:
+</p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openproductsfacts.org
+<span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>alex:alex<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+</code></pre></div>
+I then copied it to scaleway-proxy (using scp).
+And on scaleway-proxy:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
+tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/openproductsfacts.org.tar.gz
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/*/openproductsfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/openproductsfacts.org.conf
+</code></pre></div><p></p>
+<p>On scaleway-proxy
+I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir (common config were already copied and linked while moving opff):
+</p><div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/opt/openfoodfacts-infrastructure/
+cp<span class="w"> </span>confs/off2-reverse-proxy/nginx/sites-enabled/openproductsfacts.org<span class="w"> </span>confs/scaleway-proxy/nginx/sites-enabled/
+<span class="c1"># link at system level</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/sites-enabled/openproductsfacts.org<span class="w"> </span>/etc/nginx/sites-enabled/
+</code></pre></div><p></p>
+<p>I also edited openproductsfacts.org conf</p>
+<ul>
+<li><code>listen 443 ... http2</code> is now deprecated in favour of <code>http2 on;</code></li>
+<li>comment <code>ssl_stapling</code> and <code>ssl_stapling_verify</code> directives (deprecated)</li>
+<li>to substitute any occurrence of <code>10.1.0.117</code> for <code>10.13.1.114</code>.</li>
+</ul>
+<h3 id="preparing-dns_1">Preparing DNS<a class="headerlink" href="#preparing-dns_1" title="Permanent link">#</a></h3>
 <p>On OVH web console: modify TTL on openproductsfacts.org and *.openproductsfacts.org to 60s</p>
 <p>On your desktop prepare the following lines to add to your <code>/etc/hosts</code> (comment them until migration):</p>
 <div class="highlight"><pre><span></span><code>151.115.132.10 world.openproductsfacts.org fr.openproductsfacts.org static.openproductsfacts.org images.openproductsfacts.org
@@ -6680,7 +6794,7 @@ zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/off-backups/off
 zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>zfs-hdd/podata/opf/images
 </code></pre></div></li>
 <li>
-<p>modify the configuration <code>srv/opf/lib/ProductOpener/Config2.pm</code> in /<code>zfs-hdd/pve/subvol-114-disk-0/</code>:
+<p>modify the configuration <code>srv/opf/lib/ProductOpener/Config2.pm</code> in <code>/zfs-hdd/pve/subvol-114-disk-0/</code>:
    ```
    $mongodb_host = "10.13.1.200";
     ...
@@ -6703,13 +6817,15 @@ ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opf/products<span class
 unlink<span class="w"> </span>srv/opf/html/images/products
 ln<span class="w"> </span>-s<span class="w"> </span>/mnt/opf/images/products<span class="w"> </span>srv/opf/html/images/products
 <span class="c1"># some strange old refs</span>
-rm<span class="w"> </span>-rf<span class="w"> </span>srv/off/new_images/1730024919.opf:84165435.search.2.jpg
+rm<span class="w"> </span>-rf<span class="w"> </span>srv/off/new_images
+rm<span class="w"> </span>-rf<span class="w"> </span>srv/obf/new_images
+rm<span class="w"> </span>-rf<span class="w"> </span>srv/opff/new_images
 <span class="c1"># remove old refs</span>
-<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>srv/<span class="o">{</span>off,opff,obf<span class="o">}</span>/<span class="o">{</span>html/images/products,products<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">do</span><span class="w"> </span><span class="se">\</span>
 unlink<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">done</span>
-<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opf,opf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">for</span><span class="w"> </span>dirname<span class="w"> </span><span class="k">in</span><span class="w"> </span>mnt/<span class="o">{</span>off,opff,obf<span class="o">}</span>/<span class="o">{</span>images,products,<span class="o">}</span><span class="w"> </span>srv/<span class="o">{</span>off,opff,obf<span class="o">}</span>/<span class="o">{</span>html/<span class="o">{</span>images,<span class="o">}</span>,<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">do</span><span class="w"> </span><span class="se">\</span>
 rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">done</span>
@@ -6723,7 +6839,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 </ol>
 <p>After migration:</p>
 <ul>
-<li>on off2: rename subvol-117 to avoid confusino
+<li>on off2: rename subvol-117 to avoid confusion
   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-117-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-117-disk-0
 </code></pre></div></li>
 <li>verify backups of the new datasets are done on scaleway-03:<ul>
@@ -6734,7 +6850,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <li>container creation on scaleway-01:
   <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
 <li>jobs/configure for opf:
-  <code>ansible-playbook jobs/configure.yml -l opf</code></li>
+  <code>ansible-playbook jobs/configure.yml -l opf</code> <sup id="fnref2:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">1</a></sup></li>
 </ul>
 </li>
 <li>remove the backup datasets at ovh3</li>
@@ -6745,6 +6861,17 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <ul>
 <li>on off2: remove the pct 117: <code>pct remove 117</code></li>
 </ul>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:SSH_RESTART">
+<p>Note that while running the configure job,
+at some point it was not able to connect to the server…
+I had to go on scaleway-01, use <code>pct enter &lt;ct_id&gt;</code>
+and there do a <code>systemctl daemon-reload &amp;&amp; systemctl restart ssh</code>&nbsp;<a class="footnote-backref" href="#fnref:SSH_RESTART" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:SSH_RESTART" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 

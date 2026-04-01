@@ -6979,12 +6979,13 @@ sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </
 <span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
-chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+sudo<span class="w"> </span>chown<span class="w"> </span>alex:alex<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
+sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
 </code></pre></div>
 I then copied it to scaleway-proxy (using scp).
-And on scaleway:
+And on scaleway-proxy:
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
-tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/
+tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/openpetfoodfacts.org.tar.gz
 <span class="c1"># verify</span>
 ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/*/openpetfoodfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/openpetfoodfacts.org.conf
 </code></pre></div><p></p>
@@ -7003,9 +7004,12 @@ I also add to add some specific configs,
 <div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/nginx.conf<span class="w"> </span>/etc/nginx/
 ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/conf.d/proxy_cache.conf<span class="w"> </span>/etc/nginx/conf.d/
 </code></pre></div><p></p>
-<p>I also edited openfoodfacts.org conf because
-<code>listen 443 ... http2</code> is now deprecated in favour of <code>http2 on;</code>
-And to substitute any occurrence of <code>10.1.0.118</code> for <code>10.13.1.115</code>.</p>
+<p>I also edited openfoodfacts.org conf</p>
+<ul>
+<li><code>listen 443 ... http2</code> is now deprecated in favour of <code>http2 on;</code></li>
+<li>comment stapple directive (deprecated)</li>
+<li>to substitute any occurrence of <code>10.1.0.118</code> for <code>10.13.1.115</code>.</li>
+</ul>
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
 <h3 id="starting-opff-for-testing">Starting opff for testing<a class="headerlink" href="#starting-opff-for-testing" title="Permanent link">#</a></h3>
 <p>After discussion on the impact of the test instance of prod.</p>
