@@ -291,13 +291,14 @@ sudo tar -chvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
-chmod go-rw $DOM.tar.gz
+sudo chown alex:alex $DOM.tar.gz
+sudo chmod go-rw $DOM.tar.gz
 ```
 I then copied it to scaleway-proxy (using scp).
-And on scaleway:
+And on scaleway-proxy:
 ```bash
 cd /
-tar xzf /home/alex/
+tar xzf /home/alex/openpetfoodfacts.org.tar.gz
 # verify
 ls -l /etc/letsencrypt/*/openpetfoodfacts.org /etc/letsencrypt/renewal/openpetfoodfacts.org.conf
 ```
@@ -320,9 +321,12 @@ ln -s /opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/nginx.conf /e
 ln -s /opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/conf.d/proxy_cache.conf /etc/nginx/conf.d/
 ```
 
-I also edited openfoodfacts.org conf because
-`listen 443 ... http2` is now deprecated in favour of `http2 on;`
-And to substitute any occurrence of `10.1.0.118` for `10.13.1.115`.
+I also edited openfoodfacts.org conf
+* `listen 443 ... http2` is now deprecated in favour of `http2 on;`
+* comment stapple directive (deprecated)
+* to substitute any occurrence of `10.1.0.118` for `10.13.1.115`.
+
+
 
 ## Testing
 

@@ -35,7 +35,7 @@ proxmox_node__pve_storages:
 
 proxmox_containers__containers:
   - id: 100
-    hostname: scaleway-01-proxy
+    hostname: scaleway-proxy
     features:
       - nesting=1
     cores: 6
@@ -60,6 +60,42 @@ proxmox_containers__containers:
     disk:
       storage: zfs-hdd-pve
       size: 32
+  - id: 113
+    hostname: obf
+    features:
+      - nesting=1
+    cores: 6
+    memory: "{{ 12 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.13.1.113/16
+        gw: 10.13.0.1
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 30
+    idmap: &off-containers-idmap
+      - content: "u 0 100000 999"
+      - content: "g 0 100000 999"
+      - content: "u 1000 1000 64536"
+      - content: "g 1000 1000 64536"
+  - id: 114
+    hostname: opf
+    features:
+      - nesting=1
+    cores: 6
+    memory: "{{ 12 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.13.1.114/16
+        gw: 10.13.0.1
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 30
+    idmap: *off-containers-idmap
   - id: 115
     hostname: opff
     features:
@@ -75,8 +111,4 @@ proxmox_containers__containers:
     disk:
       storage: zfs-hdd-pve
       size: 30
-    idmap:
-      - content: "u 0 100000 999"
-      - content: "g 0 100000 999"
-      - content: "u 1000 1000 64536"
-      - content: "g 1000 1000 64536"
+    idmap: *off-containers-idmap

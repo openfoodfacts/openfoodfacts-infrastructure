@@ -35,7 +35,50 @@ On scaleway-01:
     ```
 2. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-113-disk-0`
 
-### Preparing Migration
+
+### Preparing Reverse Proxy
+
+We have to setup the reverse proxy in `scaleway-proxy`
+
+First we copy the certificates from off2-proxy to scaleway-proxy
+(following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)
+On off2-proxy:
+```bash
+CONF=/etc/nginx/sites-enabled/openbeautyfacts.org
+DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
+echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
+sudo tar -chvzf $DOM.tar.gz \
+    /etc/letsencrypt/archive/${DOM} \
+    /etc/letsencrypt/renewal/${DOM}.conf \
+    /etc/letsencrypt/live/${DOM}
+sudo chown alex:alex $DOM.tar.gz
+sudo chmod go-rw $DOM.tar.gz
+```
+I then copied it to scaleway-proxy (using scp).
+And on scaleway-proxy:
+```bash
+cd /
+tar xzf /home/alex/openbeautyfacts.org.tar.gz
+# verify
+ls -l /etc/letsencrypt/*/openbeautyfacts.org /etc/letsencrypt/renewal/openbeautyfacts.org.conf
+```
+
+On scaleway-proxy
+I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir (common config were already copied and linked while moving opff):
+```bash
+cd /opt/openfoodfacts-infrastructure/
+cp confs/off2-reverse-proxy/nginx/sites-enabled/openbeautyfacts.org confs/scaleway-proxy/nginx/sites-enabled/
+# link at system level
+ln -s /opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/sites-enabled/openbeautyfacts.org /etc/nginx/sites-enabled/
+```
+
+I also edited openbeautyfacts.org conf
+* `listen 443 ... http2` is now deprecated in favour of `http2 on;`
+* comment `ssl_stapling` and `ssl_stapling_verify` directives (deprecated)
+* to substitute any occurrence of `10.1.0.116` for `10.13.1.113`.
+
+
+### Preparing DNS
 
 On OVH web console: modify TTL on openbeautyfacts.org and *.openbeautyfacts.org to 60s
 
@@ -44,6 +87,7 @@ On your desktop prepare the following lines to add to your `/etc/hosts` (comment
 ```
 151.115.132.10 world.openbeautyfacts.org fr.openbeautyfacts.org static.openbeautyfacts.org images.openbeautyfacts.org
 ```
+
 
 ### Migration
 
@@ -74,6 +118,7 @@ Now we hurry:
    do \
      zfs list -t snap zfs-hdd/off-backups/off2-zfs-hdd/$dataset |tail -n 1; \
    done
+   ```
 1. move the backup zfs to their new location:
     ```bash
     zfs rename zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-116-disk-0 zfs-hdd/pve/subvol-113-disk-0
@@ -85,7 +130,7 @@ Now we hurry:
   zfs destroy -r zfs-hdd/podata/obf/products
   zfs destroy -r zfs-hdd/podata/obf/images
   ```
-1. modify the configuration `srv/obf/lib/ProductOpener/Config2.pm` in /`zfs-hdd/pve/subvol-113-disk-0/`:
+1. modify the configuration `srv/obf/lib/ProductOpener/Config2.pm` in `/zfs-hdd/pve/subvol-113-disk-0/`:
    ```
    $mongodb_host = "10.13.1.200";
     ...
@@ -93,9 +138,9 @@ Now we hurry:
     ...
     %server_options = (
 
-            cookie_domain => "openpetfoodfacts.org",   # if not set, default to $server_domain
+            cookie_domain => "openbeautyfacts.org",   # if not set, default to $server_domain
             minion_backend => {'Pg' => 'postgresql://off:********@10.13.1.200/minion'},
-            minion_local_queue => "openpetfoodfacts.org",
+            minion_local_queue => "openbeautyfacts.org",
     ...
     $memd_servers = [ "10.13.1.102:11211" ];
     ```
@@ -109,11 +154,11 @@ Now we hurry:
     # some strange old refs
     rm -rf srv/off/new_images/1730024919.opf:84165435.search.2.jpg
     # remove old refs
-    for dirname in srv/{off,opf,obf}/{html/images/products,products}; \
+    for dirname in srv/{off,opf,opff}/{html/images/products,products}; \
     do \
     unlink $dirname; \
     done
-    for dirname in mnt/{off,opf,obf}/{images,products,} srv/{off,opf,obf}/{html/{images,},}; \
+    for dirname in mnt/{off,opf,opff}/{images,products,} srv/{off,opf,opff}/{html/{images,},}; \
     do \
     rmdir $dirname; \
     done
@@ -125,7 +170,7 @@ Now we hurry:
 1. It's live !
 
 After migration:
-* on off2: rename subvol-116 to avoid confusino
+* on off2: rename subvol-116 to avoid confusion
   ```bash
   zfs rename zfs-hdd/pve/subvol-116-disk-0 zfs-hdd/backups/subvol-116-disk-0
   ```
@@ -135,7 +180,7 @@ After migration:
   * container creation on scaleway-01:
     `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
   * jobs/configure for obf:
-    `ansible-playbook jobs/configure.yml -l obf`
+    `ansible-playbook jobs/configure.yml -l obf` [^SSH_RESTART]
 * remove the backup datasets at ovh3
 * Verify podata is synced on ovh3
 * put back the TTL for domain to a normal level
@@ -170,7 +215,50 @@ On scaleway-01:
     ```
 2. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-114-disk-0`
 
-### Preparing Migration
+
+### Preparing Reverse Proxy
+
+We have to setup the reverse proxy in `scaleway-proxy`
+
+First we copy the certificates from off2-proxy to scaleway-proxy
+(following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)
+On off2-proxy:
+```bash
+CONF=/etc/nginx/sites-enabled/openproductsfacts.org
+DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
+echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
+sudo tar -chvzf $DOM.tar.gz \
+    /etc/letsencrypt/archive/${DOM} \
+    /etc/letsencrypt/renewal/${DOM}.conf \
+    /etc/letsencrypt/live/${DOM}
+sudo chown alex:alex $DOM.tar.gz
+sudo chmod go-rw $DOM.tar.gz
+```
+I then copied it to scaleway-proxy (using scp).
+And on scaleway-proxy:
+```bash
+cd /
+tar xzf /home/alex/openproductsfacts.org.tar.gz
+# verify
+ls -l /etc/letsencrypt/*/openproductsfacts.org /etc/letsencrypt/renewal/openproductsfacts.org.conf
+```
+
+On scaleway-proxy
+I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir (common config were already copied and linked while moving opff):
+```bash
+cd /opt/openfoodfacts-infrastructure/
+cp confs/off2-reverse-proxy/nginx/sites-enabled/openproductsfacts.org confs/scaleway-proxy/nginx/sites-enabled/
+# link at system level
+ln -s /opt/openfoodfacts-infrastructure/confs/scaleway-proxy/nginx/sites-enabled/openproductsfacts.org /etc/nginx/sites-enabled/
+```
+
+I also edited openproductsfacts.org conf
+* `listen 443 ... http2` is now deprecated in favour of `http2 on;`
+* comment `ssl_stapling` and `ssl_stapling_verify` directives (deprecated)
+* to substitute any occurrence of `10.1.0.117` for `10.13.1.114`.
+
+
+### Preparing DNS
 
 On OVH web console: modify TTL on openproductsfacts.org and *.openproductsfacts.org to 60s
 
@@ -220,7 +308,7 @@ Now we hurry:
   zfs destroy -r zfs-hdd/podata/opf/products
   zfs destroy -r zfs-hdd/podata/opf/images
   ```
-1. modify the configuration `srv/opf/lib/ProductOpener/Config2.pm` in /`zfs-hdd/pve/subvol-114-disk-0/`:
+1. modify the configuration `srv/opf/lib/ProductOpener/Config2.pm` in `/zfs-hdd/pve/subvol-114-disk-0/`:
    ```
    $mongodb_host = "10.13.1.200";
     ...
@@ -242,13 +330,15 @@ Now we hurry:
     unlink srv/opf/html/images/products
     ln -s /mnt/opf/images/products srv/opf/html/images/products
     # some strange old refs
-    rm -rf srv/off/new_images/1730024919.opf:84165435.search.2.jpg
+    rm -rf srv/off/new_images
+    rm -rf srv/obf/new_images
+    rm -rf srv/opff/new_images
     # remove old refs
-    for dirname in srv/{off,opf,opf}/{html/images/products,products}; \
+    for dirname in srv/{off,opff,obf}/{html/images/products,products}; \
     do \
     unlink $dirname; \
     done
-    for dirname in mnt/{off,opf,opf}/{images,products,} srv/{off,opf,opf}/{html/{images,},}; \
+    for dirname in mnt/{off,opff,obf}/{images,products,} srv/{off,opff,obf}/{html/{images,},}; \
     do \
     rmdir $dirname; \
     done
@@ -260,7 +350,7 @@ Now we hurry:
 1. It's live !
 
 After migration:
-* on off2: rename subvol-117 to avoid confusino
+* on off2: rename subvol-117 to avoid confusion
   ```bash
   zfs rename zfs-hdd/pve/subvol-117-disk-0 zfs-hdd/backups/subvol-117-disk-0
   ```
@@ -270,10 +360,16 @@ After migration:
   * container creation on scaleway-01:
     `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
   * jobs/configure for opf:
-    `ansible-playbook jobs/configure.yml -l opf`
+    `ansible-playbook jobs/configure.yml -l opf` [^SSH_RESTART]
 * remove the backup datasets at ovh3
 * Verify podata is synced on ovh3
 * put back the TTL for domain to a normal level
 
 Later:
 * on off2: remove the pct 117: `pct remove 117`
+
+
+[^SSH_RESTART]: Note that while running the configure job,
+at some point it was not able to connect to the server…
+I had to go on scaleway-01, use `pct enter <ct_id>`
+and there do a `systemctl daemon-reload && systemctl restart ssh`

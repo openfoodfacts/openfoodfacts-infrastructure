@@ -32,7 +32,7 @@ As mentionned in the [Ansible inventory](https://github.com/openfoodfacts/openfo
 
 | Machine                 | IPv4             | IPv6                  |
 | ----------------------- | ---------------- | --------------------- |
-| Scaleway-01-proxy (LXC) | `151.115.132.10` | `2001:bc8:c025:10::0` |
+| Scaleway-proxy (LXC)    | `151.115.132.10` | `2001:bc8:c025:10::0` |
 | Scaleway-01             | `151.115.132.11` | `2001:bc8:c025:10::1` |
 | Scaleway-02             | `151.115.132.12` | `2001:bc8:c025:10::2` |
 | Scaleway-03             | `151.115.132.13` | `2001:bc8:c025:10::3` |
