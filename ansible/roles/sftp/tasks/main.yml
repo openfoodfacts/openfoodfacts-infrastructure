@@ -1,0 +1,43 @@
+# Configure the sftp service
+---
+- name: "Assert sftp__home_directory contains $user"
+  ansible.builtin.assert:
+    that:
+      - "'$USER'| in(sftp__home_directory)"
+    fail_msg: "the sftp__home_directory variable must contains $user"
+
+- name: Ensure sftp group exists
+  ansible.builtin.group:
+    name: "{{ sftp__group }}"
+    state: present
+
+- name: Create root dir of user and give it to root
+  ansible.builtin.file:
+    path: "{{ sftp__home_directory | replace('$USER', item.name) | dirname }}"
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+  loop: "{{ sftp__users | mask_key(target=['password']) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: (item.state | defaurt('present')) == 'present'
+
+- name: "Add (or Remove) sftp users"
+  ansible.builtin.user:
+    group: "{{ sftp__group }}"
+    home: "{{ sftp__home_directory | replace('$USER', item.name) }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ sftp__users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  # avoid displaying hashes in log
+  no_log: true
+
+- name: Symlink configurations files
+  git_based_config_symlinks:
+    src: "{{ sftp__git_config_path_sshd }}"
+    dst: "/etc/ssh/sshd_config.d"
+  notify: "sftp - sshd restart"

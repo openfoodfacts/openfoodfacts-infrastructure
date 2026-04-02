@@ -25,3 +25,9 @@
       vars:
         stunnel__ensure_no_client: true
         stunnel__config_repository_root: "{{ infrastructure_repository_dest }}"
+    # some proxy are also reverse proxy, they must be in sftp_server group
+    - role: sftp
+      tags: ["sftp"]
+      when: "'sftp_servers_hosts' in group_names"
+      vars:
+        sftp__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
