@@ -1,17 +1,14 @@
 # 2025-02-26 Moving redis to scaleway
 
 We have [already moved MongoDB service to scaleway](./2026-01-15-moving-mongodb-to-scaleway.md)
-and as a byproduct,
-we installed a scaleway-docker-prod VM
-with openfoodfacts-shared-serivces deployed on it.
+and as a byproduct, we installed a scaleway-docker-prod VM with openfoodfacts-shared-services deployed on it.
 
-The goal is now to migrate redis on scaleway
+The goal is now to migrate redis on scaleway.
 
 ## Getting data backup on scaleway-02
 
-Currently redis and postgres are on off2,
-and backed on scaleway-01.
-So we need to get a backup of thos on scaleway-02.
+Currently redis and postgres are on off2, and backed on scaleway-01.
+So we need to get a backup of those on scaleway-02.
 
 To do this, I will also get the volumes I want from off2/pve backups on scaleway-02.
 First create destination datasets and copy them from scaleway-01, to avoid charging off2

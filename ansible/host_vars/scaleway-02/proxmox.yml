@@ -15,6 +15,10 @@ _proxmox_node__zfs_filesystems_specific:
       # this is mandatory for virtiofs to work well in linux
       acltype: posixacl
   # data volumes
+  # The following volumes are created on the nvme pool, because we want to benefit from
+  # better performance for databases, but we mount them in the
+  # `/zfs-hdd/virtiofs/qm-200/docker-volumes` dir, where all other docker volumes are
+  # located. These other volumes are on the hdd pool.
   - name: zfs-nvme/virtiofs/qm-200-off_shared_mongodb_data
     properties:
       # we need to mount it in the right place for docker in the VM
