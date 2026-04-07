@@ -54,6 +54,11 @@ virtiofs__dir_mappings:
       - node: scaleway-02
         path: /zfs-hdd/virtiofs/qm-200/docker-volumes
     description: "virtiofs dataset for qm-200 docker volumes"
+  - id: qm-201-virtiofs-docker-volumes
+    map:
+      - node: scaleway-03
+        path: /zfs-hdd/virtiofs/qm-201/docker-volumes
+    description: "virtiofs dataset for qm-201 docker volumes"
 
 # FIXME
 # pve_ssl_private_key

@@ -23,4 +23,4 @@ roles:
     version: 8940f01615e1f8abf267967953e4f67eb1b27d52
     scm: git
   - src: geerlingguy.docker
-    version: 7.4.7
+    version: 8.0.0
