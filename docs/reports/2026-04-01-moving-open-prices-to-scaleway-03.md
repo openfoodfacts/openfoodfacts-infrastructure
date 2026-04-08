@@ -349,6 +349,15 @@ On **docker-prod**, I deleted the now legacy volume to save disk space:
 docker volume rm open_prices_images
 ```
 
-Remaining tasks:
+We created a ssh key for deployment following
+the [continuous_deployment role documentation](../ansible/roles/continuous_deployment.md),
+and adding the new variable to
+[open-prices](https://github.com/openfoodfacts/open-prices)
+and [open-prices-frontend](https://github.com/openfoodfacts/open-prices-frontend).
 
-- [ ] Configure SSH access from Github Action to scaleway-docker-prod-2, to be able to deploy both [open-prices](https://github.com/openfoodfacts/open-prices) and [open-prices-frontend](https://github.com/openfoodfacts/open-prices-frontend).
+The deployment actions also had to be modified to use `scaleway-03.infra.openfoodfacts.org` as reverse proxy,
+as well as changing the host ip:
+* for open-prices,
+  [commit e5f40015929e](https://github.com/openfoodfacts/open-prices/commit/e5f40015929e461a3c324524ed4f590be17f334b)
+  and [fix PR #1267](https://github.com/openfoodfacts/open-prices/pull/1267)
+* for open-prices-frontend: [PR #2117](https://github.com/openfoodfacts/open-prices-frontend/pull/2117)

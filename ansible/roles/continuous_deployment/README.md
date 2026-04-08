@@ -22,6 +22,8 @@ A public/private keypair can be generated with
 ssh-keygen -t ed25519 -C "off@<node_name>"
 ```
 
+The private / public key might be saved in the shared KeepassXC file.
+
 
 ## Note on testing connection
 
