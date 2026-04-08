@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2022-08-17-openfoodfacts-net-unreachable/">
+        <link rel="prev" href="../2026-03-27-moving-obf-opf-to-scaleway/">
       
-      
-        <link rel="next" href="../2022-11-09-monitoring-move-to-own-vm/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>Setup of Odoo for pro platform - Open Food Facts Infrastructure documentation</title>
+        <title>2026-04-01 Moving Open Prices to scaleway-03 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setup-of-odoo-for-pro-platform" class="md-skip">
+        <a href="#2026-04-01-moving-open-prices-to-scaleway-03" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup of Odoo for pro platform
+              2026-04-01 Moving Open Prices to scaleway-03
             
           </span>
         </div>
@@ -2798,37 +2796,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Setup of Odoo for pro platform
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2022-09-23-odoo-setup-for-pro-platform/" class="md-nav__link">
         
   
   
@@ -2844,81 +2815,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#installing-rest-framework" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        installing rest-framework
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-specific-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding specific fields
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#making-an-api-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        making an api key
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-database-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        getting database name
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        testing
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6288,10 +6184,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-04-01-moving-open-prices-to-scaleway-03/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-04-01 Moving Open Prices to scaleway-03
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6307,6 +6230,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#creating-zfs-datasets-and-docker-prod-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating ZFS datasets and docker-prod VM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating ZFS datasets and docker-prod VM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating ZFS datasets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding virtiofs volume to our VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resizing-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resizing partition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-docker-on-scaleway-docker-prod-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing docker on scaleway-docker-prod-2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-stunnel-to-connect-to-triton" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring stunnel to connect to Triton
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#move-certbot-certificates-to-scaleway-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move Certbot certificates to scaleway-proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-data-from-ovh-to-scaleway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copying data from ovh to scaleway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-install
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6346,10 +6427,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#installing-rest-framework" class="md-nav__link">
+  <a href="#creating-zfs-datasets-and-docker-prod-vm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        installing rest-framework
+        Creating ZFS datasets and docker-prod VM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating ZFS datasets and docker-prod VM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-zfs-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating ZFS datasets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the VM
       
     </span>
   </a>
@@ -6357,10 +6466,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-specific-fields" class="md-nav__link">
+  <a href="#adding-virtiofs-volume-to-our-vm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding specific fields
+        Adding virtiofs volume to our VM
       
     </span>
   </a>
@@ -6368,10 +6477,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#making-an-api-key" class="md-nav__link">
+  <a href="#resizing-partition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        making an api key
+        Resizing partition
       
     </span>
   </a>
@@ -6379,10 +6488,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#getting-database-name" class="md-nav__link">
+  <a href="#installing-docker-on-scaleway-docker-prod-2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        getting database name
+        Installing docker on scaleway-docker-prod-2
       
     </span>
   </a>
@@ -6390,10 +6499,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
+  <a href="#configuring-stunnel-to-connect-to-triton" class="md-nav__link">
     <span class="md-ellipsis">
       
-        testing
+        Configuring stunnel to connect to Triton
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#move-certbot-certificates-to-scaleway-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move Certbot certificates to scaleway-proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-data-from-ovh-to-scaleway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copying data from ovh to scaleway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-install
       
     </span>
   </a>
@@ -6417,7 +6581,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2022-09-23-odoo-setup-for-pro-platform.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-04-01-moving-open-prices-to-scaleway-03.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6425,55 +6589,285 @@
   
 
 
-<h1 id="setup-of-odoo-for-pro-platform">Setup of Odoo for pro platform<a class="headerlink" href="#setup-of-odoo-for-pro-platform" title="Permanent link">#</a></h1>
-<h2 id="installing-rest-framework">installing rest-framework<a class="headerlink" href="#installing-rest-framework" title="Permanent link">#</a></h2>
-<p>Following <a href="../../odoo/#contributed-modules-from-oca-store">our odoo documentation</a></p>
-<p>And finally I may not need this… as it is intended as a framework 
-Et en fait … j'en ai pas vraiment besoin car c'est pour dev des modèles spécifiques dans odoo (ce que je veux éviter pour le moment).</p>
-<h2 id="adding-specific-fields">Adding specific fields<a class="headerlink" href="#adding-specific-fields" title="Permanent link">#</a></h2>
-<h2 id="making-an-api-key">making an api key<a class="headerlink" href="#making-an-api-key" title="Permanent link">#</a></h2>
-<p>Following : https://www.odoo.com/documentation/master/developer/api/external_api.html#</p>
+<h1 id="2026-04-01-moving-open-prices-to-scaleway-03">2026-04-01 Moving Open Prices to scaleway-03<a class="headerlink" href="#2026-04-01-moving-open-prices-to-scaleway-03" title="Permanent link">#</a></h1>
+<p>As we're running out of disk space again on ovh, and as Open Prices images now takes ~650 GB of disk space, it's a good time to move them to scaleway-03, where we have plenty of disk space.</p>
+<h2 id="creating-zfs-datasets-and-docker-prod-vm">Creating ZFS datasets and docker-prod VM<a class="headerlink" href="#creating-zfs-datasets-and-docker-prod-vm" title="Permanent link">#</a></h2>
+<p>The process is the same as for (docker-prod VM install on scaleway-02)[./2025-11-27-moving-keycloak-to-scaleway.md].</p>
+<p>The ID of the VM will be 201.</p>
+<h3 id="creating-zfs-datasets">Creating ZFS datasets<a class="headerlink" href="#creating-zfs-datasets" title="Permanent link">#</a></h3>
+<p>As for docker-prod on scaleway-02, we decided that by default, all docker volumes will be on a ZFS dataset in the zfs-hdd pool: we use HDD by default, as our storage capacity is limited on nVMe (only 3 TB).</p>
+<p>If we need more disk performance, we create a specific ZFS dataset on the nVMe pool, and we mount it in the VM using VirtioFS. That's what we did for OFF MongoDB and Redis, and that's what we will do for Open Prices PostgreSQL DB.</p>
+<p>ZFS dataset creation and virtiofs configuration is done by Ansible.</p>
+<p>First, we update <code>proxmox.yml</code> to configure the datasets:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">_proxmox_node__zfs_filesystems_specific</span><span class="p">:</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd/virtiofs</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># this is mandatory for virtiofs to work well in linux</span>
+<span class="w">      </span><span class="nt">acltype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">posixacl</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd/virtiofs/qm-201</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd/virtiofs/qm-201/docker-volumes</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-nvme/virtiofs</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># this is mandatory for virtiofs to work well in linux</span>
+<span class="w">      </span><span class="nt">acltype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">posixacl</span>
+<span class="w">  </span><span class="c1"># data volumes</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-nvme/virtiofs/qm-201-open_prices_postgres-data</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># we need to mount it in the right place for docker in the VM</span>
+<span class="w">      </span><span class="nt">mountpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/zfs-hdd/virtiofs/qm-201/docker-volumes/open_prices_postgres-data</span>
+</code></pre></div>
+<p>We also add the <code>proxmox_node__pve_storages</code> that was present in scaleway-01 and scaleway-02, but not in <code>scaleway-03</code> yet:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">proxmox_node__pve_storages</span><span class="p">:</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd-pve</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfspool</span>
+<span class="w">    </span><span class="nt">pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd/pve</span>
+<span class="w">    </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rootdir,images</span>
+<span class="w">    </span><span class="nt">mountpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/zfs-hdd/pve</span>
+<span class="w">    </span><span class="nt">sparse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="c1"># shared: 0 # for some reason, this flag did make the setup crash</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dir</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/vz</span>
+<span class="w">    </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vztmpl,snippets,iso</span>
+<span class="w">    </span><span class="nt">shared</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="c1"># removing installed storage</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfspool</span>
+<span class="w">    </span><span class="nt">pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-hdd</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
+</code></pre></div>
+<p>We edit <code>virtiofs__dir_mappings</code> in <code>group_vars/pvescaleway/proxmox.yml</code> to add the virtiofs mapping.</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qm-201-virtiofs-docker-volumes</span>
+<span class="w">    </span><span class="nt">map</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaleway-03</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/zfs-hdd/virtiofs/qm-201/docker-volumes</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"virtiofs</span><span class="nv"> </span><span class="s">dataset</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">qm-201</span><span class="nv"> </span><span class="s">docker</span><span class="nv"> </span><span class="s">volumes"</span>
+</code></pre></div>
+<p>Then we run:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-03<span class="w"> </span>--tags<span class="w"> </span>zfs,virtiofs
+</code></pre></div>
+<p>ZFS datasets and virtiofs are now configured on scaleway-03.</p>
+<h2 id="creating-the-vm">Creating the VM<a class="headerlink" href="#creating-the-vm" title="Permanent link">#</a></h2>
+<p>We now create a VM template. Following what was done on scaleway-02:</p>
+<div class="highlight"><pre><span></span><code><span class="sb">```</span>bash
+<span class="nb">cd</span><span class="w"> </span>/home/raphael0202
+<span class="c1"># navigate from https://cloud.debian.org/images/cloud to retrieve the name</span>
+wget<span class="w"> </span>https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
+apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libguestfs-tools<span class="w"> </span>dhcpcd-base
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--update
+virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-13-generic-amd64.qcow2<span class="w"> </span>--install<span class="w"> </span>qemu-guest-agent
+
+<span class="c1"># create the VM</span>
+qm<span class="w"> </span>create<span class="w"> </span><span class="m">999</span><span class="w"> </span>--name<span class="w"> </span>debian13-cloudinit<span class="w"> </span>--net0<span class="w"> </span>virtio,bridge<span class="o">=</span>vmbr10<span class="w"> </span>--scsihw<span class="w"> </span>virtio-scsi-single
+
+<span class="c1"># add the disk, using zfs-hdd/pve</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--scsi0<span class="w"> </span>zfs-hdd-pve:0,iothread<span class="o">=</span><span class="m">1</span>,backup<span class="o">=</span>off,format<span class="o">=</span>qcow2,import-from<span class="o">=</span>/home/raphael0202/debian-13-generic-amd64.qcow2
+<span class="c1"># set boot</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span>scsi0
+<span class="c1"># set some physical values</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--cpu<span class="w"> </span>host<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">4096</span>
+<span class="c1"># add cloudinit</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w">  </span><span class="m">999</span><span class="w"> </span>--ide2<span class="w"> </span>local:cloudinit
+<span class="c1"># set qemu agent</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--agent<span class="w"> </span><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="c1"># make it a template</span>
+qm<span class="w"> </span>template<span class="w"> </span><span class="m">999</span>
+</code></pre></div>
+<p>Using Proxmox UI, I use the Template VM to create my VM. Right click on the 999 template, and click "Clone". I fill the form with:</p>
 <ul>
-<li>preferences - account security - new api key</li>
-<li>there is no ACL for key so we need a specific user to the app to avoid giving too much privileges</li>
+<li>Target node: scaleway-03</li>
+<li>VM ID: 201</li>
+<li>Name: scaleway-docker-prod-2</li>
+<li>Mode: full-clone</li>
+<li>Target storage: zfs-hdd-pve</li>
 </ul>
-<h2 id="getting-database-name">getting database name<a class="headerlink" href="#getting-database-name" title="Permanent link">#</a></h2>
-<p>I used https://connect-test.openfoodfacts.org/web/database/manager (there may be a better way)</p>
-<p>It's also written next to the user name in the web interface !</p>
-<p>It's <code>crm</code></p>
-<h2 id="testing">testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--no-deps<span class="w"> </span>--user<span class="o">=</span>root<span class="w">  </span>backend<span class="w"> </span>bash
-cpanm<span class="w"> </span>XML::RPC
-re.pl
+<p>I tweak the configuration to:</p>
+<ul>
+<li>start at boot</li>
+<li>enable protection</li>
+<li>70 cores, 128 GB of RAM (same as scaleway-docker-prod on scaleway-02)</li>
+<li>change cloudinit to:<ul>
+<li>user: config-op</li>
+<li>password: <strong>*</strong></li>
+<li>ssh public keys: I took part of the content of /root/.ssh/authorized_keys on scaleway-03</li>
+<li>IPConfig: IP: 10.13.1.201/16 and Gateway: 10.13.0.3</li>
+</ul>
+</li>
+</ul>
+<p>In ansible/ folder I:</p>
+<ul>
+<li>add the VM to the inventory.
+  <div class="highlight"><pre><span></span><code>scaleway-docker-prod-2 proxmox_vm_id=201 proxmox_node="scaleway-03"
 </code></pre></div>
-<p></p><div class="highlight"><pre><span></span><code><span class="nv">$</span><span class="w"> </span><span class="nv">use</span><span class="w"> </span><span class="nn">XML::</span><span class="n">RPC</span><span class="p">;</span>
-<span class="nv">$</span><span class="w"> </span><span class="nv">my</span><span class="w"> </span><span class="nv">$xmlrpc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">XML::RPC</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="s">'https://connect-test.openfoodfacts.org//xmlrpc/2/common'</span><span class="p">);</span>
-<span class="nv">$XML_RPC1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">XML::</span><span class="n">RPC</span><span class="o">=</span><span class="n">HASH</span><span class="p">(</span><span class="mh">0x556034d3c498</span><span class="p">);</span>
-<span class="nv">$</span><span class="w"> </span><span class="err">$</span><span class="nv">xmlrpc</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="w"> </span><span class="s">'version'</span><span class="p">);</span>
-<span class="nv">$HASH1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">           </span><span class="n">protocol_version</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">           </span><span class="n">server_serie</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">'15.0'</span><span class="p">,</span>
-<span class="w">           </span><span class="n">server_version</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">'15.0-20220912'</span><span class="p">,</span>
-<span class="w">           </span><span class="n">server_version_info</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                    </span><span class="mi">15</span><span class="p">,</span>
-<span class="w">                                    </span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">                                    </span><span class="s">'final'</span><span class="p">,</span>
-<span class="w">                                    </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">                                    </span><span class="s">''</span>
-<span class="w">                                  </span><span class="p">]</span>
-<span class="w">         </span><span class="p">};</span>
+  and add it to the <code>scaleway_vms</code> group</li>
+<li>create <code>host_vars/scaleway-docker-prod-2/scaleway-docker-prod-2-secrets.yml</code>
+  and add the <code>ansible_become_password</code> inside (using the same password as in cloudinit)</li>
+<li>define <code>docker__volumes_virtiofs</code> and <code>continuous_deployment__ssh_public_keys</code> variables in <code>host_vars/scaleway-docker-prod/docker.yml</code> (I copied the SSH public keys from scaleway-docker-prod on scaleway-02)</li>
+<li>add scaleway-docker-prod-2 to docker_vm_hosts group</li>
+</ul>
+<h2 id="adding-virtiofs-volume-to-our-vm">Adding virtiofs volume to our VM<a class="headerlink" href="#adding-virtiofs-volume-to-our-vm" title="Permanent link">#</a></h2>
+<p>On Proxmox UI, in the VM hardware section of scaleway-docker-prod-2, I edited manually the VM to add the VIRTIOFS device:</p>
+<ul>
+<li>in hardware, add virtiofs</li>
+<li>directory id: qm-201-virtiofs-docker-volumes</li>
+<li>enable posix acl (in Advanced options)</li>
+<li>do not enable direct IO (would slow it down)</li>
+</ul>
+<p>The corresponding string is: <code>qm-201-virtiofs-docker-volumes,expose-acl=1</code></p>
+<h2 id="resizing-partition">Resizing partition<a class="headerlink" href="#resizing-partition" title="Permanent link">#</a></h2>
+<p>We then resize the VM disk from 3G to 24G
+(to account for the space of docker images).</p>
+<p>We use gparted to do this:</p>
+<div class="highlight"><pre><span></span><code>config-op@scaleway-docker-prod-2:~$<span class="w"> </span>sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sda
+GNU<span class="w"> </span>Parted<span class="w"> </span><span class="m">3</span>.6
+Using<span class="w"> </span>/dev/sda
+Welcome<span class="w"> </span>to<span class="w"> </span>GNU<span class="w"> </span>Parted!<span class="w"> </span>Type<span class="w"> </span><span class="s1">'help'</span><span class="w"> </span>to<span class="w"> </span>view<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>commands.
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>unit<span class="w"> </span>s<span class="w">                                                           </span>
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>p<span class="w">                                                                </span>
+Model:<span class="w"> </span>QEMU<span class="w"> </span>QEMU<span class="w"> </span>HARDDISK<span class="w"> </span><span class="o">(</span>scsi<span class="o">)</span>
+Disk<span class="w"> </span>/dev/sda:<span class="w"> </span>50331648s
+Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span>512B/512B
+Partition<span class="w"> </span>Table:<span class="w"> </span>gpt
+Disk<span class="w"> </span>Flags:<span class="w"> </span>
+
+Number<span class="w">  </span>Start<span class="w">    </span>End<span class="w">       </span>Size<span class="w">      </span>File<span class="w"> </span>system<span class="w">  </span>Name<span class="w">  </span>Flags
+<span class="m">14</span><span class="w">      </span>2048s<span class="w">    </span>8191s<span class="w">     </span>6144s<span class="w">                        </span>bios_grub
+<span class="m">15</span><span class="w">      </span>8192s<span class="w">    </span>262143s<span class="w">   </span>253952s<span class="w">   </span>fat16<span class="w">              </span>boot,<span class="w"> </span>esp
+<span class="w"> </span><span class="m">1</span><span class="w">      </span>262144s<span class="w">  </span>6289407s<span class="w">  </span>6027264s<span class="w">  </span>ext4
+
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>resizepart<span class="w"> </span><span class="m">1</span><span class="w"> </span>50329601s<span class="w">                                      </span>
+Warning:<span class="w"> </span>Partition<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>being<span class="w"> </span>used.<span class="w"> </span>Are<span class="w"> </span>you<span class="w"> </span>sure<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span><span class="k">continue</span>?
+Yes/No?<span class="w"> </span>Yes<span class="w">                                                               </span>
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>align-check<span class="w"> </span>optimal<span class="w"> </span><span class="m">1</span><span class="w">                                            </span>
+<span class="m">1</span><span class="w"> </span>aligned
+<span class="o">(</span>parted<span class="o">)</span><span class="w"> </span>quit
 </code></pre></div>
-To authenticate we need to pass parameters in this exact order, last hash is to add envs
-<div class="highlight"><pre><span></span><code><span class="nv">$</span><span class="w"> </span><span class="nv">my</span><span class="w"> </span><span class="nv">$db</span><span class="o">=</span><span class="s">"crm"</span><span class="p">;</span>
-<span class="n">crm</span>
-<span class="nv">$</span><span class="w"> </span><span class="nv">my</span><span class="w"> </span><span class="nv">$username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">'alex@openfoodfacts.org'</span>
-<span class="nv">$</span><span class="w"> </span><span class="nv">my</span><span class="w"> </span><span class="nv">$pwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"************"</span><span class="p">;</span>
-<span class="nv">$</span><span class="w"> </span><span class="nv">my</span><span class="w"> </span><span class="nv">$uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$xmlrpc</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="s">'authenticate'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">$db</span><span class="p">,</span><span class="w"> </span><span class="nv">$username</span><span class="p">,</span><span class="w"> </span><span class="nv">$pwd</span><span class="p">,</span><span class="w"> </span><span class="p">{}));</span>
-<span class="mi">13</span>
-<span class="nv">$</span><span class="w"> </span><span class="err">$</span><span class="nv">xmlrpc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">XML::RPC</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="s">'https://connect-test.openfoodfacts.org//xmlrpc/2/object'</span><span class="p">);</span>
-<span class="nv">$</span><span class="w"> </span><span class="err">$</span><span class="nv">xmlrpc</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="s">'execute_kw'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nv">$db</span><span class="p">,</span><span class="w"> </span><span class="nv">$uid</span><span class="p">,</span><span class="w"> </span><span class="nv">$pwd</span><span class="p">,</span><span class="w"> </span><span class="s">'res.partner'</span><span class="p">,</span><span class="w"> </span><span class="s">'create'</span><span class="p">,</span><span class="w"> </span><span class="p">[{</span><span class="n">name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"New Partner"</span><span class="p">}]));</span>
-<span class="mi">1260</span>
+<p><strong>Note</strong> that, because of the start of the partition <code>6289407 mod 2048 == 1</code>,
+we had to take <code>50331648s - 2047</code> for the end, so that partition length is aligned. <sup id="fnref:alignment"><a class="footnote-ref" href="#fn:alignment">1</a></sup></p>
+<p>Then we resize the filesystem:</p>
+<div class="highlight"><pre><span></span><code>config-op@scaleway-docker-prod-2:~$<span class="w"> </span>sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/sda1
+resize2fs<span class="w"> </span><span class="m">1</span>.47.2<span class="w"> </span><span class="o">(</span><span class="m">1</span>-Jan-2025<span class="o">)</span>
+Filesystem<span class="w"> </span>at<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>mounted<span class="w"> </span>on<span class="w"> </span>/<span class="p">;</span><span class="w"> </span>on-line<span class="w"> </span>resizing<span class="w"> </span>required
+<span class="nv">old_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="nv">new_desc_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+The<span class="w"> </span>filesystem<span class="w"> </span>on<span class="w"> </span>/dev/sda1<span class="w"> </span>is<span class="w"> </span>now<span class="w"> </span><span class="m">6258432</span><span class="w"> </span><span class="o">(</span>4k<span class="o">)</span><span class="w"> </span>blocks<span class="w"> </span>long.
+</code></pre></div>
+<p>We check the new size:</p>
+<div class="highlight"><pre><span></span><code>config-op@scaleway-docker-prod-2:~$<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/
+Filesystem<span class="w">      </span>Size<span class="w">  </span>Used<span class="w"> </span>Avail<span class="w"> </span>Use%<span class="w"> </span>Mounted<span class="w"> </span>on
+/dev/sda1<span class="w">        </span>24G<span class="w">  </span>943M<span class="w">   </span>22G<span class="w">   </span><span class="m">5</span>%<span class="w"> </span>/
+</code></pre></div>
+<h2 id="installing-docker-on-scaleway-docker-prod-2">Installing docker on scaleway-docker-prod-2<a class="headerlink" href="#installing-docker-on-scaleway-docker-prod-2" title="Permanent link">#</a></h2>
+<p>First, we configure the server:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-docker-prod-2
+</code></pre></div>
+<p>Then, we run the <code>docker_vm</code> playbook:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/docker_vm.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-docker-prod-2
+</code></pre></div>
+<h2 id="configuring-stunnel-to-connect-to-triton">Configuring stunnel to connect to Triton<a class="headerlink" href="#configuring-stunnel-to-connect-to-triton" title="Permanent link">#</a></h2>
+<p>I updated the stunnel configuration to access Triton (deployed on gpu-01) from scaleway-docker-prod-2:</p>
+<div class="highlight"><pre><span></span><code># Triton deployed on gpu-01
+# Open Prices deployed on scaleway server need to access
+# Triton
+[Triton-HTTP]
+client = yes
+accept = 10.13.1.101:5505
+connect = 34.140.15.35:5506
+ciphers = PSK
+PSKsecrets = /etc/stunnel/psk/triton-psk.txt
+
+[Triton-gRPC]
+client = yes
+accept = 10.13.1.101:5504
+connect = 34.140.15.35:5507
+ciphers = PSK
+PSKsecrets = /etc/stunnel/psk/triton-psk.txt
+</code></pre></div>
+<p>I also configured ansible to copy the PSK secret file on scaleway-docker-prod-2, and run the stunnel-client playbook:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/stunnel-client.yml<span class="w"> </span>--tags<span class="w"> </span>stunnel<span class="w"> </span>-l<span class="w"> </span>scaleway-stunnel-client
+</code></pre></div>
+<p>From scaleway-docker-prod-2, I tested the connection to Triton:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-XPOST<span class="w"> </span>http://10.13.1.101:5505/v2/repository/index
+
+<span class="o">[{</span><span class="s2">"name"</span>:<span class="s2">"category-classifier-keras-image-embeddings-3.0"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"clip"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"front_image_classification"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"ingredient-ner"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"nutriscore"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"nutrition_extractor"</span>,<span class="s2">"version"</span>:<span class="s2">"2"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"nutrition_table"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"price_proof_classification"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"price_tag_classification"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"price_tag_detection"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}</span>,<span class="o">{</span><span class="s2">"name"</span>:<span class="s2">"universal_logo_detector_yolo"</span>,<span class="s2">"version"</span>:<span class="s2">"1"</span>,<span class="s2">"state"</span>:<span class="s2">"READY"</span><span class="o">}]</span>
+</code></pre></div>
+<h2 id="move-certbot-certificates-to-scaleway-proxy">Move Certbot certificates to scaleway-proxy<a class="headerlink" href="#move-certbot-certificates-to-scaleway-proxy" title="Permanent link">#</a></h2>
+<p>We copy the certificates from ovh1-proxy to scaleway-proxy (following https://charlesreid1.github.io/copying-letsencrypt-certs-between-machines.html)</p>
+<p>On ovh1-proxy:
+</p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/conf.d/prices.openfoodfacts.org
+<span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
 </code></pre></div><p></p>
+<p>I then copied it to scaleway-proxy (using scp).
+On scaleway-proxy:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
+tar<span class="w"> </span>xzf<span class="w"> </span>/home/raphael0202/prices.openfoodfacts.org.tar.gz
+<span class="c1"># verify</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/*/prices.openfoodfacts.org<span class="w"> </span>/etc/letsencrypt/renewal/prices.openfoodfacts.org.conf
+</code></pre></div>
+<p>I also copied the Open Prices nginx configuration from ovh1-proxy to scaleway-proxy, updating the proxy_pass to point to scaleway-docker-prod-2 internal IP address.</p>
+<h2 id="copying-data-from-ovh-to-scaleway">Copying data from ovh to scaleway<a class="headerlink" href="#copying-data-from-ovh-to-scaleway" title="Permanent link">#</a></h2>
+<p>I configured SSH access from scaleway-docker-prod-2 to docker-prod (OVH), to be able to rsync data from OVH (as root) to scaleway-docker-prod-2.</p>
+<p>I tarred the <code>www</code> directory from ovh, and scp and untarred it in <code>/home/open-prices-org/www</code> on scaleway-docker-prod-2.</p>
+<p>The PostgreSQL DB content and the images will both be synchronized using rsync:</p>
+<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w">  </span>docker-prod:/var/lib/docker/volumes/open_prices_postgres-data/_data/<span class="w"> </span>/var/lib/docker/volumes/open_prices_postgres-data/_data
+
+rsync<span class="w"> </span>-a<span class="w"> </span>--delete<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w">  </span>docker-prod:/var/lib/docker/volumes/open_prices_images/_data/<span class="w"> </span>/var/lib/docker/volumes/open_prices_images/_data
+</code></pre></div>
+<h2 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">#</a></h2>
+<ol>
+<li>We make sure that all Open Prices containers are stopped on scaleway-docker-prod-2.</li>
+<li>We stop the Open Prices containers on docker-prod (OVH): <code>make down</code> in the <code>open-prices</code> repo.</li>
+<li>We run both rsync commands to synchronize the PostgreSQL DB and the images.</li>
+<li>We start the Open Prices containers on scaleway-docker-prod-2: <code>make up</code> in the <code>open-prices</code> repo.</li>
+<li>We update the DNS record of prices.openfoodfacts.org to: <code>CNAME scaleway-proxy.openfoodfacts.org.</code></li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">#</a></h2>
+<p>During the migration, an issue was encountered: a HTTP 500 was returned when uploading a new proof.</p>
+<p>After investigation, the issue came from the fact the user ID associated with the <code>off</code> user was 1001 and not 1000. The <code>open_prices-api-1</code> container expects the image volume to be owned by the <code>off</code> user (UID 1000), but UID 1000 was associated with user <code>config-op</code> on scaleway-docker-prod-2.</p>
+<p>As a quick fix, I changed the UID of <code>config-op</code> to 1009, and the group ID of <code>config-op</code> to 1009 as well (to avoid a conflict with the <code>off</code> user that has GID 1000):</p>
+<div class="highlight"><pre><span></span><code>sudo groupmod -u 1009 config-op
+sudo usermod -u 1009 config-op
+</code></pre></div>
+<p>I then changed the ownership of the files in the image volume:</p>
+<div class="highlight"><pre><span></span><code>chown<span class="w"> </span>-R<span class="w"> </span><span class="m">1000</span>:1000<span class="w"> </span>/var/lib/docker/volumes/open_prices_images/_data
+</code></pre></div>
+<p>It solved the permission issue, even though user ID <code>1000</code> is not associated with any user on scaleway-docker-prod-2. I wanted to change the UID of <code>off</code> to 1000, but it was not possible as some systemd services were running with the <code>off</code> user.</p>
+<h2 id="post-install">Post-install<a class="headerlink" href="#post-install" title="Permanent link">#</a></h2>
+<p>I then run rsync to synchronize the images that were deleted from the OVH server but kept on scaleway-03. After configuring SSH, I run:</p>
+<div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>scaleway-03:/zfs-hdd/open-prices-images/<span class="w"> </span>/var/lib/docker/volumes/open_prices_images/_data
+</code></pre></div>
+<p>Note that we didn't add the <code>--delete</code> flag, to avoid deleting the images that were transfered from OVH to scaleway-docker-prod.</p>
+<p>On <strong>docker-prod</strong>, I deleted the now legacy volume to save disk space:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>open_prices_images
+</code></pre></div>
+<p>We created a ssh key for deployment following
+the <a href="../../ansible/roles/continuous_deployment/">continuous_deployment role documentation</a>,
+and adding the new variable to
+<a href="https://github.com/openfoodfacts/open-prices">open-prices</a>
+and <a href="https://github.com/openfoodfacts/open-prices-frontend">open-prices-frontend</a>.</p>
+<p>The deployment actions also had to be modified to use <code>scaleway-03.infra.openfoodfacts.org</code> as reverse proxy,
+as well as changing the host ip:</p>
+<ul>
+<li>for open-prices,
+  <a href="https://github.com/openfoodfacts/open-prices/commit/e5f40015929e461a3c324524ed4f590be17f334b">commit e5f40015929e</a>
+  and <a href="https://github.com/openfoodfacts/open-prices/pull/1267">fix PR #1267</a></li>
+<li>for open-prices-frontend: <a href="https://github.com/openfoodfacts/open-prices-frontend/pull/2117">PR #2117</a></li>
+</ul>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:alignment">
+<p>https://pieterbakker.com/optimal-disk-alignment-with-parted/ is a good resource to understand alignment.&nbsp;<a class="footnote-backref" href="#fnref:alignment" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 
