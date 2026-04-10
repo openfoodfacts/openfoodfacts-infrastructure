@@ -6592,7 +6592,7 @@
 <h1 id="2026-04-01-moving-open-prices-to-scaleway-03">2026-04-01 Moving Open Prices to scaleway-03<a class="headerlink" href="#2026-04-01-moving-open-prices-to-scaleway-03" title="Permanent link">#</a></h1>
 <p>As we're running out of disk space again on ovh, and as Open Prices images now takes ~650 GB of disk space, it's a good time to move them to scaleway-03, where we have plenty of disk space.</p>
 <h2 id="creating-zfs-datasets-and-docker-prod-vm">Creating ZFS datasets and docker-prod VM<a class="headerlink" href="#creating-zfs-datasets-and-docker-prod-vm" title="Permanent link">#</a></h2>
-<p>The process is the same as for (docker-prod VM install on scaleway-02)[./2025-11-27-moving-keycloak-to-scaleway.md].</p>
+<p>The process is the same as for <a href="../2025-11-27-moving-keycloak-to-scaleway/">docker-prod VM install on scaleway-02</a>.</p>
 <p>The ID of the VM will be 201.</p>
 <h3 id="creating-zfs-datasets">Creating ZFS datasets<a class="headerlink" href="#creating-zfs-datasets" title="Permanent link">#</a></h3>
 <p>As for docker-prod on scaleway-02, we decided that by default, all docker volumes will be on a ZFS dataset in the zfs-hdd pool: we use HDD by default, as our storage capacity is limited on nVMe (only 3 TB).</p>
@@ -6651,8 +6651,7 @@
 <p>ZFS datasets and virtiofs are now configured on scaleway-03.</p>
 <h2 id="creating-the-vm">Creating the VM<a class="headerlink" href="#creating-the-vm" title="Permanent link">#</a></h2>
 <p>We now create a VM template. Following what was done on scaleway-02:</p>
-<div class="highlight"><pre><span></span><code><span class="sb">```</span>bash
-<span class="nb">cd</span><span class="w"> </span>/home/raphael0202
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/raphael0202
 <span class="c1"># navigate from https://cloud.debian.org/images/cloud to retrieve the name</span>
 wget<span class="w"> </span>https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
 apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libguestfs-tools<span class="w"> </span>dhcpcd-base
@@ -6843,7 +6842,7 @@ sudo usermod -u 1009 config-op
 <p>I then run rsync to synchronize the images that were deleted from the OVH server but kept on scaleway-03. After configuring SSH, I run:</p>
 <div class="highlight"><pre><span></span><code>rsync<span class="w"> </span>-a<span class="w"> </span>--info<span class="o">=</span>progress2<span class="w"> </span>scaleway-03:/zfs-hdd/open-prices-images/<span class="w"> </span>/var/lib/docker/volumes/open_prices_images/_data
 </code></pre></div>
-<p>Note that we didn't add the <code>--delete</code> flag, to avoid deleting the images that were transfered from OVH to scaleway-docker-prod.</p>
+<p>Note that we didn't add the <code>--delete</code> flag, to avoid deleting the images that were transferred from OVH to scaleway-docker-prod.</p>
 <p>On <strong>docker-prod</strong>, I deleted the now legacy volume to save disk space:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>open_prices_images
 </code></pre></div>
