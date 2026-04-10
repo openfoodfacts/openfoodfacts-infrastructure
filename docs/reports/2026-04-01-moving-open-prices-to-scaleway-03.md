@@ -341,7 +341,7 @@ I then run rsync to synchronize the images that were deleted from the OVH server
 rsync -a --info=progress2 scaleway-03:/zfs-hdd/open-prices-images/ /var/lib/docker/volumes/open_prices_images/_data
 ```
 
-Note that we didn't add the `--delete` flag, to avoid deleting the images that were transfered from OVH to scaleway-docker-prod.
+Note that we didn't add the `--delete` flag, to avoid deleting the images that were transferred from OVH to scaleway-docker-prod.
 
 On **docker-prod**, I deleted the now legacy volume to save disk space:
 
