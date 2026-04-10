@@ -83,7 +83,6 @@ ZFS datasets and virtiofs are now configured on scaleway-03.
 We now create a VM template. Following what was done on scaleway-02:
 
 ```bash
-```bash
 cd /home/raphael0202
 # navigate from https://cloud.debian.org/images/cloud to retrieve the name
 wget https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
