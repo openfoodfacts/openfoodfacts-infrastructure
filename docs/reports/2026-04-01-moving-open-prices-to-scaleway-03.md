@@ -268,7 +268,7 @@ On ovh1-proxy:
 CONF=/etc/nginx/conf.d/prices.openfoodfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
-sudo tar -chvzf $DOM.tar.gz \
+sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
@@ -276,7 +276,7 @@ sudo chmod go-rw $DOM.tar.gz
 ```
 
 I then copied it to scaleway-proxy (using scp).
-On scaleway-proxy:
+On scaleway-proxy[^ErrorTarLetsencrypt]:
 
 ```bash
 cd /
@@ -286,6 +286,25 @@ ls -l /etc/letsencrypt/*/prices.openfoodfacts.org /etc/letsencrypt/renewal/price
 ```
 
 I also copied the Open Prices nginx configuration from ovh1-proxy to scaleway-proxy, updating the proxy_pass to point to scaleway-docker-prod-2 internal IP address.
+
+[^ErrorTarLetsencrypt]: When I did it, in fact I did use the -h flag
+  which dereferences symlink, and certbot is not happy with it
+  (`live` items must points to `archive` items).
+  To fix that, I had to use this command:
+  ```bash
+  FOLDER=prices.openfoodfacts.org; \
+  for f in /etc/letsencrypt/live/$FOLDER/*.*; \
+  do \
+    NAME=$(basename $f); \
+    BARE_NAME=${NAME%.*}; \
+    TARGET=$(ls -tr /etc/letsencrypt/archive/$FOLDER/${BARE_NAME}*|tail -n 1); \
+    TARGET_FILE=$(basename $TARGET); \
+    unlink $f; \
+    ln -s ../../archive/$FOLDER/$TARGET_FILE $f; \
+  done
+  ls -l /etc/letsencrypt/live/$FOLDER
+  ```
+  then verify with `nginx -t`
 
 ## Copying data from ovh to scaleway
 

@@ -47,7 +47,7 @@ On off2-proxy:
 CONF=/etc/nginx/sites-enabled/openbeautyfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
-sudo tar -chvzf $DOM.tar.gz \
+sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
@@ -55,7 +55,7 @@ sudo chown alex:alex $DOM.tar.gz
 sudo chmod go-rw $DOM.tar.gz
 ```
 I then copied it to scaleway-proxy (using scp).
-And on scaleway-proxy:
+And on scaleway-proxy[^ErrorTarLetsencrypt]:
 ```bash
 cd /
 tar xzf /home/alex/openbeautyfacts.org.tar.gz
@@ -77,6 +77,24 @@ I also edited openbeautyfacts.org conf
 * comment `ssl_stapling` and `ssl_stapling_verify` directives (deprecated)
 * to substitute any occurrence of `10.1.0.116` for `10.13.1.113`.
 
+[^ErrorTarLetsencrypt]: When I did it, in fact I did use the -h flag
+  which dereferences symlink, and certbot is not happy with it
+  (`live` items must points to `archive` items).
+  To fix that, I had to use this command:
+  ```bash
+  FOLDER=openbeautyfacts.org; \
+  for f in /etc/letsencrypt/live/$FOLDER/*.*; \
+  do \
+    NAME=$(basename $f); \
+    BARE_NAME=${NAME%.*}; \
+    TARGET=$(ls -tr /etc/letsencrypt/archive/$FOLDER/${BARE_NAME}*|tail -n 1); \
+    TARGET_FILE=$(basename $TARGET); \
+    unlink $f; \
+    ln -s ../../archive/$FOLDER/$TARGET_FILE $f; \
+  done
+  ls -l /etc/letsencrypt/live/$FOLDER
+  ```
+  then verify with `nginx -t`
 
 ### Preparing DNS
 
@@ -227,7 +245,7 @@ On off2-proxy:
 CONF=/etc/nginx/sites-enabled/openproductsfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
-sudo tar -chvzf $DOM.tar.gz \
+sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
@@ -235,7 +253,7 @@ sudo chown alex:alex $DOM.tar.gz
 sudo chmod go-rw $DOM.tar.gz
 ```
 I then copied it to scaleway-proxy (using scp).
-And on scaleway-proxy:
+And on scaleway-proxy[^ErrorTarLetsencrypt]:
 ```bash
 cd /
 tar xzf /home/alex/openproductsfacts.org.tar.gz
@@ -256,6 +274,25 @@ I also edited openproductsfacts.org conf
 * `listen 443 ... http2` is now deprecated in favour of `http2 on;`
 * comment `ssl_stapling` and `ssl_stapling_verify` directives (deprecated)
 * to substitute any occurrence of `10.1.0.117` for `10.13.1.114`.
+
+[^ErrorTarLetsencrypt]: When I did it, in fact I did use the -h flag
+  which dereferences symlink, and certbot is not happy with it
+  (`live` items must points to `archive` items).
+  To fix that, I had to use this command:
+  ```bash
+  FOLDER=openproductsfacts.org; \
+  for f in /etc/letsencrypt/live/$FOLDER/*.*; \
+  do \
+    NAME=$(basename $f); \
+    BARE_NAME=${NAME%.*}; \
+    TARGET=$(ls -tr /etc/letsencrypt/archive/$FOLDER/${BARE_NAME}*|tail -n 1); \
+    TARGET_FILE=$(basename $TARGET); \
+    unlink $f; \
+    ln -s ../../archive/$FOLDER/$TARGET_FILE $f; \
+  done
+  ls -l /etc/letsencrypt/live/$FOLDER
+  ```
+  then verify with `nginx -t`
 
 
 ### Preparing DNS

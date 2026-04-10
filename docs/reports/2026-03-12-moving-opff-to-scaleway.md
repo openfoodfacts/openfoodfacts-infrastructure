@@ -287,15 +287,16 @@ On off2-proxy:
 CONF=/etc/nginx/sites-enabled/openpetfoodfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
-sudo tar -chvzf $DOM.tar.gz \
+sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
 sudo chown alex:alex $DOM.tar.gz
 sudo chmod go-rw $DOM.tar.gz
 ```
+
 I then copied it to scaleway-proxy (using scp).
-And on scaleway-proxy:
+And on scaleway-proxy[^ErrorTarLetsencrypt]:
 ```bash
 cd /
 tar xzf /home/alex/openpetfoodfacts.org.tar.gz
@@ -326,7 +327,24 @@ I also edited openfoodfacts.org conf
 * comment stapple directive (deprecated)
 * to substitute any occurrence of `10.1.0.118` for `10.13.1.115`.
 
-
+[^ErrorTarLetsencrypt]: When I did it, in fact I did use the -h flag
+  which dereferences symlink, and certbot is not happy with it
+  (`live` items must points to `archive` items).
+  To fix that, I had to use this command:
+  ```bash
+  FOLDER=openpetfoodfacts.org; \
+  for f in /etc/letsencrypt/live/$FOLDER/*.*; \
+  do \
+    NAME=$(basename $f); \
+    BARE_NAME=${NAME%.*}; \
+    TARGET=$(ls -tr /etc/letsencrypt/archive/$FOLDER/${BARE_NAME}*|tail -n 1); \
+    TARGET_FILE=$(basename $TARGET); \
+    unlink $f; \
+    ln -s ../../archive/$FOLDER/$TARGET_FILE $f; \
+  done
+  ls -l /etc/letsencrypt/live/$FOLDER
+  ```
+  then verify with `nginx -t`
 
 ## Testing
 
