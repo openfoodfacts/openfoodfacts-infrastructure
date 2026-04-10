@@ -4,7 +4,7 @@ As we're running out of disk space again on ovh, and as Open Prices images now t
 
 ## Creating ZFS datasets and docker-prod VM
 
-The process is the same as for (docker-prod VM install on scaleway-02)[./2025-11-27-moving-keycloak-to-scaleway.md].
+The process is the same as for [docker-prod VM install on scaleway-02](./2025-11-27-moving-keycloak-to-scaleway.md).
 
 The ID of the VM will be 201.
 
