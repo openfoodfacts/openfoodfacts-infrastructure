@@ -27,18 +27,58 @@ The sftp service install on off2 was documented in
 We will do almost the same transformations to the reverse-proxy:
 
 1. Using ansible change the id mapping of the container
-   1. manually adjust ownership where needed (essentially /home/*)
-1. Mount the sftp volume in the container
-   1. we will first test with a clone of backups data on scaleway-01
+   (because we didn't set it before, but as we share sftp folder with off-pro which as this mapping)
+   1. add the mapping to the container definition in `ansible/host_vars/scaleway-01/proxmox.yml`
+   1. run the playbook `ansible-playbook sites/proxmox-node.yml --tags containers --extra-vars "proxmox_containers__limit_to_containers=100" -l scaleway-01`
+      this fails at some point but it's normal
+   1. manually adjust ownership where needed (essentially /home/*) on scaleway-01:
+      ```bash
+      cd /zfs-hdd/pve/subvol-100-disk-0
+      # note we list user from the container, so it's etc/ not /etc
+      # we also need to remove add a ./ for home folder
+      for USERID_HOMEDIR in $(cat etc/passwd|grep /home|cut -d ":" -f 3,6);do USERID=${USERID_HOMEDIR%:*};HOMEDIR=${USERID_HOMEDIR#*:};sudo echo chown $USERID:$USERID -R .$HOMEDIR; chown $USERID:$USERID -R .$HOMEDIR; done
+      ```
+    1. test you can log into the container, and permissions are ok on the home folder.
+       Otherwise use `pct enter 100` from `scaleway-01` to see what's happening
+    1. rerun the playbook command above, this should pass now
+1. Mount the sftp volume in the container (we will first test with a clone of backups data on scaleway-01)
+   1. clone the volume to the target place, we also clone off-pro as it is above in hierarchy:
+       ```bash
+       # take daily snap to avoid blocking an hourly one
+     TARGET_SNAP=$(zfs list -o name -t snap zfs-hdd/off-backups/off2-zfs-hdd/off-pro|grep _daily|tail -n 1)
+     echo $TARGET_SNAP
+     zfs clone $TARGET_SNAP zfs-hdd/podata/off-pro
+     TARGET_SNAP=$(zfs list -o name -t snap zfs-hdd/off-backups/off2-zfs-hdd/off-pro/sftp|grep _daily|tail -n 1)
+     echo $TARGET_SNAP
+     zfs clone $TARGET_SNAP zfs-hdd/podata/off-pro/sftp
+       ```
+   1. add the mount point in the container
+       ```bash
+       vim /etc/pve/lxc/100.conf
+       ...
+       mp0:/zfs-hdd/podata/off-pro/sftp,mp=/mnt/off-pro/sftp
+       ...
+       ```
+   1. restart the container `pct shutdown 100 && pct start 100`
+   1. verify everything is still working
+   1. verify the folder is mounted in the container with right access, so in `scaleway-proxy`:
+       ```bash
+       sudo ls /mnt/off-pro/sftp -l
+       ```
+       Now we may have a problem with users as we may need some id changes
 1. Copy sshd_config file used at off2 (in this repo) and link it
 1. Port users:
-   Get all users that use sftp on off2 proxy:
-    ```bash
-    exp=$(grep /mnt/off-pro/sftp/ /etc/passwd|cut -d ":" -f 1|sort|tr  '\n' '|')
-    exp="("$exp"nonexistinguser)"
-
-    sudo grep -P "$exp" /etc/shadow
-    ```
+   1. Get all users that use sftp on off2 proxy:
+      ```bash
+      exp=$(grep /mnt/off-pro/sftp/ /etc/passwd|cut -d ":" -f 1|sort|tr  '\n' '|')
+      exp="("$exp"nonexistinguser)"
+      sudo grep -P "$exp" /etc/shadow
+      ```
+   1. add them to the `ansible/host_vars/scaleway-proxy/sftp-secrets.yml` file
+   1. run the playbook sftp actions
+      ```bash
+      ansible-playbook sites/reverse-proxy.yml -l scaleway-proxy --tags sftp
+      ```
 
 
 

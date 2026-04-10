@@ -5,6 +5,23 @@
   when: |
     not (proxmox_containers__api_token_id and proxmox_containers__api_token_secret and proxmox_containers__api_user)
 
+- name: Compute eventual limit to apply a limit for this specific run
+  ansible.builtin.set_fact:
+    _proxmox_containers__limit_to_containers_list: |
+      {{
+        proxmox_containers__limit_to_containers | split(",") | map("trim") | map("int")
+      }}
+  when: "proxmox_containers__limit_to_containers | default('')"
+
+- name: Eventually apply a limit for this specific run
+  ansible.builtin.set_fact:
+    proxmox_containers__containers: |
+      {{
+        proxmox_containers__containers |
+        selectattr('id', 'in', _proxmox_containers__limit_to_containers_list)
+      }}
+  when: "_proxmox_containers__limit_to_containers_list | default([])"
+
 - name: Verify containers are in inventory
   ansible.builtin.fail:
     msg: |
