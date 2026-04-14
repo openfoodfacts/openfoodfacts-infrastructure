@@ -1,3 +1,8 @@
 {
-  "iptables": true
+  "iptables": true,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "500m",
+    "max-file": "10"
+  }
 }
