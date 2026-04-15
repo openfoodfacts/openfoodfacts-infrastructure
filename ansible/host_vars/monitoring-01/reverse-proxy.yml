@@ -9,6 +9,9 @@ reverse_proxy_docker__websites:
     proxy_pass: "prometheus:9090"
     username: "off"
     password: "{{ password_monitoring_sites }}"
+    public_paths:
+      # enable external monitoring of prometheus state !
+      - "/-/healthy"
 
   - url: "monitoring.openfoodfacts.org"
     proxy_pass: "grafana:3000"

@@ -2,7 +2,13 @@
 reverse_proxy_docker__dir: "/opt/reverse_proxy"
 reverse_proxy_docker__user: "reverse-proxy"
 
+# the websites as a list of dicts
 reverse_proxy_docker__websites: []
+#  - url: <server_name>
+#    proxy_pass: <the address to reach>
+#    username: <basic auth username>
+#    password: <basic auth password>  # only if set is basic_auth applied
+#    public_paths: [<public path, as a nginx map expression>, …] # they do not require basic auth
 reverse_proxy_docker__https_cert_domains:
   - "openfoodfacts.org"
 
