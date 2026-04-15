@@ -6670,7 +6670,7 @@ connects to mongodb and redis.</p>
 <p>We then configure the stunnel for mongodb, redis and postgres.</p>
 <h2 id="post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset">Post-Mortem Note: on wrong volume name created (with a ZFS dataset)<a class="headerlink" href="#post-mortem-note-on-wrong-volume-name-created-with-a-zfs-dataset" title="Permanent link">#</a></h2>
 <p>I first created the volume with wrong name (redis_data instead of redisdata).</p>
-<p>I fix tart by editing in <code>ansible/host_vars/scaleway-02/proxmox.yml</code>,
+<p>I fix that by editing in <code>ansible/host_vars/scaleway-02/proxmox.yml</code>,
 adding:
 </p><div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zfs-nvme/virtiofs/qm-200-off_shared_redis_data</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>

@@ -6661,7 +6661,7 @@ qm<span class="w"> </span>template<span class="w"> </span><span class="m">998</s
 </code></pre></div>
 <h2 id="creating-the-vm-for-docker-on-scaleway-02">Creating the VM for docker on scaleway-02<a class="headerlink" href="#creating-the-vm-for-docker-on-scaleway-02" title="Permanent link">#</a></h2>
 <h3 id="creating-the-vm">Creating the VM<a class="headerlink" href="#creating-the-vm" title="Permanent link">#</a></h3>
-<p>I use the Template VM to create my VM:</p>
+<p>Using Proxmox UI, I use the Template VM to create my VM. Right click on the 998 template, and click "Clone". I fill the form with:</p>
 <ul>
 <li>Target node: scaleway-02</li>
 <li>VM ID: 200</li>
@@ -6694,8 +6694,7 @@ qm<span class="w"> </span>template<span class="w"> </span><span class="m">998</s
 <h3 id="configuring-virtio-fs">Configuring virtio-fs<a class="headerlink" href="#configuring-virtio-fs" title="Permanent link">#</a></h3>
 <p>I configure virtio-fs using ansible.</p>
 <p>At the moment, keycloak does not have any docker volume (it's only using the distant postgres).</p>
-<p>Nonetheless, I will add docker volumes virtiofs
-mapping on zfs-hdd for now.</p>
+<p>Nonetheless, I will add docker volumes virtiofs mapping on zfs-hdd for now.</p>
 <p>I edited <code>proxmox_node__zfs_filesystems</code> in <code>host_vars/scaleway-02/proxmox.yml</code> to add <code>zfs-hdd/virtiofs/qm-200/docker-volumes</code> and its parents, adding posix acl type to <code>zfs-hdd/virtiofs</code>.</p>
 <p>And edited <code>virtiofs__dir_mappings</code> in <code>group_vars/pvescaleway/proxmox.yml</code> to add the virtiofs mapping.</p>
 <p>I can then run:</p>
@@ -6771,7 +6770,7 @@ off2-2.free.org<span class="w"> </span><span class="o">[</span><span class="m">2
 <p>We have to create a container running stunnel in client mode.</p>
 <p>So first we create the CT, for this I edited the scaleway-02 host_vars proxmox.yml
 to add an entry to <code>proxmox_containers__containers</code>,
-add my container in inventory as well as its secret <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">as stated in Proxmox / How to cerate a new container with ansible</a>.
+add my container in inventory as well as its secret <a href="../../proxmox/#how-to-create-a-new-container-with-ansible">as stated in Proxmox / How to create a new container with ansible</a>.
 and then run:
 </p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-02<span class="w"> </span>--tags<span class="w"> </span>containers
 </code></pre></div><p></p>
@@ -6802,9 +6801,14 @@ Connection<span class="w"> </span>to<span class="w"> </span><span class="m">10</
 <p>We:</p>
 <ul>
 <li>add scaleway-docker-prod to docker_vm_hosts group</li>
-<li>define <code>docker__volumes_virtiofs</code> and <code>continuous_deployment__ssh_public_keys</code> variables in <code>host_vars/scaleway-docker-prod/docker.yml</code> (I get the public key from current deployment on off1/104)
-and use the docker_vm playbook.</li>
+<li>define <code>docker__volumes_virtiofs</code> and <code>continuous_deployment__ssh_public_keys</code> variables in <code>host_vars/scaleway-docker-prod/docker.yml</code> (I get the public key from current deployment on off1/104)</li>
 </ul>
+<p>First, we configure the server:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-docker-prod-2
+</code></pre></div>
+<p>Then, we run the <code>docker_vm</code> playbook:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/docker_vm.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-docker-prod-2
+</code></pre></div>
 <h2 id="deploying-keycloak">Deploying keycloak<a class="headerlink" href="#deploying-keycloak" title="Permanent link">#</a></h2>
 <p>This is done on openfoodfacts-auth with a specific PR and a rule in the workflow.</p>
 <p>See https://github.com/openfoodfacts/openfoodfacts-auth/pull/294</p>

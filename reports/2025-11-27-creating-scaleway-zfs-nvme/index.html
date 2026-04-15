@@ -6629,7 +6629,7 @@ lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </spa
 </code></pre></div><p></p>
 <p>I added the ZPool and some zfs dataset that I wanted to create
 to <code>host_vars/scaleway-01/proxmox.yml</code> using those ids</p>
-<p>Now I run the playbook to instanciate this:
+<p>Now I run the playbook to instantiate this:
 </p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>sites/proxmox-node.yml<span class="w"> </span>--tags<span class="w"> </span>zfs<span class="w"> </span>-l<span class="w"> </span>scaleway-01
 </code></pre></div><p></p>
 <p>I bumped into a problem while running this because zfs-dkms would not install…</p>
