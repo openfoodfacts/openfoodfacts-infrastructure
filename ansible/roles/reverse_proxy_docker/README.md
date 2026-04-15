@@ -19,16 +19,16 @@ reverse_proxy_docker__websites:
     password: "{{ secrets_off_password }}" # optional
     public_path: ["/a-public/path"]
 
-https_cert_domains:
+reverse_proxy_docker__https_cert_domains:
   - "openfoodfacts.org" # that's actually the default
 ```
 
 In `host_vars/<node_name>/reverse-proxy-secrets.yml`, create a variable with the following shape:
 
 ```yml
-certbot_ovh_application_key: "[...]"
-certbot_ovh_application_secret: "[...]"
-certbot_ovh_consumer_key: "[...]"
+reverse_proxy_docker__certbot_ovh_application_key: "[...]"
+reverse_proxy_docker__certbot_ovh_application_secret: "[...]"
+reverse_proxy_docker__certbot_ovh_consumer_key: "[...]"
 ```
 
 In this example, the task will create a `nginx` configuration that passes:
@@ -50,7 +50,7 @@ I recommend to choose a randomly-generated 21 characters password from the `a-zA
 
 #### HTTPS Certificates
 
-The `https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
+The `reverse_proxy_docker__https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
 
 To generate those certificates, we use a DNS challenge and the OVH API. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them, and put the credentials in the variables stated above.
 
@@ -68,16 +68,16 @@ services:
     build: .
     restart: unless-stopped
     networks:
-      - network
+      - reverse_proxy_network
 
 networks:
-  network:
+  reverse_proxy_network:
     external: true
 ```
 
-Adding the `network` allows the reverse proxy and the webserver to communicate.
+Adding the `reverse_proxy_network` allows the reverse proxy and the webserver to communicate.
 
-⚠️ You should **NOT** use `ports:` in the docker compose, this network should be enough. Moreover, only apply the `network` to services that need access to internet. For exemple, a database only used locally shouldn't be connected to `reverse_proxy_docker__network`.
+⚠️ You should **NOT** use `ports:` in the docker compose, this network should be enough. Moreover, only apply the `reverse_proxy_network` to services that need access to internet. For exemple, a database only used locally shouldn't be connected to `reverse_proxy_network`.
 
 #### When the reverse proxy and the webserver are NOT on the same host
 
