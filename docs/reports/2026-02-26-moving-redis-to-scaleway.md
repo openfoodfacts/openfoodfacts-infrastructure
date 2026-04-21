@@ -1,4 +1,4 @@
-# 2025-02-26 Moving redis to scaleway
+# 2026-02-26 Moving redis to scaleway
 
 We have [already moved MongoDB service to scaleway](./2026-01-15-moving-mongodb-to-scaleway.md)
 and as a byproduct, we installed a scaleway-docker-prod VM with openfoodfacts-shared-services deployed on it.
