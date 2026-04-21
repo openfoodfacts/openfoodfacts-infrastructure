@@ -109,7 +109,7 @@ We configure on off2 stunnel client ([commit cd7408cd](https://github.com/openfo
 It wast tested from current redis container on off2 using redis-cli !
 
 We configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
-It wast tested from current mongo container on off1 using mongo client !
+It was tested from current mongo container on off1 using mongo client !
 
 Grep help me find where to add the new redis to stunnel clients:
 ```bash
