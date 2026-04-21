@@ -106,7 +106,7 @@ while [moving mongodb](./2026-01-15-moving-mongodb-to-scaleway.md)
 
 
 We configure on off2 stunnel client ([commit cd7408cd](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/cd7408cd834af1e1d90fba2a401a9b229a4c1345))
-It wast tested from current redis container on off2 using redis-cli !
+It was tested from current redis container on off2 using redis-cli !
 
 We configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
 It was tested from current mongo container on off1 using mongo client !
