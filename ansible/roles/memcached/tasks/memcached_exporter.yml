@@ -14,7 +14,7 @@
   register: _memcached__exporter_archive_download
 
 - name: Unpack the binary from archive
-  ansible.builtin.unarchive:  # noqa: no-handler
+  ansible.builtin.unarchive: # noqa: no-handler
     remote_src: true
     src: "{{ _memcached__exporter_archive_download.dest }}"
     include:
@@ -24,7 +24,7 @@
     _memcached__exporter_archive_download.changed
 
 - name: Install memcached exporter binary
-  ansible.builtin.copy:  # noqa: no-handler
+  ansible.builtin.copy: # noqa: no-handler
     remote_src: true
     src: "/tmp/memcached_exporter-{{ memcached__exporter_version }}.linux-amd64/memcached_exporter"
     dest: /usr/local/bin
