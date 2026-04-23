@@ -45,10 +45,28 @@
     mode: "0775"
     owner: "{{ item.name }}"
     group: "{{ sftp__group }}"
+    # recurse on files
+    recurse: true
   loop: "{{ sftp__users | mask_key(target=['password']) }}"
   loop_control:
     label: "{{ item.name }}"
   when: (item.state | default('present')) == 'present'
+
+- name: Eventually create and populate authorized_keys file
+  ansible.builtin.copy:
+    dest: "{{ sftp__authorized_keys | replace('$USER', item.name) }}"
+    content: "{{ item.authorized_keys }}"
+    # writable only by root but traversable by all users
+    mode: "0600"
+    owner: "{{ item.name }}"
+    group: "{{ sftp__group }}"
+  loop: "{{ sftp__users | mask_key(target=['password']) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: |
+    ((item.state | default('present')) == 'present')
+    and
+    (item.authorized_keys | default(''))
 
 - name: Symlink configurations files
   git_based_config_symlinks:

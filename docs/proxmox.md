@@ -359,7 +359,9 @@ Read roles documentation to understand what they do.
 * create `host_vars/<container-name>/<container-name>-secrets.yml`
   and add `ansible_become_password` and `ansible_user_password_salt` variables (using `pwgen 20` for the first and `pwgen 10` for the second is a good idea)
 * create the container on the host and initialize, by running:
-  `ansible-playbook sites/proxmox-node.yml --tags containers -l <host-name>`
+  `ansible-playbook sites/proxmox-node.yml --tags containers -l <host-name>`.
+  You can eventually shorten the install a bit by adding `-e proxmox_containers__limit_to_containers=<your_container_id>`
+
 * make base setup of container by running:
   `ansible-playbook jobs/configure.yml -l <container-name>`
 
