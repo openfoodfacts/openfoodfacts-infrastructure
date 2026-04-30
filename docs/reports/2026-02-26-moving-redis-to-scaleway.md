@@ -111,7 +111,7 @@ It was tested from current redis container on off2 using redis-cli !
 We configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
 It was tested from current mongo container on off1 using mongo client !
 
-Grep help me find where to add the new redis to stunnel clients:
+Grep helped me find where to add the new redis to stunnel clients:
 ```bash
 grep -P '(213.36.253.214|proxy2).*6379' -r confs/ --include=off.conf
 confs/ovh-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:6379
