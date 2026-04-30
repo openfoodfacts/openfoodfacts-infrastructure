@@ -312,7 +312,9 @@ Now we hurry:
 1. Contrary to opff / obf /obf migrations there is no link to modify
 1. on scaleway-01, start the service `pct start 112`
 1. on your computer, verify the service is working with a modified `/etc/hosts`
-1. in OVH web console, change the `pro.openfoodfacts.org` `A` entry to point to `151.115.132.10`
+1. in OVH web console
+   1. change the `pro.openfoodfacts.org` `A` entry to point to `151.115.132.10`
+   1. change `sftp.openfoodfacts.org` to `CNAME` `scaleway-proxy`
 1. on your computer remove you `/etc/hosts` specific configuration and test again
 1. It's live !
 
@@ -336,10 +338,21 @@ After migration:
 * remove the backup datasets at ovh3
 * Verify podata is synced on ovh3
 * put back the TTL for domain to a normal level
-
-* change sftp.openfoodfacts.org to CNAME scaleway-proxy 
-
-[TODO]: email for producers sftp 
+* remove the site on off2 proxy (to avoid certbot errors in the future)
 
 Later:
 * on off2: remove the pct 114: `pct remove 114`
+
+## Email producers about sftp ip change
+
+While we changed the `sftp.openfoodfacts.org` address,
+some producers might have firewall or so using ip address,
+so we must advertise the change.
+
+To get the current producers, with last date of file transfert,
+on `scaleway-proxy`, i used:
+```bash
+cd /mnt/off-pro/sftp
+for x in */data; do last_file=$(ls $x -tr|tail -n 1); mod_year=$(stat -c "%y" "$x/$last_file" | cut -d " " -f 1); user=${x%/data}; echo $mod_year $user; done|sort
+```
+and use a file to parse and sort it.
