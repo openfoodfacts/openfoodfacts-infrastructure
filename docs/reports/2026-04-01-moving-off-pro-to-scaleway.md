@@ -318,7 +318,7 @@ Now we hurry:
    ```
    $mongodb_host = "10.13.1.200";
     ...
-    # $redis_url = '10.13.1.200:6379';
+    $redis_url = '10.13.1.200:6379';
     ...
     %server_options = (
 
