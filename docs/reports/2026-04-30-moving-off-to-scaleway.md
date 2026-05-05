@@ -11,7 +11,7 @@ So we will need to reconfigure and restart all VM to point to the right ZFS data
 ## Preparing stunnel to off-query
 
 I first had to add an ipv6 ip to my stunnel client.
-I tried hard to use a ULA, having the promox host act as a NAT66,
+I tried hard to use a ULA, having the proxmox host act as a NAT66,
 but I failed…
 So for the moment:
 * I added a public ipv6 to the container
@@ -21,15 +21,14 @@ So for the moment:
 
 On OSM45, I edited stunnel server configuration just to add a PSK in `/etc/stunnel/psk/off-query-psk.txt`.
 
-I add this PSK to `scaleway-stunnel-client-secrets.yml` and run:
+I added this PSK to `scaleway-stunnel-client-secrets.yml` and run:
 ```bash
 ansible-playbook sites/stunnel-client.yml -l scaleway-stunnel-client --tags stunnel
 ```
-(as we are ask to switch branch, we use the continue `c` option).
+(as we are asked to switch branch, we use the continue `c` option).
 
 I edited the stunnel config on scaleway-stunnel-client to add:
 ```ini
-# off query at moji
 # off query at moji
 [MojiOffQuery]
 client = yes
@@ -55,14 +54,12 @@ From off-pro container, it also works.
 
 **FIXME** try to use a ULA ipv6 nated by the proxmox host (seems harder than it should be…)
 
-**TODO commit changes**
-
 ## moving users and orgs to nvme
 
 We will take the opportunity of moving to scaleway to move some datasets to nvme,
 because we write to them quite a lot.
 I will move orgs and users.
-(note that `off/logs` is a also a good candidate, but too heavy, right now, due to archive,
+(note that `off/logs` is also a good candidate, but too heavy, right now, due to archive,
 we should find a better approach on that one).
 
 For this I did a sync of the users and orgs datasets to the nvme disk (not directly to their final destination, to avoid sanoid creating conflicting snapshots)
@@ -73,12 +70,12 @@ syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-
 
 ## Preparing target off container
 
-First create the 111 container named obf using ansible (see [proxmox - How to create a new container with ansible](../proxmox.md#how-to-create-a-new-container-with-ansible))
+First create the 111 container named off using ansible (see [proxmox - How to create a new container with ansible](../proxmox.md#how-to-create-a-new-container-with-ansible))
 following what was done for 115 (opff).
 
 On scaleway-01:
 1. shutdown the container: `pct shutdown 111`
-3. edit the container configuration to add mountpoints: **FIXME**
+2. edit the container configuration to add mountpoints: **FIXME**
    ```
     mp0: /zfs-hdd/podata/off,mp=/mnt/off
     mp1: /zfs-hdd/podata/off/cache,mp=/mnt/off/cache
@@ -95,7 +92,7 @@ On scaleway-01:
     ```
     lxc.cap.drop: "sys_rawio audit_read"
     ```
-2. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-111-disk-0`
+3. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-111-disk-0`
 
 Do not start the VM yet !
 
@@ -216,7 +213,7 @@ Now we hurry:
     echo DONE: $dataset@$SNAP_NAME; \
   done
   ```
-1. on `scalway-01`, make a last sync of datasets:
+1. on `scaleway-01`, make a last sync of datasets:
    ```bash
    syncoid --no-sync-snap --no-privilege-elevation scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-113-disk-0
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-hdd/off zfs-hdd/off-backups/off2-zfs-hdd/off
@@ -245,8 +242,8 @@ Now we hurry:
     zfs destroy -r zfs-hdd/podata/off/users
     zfs destroy -r zfs-hdd/podata/off/orgs
     #  images, and pro_export_files are common, move them up
-    zfs rename zfs-hdd/podata/off/images zfs-nvme/podata/images
-    zfs rename zfs-hdd/podata/off/pro_export_files zfs-nvme/podata/pro_export_files
+    zfs rename zfs-hdd/podata/off/images zfs-hdd/podata/images
+    zfs rename zfs-hdd/podata/off/pro_export_files zfs-hdd/podata/pro_export_files
     ```
 1. modify the configuration `srv/off/lib/ProductOpener/Config2.pm` in `/zfs-hdd/pve/subvol-111-disk-0/`:
    ```
@@ -286,7 +283,7 @@ Now we hurry:
 1. in OVH web console, change the `openfoodfacts.org` `A` entry to point to `151.115.132.10`
 1. on your computer remove you `/etc/hosts` specific configuration and test again
 1. We now continue for the other containers, for each containers(113 to 115, aka obf,opf,opff):
-   1. `declare -x $ct=<id>`
+   1. `declare -x ct=<id>`
    1. change the mountpoints for the container:
       ```bash
       vim /etc/pve/lxc/$ct.lxc
