@@ -72,6 +72,8 @@ proxmox_containers__containers:
         ip: 10.13.1.101/16
         gw: 10.13.0.2
         bridge: vmbr10
+        ip6: 2001:bc8:c025:10::101/48
+        gw6: "2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f"
     disk:
       storage: zfs-hdd-pve
       size: 10

@@ -23,3 +23,6 @@ iptables_extra_rules_filter_v4: {}
 iptables_extra_rules_filter_v6: {}
 iptables_extra_rules_nat_v4: {}
 iptables_extra_rules_nat_v6: {}
+# ip forwarding
+iptables__enable_ip_forward_v4: false
+iptables__enable_ip_forward_v6: false

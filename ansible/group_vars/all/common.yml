@@ -43,5 +43,5 @@ off_private_networks_v4:
 
 # FIXME
 off_private_networks_v6:
-  # local network (very wide definition: everything starting with `fded:`)
-  - "fded::/16"
+  # local network (very wide definition: everything starting with `fd:`)
+  - "fd00::/8"
