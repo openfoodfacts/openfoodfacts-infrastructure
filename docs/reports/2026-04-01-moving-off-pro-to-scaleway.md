@@ -38,7 +38,7 @@ We will do almost the same transformations to the reverse-proxy:
       ```bash
       cd /zfs-hdd/pve/subvol-100-disk-0
       # note we list user from the container, so it's etc/ not /etc
-      # we also need to remove add a ./ for home folder
+      # we also need to add a ./ for home folder
       for USERID_HOMEDIR in $(cat etc/passwd|grep /home|cut -d ":" -f 3,6);do USERID=${USERID_HOMEDIR%:*};HOMEDIR=${USERID_HOMEDIR#*:};sudo echo chown $USERID:$USERID -R .$HOMEDIR; chown $USERID:$USERID -R .$HOMEDIR; done
       ```
     1. test you can log into the container, and permissions are ok on the home folder.
@@ -337,7 +337,7 @@ Now we hurry:
 1. It's live !
 
 After migration:
-* on off2: rename subvol-114 to avoid confusino
+* on off2: rename subvol-114 to avoid confusion
   ```bash
   zfs rename zfs-hdd/pve/subvol-114-disk-0 zfs-hdd/backups/subvol-114-disk-0
   ```
