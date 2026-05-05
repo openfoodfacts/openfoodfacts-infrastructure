@@ -2351,6 +2351,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../sftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SFTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../stunnel/" class="md-nav__link">
         
   
@@ -6249,6 +6277,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../reports/2026-04-01-moving-off-pro-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-04-01 Moving OFF-pro to scaleway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../reports/2026-04-01-moving-open-prices-to-scaleway-03/" class="md-nav__link">
         
   
@@ -6352,14 +6408,14 @@ pull_pve_configs__corosync_conf_path: "{{ pull_pve_configs__source_dir }}/corosy
 pull_pve_configs__exclude_regexes:
   # Exclude private key files anywhere under pull_pve_configs__source_dir.
 
-  - '.*\.key$'
-  - '(^|/)ssh_known_hosts$'
-  - '(^|/)authorized_keys$'
-  - '(^|/)shadow\.cfg$'
-  - '(^|/)token\.cfg$'
-  - '(^|/)priv(/|$)'
+  - ".*\\.key$"
+  - "(^|/)ssh_known_hosts$"
+  - "(^|/)authorized_keys$"
+  - "(^|/)shadow\\.cfg$"
+  - "(^|/)token\\.cfg$"
+  - "(^|/)priv(/|$)"
   # Exclude fast moving file, not really a config
-  - '(^|/)lrm_status$'
+  - "(^|/)lrm_status$"
 </code></pre></div>
 
 

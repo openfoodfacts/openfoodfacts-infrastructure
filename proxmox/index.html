@@ -2730,6 +2730,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ansible/roles/sftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SFTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ansible/roles/stunnel/" class="md-nav__link">
         
   
@@ -6628,6 +6656,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2026-04-01-moving-off-pro-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-04-01 Moving OFF-pro to scaleway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2026-04-01-moving-open-prices-to-scaleway-03/" class="md-nav__link">
         
   
@@ -7357,7 +7413,10 @@ and add specific variables.</p>
 <li>create <code>host_vars/&lt;container-name&gt;/&lt;container-name&gt;-secrets.yml</code>
   and add <code>ansible_become_password</code> and <code>ansible_user_password_salt</code> variables (using <code>pwgen 20</code> for the first and <code>pwgen 10</code> for the second is a good idea)</li>
 <li>create the container on the host and initialize, by running:
-  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l &lt;host-name&gt;</code></li>
+  <code>ansible-playbook sites/proxmox-node.yml --tags containers -l &lt;host-name&gt;</code>.
+  You can eventually shorten the install a bit by adding <code>-e proxmox_containers__limit_to_containers=&lt;your_container_id&gt;</code></li>
+</ul>
+<ul>
 <li>make base setup of container by running:
   <code>ansible-playbook jobs/configure.yml -l &lt;container-name&gt;</code></li>
 </ul>
