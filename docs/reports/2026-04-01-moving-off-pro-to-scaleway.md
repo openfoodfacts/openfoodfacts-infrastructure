@@ -11,7 +11,7 @@ The difference between obf and the pro-platform is:
   leave it on off2 for now and share it with NFS
 * the `products` and `images` folders are specific,
   but we need access to off products folder (because of `internal_code.json`)
-* the `data` folder shared with `off` (but it seems not useful…, we will play safe sough)
+* the `data` folder shared with `off` (but it seems not useful…, we will play safe though)
 
 A small difference is also that it has a specific mount for logs (as off).
 
