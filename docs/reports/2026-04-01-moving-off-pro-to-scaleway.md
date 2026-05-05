@@ -99,7 +99,7 @@ We will do almost the same transformations to the reverse-proxy:
       after defining `sftpoff` in my .ssh/config, with the right `IdentityFile` directive,
       and leaving the password prompt empty (which makes lftp use the keyfile)
 
-## Sharing off/data and off-pro/cache through NFS
+## Sharing off/data through NFS
 
 the off/data, is not a dataset per se, but a folder in off.
 This means we will have to share `off` dataset through ZFS.
@@ -154,6 +154,22 @@ We will migrate it to its own dataset on off2:
    pct shutdown 114 && pct start 114
    pct shutdown 113 && pct start 113
    ```
+
+It is automatically shared via NFS thanks to off shares:
+```
+fs get sharenfs /zfs-hdd/off/pro_export_files
+NAME                          PROPERTY  VALUE                                                                      SOURCE
+zfs-hdd/off/pro_export_files  sharenfs  rw=@151.115.132.10/31,rw=@151.115.132.12/31,rw=@10.1.0.101,no_root_squash  inherited from zfs-hdd/off
+```
+
+We need to mount it on scaleway-01:
+* edit fstab, to add:
+  ```fstab
+  213.36.253.208:/zfs-hdd/off/pro_export_files /mnt/nfs/off/pro_export_files nfs nfsvers=4.2,proto=tcp,port=2049 0 0
+  ```
+* `systemctl daemon-reload && mount -a`
+* verify: `ls -l /mnt/nfs/off/pro_export_files`
+
 
 ### Creating zfs-nvme/podata folder
 
@@ -229,12 +245,14 @@ On scaleway-01:
    mp8: /mnt/nfs/off/orgs,mp=/mnt/off-pro/orgs
    mp9: /mnt/nfs/off/products,mp=/mnt/off/products
    mp10: /mnt/nfs/off/data,mp=/mnt/off-pro/data
+   mp11: /mnt/nfs/off/pro_export_files,mp=/mnt/off-pro/cache/export_files
     ```
     also added:
     ```
     lxc.cap.drop: "sys_rawio audit_read"
     ```
 2. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-112-disk-0`
+
 
 ### Preparing Migration
 
@@ -356,3 +374,13 @@ cd /mnt/off-pro/sftp
 for x in */data; do last_file=$(ls $x -tr|tail -n 1); mod_year=$(stat -c "%y" "$x/$last_file" | cut -d " " -f 1); user=${x%/data}; echo $mod_year $user; done|sort
 ```
 and use a file to parse and sort it.
+
+## NOTE: on how we broke exports 🔥
+
+One thing that was missed: the `off-pro/images` folder is used by `off`
+on data import to get images of imported products.
+It is mounted in off container, in `/mnt/off-pro/images` and symlinked in `/srv/off-pro/html/images/products`.
+So we should have not moved this volume to `scaleway-01`,
+but instead use a nfs mount, and move it later with off container.
+
+(also )
