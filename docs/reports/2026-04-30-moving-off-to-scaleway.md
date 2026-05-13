@@ -64,8 +64,8 @@ we should find a better approach on that one).
 
 For this I did a sync of the users and orgs datasets to the nvme disk (not directly to their final destination, to avoid sanoid creating conflicting snapshots)
 ```bash
-syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
-syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
+syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
+syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
 ```
 
 ## Preparing target off container
@@ -152,7 +152,7 @@ ln -s 502-planned.html 502.html
 ```
 
 
-### Preparing DNS
+## Preparing DNS
 
 On OVH web console: modify TTL on openfoodfacts.org and *.openfoodfacts.org to 60s
 
@@ -166,7 +166,16 @@ You might use this configuration to do a quick test that your reverse proxy is s
 
 (Note: didn't test madenear.me, howmuchsugar.in and so on, because downtime is far less important on those website).
 
-### Migration
+
+## preparing ks1
+
+KS1 will have to sync images from scaleway,
+for this we need to have an operator on scaleway-01 for it.
+
+I just followed [our sanoid doc on creating operator on PROD_SERVER](../sanoid.md#creating-operator-on-prod_server)
+
+
+## Migration
 
 
 
@@ -176,6 +185,7 @@ You might use this configuration to do a quick test that your reverse proxy is s
    unlink 502.html
    ln -s 502-planned.html 502.html
    ```
+1. login to ks1 and comment the syncoid line for images (until end of migration)
 1. on scaleway-01 comment off backups in /etc/sanoid/syncoid-args.conf (line for zfs-hdd and for nvme)
 
 Now we hurry:
@@ -184,7 +194,7 @@ Now we hurry:
   ```bash
   # mimic sanoid
   SNAP_NAME=autosnap_$(date --utc +"%Y-%m-%d_%H:%M:%S")_hourly
-  for dataset in zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off{,/cache,/html_data,/logs,/images,/logs,/orgs,/users,/pro_export_files} zfs-nvme/off{,/products}; \
+  for dataset in zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off{,/cache,/html_data,/logs,/images,/orgs,/users,/pro_export_files} zfs-nvme/off{,/products}; \
   do \
     zfs snapshot $dataset@$SNAP_NAME; \
     echo DONE: $dataset@$SNAP_NAME; \
@@ -196,18 +206,19 @@ Now we hurry:
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-hdd/off zfs-hdd/off-backups/off2-zfs-hdd/off
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-nvme/off zfs-nvme/off-backups/off2-zfs-nvme/off
    # sync our users and orgs new location
-   syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
-   syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
+   syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
+   syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
    ```
 
-1. on off2, stop off container `pct shutdown 113`
+1. on off2, stop off container `pct shutdown 113` and verify with `pct list`
 1. on scaleway-01 stop all containers attending to off data
    `echo 11{2,3,4,5}|xargs -P 4 -n 1 pct shutdown --forceStop=1`
+   verify with `pct list`
 1. on off2, create a last snapshot:
   ```bash
   # mimic sanoid
   SNAP_NAME=autosnap_$(date --utc +"%Y-%m-%d_%H:%M:%S")_hourly
-  for dataset in zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off{,/cache,/html_data,/logs,/images,/logs,/orgs,/users,/pro_export_files} zfs-nvme/off{,/products}; \
+  for dataset in zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off{,/cache,/html_data,/logs,/images,/orgs,/users,/pro_export_files} zfs-nvme/off{,/products}; \
   do \
     zfs snapshot $dataset@$SNAP_NAME; \
     echo DONE: $dataset@$SNAP_NAME; \
@@ -219,8 +230,8 @@ Now we hurry:
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-hdd/off zfs-hdd/off-backups/off2-zfs-hdd/off
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-nvme/off zfs-nvme/off-backups/off2-zfs-nvme/off
    # sync our users and orgs new location
-   syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
-   syncoid zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
+   syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
+   syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
    ```
    verify:
    ```bash
@@ -273,7 +284,7 @@ Now we hurry:
     do \
     unlink $dirname; \
     done
-    for dirname in mnt/{obf,opf,opff}/{images,products,} srv/{off,opf,opff}/{html/{images,},}; \
+    for dirname in mnt/{obf,opf,opff}/{images,products,} srv/{obf,opf,opff}/{html/{images,},}; \
     do \
     rmdir $dirname; \
     done
@@ -282,6 +293,11 @@ Now we hurry:
 1. on your computer, verify the service is working with a modified `/etc/hosts`
 1. in OVH web console, change the `openfoodfacts.org` `A` entry to point to `151.115.132.10`
 1. on your computer remove you `/etc/hosts` specific configuration and test again
+1. unmount all nfs to be sure we are not writing to them again:
+   ```bash
+   umount /mnt/nfs/off/orgs /mnt/nfs/off/images /mnt/nfs/off/users /mnt/nfs/off/products /mnt/nfs/off/pro_export_files /mnt/nfs/off/data
+   for dirname in /mnt/nfs/off/orgs /mnt/nfs/off/images /mnt/nfs/off/users /mnt/nfs/off/products /mnt/nfs/off/pro_export_files /mnt/nfs/off/data /mnt/nfs/off/off /mnt/nfs/off /mnt/nfs; do rmdir $dirname; done
+   ```
 1. We now continue for the other containers, for each containers(113 to 115, aka obf,opf,opff):
    1. `declare -x ct=<id>`
    1. change the mountpoints for the container:
@@ -304,32 +320,126 @@ Now we hurry:
       %s!/zfs-hdd/podata/products!/zfs-nvme/podata/products
       %s!/zfs-hdd/podata/users!/zfs-nvme/podata/users
       %s!/zfs-hdd/podata/orgs!/zfs-nvme/podata/orgs
+      %s!/zfs-hdd/podata/data!/zfs-nvme/podata/off/data
       ```
     1. verify your modification and save
     1. restart the container: `pct start $ct`
 1. It's live !
+1. login to ks1 and change the sync for images to use the scaleway
+1. deal with howmuchsugar.in and madenear.me
+   * change DNS for:
+     * howmuchsugar.in, ~~howmuchsugar.info~~, ~~combiendesucres.fr~~
+     * madenear.me, madenear.me.uk, cestemballepresdechezvous.fr, ~~cestemballepresdechezvous.info~~
+   * check it works
 
-After migration:
-* on off2: rename subvol-113 to avoid confusion
+
+## After migration
+
+* [DONE] on off2: rename subvol-113 to avoid confusion
   ```bash
   zfs rename zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/backups/subvol-113-disk-0
   ```
-* verify backups of the new datasets are done on scaleway-03:
+* [TODO] verify backups of the new datasets are done on scaleway-03:
   * `zfs list zfs-hdd/off-backups/scaleway-01-podata-hdd -r`
   * `zfs list zfs-hdd/off-backups/scaleway-01-podata-nvme -r`
+  * (you may need to manually sync big datasets like images !)
 * rerun the ansible:
   * container creation on scaleway-01:
-    `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01`
+    `ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01 -e proxmox_containers__limit_to_containers=111`
   * jobs/configure for off:
     `ansible-playbook jobs/configure.yml -l off` [^SSH_RESTART]
-* remove the backup datasets at ovh3
+* change the backup datasets at ovh3:
+  * we don't want to sync images from scratch it's too heavy… see OVH3 backups update below
 * Verify podata is synced on ovh3
 * put back the TTL for domain to a normal level
 
+* check any traffic still comming to off2 reverse proxy
+* [DONE] change fallback server for images.openfoodfacts.org ([commit 724f156e](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/724f156e4e71954bb567a3a49770c252c0cd7ff3))
+
+* [DONE] move query.openfoodfacts.org to scaleway reverse proxy
+  (following same procedure as in [Preparing reverse Proxy](#preparing-reverse-proxy)
+
+* [DONE] install fail2ban jails we had on off2 proxy on scaleway-proxy:
+  * see commits
+    [b6f4d634](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/b6f4d634c3cdfa0d7462521a6fb7ea89608f195c)
+    and [a35797db](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/a35797db8a689b50ec0c20284863086329542c37)
+  * I also transfered the manual banned ips, by listing them on off2 proxy
+    and adding them back on the other side (using the `fail2ban-client … banip` command)
+
+* [DONE] change sync_images to AWS parameters ([see commit 9bd66e6](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9bd66e6347be39b36f4019a61420f37939df130a))
+* [TODO] change monitoring to scrape on scaleway
+  But we want to do it using the exporters exporters pattern,
+  so we need a new ansible role for that.
+
+Post fixes:
+* query.openfoodfacts.org was not responding, it was a DNS problem because proxy2.openfoodfacts.org
+  was not defined any more, while query was a CNAME to it…
+  So I redefined proxy2 as a A entry pointing to off2 reverse proxy IP
+* https://robotoff.openfoodfacts.org/api/v1/health
+
+
+
 Later:
+* [TODO] shutdown stunnel services that are not needed anymore
 * on off2: remove the pct 113: `pct remove 113`
 * could we move logs to nvme ????
 * use ULA for container ipv6, nated by the proxmox host (investigate how on a test container)
 
 
+## OVH3 backup updates
 
+We need to have backups on OVH3. But resyncing images would take too long (and disk space may not even be there).
+
+So here is the procedure:
+
+* stop off staging instances (off-net) on ovh1 docker-staging VM,
+  and add a NO_DEPLOY file to avoid deployments
+* in `/etc/sanoid/syncoid-args.conf`,
+  * comment lines that sync old off2 data
+  * also comment lines that syncs podata from scaleway-01
+* remove the clones on ovh3:
+  ```bash
+  # better restart the service
+  systemctl restart nfs-server.service
+  for dataset in  rpool/staging-clones/{off-images,off-products,orgs,users};do echo $dataset; zfs   destroy -r $dataset; done
+  ```
+  to be able to remove the images clones, I had to restart nfs server.
+* move old dataset taken from off2 to the new locations
+  ```bash
+  # move root
+  zfs rename rpool/off rpool/off-backups/podata/off
+  # move common dataset up
+  zfs rename rpool/off-backups/podata{/off,}/users
+  zfs rename rpool/off-backups/podata{/off,}/orgs
+  zfs rename rpool/off-backups/podata{/off,}/products
+  zfs rename rpool/off-backups/podata{/off,}/images
+  zfs rename rpool/off-backups/podata{/off,}/pro_export_files
+  ```
+* come back to a pre migration snapshot:
+  ```bash
+  for dataset in rpool/off-backups/podata/{off{,/cache,/html_data,/logs},users,orgs,products,images,pro_export_files}; \
+  do \
+    SNAP=$(zfs list -H -o name -t snap $dataset|grep "@autosnap_2026-05-05.*_daily"); \
+    echo $SNAP; \
+    time zfs rollback -r $SNAP; \
+  done
+  ```
+  (note: this took a lot of time)
+* verify structure is coherent with the one of scaleway-01, using `zfs list -o name .../podata`
+* rerun syncoid for podata:
+  ```bash
+  syncoid --no-sync-snap --no-privilege-elevation --recursive ovh3operator@scaleway-01.infra.openfoodfacts.org:zfs-hdd/podata rpool/off-backups/podata
+  ```
+* uncomment the line for podata sync in `/etc/sanoid/syncoid-args.conf`
+* rerun the clone script:
+  `/opt/openfoodfacts-infrastructure/scripts/ovh3/maj-clones-nfs-VM-dockers.sh`
+  (note: I had to kill the sync-s3-images script to be able to move images dataset,
+  see [d52f6099](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/d52f60999fb88755bc79c48370c436ab39071e81)
+  and [7785b412](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/7785b412d6cee66b7034e5448eaadf4d509a4033))
+* I also removed the old data that are not useful anymore (as they are in nvme):
+  ```bash
+  for dataset in products orgs users; \
+  do \
+    zfs destroy -r rpool/off-backup/podata/$dataset; \
+  done
+  ```
