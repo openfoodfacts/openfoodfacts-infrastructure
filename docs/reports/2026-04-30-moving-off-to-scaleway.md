@@ -3,8 +3,8 @@
 After we moved [opff](./2026-03-12-moving-opff-to-scaleway.md), [obf and opf](./2026-03-27-moving-obf-opf-to-scaleway.md), [off-pro](./2026-04-01-moving-off-pro-to-scaleway.md),
 it's time to move the last component to scaleway: the openfoodfacts container (aka off).
 
-We do not have to only move off container but also all the zfs that are common to off and the other instances.
-So we will need to reconfigure and restart all VM to point to the right ZFS datasets
+We not only have to move the off container, but also all the ZFS datasets that are common to off and the other instances.
+So we will need to reconfigure and restart all VMs to point to the right ZFS datasets
 (currently they are using NFS mounts).
 
 
@@ -16,7 +16,7 @@ but I failed…
 So for the moment:
 * I added a public ipv6 to the container
 * although the iptables should stop non private connections,
-  I prefered to only accept stunnel connections on 10.13.1.101
+  I preferred to only accept stunnel connections on 10.13.1.101
   (for all exposed stunnel entries)
 
 On OSM45, I edited stunnel server configuration just to add a PSK in `/etc/stunnel/psk/off-query-psk.txt`.
@@ -62,7 +62,7 @@ I will move orgs and users.
 (note that `off/logs` is also a good candidate, but too heavy, right now, due to archive,
 we should find a better approach on that one).
 
-For this I did a sync of the users and orgs datasets to the nvme disk (not directly to their final destination, to avoid sanoid creating conflicting snapshots)
+For this, I did a sync of the users and orgs datasets to the nvme disk (not directly to their final destination, to avoid sanoid creating conflicting snapshots)
 ```bash
 syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/users zfs-nvme/off-backups/off2-zfs-nvme/off/users
 syncoid --no-sync-snap zfs-hdd/off-backups/off2-zfs-hdd/off/orgs zfs-nvme/off-backups/off2-zfs-nvme/off/orgs
@@ -94,7 +94,7 @@ On scaleway-01:
     ```
 3. remove the created disk: `zfs destroy zfs-hdd/pve/subvol-111-disk-0`
 
-Do not start the VM yet !
+Do not start the container yet!
 
 ## Preparing Reverse Proxy
 
@@ -127,7 +127,7 @@ ls -l /etc/letsencrypt/*/$DOM /etc/letsencrypt/renewal/$DOM.conf
 
 I also had to do it for secondary websites: `howmuchsugar.in` and `madenear.me`
 
-On scaleway-proxy
+On scaleway-proxy:
 I copied the configuration from off2 reverse proxy in scaleway-proxy conf dir (common config were already copied and linked while moving opff):
 ```bash
 cd /opt/openfoodfacts-infrastructure/
@@ -142,7 +142,7 @@ done
 I also edited openfoodfacts.org conf
 * `listen 443 ... http2` is now deprecated in favour of `http2 on;`
 * comment `ssl_stapling` and `ssl_stapling_verify` directives (deprecated)
-* to substitute any occurrence of `10.1.0.113` for `10.13.1.111`.
+* to replace any occurrence of `10.1.0.113` with `10.13.1.111`.
 
 Also I prepared the maintenance page to use the "planned maintenance" page,
 that is in `/opt/openfoodfacts-infrastructure/html`:
@@ -164,10 +164,10 @@ On your desktop prepare the following lines to add to your `/etc/hosts` (comment
 
 You might use this configuration to do a quick test that your reverse proxy is setup correctly (but you will get a gateway timeout of course, as 111 is shutdown)
 
-(Note: didn't test madenear.me, howmuchsugar.in and so on, because downtime is far less important on those website).
+(Note: didn't test madenear.me, howmuchsugar.in and so on, because downtime is far less important on those websites).
 
 
-## preparing ks1
+## Preparing KS1
 
 KS1 will have to sync images from scaleway,
 for this we need to have an operator on scaleway-01 for it.
@@ -200,7 +200,7 @@ Now we hurry:
     echo DONE: $dataset@$SNAP_NAME; \
   done
   ```
-1. on `scaleway-01` do a sync before shuting down off:
+1. on `scaleway-01` do a sync before shutting down off:
    ```bash
    syncoid --no-sync-snap --no-privilege-elevation scaleway01operator@off2.openfoodfacts.org:zfs-hdd/pve/subvol-113-disk-0 zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-113-disk-0
    syncoid --no-sync-snap --no-privilege-elevation --recursive scaleway01operator@off2.openfoodfacts.org:zfs-hdd/off zfs-hdd/off-backups/off2-zfs-hdd/off
@@ -211,7 +211,7 @@ Now we hurry:
    ```
 
 1. on off2, stop off container `pct shutdown 113` and verify with `pct list`
-1. on scaleway-01 stop all containers attending to off data
+1. on scaleway-01 stop all containers accessing off data
    `echo 11{2,3,4,5}|xargs -P 4 -n 1 pct shutdown --forceStop=1`
    verify with `pct list`
 1. on off2, create a last snapshot:
@@ -236,7 +236,7 @@ Now we hurry:
    verify:
    ```bash
    zfs list -t snap -o name zfs-hdd/off-backups/off2-zfs-hdd/pve/subvol-113-disk-0 |tail -n 1
-   for dataset in zfs-hdd/off-backups/off2-zfs-hdd/off{,/cache,/html_data,/logs,/images,/logs,/pro_export_files} zfs-nvme/off-backups/off2-zfs-nvme/off{,/users,/orgs,/products}; \
+   for dataset in zfs-hdd/off-backups/off2-zfs-hdd/off{,/cache,/html_data,/logs,/images,/pro_export_files} zfs-nvme/off-backups/off2-zfs-nvme/off{,/users,/orgs,/products}; \
    do \
        zfs list -t snap -o name $dataset |tail -n 1; \
    done
@@ -292,13 +292,13 @@ Now we hurry:
 1. on scaleway-01, start the service `pct start 111`
 1. on your computer, verify the service is working with a modified `/etc/hosts`
 1. in OVH web console, change the `openfoodfacts.org` `A` entry to point to `151.115.132.10`
-1. on your computer remove you `/etc/hosts` specific configuration and test again
+1. on your computer remove your `/etc/hosts` specific configuration and test again
 1. unmount all nfs to be sure we are not writing to them again:
    ```bash
    umount /mnt/nfs/off/orgs /mnt/nfs/off/images /mnt/nfs/off/users /mnt/nfs/off/products /mnt/nfs/off/pro_export_files /mnt/nfs/off/data
    for dirname in /mnt/nfs/off/orgs /mnt/nfs/off/images /mnt/nfs/off/users /mnt/nfs/off/products /mnt/nfs/off/pro_export_files /mnt/nfs/off/data /mnt/nfs/off/off /mnt/nfs/off /mnt/nfs; do rmdir $dirname; done
    ```
-1. We now continue for the other containers, for each containers(113 to 115, aka obf,opf,opff):
+1. We now continue for the other containers, for each container (113 to 115, aka obf,opf,opff):
    1. `declare -x ct=<id>`
    1. change the mountpoints for the container:
       ```bash
@@ -309,8 +309,8 @@ Now we hurry:
       %s!/zfs-hdd/podata/users!/zfs-nvme/podata/users
       %s!/zfs-hdd/podata/orgs!/zfs-nvme/podata/orgs
       ```
-    1. verify your modification and save
-    1. restart the container: `pct start $ct`
+   1. verify your modification and save
+   1. restart the container: `pct start $ct`
 1. We now change off-pro (112):
    1. change the mountpoints for the container:
       ```bash
@@ -322,10 +322,10 @@ Now we hurry:
       %s!/zfs-hdd/podata/orgs!/zfs-nvme/podata/orgs
       %s!/zfs-hdd/podata/data!/zfs-nvme/podata/off/data
       ```
-    1. verify your modification and save
-    1. restart the container: `pct start $ct`
+   1. verify your modification and save
+   1. restart the container: `pct start 112`
 1. It's live !
-1. login to ks1 and change the sync for images to use the scaleway
+1. login to ks1 and change the sync for images to sync from scaleway
 1. deal with howmuchsugar.in and madenear.me
    * change DNS for:
      * howmuchsugar.in, ~~howmuchsugar.info~~, ~~combiendesucres.fr~~
@@ -353,7 +353,7 @@ Now we hurry:
 * Verify podata is synced on ovh3
 * put back the TTL for domain to a normal level
 
-* check any traffic still comming to off2 reverse proxy
+* check any traffic still coming to off2 reverse proxy
 * [DONE] change fallback server for images.openfoodfacts.org ([commit 724f156e](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/724f156e4e71954bb567a3a49770c252c0cd7ff3))
 
 * [DONE] move query.openfoodfacts.org to scaleway reverse proxy
@@ -368,13 +368,13 @@ Now we hurry:
 
 * [DONE] change sync_images to AWS parameters ([see commit 9bd66e6](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/9bd66e6347be39b36f4019a61420f37939df130a))
 * [TODO] change monitoring to scrape on scaleway
-  But we want to do it using the exporters exporters pattern,
+  But we want to do it using the exporters pattern,
   so we need a new ansible role for that.
 
 Post fixes:
 * query.openfoodfacts.org was not responding, it was a DNS problem because proxy2.openfoodfacts.org
   was not defined any more, while query was a CNAME to it…
-  So I redefined proxy2 as a A entry pointing to off2 reverse proxy IP
+  So I redefined proxy2 as an A entry pointing to off2 reverse proxy IP
 * https://robotoff.openfoodfacts.org/api/v1/health
 * I had to whitelist scaleway servers [in PMG](../mail.md#adding-a-new-server) because emails were not arriving (I previously think it was not mandatory, because I though the iptables redirect rule was masking the real ip)
 
@@ -387,8 +387,8 @@ Later:
   * for that we need to remove a lot of current logs that are not useful
     (maybe rewrite logrotate config)
 * use ULA for container ipv6, nated by the proxmox host (investigate how on a test container)
-* [TODO] decide wether we move the experimental opensuplementsfacts to scaleway…
-  (note that its database is not fusioned with off)
+* [TODO] decide whether we move the experimental opensuplementsfacts to scaleway…
+  (note that its database is not merged with off)
 
 ## OVH3 backup updates
 
@@ -444,6 +444,6 @@ So here is the procedure:
   ```bash
   for dataset in products orgs users; \
   do \
-    zfs destroy -r rpool/off-backup/podata/$dataset; \
+    zfs destroy -r rpool/off-backups/podata/$dataset; \
   done
   ```
