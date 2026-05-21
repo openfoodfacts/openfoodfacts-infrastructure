@@ -376,15 +376,19 @@ Post fixes:
   was not defined any more, while query was a CNAME to it…
   So I redefined proxy2 as a A entry pointing to off2 reverse proxy IP
 * https://robotoff.openfoodfacts.org/api/v1/health
-
-
+* I had to whitelist scaleway servers [in PMG](../mail.md#adding-a-new-server) because emails were not arriving (I previously think it was not mandatory, because I though the iptables redirect rule was masking the real ip)
 
 Later:
-* [TODO] shutdown stunnel services that are not needed anymore
+* [DONE] shutdown stunnel services that are not needed anymore
+  * shutdown container 105 on off1
+  * remove config to old services on scaleway-stunnel-client
 * on off2: remove the pct 113: `pct remove 113`
-* could we move logs to nvme ????
+* could we move off logs to nvme on scaleway ?
+  * for that we need to remove a lot of current logs that are not useful
+    (maybe rewrite logrotate config)
 * use ULA for container ipv6, nated by the proxmox host (investigate how on a test container)
-
+* [TODO] decide wether we move the experimental opensuplementsfacts to scaleway…
+  (note that its database is not fusioned with off)
 
 ## OVH3 backup updates
 

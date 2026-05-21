@@ -78,7 +78,7 @@ the public key was reported in DNS configuration
 
 see also [installation report](./reports/2022-02-proxmox-mail-gateway-install.md)
 
-### redirects
+### Redirects
 
 On DNS:
 * `pmg.openfoodfacts.org` is a CNAME to `ovh1.openfoodfacts.org`
@@ -88,20 +88,33 @@ On DNS:
 An iptable rule on host (`ovh1`) redirects our server incoming ips to the VM smtp port (25).
 Private network address (corresponding to VM and docker ranges) are also redirected.
 
-To add a new machine
-```
-sudo iptables -t nat -A PREROUTING -s 213.36.253.206,213.36.253.208,146.59.148.140,51.210.154.203,1.210.32.79 -d pmg.openfoodfacts.org -p tcp  --dport 25 -j DNAT --to 10.1.0.102:25
-```
-don't forget [to save iptables](./linux-server.md#iptables)
+We use iptables nat redirect rules to route known servers to the PMG smtp port (see below)
 
-(a generic masquerading rule for VM also exists)
+(A generic masquerading rule for VM/CT already exists)
 
 Note that the port 25 is in fact the private (trusted) port
 (not the public one, as we are not receiving emails). This is a tweak in default config.
 
 Also the [nginx reverse proxy](./nginx-reverse-proxy.md) (VM `101` on `ovh1`) proxies requests to `pmg.openfoodfacts.org` on port 80,
-to the proxmox mail gateway VM (`102`), 
+to the proxmox mail gateway VM (`102`),
+
 this is needed for certificate generation through letsencrypt by the gateway.
+
+#### Adding a new server
+
+To add a new machine:
+
+* add the redirect rule to iptables:
+
+  ```
+  sudo iptables -t nat -A PREROUTING -s 213.36.253.206,213.36.253.208,146.59.148.140,51.210.154.203,1.210.32.79 -d pmg.openfoodfacts.org -p tcp  --dport 25 -j DNAT --to 10.1.0.102:25
+  ```
+  don't forget [to save iptables](./linux-server.md#iptables), or write the rule to /etc/iptables/rules.v4
+
+* you must also whitelist the server IP in the proxmox configuration,
+  (see ["Administration" above to access the console](#administration))
+  and add the ip to configuration / mail proxy / Network
+
 
 
 ### Testing that the gateway is well configured
