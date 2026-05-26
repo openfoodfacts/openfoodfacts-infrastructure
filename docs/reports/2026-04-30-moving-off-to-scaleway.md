@@ -107,7 +107,7 @@ On off2-proxy:
 CONF=/etc/nginx/sites-enabled/openfoodfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
-sudo tar -chvzf $DOM.tar.gz \
+sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
     /etc/letsencrypt/live/${DOM}
@@ -377,6 +377,9 @@ Post fixes:
   So I redefined proxy2 as an A entry pointing to off2 reverse proxy IP
 * https://robotoff.openfoodfacts.org/api/v1/health
 * I had to whitelist scaleway servers [in PMG](../mail.md#adding-a-new-server) because emails were not arriving (I previously think it was not mandatory, because I though the iptables redirect rule was masking the real ip)
+* we had to whitelist the scaleway-01 ip on brevo,
+  as openfoodfacts use the API key to subscribe users to the mailing list.
+* the certbot certificates renewal did not get well, see belw
 
 Later:
 * [DONE] shutdown stunnel services that are not needed anymore
@@ -447,3 +450,22 @@ So here is the procedure:
     zfs destroy -r rpool/off-backups/podata/$dataset; \
   done
   ```
+
+  ### fix on certificates
+
+  Certificates renewal did not work after install.
+  I saw this on 26/05.
+  This was due to several reason:
+
+  1. some live directory where not using simlink…
+     this is because PR corresponding to [commit `62b39187`](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/62b391872ef16f7ff2d25db0576b6c64f972fa3e)
+     was not yet merged, and so I used wrong tar options (`-h`, which should not have been used)
+  2. [`ovh-dns` certbot plugin]() was not installed on `scaleway-proxy`,
+     so I added the installation in the ansible role.
+     I also had to add the credential files (with ansible).
+  3. the let'sencrypt account name had to be changed in every renewal files,
+     to use the one found in `/etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/`,
+     so in my case I use:
+     ```bash
+     sed  -e "s/account \?=.*$/account = a0d2da217c3d569b7964d2f500ba96ca/" -i /etc/letsencrypt/renewal/*.conf
+     ```

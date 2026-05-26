@@ -7,6 +7,11 @@
     state: present
     update_cache: true
 
+- name: Install certbot ovh dns plugin
+  ansible.builtin.import_tasks:
+    file: certbot_ovh_dns.yml
+  when: reverse_proxy_nginx__certbot_ovh_install
+
 - name: Install prometheus exporter
   ansible.builtin.import_tasks:
     file: prometheus_exporter.yml
