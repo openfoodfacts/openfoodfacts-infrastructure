@@ -6288,15 +6288,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sharing-offdata-and-off-procache-through-nfs" class="md-nav__link">
+  <a href="#sharing-offdata-through-nfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing off/data and off-pro/cache through NFS
+        Sharing off/data through NFS
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sharing off/data and off-pro/cache through NFS">
+    <nav class="md-nav" aria-label="Sharing off/data through NFS">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6398,6 +6398,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#note-on-how-we-broke-exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NOTE: on how we broke exports 🔥
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6422,6 +6433,34 @@
     
   
     2026-04-01 Moving Open Prices to scaleway-03
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-04-30-moving-off-to-scaleway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Moving OFF to scaleway
   
 
     
@@ -6480,15 +6519,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sharing-offdata-and-off-procache-through-nfs" class="md-nav__link">
+  <a href="#sharing-offdata-through-nfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing off/data and off-pro/cache through NFS
+        Sharing off/data through NFS
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sharing off/data and off-pro/cache through NFS">
+    <nav class="md-nav" aria-label="Sharing off/data through NFS">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6584,6 +6623,17 @@
     <span class="md-ellipsis">
       
         Email producers about sftp ip change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-how-we-broke-exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NOTE: on how we broke exports 🔥
       
     </span>
   </a>
@@ -6649,7 +6699,7 @@ so we will use a direct mount of the shared dataset as we did before
 <li>manually adjust ownership where needed (essentially /home/*) on scaleway-01:
     <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/zfs-hdd/pve/subvol-100-disk-0
 <span class="c1"># note we list user from the container, so it's etc/ not /etc</span>
-<span class="c1"># we also need to remove add a ./ for home folder</span>
+<span class="c1"># we also need to add a ./ for home folder</span>
 <span class="k">for</span><span class="w"> </span>USERID_HOMEDIR<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>etc/passwd<span class="p">|</span>grep<span class="w"> </span>/home<span class="p">|</span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">":"</span><span class="w"> </span>-f<span class="w"> </span><span class="m">3</span>,6<span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nv">USERID</span><span class="o">=</span><span class="si">${</span><span class="nv">USERID_HOMEDIR</span><span class="p">%:*</span><span class="si">}</span><span class="p">;</span><span class="nv">HOMEDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">USERID_HOMEDIR</span><span class="p">#*:</span><span class="si">}</span><span class="p">;</span>sudo<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>chown<span class="w"> </span><span class="nv">$USERID</span>:<span class="nv">$USERID</span><span class="w"> </span>-R<span class="w"> </span>.<span class="nv">$HOMEDIR</span><span class="p">;</span><span class="w"> </span>chown<span class="w"> </span><span class="nv">$USERID</span>:<span class="nv">$USERID</span><span class="w"> </span>-R<span class="w"> </span>.<span class="nv">$HOMEDIR</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
 </code></pre></div><ol>
 <li>test you can log into the container, and permissions are ok on the home folder.
@@ -6714,7 +6764,7 @@ rm README.md
 </ol>
 </li>
 </ol>
-<h2 id="sharing-offdata-and-off-procache-through-nfs">Sharing off/data and off-pro/cache through NFS<a class="headerlink" href="#sharing-offdata-and-off-procache-through-nfs" title="Permanent link">#</a></h2>
+<h2 id="sharing-offdata-through-nfs">Sharing off/data through NFS<a class="headerlink" href="#sharing-offdata-through-nfs" title="Permanent link">#</a></h2>
 <p>the off/data, is not a dataset per se, but a folder in off.
 This means we will have to share <code>off</code> dataset through ZFS.</p>
 <p>We do this on off2:
@@ -6757,6 +6807,19 @@ real<span class="w"> </span>8m53,743s
 pct<span class="w"> </span>shutdown<span class="w"> </span><span class="m">113</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pct<span class="w"> </span>start<span class="w"> </span><span class="m">113</span>
 </code></pre></div></li>
 </ol>
+<p>It is automatically shared via NFS thanks to off shares:
+</p><div class="highlight"><pre><span></span><code>fs get sharenfs /zfs-hdd/off/pro_export_files
+NAME                          PROPERTY  VALUE                                                                      SOURCE
+zfs-hdd/off/pro_export_files  sharenfs  rw=@151.115.132.10/31,rw=@151.115.132.12/31,rw=@10.1.0.101,no_root_squash  inherited from zfs-hdd/off
+</code></pre></div><p></p>
+<p>We need to mount it on scaleway-01:</p>
+<ul>
+<li>edit fstab, to add:
+  <div class="highlight"><pre><span></span><code>213.36.253.208:/zfs-hdd/off/pro_export_files /mnt/nfs/off/pro_export_files nfs nfsvers=4.2,proto=tcp,port=2049 0 0
+</code></pre></div></li>
+<li><code>systemctl daemon-reload &amp;&amp; mount -a</code></li>
+<li>verify: <code>ls -l /mnt/nfs/off/pro_export_files</code></li>
+</ul>
 <h3 id="creating-zfs-nvmepodata-folder">Creating zfs-nvme/podata folder<a class="headerlink" href="#creating-zfs-nvmepodata-folder" title="Permanent link">#</a></h3>
 <p>off-pro <code>products</code> data is on the nvme disk.
 As it is the first dataset on nvme we migrate to scaleway-01,
@@ -6816,7 +6879,8 @@ following what was done for 115 (opff).</p>
    mp7: /mnt/nfs/off/users,mp=/mnt/off-pro/users
    mp8: /mnt/nfs/off/orgs,mp=/mnt/off-pro/orgs
    mp9: /mnt/nfs/off/products,mp=/mnt/off/products
-   mp10: /mnt/nfs/off/data,mp=/mnt/off-pro/data</code>
+   mp10: /mnt/nfs/off/data,mp=/mnt/off-pro/data
+   mp11: /mnt/nfs/off/pro_export_files,mp=/mnt/off-pro/cache/export_files</code>
     also added:
     <code>lxc.cap.drop: "sys_rawio audit_read"</code></li>
 <li>remove the created disk: <code>zfs destroy zfs-hdd/pve/subvol-112-disk-0</code></li>
@@ -6879,7 +6943,7 @@ pct<span class="w"> </span>start<span class="w"> </span><span class="m">100</spa
    ```
    $mongodb_host = "10.13.1.200";
     ...
-    # $redis_url = '10.13.1.200:6379';
+    $redis_url = '10.13.1.200:6379';
     ...
     %server_options = (</p>
 <div class="highlight"><pre><span></span><code>      minion_backend =&gt; {'Pg' =&gt; 'postgresql://off:********@10.13.1.200/minion'},
@@ -6904,7 +6968,7 @@ pct<span class="w"> </span>start<span class="w"> </span><span class="m">100</spa
 </ol>
 <p>After migration:</p>
 <ul>
-<li>on off2: rename subvol-114 to avoid confusino
+<li>on off2: rename subvol-114 to avoid confusion
   <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>rename<span class="w"> </span>zfs-hdd/pve/subvol-114-disk-0<span class="w"> </span>zfs-hdd/backups/subvol-114-disk-0
 </code></pre></div></li>
 <li>add new backups of scaleway-01 nvme podata on scaleway-03</li>
@@ -6943,6 +7007,13 @@ on <code>scaleway-proxy</code>, i used:
 <span class="k">for</span><span class="w"> </span>x<span class="w"> </span><span class="k">in</span><span class="w"> </span>*/data<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nv">last_file</span><span class="o">=</span><span class="k">$(</span>ls<span class="w"> </span><span class="nv">$x</span><span class="w"> </span>-tr<span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="nv">mod_year</span><span class="o">=</span><span class="k">$(</span>stat<span class="w"> </span>-c<span class="w"> </span><span class="s2">"%y"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$x</span><span class="s2">/</span><span class="nv">$last_file</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">" "</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="nv">user</span><span class="o">=</span><span class="si">${</span><span class="nv">x</span><span class="p">%/data</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$mod_year</span><span class="w"> </span><span class="nv">$user</span><span class="p">;</span><span class="w"> </span><span class="k">done</span><span class="p">|</span>sort
 </code></pre></div>
 and use a file to parse and sort it.<p></p>
+<h2 id="note-on-how-we-broke-exports">NOTE: on how we broke exports 🔥<a class="headerlink" href="#note-on-how-we-broke-exports" title="Permanent link">#</a></h2>
+<p>One thing that was missed: the <code>off-pro/images</code> folder is used by <code>off</code>
+on data import to get images of imported products.
+It is mounted in off container, in <code>/mnt/off-pro/images</code> and symlinked in <code>/srv/off-pro/html/images/products</code>.
+So we should have not moved this volume to <code>scaleway-01</code>,
+but instead use a nfs mount, and move it later with off container.</p>
+<p>(also )</p>
 
 
 
