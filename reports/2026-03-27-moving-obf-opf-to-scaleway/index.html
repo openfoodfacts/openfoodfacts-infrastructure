@@ -6678,7 +6678,7 @@ On off2-proxy:
 </p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openbeautyfacts.org
 <span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
-sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-cvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
@@ -6686,7 +6686,7 @@ sudo<span class="w"> </span>chown<span class="w"> </span>alex:alex<span class="w
 sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
 </code></pre></div>
 I then copied it to scaleway-proxy (using scp).
-And on scaleway-proxy:
+And on scaleway-proxy<sup id="fnref:ErrorTarLetsencrypt"><a class="footnote-ref" href="#fn:ErrorTarLetsencrypt">1</a></sup>:
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
 tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/openbeautyfacts.org.tar.gz
 <span class="c1"># verify</span>
@@ -6801,7 +6801,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <li>container creation on scaleway-01:
   <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
 <li>jobs/configure for obf:
-  <code>ansible-playbook jobs/configure.yml -l obf</code> <sup id="fnref:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">1</a></sup></li>
+  <code>ansible-playbook jobs/configure.yml -l obf</code> <sup id="fnref:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">2</a></sup></li>
 </ul>
 </li>
 <li>remove the backup datasets at ovh3</li>
@@ -6839,7 +6839,7 @@ On off2-proxy:
 </p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openproductsfacts.org
 <span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
-sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-cvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
@@ -6847,7 +6847,7 @@ sudo<span class="w"> </span>chown<span class="w"> </span>alex:alex<span class="w
 sudo<span class="w"> </span>chmod<span class="w"> </span>go-rw<span class="w"> </span><span class="nv">$DOM</span>.tar.gz
 </code></pre></div>
 I then copied it to scaleway-proxy (using scp).
-And on scaleway-proxy:
+And on scaleway-proxy<sup id="fnref2:ErrorTarLetsencrypt"><a class="footnote-ref" href="#fn:ErrorTarLetsencrypt">1</a></sup>:
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/
 tar<span class="w"> </span>xzf<span class="w"> </span>/home/alex/openproductsfacts.org.tar.gz
 <span class="c1"># verify</span>
@@ -6964,7 +6964,7 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <li>container creation on scaleway-01:
   <code>ansible-playbook sites/proxmox-node.yml --tags containers -l scaleway-01</code></li>
 <li>jobs/configure for opf:
-  <code>ansible-playbook jobs/configure.yml -l opf</code> <sup id="fnref2:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">1</a></sup></li>
+  <code>ansible-playbook jobs/configure.yml -l opf</code> <sup id="fnref2:SSH_RESTART"><a class="footnote-ref" href="#fn:SSH_RESTART">2</a></sup></li>
 </ul>
 </li>
 <li>remove the backup datasets at ovh3</li>
@@ -6978,11 +6978,30 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
 <div class="footnote">
 <hr>
 <ol>
+<li id="fn:ErrorTarLetsencrypt">
+<p>When I did it, in fact I did use the -h flag
+  which dereferences symlink, and certbot is not happy with it
+  (<code>live</code> items must points to <code>archive</code> items).
+  To fix that, I had to use this command:
+  </p><div class="highlight"><pre><span></span><code><span class="nv">FOLDER</span><span class="o">=</span>openproductsfacts.org<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">for</span><span class="w"> </span>f<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/letsencrypt/live/<span class="nv">$FOLDER</span>/*.*<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">NAME</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$f</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">BARE_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">NAME</span><span class="p">%.*</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">TARGET</span><span class="o">=</span><span class="k">$(</span>ls<span class="w"> </span>-tr<span class="w"> </span>/etc/letsencrypt/archive/<span class="nv">$FOLDER</span>/<span class="si">${</span><span class="nv">BARE_NAME</span><span class="si">}</span>*<span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">TARGET_FILE</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$TARGET</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>unlink<span class="w"> </span><span class="nv">$f</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ln<span class="w"> </span>-s<span class="w"> </span>../../archive/<span class="nv">$FOLDER</span>/<span class="nv">$TARGET_FILE</span><span class="w"> </span><span class="nv">$f</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="k">done</span>
+ls<span class="w"> </span>-l<span class="w"> </span>/etc/letsencrypt/live/<span class="nv">$FOLDER</span>
+</code></pre></div>
+  then verify with <code>nginx -t</code>&nbsp;<a class="footnote-backref" href="#fnref:ErrorTarLetsencrypt" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:ErrorTarLetsencrypt" title="Jump back to footnote 1 in the text">↩</a><p></p>
+</li>
 <li id="fn:SSH_RESTART">
 <p>Note that while running the configure job,
 at some point it was not able to connect to the server…
 I had to go on scaleway-01, use <code>pct enter &lt;ct_id&gt;</code>
-and there do a <code>systemctl daemon-reload &amp;&amp; systemctl restart ssh</code>&nbsp;<a class="footnote-backref" href="#fnref:SSH_RESTART" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:SSH_RESTART" title="Jump back to footnote 1 in the text">↩</a></p>
+and there do a <code>systemctl daemon-reload &amp;&amp; systemctl restart ssh</code>&nbsp;<a class="footnote-backref" href="#fnref:SSH_RESTART" title="Jump back to footnote 2 in the text">↩</a><a class="footnote-backref" href="#fnref2:SSH_RESTART" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 </ol>
 </div>
