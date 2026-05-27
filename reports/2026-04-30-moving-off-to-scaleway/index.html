@@ -6427,6 +6427,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="OVH3 backup updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix-on-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fix on certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -6568,6 +6585,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="OVH3 backup updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix-on-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fix on certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -6675,7 +6709,7 @@ On off2-proxy:
 </p><div class="highlight"><pre><span></span><code><span class="nv">CONF</span><span class="o">=</span>/etc/nginx/sites-enabled/openfoodfacts.org
 <span class="nv">DOM</span><span class="o">=</span><span class="k">$(</span>sed<span class="w"> </span>-nr<span class="w">  </span><span class="s2">"s|.*letsencrypt/live/(.*)/privkey.*|\1|p"</span><span class="w"> </span><span class="nv">$CONF</span><span class="k">)</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">"COPYING CERTS FOR </span><span class="nv">$DOM</span><span class="s2"> in </span><span class="nv">$DOM</span><span class="s2">.tar.gz"</span>
-sudo<span class="w"> </span>tar<span class="w"> </span>-chvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-cvzf<span class="w"> </span><span class="nv">$DOM</span>.tar.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/archive/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/renewal/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>.conf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>/etc/letsencrypt/live/<span class="si">${</span><span class="nv">DOM</span><span class="si">}</span>
@@ -6939,6 +6973,9 @@ rmdir<span class="w"> </span><span class="nv">$dirname</span><span class="p">;</
   So I redefined proxy2 as an A entry pointing to off2 reverse proxy IP</li>
 <li>https://robotoff.openfoodfacts.org/api/v1/health</li>
 <li>I had to whitelist scaleway servers <a href="../../mail/#adding-a-new-server">in PMG</a> because emails were not arriving (I previously think it was not mandatory, because I though the iptables redirect rule was masking the real ip)</li>
+<li>we had to whitelist the scaleway-01 ip on brevo,
+  as openfoodfacts use the API key to subscribe users to the mailing list.</li>
+<li>the certbot certificates renewal did not get well, see belw</li>
 </ul>
 <p>Later:</p>
 <ul>
@@ -7003,12 +7040,31 @@ zfs<span class="w"> </span>rename<span class="w"> </span>rpool/off-backups/podat
   (note: I had to kill the sync-s3-images script to be able to move images dataset,
   see <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/d52f60999fb88755bc79c48370c436ab39071e81">d52f6099</a>
   and <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/7785b412d6cee66b7034e5448eaadf4d509a4033">7785b412</a>)</li>
-<li>I also removed the old data that are not useful anymore (as they are in nvme):
-  <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>products<span class="w"> </span>orgs<span class="w"> </span>users<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<li>
+<p>I also removed the old data that are not useful anymore (as they are in nvme):
+  </p><div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="k">in</span><span class="w"> </span>products<span class="w"> </span>orgs<span class="w"> </span>users<span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">do</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>zfs<span class="w"> </span>destroy<span class="w"> </span>-r<span class="w"> </span>rpool/off-backups/podata/<span class="nv">$dataset</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="k">done</span>
+</code></pre></div><p></p>
+<h3 id="fix-on-certificates">fix on certificates<a class="headerlink" href="#fix-on-certificates" title="Permanent link">#</a></h3>
+<p>Certificates renewal did not work after install.
+I saw this on 26/05.
+This was due to several reason:</p>
+<ol>
+<li>some live directory where not using simlink…
+   this is because PR corresponding to <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/62b391872ef16f7ff2d25db0576b6c64f972fa3e">commit <code>62b39187</code></a>
+   was not yet merged, and so I used wrong tar options (<code>-h</code>, which should not have been used)</li>
+<li><a href=""><code>ovh-dns</code> certbot plugin</a> was not installed on <code>scaleway-proxy</code>,
+   so I added the installation in the ansible role.
+   I also had to add the credential files (with ansible).</li>
+<li>the let'sencrypt account name had to be changed in every renewal files,
+   to use the one found in <code>/etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/</code>,
+   so in my case I use:
+   <div class="highlight"><pre><span></span><code>sed<span class="w">  </span>-e<span class="w"> </span><span class="s2">"s/account \?=.*</span>$<span class="s2">/account = a0d2da217c3d569b7964d2f500ba96ca/"</span><span class="w"> </span>-i<span class="w"> </span>/etc/letsencrypt/renewal/*.conf
 </code></pre></div></li>
+</ol>
+</li>
 </ul>
 
 
