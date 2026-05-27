@@ -30,7 +30,7 @@
     state: present
     break_system_packages: true
 
-- name: ensure folder for dns keys
+- name: Ensure folder for dns keys
   ansible.builtin.file:
     path: /root/.ovhapi
     state: directory
@@ -38,12 +38,11 @@
     owner: "root"
     group: "root"
 
-- name: add ovh dns keys
+- name: Add ovh dns keys
   ansible.builtin.template:
     src: ovh_dns_credential.j2
-    dest: /root/.ovhapi/{{ item.domain }}
+    dest: "/root/.ovhapi/{{ item.domain }}"
     mode: "0600"
     owner: "root"
   loop: "{{ reverse_proxy_nginx__ovh_dns_credentials }}"
   no_log: true
-
