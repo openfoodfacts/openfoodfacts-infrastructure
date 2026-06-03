@@ -25,12 +25,15 @@ geo $whitelist_by_ip {
   151.115.132.0/24 1;
 }
 
-map $http_user_agent $whitelist_by_ua {
+# Whitelist by User-Agent or X-User-Agent header
+map "$http_user_agent $http_x_user_agent" $whitelist_by_ua {
     default 0;
     ~*Smoothie 1;  # Whitelist our own app based on its User-Agent
     ~*Googlebot|Bingbot|CCBot|archive\.org_bot 1;  # Whitelist known crawlers based on their User-Agent
     # Major contributors
     ~*CalorieCounterApp 1;
+    # Research cohorts
+    ~*intake24 1;
 }
 
 # List of User-Agent we forbid access to
