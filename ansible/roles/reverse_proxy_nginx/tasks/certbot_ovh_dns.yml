@@ -1,11 +1,3 @@
-- name: Get certbot version
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      certbot --version|grep -Po "(\d+\.?)+"
-  changed_when: false
-  register: _reverse_proxy_nginx__certbot_version
-
 - name: Install pip at system level if needed
   ansible.builtin.apt:
     pkg:
@@ -14,6 +6,7 @@
 
 - name: Get certbot version
   ansible.builtin.shell:
+    executable: /bin/bash
     cmd: |
       set -o pipefail
       certbot --version|grep -Po "(\d+\.?)+"
