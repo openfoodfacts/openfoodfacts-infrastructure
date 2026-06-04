@@ -1,4 +1,16 @@
 ---
+
+- name: Add the nginx apt repository to get latest updates
+  ansible.builtin.deb822_repository:
+    allow_insecure: false
+    components: nginx
+    name: nginx
+    uris: https://nginx.org/packages/mainline/debian
+    suites: "{{ ansible_lsb.codename }}"
+    trusted: true
+    enabled: true
+    signed_by: https://nginx.org/keys/nginx_signing.key
+
 - name: Install nginx and certbot from distribution
   ansible.builtin.apt:
     pkg:
