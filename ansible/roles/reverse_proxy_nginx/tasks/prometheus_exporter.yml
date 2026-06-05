@@ -11,4 +11,4 @@
     src: stub_status
     mode: "0644"
   notify:
-    - reverse_proxy_nginx__reload_nginx
+    - Reverse_proxy_nginx__reload_nginx
