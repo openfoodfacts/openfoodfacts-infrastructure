@@ -6,7 +6,7 @@
     components: nginx
     name: nginx
     uris: https://nginx.org/packages/mainline/debian
-    suites: "{{ ansible_lsb.codename }}"
+    suites: "{{ ansible_facts['lsb'].codename }}"
     trusted: true
     enabled: true
     signed_by: https://nginx.org/keys/nginx_signing.key
@@ -18,6 +18,37 @@
       - python3-certbot-nginx
     state: present
     update_cache: true
+
+# adopt debian pattern
+- name: Ensure sites-enabled directory exists
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Add conf file for sites-enabled inclusion
+  ansible.builtin.copy:
+    # use zz- prefix to ensure it's the last to be loaded
+    dest: /etc/nginx/conf.d/zz-sites-enabled.conf
+    content: |
+      # WARNING: handled by ansible, do not change manually
+      # Include all config files from sites-enabled directory
+      include /etc/nginx/sites-enabled/*;
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reverse_proxy_nginx__reload_nginx
+
+# base debian and nginx mainline does not use the same user
+- name: Ensure permissions swap from www-data to nginx
+  ansible.builtin.command:
+    # we also have /dev/shm because it is common to have cache there
+    cmd: chown nginx -v --from www-data -R /var/cache/nginx /var/www /dev/shm
+  register: _reverse_proxy_nginx__chown
+  changed_when: "'changed ownership' in _reverse_proxy_nginx__chown.stdout"
 
 - name: Install certbot ovh dns plugin
   ansible.builtin.import_tasks:
