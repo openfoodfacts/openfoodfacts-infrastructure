@@ -1,6 +1,6 @@
 ansible >=14, <15
 ansible-compat >=25
-ansible-core >=2.21,<2.22
+ansible-core >=2.21, <2.22
 ansible-lint >=26, <27
 passlib >=1.7.4
 
