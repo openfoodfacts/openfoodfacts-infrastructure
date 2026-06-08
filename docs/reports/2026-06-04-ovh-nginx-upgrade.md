@@ -13,7 +13,7 @@ This is how I did it (for the record):
 
 2. When I did `apt update`,
    it told me that the signing key from nginx repository was not known,
-   so I manually added the GPG key for the nginx mainline repository:
+   so I manually added the GPG key for the nginx mainline repository[^apt_key_scope]:
    ```bash
    curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/nginx-archive-keyring.gpg >/dev/null
    ```
@@ -64,6 +64,10 @@ At upgrade time, the only question was about crontab file, and I kept the mainta
 [^user_nginx_is_from_repo]: I discovered afterward that this difference of user
   comes from the nginx repository (as opposed to debian one).
   Another difference is that it does not include the `sites-enabled` directory.
+
+[^apt_key_scope]: Putting a key in `/etc/apt/trusted.gpg.d/` trusts it for all APT sources.
+  A tighter approach is to store it in `/usr/share/keyrings/` and use `signed-by=...`
+  on the nginx repository entry.
 
 ## Hetzner and Scaleway proxy to mainline NGINX
 
