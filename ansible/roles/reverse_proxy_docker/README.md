@@ -17,17 +17,18 @@ reverse_proxy_docker__websites:
     proxy_pass: "example2-webserver:80"
     username: "off" # optional
     password: "{{ secrets_off_password }}" # optional
+    public_path: ["/a-public/path"]
 
-reverse_proxy_https_cert_domains:
+reverse_proxy_docker__https_cert_domains:
   - "openfoodfacts.org" # that's actually the default
 ```
 
 In `host_vars/<node_name>/reverse-proxy-secrets.yml`, create a variable with the following shape:
 
 ```yml
-reverse_proxy_certbot_ovh_application_key: "[...]"
-reverse_proxy_certbot_ovh_application_secret: "[...]"
-reverse_proxy_certbot_ovh_consumer_key: "[...]"
+reverse_proxy_docker__certbot_ovh_application_key: "[...]"
+reverse_proxy_docker__certbot_ovh_application_secret: "[...]"
+reverse_proxy_docker__certbot_ovh_consumer_key: "[...]"
 ```
 
 In this example, the task will create a `nginx` configuration that passes:
@@ -49,7 +50,7 @@ I recommend to choose a randomly-generated 21 characters password from the `a-zA
 
 #### HTTPS Certificates
 
-The `reverse_proxy_https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
+The `reverse_proxy_docker__https_cert_domains` variable will create a wildcard https certificate for the domains in this list (it defaults to `["openfoodfacts.org"]`).
 
 To generate those certificates, we use a DNS challenge and the OVH API. See [docs/nginx-reverse-proxy.md How to add wildcard certificates](../../../docs/nginx-reverse-proxy.md) on how to generate them, and put the credentials in the variables stated above.
 

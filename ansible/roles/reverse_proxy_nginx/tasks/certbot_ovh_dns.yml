@@ -1,0 +1,48 @@
+- name: Get certbot version
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      certbot --version|grep -Po "(\d+\.?)+"
+  changed_when: false
+  register: _reverse_proxy_nginx__certbot_version
+
+- name: Install pip at system level if needed
+  ansible.builtin.apt:
+    pkg:
+      - python3-pip
+    state: present
+
+- name: Get certbot version
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      certbot --version|grep -Po "(\d+\.?)+"
+  changed_when: false
+  register: _reverse_proxy_nginx__certbot_version
+
+# the ovh dns plugin deb package does not exists any more
+# https://packages.debian.org/search?keywords=python3-certbot-dns-ovh&searchon=names&suite=all&section=all
+- name: Install ovh-dns plugin using pip
+  ansible.builtin.pip:
+    executable: /usr/bin/pip3
+    name: certbot-dns-ovh
+    version: "{{ _reverse_proxy_nginx__certbot_version.stdout }}"
+    state: present
+    break_system_packages: true
+
+- name: Ensure folder for dns keys
+  ansible.builtin.file:
+    path: /root/.ovhapi
+    state: directory
+    mode: "0700"
+    owner: "root"
+    group: "root"
+
+- name: Add ovh dns keys
+  ansible.builtin.template:
+    src: ovh_dns_credential.j2
+    dest: "/root/.ovhapi/{{ item.domain }}"
+    mode: "0600"
+    owner: "root"
+  loop: "{{ reverse_proxy_nginx__ovh_dns_credentials }}"
+  no_log: true

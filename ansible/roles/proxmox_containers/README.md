@@ -45,6 +45,13 @@ If you create containers there are a few points important to mention:
    file with the `ansible_become_password`
    and `ansible_user_password_salt` **secret** variables
 
+## Targeting some containers at runtime
+
+If you want to only target a subset of the containers (because it slow if you have many containers),
+you can use the `--extra-vars` parameter to `ansible-playbook`
+and the `proxmox_containers__limit_to_containers`,
+with a comma separated list of container ids.
+
 ## Troubleshooting
 
 ### 596 Errors during TLS negotiation

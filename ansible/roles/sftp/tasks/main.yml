@@ -1,0 +1,75 @@
+# Configure the sftp service
+---
+- name: "Assert sftp__home_directory contains $USER"
+  ansible.builtin.assert:
+    that:
+      - "sftp__home_directory| regex_findall('\\$USER')"
+    fail_msg: "the sftp__home_directory variable must contains $USER (current value {{ sftp__home_directory }})"
+
+- name: Ensure sftp group exists
+  ansible.builtin.group:
+    name: "{{ sftp__group }}"
+    state: present
+
+- name: Create root dir of user and give it to root
+  ansible.builtin.file:
+    path: "{{ sftp__home_directory | replace('$USER', item.name) | dirname }}"
+    state: directory
+    # writable only by root but traversable by all users
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ sftp__users | mask_key(target=['password']) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: (item.state | default('present')) == 'present'
+
+- name: "Add (or Remove) sftp users"
+  ansible.builtin.user:
+    group: "{{ sftp__group }}"
+    home: "{{ sftp__home_directory | replace('$USER', item.name) }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ sftp__users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  # avoid displaying hashes in log
+  no_log: true
+
+- name: Create data dir of user and give it to user
+  ansible.builtin.file:
+    path: "{{ sftp__home_directory | replace('$USER', item.name) }}"
+    state: directory
+    # writable only by root but traversable by all users
+    mode: "0775"
+    owner: "{{ item.name }}"
+    group: "{{ sftp__group }}"
+    # recurse on files
+    recurse: true
+  loop: "{{ sftp__users | mask_key(target=['password']) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: (item.state | default('present')) == 'present'
+
+- name: Eventually create and populate authorized_keys file
+  ansible.builtin.copy:
+    dest: "{{ sftp__authorized_keys | replace('$USER', item.name) }}"
+    content: "{{ item.authorized_keys }}"
+    # writable only by root but traversable by all users
+    mode: "0600"
+    owner: "{{ item.name }}"
+    group: "{{ sftp__group }}"
+  loop: "{{ sftp__users | mask_key(target=['password']) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: |
+    ((item.state | default('present')) == 'present')
+    and
+    (item.authorized_keys | default(''))
+
+- name: Symlink configurations files
+  git_based_config_symlinks:
+    src: "{{ sftp__git_config_path_sshd }}"
+    dst: "/etc/ssh/sshd_config.d"
+  notify: "sftp - restart sshd"

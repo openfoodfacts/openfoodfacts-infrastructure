@@ -1,0 +1,17 @@
+# a Memcached service
+---
+- name: Memcached service
+  hosts: memcached_hosts
+  gather_facts: true
+  become: true
+  roles:
+    - role: git_based_configs
+      tags: ["base", "git-config"]
+      vars:
+        git_based_configs__github_token: "{{ secret__github__bot_token_infrastructure }}"
+        git_based_configs__repository_dest: "{{ infrastructure_repository_dest }}"
+        git_based_configs__read_only_repository: false
+    - role: memcached
+      tags: ["memcached"]
+      vars:
+        memcached__configurations_git_root_path: "{{ infrastructure_repository_dest }}"

@@ -85,7 +85,7 @@ lrwxrwxrwx 1 root root 15 27 nov.  17:17 nvme-eui.000000000000000100a0752249f51d
 I added the ZPool and some zfs dataset that I wanted to create
 to `host_vars/scaleway-01/proxmox.yml` using those ids
 
-Now I run the playbook to instanciate this:
+Now I run the playbook to instantiate this:
 ```bash
 ansible-playbook sites/proxmox-node.yml --tags zfs -l scaleway-01
 ```

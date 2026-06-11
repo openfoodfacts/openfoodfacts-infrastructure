@@ -77,7 +77,7 @@
           max
       }}
   # no need to compute if we will force restart
-  when: not git_based_configs__force_service_restart
+  when: not git_based_configs__force_service_restart and _git_based_configs__systemd_config_symlinks.results
 
 - name: Do we need service restart ?
   ansible.builtin.set_fact:
@@ -88,7 +88,7 @@
         git_based_configs__force_service_restart or
         (
           not _git_based_configs__service_info_query.failed and (
-            (_git_based_configs__config_last_modified | float) >
+            (_git_based_configs__config_last_modified |float) >
             (
               _git_based_configs__service_info.activeentertimestamp |
               regex_replace('^\w+ ', '') |

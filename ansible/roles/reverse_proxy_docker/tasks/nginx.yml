@@ -25,13 +25,13 @@
   ansible.builtin.find:
     paths: "{{ reverse_proxy_docker__dir }}/nginx/passwords"
     file_type: file
-  register: _reverse_proxy_docker_found_files
+  register: _reverse_proxy_docker__found_files
 
 - name: Delete password files that are not used anymore
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
-  loop: "{{ _reverse_proxy_docker_found_files.files | rejectattr('path', 'in', active_names) | list }}"
+  loop: "{{ _reverse_proxy_docker__found_files.files | rejectattr('path', 'in', active_names) | list }}"
   loop_control:
     label: "{{ item.path }}"
   vars:

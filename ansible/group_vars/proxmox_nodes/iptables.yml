@@ -1,3 +1,9 @@
 ---
 # expose proxmox interface
 iptables_public_ports: [22, 8006]
+
+# Proxmox host support NAT66 for ULA (unique local address) of internal containers / VMs
+# as in group_vars/all/common.yml we defined fd00::/8 as private v6 network,
+# and we have a default rule to Masquerade those,
+# we just need to enable ip v6 forward on proxmox hosts:
+iptables__enable_ip_forward_v6: true

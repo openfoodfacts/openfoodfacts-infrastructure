@@ -11,6 +11,6 @@ Group=off
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
 # Warning: this script doesn't work currently with non-off product type
-ExecStart=/home/off/.cargo/bin/uv run /opt/openfoodfacts-infrastructure/scripts/ovh3/sync-s3-images/sync_s3_images.py /rpool/off/images/products
+ExecStart=/home/off/.cargo/bin/uv run /opt/openfoodfacts-infrastructure/scripts/ovh3/sync-s3-images/sync_s3_images.py /rpool/off-backups/podata/images/products
 KillMode=process
 

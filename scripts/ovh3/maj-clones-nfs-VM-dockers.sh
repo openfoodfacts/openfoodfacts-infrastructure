@@ -2,9 +2,9 @@
 
 # Script de remise à jour des clones (R/W) des données off (users/orgs/images/products)
 
-SNAP=$(date +%Y%m%d%H%M%S)
-
 CLONES_DATASET=rpool/staging-clones
+SOURCE_DATASET_HDD=rpool/off-backups/podata
+SOURCE_DATASET_NVME=rpool/off-backups/podata-nvme
 
 # stop docker for openfoodfacts-net (staging)
 # ssh not working yet, but I don't know why :'(
@@ -17,8 +17,14 @@ systemctl restart nfs-server.service
 # Data synced with sanoid / syncoid
 for DATA in orgs users images products
 do
-	echo regenerating clone for $DATA
-	LAST=$(zfs list -t snap rpool/off/$DATA -o name | grep '_daily$' | tail -n 1)
+	if (echo products orgs users | grep -w $DATA)
+	then
+		SOURCE_DATASET=$SOURCE_DATASET_NVME
+	else
+		SOURCE_DATASET=$SOURCE_DATASET_HDD
+	fi
+	echo regenerating clone for $SOURCE_DATASET/$DATA
+	LAST=$(zfs list -t snap $SOURCE_DATASET/$DATA -o name | grep '_daily$' | tail -n 1)
 	CLONE_NAME=$DATA
 	if (echo images products | grep -w $DATA)
 	then

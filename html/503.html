@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page temporarily unavailable - Open Food Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #fdf6e3 0%, #fff8e7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333333;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 48px 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: #fff3e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #333333;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: #666666;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #ff6600;
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+        }
+
+        .donate-btn {
+            background: #fff3e0;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+        }
+
+        .btn-secondary:hover {
+            background: #fff3e0;
+        }
+
+        .footer {
+            margin-top: 32px;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        .bot-footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eeeeee;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        .bot-footer a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        .bot-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .donate-footer {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">⚠</div>
+        <h1 id="title">Page temporarily unavailable</h1>
+        <p id="message">Our services are currently experiencing unusually high demand, or the page you requested is
+            not available to anonymous users. We apologize for any inconvenience.</p>
+        <div class="actions">
+            <a href="https://world.openfoodfacts.org/cgi/session.pl" class="btn btn-primary" id="signin-btn">Sign In</a>
+            <a href="https://world.openfoodfacts.org/cgi/user.pl" class="btn btn-secondary"
+                id="register-btn">Register</a>
+        </div>
+        <p class="footer" id="footer">Registered users are not subject to request limits and get priority access during
+            peak times.</p>
+        <p class="bot-footer" id="bot-footer">If you're a bot, all our data can be <a
+                href="https://world.openfoodfacts.org/data">freely downloaded</a></p>
+        <p class="donate-footer" id="donate-footer"><a
+                href="https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503"
+                class="btn donate-btn">Donate to support our project</a></p>
+    </div>
+
+    <script>
+        (function () {
+            var translations = {
+                en: {
+                    title: "Page temporarily unavailable",
+                    message: "Our services are currently experiencing unusually high demand, or the page you requested is not available to anonymous users. We apologize for any inconvenience.",
+                    signin: "Sign In",
+                    register: "Register",
+                    footer: "Registered users are not subject to request limits and get priority access during peak times.",
+                    botFooter: "If you're a bot, all our data can be <a href=\"https://world.openfoodfacts.org/data\">freely downloaded</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Donate to support our project</a>"
+                },
+                es: {
+                    title: "Página temporalmente no disponible",
+                    message: "Nuestros servicios están experimentando una demanda inusualmente alta, o la página solicitada no está disponible para usuarios anónimos. Lamentamos los inconvenientes.",
+                    signin: "Iniciar Sesión",
+                    register: "Registrarse",
+                    footer: "Los usuarios registrados no están sujetos a límites de solicitud y tienen acceso prioritario durante los momentos de mayor actividad.",
+                    botFooter: "Si eres un bot, todos nuestros datos pueden ser <a href=\"https://world.openfoodfacts.org/data\">descargados gratuitamente</a>",
+                    donateFooter: "<a href=\"https://world-es.openfoodfacts.org/dar-a-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Donar para apoyar nuestro proyecto</a>"
+                },
+                fr: {
+                    title: "Page temporairement indisponible",
+                    message: "Nos services connaissent actuellement une demande inhabituellement élevée, ou la page demandée n'est pas disponible pour les utilisateurs anonymes. Nous nous excusons pour la gêne occasionnée.",
+                    signin: "Se Connecter",
+                    register: "S'inscrire",
+                    footer: "Les utilisateurs enregistrés ne sont pas soumis aux limites de requêtes et bénéficient d'un accès prioritaire pendant les périodes de pointe.",
+                    botFooter: "Si vous êtes un bot, toutes nos données peuvent être <a href=\"https://world.openfoodfacts.org/data\">téléchargées gratuitement</a>",
+                    donateFooter: "<a href=\"https://open-food-facts.assoconnect.com/collect/donation/01J9RBKBXKQD1XBVYHCQ46CCXZ/faire-un-don-a-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Faire un don pour soutenir notre projet</a>"
+                },
+                de: {
+                    title: "Seite vorübergehend nicht verfügbar",
+                    message: "Unsere Dienste erleben derzeit eine ungewöhnlich hohe Nachfrage, oder die angeforderte Seite ist für anonyme Benutzer nicht verfügbar. Wir entschuldigen uns für die Unannehmlichkeiten.",
+                    signin: "Anmelden",
+                    register: "Registrieren",
+                    footer: "Registrierte Benutzer unterliegen keinen Anfragebeschränkungen und erhalten priorisierten Zugang zu Stoßzeiten.",
+                    botFooter: "Wenn Sie ein Bot sind, können alle unsere Daten <a href=\"https://world.openfoodfacts.org/data\">kostenlos heruntergeladen</a> werden",
+                    donateFooter: "<a href=\"https://world-de.openfoodfacts.org/spenden?utm_source=http_503\" class=\"btn donate-btn\">Spenden Sie, um unser Projekt zu unterstützen</a>"
+                },
+                it: {
+                    title: "Pagina temporaneamente non disponibile",
+                    message: "I nostri servizi stanno attualmente riscontrando una domanda insolitamente alta, o la pagina richiesta non è disponibile per gli utenti anonimi. Ci scusiamo per eventuali inconvenienti.",
+                    signin: "Accedi",
+                    register: "Registrati",
+                    footer: "Gli utenti registrati non sono soggetti a limiti di richiesta e hanno accesso prioritario nei periodi di picco.",
+                    botFooter: "Se sei un bot, tutti i nostri dati possono essere <a href=\"https://world.openfoodfacts.org/data\">scaricati gratuitamente</a>",
+                    donateFooter: "<a href=\"https://world-it.openfoodfacts.org/dona-a-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Dona per sostenere il nostro progetto</a>"
+                },
+                pt: {
+                    title: "Página temporariamente indisponível",
+                    message: "Nossos serviços estão enfrentando uma demanda anormalmente alta, ou a página solicitada não está disponível para usuários anônimos. Pedimos desculpas por qualquer inconveniência.",
+                    signin: "Entrar",
+                    register: "Registrar",
+                    footer: "Usuários registrados não estão sujeitos a limites de solicitações e têm acesso prioritário nos horários de pico.",
+                    botFooter: "Se você é um bot, todos os nossos dados podem ser <a href=\"https://world.openfoodfacts.org/data\">baixados gratuitamente</a>",
+                    donateFooter: "<a href=\"https://world-pt.openfoodfacts.org/fazer-um-donativo-ao-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Doe para apoiar nosso projeto</a>"
+                },
+                nl: {
+                    title: "Pagina tijdelijk niet beschikbaar",
+                    message: "Onze diensten ervaren momenteel ongewoon hoge vraag, of de pagina die u heeft opgevraagd is niet beschikbaar voor anonieme gebruikers. Onze excuses voor eventuele ongemakken.",
+                    signin: "Inloggen",
+                    register: "Registreren",
+                    footer: "Geregistreerde gebruikers zijn niet onderworpen aan aanvraaglimieten en krijgen prioriteitsaccess tijdens piektijden.",
+                    botFooter: "Als je een bot bent, kunnen al onze gegevens <a href=\"https://world.openfoodfacts.org/data\">gratis gedownload</a> worden",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Doneer om ons project te ondersteunen</a>"
+                },
+                ru: {
+                    title: "Страница временно недоступна",
+                    message: "Наши службы в настоящее время испытывают необычно высокую нагрузку, или запрашиваемая страница недоступна для анонимных пользователей. Приносим извинения за неудобства.",
+                    signin: "Войти",
+                    register: "Регистрация",
+                    footer: "Зарегистрированные пользователи не подвергаются ограничениям запросов и получают приоритетный доступ в часы пик.",
+                    botFooter: "Если вы бот, все наши данные можно <a href=\"https://world.openfoodfacts.org/data\">бесплатно скачать</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Пожертвуйте для поддержки нашего проекта</a>"
+                },
+                ja: {
+                    title: "ページ一時停止中",
+                    message: "現在、通常よりも多くのアクセスがあるか，要求されたページは匿名ユーザーには利用できません。ご不便をおかけしておりますことをお詫び申し上げます。",
+                    signin: "ログイン",
+                    register: "登録",
+                    footer: "登録ユーザーはリクエスト制限の対象外であり、ピーク時間中は優先的にアクセスできます。",
+                    botFooter: "ボットの場合、すべてのデータが<a href=\"https://world.openfoodfacts.org/data\">無料でダウンロード</a>できます",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">プロジェクトを支援するために寄付をお願いします</a>"
+                },
+                zh: {
+                    title: "页面暂时不可用",
+                    message: "我们的服务目前正经历异常高的访问量，或者您请求的页面不适用于匿名用户。对于给您带来的不便，我们深表歉意。",
+                    signin: "登录",
+                    register: "注册",
+                    footer: "注册用户不受请求限制，高峰时段可优先访问。",
+                    botFooter: "如果您是机器人，我们的所有数据都可以<a href=\"https://world.openfoodfacts.org/data\">免费下载</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">捐款支持我们的项目</a>"
+                },
+                ko: {
+                    title: "페이지 일시 중단",
+                    message: "현재 예외적으로 많은 요청이 있거나 요청한 페이지가 익명 사용자에게 제공되지 않습니다. 불편을 드려 죄송합니다.",
+                    signin: "로그인",
+                    register: "회원가입",
+                    footer: "등록된 사용자는 요청 제한을 받지 않으며 피크 시간대에 우선 접근이 가능합니다.",
+                    botFooter: "봇인 경우, 모든 데이터가 <a href=\"https://world.openfoodfacts.org/data\">무료로 다운로드</a> 가능합니다",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">프로젝트 지원을 위해 기부해 주세요</a>"
+                },
+                ar: {
+                    title: "الصفحة غير متاحة مؤقتًا",
+                    message: "خدماتنا تشهد حاليًا طلبًا غير معتاد، أو الصفحة المطلوبة غير متاحة للمستخدمين المجهولين. نعتذر عن أي إزعاج.",
+                    signin: "تسجيل الدخول",
+                    register: "التسجيل",
+                    footer: "المستخدمون المسجلون ليسوا خاضعين لحدود الطلبات ويحصلون على وصول أولوي خلال فترات الذروة.",
+                    botFooter: "إذا كنت روبوتًا، يمكن تنزيل جميع بياناتنا <a href=\"https://world.openfoodfacts.org/data\">مجانًا</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">تبرع لدعم مشروعنا</a>"
+                },
+                hi: {
+                    title: "पृष्ठ अस्थायी रूप से अनुपलब्ध",
+                    message: "हमारी सेवाएं वर्तमान में असामान्य रूप से उच्च मांग का अनुभव कर रही हैं, या अनुरोध किया गया पृष्ठ अज्ञात उपयोगकर्ताओं के लिए उपलब्ध नहीं है। किसी असुविधा के लिए हम क्षमा चाहते हैं।",
+                    signin: "साइन इन",
+                    register: "पंजीकरण",
+                    footer: "पंजीकृत उपयोगकर्ता अनुरोध सीमाओं के अधीन नहीं हैं और पीक समय के दौरान प्राथमिकता पहुंच प्राप्त करते हैं।",
+                    botFooter: "यदि आप एक बोट हैं, तो सभी डेटा को <a href=\"https://world.openfoodfacts.org/data\">मुफ्त में डाउनलोड</a> किया जा सकता है",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">हमारी परियोजना का समर्थन करने के लिए दान करें</a>"
+                },
+                tr: {
+                    title: "Sayfa geçici olarak kullanılamaz",
+                    message: "Hizmetlerimiz şu anda olağandışı yüksek talep görüyor veya talep edilen sayfa anonim kullanıcılar için mevcut değil. Herhangi bir rahatsızlıktan dolayı özür dileriz.",
+                    signin: "Giriş Yap",
+                    register: "Kayıt Ol",
+                    footer: "Kayıtlı kullanıcılar istek sınırlamalarına tabi değildir ve yoğun saatlerde öncelikli erişim elde eder.",
+                    botFooter: "Bot iseniz, tüm verilerimiz <a href=\"https://world.openfoodfacts.org/data\">ücretsiz olarak indirilebilir</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Projemizi desteklemek için bağış yapın</a>"
+                },
+                pl: {
+                    title: "Strona tymczasowo niedostępna",
+                    message: "Nasze usługi aktualnie doświadczają niezwykle wysokiego popytu lub żądana strona nie jest dostępna dla użytkowników anonimowych. Przepraszamy za wszelkie niedogodności.",
+                    signin: "Zaloguj się",
+                    register: "Zarejestruj się",
+                    footer: "Zarejestrowani użytkownicy nie podlegają limitom zapytań i mają priorytetowy dostęp w godzinach szczytu.",
+                    botFooter: "Jeśli jesteś botem, wszystkie nasze dane można <a href=\"https://world.openfoodfacts.org/data\">bezpłatnie pobrać</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Przekaż darowiznę, aby wesprzeć nasz projekt</a>"
+                },
+                sv: {
+                    title: "Sida tillfälligt otillgänglig",
+                    message: "Våra tjänster upplever för närvarande ovanligt hög efterfrågan, eller den begärda sidan är inte tillgänglig för anonyma användare. Vi ber om ursäkt för eventuella olägenheter.",
+                    signin: "Logga In",
+                    register: "Registrera",
+                    footer: "Registrerade användare omfattas inte av begärandegränser och får prioritetsåtkomst under topptider.",
+                    botFooter: "Om du är en bot kan all vår data <a href=\"https://world.openfoodfacts.org/data\">laddas ner gratis</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Donera för att stödja vårt projekt</a>"
+                },
+                da: {
+                    title: "Side midlertidigt utilgængelig",
+                    message: "Vores tjenester oplever i øjeblikket usædvanlig høj efterspørgsel, eller den anmodede side er ikke tilgængelig for anonyme brugere. Vi undskylder for eventuelle ulemper.",
+                    signin: "Log Ind",
+                    register: "Tilmeld",
+                    footer: "Registrerede brugere er ikke underlagt anmodningsgrænser og får prioriteret adgang i spidsbelastningsperioder.",
+                    botFooter: "Hvis du er en bot, kan alle vores data <a href=\"https://world.openfoodfacts.org/data\">downloades gratis</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Doner for at støtte vores projekt</a>"
+                },
+                no: {
+                    title: "Side midlertidig utilgjengelig",
+                    message: "Våre tjenester opplever for tiden uvanlig høy etterspørsel, eller den forespurte siden er ikke tilgjengelig for anonyme brukere. Vi beklager eventuelle ulemper.",
+                    signin: "Logg Inn",
+                    register: "Registrer",
+                    footer: "Registrerte brukere er ikke underlagt forespørselsgrenser og får prioritert tilgang i toppperioder.",
+                    botFooter: "Hvis du er en bot, kan alle våre data <a href=\"https://world.openfoodfacts.org/data\">lastes ned gratis</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Doner for å støtte prosjektet vårt</a>"
+                },
+                fi: {
+                    title: "Sivu väliaikaisesti ei käytettävissä",
+                    message: "Palvelumme kokee tällä hetkellä poikkeuksellisen korkean kysynnän, tai pyytämäsi sivu ei ole saatavilla anonyymeille käyttäjille. Pahoitamme mahdollisia haittoja.",
+                    signin: "Kirjaudu Sisään",
+                    register: "Rekisteröidy",
+                    footer: "Rekisteröidyt käyttäjät eivät ole rajoituspyyntöjen alaisia ja saavat etuoikeutetun pääsyn huippuaikoina.",
+                    botFooter: "Jos olet botti, kaikki datamme voidaan <a href=\"https://world.openfoodfacts.org/data\">ladata ilmaiseksi</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Lahjoita projektimme tukemiseksi</a>"
+                },
+                cs: {
+                    title: "Stránka dočasně nedostupná",
+                    message: "Naše služby v současné době zaznamenávají neobvykle vysokou poptávku, nebo požadovaná stránka není dostupná pro anonymní uživatele. Omlouváme se za jakékoli nepříjemnosti.",
+                    signin: "Přihlásit Se",
+                    register: "Registrovat",
+                    footer: "Registrovaní uživatelé nepodléhají limitům požadavků a mají prioritní přístup v době špičky.",
+                    botFooter: "Pokud jste bot, všechna naše data lze <a href=\"https://world.openfoodfacts.org/data\">zdarma stáhnout</a>",
+                    donateFooter: "<a href=\"https://world.openfoodfacts.org/donate-to-open-food-facts?utm_source=http_503\" class=\"btn donate-btn\">Přispějte na podporu našeho projektu</a>"
+                }
+            };
+
+            var getLanguage = function () {
+                var lang = navigator.language || navigator.userLanguage || 'en';
+                lang = lang.toLowerCase();
+
+                if (translations[lang]) {
+                    return lang;
+                }
+
+                var baseLang = lang.split('-')[0];
+                if (translations[baseLang]) {
+                    return baseLang;
+                }
+
+                var browserLangs = navigator.languages || [];
+                for (var i = 0; i < browserLangs.length; i++) {
+                    var l = browserLangs[i].toLowerCase();
+                    if (translations[l]) {
+                        return l;
+                    }
+                    var bl = l.split('-')[0];
+                    if (translations[bl]) {
+                        return bl;
+                    }
+                }
+
+                return 'en';
+            };
+
+            var lang = getLanguage();
+            var t = translations[lang] || translations['en'];
+
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('message').textContent = t.message;
+            document.getElementById('signin-btn').textContent = t.signin;
+            document.getElementById('register-btn').textContent = t.register;
+            document.getElementById('footer').textContent = t.footer;
+            document.getElementById('bot-footer').innerHTML = t.botFooter;
+            document.getElementById('donate-footer').innerHTML = t.donateFooter;
+            document.documentElement.lang = lang;
+        })();
+    </script>
+</body>
+
+</html>

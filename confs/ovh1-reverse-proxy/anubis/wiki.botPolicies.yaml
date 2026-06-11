@@ -283,10 +283,10 @@ thresholds:
     expression: weight >= 0
     action: CHALLENGE
     challenge:
-      # https://anubis.techaro.lol/docs/admin/configuration/challenges/metarefresh
+      # https://anubis.techaro.lol/docs/admin/configuration/challenges/proof-of-work
       algorithm: fast
-      difficulty: 4
-      report_as: 1
+      # difficulty: 4 seemed to be too easy, while "6" was taking more than 30' on some clients
+      difficulty: 5
 
 widget:
   enabled: true

@@ -1,0 +1,279 @@
+# -- Rate-limiting --
+# Below, we configure map directive that will help us to enforce the rate limits.
+# We have 2 different rate limits enforced by nginx, one for full website (/),
+# and one for facets. We always allow requests coming from IPs registered in the whitelist
+# below. For the full website, the rate-limit is per-IP. For facets, we limit the trafic
+# globally (one bucket for all IP addresses), by excluding from rate-limits:
+# - known crawlers (based on their User-Agent)
+# - logged-in users (based on the presence of an authentication cookie)
+# - whitelisted IPs
+
+# Exclude specific IP addresses from rate-limit (for both "/" and facets rate-limiters)
+geo $whitelist_by_ip {
+  default 0;
+  # CIDR in the list below are not limited
+  # images.openfoodfacts.org
+  217.182.132.0/24 1;
+  # internal trafic
+  10.0.0.0/8 1;
+  # moji
+  2a06:c484:5::200 1;
+  45.147.209.254 1;
+  # ?
+  91.175.166.38 1;
+  # Scaleway cluster
+  151.115.132.0/24 1;
+}
+
+# Whitelist by User-Agent or X-User-Agent header
+map "$http_user_agent $http_x_user_agent" $whitelist_by_ua {
+    default 0;
+    ~*Smoothie 1;  # Whitelist our own app based on its User-Agent
+    ~*Googlebot|Bingbot|CCBot|archive\.org_bot 1;  # Whitelist known crawlers based on their User-Agent
+    # Major contributors
+    ~*CalorieCounterApp 1;
+    # Research cohorts
+    ~*intake24 1;
+}
+
+# List of User-Agent we forbid access to
+map $http_user_agent $deny_user_agents {
+    default 0;
+    ~*Seekport|Ahrefs|DataForSeo|Seznam|ZoomBot|Mojeek|QRbot|Bytespider|SEOkicks|Searchmetrics|MJ12|SurveyBot|SEOdiver|wotbox|Cliqz|Paracrawl|Scrapy|VelenPublicWebCrawler|Semrush|MegaIndex\.ru|YandexMarket|Amazon|GPTBot|ChatGPT-User|PerplexityBot|ClaudeBot|Claude-Web|cohere-ai|anthropic-ai|ImagesiftBot|Diffbot|Timpibot|meta-webindexer|meta-externalagent|Applebot 1;
+    ~*MyOFFScraper 1;
+    ~*python-requests 1;
+}
+
+# Allow logged-in users to access facets without being globally
+# rate-limited.
+# add a new $auth variable if the "session" cookie is present
+# `$cookie_session` returns the value of the 'session' cookie.
+map $cookie_session $auth {
+    default 1;  # cookie as a value, set `$auth=1`
+    '' 0;  # Cookie is not present (empty value), set `$auth=0`
+}
+
+map $whitelist_by_ip $rl_per_ip_key {
+   0     $binary_remote_addr;
+   # In limit_req_zone, requests with an empty key are not accounted. See:
+   # https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone
+   # So if the IP address is in the whitelist, it disables the rate-limiter for
+   # this IP.
+   1     "";
+}
+
+# Add a whitelist of allowed clients that have a specific IP address or User-Agent
+map "$whitelist_by_ip$whitelist_by_ua" $whitelist_by_ip_and_ua {
+   11    1;
+   01    1;
+   10    1;
+   default    0;
+}
+
+map $request_method $request_method_get {
+    default 0;
+    GET 1;
+}
+
+# Add a key for a global rate-limiter (all IP addresses) for requests:
+# - from clients that are not whitelisted (by IP address or User-Agent)
+# - only for clients without a session cookie
+# - for GET requests only: allow write queries (POST, PATCH, PUT) and HEAD
+map "$whitelist_by_ip_and_ua$auth$request_method_get" $rl_global_key {
+   001   "global";
+   default    "";
+}
+
+
+# Add a key for a global rate-limiter (all IP addresses) for API requests:
+# - from clients that are not whitelisted (by IP address or User-Agent)
+# - for GET requests only: allow write queries (POST, PATCH, PUT) and HEAD
+map "$whitelist_by_ip_and_ua$request_method_get" $rl_api_global_key {
+   01   "global";
+   default    "";
+}
+
+map "$whitelist_by_ip_and_ua$auth" $rl_search_key {
+   00   "search";
+   default    "";
+}
+
+map "$whitelist_by_ip_and_ua$auth" $block_facet_query {
+   # $whitelist_by_ip_and_ua$auth values:
+   # - "00" = not whitelisted + not logged in -> block facet query
+   # - "1X" = whitelisted -> don't block
+   # - "01" = not whitelisted + logged in -> don't block
+   00   1;
+   default    0;
+}
+
+# create zone "off" for rate limiting 
+limit_req_zone $rl_per_ip_key zone=off:10m rate=15r/m;
+limit_req_zone $rl_per_ip_key zone=off-api:10m rate=15r/m;
+# This global rate limit protects the /facets and /product routes.
+# It allows to limit the trafic on the backend in case of a traffic spike
+limit_req_zone $rl_global_key zone=off-global:10m rate=60000r/m;
+limit_req_zone $rl_api_global_key zone=off-api-global:10m rate=60000r/m;
+# Global rate limit (all IP addresses) for search requests
+limit_req_zone $rl_search_key zone=off-search-global:10m rate=600r/m;
+
+
+# This part allow to create a specific log for errors
+# This will be useful for analysis with fail2ban
+map $upstream_status $log_access_error {
+	default 0;
+	~^[45]     1;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    # note that *.pro.openfoodfacts.org query are served by pro.openfoodfacts.org
+    # this works because nginx is smart about server_name matching
+    # see https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name
+    server_name openfoodfacts.org *.openfoodfacts.org;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name openfoodfacts.org *.openfoodfacts.org;
+
+    # SSL/TLS settings
+    ssl_certificate /etc/letsencrypt/live/openfoodfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openfoodfacts.org/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/openfoodfacts.org/chain.pem;
+
+    # Harden SSL
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    # see https://developers.cloudflare.com/ssl/origin-configuration/cipher-suites/#tls-13-cipher-suites
+    # see https://developers.cloudflare.com/ssl/origin-configuration/cipher-suites/#tls-13-cipher-suites
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305";
+    ssl_ecdh_curve secp384r1;
+    #ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    # ssl_stapling on;
+    # ssl_stapling_verify on;
+    resolver 9.9.9.9 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=63072000";
+    add_header X-Content-Type-Options nosniff;
+    # temporary remove X-Frame-Options in order to be able to temporarily serve graphs in iframes --- 2023/11/24 -- Stéphane
+    #add_header X-Frame-Options DENY;
+
+    # enable large uploads
+    client_max_body_size 20M;
+
+    # access logs only on the container
+    # access_log off;  # no we want to log errors
+    # logs location only when we he an error
+    access_log  /var/log/nginx/openfoodfacts.org.access-errors.log  main buffer=256K flush=1s if=$log_access_error;
+    error_log   /var/log/nginx/openfoodfacts.org.errors.log;
+
+    if ($deny_user_agents = 1) {
+        return 403;
+    }
+
+    error_page 503 /503.html;
+
+    # Cache small static assets that are frequently requested
+    location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
+    	proxy_cache mycache;
+    	proxy_cache_key changed$host$request_uri;
+        proxy_cache_valid any 5m;
+        proxy_pass http://10.13.1.111:80;
+        include snippets/backend-proxy.conf;
+    }
+
+    location ~* ^\/(cgi\/search.pl|api\/v[0-9](\.[0-9]+)?\/search) {
+            limit_req zone=off-search-global nodelay;
+            limit_req_status 503;
+            proxy_pass http://10.13.1.111:80$request_uri;
+            include snippets/backend-proxy.conf;
+    }
+
+    location /api/ {
+        # Rate limiting
+	# 2026-06-02: disable the global API rate-limiter, as we've moved servers
+	## limit_req zone=off-api-global nodelay;
+        # burst=10 means you can do 15+10 requests before experimenting a 429 error
+        limit_req zone=off-api burst=10 nodelay;
+        # allows a specific http status code to clearly identify rate limiting
+        limit_req_status 429;
+
+        # Cache GET /api/ requests for 5s
+        # This is useful in particular for broken apps who request 100s of times the same product
+    	proxy_cache mycache;
+    	proxy_cache_key $host$request_uri$cookie_user;
+        proxy_cache_valid any 5s;
+        add_header X-Cache-Status $upstream_cache_status;
+        proxy_pass http://10.13.1.111:80;
+        include snippets/backend-proxy.conf;
+    }
+
+    location /facets {
+        if ($block_facet_query = 1) {
+           return 503;
+        }
+        limit_req zone=off burst=10 nodelay;
+        limit_req zone=off-global nodelay;
+        limit_req_status 503;
+
+        proxy_pass http://10.13.1.111:80;
+        include snippets/backend-proxy.conf;
+    }
+
+    location ~* ^/(product|produit|producto|produkto|produto|produk|produkt|proizvod|afaris|berhem|gynnyrch|məhsul|mountaj|termék|toode|ürün|өнім|продукт|उत्पादन|생성물|产品|產品|製品) {
+            limit_req zone=off-global nodelay;
+            limit_req_status 503;
+            proxy_pass http://10.13.1.111:80$request_uri;
+            include snippets/backend-proxy.conf;
+    }
+
+    location / {
+        # proxy_cache mycache;
+        # proxy_cache_key $host$request_uri$cookie_user;
+        # proxy_cache_valid any 5s;
+
+        # 2024/24/09: python script making 50% of total requests using hundreds of IPs
+        if ($http_user_agent = "-"){
+            rewrite ^ /stop-crawling.txt last;
+        }
+
+        if ($http_user_agent = "Mozilla/5.0 (compatible)"){
+            rewrite ^ /stop-crawling.txt last;
+        }
+
+        if ($remote_addr = "disabled-79.160.220.127"){
+            rewrite ^ /contact-us.txt last;
+        }
+
+        # Rate limiting
+        limit_req zone=off burst=10 nodelay;
+        limit_req_status 429;
+
+        proxy_pass http://10.13.1.111:80/;
+	    # proxy_buffering off disables caching
+        #proxy_buffering off;
+        include snippets/backend-proxy.conf;
+    }
+    location ~* 502\.(html|jpg)  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+    location = /503.html  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+    location ~* stop-crawling.txt  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+    location ~* contact-us.txt  {
+       root /opt/openfoodfacts-infrastructure/html/;
+    }
+}
+
+

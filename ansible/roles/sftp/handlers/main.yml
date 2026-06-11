@@ -1,0 +1,6 @@
+# handlers for sftp
+---
+- name: "Sftp - restart sshd"
+  ansible.builtin.systemd:
+    service: ssh
+    state: restarted

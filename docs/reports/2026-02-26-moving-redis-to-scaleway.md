@@ -1,17 +1,14 @@
-# 2025-01-15 Moving redis to scaleway
+# 2026-02-26 Moving redis to scaleway
 
 We have [already moved MongoDB service to scaleway](./2026-01-15-moving-mongodb-to-scaleway.md)
-and as a byproduct,
-we installed a scaleway-docker-prod VM
-with openfoodfacts-shared-serivces deployed on it.
+and as a byproduct, we installed a scaleway-docker-prod VM with openfoodfacts-shared-services deployed on it.
 
-The goal is now to migrate redis on scaleway
+The goal is now to migrate redis on scaleway.
 
 ## Getting data backup on scaleway-02
 
-Currently redis and postgres are on off2,
-and backed on scaleway-01.
-So we need to get a backup of thos on scaleway-02.
+Currently redis and postgres are on off2, and backed on scaleway-01.
+So we need to get a backup of those on scaleway-02.
 
 To do this, I will also get the volumes I want from off2/pve backups on scaleway-02.
 First create destination datasets and copy them from scaleway-01, to avoid charging off2
@@ -109,12 +106,12 @@ while [moving mongodb](./2026-01-15-moving-mongodb-to-scaleway.md)
 
 
 We configure on off2 stunnel client ([commit cd7408cd](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/cd7408cd834af1e1d90fba2a401a9b229a4c1345))
-It wast tested from current redis container on off2 using redis-cli !
+It was tested from current redis container on off2 using redis-cli !
 
 We configure on off2 stunnel client ([commit 5434c20c223](https://github.com/openfoodfacts/openfoodfacts-infrastructure/commit/5434c20c223428ff953ff8f9033c0436b61ed81f))
-It wast tested from current mongo container on off1 using mongo client !
+It was tested from current mongo container on off1 using mongo client !
 
-Grep hep me find where to add the new redis to stunnel clients:
+Grep helped me find where to add the new redis to stunnel clients:
 ```bash
 grep -P '(213.36.253.214|proxy2).*6379' -r confs/ --include=off.conf
 confs/ovh-stunnel-client/stunnel/off.conf:connect = proxy2.openfoodfacts.org:6379
@@ -214,6 +211,13 @@ I did the same on Moji, using docker prod 2 to test it.
    - stop redis container on off2
    - celebrate :tada:
 
+
+## POST-MORTEM note: openfoodfacts-auth forgotten
+
+One week after the change, I realized that openfoodfacts-auth was using redis,
+but I forgot to change its configuration during migration…
+
+This is now done…
 
 ## Task list
 2. [DONE]~~clone~~ test rsync prod redis dataset backup and use it as docker volume dataset

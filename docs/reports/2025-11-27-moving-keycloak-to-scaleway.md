@@ -47,7 +47,7 @@ qm template 998
 
 ### Creating the VM
 
-I use the Template VM to create my VM:
+Using Proxmox UI, I use the Template VM to create my VM. Right click on the 998 template, and click "Clone". I fill the form with:
 
 - Target node: scaleway-02
 - VM ID: 200
@@ -81,8 +81,7 @@ I configure virtio-fs using ansible.
 
 At the moment, keycloak does not have any docker volume (it's only using the distant postgres).
 
-Nonetheless, I will add docker volumes virtiofs
-mapping on zfs-hdd for now.
+Nonetheless, I will add docker volumes virtiofs mapping on zfs-hdd for now.
 
 I edited `proxmox_node__zfs_filesystems` in `host_vars/scaleway-02/proxmox.yml` to add `zfs-hdd/virtiofs/qm-200/docker-volumes` and its parents, adding posix acl type to `zfs-hdd/virtiofs`.
 
@@ -187,7 +186,7 @@ We have to create a container running stunnel in client mode.
 
 So first we create the CT, for this I edited the scaleway-02 host_vars proxmox.yml
 to add an entry to `proxmox_containers__containers`,
-add my container in inventory as well as its secret [as stated in Proxmox / How to cerate a new container with ansible](../proxmox.md#how-to-create-a-new-container-with-ansible).
+add my container in inventory as well as its secret [as stated in Proxmox / How to create a new container with ansible](../proxmox.md#how-to-create-a-new-container-with-ansible).
 and then run:
 ```bash
 ansible-playbook sites/proxmox-node.yml -l scaleway-02 --tags containers
@@ -233,7 +232,18 @@ Connection to 10.13.1.101 5432 port [tcp/postgresql] succeeded!
 We:
 * add scaleway-docker-prod to docker_vm_hosts group
 * define `docker__volumes_virtiofs` and `continuous_deployment__ssh_public_keys` variables in `host_vars/scaleway-docker-prod/docker.yml` (I get the public key from current deployment on off1/104)
-and use the docker_vm playbook.
+
+First, we configure the server:
+
+```bash
+ansible-playbook jobs/configure.yml -l scaleway-docker-prod-2
+```
+
+Then, we run the `docker_vm` playbook:
+
+```bash
+ansible-playbook sites/docker_vm.yml -l scaleway-docker-prod-2
+```
 
 ## Deploying keycloak
 

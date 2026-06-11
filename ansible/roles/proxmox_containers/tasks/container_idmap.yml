@@ -1,0 +1,57 @@
+# Add idmap settings to lxc container
+# and control /etc/subuid coherence
+---
+# the role community.proxmox.proxmox (not proxmox API) does not (yet ?) support it
+# so we edit the pseudo file
+- name: Add idmap to container configuration
+  ansible.builtin.lineinfile:
+    path: "/etc/pve/lxc/{{ _container.id }}.conf"
+    regexp: "^lxc\\.idmap:\\s+{{ item.content | regex_replace(' +', '\\\\s+') }}\\s*$"
+    line: "lxc.idmap: {{ item.content }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ _container.idmap | default([]) }}"
+  register: _proxmox_containers__idmap
+
+- name: Get /etc/subgid and /etc/subuid content
+  ansible.builtin.slurp:
+    src: /etc/sub{{ item }}id
+  loop: ["u", "g"]
+  register: _proxmox_containers__sub_id_content
+
+- name: Normalize idmap, to ease filtering
+  ansible.builtin.set_fact:
+    _proxmox_containers__idmap_normalized: |
+      {{
+        (_proxmox_containers__idmap_normalized | default([]))
+        + [{"state": (item.state|default('present')), "content": item.content}]
+      }}
+  loop: "{{ _container.idmap | default([]) }}"
+
+- name: Verify /etc/subuid /etc/subgid coherence with settings
+  ansible.builtin.set_fact:
+    _proxmox_containers__lines_to_add: |
+      {{
+          (_proxmox_containers__lines_to_add| default([])) +
+          [[
+            item.item,
+            (
+              _proxmox_containers__idmap_normalized |
+              rejectattr("state", "equalto", "absent") |
+              map(attribute="content") |
+              proxmox_subuid_compare(
+                id_type=item.item,
+                subuid_content=(item.content|ansible.builtin.b64decode)
+              )
+            )
+          ]]
+      }}
+  loop: "{{ _proxmox_containers__sub_id_content.results }}"
+
+- name: Add lines to /etc/subuid /etc/subgid
+  ansible.builtin.lineinfile:
+    path: "/etc/sub{{ item[0] }}id"
+    regexp: "^{{ item[1] }}$"
+    line: "{{ item[1] }}"
+    state: "present"
+  loop: "{{ _proxmox_containers__lines_to_add | flatten_inner_item(indice=1) }}"
+  register: _proxmox_containers__etc_subuid_edit

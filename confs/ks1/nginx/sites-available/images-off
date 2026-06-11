@@ -11,14 +11,41 @@ map $uri $response_size {
 	"~*\.full\.jpg" big_size;
 	"~*/\d+\.jpg" big_size;
 }
-map $response_size $big_rate_key {
+map $response_size $big_rate_key_pre {
 	default $binary_remote_addr;
 	small_size '';  # skipped
 }
-map $response_size $small_rate_key {
+map $response_size $small_rate_key_pre {
 	default $binary_remote_addr;
 	big_size '';  # skipped
 }
+geo $rate_limit_whitelist {
+  default 0;
+  # CIDR in the list below are not limited
+  # images.openfoodfacts.org
+  217.182.132.133/24 1;
+  # internal trafic
+  10.1.0.0/16 1;
+  # moji
+  2a06:c484:5::200 1;
+  91.175.166.38 1;
+  # robotoff
+  45.147.209.254 1;
+  # scaleway
+  151.115.132.10 1;
+  151.115.132.11 1;
+  151.115.132.12 1;
+  151.115.132.13 1;
+}
+map $rate_limit_whitelist $big_rate_key {
+  default $big_rate_key_pre;
+  1 ''; # deactivate
+}
+map $rate_limit_whitelist $small_rate_key {
+  default $small_rate_key_pre;
+  1 ''; # deactivate
+}
+
 
 # rate limit, differentiate between small an full req
 # small (loading search page: 100 product images + burst for assets) * 60
@@ -93,7 +120,7 @@ server {
 	}
 
 	location @proxy2 {
-		proxy_pass		https://proxy2.openfoodfacts.org;
+		proxy_pass		https://world.openfoodfacts.org;
 #		proxy_next_upstream	error	 http_404;
 		proxy_http_version	1.1;
 		proxy_set_header	Connection	"";

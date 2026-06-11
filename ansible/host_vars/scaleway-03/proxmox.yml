@@ -3,4 +3,44 @@ proxmox_node__pve_cluster_addr0: 10.13.0.3
 
 # ZFS pools were created manually. We keep them out of Ansible as they might be modified manually.
 proxmox_node__zfs_pools: []
-proxmox_node__zfs_filesystems: "{{ pvescaleway_common_proxmox_node__zfs_filesystems }}"
+_proxmox_node__zfs_filesystems_specific:
+  - name: zfs-hdd/virtiofs
+    properties:
+      # this is mandatory for virtiofs to work well in linux
+      acltype: posixacl
+  - name: zfs-hdd/virtiofs/qm-201
+  - name: zfs-hdd/virtiofs/qm-201/docker-volumes
+  - name: zfs-nvme/virtiofs
+    properties:
+      # this is mandatory for virtiofs to work well in linux
+      acltype: posixacl
+  # data volumes
+  - name: zfs-nvme/virtiofs/qm-201-open_prices_postgres-data
+    properties:
+      # we need to mount it in the right place for docker in the VM
+      mountpoint: /zfs-hdd/virtiofs/qm-201/docker-volumes/open_prices_postgres-data
+
+proxmox_node__zfs_filesystems: |
+  {{
+    pvescaleway_common_proxmox_node__zfs_filesystems +
+    _proxmox_node__zfs_filesystems_specific
+  }}
+
+proxmox_node__pve_storages:
+  - name: zfs-hdd-pve
+    type: zfspool
+    pool: zfs-hdd/pve
+    content: rootdir,images
+    mountpoint: /zfs-hdd/pve
+    sparse: 0
+    # shared: 0 # for some reason, this flag did make the setup crash
+  - name: local
+    type: dir
+    path: /var/lib/vz
+    content: vztmpl,snippets,iso
+    shared: 0
+  # removing installed storage
+  - name: zfs-hdd
+    type: zfspool
+    pool: zfs-hdd
+    state: absent

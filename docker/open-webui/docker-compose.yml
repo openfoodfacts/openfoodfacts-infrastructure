@@ -1,0 +1,14 @@
+services:
+  openwebui:
+    restart: always
+    image: ghcr.io/open-webui/open-webui:0.9.2
+    ports:
+      - "6010:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+    environment:
+      WEBUI_URL: https://openwebui.openfoodfacts.org
+      CORS_ALLOW_ORIGIN: https://openwebui.openfoodfacts.org
+volumes:
+  open-webui-data:
+    external: true

@@ -5,3 +5,18 @@ reverse_proxy_nginx__install_prometheus: true
 # Each of them will bin linked to corresponding folder in /etc/nginx
 reverse_proxy_nginx__nginx_git_root_path:
 reverse_proxy_nginx__nginx_git_config_path: "{{ reverse_proxy_nginx__nginx_git_root_path }}/confs/{{ inventory_hostname }}/nginx"
+
+# Whether we should install certbot ovh
+reverse_proxy_nginx__certbot_ovh_install: true
+
+# Credentials for ovh dns
+# Generate those credentials at https://eu.api.ovh.com/createToken/
+# It must have
+# GET `/domain/zone/` (the trailing slash is important !)
+# GET/PUT/POST/DELETE `/domain/zone/<domain-name>/*`
+reverse_proxy_nginx__ovh_dns_credentials: []
+# this is a list with each item having folowing keys:
+# - domain: domain name
+#   application_key
+#   application_secret
+#   consumer_key

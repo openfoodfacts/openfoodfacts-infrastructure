@@ -49,3 +49,7 @@ proxmox_containers__default_onboot: true
 # for ssh access via public keys
 proxmox_containers__github_url: "https://github.com"
 proxmox_containers__github_authorized_users: []
+# limit creation / update to some containers, if empty it means we don't limit
+# pass a comma separated list of ids
+# it is meant to be used at playbook run time using the -e option on the command line
+proxmox_containers__limit_to_containers:

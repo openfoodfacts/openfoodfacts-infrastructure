@@ -66,7 +66,7 @@ We then configure the stunnel for mongodb, redis and postgres.
 
 I first created the volume with wrong name (redis_data instead of redisdata).
 
-I fix tart by editing in `ansible/host_vars/scaleway-02/proxmox.yml`,
+I fix that by editing in `ansible/host_vars/scaleway-02/proxmox.yml`,
 adding:
 ```yaml
   - name: zfs-nvme/virtiofs/qm-200-off_shared_redis_data

@@ -1,0 +1,18 @@
+---
+# where is the configurations git root path (eg /opt/openfoodfacts-infrastructure/)
+sftp__configurations_git_root_path: ""
+sftp__git_config_path_host: "{{ sftp__configurations_git_root_path }}/confs/{{ inventory_hostname }}"
+# the directory that contains the sftp configuration to link at system level
+sftp__git_config_path_sshd: "{{ sftp__git_config_path_host }}/ssh/sshd_config.d"
+# this is the home directory for users, it must be defined and contains $USER which will be replaced by the username
+sftp__home_directory: "/home/$USER"
+sftp__authorized_keys: "/home/$USER/.ssh/authorized_keys"
+# sftp users
+sftp__users: []
+# each entry of the list is of the form
+# - name: <user_name>
+#   password: <passwd_hash>, use openssl passwd  -5  -stdin -salt xxxxxx to encrypt
+#   authorized_keys: <content of authorized_keys file> (optional)
+#   state: (present|absent) # optional, defaults present
+# group sftp users are part of
+sftp__group: "sftponly"

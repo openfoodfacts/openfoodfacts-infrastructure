@@ -14,7 +14,7 @@ certbot certonly \
     --dns-ovh \
     --dns-ovh-credentials /config/ovh.ini \
     -m "{{ secrets_infra_email }}" \
-{% for domain in reverse_proxy_https_cert_domains %}
+{% for domain in reverse_proxy_docker__https_cert_domains %}
     -d "{{ domain }}" \
     -d "*.{{ domain }}" \
 {% endfor %}

@@ -1,0 +1,5 @@
+---
+docker__volumes_virtiofs: "qm-{{ proxmox_vm_id }}-virtiofs-docker-volumes"
+continuous_deployment__ssh_public_keys:
+  # open prices
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMs4IhECqIR8gSHkjtpmJcIEOlLxdRn+0ZvCvE+2cA57 root+openprices-deploy-scaleway-docker-prod2@openfoodfacts.org"

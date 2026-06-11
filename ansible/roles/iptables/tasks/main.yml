@@ -11,6 +11,16 @@
     state: present
     update_cache: true
 
+- name: Eventually enable ip v4 forward
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "{{ iptables__enable_ip_forward_v4 | default(false) }}"
+
+- name: Eventually enable ip v6 forward
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "{{ iptables__enable_ip_forward_v6 | default(false) }}"
+
 - name: Setup the rules for iptables v4
   ansible.builtin.template:
     src: iptables_rules.j2

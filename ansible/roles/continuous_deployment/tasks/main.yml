@@ -29,7 +29,7 @@
     create_home: true
     shell: /usr/sbin/nologin
     password: "!" # ie no password / no login
-  delegate_to: "{{ continuous_deployment__proxy_jump_host }}"
+  delegate_to: "{{ continuous_deployment__proxy_jump_host or 'localhost' }}"
   when: continuous_deployment__proxy_jump_host | default(False)
 
 - name: Ensures all SSH public keys are present for deployers on jump proxy
@@ -37,5 +37,5 @@
     user: "{{ continuous_deployment__user }}"
     key: "{{ continuous_deployment__ssh_public_keys | join('\n') }}"
     exclusive: false # there might be other proxy jump needed
-  delegate_to: "{{ continuous_deployment__proxy_jump_host }}"
+  delegate_to: "{{ continuous_deployment__proxy_jump_host or 'localhost' }}"
   when: continuous_deployment__proxy_jump_host | default(False)

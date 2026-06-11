@@ -1,0 +1,4 @@
+---
+# the sftp home is a data subdir and is in a mount of a volume shared with off-pro
+sftp__home_directory: "/mnt/off-pro/sftp/$USER/data"
+sftp__authorized_keys: "/mnt/off-pro/sftp/$USER_authorized_keys"

@@ -1,0 +1,26 @@
+# This jail is for banning ips that make too much errors
+[nginx-bad-codes]
+enabled = true
+# filter we did, bad codes are auth errors and rate limit hit
+filter = nginx-bad-codes
+# for heavy website, we only log errors access to limit the work of fail2ban
+logpath = /var/log/nginx/*access*.log 
+port = 80,443
+findtime=1h
+maxretry=60
+bantime=1d
+ignoreip= 10.1.0.0/16 ; internal
+    146.59.148.140 ; ovh1
+    51.210.154.203 ; ovh2
+    51.210.32.79 ; ovh3
+    46.105.72.120 ; proxy ovh1
+    213.36.253.215 ; proxy off1
+    213.36.253.214 ; proxy off2
+    213.36.253.206 ; off1
+    213.36.253.208 ; off2
+    45.147.209.254 ; moji
+    217.182.132.133 ; ks1
+    45.147.209.254 ; moji
+
+
+

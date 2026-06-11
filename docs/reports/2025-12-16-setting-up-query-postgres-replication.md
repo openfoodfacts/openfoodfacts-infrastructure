@@ -300,7 +300,12 @@ This was a good occasion to test resilience, that, when I restored the parameter
 it worked again, getting back to last state smoothly.
 
 
-## Importing data from org (TO BE DONE)
+## Importing data from org
+
+Before the release,
+I had to change the `POSTGRES_REPLICATION_PASSWORD` in github settings
+for `replica-off-org` environment
+to be aligned with the one in `off-query-replica-org` environment.
 
 To restart from a fresh instance:
 
@@ -308,10 +313,8 @@ I did a `docker compose down` and `docker volume rm off-query-replica_dbdata` (w
 
 Then I get the prod backup:
 
-
 ```bash
 docker compose run --rm --entrypoint bash query_postgres 
 
-# /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 1602 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v
+# /usr/local/bin/pg_basebackup --host 10.12.1.112 --port 16002 --username replication --password --pgdata /var/lib/postgresql/data --progress --wal-method=stream --write-recovery-conf --create-slot --slot hetzner_replica -v
 ```
-**FIXME: needs a deployment in prod first

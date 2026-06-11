@@ -23,3 +23,5 @@ Host osm45
     ProxyJump off@45.147.209.254
     IdentityFile /home/user/.ssh/user_github
 ```
+
+Some containers have ipv6 public addresses that makes directly joinable from outside.
