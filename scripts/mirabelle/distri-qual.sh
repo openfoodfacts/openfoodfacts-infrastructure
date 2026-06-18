@@ -58,7 +58,7 @@ sqlite3 dq-members.db < <( cat <<EOF
 CREATE TABLE IF NOT EXISTS members (
        id INTEGER PRIMARY KEY,
        off_username TEXT NOT NULL,
-       email TEXT NOT NULL);
+       email TEXT NOT NULL UNIQUE);
 INSERT INTO members (off_username,email) VALUES ("charlesnepote","charles@openfoodfacts.org");
 EOF
 comments
