@@ -50,7 +50,7 @@ sql_execute() {
       i=$((i + 1))
     done
     printf '%s\n' "$sql"
-  } | sqlite3 dq-members.db
+  } | sqlite3 dq-members.db || ERROR="Error executing query ask admin !"
 }
 
 # When the user ask to subscribe
@@ -67,7 +67,7 @@ fi
 # When the user ask to unsubscribe
 if [[ ${ERROR:-} == "" && ${email:-} != "" && ${param[subscribe]:-} == "unsubscribe" ]]; then
   # Send email to validate
-  token=($(echo "${email}${salt}" | md5sum))
+  token=($(echo "${email}${salt}" | sha256sum))
   sql_execute "UPDATE members set token = @p1 where email == @p2;" "$token" "$email"
   u_mail=$(cat <<EOF
 From: Data Quality Daily<contact@openfoodfacts.org>
