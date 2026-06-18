@@ -1,0 +1,13 @@
+services:
+  paddlex:
+    restart: always
+    # This image was built by Open Food Facts and pushed to Docker Hub.
+    # see
+    # https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-06-02-install-paddlex.md
+    image: openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu
+    volumes:
+      - ./conf/OCR.yaml:/root/PaddleX/paddlex/configs/pipelines/OCR.yaml
+      - ./ocr_models:/root/.paddlex/official_models
+    command: ["paddlex", "--serve", "--pipeline", "OCR"]
+    ports:
+      - "5610:8080"
