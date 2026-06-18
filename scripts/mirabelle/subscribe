@@ -4,7 +4,13 @@
 # * convert OFF username into small caps
 # * validate OFF username
 
-salt="hjkhh6ghmxequnuavohdsch"
+basedir=$(dirname $0)
+if [[ ! -e $basedir/subscribe-salt.conf ]]
+then
+  >&2 echo "missing file $basedir/subscribe-salt.conf, refusing to start"
+  exit 1
+fi
+salt=$(cat $basedir/subscribe-salt.conf)
 
 # Function to decode URL-encoded strings: https://stackoverflow.com/questions/6250698/how-to-decode-url-encoded-string-in-shell
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
