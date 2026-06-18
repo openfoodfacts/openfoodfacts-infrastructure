@@ -99,7 +99,7 @@ function log {
 }
 
 # 2. ---- read useful data; exit if the databases are not reachable or not up to date
-log "Reading usefull data..."
+log "Reading useful data..."
 
 lastProductEditedOn=$(sqlite3 products.db "select last_modified_datetime from [all] order by last_modified_datetime desc limit 1;")
 # Exit after 18 retries if the database is not up to date
@@ -121,13 +121,13 @@ log "Last product edited on: ${lastProductEditedOn}" # 2023-01-16T02:39:22Z
 totalNbOfProducts=$(sqlite3 products.db "select count(rowid) from [all];")
 log "Total nb of products: ${totalNbOfProducts}"
 
-# total nb of modified products
+# total number of modified products
 totalNBOfModifiedProducts=$(sqlite3 products.db "select count(rowid) from [all] where DATE(last_modified_datetime) = DATE('now', '-1 day');")
 log "Total nb of products modified yesterday: ${totalNBOfModifiedProducts}"
 
-# total nb of new products
+# total number of new products
 totalNBOfNewProducts=$(sqlite3 products.db "select count(rowid) from [all] where DATE(created_datetime) = DATE('now', '-1 day');")
-log "Total nb of products created yesterday: ${totalNBOfNewProducts}"
+log "Total number of products created yesterday: ${totalNBOfNewProducts}"
 
 totalNBOfNewProductsLastSevenDays=$(sqlite3 -separator $' ' products.db "select
   (select count(rowid) from [all] where DATE(created_datetime) = DATE('now', '-7 day')),
@@ -140,14 +140,14 @@ totalNBOfNewProductsLastSevenDays=$(sqlite3 -separator $' ' products.db "select
 spSD=$(/usr/local/bin/spark "${totalNBOfNewProductsLastSevenDays}")
 #log "${spSD}"
 
-# nb of products with issues (minus non solvable?) and percentage
+# number of products with issues (minus non solvable?) and percentage
 nbOfProductsWithAnIssue=$(sqlite3 products.db "select count(data_quality_errors_tags) from [all] where data_quality_errors_tags != '';")
 ifFailed "products.db: database error $?" "2" # Exit if the database is not reachable
 
 percentOfProductsWithAnIssue=$(echo "scale=3; (${nbOfProductsWithAnIssue} * 100) / ${totalNbOfProducts}" | bc)
 log "Nb of products with issues: ${nbOfProductsWithAnIssue} representing ${percentOfProductsWithAnIssue} percents"
 
-# nb of participants
+# number of participants
 nbOfContributors=$(sqlite3 dq-members.db "select count(id) from [members];")
 log "Number of contributors: ${nbOfContributors}"
 ifFailed "dq-members.db: database error $?" "2" # Exit if the database is not reachable
@@ -540,9 +540,9 @@ All data and stats in this email are made from the last CSV export, where last p
 <div style="background-color: lightyellow; padding: 10px; width: auto;">
   <h3 style="margin-top: 5px; margin-bottom: 1px; padding-bottom: 3px;">How does it work?</h3>
   <ul style="padding-left: 20px;">
-  <li>you're the only one to have been asked to fix it</li>
-  <li>they should be fixable: they have at least one image</li>
-  <li>your fix should have a big impact as we prioritize products by popularity (number of scans)</li>
+  <li>You are the only one to have been asked to fix it</li>
+  <li>You should be able to fix it: they have at least one image</li>
+  <li>Your fix will have a big impact as we prioritize products by popularity (number of scans)</li>
   </ul>
 </div>
 
