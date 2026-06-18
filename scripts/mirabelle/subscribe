@@ -55,11 +55,13 @@ sql_execute() {
 
 # When the user ask to subscribe
 if [[ ${ERROR:-} == "" && ${email:-} != "" && ${param[subscribe]:-} == "subscribe" ]]; then
-  #printenv
-  #echo "sqlite3 --echo dq-members.db \"INSERT INTO members (off_username,email) VALUES ('${name}','${email}');\""
-  sql_execute "INSERT INTO members (off_username,email) VALUES (@p1,@p2);" "$name" "$email"
-  #echo "Erreur code: "$?
-  #echo "----"
+  # Check if email already exists
+  existing=$(sql_execute "SELECT 1 FROM members WHERE email == @p1 LIMIT 1;" "$email")
+  if [[ -n "$existing" ]]; then
+    ERROR="This email is already subscribed."
+  else
+    sql_execute "INSERT INTO members (off_username,email) VALUES (@p1,@p2);" "$name" "$email"
+  fi
 fi
 
 # When the user ask to unsubscribe
