@@ -7,7 +7,7 @@ We chose the following approach:
 2. Use a PaddleX model to perform OCR and get each word's bounding box coordinates.
 3. Localize the PII on the image using the bounding box coordinates.
 
-Not many open source solution exist to perform traditional OCR: Tesseract and PaddleOCR.
+Not many open source solutions exist to perform traditional OCR: Tesseract and PaddleOCR.
 
 We chose PaddleOCR, as it provides better performance out of the box than Tesseract.
 
