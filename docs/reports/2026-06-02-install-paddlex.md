@@ -49,7 +49,7 @@ docker push openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu
 You can then pull and run the image:
 
 ```bash
-docker run -v paddlex-models:/root/.paddlex/official_models --shm-size=8g -it paddlex:paddlex3.3.11-paddlepaddle3.2.0-cpu /bin/bash
+docker run -v paddlex-models:/root/.paddlex/official_models --shm-size=8g -it openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu /bin/bash
 ```
 
 
