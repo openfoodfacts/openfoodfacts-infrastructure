@@ -1,6 +1,6 @@
 # 2026-06-02 Install PaddleX on osm45 (docker-prod-2)
 
-To anonymize receipt on Open Prices, we chose to detect personal information using a LVLM (large visual language model), as these model provide very performant and context-aware PII detection. However, LVLMs are still not very good at localizing exactly where the PII is located on the image.
+To anonymize receipt on Open Prices, we chose to detect personal information using a LVLM (large visual language model), as these models provide very performant and context-aware PII detection. However, LVLMs are still not very good at localizing exactly where the PII is located on the image.
 We chose the following approach:
 
 1. Use a LVLM to detect PII (as text) on the image
