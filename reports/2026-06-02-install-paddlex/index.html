@@ -6470,14 +6470,14 @@
 
 
 <h1 id="2026-06-02-install-paddlex-on-osm45-docker-prod-2">2026-06-02 Install PaddleX on osm45 (docker-prod-2)<a class="headerlink" href="#2026-06-02-install-paddlex-on-osm45-docker-prod-2" title="Permanent link">#</a></h1>
-<p>To anonymize receipt on Open Prices, we chose to detect personal information using a LVLM (large visual language model), as these model provide very performant and context-aware PII detection. However, LVLMs are still not very good at localizing exactly where the PII is located on the image.
+<p>To anonymize receipt on Open Prices, we chose to detect personal information using a LVLM (large visual language model), as these models provide very performant and context-aware PII detection. However, LVLMs are still not very good at localizing exactly where the PII is located on the image.
 We chose the following approach:</p>
 <ol>
 <li>Use a LVLM to detect PII (as text) on the image</li>
 <li>Use a PaddleX model to perform OCR and get each word's bounding box coordinates.</li>
 <li>Localize the PII on the image using the bounding box coordinates.</li>
 </ol>
-<p>Not many open source solution exist to perform traditional OCR: Tesseract and PaddleOCR.</p>
+<p>Not many open source solutions exist to perform traditional OCR: Tesseract and PaddleOCR.</p>
 <p>We chose PaddleOCR, as it provides better performance out of the box than Tesseract.</p>
 <p>We need an inference service to run PaddleOCR. The recommended way is to use PaddleX, Baidu inference service.</p>
 <h2 id="creating-the-docker-image">Creating the docker image<a class="headerlink" href="#creating-the-docker-image" title="Permanent link">#</a></h2>
@@ -6498,7 +6498,7 @@ We first pull it (CPU version here):</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>push<span class="w"> </span>openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu
 </code></pre></div>
 <p>You can then pull and run the image:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>paddlex-models:/root/.paddlex/official_models<span class="w"> </span>--shm-size<span class="o">=</span>8g<span class="w"> </span>-it<span class="w"> </span>paddlex:paddlex3.3.11-paddlepaddle3.2.0-cpu<span class="w"> </span>/bin/bash
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>paddlex-models:/root/.paddlex/official_models<span class="w"> </span>--shm-size<span class="o">=</span>8g<span class="w"> </span>-it<span class="w"> </span>openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu<span class="w"> </span>/bin/bash
 </code></pre></div>
 <h2 id="deploying-on-docker-prod-2">Deploying on docker-prod-2<a class="headerlink" href="#deploying-on-docker-prod-2" title="Permanent link">#</a></h2>
 <p>In <code>/home/off</code>, a <code>paddlex</code> symlink was created to <code>/opt/openfoodfacts-infrastructure/docker/paddlex</code>.
