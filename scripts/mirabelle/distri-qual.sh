@@ -107,7 +107,7 @@ lastProductEditedOn=$(sqlite3 products.db "select last_modified_datetime from [a
 counter=1
 email=$(cat <<EOF
 From: Data Quality Daily<contact@openfoodfacts.org>
-To: tech@openfoofacts.org
+To: tech@openfoodfacts.org
 Subject: ERROR: Open Food Facts data-quality daily
 MIME-Version: 1.0
 Content-type: charset=UTF-8
