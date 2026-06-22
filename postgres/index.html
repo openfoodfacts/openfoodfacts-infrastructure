@@ -1439,6 +1439,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-pghero-to-monitor-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using PgHero to monitor databases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using PgHero to monitor databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-with-ssh-using-local-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connect with SSH using Local Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-pghero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run PgHero
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5769,6 +5808,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2025-11-21-pghero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-11-21 pghero on off-query
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2025-11-27-creating-scaleway-zfs-nvme/" class="md-nav__link">
         
   
@@ -6217,6 +6284,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reports/2026-03-03-another-look-at-pghero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-03-03 another look at pghero
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reports/2026-03-05-moving-postgres-to-scaleway/" class="md-nav__link">
         
   
@@ -6478,6 +6573,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-pghero-to-monitor-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using PgHero to monitor databases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using PgHero to monitor databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-with-ssh-using-local-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connect with SSH using Local Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-pghero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run PgHero
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6516,6 +6650,26 @@ It might be more reliable and manageable than to only rely on the filesystem sna
 <p>It is in a Proxmox container, right now there is no customization.
 Backup and is not a thing as it is transient data.</p>
 <p><strong>TODO:</strong> at least have data in a ZFS volume (through a bind mount) ?</p>
+<h2 id="using-pghero-to-monitor-databases">Using PgHero to monitor databases<a class="headerlink" href="#using-pghero-to-monitor-databases" title="Permanent link">#</a></h2>
+<p>Both the off-query and shared services PostgreSQL database have monitoring enabled.</p>
+<p>It is possible to connect to these databases using PgHero to examine query statistics to enable database tuning.</p>
+<p>At the moment there is no specific user configured for PgHero, so you will need to know the superuser login and password to do this.</p>
+<p>The steps to run PgHero locally are as follows:</p>
+<h3 id="connect-with-ssh-using-local-forwarding">Connect with SSH using Local Forwarding<a class="headerlink" href="#connect-with-ssh-using-local-forwarding" title="Permanent link">#</a></h3>
+<p>The easiest way to do this to use the SSH config file to configure a connection to a server that accesses the required PostgreSQL database and add a LocalForward rule to map the port locally, e.g. for off-query:</p>
+<div class="highlight"><pre><span></span><code>Host off-query
+    Hostname 10.3.0.200
+    ProxyJump off@45.147.209.254
+    IdentityFile /home/{your user name}/.ssh/id_rsa
+    LocalForward 5513 localhost:5512
+</code></pre></div>
+<p>The first number (5513 in the example above) can be any free port on your local machine.</p>
+<h3 id="run-pghero">Run PgHero<a class="headerlink" href="#run-pghero" title="Permanent link">#</a></h3>
+<p>This can be done using the PgHero docker container. Once the above SSH connection has been established, you can start PgHero with a command line like this:</p>
+<div class="highlight"><pre><span></span><code>docker run -ti --add-host=host.docker.internal:host-gateway -e DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5513/query -p 8203:8080 ankane/pghero
+</code></pre></div>
+<p>This assumes that the superuser name and password are set as environment variables. The <code>host.docker.internal</code> clauses allow the running container to see the mapped port on your local machine, this might not be needed depending on the type of docker networking you use. The port (e.g. 5513) needs to match the one in your SSH config and the mapped port (e.g. 8203) needs to be another free port on your machine. Once this has been run you can access PgHero using the following URL:</p>
+<p>http://localhost:8203/</p>
 
 
 
