@@ -7107,7 +7107,7 @@
 <span class="w">    </span>User<span class="w"> </span>&lt;YOUR_GITHUB_USERNAME&gt;
 <span class="w">    </span>LocalForward<span class="w"> </span><span class="m">8007</span><span class="w"> </span><span class="m">127</span>.0.0.1:8006
 </code></pre></div>
-<p>If you run <code>ssh hetzner-02-proxmox</code>, you should be able to display the Proxmox admin interface on <a href="https://127.0.0.1:8007">https://127.0.0.1:8007</a>!</p>
+<p>If you run <code>ssh hetzner-02-proxmox</code>, you should be able to display the Proxmox admin interface on <a href="https://127.0.0.1:8007">https://127.0.0.1:8007</a>! <sup id="fnref:ssh_minus_l"><a class="footnote-ref" href="#fn:ssh_minus_l">1</a></sup> <sup id="fnref:different_ports"><a class="footnote-ref" href="#fn:different_ports">2</a></sup></p>
 <p>A login prompt looking as follow asks you to login:</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../img/proxmox-login.png" data-title="Proxmox login prompt" data-desc-position="bottom"><img alt="Proxmox login prompt" src="../../img/proxmox-login.png"></a></p>
 <p>To log in on Proxmox, you will use a different username than your Github username.
@@ -7126,6 +7126,17 @@ All Proxmox users are listed in <a href="https://github.com/openfoodfacts/openfo
 </code></pre></div><p></p>
 <p>Replace <code>&lt;YOUR_PROXMOX_USERNAME&gt;</code> by your actual Proxmox username.</p>
 <p>You should then be able to log in with your new password! Make sure that the "Proxmox VE Authentication server" is selected under the "Realm" dropdown.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:ssh_minus_l">
+<p>you could also have no specific ssh_config horst and manually type: <code>ssh -L 8007:127.0.0.1:8006</code>&nbsp;<a class="footnote-backref" href="#fnref:ssh_minus_l" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:different_ports">
+<p>it's a good idea to use a different local port for each cluster, so that your browser can associate the address with your proxmox login/password.&nbsp;<a class="footnote-backref" href="#fnref:different_ports" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 
