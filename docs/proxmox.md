@@ -144,7 +144,7 @@ Don't forget to schedule [backups](#proxmox-backups).
 
 ### Install fail2ban
 
-There is a common fail2ban configuration [shared between all the Proxmox servers](./how-to-fail2ban-ban-bots.md).
+There is a common fail2ban configuration [shared between all the Proxmox servers](./how-to/how-to-fail2ban-ban-bots.md).
 
 `sshd` and `proxmox_ui` jails should be installed and running.
 
@@ -204,7 +204,7 @@ See also [Proxmox documentation on mount points](https://pve.proxmox.com/pve-doc
 
 ### Adding space on a QEMU disk
 
-see [How to add disk space on a qemu VM](./how-to-add-disk-space-on-qemu.md).
+see [How to add disk space on a qemu VM](./how-to/how-to-add-disk-space-on-qemu.md).
 
 ## Proxmox management interface access
 

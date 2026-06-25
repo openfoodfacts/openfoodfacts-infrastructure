@@ -1789,7 +1789,7 @@ To test my installation I added this to `/etc/hosts` on my computer:
 
 - **DONE:** migrate ip tables rules
   - on reverse proxy
-  - (done) use fail2ban instead of iptables - see [How to use fail2ban to ban bots](../how-to-fail2ban-ban-bots.md)
+  - (done) use fail2ban instead of iptables - see [How to use fail2ban to ban bots](../how-to/how-to-fail2ban-ban-bots.md)
   - (wontfix) we dont continue with the cron tail -n 10000 /srv/off/logs/access_log | grep search | /srv/off/logs/ban_abusive_ip.pl > /dev/null 2>&1 for now
   - NOTE: in parallel we are setting up rate limiting with nginx which could then be combined with fail2ban on 409 errors (easy to add to auth error bans)
 

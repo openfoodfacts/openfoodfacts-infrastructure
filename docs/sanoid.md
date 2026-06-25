@@ -28,7 +28,7 @@ It always have the same name but is created and destroyed each time.
 
 This can come in the way of syncoid:
 If the ZFS dataset is synchronized while vzdump snapshot is present,
-then on next sync it may fail, because vzdump snapshot will be a different snapshot on the source. Blocking the sync and requiring human intervention (see [How to resync ZFS replication](./how-to-resync-zfs-replication.md)).
+then on next sync it may fail, because vzdump snapshot will be a different snapshot on the source. Blocking the sync and requiring human intervention (see [How to resync ZFS replication](./how-to/how-to-resync-zfs-replication.md)).
 
 To prevent this, we have a script (`sanoid_post_remove_vzdump.sh`) that remove vzdump snapshots on the destination (backup side) after running sanoid (post_snapshot_script). It is configured in "synced" templates in sanoid.conf,
 with `post_snapshot_script = /opt/openfoodfacts-infrastructure/scripts/zfs/sanoid_post_remove_vzdump.sh`
@@ -48,7 +48,7 @@ For example:
 # no_sanoid_checks:rpool/obf-old:rpool/opf-old:
 ```
 
-In case of problem, see [How to resync ZFS replication](./how-to-resync-zfs-replication.md)
+In case of problem, see [How to resync ZFS replication](./how-to/how-to-resync-zfs-replication.md)
 
 
 ## syncoid service and configuration

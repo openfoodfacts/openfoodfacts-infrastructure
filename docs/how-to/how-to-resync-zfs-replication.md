@@ -30,7 +30,7 @@ zfs rollback <dataset-name-on-backup>@<common-snapshot-name>
 
 If you have an  existing vzdump snapshot `zfs list -t snap <dataset-name-on-backup>|grep @vzdump`, this is some snapshot used by Proxmox during a backup, but it might not be the same as the one on source side (it's constantly recreated), and will get in your way.
 So you have to remove it on backup side, `zfs destroy <dataset-name-on-backup>@vzdump`.
-See also [Dealing with vzdump snapshots](./sanoid.md#dealing-with-vzdump-snapshots)
+See also [Dealing with vzdump snapshots](../sanoid.md#dealing-with-vzdump-snapshots)
 
 You can then, either wait for next sync to catch up, or launch the sync manually
 using syncoid (in this case, you have to craft the command by looking at syncoid-args.conf, but beware of not using --recursive option, and using the dataset name on source side and target side).

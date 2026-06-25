@@ -11,7 +11,7 @@ This means that Proxmox Mail Gateway defered mail queue has many messages.
 
 This happens because of bad email addresses that can't be delivered.
 
-- [Connect to the Proxmox Mail Gateway interface](./mail.md#administration),
+- [Connect to the Proxmox Mail Gateway interface](../mail.md#administration),
 - go to the *Administration* / *Queues* and check deferred mails.
   You can see them by target domains.
 
@@ -21,7 +21,7 @@ It might be that:
 * if you have emails to `root@<server>.openfoodfacts.org`,
   it might be that either the server relay is not configured correctly,
   or the `mailx` program is not installed or not the `bsd-mailx` package.
-  See [mail configuration for servers](./mail.md#servers)
+  See [mail configuration for servers](../mail.md#servers)
 
 Finally when you are done, you can empty the queues.
 
@@ -55,8 +55,8 @@ This is fired because of different reasons:
 
 * if the dataset is local,
   it might be that you didn't configure sanoid (`sanoid.conf`)
-  correctly for this dataset, be it you forgot to [add snapshot specification](./sanoid.md#sanoid-snapshot-configuration),
-  or add it to [`no_sanoid_checks` directives](./sanoid.md#sanoid-checks).
+  correctly for this dataset, be it you forgot to [add snapshot specification](../sanoid.md#sanoid-snapshot-configuration),
+  or add it to [`no_sanoid_checks` directives](../sanoid.md#sanoid-checks).
 
   To diagnose, go on the server and:
   * list snapshots with `zfs list  -t snapshot path/of/dataset` and check the last one

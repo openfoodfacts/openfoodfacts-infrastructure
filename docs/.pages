@@ -14,7 +14,7 @@ nav:
   # - ... | intro*.md
   # - ... | tutorial*.md
   - ...
-  - ... | how-to*.md
+  - "How To": "how-to"
   - ... | explain*.md
   - ... | ref*.md
   - ... | logs*.md

@@ -27,7 +27,7 @@ otherwise packets routing will be broken, and request will never land.
 We ban bots from the reverse proxy (more efficient and centralized).
 Most of the time this is a manual ban.
 
-See [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
+See [How to use fail2ban to ban bots](./how-to/how-to-fail2ban-ban-bots.md)
 
 ## Configuring a new service
 

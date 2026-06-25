@@ -1,7 +1,7 @@
 # How to have server config in git
 
 We use git to store and track servers / containers or VM specific configurations.
-See [Explanation on server configuration with git](./explain-server-config-in-git.md)
+See [Explanation on server configuration with git](../explain-server-config-in-git.md)
 
 ## Setup the repository
 
@@ -59,7 +59,7 @@ For more information [github documentation](https://docs.github.com/en/authentic
 
 ## Use repository to store server configurations
 
-See [Explanation on server configuration with git](./explain-server-config-in-git.md)
+See [Explanation on server configuration with git](../explain-server-config-in-git.md)
 
 You simply create a folder for your service in `confs/` directory.
 

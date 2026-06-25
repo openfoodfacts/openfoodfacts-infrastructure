@@ -19,7 +19,7 @@ It provides additional tasks to update it.
 On every servers we have a `/opt/openfoodfacts-infrastructure` repository which is a clone of this projects by `root`.
 
 To be able to commit changes we add the root public key in deploy keys of the github repository, with write access.
-See [How to have server config in git](./how-to-have-server-config-in-git.md).
+See [How to have server config in git](./how-to/how-to-have-server-config-in-git.md).
 
 For each server, or container or VM, we have a folder in `/opt/openfoodfacts-infrastructure/confs`.
 
@@ -43,7 +43,7 @@ Try not to forget any specific configurations !
 
 You are always encouraged to add comments in the configuration files to explain specific settings.
 
-See also: [How to have server config in git](./how-to-have-server-config-in-git.md)
+See also: [How to have server config in git](./how-to/how-to-have-server-config-in-git.md)
 
 ### Commiting your changes from a server
 

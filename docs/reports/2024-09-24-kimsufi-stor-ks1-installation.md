@@ -32,7 +32,7 @@ Set hostname `hostnamectl hostname ks1`
 
 I also manually runned the usual commands found in ct_postinstall.
 
-I also followed [How to have server config in git](../how-to-have-server-config-in-git.md)
+I also followed [How to have server config in git](../how-to/how-to-have-server-config-in-git.md)
 
 I also added the email on failure systemd unit.
 

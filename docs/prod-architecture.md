@@ -24,7 +24,7 @@ We symlink files in `/etc` to this directory, this enables updating the server w
 thus we cannot use symlink there. Instead, we copy the file contents to the git repository after each modifications.
 
 see [Explanation on server configuration with git](./explain-server-config-in-git.md)
-and  [How to have server config in git](./how-to-have-server-config-in-git.md)
+and  [How to have server config in git](./how-to/how-to-have-server-config-in-git.md)
 
 **TODO:** we could consider automatizing the copy and sync of important (and secret less) `/etc/pve` files.
 
@@ -41,7 +41,7 @@ We have a container for the [NGINX reverse proxy](./nginx-reverse-proxy.md)
 
 This proxy might be cascading to another Nginx specific to an installation (itself cascading to eg. an Apache for some of the requests).
 
-It use fail2ban to ban bots, see [How to use fail2ban to ban bots](./how-to-fail2ban-ban-bots.md)
+It use fail2ban to ban bots, see [How to use fail2ban to ban bots](./how-to/how-to-fail2ban-ban-bots.md)
 
 We have a special exception (for now) of images.openfoodfacts.org which is served by a nginx installed directly on the host (off2 or ovh3).
 
@@ -237,5 +237,3 @@ Each server connection must use unique PSK.
 Here is a diagram to understand connections (not complete) ([source](img/architecture-diagram.drawio)).
 
 ![Architecture diagram](img/architecture-diagram.png)
-
-

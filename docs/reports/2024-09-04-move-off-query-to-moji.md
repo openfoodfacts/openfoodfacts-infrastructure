@@ -61,7 +61,7 @@ Created container ([see doc](../proxmox.md/#how-to-create-a-new-container)):
 * using debian 12
 * disk 6G noatime, 2cores, 512Mb memory
 
-And did usual configurations, and cloned the [off-infrastructure repository](../how-to-have-server-config-in-git.md)
+And did usual configurations, and cloned the [off-infrastructure repository](../how-to/how-to-have-server-config-in-git.md)
 
 ### Installing and configuring stunnel client
 

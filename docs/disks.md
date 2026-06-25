@@ -16,7 +16,7 @@ we extensively use ZFS, see [ZFS overview](./zfs-overview.md)
 
 ## Disk space
 
-See [How to add disk space on a Qemu VM](./how-to-add-disk-space-on-qemu.md)
+See [How to add disk space on a Qemu VM](./how-to/how-to-add-disk-space-on-qemu.md)
 
 ## Smartctl
 
@@ -39,4 +39,3 @@ Use `smartctl -t short /dev/sdX` to test a single device. (or `-t long`)
 Resources: 
 * (fr) https://www.malekal.com/smartctl-verifier-son-disque-en-ligne-de-commandes-linux/ 
 * about unreadable sectors https://www.truenas.com/community/threads/is-this-a-bad-sign-smartd-1-currently-unreadable-pending-sectors.9824/#post-42966
-

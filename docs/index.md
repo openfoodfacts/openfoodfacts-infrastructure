@@ -40,7 +40,7 @@ Observability (monitoring, alerts) allows us to monitor the health and performan
 We also have a [status page](https://status.openfoodfacts.org/), driven by [openfoodfacts-upptime](https://github.com/openfoodfacts/openfoodfacts-upptime)
 and a [specific repository regarding monitoring](https://github.com/openfoodfacts/openfoodfacts-monitoring).
 
-The [How to handle alerts](./how-to-handle-alerts.md) helps you diagnose and fix potential issues
+The [How to handle alerts](./how-to/how-to-handle-alerts.md) helps you diagnose and fix potential issues
 that created an alert.
 
 
@@ -79,7 +79,7 @@ For a detailed overview of our production architecture, see [Production Architec
 
 Other tools supporting the community are deployed in containers, some times on the same servers.
 
-If you deploy a new service, see [How to deploy a new service](./how-to-deploy-a-new-service.md).
+If you deploy a new service, see [How to deploy a new service](./how-to/how-to-deploy-a-new-service.md).
 
 ## Repository Structure
 
@@ -124,8 +124,8 @@ The repository is organized into several directories, each serving a specific pu
 Here are some additional resources that may be of interest:
 
 - [Disks](./disks.md): Information about disk management and best practices.
-- [How to mitigate crawlers on prod](./how-to-mitigate-crawlers-on-prod.md): Guide on mitigating crawlers on production.
-- [How to resync ZFS replication](./how-to-resync-zfs-replication.md): Guide on resyncing ZFS replication.
+- [How to mitigate crawlers on prod](./how-to/how-to-mitigate-crawlers-on-prod.md): Guide on mitigating crawlers on production.
+- [How to resync ZFS replication](./how-to/how-to-resync-zfs-replication.md): Guide on resyncing ZFS replication.
 - [Linux Server](./linux-server.md): General setup for Linux servers.
 - [Rclone](./rclone.md): Information about using rclone.
 

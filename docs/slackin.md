@@ -19,7 +19,7 @@ On OVH reverse proxy (or the server slack.openfoodfacts.org is pointing to):
 * edit `/var/www/slack/index.html`
 * change the href for the Join our slack link with your new link
 * save the file
-* after that go to /opt/openfoodfacts-infrastructure to [commit your changes](./how-to-have-server-config-in-git.md)
+* after that go to /opt/openfoodfacts-infrastructure to [commit your changes](./how-to/how-to-have-server-config-in-git.md)
 
 ## Slackin (deprecated)
 

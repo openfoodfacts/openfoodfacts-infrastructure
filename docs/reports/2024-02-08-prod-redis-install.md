@@ -13,7 +13,7 @@ I did not create a user.
 
 I also [configure postfix](../mail.md#postfix-configuration) and [tested it](../mail.md#testing-that-the-gateway-is-well-configured).
 
-Cloned this repository in [/opt using a root key as deploy key](../how-to-have-server-config-in-git.md)
+Cloned this repository in [/opt using a root key as deploy key](../how-to/how-to-have-server-config-in-git.md)
 
 ## Installed Redis
 
@@ -68,8 +68,3 @@ systemctl daemon-reload
 # just to be sure
 systemctl restart redis
 ```
-
-
-
-
-
