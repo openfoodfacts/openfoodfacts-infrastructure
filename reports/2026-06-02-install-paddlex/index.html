@@ -6490,10 +6490,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploying-on-docker-prod-2" class="md-nav__link">
+  <a href="#deploying-on-hezner-docker-staging-staging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deploying on docker-prod-2
+        Deploying on hezner-docker-staging (staging)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-on-docker-prod-2-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploying on docker-prod-2 (prod)
       
     </span>
   </a>
@@ -6636,10 +6647,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploying-on-docker-prod-2" class="md-nav__link">
+  <a href="#deploying-on-hezner-docker-staging-staging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deploying on docker-prod-2
+        Deploying on hezner-docker-staging (staging)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-on-docker-prod-2-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploying on docker-prod-2 (prod)
       
     </span>
   </a>
@@ -6702,9 +6724,14 @@ We first pull it (CPU version here):</p>
 <p>You can then pull and run the image:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>paddlex-models:/root/.paddlex/official_models<span class="w"> </span>--shm-size<span class="o">=</span>8g<span class="w"> </span>-it<span class="w"> </span>openfoodfacts/paddlex-ocr:paddlex3.3.11-paddlepaddle3.2.0-cpu<span class="w"> </span>/bin/bash
 </code></pre></div>
-<h2 id="deploying-on-docker-prod-2">Deploying on docker-prod-2<a class="headerlink" href="#deploying-on-docker-prod-2" title="Permanent link">#</a></h2>
-<p>In <code>/home/off</code>, a <code>paddlex</code> symlink was created to <code>/opt/openfoodfacts-infrastructure/docker/paddlex</code>.
-Then, <code>docker compose up -d</code> was run to start the service.</p>
+<h2 id="deploying-on-hezner-docker-staging-staging">Deploying on hezner-docker-staging (staging)<a class="headerlink" href="#deploying-on-hezner-docker-staging-staging" title="Permanent link">#</a></h2>
+<p>The openfoodfacts-infrastructure repo was cloned locally at <code>/opt/openfoodfacts-infrastructure</code>.
+In <code>/home/off</code>, a <code>paddlex</code> symlink was created to <code>/opt/openfoodfacts-infrastructure/docker/paddlex</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/off<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/openfoodfacts-infrastructure/docker/paddlex<span class="w"> </span>paddlex
+</code></pre></div>
+<p>Then, <code>docker compose up -d</code> was run to start the service.</p>
+<h2 id="deploying-on-docker-prod-2-prod">Deploying on docker-prod-2 (prod)<a class="headerlink" href="#deploying-on-docker-prod-2-prod" title="Permanent link">#</a></h2>
+<p>Same as for staging, except that the openfoodfacts-infrastructure repo already existed.</p>
 
 
 
