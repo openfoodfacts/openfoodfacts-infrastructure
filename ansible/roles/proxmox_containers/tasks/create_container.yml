@@ -109,7 +109,7 @@
 - name: Add idmap to container configuration
   ansible.builtin.include_tasks:
     file: container_idmap.yml
-  when: _container.idmap | default([])
+  when: (_container.idmap | default([])) is truthy
 
 - name: Check current VM status
   community.proxmox.proxmox_vm_info:
@@ -142,8 +142,8 @@
           !=
           _proxmox_containers__container_info.proxmox_vms[0].config
         )
-        or (_proxmox_containers__sub_id_content.changed | default(False))
-        or (_proxmox_containers__etc_subuid_edit.changed | default(False))
+        or (_proxmox_containers__sub_id_content.changed | default(false))
+        or (_proxmox_containers__etc_subuid_edit.changed | default(false))
       }}
 
 - name: Restart container if it has changed, or start if just created

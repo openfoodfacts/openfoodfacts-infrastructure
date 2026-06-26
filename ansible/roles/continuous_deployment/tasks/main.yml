@@ -30,7 +30,7 @@
     shell: /usr/sbin/nologin
     password: "!" # ie no password / no login
   delegate_to: "{{ continuous_deployment__proxy_jump_host or 'localhost' }}"
-  when: continuous_deployment__proxy_jump_host | default(False)
+  when: (continuous_deployment__proxy_jump_host | default(false)) is truthy
 
 - name: Ensures all SSH public keys are present for deployers on jump proxy
   ansible.posix.authorized_key:
@@ -38,4 +38,4 @@
     key: "{{ continuous_deployment__ssh_public_keys | join('\n') }}"
     exclusive: false # there might be other proxy jump needed
   delegate_to: "{{ continuous_deployment__proxy_jump_host or 'localhost' }}"
-  when: continuous_deployment__proxy_jump_host | default(False)
+  when: (continuous_deployment__proxy_jump_host | default(false)) is truthy

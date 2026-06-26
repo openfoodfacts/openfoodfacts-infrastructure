@@ -66,7 +66,7 @@
   when: |
     ((item.state | default('present')) == 'present')
     and
-    (item.authorized_keys | default(''))
+    ((item.authorized_keys | default('')) != '')
 
 - name: Symlink configurations files
   git_based_config_symlinks:

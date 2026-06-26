@@ -96,4 +96,4 @@
     path: /etc/sanoid/syncoid-args.conf
     state: link
     src: "{{ sanoid__configurations_git_root_path }}/{{ sanoid__configurations_src_path }}/sanoid/syncoid-args.conf"
-  when: sanoid__link_configuration and sanoid__syncoid_enabled
+  when: sanoid__link_configuration and sanoid__syncoid_enabled%

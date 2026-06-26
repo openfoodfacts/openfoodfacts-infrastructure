@@ -6,7 +6,7 @@
     mode: "{{ item.mode }}"
     owner: root
     group: root
-  when: "docker__volumes_virtiofs | default(False)"
+  when: "(docker__volumes_virtiofs | default(false)) is truthy"
   loop:
     - path: "/var/lib/docker"
       mode: "0710"
@@ -21,7 +21,7 @@
       - src: "{{ docker__volumes_virtiofs }}"
         path: "/var/lib/docker/volumes"
         state: "{{ 'mounted' if (docker__volumes_virtiofs is defined) else 'absent' }}"
-  when: "docker__volumes_virtiofs | default(False)"
+  when: "(docker__volumes_virtiofs | default(false)) is truthy"
 
 - name: Install docker
   ansible.builtin.import_role:

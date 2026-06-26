@@ -11,7 +11,7 @@
       {{
         proxmox_containers__limit_to_containers | split(",") | map("trim") | map("int")
       }}
-  when: "proxmox_containers__limit_to_containers | default('')"
+  when: "(proxmox_containers__limit_to_containers | default(''))  != ''"
 
 - name: Eventually apply a limit for this specific run
   ansible.builtin.set_fact:
@@ -20,7 +20,7 @@
         proxmox_containers__containers |
         selectattr('id', 'in', _proxmox_containers__limit_to_containers_list)
       }}
-  when: "_proxmox_containers__limit_to_containers_list | default([])"
+  when: "(_proxmox_containers__limit_to_containers_list | default([])) is truthy"
 
 - name: Verify containers are in inventory
   ansible.builtin.fail:

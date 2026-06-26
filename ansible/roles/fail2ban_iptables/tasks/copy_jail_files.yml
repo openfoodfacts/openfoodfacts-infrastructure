@@ -20,7 +20,7 @@
 - name: "Debug jail files"
   ansible.builtin.debug:
     msg: "{{ _fail2ban_iptables_iter_jail }}: {{ _fail2ban_iptables__jail_files.files }} {{ role_path }}"
-  when: fail2ban_iptables_debug
+  when: (fail2ban_iptables_debug) is truthy
 
 - name: "Debug jail files"
   ansible.builtin.debug:
@@ -28,7 +28,7 @@
   loop: "{{ _fail2ban_iptables__jail_files.files }}"
   loop_control:
     loop_var: file
-  when: fail2ban_iptables_debug
+  when: (fail2ban_iptables_debug) is truthy
 
 - name: "Copy jail files"
   ansible.builtin.copy:

@@ -3,7 +3,7 @@
   ansible.builtin.set_fact:
     # at least on item present
     _virtiofs_mounts__driver_needed: |
-      (virtiofs_mounts__mounts | rejectattr('state', 'absent'))
+      (virtiofs_mounts__mounts | rejectattr('state', 'absent')) is truthy
 
 - name: Ensure qemu-guest-agent is installed
   ansible.builtin.apt:
