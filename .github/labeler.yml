@@ -117,7 +117,7 @@ Odoo:
 "🏷️ Folksonomy Project":
 - changed-files:
   - any-glob-to-any-file: '**/*folksonomy*'
-  - any-glob-to-any-file: 'confs/hetzner-02-proxy/nginx/sites-enabled/folksonomy.net.conf'
+  - any-glob-to-any-file: 'confs/*/nginx/sites-enabled/folksonomy.net.conf'
 
 "📸 Open Products Facts":
 - changed-files:
