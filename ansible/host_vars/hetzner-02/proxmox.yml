@@ -38,7 +38,7 @@ proxmox_node__pve_storages:
 
 proxmox_containers__containers:
   - id: 100
-    hostname: hetzner-02-proxy
+    hostname: hetzner-proxy
     features:
       - nesting=1
     cores: 4
