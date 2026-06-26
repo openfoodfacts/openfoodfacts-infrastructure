@@ -15,7 +15,7 @@ base__ntp_fallback_servers:
 # Automatically upgrade packages from these origin patterns
 # e.g.: 'o=Debian,a=stable', 'o=Debian,a=stable-updates'
 base__unattended_origins_patterns:
-  - origin=Debian,codename={{ ansible_distribution_release }},label=Debian-Security
+  - origin=Debian,codename={{ ansible_facts['distribution_release'] }},label=Debian-Security
 
 # Unattended-Upgrade::Package-Blacklist
 # List of packages to not update

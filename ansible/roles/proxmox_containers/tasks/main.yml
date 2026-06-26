@@ -46,7 +46,7 @@
     cmd: |
       set -o pipefail
       pveam available |
-      grep -o debian-{{ ansible_distribution_major_version }}.*standard.*$
+      grep -o debian-{{ ansible_facts['distribution_major_version'] }}.*standard.*$
   changed_when: false
   register: _proxmox_containers__debian_template_name
 

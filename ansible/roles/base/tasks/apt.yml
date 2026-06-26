@@ -16,18 +16,18 @@
 
 - name: "Enable backport repository"
   ansible.builtin.apt_repository:
-    repo: "deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free"
+    repo: "deb http://deb.debian.org/debian {{ ansible_facts['distribution_release'] }}-backports main contrib non-free"
     filename: debian-backports
     state: present
   tags:
     - system
   # Don't run the task if the version is bullseye or older
-  when: ansible_distribution_release not in ['bullseye', 'buster', 'stretch']
+  when: ansible_facts['distribution_release'] not in ['bullseye', 'buster', 'stretch']
 
 # TODO: this might not be useful as of today ;-)
 - name: "Find python package prefix"
   ansible.builtin.set_fact:
-    base__python_pkg_prefix: "python{% if ansible_python.version.major == 3 %}3{% endif %}"
+    base__python_pkg_prefix: "python{% if ansible_facts['python'].version.major == 3 %}3{% endif %}"
   tags:
     - system
 

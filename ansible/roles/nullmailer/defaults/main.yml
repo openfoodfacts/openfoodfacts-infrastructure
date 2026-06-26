@@ -11,7 +11,7 @@
 # See: https://manpages.debian.org/stretch/nullmailer/nullmailer-send.8.en.html#CONTROL_FILES
 nullmailer__remotes: []
 # The default DNS domain used in different configuration variables of the role.
-nullmailer__domain: "{{ ansible_domain if ansible_domain else ansible_hostname }}"
+nullmailer__domain: "{{ ansible_facts['domain'] if ansible_facts['domain'] else ansible_hostname }}"
 
 # Default fallback hostname (standard way, see: https://wiki.debian.org/EtcMailName)
 nullmailer__mailname: "{{ nullmailer__domain }}"
@@ -20,7 +20,7 @@ nullmailer__mailname: "{{ nullmailer__domain }}"
 # are redirected to this email if defined instead of local mailbox
 nullmailer__admin:
 # The string used to generate the Message-Id: header of sent messages.
-nullmailer__idhost: "{{ ansible_fqdn }}"
+nullmailer__idhost: "{{ ansible_facts['fqdn'] }}"
 
 # The string appended to the e-mail addresses without the "host" part.
 nullmailer__defaulthost: "{{ nullmailer__domain }}"

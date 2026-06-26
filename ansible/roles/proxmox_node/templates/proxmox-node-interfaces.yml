@@ -7,7 +7,7 @@ iface enp2s0f0 inet manual
 
 auto vmbr0
 iface vmbr0 inet static
-    address {{ lookup('dig', ansible_fqdn) }}
+    address {{ lookup('dig', ansible_facts['fqdn']) }}
     gateway 10.4.0.1
     netmask 255.255.255.0
     bridge_ports enp2s0f0

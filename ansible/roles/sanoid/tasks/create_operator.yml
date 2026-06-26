@@ -23,7 +23,7 @@
   ansible.builtin.set_fact:
     _sanoid__needs_sync_snap: "{{ _operator.needs_sync_snap | default(sanoid__create_operators_needs_sync_snap_default) }}"
     _sanoid__pubkey_path: "{{ _operator.pubkey_path | default(sanoid__create_operators_pubkey_path_default) }}"
-    _sanoid__top_pools: "{{ ansible_zfs_pools | selectattr('name', 'match', '^[^/]+$') }}"
+    _sanoid__top_pools: "{{ ansible_facts['zfs_pools'] | selectattr('name', 'match', '^[^/]+$') }}"
 
 - name: Gives user necessary rights on ZFS to run syncoid
   community.general.zfs_delegate_admin:

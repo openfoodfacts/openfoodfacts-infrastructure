@@ -5,7 +5,7 @@
 
 - name: Add Postgres repo
   ansible.builtin.apt_repository:
-    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_facts['distribution_release'] }}-pgdg main"
     filename: pgdg
 
 - name: Compute package suffix
