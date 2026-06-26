@@ -1,11 +1,12 @@
 ---
+
 _off_ansible_ssh_hosts_ips: |
   {{
     groups['all']
     | map('extract', hostvars)
-    | map(attribute='ansible_ssh_host', default=undef())
+    | map(attribute='ansible_ssh_host', default="")
     | list
-    | reject('undefined')
+    | select()
   }}
 
 _off_extra_hosts_ips: |
@@ -16,7 +17,7 @@ _off_extra_hosts_ips: |
     | map('split', " ")
     | list
     | flatten
-    | reject('undefined')
+    | select()
   }}
 
 
