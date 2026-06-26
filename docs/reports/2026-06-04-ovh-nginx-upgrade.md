@@ -39,7 +39,7 @@ This is how I did it (for the record):
 5. I rebooted; the `anubis` service was not working,
    complaining about being unable to access `/run/systemd/unit-root/run/anubis/wiki`,
    this was because the container didn't have the right options for new systemd,
-   (as explained in [proxmox, systemd needs nesting capability](../proxmox.md#systemd-needs-nesting-capability)),
+   (as explained in [proxmox, systemd needs nesting capability](../explanation/proxmox.md#systemd-needs-nesting-capability)),
    so, on the host (ovh1), I edited `/etc/pve/lxc/101.conf` to add:
    ```
    feature: nested=1
