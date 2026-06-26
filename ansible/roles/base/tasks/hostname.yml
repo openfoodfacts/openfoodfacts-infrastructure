@@ -32,8 +32,9 @@
       if it is a VM, you must change the hostname from proxmox
   ignore_errors: true
   when: >
-    'read-only filesystem' in base__hostname_result.msg or
-    'Could not set pretty hostname' in base__hostname_result.msg
+    base__hostname_result.failed and
+    ('read-only filesystem' in base__hostname_result.msg) or
+    ('Could not set pretty hostname' in base__hostname_result.msg)
 
 - name: "Proper /etc/hosts reference to localhost"
   ansible.builtin.lineinfile:
