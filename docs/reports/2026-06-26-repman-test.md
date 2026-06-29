@@ -60,6 +60,10 @@ and in `/etc/mysql/mariadb.conf.d/99-bin-log.cnf`
 ```ini
 [mysqld]
 log_bin
+log_bin_compress
+# [cluster_test] [general] STATE - OPENED WARN0007 : At least one server is not ACID-compliant. Please make sure that sync_binlog and innodb_flush_log_at_trx_commit are set to 1
+innodb_flush_log_at_trx_commit
+
 ```
 and
 ```bash
