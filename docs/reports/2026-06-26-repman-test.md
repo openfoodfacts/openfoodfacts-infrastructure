@@ -62,12 +62,32 @@ and in `/etc/mysql/mariadb.conf.d/99-bin-log.cnf`
 log_bin
 log_bin_compress
 # [cluster_test] [general] STATE - OPENED WARN0007 : At least one server is not ACID-compliant. Please make sure that sync_binlog and innodb_flush_log_at_trx_commit are set to 1
-innodb_flush_log_at_trx_commit
-
+innodb_flush_log_at_trx_commit = 1
+sync_binlog = 1
+# use CT num as server id
+server_id=105
 ```
+Note: on repman-test2 the server_id is 104 !
 and
 ```bash
 systemctl restart mariadb
+```
+
+### Install mydumper
+
+Seeing https://docs.signal18.io/installation/setup-instructions/dependencies
+and a warning message, mydumper seems a good idea.
+
+following https://mydumper.github.io/mydumper/docs/html/installing.html
+```bash
+wget -qO- 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x1D357EA7D10C9320371BDD0279EA15C0E82E34BA&exact=on' | sudo tee /etc/apt/keyrings/mydumper.asc
+cat > /etc/apt/sources.list.d/mydumper.list <<EOF
+deb [signed-by=/etc/apt/keyrings/mydumper.asc] https://mydumper.github.io/mydumper/repo/apt/debian trixie main
+#deb [signed-by=/etc/apt/keyrings/mydumper.asc] https://mydumper.github.io/mydumper/repo/apt/debian trixie testing
+EOF
+
+apt update
+apt install mydumper
 ```
 
 ### Create users
@@ -93,7 +113,7 @@ GRANT ALL PRIVILEGES
   TO 'admintest'@'10.12.1.%';
 FLUSH PRIVILEGES;
 ```
-NOTE: I added SALVE MONITOR
+NOTE: I added SALVE MONITOR, SUPERUSER
 
 Create the  user on both:
 ```SQL
