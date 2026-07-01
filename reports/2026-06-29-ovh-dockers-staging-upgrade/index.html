@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2025-06-30-ovh3-disk-full-post-mortem/">
+        <link rel="prev" href="../2026-06-04-ovh-nginx-upgrade/">
       
-      
-        <link rel="next" href="../2025-07-03-adding-disk-to-monitoring-01/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2025-07-02 OVH3 Disk Replace - Open Food Facts Infrastructure documentation</title>
+        <title>2026-06-29 OVH Dockers staging upgrade - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025-07-02-ovh3-disk-replace" class="md-skip">
+        <a href="#2026-06-29-ovh-dockers-staging-upgrade" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025-07-02 OVH3 Disk Replace
+              2026-06-29 OVH Dockers staging upgrade
             
           </span>
         </div>
@@ -5752,37 +5750,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2025-07-02 OVH3 Disk Replace
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2025-07-02-ovh3-disk-replace/" class="md-nav__link">
         
   
   
@@ -5798,59 +5769,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#symptoms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Symptoms
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#asking-disk-replacement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Asking disk replacement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resilvering" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resilvering
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -7008,10 +6926,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-06-29-ovh-dockers-staging-upgrade/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-06-29 OVH Dockers staging upgrade
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -7027,6 +6972,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#making-the-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making the upgrade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ovh200-not-rebooting-after-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OVH200 not rebooting after upgrade
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -7066,10 +7053,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#symptoms" class="md-nav__link">
+  <a href="#making-the-upgrade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Symptoms
+        Making the upgrade
       
     </span>
   </a>
@@ -7077,21 +7064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#asking-disk-replacement" class="md-nav__link">
+  <a href="#ovh200-not-rebooting-after-upgrade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Asking disk replacement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resilvering" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resilvering
+        OVH200 not rebooting after upgrade
       
     </span>
   </a>
@@ -7115,7 +7091,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-07-02-ovh3-disk-replace.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-06-29-ovh-dockers-staging-upgrade.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -7123,126 +7099,99 @@
   
 
 
-<h1 id="2025-07-02-ovh3-disk-replace">2025-07-02 OVH3 Disk Replace<a class="headerlink" href="#2025-07-02-ovh3-disk-replace" title="Permanent link">#</a></h1>
-<h2 id="symptoms">Symptoms<a class="headerlink" href="#symptoms" title="Permanent link">#</a></h2>
-<p>During the resilver was finished after <a href="../2025-06-27-ovh3-disk-replace/">last disk replacement, few days ago</a>,</p>
-<p>ZFS reported errors with /dev/sdb on the rpool ZFS pool.</p>
-<div class="highlight"><pre><span></span><code>The number of I/O errors associated with a ZFS device exceeded
-acceptable levels. ZFS has marked the device as faulted.
-
- impact: Fault tolerance of the pool may be compromised.
-    eid: 12619
-  class: statechange
-  state: FAULTED
-   host: ovh3
-   time: 2025-06-28 13:26:17+0000
-  vpath: /dev/sdb1
-  vphys: pci-0000:00:1f.2-ata-2
-  vguid: 0xEF1AC8F34C562144
-  devid: ata-HGST_HUH721212ALE601_5PG578XF-part1
-   pool: 0x0600B76D0B2E72DB
+<h1 id="2026-06-29-ovh-dockers-staging-upgrade">2026-06-29 OVH Dockers staging upgrade<a class="headerlink" href="#2026-06-29-ovh-dockers-staging-upgrade" title="Permanent link">#</a></h1>
+<p><em>Dockers staging</em> (or <code>OVH200</code>) is a VM running on <code>OVH1</code>.</p>
+<p>This report describes the upgrade of <code>OVH200</code> from Debian 11 to Debian 12.</p>
+<h2 id="making-the-upgrade">Making the upgrade<a class="headerlink" href="#making-the-upgrade" title="Permanent link">#</a></h2>
+<p>Here are the steps that were followed:</p>
+<ul>
+<li>Create a Proxmox snapshot of <code>OVH200</code> (without including RAM)</li>
+</ul>
+<ul>
+<li>Upgrade the existing packages</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade
+sudo<span class="w"> </span>apt<span class="w"> </span>autoremove<span class="w"> </span>--purge
 </code></pre></div>
-<p>I can see it with zpool status
-</p><div class="highlight"><pre><span></span><code>zpool status
-  pool: rpool
- state: DEGRADED
-status: One or more devices are faulted in response to persistent errors.
-    Sufficient replicas exist for the pool to continue functioning in a
-    degraded state.
-action: Replace the faulted device, or use 'zpool clear' to mark the device
-    repaired.
-  scan: resilvered 8.56T in 4 days 16:34:51 with 0 errors on Wed Jul  2 06:45:23 2025
-config:
-
-    NAME        STATE     READ WRITE CKSUM
-    rpool       DEGRADED     0     0     0
-      raidz2-0  DEGRADED     0     0     0
-        sda     ONLINE       0     0     0
-        sdb     FAULTED     31     0     0  too many errors
-        sdc     ONLINE       0     0     0
-        sdd     ONLINE       0     0     0
-        sde     ONLINE       0     0     0
-        sdf     ONLINE       0     0     0
-
-errors: No known data errors
-</code></pre></div><p></p>
-<h2 id="asking-disk-replacement">Asking disk replacement<a class="headerlink" href="#asking-disk-replacement" title="Permanent link">#</a></h2>
-<p>At 17:13, I asked OVH for disk replacement using their support.</p>
-<p>To get the serial number:
-<code>smartctl -i /dev/sdb | grep "Serial Number"</code></p>
-<div class="highlight"><pre><span></span><code>CS11289820
-
-Numéro de série du ou des disques défectueux :
-5PG578XF
-
-Si le ou les disques à remplacer ne sont pas détectés, renseignez ici les numéros de série des disques à conserver :
-5PHH715D
-8DJ8YH1H
-5PHAYLUF
-8CKERNSE
-8DH4VTRH
-
-Pour les serveurs de type HG ou FS uniquement, si l’identification LED n’est pas disponible, merci de nous confirmer le changement de pièce en arrêtant votre serveur (coldswap) :
-No
-
-Possédez-vous une sauvegarde de vos données ?
-yes
-
-Quel est l'état de vos volumes RAID ?
-We don't have material RAID
-We use ZFS raidz2-0.
-
-Informations complémentaires :
-We want to replace sdb device asap.
-
-Quel est le résultat des tests smartctl ?
-zpool status
-  pool: rpool
- state: DEGRADED
-status: One or more devices are faulted in response to persistent errors.
- Sufficient replicas exist for the pool to continue functioning in a
- degraded state.
-action: Replace the faulted device, or use 'zpool clear' to mark the device
- repaired.
-  scan: resilvered 8.56T in 4 days 16:34:51 with 0 errors on Wed Jul  2 06:45:23 2025
-config:
-
- NAME        STATE     READ WRITE CKSUM
- rpool       DEGRADED     0     0     0
-   raidz2-0  DEGRADED     0     0     0
-     sda     ONLINE       0     0     0
-     sdb     FAULTED     31     0     0  too many errors
-     sdc     ONLINE       0     0     0
-     sdd     ONLINE       0     0     0
-     sde     ONLINE       0     0     0
-     sdf     ONLINE       0     0     0
-
-errors: No known data errors
+<ul>
+<li>Check the packages health. This shouldn't output anything.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dpkg<span class="w"> </span>--audit
+sudo<span class="w"> </span>apt-mark<span class="w"> </span>showhold
 </code></pre></div>
-<p>The OVH services automatically created a concurrent ticket (CS11289821) at 17:20
-and at 22:26 (5 hours later) the disk was replaced.</p>
-<h2 id="resilvering">Resilvering<a class="headerlink" href="#resilvering" title="Permanent link">#</a></h2>
-<p>The morning after I logged on ovh3 and replace the old disk with the new one:</p>
-<p></p><div class="highlight"><pre><span></span><code>zpool<span class="w"> </span>replace<span class="w"> </span>rpool<span class="w"> </span>/dev/sdb
+<ul>
+<li>Change Debian repository sources</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s/bullseye/bookworm/g'</span><span class="w"> </span>/etc/apt/sources.list
+sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'/non-free/ s/$/ non-free-firmware/'</span><span class="w"> </span>/etc/apt/sources.list
 </code></pre></div>
-(note: I add to type it twice because I was getting a
-<code>cannot open '/dev/sdb1': Device or resource busy</code>,
-there might be some race condition with the partition creation).<p></p>
-<p>I speed up the resilver at max, since it's vital
-</p><div class="highlight"><pre><span></span><code><span class="c1"># default is 3000</span>
-<span class="nb">echo</span><span class="w"> </span><span class="m">15000</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/module/zfs/parameters/zfs_resilver_min_time_ms
-</code></pre></div><p></p>
-<p>zpool estimates me it gonna take 12 hours, but I expect it to take 4 days,
-as for last resilver.
-</p><div class="highlight"><pre><span></span><code>zpool status
-...
-action: Wait for the resilver to complete.
-  scan: resilver in progress since Thu Jul  3 08:22:23 2025
-    536G scanned at 4.92G/s, 129G issued at 1.18G/s, 52.5T total
-    3.41G resilvered, 0.24% done, 12:38:31 to go
-...
+<ul>
+<li>List package sources to update</li>
+</ul>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/etc/apt/sources.list.d/
 </code></pre></div>
---&gt;<p></p>
+<ul>
+<li>Change each repository sources (here is an example for <code>docker</code>)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s/bullseye/bookworm/g'</span><span class="w"> </span>/etc/apt/sources.list.d/docker.list
+</code></pre></div>
+<ul>
+<li>Upgrade the OS (in tmux in case the SSH connection breaks)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>tmux
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>--without-new-pkgs
+sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade
+</code></pre></div>
+<ul>
+<li>Reboot (this didn't work as expected, which is explained in the next part)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>reboot
+</code></pre></div>
+<ul>
+<li>Ensure everything runs correctly</li>
+</ul>
+<div class="highlight"><pre><span></span><code>lsb_release<span class="w"> </span>-a
+sudo<span class="w"> </span>systemctl<span class="w"> </span>list-units<span class="w"> </span>--state<span class="w"> </span>failed
+sudo<span class="w"> </span>docker<span class="w"> </span>ps<span class="w"> </span>-a
+</code></pre></div>
+<ul>
+<li>Clean up legacy packages</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>autoremove<span class="w"> </span>--purge
+sudo<span class="w"> </span>apt<span class="w"> </span>clean
+</code></pre></div>
+<ul>
+<li>I also installed the QEMU Guest Agent</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>qemu-guest-agent
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>qemu-guest-agent
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>qemu-guest-agent
+</code></pre></div>
+<h2 id="ovh200-not-rebooting-after-upgrade"><code>OVH200</code> not rebooting after upgrade<a class="headerlink" href="#ovh200-not-rebooting-after-upgrade" title="Permanent link">#</a></h2>
+<p>For some unknown reason (probably related to the upgrade of the Linux kernel), the VM would not reboot after the upgrade.</p>
+<p><code>OVH200</code> was stuck looping on the boot screen (showing the Proxmox logo). Here is how it was fixed:</p>
+<ul>
+<li>In Proxmox, open the graphical console of the VM</li>
+<li>Press <code>Esc</code></li>
+<li>Choose the Debian installer DVD: <code>3. DVD/CD [...] (Debian [..])</code></li>
+<li>Choose <code>Advanced options</code></li>
+<li>Choose <code>Rescue mode</code></li>
+<li>Choose <code>Do not configure the network at this time</code></li>
+<li>Choose the device to use as root filesystem: <code>/dev/sdb1</code></li>
+<li>Choose <code>Execute a shell in /dev/sdb1</code></li>
+<li>Run the following commands:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>grub-install<span class="w"> </span>/dev/sdb
+update-grub
+update-initramfs<span class="w"> </span>-u<span class="w"> </span>-k<span class="w"> </span>all
+<span class="nb">exit</span>
+</code></pre></div>
+<ul>
+<li>Choose <code>Reboot the system</code></li>
+</ul>
 
 
 
