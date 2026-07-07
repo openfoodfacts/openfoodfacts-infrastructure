@@ -2,7 +2,7 @@
 
 ## Why
 
-We use a lot ZFS for our data for it's reliability and incredible capabilities. The most important feature is data synchronization through snapshots. Clone also enables to easily have same data as production for tests.
+We use a lot ZFS for our data for it's reliability and incredible capabilities. The most important feature is data synchronization through snapshots, enabling very cheap duplication on remote hosts. Clone also enables to easily have same data as production for tests.
 
 ## Learning resources
 
@@ -22,6 +22,25 @@ Tutorial about ZFS snapshots and clone: https://ubuntu.com/tutorials/using-zfs-s
 
 A good cheat-sheet: https://blog.mikesulsenti.com/zfs-cheat-sheet-and-guide/
 
+## ZPool, VDev, ZFS Volume, ZFS Dataset
+
+A zpool is an aggregation of devices, or partitions, aka vdev (virtual device)
+that are grouped together as one pool where you can share space and split it.
+It's at the zpool level that you define the redundancy (raidz),
+and you can assign a specific device for cache and for log
+(in the sense of not yet consolidated changes).
+
+A ZFS Dataset is kind of a partition allocated in the zpool.
+It can grow and datasets forms a hierarchy.
+They have a number of [properties](https://openzfs.github.io/openzfs-docs/man/master/7/zfsprops.7.html) that controls their behaviour (from max size, to NFS sharing, etc).
+By default they are mounted on a name that correspond to their position in the hierarchy,
+but that can be modified.
+
+A ZFS Volume is a bit like a ZFS dataset, but instead of hosting files directly,
+it acts as a block device that you will have to format (for example ext4).
+
+While Proxmox containers works on zfs datasets, QEMU must use ZFS Volume.
+We can use ZFS Datasets in QEMU thanks to [virtiofs](./software/virtiofs.md)
 
 ## Some useful commands
 
