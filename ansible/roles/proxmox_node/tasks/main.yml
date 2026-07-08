@@ -29,6 +29,10 @@
     zfs_zrepl_enabled: false # we use sanoid / syncoid instead
   tags: zfs
 
+- name: Ensure zfs-mount-generator inter-zpool mount ordering cache
+  ansible.builtin.import_tasks: zfs_list_cache.yml
+  tags: zfs
+
 - name: Ensure proxmox cluster name is defined, if enabled
   ansible.builtin.assert:
     that: proxmox_node__pve_cluster_enabled == false or proxmox_node__pve_cluster_name is defined

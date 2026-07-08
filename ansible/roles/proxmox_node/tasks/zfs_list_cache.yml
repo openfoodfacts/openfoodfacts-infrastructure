@@ -1,0 +1,162 @@
+---
+# Implements the "Important note when you mount datasets from other zpool"
+# see docs/explanation/software/virtiofs.md#inter-zpool-mounts
+#
+# This ensures the zfs-mount-generator (part of zfsutils-linux) has the
+# per-zpool cache files it needs to order mounts across different zpools,
+# and verifies that datasets mounted outside of their own zpool hierarchy
+# declare an org.openzfs.systemd:requires-mounts-for property pointing to a
+# parent mountpoint, so that systemd mounts them in the right order.
+
+- name: Install zfsutils-linux and zfs-zed
+  ansible.builtin.package:
+    name:
+      - zfsutils-linux
+      - zfs-zed
+    state: present
+
+- name: Ensure zfs-zed service is enabled and running
+  ansible.builtin.systemd:
+    name: zfs-zed
+    enabled: true
+    state: started
+
+- name: Verify zfs-list-cacher zedlet is present
+  ansible.builtin.stat:
+    path: /etc/zfs/zed.d/history_event-zfs-list-cacher.sh
+  register: proxmox_node_zfs_zedlet
+
+- name: Assert zfs-list-cacher zedlet is present
+  ansible.builtin.assert:
+    that:
+      - proxmox_node_zfs_zedlet.stat.exists
+    fail_msg: >-
+      /etc/zfs/zed.d/history_event-zfs-list-cacher.sh is missing.
+      It is normally provided by the zfs-zed package and is required by
+      zfs-mount-generator to keep the per-zpool cache up to date.
+
+- name: Ensure zfs-list.cache directory exists
+  ansible.builtin.file:
+    path: /etc/zfs/zfs-list.cache
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Gather existing zpools
+  ansible.builtin.command: zpool list -o name -H
+  register: proxmox_node_zpools
+  changed_when: false
+
+- name: Touch cache file for each zpool (preserving existing ones)
+  ansible.builtin.file:
+    path: "/etc/zfs/zfs-list.cache/{{ item }}"
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ proxmox_node_zpools.stdout_lines }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Stat each zpool cache file
+  ansible.builtin.stat:
+    path: "/etc/zfs/zfs-list.cache/{{ item }}"
+    get_checksum: false
+  loop: "{{ proxmox_node_zpools.stdout_lines }}"
+  loop_control:
+    label: "{{ item }}"
+  register: proxmox_node_cache_stat
+
+# An empty (or absent) cache file means the zedlet has not populated it yet.
+# Toggling atime on then off on the pool root dataset triggers a history
+# event that the zedlet handles to (re)generate the cache.
+- name: Trigger cache regeneration for zpools with an empty cache file
+  ansible.builtin.shell: |
+    set -e
+    zfs set atime=on {{ item.item }}
+    zfs set atime=off {{ item.item }}
+  args:
+    executable: /bin/bash
+  loop: "{{ proxmox_node_cache_stat.results | selectattr('stat.size', 'equalto', 0) | list }}"
+  loop_control:
+    label: "{{ item.item }}"
+  changed_when: true
+
+- name: Re-stat each zpool cache file after regeneration
+  ansible.builtin.stat:
+    path: "/etc/zfs/zfs-list.cache/{{ item }}"
+    get_checksum: false
+  loop: "{{ proxmox_node_zpools.stdout_lines }}"
+  loop_control:
+    label: "{{ item }}"
+  register: proxmox_node_cache_stat_after
+
+- name: Verify cache files are populated for each zpool
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.size > 0
+    fail_msg: >-
+      /etc/zfs/zfs-list.cache/{{ item.item }} is empty.
+      The zfs-list-cacher zedlet did not populate it. Ensure zfs-zed is
+      running and that a dataset property change was triggered.
+  loop: "{{ proxmox_node_cache_stat_after.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+
+# Now verify that any dataset mounted outside of its own zpool hierarchy
+# declares org.openzfs.systemd:requires-mounts-for pointing to a parent
+# mountpoint, so systemd mounts it after its parent (from another zpool).
+- name: Check requires-mounts-for on datasets mounted outside their dataset
+  ansible.builtin.shell: |
+    set -eo pipefail
+    while IFS=$'\t' read -r name mountpoint requires; do
+      # skip datasets without a usable mountpoint (volumes, legacy, none)
+      case "$mountpoint" in
+        -|none|legacy|"") continue ;;
+      esac
+
+      # natural mountpoint root of a dataset is /<pool-name>
+      pool="${name%%/*}"
+      natural_root="/$pool"
+
+      # if the mountpoint is under its own pool hierarchy, zfs already
+      # orders it correctly: nothing to check.
+      case "$mountpoint" in
+        "$natural_root"|"$natural_root"/*) continue ;;
+      esac
+
+      # the dataset is mounted outside of its own dataset hierarchy:
+      # org.openzfs.systemd:requires-mounts-for must be set.
+      if [ -z "$requires" ] || [ "$requires" = "-" ]; then
+        echo "ERROR: dataset '$name' is mounted outside its dataset at '$mountpoint' but has no 'org.openzfs.systemd:requires-mounts-for' property set." >&2
+        echo "       Set it to a parent mountpoint, e.g.:" >&2
+        echo "         zfs set org.openzfs.systemd:requires-mounts-for=<parent-mountpoint> $name" >&2
+        exit 1
+      fi
+
+      # requires must point to a parent mountpoint of the dataset mountpoint
+      case "$mountpoint" in
+        "$requires"/*)
+          # ok: requires is a parent path of the mountpoint
+          ;;
+        "$requires")
+          # requires equals the mountpoint: not a parent
+          echo "ERROR: dataset '$name' has 'org.openzfs.systemd:requires-mounts-for=$requires'" >&2
+          echo "       which equals its mountpoint '$mountpoint' (must be a parent mountpoint)." >&2
+          exit 1
+          ;;
+        *)
+          echo "ERROR: dataset '$name' has 'org.openzfs.systemd:requires-mounts-for=$requires'" >&2
+          echo "       which is not a parent mountpoint of '$mountpoint'." >&2
+          echo "       It must point to a parent mountpoint of the dataset." >&2
+          exit 1
+          ;;
+      esac
+    done < <(zfs list -o name,mountpoint,org.openzfs.systemd:requires-mounts-for -H)
+  args:
+    executable: /bin/bash
+  changed_when: false
