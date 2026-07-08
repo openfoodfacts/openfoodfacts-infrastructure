@@ -50,10 +50,12 @@
         sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
   args:
     creates: /etc/apt/sources.list.d/nvidia-container-toolkit.list
+  when: triton_gpu_install_docker_nvidia_runtime
 
 - name: Update the packages list from the repository
   ansible.builtin.apt:
     update_cache: true
+  when: triton_gpu_install_docker_nvidia_runtime
 
 - name: Install the NVIDIA Container Toolkit packages
   ansible.builtin.apt:
@@ -63,17 +65,20 @@
       - libnvidia-container-tools=1.18.1-1
       - libnvidia-container1=1.18.1-1
     state: present
+  when: triton_gpu_install_docker_nvidia_runtime
 
 - name: Configure the docker container runtime with `nvidia-ctk`
   ansible.builtin.shell: |
     nvidia-ctk runtime configure --runtime=docker
   changed_when: true
+  when: triton_gpu_install_docker_nvidia_runtime
 
 - name: Restart docker to apply nvidia runtime configuration
   ansible.builtin.systemd_service:
     name: docker
     state: restarted
     enabled: true
+  when: triton_gpu_install_docker_nvidia_runtime
 
 - name: "Download all models for Triton server"
   ansible.builtin.shell:

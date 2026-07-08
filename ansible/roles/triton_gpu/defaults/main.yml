@@ -9,3 +9,6 @@ triton_gpu__repository_owner: "openfoodfacts"
 
 # Name of the directory where the repository will be cloned
 triton_gpu__repository_dest: "/home/{{ triton_gpu__user }}/triton-org"
+
+# If true, the NVIDIA Docker runtime will be installed
+triton_gpu_install_docker_nvidia_runtime: true
