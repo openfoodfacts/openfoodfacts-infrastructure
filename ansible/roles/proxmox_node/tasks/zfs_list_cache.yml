@@ -110,53 +110,21 @@
 # Now verify that any dataset mounted outside of its own zpool hierarchy
 # declares org.openzfs.systemd:requires-mounts-for pointing to a parent
 # mountpoint, so systemd mounts it after its parent (from another zpool).
-- name: Check requires-mounts-for on datasets mounted outside their dataset
-  ansible.builtin.shell: |
-    set -eo pipefail
-    while IFS=$'\t' read -r name mountpoint requires; do
-      # skip datasets without a usable mountpoint (volumes, legacy, none)
-      case "$mountpoint" in
-        -|none|legacy|"") continue ;;
-      esac
-
-      # natural mountpoint root of a dataset is /<pool-name>
-      pool="${name%%/*}"
-      natural_root="/$pool"
-
-      # if the mountpoint is under its own pool hierarchy, zfs already
-      # orders it correctly: nothing to check.
-      case "$mountpoint" in
-        "$natural_root"|"$natural_root"/*) continue ;;
-      esac
-
-      # the dataset is mounted outside of its own dataset hierarchy:
-      # org.openzfs.systemd:requires-mounts-for must be set.
-      if [ -z "$requires" ] || [ "$requires" = "-" ]; then
-        echo "ERROR: dataset '$name' is mounted outside its dataset at '$mountpoint' but has no 'org.openzfs.systemd:requires-mounts-for' property set." >&2
-        echo "       Set it to a parent mountpoint, e.g.:" >&2
-        echo "         zfs set org.openzfs.systemd:requires-mounts-for=<parent-mountpoint> $name" >&2
-        exit 1
-      fi
-
-      # requires must point to a parent mountpoint of the dataset mountpoint
-      case "$mountpoint" in
-        "$requires"/*)
-          # ok: requires is a parent path of the mountpoint
-          ;;
-        "$requires")
-          # requires equals the mountpoint: not a parent
-          echo "ERROR: dataset '$name' has 'org.openzfs.systemd:requires-mounts-for=$requires'" >&2
-          echo "       which equals its mountpoint '$mountpoint' (must be a parent mountpoint)." >&2
-          exit 1
-          ;;
-        *)
-          echo "ERROR: dataset '$name' has 'org.openzfs.systemd:requires-mounts-for=$requires'" >&2
-          echo "       which is not a parent mountpoint of '$mountpoint'." >&2
-          echo "       It must point to a parent mountpoint of the dataset." >&2
-          exit 1
-          ;;
-      esac
-    done < <(zfs list -o name,mountpoint,org.openzfs.systemd:requires-mounts-for -H)
-  args:
-    executable: /bin/bash
+- name: Gather zfs datasets with their mountpoint and requires-mounts-for
+  ansible.builtin.command: >-
+    zfs list -o name,mountpoint,org.openzfs.systemd:requires-mounts-for -H
+  register: proxmox_node_zfs_datasets
   changed_when: false
+
+- name: Validate requires-mounts-for on datasets mounted outside their dataset
+  ansible.builtin.assert:
+    that:
+      - proxmox_node_requires_mounts_errors | length == 0
+    fail_msg: >-
+      The following datasets are mounted outside their own zpool hierarchy
+      but have a missing or invalid 'org.openzfs.systemd:requires-mounts-for'
+      property (it must point to a parent mountpoint):
+      {{ proxmox_node_requires_mounts_errors | join('\n      ') }}
+  vars:
+    proxmox_node_requires_mounts_errors: >-
+      {{ proxmox_node_zfs_datasets.stdout | zfs_validate_requires_mounts_for }}
