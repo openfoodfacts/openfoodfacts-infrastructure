@@ -21,8 +21,8 @@
     state: present
   tags:
     - system
-  # Don't run the task if the version is bullseye or older
-  when: ansible_facts['distribution_release'] not in ['bullseye', 'buster', 'stretch']
+  # Don't run the task if the distribution is not Debian or the version is bullseye or older
+  when: ansible_facts['distribution'] == 'Debian' and ansible_facts['distribution_release'] not in ['bullseye', 'buster', 'stretch']
 
 # TODO: this might not be useful as of today ;-)
 - name: "Find python package prefix"
