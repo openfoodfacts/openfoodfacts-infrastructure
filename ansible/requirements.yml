@@ -16,11 +16,13 @@ roles:
     version: v4.0.10
   - name: lae.proxmox
     src: https://github.com/lae/ansible-role-proxmox
-    version: 43df4c92447c5fe2c5d2ce54f109035e750bf59d
+    # 1.10.1
+    version: dbbc5ec0f718946466c89ea48428a93b548e89c3
     scm: git
   - name: aisbergg.zfs
-    src: https://github.com/aisbergg/ansible-role-zfs.git
-    version: 8940f01615e1f8abf267967953e4f67eb1b27d52
+    # patched, see https://github.com/aisbergg/ansible-role-zfs/pull/6
+    src: https://github.com/alexgarel/ansible-role-zfs.git
+    version: 85777d2b4312738e14d21e66ee09c39e86d20587
     scm: git
   - src: geerlingguy.docker
     version: 8.0.0
