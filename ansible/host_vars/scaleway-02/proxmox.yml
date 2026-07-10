@@ -23,16 +23,19 @@ _proxmox_node__zfs_filesystems_specific:
     properties:
       # we need to mount it in the right place for docker in the VM
       mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_mongodb_data
+      org.openzfs.systemd:requires-mounts-for: /zfs-hdd/virtiofs/qm-200/docker-volumes
   - name: zfs-nvme/virtiofs/qm-200-off_shared_redis_data
     state: absent
   - name: zfs-nvme/virtiofs/qm-200-off_shared_redisdata
     properties:
       # we need to mount it in the right place for docker in the VM
       mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_redisdata
+      org.openzfs.systemd:requires-mounts-for: /zfs-hdd/virtiofs/qm-200/docker-volumes
   - name: zfs-nvme/virtiofs/qm-200-off_shared_pg_data
     properties:
       # we need to mount it in the right place for docker in the VM
       mountpoint: /zfs-hdd/virtiofs/qm-200/docker-volumes/off_shared_pg_data
+      org.openzfs.systemd:requires-mounts-for: /zfs-hdd/virtiofs/qm-200/docker-volumes
 
 proxmox_node__zfs_filesystems: |
   {{

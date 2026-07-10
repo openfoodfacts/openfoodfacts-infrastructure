@@ -19,6 +19,7 @@ _proxmox_node__zfs_filesystems_specific:
     properties:
       # we need to mount it in the right place for docker in the VM
       mountpoint: /zfs-hdd/virtiofs/qm-201/docker-volumes/open_prices_postgres-data
+      org.openzfs.systemd:requires-mounts-for: /zfs-hdd/virtiofs/qm-201/docker-volumes
 
 proxmox_node__zfs_filesystems: |
   {{

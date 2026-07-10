@@ -50,6 +50,10 @@ class FilterModule:
             if mountpoint in ("-", "none", "legacy", ""):
                 continue
 
+            # skip the case of root, it needs no parent mountpoint !
+            if mountpoint == "/":
+                continue
+
             # the natural mountpoint root of a dataset is /<pool-name>
             pool = name.split("/", 1)[0]
             natural_root = "/" + pool
@@ -81,7 +85,7 @@ class FilterModule:
                     f"which equals its mountpoint '{mountpoint}' "
                     f"(must be a parent mountpoint)."
                 )
-            elif not (mountpoint.startswith(requires + "/")):
+            elif not (mountpoint.startswith(requires + "/")) and requires != "/":
                 errors.append(
                     f"dataset '{name}' has "
                     f"'org.openzfs.systemd:requires-mounts-for={requires}' "
