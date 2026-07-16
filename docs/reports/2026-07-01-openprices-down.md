@@ -7,7 +7,7 @@ On 30/06/2026, Stephane and Christian did an intervention at the Scaleway datace
 This required a shutdown / restart of scaleway-03.
 After that Open Prices was down (it is deployed on scaleway-docker-prod-2 which is on scaleway-03)
 
-## analysis
+## Analysis
 
 The morning after, Raphaël investigated
 and found that the docker volume for the postgresql was gone.

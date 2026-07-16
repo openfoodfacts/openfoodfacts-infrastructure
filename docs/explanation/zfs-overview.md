@@ -2,7 +2,7 @@
 
 ## Why
 
-We use a lot ZFS for our data for it's reliability and incredible capabilities. The most important feature is data synchronization through snapshots, enabling very cheap duplication on remote hosts. Clone also enables to easily have same data as production for tests.
+We use a lot of ZFS for our data for its reliability and incredible capabilities. The most important feature is data synchronization through snapshots, enabling very cheap duplication on remote hosts. Clone also enables to easily have same data as production for tests.
 
 ## Learning resources
 

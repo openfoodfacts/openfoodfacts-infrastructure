@@ -67,8 +67,7 @@ class FilterModule:
             # org.openzfs.systemd:requires-mounts-for must be set.
             if requires in ("-", ""):
                 errors.append(
-                    f"dataset '{name}' is mounted outside its dataset at "
-                    f"'{mountpoint}' but has no "
+                    f"dataset '{name}' has mountpoint '{mountpoint}' outside its pool mount hierarchy but has no "
                     f"'org.openzfs.systemd:requires-mounts-for' property set. "
                     f"Set it to a parent mountpoint, e.g.: "
                     f"zfs set org.openzfs.systemd:requires-mounts-for="

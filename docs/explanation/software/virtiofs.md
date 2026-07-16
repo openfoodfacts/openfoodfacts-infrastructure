@@ -38,15 +38,15 @@ As Virtiofs is really a view on the host folder, it also sees the mounted filesy
 So if we want to separate data for a specific volume (eg. a database data),
 we can create a child Dataset.
 
-Sometimes, most data in on HDD but we want some data on NVME,
+Sometimes, most data is on HDD but we want some data on NVME,
 in this case we can create a ZFS dataset on a NVME based Zpool,
 but change its mountpoint to be mounted as a child of the HDD dataset.
 
 <a id="inter-zpool-mounts"/>
 
-### Important note when you mount datasets from other zpool
+### Important note when you mount datasets from another zpool
 
-ZFS normally order mounts based on their hierarchy,
+ZFS normally orders mounts based on their hierarchy,
 but it does so **only for datasets that are in the same zpool**
 
 Hopefully there is a tool to do "inter"-zpool mount ordering,
@@ -58,13 +58,13 @@ To use it:
   ```bash
   apt install zfsutils-linux zfs-zed
   ```
-* the `zfs-mount-generator` generator needs to have information
+* the `zfs-mount-generator` needs to have information
   about the zpool at boot time, before they are active.
-  For this, it needs files named `etc/zfs/zfs-list.cache/<zpool-name>`
+  For this, it needs files named `/etc/zfs/zfs-list.cache/<zpool-name>`
   containing the state of each zpool.
   To have it, you need to:
-  * ensure that zed is running (``systemctl status zfs-zed.service`),
-    it is provided by theq`zfs-zed` package
+  * ensure that zed is running (`systemctl status zfs-zed.service`),
+    it is provided by the `zfs-zed` package
   * ensure you have the `/etc/zfs/zed.d/history_event-zfs-list-cacher.sh` zedlet,
     normally provided by the same `zfs-zed` package.
     It will update the zpool state cache every time it changes.
