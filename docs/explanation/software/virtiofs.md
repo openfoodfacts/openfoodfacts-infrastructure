@@ -25,7 +25,7 @@ because containers with docker compose inside are not supported by proxmox.
 
 We use Virtiofs to have the docker volumes of our docker compose deployments in specific ZFS Datasets
 
-In ansible, there are a [virtiofs](../../ansible/roles/virtiofs.md) and [virtofs_mounts](../ansible/roles/virtiofs_mounts.md) roles.
+In ansible, there are a [virtiofs](../../ansible/roles/virtiofs.md) and [virtiofs_mounts](../../ansible/roles/virtiofs_mounts.md) roles.
 
 The first, declares a virtiofs mount at proxmox level (run on the host).
 
