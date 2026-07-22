@@ -7477,6 +7477,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/2026-07-21-ovh2-instability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-07-21 OVH2 Instability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -8154,6 +8182,12 @@ This gives a root console in the container and has the advantage of not dependin
 <p>If you add a user which is not a person that needs ssh account (eg. the off service account), just open the console and the <code>adduser</code> command.</p>
 <p>The <code>sudo /root/cluster-scripts/mkuser</code> (see script <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/scripts/proxmox-management/mkuser">mkuser</a>)  helps you create users using github keys.</p>
 <p>Alternatively <code>sudo /root/cluster-scripts/mkuseralias</code> can be used if the username on server is different from the GitHub username.</p>
+<p><strong>IMPORTANT:</strong> always add the <code>discard=on</code> options to scsi disks,
+otherwise fstrim in the VM won't work,
+and the corresponding zvol will grow indefinitely.
+see <a href="../../reports/2026-07-21-ovh2-instability/">this report on ovh2 instability on 2026-07-21</a></p>
+<p>See also the topic on <a href="../software/virtiofs/">Virtiofs</a> to directly access ZFS datasets in VMs,
+allowing a far more portability of data.</p>
 <h2 id="how-to-resolve-slow-ssh-login-time-in-container">How to resolve slow ssh login time in container<a class="headerlink" href="#how-to-resolve-slow-ssh-login-time-in-container" title="Permanent link">#</a></h2>
 <p>If when you ssh to a container it takes a long time, here is a possible fix:</p>
 <p>See https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916:</p>
