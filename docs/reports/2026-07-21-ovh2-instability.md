@@ -101,7 +101,8 @@ I also applied this to
 
 * Really look at graph more closely… (it remains complicated to spot the right thing).
 
-* Deploying prometheus on proxmox host would really be important, so that we get an alert on low disk space (munin alerts do not work that well)
+* Deploying prometheus on proxmox host would really be important, so that we get an alert on low disk space (munin alerts do not work that well), see https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/597
 
 * We don't use ansible to create VM right now (too seldom and a bit complicated to handle well…).
   But we should have a check for certain options on CT / VMs, etc. (it could be a job).
+  see https://github.com/openfoodfacts/openfoodfacts-infrastructure/issues/669
