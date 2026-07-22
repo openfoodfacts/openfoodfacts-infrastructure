@@ -37,21 +37,21 @@ I saw there was a problem with disk space:
 
 ![](./media/2027-07-20-ovh2-disk-usage.png "Disk usage on ovh2 showing there is no space left at moments corresponding to crashes"){width=50%}
 
-So now I know the culprit.
+So at this point I knew the culprit.
 
 Indeed `zpool list` shows there is really few space left on device.
 And `zfs list -r rpool` also shows where this space goes.
 
 I did log into the docker staging VM to try to remove files,
 I did remove some old files (also put a limit on docker log files in docker daemon settings),
-but I also realized that disk usage is already not that high,
+but I also realized that disk usage was already not that high,
 but the same, the ZFS corresponding ZVOL[^VM-ZVOL] was not reflecting the size of data inside,
 but a bigger size (630G vs 67G) !
 
-It looks like, as ZVol is formatted using ext4, ZFS does not see the blocks that were freed by the filesystem. I did try to defrag with `e4defrag` bit it had no effect.
+It looks like, as Zvol is formatted using ext4, ZFS does not see the blocks that were freed by the filesystem. I did try to defrag with `e4defrag` but it had no effect.
 
 
-[^VM-ZVOL] it is a VM so we can't mount datasets in it, we use ZVOL formatted as ext4
+[^VM-ZVOL] it is a VM so we can't mount datasets in it, we use ZFS ZVOL formatted as ext4
 
 ## Resolution
 
@@ -61,7 +61,7 @@ On SSD, space is freed thanks to `fstrim` command,
 which is normally launched regularly.
 But depending on your VM disk definition it might not notify ZFS
 which does not free the blocks.
-We have to add the `discard=on` option to the disk definition in the VM configuration. 
+We have to add the `discard=on` option to the disk definition in the VM configuration.
 
 So I edited the VM configuration `/etc/pve/qemu-server/201.conf`
 and I added the `discard=on` to both disks:
