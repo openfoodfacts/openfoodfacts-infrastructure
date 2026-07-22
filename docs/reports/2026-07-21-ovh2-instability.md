@@ -96,6 +96,7 @@ I also applied this to
 * osm45 VM (docker prod 2)
 * hetzner-02 and hetzner-03
 * scaleway-02 (but there I did not restart the VM… yet as it's not urgent)
+* scaleway-03 (docker-prod-2)
 
 ## Lessons learned
 
