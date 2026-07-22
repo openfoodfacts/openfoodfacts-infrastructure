@@ -317,6 +317,14 @@ The `sudo /root/cluster-scripts/mkuser` (see script [mkuser](https://github.com/
 
 Alternatively `sudo /root/cluster-scripts/mkuseralias` can be used if the username on server is different from the GitHub username.
 
+**IMPORTANT:** always add the `discard=on` options to scsi disks,
+otherwise fstrim in the VM won't work,
+and the corresponding zvol will grow indefinitely.
+see [this report on ovh2 instability on 2026-07-21](../reports/2026-07-21-ovh2-instability.md)
+
+See also the topic on [Virtiofs](./software/virtiofs.md) to directly access ZFS datasets in VMs,
+allowing a far more portability of data.
+
 ## How to resolve slow ssh login time in container
 
 If when you ssh to a container it takes a long time, here is a possible fix:
