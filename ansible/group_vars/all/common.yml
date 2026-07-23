@@ -46,3 +46,5 @@ off_private_networks_v4:
 off_private_networks_v6:
   # local network (very wide definition: everything starting with `fd:`)
   - "fd00::/8"
+  # link-local network
+  - "fe80::/10"
