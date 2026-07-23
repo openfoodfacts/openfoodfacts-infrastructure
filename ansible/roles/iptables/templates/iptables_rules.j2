@@ -5,7 +5,7 @@
 {% set private_net_set = 'PrivateNet6' %}
 {% set internal_host_set = 'InternalHost6' %}
 {% set icmp_name = 'icmpv6' %}
-{% set localhost_name = '::1' %}
+{% set localhost_name = 'lo' %}
 {% set iptables_extra_rules_filter = iptables_extra_rules_filter_v6 %}
 {% set iptables_extra_rules_nat = iptables_extra_rules_nat_v6 %}
 {% else %}
@@ -16,6 +16,7 @@
 {% set iptables_extra_rules_filter = iptables_extra_rules_filter_v4 %}
 {% set iptables_extra_rules_nat = iptables_extra_rules_nat_v4 %}
 {% endif %}
+
 # RAW START ##############
 *raw
 :PREROUTING ACCEPT [0:0]
@@ -25,10 +26,12 @@ COMMIT
 #
 # FILTER START ##############
 *filter
-# Policies
+# Policies -----------
 {% for name in ["INPUT", "FORWARD", "OUTPUT"] %}
 :{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.filter else 'DROP' }} [0:0]
+:DOCKER-USER DROP [0:0]
 {% endfor %}
+# INPUT rules -----------
 # Established connection
 -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 # icmp (ping)
@@ -50,6 +53,24 @@ COMMIT
 # {{ comment }}
 {{ value }}
 {% endfor %}
+# DOCKER-USER rules -----------
+# Established connection
+-A DOCKER-USER -p tcp -m conntrack --ctstate ESTABLISHED,RELATED -j RETURN
+# localhost traffic
+-A DOCKER-USER -i {{ localhost_name }} -j RETURN
+# Private network traffic
+-A DOCKER-USER -m set --match-set {{ private_net_set }} src -j RETURN
+# Public ports, we need to use conntrack
+# see https://docs.docker.com/engine/network/firewall-iptables/#match-the-original-ip-and-ports-for-requests
+{% for port in iptables_public_ports %}
+-A DOCKER-USER -p tcp -m conntrack --ctorigdstport {{ port }} -j RETURN
+{% endfor %}
+# Internal host exposed ports, there again using conntrack 
+{% for port in iptables_internal_hosts_only_ports %}
+-A DOCKER-USER -m set --match-set {{ internal_host_set }} src -p tcp -m conntrack --ctorigdstport {{ port }} -j RETURN
+{% endfor %}
+# finally, drop the rest (although the default policy is already drop)
+-A DOCKER-USER -j DROP
 COMMIT
 # FILTER END ##############
 #
