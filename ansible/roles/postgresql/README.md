@@ -1,4 +1,4 @@
-# PostgreSQL install
+# PostgreSQL install role
 
 This postgreSQL role, install PostgresSQL
 using debian packages from postgres official APT repository.

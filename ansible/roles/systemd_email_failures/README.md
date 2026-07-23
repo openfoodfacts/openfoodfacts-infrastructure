@@ -1,4 +1,4 @@
-# Systemd email failures
+# Systemd email failures role
 
 This role install a very simple service named email-failures.
 

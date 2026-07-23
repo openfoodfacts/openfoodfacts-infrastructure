@@ -1,4 +1,4 @@
-# Git based configuration
+# Git based configuration role
 
 This role is used to checkout the git repository on a server,
 so that we can link configurations where needed.
