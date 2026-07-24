@@ -1,4 +1,4 @@
-# SFTP
+# SFTP role
 
 This roles setup a sftp server.
 

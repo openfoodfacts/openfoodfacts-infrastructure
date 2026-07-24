@@ -1,4 +1,4 @@
-# Virtiofs
+# Virtiofs role
 
 Setup the virtiofs daemon and directory mappings.
 

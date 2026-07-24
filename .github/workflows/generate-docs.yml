@@ -18,9 +18,6 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v7
-      - name: Checks
-        run: |
-          make check_docs
       - name: Generate documentation
         run: |
           make build_docs

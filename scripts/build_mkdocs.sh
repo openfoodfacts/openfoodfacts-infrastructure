@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+# first some sanity checks
+WRONG_EXT=$(find docs docs/reports -maxdepth 1 -type f|grep -v ".md$"| grep -v "/.pages$");
+if [[ -n "${WRONG_EXT}" ]]
+then
+  echo >&2 "File with wrong extensions $${WRONG_EXT}"
+  exit 1
+fi
+MISSING_ROLE_IN_TITLE=$(for f in ansible/roles/*/README.md; do head -n 1 $f|grep --quiet -i role || echo -n $f" ";done)
+if [[ -n "${MISSING_ROLE_IN_TITLE}" ]]
+then
+  echo >&2 'Some roles readme do not have "role" in their title:' ${MISSING_ROLE_IN_TITLE}
+  exit 1
+fi
+
+
 # Renders markdown doc in docs to html in gh_pages
 
 # add documentation for ansible roles
