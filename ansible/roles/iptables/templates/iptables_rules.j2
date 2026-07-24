@@ -29,8 +29,8 @@ COMMIT
 # Policies -----------
 {% for name in ["INPUT", "FORWARD", "OUTPUT"] %}
 :{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.filter else 'DROP' }} [0:0]
-:DOCKER-USER DROP [0:0]
 {% endfor %}
+:DOCKER-USER - [0:0]
 # INPUT rules -----------
 # Established connection
 -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
