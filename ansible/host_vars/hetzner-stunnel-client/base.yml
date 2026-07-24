@@ -1,3 +1,3 @@
 ---
-# we must open stunnel client ports
-iptables_public_ports: [22, 16022, 16002]
+# Note: we MUST NOT open stunnel client ports
+iptables_public_ports: [22]
