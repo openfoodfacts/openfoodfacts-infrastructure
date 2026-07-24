@@ -55,7 +55,7 @@ COMMIT
 {% endfor %}
 # DOCKER-USER rules -----------
 # Established connection
--A DOCKER-USER -p tcp -m conntrack --ctstate ESTABLISHED,RELATED -j RETURN
+-A DOCKER-USER -m conntrack --ctstate ESTABLISHED,RELATED -j RETURN
 # localhost traffic
 -A DOCKER-USER -i {{ localhost_name }} -j RETURN
 # Private network traffic
