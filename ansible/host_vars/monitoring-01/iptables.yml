@@ -1,5 +1,7 @@
 ---
-iptables_docker_public_ports:
+iptables_public_ports:
   - 22
+# nginx ports for reverse proxy
+iptables_public_docker_ports:
   - 80
   - 443
