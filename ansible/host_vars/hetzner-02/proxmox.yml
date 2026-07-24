@@ -108,8 +108,13 @@ proxmox_containers__containers:
         ip: 10.12.1.112/16
         gw: 10.12.0.2
         bridge: vmbr1
-        ip6: fded:b8d9:a973:1:2::112/64
-        gw6: "fded:b8d9:a973:1:2::"
+      net1:
+        name: eth1
+        # we need a public ip v6 (until we setup wireguard)
+        # to be able to talk to stunnel server on osm45/moji
+        ip6: 2a01:4f8:10a:1a95::112/64
+        gw6: 2a01:4f8:10a:1a95::0
+        bridge: vmbr0
     disk:
       storage: rpool-pve
       size: 32
