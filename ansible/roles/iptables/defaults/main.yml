@@ -1,13 +1,13 @@
 # Defaults variables for iptables
 ---
 
-# List of ports to open on the public interface (also for docker containers)
+# List of ports to open on the public interface (except docker containers)
 iptables_public_ports: [22]
-# List of ports to open only to our servers (also for docker containers)
+# List of ports to open only to our servers (except docker containers)
 iptables_internal_hosts_only_ports: []
-# List of docker ports to open on the public interface (also for docker containers)
+# List of docker ports to open on the public interface
 iptables_public_docker_ports: []
-# List of docker ports to open only to our servers (also for docker containers)
+# List of docker ports to open only to our servers
 iptables_internal_hosts_only_docker_ports: []
 
 # Our hosts that have access to special ports (also for docker containers)
