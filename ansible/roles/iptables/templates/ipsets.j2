@@ -1,19 +1,19 @@
 # {{ ansible_managed }}
 # Private networks v4
 create PrivateNet4 hash:net family inet hashsize 1024 maxelem 65536 comment
-{% for ip_mask in iptables_private_networks_v4 %}
+{% for ip_mask in (iptables_private_networks_v4|sort) %}
 add PrivateNet4 {{ ip_mask }} comment "private network"
 {% endfor %}
 create PrivateNet6 hash:net family inet6 hashsize 1024 maxelem 65536 comment
-{% for ip_mask in iptables_private_networks_v6 %}
+{% for ip_mask in (iptables_private_networks_v6|sort) %}
 add PrivateNet6 {{ ip_mask }} comment "private network"
 {% endfor %}
 # internal hosts
 create InternalHost4 hash:ip family inet hashsize 1024 maxelem 65536 comment
-{% for ip_mask in iptables_internal_hosts_ips_v4 %}
+{% for ip_mask in (iptables_internal_hosts_ips_v4|sort) %}
 add InternalHost4 {{ ip_mask }} comment "internal host"
 {% endfor %}
 create InternalHost6 hash:ip family inet6 hashsize 1024 maxelem 65536 comment
-{% for ip_mask in iptables_internal_hosts_ips_v6 %}
+{% for ip_mask in (iptables_internal_hosts_ips_v6|sort) %}
 add InternalHost6 {{ ip_mask }} comment "internal host"
 {% endfor %}
