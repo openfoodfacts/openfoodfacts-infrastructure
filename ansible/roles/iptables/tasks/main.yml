@@ -52,13 +52,16 @@
     mode: "0600"
   register: iptables_ipsets_generation
 
-- name: Reload ipset rules
+- name: Reload ipset rules  # noqa: no-handler
   ansible.builtin.shell: >-
     ipset restore -exist < /etc/iptables/ipsets
   changed_when: true
   when: iptables_ipsets_generation.changed
+  notify:
+    # theoritically no docker daemon is required, but better safe than sorry…
+    - "iptables - restart docker daemon"
 
-- name: Reload iptables rules
+- name: Reload iptables rules  # noqa: no-handler
   community.general.iptables_state:
     ip_version: "ip{{ item }}"
     path: /etc/iptables/rules.{{ item }}

@@ -1,5 +1,4 @@
 ---
-
 - name: Add the nginx apt repository to get latest updates
   ansible.builtin.deb822_repository:
     allow_insecure: false
