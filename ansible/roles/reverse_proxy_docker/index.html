@@ -7419,24 +7419,24 @@
 <h2 id="add-services-to-the-reverse-proxy">Add services to the reverse proxy<a class="headerlink" href="#add-services-to-the-reverse-proxy" title="Permanent link">#</a></h2>
 <h3 id="setup-the-variables">Setup the variables<a class="headerlink" href="#setup-the-variables" title="Permanent link">#</a></h3>
 <p>In <code>host_vars/&lt;node_name&gt;/reverse-proxy.yml</code>, create a variable with the following shape:</p>
-<div class="highlight"><pre><span></span><code>reverse_proxy_docker__websites:
+<div class="highlight"><pre><span></span><code><span class="nt">reverse_proxy_docker__websites</span><span class="p">:</span>
 
-  - url: "example1.openfoodfacts.org"
-    proxy_pass: "example1-webserver:80"
-  - url: "example2.openfoodfacts.org"
-    proxy_pass: "example2-webserver:80"
-    username: "off" # optional
-    password: "{{ secrets_off_password }}" # optional
-    public_path: ["/a-public/path"]
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">"example1.openfoodfacts.org"</span>
+<span class="w">    </span><span class="nt">proxy_pass</span><span class="p">:</span><span class="w"> </span><span class="s">"example1-webserver:80"</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">"example2.openfoodfacts.org"</span>
+<span class="w">    </span><span class="nt">proxy_pass</span><span class="p">:</span><span class="w"> </span><span class="s">"example2-webserver:80"</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">"off"</span><span class="w"> </span><span class="c1"># optional</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">secrets_off_password</span><span class="nv"> </span><span class="s">}}"</span><span class="w"> </span><span class="c1"># optional</span>
+<span class="w">    </span><span class="nt">public_path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"/a-public/path"</span><span class="p p-Indicator">]</span>
 
-reverse_proxy_docker__https_cert_domains:
+<span class="nt">reverse_proxy_docker__https_cert_domains</span><span class="p">:</span>
 
-  - "openfoodfacts.org" # that's actually the default
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"openfoodfacts.org"</span><span class="w"> </span><span class="c1"># that's actually the default</span>
 </code></pre></div>
 <p>In <code>host_vars/&lt;node_name&gt;/reverse-proxy-secrets.yml</code>, create a variable with the following shape:</p>
-<div class="highlight"><pre><span></span><code>reverse_proxy_docker__certbot_ovh_application_key: "[...]"
-reverse_proxy_docker__certbot_ovh_application_secret: "[...]"
-reverse_proxy_docker__certbot_ovh_consumer_key: "[...]"
+<div class="highlight"><pre><span></span><code><span class="nt">reverse_proxy_docker__certbot_ovh_application_key</span><span class="p">:</span><span class="w"> </span><span class="s">"[...]"</span>
+<span class="nt">reverse_proxy_docker__certbot_ovh_application_secret</span><span class="p">:</span><span class="w"> </span><span class="s">"[...]"</span>
+<span class="nt">reverse_proxy_docker__certbot_ovh_consumer_key</span><span class="p">:</span><span class="w"> </span><span class="s">"[...]"</span>
 </code></pre></div>
 <p>In this example, the task will create a <code>nginx</code> configuration that passes:</p>
 <ul>
@@ -7456,29 +7456,29 @@ reverse_proxy_docker__certbot_ovh_consumer_key: "[...]"
 <h3 id="configure-the-webserver-container">Configure the webserver container<a class="headerlink" href="#configure-the-webserver-container" title="Permanent link">#</a></h3>
 <h4 id="when-the-reverse-proxy-and-the-webserver-are-on-the-same-host">When the reverse proxy and the webserver are on the same host<a class="headerlink" href="#when-the-reverse-proxy-and-the-webserver-are-on-the-same-host" title="Permanent link">#</a></h4>
 <p>The docker compose of the service should look like:</p>
-<div class="highlight"><pre><span></span><code>services:
-  example1-webserver:
-    build: .
-    restart: unless-stopped
-    networks:
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">example1-webserver</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
 
-      - reverse_proxy_network
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reverse_proxy_network</span>
 
-networks:
-  reverse_proxy_network:
-    external: true
+<span class="nt">networks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">reverse_proxy_network</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 <p>Adding the <code>reverse_proxy_network</code> allows the reverse proxy and the webserver to communicate.</p>
 <p>⚠️ You should <strong>NOT</strong> use <code>ports:</code> in the docker compose, this network should be enough. Moreover, only apply the <code>reverse_proxy_network</code> to services that need access to internet. For exemple, a database only used locally shouldn't be connected to <code>reverse_proxy_network</code>.</p>
 <h4 id="when-the-reverse-proxy-and-the-webserver-are-not-on-the-same-host">When the reverse proxy and the webserver are NOT on the same host<a class="headerlink" href="#when-the-reverse-proxy-and-the-webserver-are-not-on-the-same-host" title="Permanent link">#</a></h4>
 <p>The docker compose of the service should look like:</p>
-<div class="highlight"><pre><span></span><code>services:
-  example1-webserver:
-    build: .
-    restart: unless-stopped
-    ports:
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">example1-webserver</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
 
-      - "7777:7777" # or other ports...
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"7777:7777"</span><span class="w"> </span><span class="c1"># or other ports...</span>
 </code></pre></div>
 <p>In that case, it is necessary to open port(s).</p>
 <h2 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">#</a></h2>

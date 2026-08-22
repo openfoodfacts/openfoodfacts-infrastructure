@@ -7270,9 +7270,9 @@
 Those are used to setup a CI/CD using GitHub Actions.</p>
 <h2 id="setup-a-new-node">Setup a new node<a class="headerlink" href="#setup-a-new-node" title="Permanent link">#</a></h2>
 <p>To setup a new node, create a file called <code>host_vars/&lt;node_name&gt;/continuous-deployment.yml</code> with the following variable:</p>
-<div class="highlight"><pre><span></span><code>continuous_deployment__ssh_public_keys:
+<div class="highlight"><pre><span></span><code><span class="nt">continuous_deployment__ssh_public_keys</span><span class="p">:</span>
 
-  - "ssh-ed25519 AAAAC3Nz[...] off@&lt;node_name&gt;"
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"ssh-ed25519</span><span class="nv"> </span><span class="s">AAAAC3Nz[...]</span><span class="nv"> </span><span class="s">off@&lt;node_name&gt;"</span>
 </code></pre></div>
 <p>The SSH public keys put in this are used to authenticate the deployer users.
 The corresponding private key should be added to the GitHub Actions secrets
