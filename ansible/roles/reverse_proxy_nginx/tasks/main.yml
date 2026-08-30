@@ -75,3 +75,5 @@
   git_based_config_symlinks:
     src: "{{ reverse_proxy_nginx__nginx_git_config_path }}"
     dst: "/etc/nginx"
+  notify:
+    - Reverse_proxy_nginx__reload_nginx
