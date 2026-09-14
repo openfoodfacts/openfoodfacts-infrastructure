@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const CSVLink = document.getElementsByClassName("export-links")[0].lastChild.href;
         // Delete limit X
         // TODO: this method can lead to issues if limit xx is commented
-        const csv_request_wo_limit = CSVLink.replace(/limit([\+]*(%0D%0A)*[\+]*)*\d+/gi, "");
+        const csv_request_wo_limit = CSVLink.replace(/limit(?:\+|%0D%0A)*\d+/gi, "");
         // Add new link
         const export_links = document.getElementsByClassName("export-links")[0];
         export_links.innerHTML += ', <a id="csv-without-limit-link" href="' + csv_request_wo_limit + '" download>CSV without limit</a>';
