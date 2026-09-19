@@ -65,6 +65,7 @@ We put a basic authentication on the staging wiki to avoid being indexed by sear
   |---|---|---|---|---|
   | FontAwesome | 1.0 | 4.1.0 | ✅ | - |
   | UniversalLanguageSelector | 2024-07-16 | 2025.03 | ✅ | later versions are not compatible with MediaWiki 1.43 |
+  | Matomo | 4.0.1 | 5.0.0 | ✅ | - |
 
 ## 2025-12 upgrade notes
 
