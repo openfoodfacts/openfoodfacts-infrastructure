@@ -67,6 +67,7 @@ We put a basic authentication on the staging wiki to avoid being indexed by sear
   | UniversalLanguageSelector | 2024-07-16 | 2025.03 | ✅ | later versions are not compatible with MediaWiki 1.43 |
   | Matomo | 4.0.1 | 5.0.0 | ✅ | - |
   | ExternalData | 3.4 | 3.6.1 | ✅ | 2.4 was installed on test, but not enabled |
+  | FlexDiagrams | 0.5.1 | 1.0 | ❌ | - |
 
 ## 2025-12 upgrade notes
 
