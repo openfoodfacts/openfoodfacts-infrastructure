@@ -61,8 +61,9 @@ We put a basic authentication on the staging wiki to avoid being indexed by sear
 * MediaWiki itself was upgraded from 1.43.5 to 1.43.9. The upgrade steps from [2025](#2025-12-upgrade-notes) were followed, and the upgrade was unremarkable (which is a good thing in this case 😉).
 * Several extensions were heavily outdated, which might introduce security issues or issues when upgrading to the next LTS. Some extensions were moved from a manual setup to [`composer`](https://www.entropywins.wtf/blog/2013/11/24/upgrading-an-extension-that-now-uses-composer/) to ease the following upgrades. The following table lists extensions upgraded in this batch.
   
-  |Extension|Old Version|New Version|Migrated to `composer`|Issues/Remarks for the upgrade|
-  |-|-|-|-|-|
+  | Extension | Old Version | New Version | Migrated to `composer` | Issues/Remarks for the upgrade |
+  |---|---|---|---|---|
+  | FontAwesome | 1.0 | 4.1.0 | ✅ | - |
 
 ## 2025-12 upgrade notes
 
