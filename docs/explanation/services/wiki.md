@@ -68,6 +68,8 @@ We put a basic authentication on the staging wiki to avoid being indexed by sear
   | Matomo | 4.0.1 | 5.0.0 | ✅ | - |
   | ExternalData | 3.4 | 3.6.1 | ✅ | 2.4 was installed on test, but not enabled |
   | FlexDiagrams | 0.5.1 | 1.0 | ❌ | - |
+  | PluggableAuth | 7.5.0 | 7.5.0 | ✅ | no update, just moved to `composer.local.json` |
+  | OpenID Connect | 8.3.0 | 8.3.0 | ✅ | no update, just moved to `composer.local.json` |
 
 ## 2025-12 upgrade notes
 
