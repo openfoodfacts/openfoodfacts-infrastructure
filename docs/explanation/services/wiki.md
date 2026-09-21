@@ -1,19 +1,15 @@
-
-
 ## Key points
 
 * Open Food Facts wiki is based on [MediaWiki](https://www.mediawiki.org/) wiki engine.
-* It is hosted on a Debian 11 server with Apache2, PHP-FPM (Sury) and MariaDB.
+* It is hosted on a Debian 12 server with Apache2, PHP-FPM (Sury) and MariaDB.
 * It is installed on a LXC container managed by Proxmox VE: CT 141 on ovh1 server.
-* In 2025-12, we upgrated MediaWiki 1.35.2 to 1.43.
-
+* In 2025-12, we upgraded MediaWiki 1.35.2 to 1.43.
 
 ## Good practices
 
 * We don't install too much extensions, to avoid security issues and performance problems.
 * Every new extension should be discussed with the team before installation.
 * We use a staging environment to test updates before applying them on production.
-
 
 ## Extensions
 
@@ -55,13 +51,25 @@ Other extensions that could be useful in the future:
 
 * SlackNotifications: https://www.mediawiki.org/wiki/Extension:SlackNotifications ; we were using it in the past but "This extension is incompatible with MediaWiki 1.39 or any later release!"
 
-
-
 ## Staging
 
 We put a basic authentication on the staging wiki to avoid being indexed by search engines and accessed by unauthorized users. It can leads to issues with VisualEditor and REST API if not properly configured.
 
+## 2026-09 upgrade notes
 
+* Debian was upgraded from 11 to 12. See the [separate report](../../reports/2026-09-14-ovh1-104-debian-upgrade.md) for more information.
+* MediaWiki itself was upgraded from 1.43.5 to 1.43.9. The upgrade steps from [2025](#2025-12-upgrade-notes) were followed, and the upgrade was unremarkable (which is a good thing in this case 😉).
+* Several extensions were heavily outdated, which might introduce security issues or issues when upgrading to the next LTS. Some extensions were moved from a manual setup to [`composer`](https://www.entropywins.wtf/blog/2013/11/24/upgrading-an-extension-that-now-uses-composer/) to ease the following upgrades. The following table lists extensions upgraded in this batch.
+  
+  | Extension | Old Version | New Version | Migrated to `composer` | Issues/Remarks for the upgrade |
+  |---|---|---|---|---|
+  | FontAwesome | 1.0 | 4.1.0 | ✅ | - |
+  | UniversalLanguageSelector | 2024-07-16 | 2025.03 | ✅ | later versions are not compatible with MediaWiki 1.43 |
+  | Matomo | 4.0.1 | 5.0.0 | ✅ | - |
+  | ExternalData | 3.4 | 3.6.1 | ✅ | 2.4 was installed on test, but not enabled |
+  | FlexDiagrams | 0.5.1 | 1.0 | ❌ | - |
+  | PluggableAuth | 7.5.0 | 7.5.0 | ✅ | no update, just moved to `composer.local.json` |
+  | OpenID Connect | 8.3.0 | 8.3.0 | ✅ | no update, just moved to `composer.local.json` |
 
 ## 2025-12 upgrade notes
 
