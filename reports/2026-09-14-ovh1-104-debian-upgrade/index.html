@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2025-07-08-zpool-failure-on-hetzner-01/">
+        <link rel="prev" href="../2026-08-10-superset-upgrade-issue/">
       
-      
-        <link rel="next" href="../2025-08-19-ovh3-disk-replace/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2025-08-07 testing virtiofs - Open Food Facts Infrastructure documentation</title>
+        <title>2026-09-14 OVH1 104 (wiki) Debian Upgrade - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025-08-07-testing-virtiofs" class="md-skip">
+        <a href="#2026-09-14-ovh1-104-wiki-debian-upgrade" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025-08-07 testing virtiofs
+              2026-09-14 OVH1 104 (wiki) Debian Upgrade
             
           </span>
         </div>
@@ -5920,37 +5918,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2025-08-07 testing virtiofs
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2025-08-07-testing-virtiofs/" class="md-nav__link">
         
   
   
@@ -5966,98 +5937,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#preparing-a-datasets-on-host" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Preparing a datasets on host
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-template-vm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating a template VM
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-virtiofs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Testing virtiofs
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing virtiofs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#submounts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Submounts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#access-problem-for-non-root-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Access problem for non root user
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#some-perfs-measurement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Some perfs measurement
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -7215,10 +7094,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-09-14-ovh1-104-debian-upgrade/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09-14 OVH1 104 (wiki) Debian Upgrade
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -7234,6 +7140,37 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-from-10-to-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade from 10 to 11
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -7273,74 +7210,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#preparing-a-datasets-on-host" class="md-nav__link">
+  <a href="#upgrade-from-10-to-11" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparing a datasets on host
+        Upgrade from 10 to 11
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-template-vm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating a template VM
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-virtiofs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Testing virtiofs
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing virtiofs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#submounts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Submounts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#access-problem-for-non-root-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Access problem for non root user
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#some-perfs-measurement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Some perfs measurement
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -7361,7 +7237,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2025-08-07-testing-virtiofs.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-09-14-ovh1-104-debian-upgrade.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -7369,218 +7245,226 @@
   
 
 
-<h1 id="2025-08-07-testing-virtiofs">2025-08-07 testing virtiofs<a class="headerlink" href="#2025-08-07-testing-virtiofs" title="Permanent link">#</a></h1>
-<h2 id="preparing-a-datasets-on-host">Preparing a datasets on host<a class="headerlink" href="#preparing-a-datasets-on-host" title="Permanent link">#</a></h2>
-<h2 id="creating-a-template-vm">Creating a template VM<a class="headerlink" href="#creating-a-template-vm" title="Permanent link">#</a></h2>
-<p>following https://slash-root.fr/proxmox-template-debian12-avec-cloud-init/
-but I will name it 999</p>
-<p>on hetzner-02 as root:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/alex
-wget<span class="w"> </span>https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2
-apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libguestfs-tools
-virt-customize<span class="w"> </span>-a<span class="w"> </span>debian-12-generic-amd64.qcow2<span class="w"> </span>--install<span class="w"> </span>qemu-guest-agent
-
-<span class="c1"># create the VM vmbr1 is the private bridge on hetzner-02</span>
-qm<span class="w"> </span>create<span class="w"> </span><span class="m">999</span><span class="w"> </span>--name<span class="w"> </span>debian12-cloudinit<span class="w"> </span>--net0<span class="w"> </span>virtio,bridge<span class="o">=</span>vmbr1<span class="w"> </span>--scsihw<span class="w"> </span>virtio-scsi-single
-<span class="c1"># add the disk, using rpool-pve</span>
-qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--scsi0<span class="w"> </span>rpool-pve:0,iothread<span class="o">=</span><span class="m">1</span>,backup<span class="o">=</span>off,format<span class="o">=</span>qcow2,import-from<span class="o">=</span>/home/alex/debian-12-generic-amd64.qcow2
-<span class="c1"># set boot</span>
-qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--boot<span class="w"> </span><span class="nv">order</span><span class="o">=</span>scsi0
-<span class="c1"># set some physical values</span>
-qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--cpu<span class="w"> </span>host<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">4096</span>
-<span class="c1"># add cloudinit</span>
-qm<span class="w"> </span><span class="nb">set</span><span class="w">  </span><span class="m">999</span><span class="w"> </span>--ide2<span class="w"> </span>local:cloudinit
-<span class="c1"># set qemu agent</span>
-qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">999</span><span class="w"> </span>--agent<span class="w"> </span><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
-<span class="c1"># make it a template</span>
-qm<span class="w"> </span>template<span class="w"> </span><span class="m">999</span>
-</code></pre></div>
-<p>Then right click on the template in Proxmox web interface,
-enables cloning. I did a full clone.</p>
-<p>Then after that, I can set the cloudinit to have:
-user: config-op
-password: <strong>*</strong>
-ssh public keys: I took the content of /root/.ssh/authorized_keys on hetzner-02
-IPConfig: IP: 10.12.1.200 and Gateway: 10.12.0.1</p>
-<h2 id="testing-virtiofs">Testing virtiofs<a class="headerlink" href="#testing-virtiofs" title="Permanent link">#</a></h2>
-<p>On the VM in hardware I added the virtiofs device, with folder id <code>qm-200-virtiofs</code>.
-I enabled acl since it makes sense as we have two linux systems.</p>
-<p>I ssh into the VM:
-</p><div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>config-op@10.12.1.200<span class="w"> </span>-J<span class="w"> </span>alex@hetzner-02
+<h1 id="2026-09-14-ovh1-104-wiki-debian-upgrade">2026-09-14 OVH1 104 (wiki) Debian Upgrade<a class="headerlink" href="#2026-09-14-ovh1-104-wiki-debian-upgrade" title="Permanent link">#</a></h1>
+<p>The wiki was still running a Debian Bullseye 11.11. I upgraded the
+OS to Debian Bookworm 12.15, which is still in support today.</p>
+<h2 id="upgrade-from-10-to-11">Upgrade from 10 to 11<a class="headerlink" href="#upgrade-from-10-to-11" title="Permanent link">#</a></h2>
+<ol>
+<li>
+<p>Commended all sources in I <code>/etc/apt/sources.list</code> and created
+   <code>/etc/apt/sources.list.d/debian.sources</code> in deb822 format for
+   easier updates in the future, and changed the code name from buster to bullseye
+   in <code>/etc/apt/sources.list.d/extrepo_sury.sources</code></p>
+</li>
+<li>
+<p>I updated the system step by step:</p>
+<p>* <code>apt update</code>
+  * <code>apt upgrade --without-new-pkgs</code>
+  * <code>apt full-upgrade</code></p>
+</li>
+<li>
+<p>During the installation process several questions arose:</p>
+<ul>
+<li>changes in <code>/etc/sudoers</code>: get maintainer file,
+   but afterward, restore the %sudo line with <code>%sudo ALL=(ALL) NOPASSWD: ALL</code></li>
+</ul>
+</li>
+<li>
+<p>The <code>apt full-upgrade</code> did exit with errors the first time
+   </p><div class="highlight"><pre><span></span><code>E:<span class="w"> </span>Sub-process<span class="w"> </span>/usr/bin/dpkg<span class="w"> </span>returned<span class="w"> </span>an<span class="w"> </span>error<span class="w"> </span>code<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>
 </code></pre></div><p></p>
-<p>Then I can mount the folder: 
-</p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>bash
-mkdir<span class="w"> </span>/opt/virtiofs
-mount<span class="w"> </span>-t<span class="w"> </span>virtiofs<span class="w"> </span>qm-200-virtiofs<span class="w"> </span>/opt/virtiofs
-ls<span class="w"> </span>/opt/virtiofs
-qm-200-virtiofs.txt<span class="w">  </span><span class="nb">test</span>
-ls<span class="w"> </span>/opt/virtiofs/test
-qm-200-virtiofs-test.txt
-</code></pre></div><p></p>
-<h3 id="submounts">Submounts<a class="headerlink" href="#submounts" title="Permanent link">#</a></h3>
-<p>The point I wanted to verify is that I can have submounts.</p>
-<p>And the test above is showing that this is ok.</p>
-<p>I wanted to be sure though that we use virtiofs with <code>--announce-submounts</code>
-because otherwise it can leads to inconsistencies for the guest system
-(because Inode ID would'nt appear unique).
-But proxmox automatically add this option, this can be seen in
-<code>/usr/share/perl5/PVE/QemuServer/Virtiofs.pm</code></p>
-<h3 id="access-problem-for-non-root-user">Access problem for non root user<a class="headerlink" href="#access-problem-for-non-root-user" title="Permanent link">#</a></h3>
-<p>After mounting the folder, config-op does not have access:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>whoami
-config-op
-$<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/opt/<span class="w"> </span>i
-total<span class="w"> </span><span class="m">4</span>
-drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Aug<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">16</span>:35<span class="w"> </span>virtiofs
-$<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/opt/virtiofs/
-ls:<span class="w"> </span>cannot<span class="w"> </span>open<span class="w"> </span>directory<span class="w"> </span><span class="s1">'/opt/virtiofs/'</span>:<span class="w"> </span>Operation<span class="w"> </span>not<span class="w"> </span>supported
+<p>Re-running it again made the issue visible: Mixed PHP setup with potentially bad/outdated configs:
+ </p><div class="highlight"><pre><span></span><code><span class="c1"># apt full-upgrade</span>
+Reading<span class="w"> </span>package<span class="w"> </span>lists...<span class="w"> </span>Done
+Building<span class="w"> </span>dependency<span class="w"> </span>tree...<span class="w"> </span>Done
+Reading<span class="w"> </span>state<span class="w"> </span>information...<span class="w"> </span>Done
+Calculating<span class="w"> </span>upgrade...<span class="w"> </span>Done
+The<span class="w"> </span>following<span class="w"> </span>packages<span class="w"> </span>were<span class="w"> </span>automatically<span class="w"> </span>installed<span class="w"> </span>and<span class="w"> </span>are<span class="w"> </span>no<span class="w"> </span>longer<span class="w"> </span>required:
+<span class="w">  </span>cpp-10<span class="w"> </span>libabsl20200923<span class="w"> </span>libaom0<span class="w"> </span>libatomic1<span class="w"> </span>libavif9<span class="w"> </span>libbpf0<span class="w"> </span>libcbor0<span class="w"> </span>libdav1d4<span class="w"> </span>libdns-export1110<span class="w"> </span>libgav1-0<span class="w"> </span>libgs9-common<span class="w"> </span>libicu67<span class="w"> </span>libilmbase25<span class="w"> </span>libisc-export1105<span class="w"> </span>libllvm11<span class="w"> </span>libmpdec3<span class="w"> </span>libnetpbm10<span class="w"> </span>libopenexr25<span class="w"> </span>libpcrecpp0v5<span class="w"> </span>libperl5.32<span class="w"> </span>libprocps8<span class="w"> </span>libpython3.9-minimal<span class="w"> </span>libpython3.9-stdlib<span class="w"> </span>libtiff5<span class="w"> </span>libvulkan1<span class="w"> </span>libwayland-client0<span class="w"> </span>libwebp6<span class="w"> </span>libwmf-0.2-7<span class="w"> </span>libwmf0.2-7<span class="w"> </span>libx265-192
+<span class="w">  </span>mariadb-server-10.5<span class="w"> </span>mesa-vulkan-drivers<span class="w"> </span>perl-modules-5.32<span class="w"> </span>php-symfony-polyfill-php80<span class="w"> </span>php7.4-curl<span class="w"> </span>php7.4-mysql<span class="w"> </span>php7.4-xml<span class="w"> </span>python3.9<span class="w"> </span>python3.9-minimal<span class="w"> </span>telnet<span class="w"> </span>ttf-dejavu-core
+Use<span class="w"> </span><span class="s1">'sudo apt autoremove'</span><span class="w"> </span>to<span class="w"> </span>remove<span class="w"> </span>them.
+<span class="m">0</span><span class="w"> </span>upgraded,<span class="w"> </span><span class="m">0</span><span class="w"> </span>newly<span class="w"> </span>installed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>remove<span class="w"> </span>and<span class="w"> </span><span class="m">0</span><span class="w"> </span>not<span class="w"> </span>upgraded.
+<span class="m">4</span><span class="w"> </span>not<span class="w"> </span>fully<span class="w"> </span>installed<span class="w"> </span>or<span class="w"> </span>removed.
+After<span class="w"> </span>this<span class="w"> </span>operation,<span class="w"> </span><span class="m">0</span><span class="w"> </span>B<span class="w"> </span>of<span class="w"> </span>additional<span class="w"> </span>disk<span class="w"> </span>space<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>used.
+Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>continue?<span class="w"> </span><span class="o">[</span>Y/n<span class="o">]</span><span class="w"> </span>y
+Setting<span class="w"> </span>up<span class="w"> </span>php7.4-fpm<span class="w"> </span><span class="o">(</span><span class="m">1</span>:7.4.33-30+0~20260703.120+debian12~1.gbp1cce3b<span class="o">)</span><span class="w"> </span>...
+NOTICE:<span class="w"> </span>Not<span class="w"> </span>enabling<span class="w"> </span>PHP<span class="w"> </span><span class="m">7</span>.4<span class="w"> </span>FPM<span class="w"> </span>by<span class="w"> </span>default.
+NOTICE:<span class="w"> </span>To<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>PHP<span class="w"> </span><span class="m">7</span>.4<span class="w"> </span>FPM<span class="w"> </span><span class="k">in</span><span class="w"> </span>Apache2<span class="w"> </span><span class="k">do</span>:
+NOTICE:<span class="w"> </span>a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+NOTICE:<span class="w"> </span>a2enconf<span class="w"> </span>php7.4-fpm
+NOTICE:<span class="w"> </span>You<span class="w"> </span>are<span class="w"> </span>seeing<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>because<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>apache2<span class="w"> </span>package<span class="w"> </span>installed.
+Job<span class="w"> </span><span class="k">for</span><span class="w"> </span>php7.4-fpm.service<span class="w"> </span>failed<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>process<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error<span class="w"> </span>code.
+See<span class="w"> </span><span class="s2">"systemctl status php7.4-fpm.service"</span><span class="w"> </span>and<span class="w"> </span><span class="s2">"journalctl -xeu php7.4-fpm.service"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+invoke-rc.d:<span class="w"> </span>initscript<span class="w"> </span>php7.4-fpm,<span class="w"> </span>action<span class="w"> </span><span class="s2">"restart"</span><span class="w"> </span>failed.
+●<span class="w"> </span>php7.4-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">7</span>.4<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager
+<span class="w">     </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/lib/systemd/system/php7.4-fpm.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>preset:<span class="w"> </span>enabled<span class="o">)</span>
+<span class="w">     </span>Active:<span class="w"> </span>activating<span class="w"> </span><span class="o">(</span>auto-restart<span class="o">)</span><span class="w"> </span><span class="o">(</span>Result:<span class="w"> </span>exit-code<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span><span class="m">2026</span>-09-14<span class="w"> </span><span class="m">20</span>:08:53<span class="w"> </span>UTC<span class="p">;</span><span class="w"> </span>8ms<span class="w"> </span>ago
+<span class="w">       </span>Docs:<span class="w"> </span>man:php-fpm7.4<span class="o">(</span><span class="m">8</span><span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">13320</span><span class="w"> </span><span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/php-fpm7.4<span class="w"> </span>--nodaemonize<span class="w"> </span>--fpm-config<span class="w"> </span>/etc/php/7.4/fpm/php-fpm.conf<span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">13321</span><span class="w"> </span><span class="nv">ExecStopPost</span><span class="o">=</span>/usr/lib/php/php-fpm-socket-helper<span class="w"> </span>remove<span class="w"> </span>/run/php/php-fpm.sock<span class="w"> </span>/etc/php/7.4/fpm/pool.d/www.conf<span class="w"> </span><span class="m">74</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">   </span>Main<span class="w"> </span>PID:<span class="w"> </span><span class="m">13320</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php7.4-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>installed<span class="w"> </span>php7.4-fpm<span class="w"> </span>package<span class="w"> </span>post-installation<span class="w"> </span>script<span class="w"> </span>subprocess<span class="w"> </span>returned<span class="w"> </span>error<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
+Setting<span class="w"> </span>up<span class="w"> </span>php8.3-fpm<span class="w"> </span><span class="o">(</span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="o">)</span><span class="w"> </span>...
+NOTICE:<span class="w"> </span>Not<span class="w"> </span>enabling<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.3<span class="w"> </span>FPM<span class="w"> </span>by<span class="w"> </span>default.
+NOTICE:<span class="w"> </span>To<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.3<span class="w"> </span>FPM<span class="w"> </span><span class="k">in</span><span class="w"> </span>Apache2<span class="w"> </span><span class="k">do</span>:
+NOTICE:<span class="w"> </span>a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+NOTICE:<span class="w"> </span>a2enconf<span class="w"> </span>php8.3-fpm
+NOTICE:<span class="w"> </span>You<span class="w"> </span>are<span class="w"> </span>seeing<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>because<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>apache2<span class="w"> </span>package<span class="w"> </span>installed.
+Job<span class="w"> </span><span class="k">for</span><span class="w"> </span>php8.3-fpm.service<span class="w"> </span>failed<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>process<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error<span class="w"> </span>code.
+See<span class="w"> </span><span class="s2">"systemctl status php8.3-fpm.service"</span><span class="w"> </span>and<span class="w"> </span><span class="s2">"journalctl -xeu php8.3-fpm.service"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+invoke-rc.d:<span class="w"> </span>initscript<span class="w"> </span>php8.3-fpm,<span class="w"> </span>action<span class="w"> </span><span class="s2">"restart"</span><span class="w"> </span>failed.
+●<span class="w"> </span>php8.3-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.3<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager
+<span class="w">     </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/lib/systemd/system/php8.3-fpm.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>preset:<span class="w"> </span>enabled<span class="o">)</span>
+<span class="w">     </span>Active:<span class="w"> </span>activating<span class="w"> </span><span class="o">(</span>auto-restart<span class="o">)</span><span class="w"> </span><span class="o">(</span>Result:<span class="w"> </span>exit-code<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span><span class="m">2026</span>-09-14<span class="w"> </span><span class="m">20</span>:08:54<span class="w"> </span>UTC<span class="p">;</span><span class="w"> </span>9ms<span class="w"> </span>ago
+<span class="w">       </span>Docs:<span class="w"> </span>man:php-fpm8.3<span class="o">(</span><span class="m">8</span><span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">14625</span><span class="w"> </span><span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/php-fpm8.3<span class="w"> </span>--nodaemonize<span class="w"> </span>--fpm-config<span class="w"> </span>/etc/php/8.3/fpm/php-fpm.conf<span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">14626</span><span class="w"> </span><span class="nv">ExecStopPost</span><span class="o">=</span>/usr/lib/php/php-fpm-socket-helper<span class="w"> </span>remove<span class="w"> </span>/run/php/php-fpm.sock<span class="w"> </span>/etc/php/8.3/fpm/pool.d/www.conf<span class="w"> </span><span class="m">83</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">   </span>Main<span class="w"> </span>PID:<span class="w"> </span><span class="m">14625</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:08:54<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>php8.3-fpm.service:<span class="w"> </span>Failed<span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="s1">'exit-code'</span>.
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:08:54<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>start<span class="w"> </span>php8.3-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.3<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager.
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php8.3-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>installed<span class="w"> </span>php8.3-fpm<span class="w"> </span>package<span class="w"> </span>post-installation<span class="w"> </span>script<span class="w"> </span>subprocess<span class="w"> </span>returned<span class="w"> </span>error<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
+Setting<span class="w"> </span>up<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">(</span><span class="m">8</span>.4.25-1+0~20260828.55+debian12~1.gbp259445<span class="o">)</span><span class="w"> </span>...
+NOTICE:<span class="w"> </span>Not<span class="w"> </span>enabling<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FPM<span class="w"> </span>by<span class="w"> </span>default.
+NOTICE:<span class="w"> </span>To<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FPM<span class="w"> </span><span class="k">in</span><span class="w"> </span>Apache2<span class="w"> </span><span class="k">do</span>:
+NOTICE:<span class="w"> </span>a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+NOTICE:<span class="w"> </span>a2enconf<span class="w"> </span>php8.4-fpm
+NOTICE:<span class="w"> </span>You<span class="w"> </span>are<span class="w"> </span>seeing<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>because<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>apache2<span class="w"> </span>package<span class="w"> </span>installed.
+Job<span class="w"> </span><span class="k">for</span><span class="w"> </span>php8.4-fpm.service<span class="w"> </span>failed<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>process<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error<span class="w"> </span>code.
+See<span class="w"> </span><span class="s2">"systemctl status php8.4-fpm.service"</span><span class="w"> </span>and<span class="w"> </span><span class="s2">"journalctl -xeu php8.4-fpm.service"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+invoke-rc.d:<span class="w"> </span>initscript<span class="w"> </span>php8.4-fpm,<span class="w"> </span>action<span class="w"> </span><span class="s2">"start"</span><span class="w"> </span>failed.
+●<span class="w"> </span>php8.4-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager
+<span class="w">     </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/lib/systemd/system/php8.4-fpm.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>preset:<span class="w"> </span>enabled<span class="o">)</span>
+<span class="w">     </span>Active:<span class="w"> </span>activating<span class="w"> </span><span class="o">(</span>auto-restart<span class="o">)</span><span class="w"> </span><span class="o">(</span>Result:<span class="w"> </span>exit-code<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span><span class="m">2026</span>-09-14<span class="w"> </span><span class="m">20</span>:08:55<span class="w"> </span>UTC<span class="p">;</span><span class="w"> </span>9ms<span class="w"> </span>ago
+<span class="w">       </span>Docs:<span class="w"> </span>man:php-fpm8.4<span class="o">(</span><span class="m">8</span><span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">15837</span><span class="w"> </span><span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/php-fpm8.4<span class="w"> </span>--nodaemonize<span class="w"> </span>--fpm-config<span class="w"> </span>/etc/php/8.4/fpm/php-fpm.conf<span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">15838</span><span class="w"> </span><span class="nv">ExecStopPost</span><span class="o">=</span>/usr/lib/php/php-fpm-socket-helper<span class="w"> </span>remove<span class="w"> </span>/run/php/php-fpm.sock<span class="w"> </span>/etc/php/8.4/fpm/pool.d/www.conf<span class="w"> </span><span class="m">84</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">   </span>Main<span class="w"> </span>PID:<span class="w"> </span><span class="m">15837</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:08:55<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>php8.4-fpm.service:<span class="w"> </span>Failed<span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="s1">'exit-code'</span>.
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:08:55<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>start<span class="w"> </span>php8.4-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager.
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>installed<span class="w"> </span>php8.4-fpm<span class="w"> </span>package<span class="w"> </span>post-installation<span class="w"> </span>script<span class="w"> </span>subprocess<span class="w"> </span>returned<span class="w"> </span>error<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
+dpkg:<span class="w"> </span>dependency<span class="w"> </span>problems<span class="w"> </span>prevent<span class="w"> </span>configuration<span class="w"> </span>of<span class="w"> </span>php-fpm:
+<span class="w"> </span>php-fpm<span class="w"> </span>depends<span class="w"> </span>on<span class="w"> </span>php8.4-fpm<span class="p">;</span><span class="w"> </span>however:
+<span class="w">  </span>Package<span class="w"> </span>php8.4-fpm<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>configured<span class="w"> </span>yet.
+
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>dependency<span class="w"> </span>problems<span class="w"> </span>-<span class="w"> </span>leaving<span class="w"> </span>unconfigured
+Errors<span class="w"> </span>were<span class="w"> </span>encountered<span class="w"> </span><span class="k">while</span><span class="w"> </span>processing:
+<span class="w"> </span>php7.4-fpm
+<span class="w"> </span>php8.3-fpm
+<span class="w"> </span>php8.4-fpm
+<span class="w"> </span>php-fpm
+E:<span class="w"> </span>Sub-process<span class="w"> </span>/usr/bin/dpkg<span class="w"> </span>returned<span class="w"> </span>an<span class="w"> </span>error<span class="w"> </span>code<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>
 </code></pre></div>
-<p>I found the solution on this <a href="https://forum.proxmox.com/threads/anyone-else-having-issues-with-virtiofs-and-extended-attributes.167010/#post-787998">thread of proxmox forum</a></p>
-<p>We have to set <code>acltype</code> property to <code>posix</code> on the ZFS filesystem !
-As this is an inherited property I only have to setit on the parent dataset.
-</p><div class="highlight"><pre><span></span><code><span class="c1"># on hetzner-02</span>
-zfs<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">acltype</span><span class="o">=</span>posixacl<span class="w"> </span>rpool/qm-200-virtiofs
-</code></pre></div><p></p>
-<p>I also tried to change permissions and edit a file, it all works fine.</p>
-<h3 id="some-perfs-measurement">Some perfs measurement<a class="headerlink" href="#some-perfs-measurement" title="Permanent link">#</a></h3>
-<p>Using <a href="https://linux.die.net/man/1/fio">fio</a> <a href="https://askubuntu.com/a/991311/72061">inspired by this SO thread</a></p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>fio
+ <code>ls /etc/apache2/conf-enabled/*php*</code> showed <code>php8.3-fpm.conf</code> being present and <code>apt list --installed | grep php</code> showed that <code>php7.4-fpm</code>,
+ <code>php8.3-fpm</code>, <code>php8.4-fpm</code>, and <code>php8.5-fpm</code> were installed with several modules each.
+ I uninstalled all unnecessary PHP versions with <code>apt remove "^php(7\.4|8\.5).*"</code>,
+ then got the php8.3 modules that were installed previously:
+ <div class="highlight"><pre><span></span><code><span class="c1"># apt list --installed | grep php8.3</span>
+
+WARNING:<span class="w"> </span>apt<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>have<span class="w"> </span>a<span class="w"> </span>stable<span class="w"> </span>CLI<span class="w"> </span>interface.<span class="w"> </span>Use<span class="w"> </span>with<span class="w"> </span>caution<span class="w"> </span><span class="k">in</span><span class="w"> </span>scripts.
+
+php8.3-cli/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-common/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-curl/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-fpm/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-gd/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-imagick/bookworm,now<span class="w"> </span><span class="m">3</span>.8.1-1+0~20260621.55+debian12~1.gbpde1d95<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-imap/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-intl/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-mbstring/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-mysql/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-opcache/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-readline/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-xml/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
+php8.3-zip/bookworm,now<span class="w"> </span><span class="m">8</span>.3.33-1+0~20260730.86+debian12~1.gbp9ff550<span class="w"> </span>amd64<span class="w"> </span><span class="o">[</span>installed<span class="o">]</span>
 </code></pre></div>
-<p>Testing the virtiofs folder (using a filename located there)
-</p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="w"> </span>TEST<span class="w"> </span>--eta-newline<span class="o">=</span>5s<span class="w"> </span>--filename<span class="o">=</span>/opt/virtiofs/test/fio-tempfile.dat<span class="w"> </span>--rw<span class="o">=</span>randrw<span class="w"> </span>--size<span class="o">=</span>500m<span class="w"> </span>--io_size<span class="o">=</span>10g<span class="w"> </span>--blocksize<span class="o">=</span>4k<span class="w"> </span>--ioengine<span class="o">=</span>libaio<span class="w"> </span>--fsync<span class="o">=</span><span class="m">1</span><span class="w"> </span>--iodepth<span class="o">=</span><span class="m">1</span><span class="w"> </span>--direct<span class="o">=</span><span class="m">1</span><span class="w"> </span>--numjobs<span class="o">=</span><span class="m">1</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">60</span><span class="w"> </span>--group_reporting
-TEST:<span class="w"> </span><span class="o">(</span><span class="nv">g</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>:<span class="w"> </span><span class="nv">rw</span><span class="o">=</span>randrw,<span class="w"> </span><span class="nv">bs</span><span class="o">=(</span>R<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="o">(</span>W<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="o">(</span>T<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="nv">ioengine</span><span class="o">=</span>libaio,<span class="w"> </span><span class="nv">iodepth</span><span class="o">=</span><span class="m">1</span>
-fio-3.33
-Starting<span class="w"> </span><span class="m">1</span><span class="w"> </span>process
-TEST:<span class="w"> </span>Laying<span class="w"> </span>out<span class="w"> </span>IO<span class="w"> </span>file<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>file<span class="w"> </span>/<span class="w"> </span>500MiB<span class="o">)</span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">11</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.3MiB/s,w<span class="o">=</span><span class="m">17</span>.2MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4423</span>,w<span class="o">=</span><span class="m">4410</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:53s<span class="o">]</span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">21</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.5MiB/s,w<span class="o">=</span><span class="m">17</span>.5MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4470</span>,w<span class="o">=</span><span class="m">4487</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:47s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">31</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.6MiB/s,w<span class="o">=</span><span class="m">17</span>.1MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4494</span>,w<span class="o">=</span><span class="m">4377</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:41s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">41</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.3MiB/s,w<span class="o">=</span><span class="m">17</span>.6MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4425</span>,w<span class="o">=</span><span class="m">4500</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:35s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">51</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.0MiB/s,w<span class="o">=</span><span class="m">16</span>.1MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4104</span>,w<span class="o">=</span><span class="m">4112</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:29s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">61</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.2MiB/s,w<span class="o">=</span><span class="m">16</span>.9MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4408</span>,w<span class="o">=</span><span class="m">4327</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:23s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">71</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.1MiB/s,w<span class="o">=</span><span class="m">16</span>.9MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4378</span>,w<span class="o">=</span><span class="m">4316</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:17s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">81</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.9MiB/s,w<span class="o">=</span><span class="m">17</span>.5MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4333</span>,w<span class="o">=</span><span class="m">4474</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:11s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">91</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.6MiB/s,w<span class="o">=</span><span class="m">17</span>.6MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4499</span>,w<span class="o">=</span><span class="m">4509</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:05s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">100</span>.0%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.9MiB/s,w<span class="o">=</span><span class="m">17</span>.6MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4582</span>,w<span class="o">=</span><span class="m">4504</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:00s<span class="o">]</span>
-TEST:<span class="w"> </span><span class="o">(</span><span class="nv">groupid</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">jobs</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="nv">err</span><span class="o">=</span><span class="w"> </span><span class="m">0</span>:<span class="w"> </span><span class="nv">pid</span><span class="o">=</span><span class="m">983</span>:<span class="w"> </span>Fri<span class="w"> </span>Aug<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">10</span>:12:38<span class="w"> </span><span class="m">2025</span>
-<span class="w">  </span>read:<span class="w"> </span><span class="nv">IOPS</span><span class="o">=</span><span class="m">4495</span>,<span class="w"> </span><span class="nv">BW</span><span class="o">=</span><span class="m">17</span>.6MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4MB/s<span class="o">)(</span>1054MiB/60001msec<span class="o">)</span>
-<span class="w">    </span>slat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">282</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">19</span>.84,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">15</span>.33
-<span class="w">    </span>clat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">672</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">5918</span>.4k,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">29669</span>.59,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">12591</span>.65
-<span class="w">     </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">12</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">5923</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">49</span>.51,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">20</span>.17
-<span class="w">    </span>clat<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">20</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">22</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">26</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">29</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">29</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">30</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">30</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">30</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">31</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">31</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">32</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">36</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">48</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">   </span><span class="m">50</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">   </span><span class="m">59</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">   </span><span class="m">66</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">182</span><span class="o">]</span>
-<span class="w">   </span>bw<span class="w"> </span><span class="o">(</span><span class="w">  </span>KiB/s<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">14912</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">24792</span>,<span class="w"> </span><span class="nv">per</span><span class="o">=</span><span class="m">100</span>.00%,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">17985</span>.82,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">1422</span>.52,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">   </span>iops<span class="w">        </span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="w"> </span><span class="m">3728</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="w"> </span><span class="m">6198</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">4496</span>.45,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">355</span>.63,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">  </span>write:<span class="w"> </span><span class="nv">IOPS</span><span class="o">=</span><span class="m">4473</span>,<span class="w"> </span><span class="nv">BW</span><span class="o">=</span><span class="m">17</span>.5MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.3MB/s<span class="o">)(</span>1049MiB/60001msec<span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>zone<span class="w"> </span>resets
-<span class="w">    </span>slat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">15</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">341</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">37</span>.46,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="w"> </span><span class="m">3</span>.85
-<span class="w">    </span>clat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">549</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">295698</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">31041</span>.62,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">5790</span>.96
-<span class="w">     </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">30</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">400</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">68</span>.50,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.20
-<span class="w">    </span>clat<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">19</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">23</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">28</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">30</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">31</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">31</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">31</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">32</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">32</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">33</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">34</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">39</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">51</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">   </span><span class="m">53</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">   </span><span class="m">64</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">   </span><span class="m">78</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">194</span><span class="o">]</span>
-<span class="w">   </span>bw<span class="w"> </span><span class="o">(</span><span class="w">  </span>KiB/s<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">14920</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">24080</span>,<span class="w"> </span><span class="nv">per</span><span class="o">=</span><span class="m">100</span>.00%,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">17895</span>.53,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">1385</span>.93,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">   </span>iops<span class="w">        </span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="w"> </span><span class="m">3730</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="w"> </span><span class="m">6020</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">4473</span>.88,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">346</span>.48,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">750</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">1000</span><span class="o">=</span><span class="m">0</span>.01%
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">10</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">20</span><span class="o">=</span><span class="m">1</span>.52%,<span class="w"> </span><span class="nv">50</span><span class="o">=</span><span class="m">97</span>.59%,<span class="w"> </span><span class="nv">100</span><span class="o">=</span><span class="m">0</span>.85%,<span class="w"> </span><span class="nv">250</span><span class="o">=</span><span class="m">0</span>.03%
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">500</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">750</span><span class="o">=</span><span class="m">0</span>.01%
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>msec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">10</span><span class="o">=</span><span class="m">0</span>.01%
-<span class="w">  </span>fsync/fdatasync/sync_file_range:
-<span class="w">    </span>sync<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">25</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">17359</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">82</span>.62,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">74</span>.56
-<span class="w">    </span>sync<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">43</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">56</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">59</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">61</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">63</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">64</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">80</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">97</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">102</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">104</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">109</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">113</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">126</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">  </span><span class="m">133</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">  </span><span class="m">306</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">  </span><span class="m">445</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">553</span><span class="o">]</span>
-<span class="w">  </span>cpu<span class="w">          </span>:<span class="w"> </span><span class="nv">usr</span><span class="o">=</span><span class="m">2</span>.28%,<span class="w"> </span><span class="nv">sys</span><span class="o">=</span><span class="m">17</span>.38%,<span class="w"> </span><span class="nv">ctx</span><span class="o">=</span><span class="m">1478647</span>,<span class="w"> </span><span class="nv">majf</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">minf</span><span class="o">=</span><span class="m">14</span>
-<span class="w">  </span>IO<span class="w"> </span>depths<span class="w">    </span>:<span class="w"> </span><span class="nv">1</span><span class="o">=</span><span class="m">200</span>.0%,<span class="w"> </span><span class="nv">2</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span>submit<span class="w">    </span>:<span class="w"> </span><span class="nv">0</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">100</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span><span class="nb">complete</span><span class="w">  </span>:<span class="w"> </span><span class="nv">0</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">100</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span>issued<span class="w"> </span>rwts:<span class="w"> </span><span class="nv">total</span><span class="o">=</span><span class="m">269709</span>,268421,0,538127<span class="w"> </span><span class="nv">short</span><span class="o">=</span><span class="m">0</span>,0,0,0<span class="w"> </span><span class="nv">dropped</span><span class="o">=</span><span class="m">0</span>,0,0,0
-<span class="w">     </span>latency<span class="w">   </span>:<span class="w"> </span><span class="nv">target</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">window</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">percentile</span><span class="o">=</span><span class="m">100</span>.00%,<span class="w"> </span><span class="nv">depth</span><span class="o">=</span><span class="m">1</span>
+ And removed PHP 8.3, too, using <code>apt remove "^php8\.3.*"</code>.<p></p>
+<p>The full-upgrade still reported failing php8.4-fpm startup:
+ </p><div class="highlight"><pre><span></span><code><span class="c1"># apt full-upgrade</span>
+Reading<span class="w"> </span>package<span class="w"> </span>lists...<span class="w"> </span>Done
+Building<span class="w"> </span>dependency<span class="w"> </span>tree...<span class="w"> </span>Done
+Reading<span class="w"> </span>state<span class="w"> </span>information...<span class="w"> </span>Done
+Calculating<span class="w"> </span>upgrade...<span class="w"> </span>Done
+The<span class="w"> </span>following<span class="w"> </span>packages<span class="w"> </span>were<span class="w"> </span>automatically<span class="w"> </span>installed<span class="w"> </span>and<span class="w"> </span>are<span class="w"> </span>no<span class="w"> </span>longer<span class="w"> </span>required:
+<span class="w">  </span>cpp-10<span class="w"> </span>libabsl20200923<span class="w"> </span>libabsl20220623<span class="w"> </span>libaom0<span class="w"> </span>libatomic1<span class="w"> </span>libavif15<span class="w"> </span>libavif9<span class="w"> </span>libbpf0<span class="w"> </span>libc-client2007e<span class="w"> </span>libcbor0<span class="w"> </span>libdav1d4<span class="w"> </span>libdns-export1110<span class="w"> </span>libgav1-0<span class="w"> </span>libgav1-1<span class="w"> </span>libgd3<span class="w"> </span>libgs9-common<span class="w"> </span>libicu67<span class="w"> </span>libilmbase25<span class="w"> </span>libimagequant0<span class="w"> </span>libisc-export1105<span class="w"> </span>libllvm11<span class="w"> </span>libmpdec3<span class="w"> </span>libnetpbm10<span class="w"> </span>libopenexr25<span class="w"> </span>libpcrecpp0v5<span class="w"> </span>libperl5.32<span class="w"> </span>libprocps8<span class="w"> </span>libpython3.9-minimal<span class="w"> </span>libpython3.9-stdlib<span class="w"> </span>librav1e0
+<span class="w">  </span>libsvtav1enc1<span class="w"> </span>libtiff5<span class="w"> </span>libvulkan1<span class="w"> </span>libwayland-client0<span class="w"> </span>libwebp6<span class="w"> </span>libwmf-0.2-7<span class="w"> </span>libwmf0.2-7<span class="w"> </span>libx265-192<span class="w"> </span>libyuv0<span class="w"> </span>mariadb-server-10.5<span class="w"> </span>mesa-vulkan-drivers<span class="w"> </span>mlock<span class="w"> </span>perl-modules-5.32<span class="w"> </span>php-symfony-polyfill-php80<span class="w"> </span>python3.9<span class="w"> </span>python3.9-minimal<span class="w"> </span>telnet<span class="w"> </span>ttf-dejavu-core
+Use<span class="w"> </span><span class="s1">'sudo apt autoremove'</span><span class="w"> </span>to<span class="w"> </span>remove<span class="w"> </span>them.
+<span class="m">0</span><span class="w"> </span>upgraded,<span class="w"> </span><span class="m">0</span><span class="w"> </span>newly<span class="w"> </span>installed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>remove<span class="w"> </span>and<span class="w"> </span><span class="m">0</span><span class="w"> </span>not<span class="w"> </span>upgraded.
+<span class="m">2</span><span class="w"> </span>not<span class="w"> </span>fully<span class="w"> </span>installed<span class="w"> </span>or<span class="w"> </span>removed.
+After<span class="w"> </span>this<span class="w"> </span>operation,<span class="w"> </span><span class="m">0</span><span class="w"> </span>B<span class="w"> </span>of<span class="w"> </span>additional<span class="w"> </span>disk<span class="w"> </span>space<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>used.
+Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>continue?<span class="w"> </span><span class="o">[</span>Y/n<span class="o">]</span><span class="w"> </span>y
+Setting<span class="w"> </span>up<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">(</span><span class="m">8</span>.4.25-1+0~20260828.55+debian12~1.gbp259445<span class="o">)</span><span class="w"> </span>...
+NOTICE:<span class="w"> </span>Not<span class="w"> </span>enabling<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FPM<span class="w"> </span>by<span class="w"> </span>default.
+NOTICE:<span class="w"> </span>To<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FPM<span class="w"> </span><span class="k">in</span><span class="w"> </span>Apache2<span class="w"> </span><span class="k">do</span>:
+NOTICE:<span class="w"> </span>a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif
+NOTICE:<span class="w"> </span>a2enconf<span class="w"> </span>php8.4-fpm
+NOTICE:<span class="w"> </span>You<span class="w"> </span>are<span class="w"> </span>seeing<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>because<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>apache2<span class="w"> </span>package<span class="w"> </span>installed.
+Job<span class="w"> </span><span class="k">for</span><span class="w"> </span>php8.4-fpm.service<span class="w"> </span>failed<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>process<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error<span class="w"> </span>code.
+See<span class="w"> </span><span class="s2">"systemctl status php8.4-fpm.service"</span><span class="w"> </span>and<span class="w"> </span><span class="s2">"journalctl -xeu php8.4-fpm.service"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+invoke-rc.d:<span class="w"> </span>initscript<span class="w"> </span>php8.4-fpm,<span class="w"> </span>action<span class="w"> </span><span class="s2">"start"</span><span class="w"> </span>failed.
+●<span class="w"> </span>php8.4-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager
+<span class="w">     </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/lib/systemd/system/php8.4-fpm.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>preset:<span class="w"> </span>enabled<span class="o">)</span>
+<span class="w">     </span>Active:<span class="w"> </span>activating<span class="w"> </span><span class="o">(</span>auto-restart<span class="o">)</span><span class="w"> </span><span class="o">(</span>Result:<span class="w"> </span>exit-code<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Mon<span class="w"> </span><span class="m">2026</span>-09-14<span class="w"> </span><span class="m">20</span>:29:51<span class="w"> </span>UTC<span class="p">;</span><span class="w"> </span>8ms<span class="w"> </span>ago
+<span class="w">       </span>Docs:<span class="w"> </span>man:php-fpm8.4<span class="o">(</span><span class="m">8</span><span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">34808</span><span class="w"> </span><span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/php-fpm8.4<span class="w"> </span>--nodaemonize<span class="w"> </span>--fpm-config<span class="w"> </span>/etc/php/8.4/fpm/php-fpm.conf<span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">    </span>Process:<span class="w"> </span><span class="m">34809</span><span class="w"> </span><span class="nv">ExecStopPost</span><span class="o">=</span>/usr/lib/php/php-fpm-socket-helper<span class="w"> </span>remove<span class="w"> </span>/run/php/php-fpm.sock<span class="w"> </span>/etc/php/8.4/fpm/pool.d/www.conf<span class="w"> </span><span class="m">84</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
+<span class="w">   </span>Main<span class="w"> </span>PID:<span class="w"> </span><span class="m">34808</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited,<span class="w"> </span><span class="nv">status</span><span class="o">=</span><span class="m">226</span>/NAMESPACE<span class="o">)</span>
 
-Run<span class="w"> </span>status<span class="w"> </span>group<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>all<span class="w"> </span><span class="nb">jobs</span><span class="o">)</span>:
-<span class="w">   </span>READ:<span class="w"> </span><span class="nv">bw</span><span class="o">=</span><span class="m">17</span>.6MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4MB/s<span class="o">)</span>,<span class="w"> </span><span class="m">17</span>.6MiB/s-17.6MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4MB/s-18.4MB/s<span class="o">)</span>,<span class="w"> </span><span class="nv">io</span><span class="o">=</span>1054MiB<span class="w"> </span><span class="o">(</span>1105MB<span class="o">)</span>,<span class="w"> </span><span class="nv">run</span><span class="o">=</span><span class="m">60001</span>-60001msec
-<span class="w">  </span>WRITE:<span class="w"> </span><span class="nv">bw</span><span class="o">=</span><span class="m">17</span>.5MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.3MB/s<span class="o">)</span>,<span class="w"> </span><span class="m">17</span>.5MiB/s-17.5MiB/s<span class="w"> </span><span class="o">(</span><span class="m">18</span>.3MB/s-18.3MB/s<span class="o">)</span>,<span class="w"> </span><span class="nv">io</span><span class="o">=</span>1049MiB<span class="w"> </span><span class="o">(</span>1099MB<span class="o">)</span>,<span class="w"> </span><span class="nv">run</span><span class="o">=</span><span class="m">60001</span>-60001msec
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:29:51<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>php8.4-fpm.service:<span class="w"> </span>Failed<span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="s1">'exit-code'</span>.
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:29:51<span class="w"> </span>wiki<span class="w"> </span>systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>start<span class="w"> </span>php8.4-fpm.service<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>PHP<span class="w"> </span><span class="m">8</span>.4<span class="w"> </span>FastCGI<span class="w"> </span>Process<span class="w"> </span>Manager.
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>installed<span class="w"> </span>php8.4-fpm<span class="w"> </span>package<span class="w"> </span>post-installation<span class="w"> </span>script<span class="w"> </span>subprocess<span class="w"> </span>returned<span class="w"> </span>error<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
+dpkg:<span class="w"> </span>dependency<span class="w"> </span>problems<span class="w"> </span>prevent<span class="w"> </span>configuration<span class="w"> </span>of<span class="w"> </span>php-fpm:
+<span class="w"> </span>php-fpm<span class="w"> </span>depends<span class="w"> </span>on<span class="w"> </span>php8.4-fpm<span class="p">;</span><span class="w"> </span>however:
+<span class="w">  </span>Package<span class="w"> </span>php8.4-fpm<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>configured<span class="w"> </span>yet.
 
-$<span class="w"> </span>sudo<span class="w"> </span>rm<span class="w"> </span>/opt/virtiofs/test/fio-tempfile.dat
-</code></pre></div><p></p>
-<p>Comparing to zfs volume:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>fio<span class="w"> </span>--name<span class="w"> </span>TEST<span class="w"> </span>--eta-newline<span class="o">=</span>5s<span class="w"> </span>--filename<span class="o">=</span>/root/fio-tempfile.dat<span class="w"> </span>--rw<span class="o">=</span>randrw<span class="w"> </span>--size<span class="o">=</span>500m<span class="w"> </span>--io_size<span class="o">=</span>10g<span class="w"> </span>--blocksize<span class="o">=</span>4k<span class="w"> </span>--ioengine<span class="o">=</span>libaio<span class="w"> </span>--fsync<span class="o">=</span><span class="m">1</span><span class="w"> </span>--iodepth<span class="o">=</span><span class="m">1</span><span class="w"> </span>--direct<span class="o">=</span><span class="m">1</span><span class="w"> </span>--numjobs<span class="o">=</span><span class="m">1</span><span class="w"> </span>--runtime<span class="o">=</span><span class="m">60</span><span class="w"> </span>--group_reporting
-TEST:<span class="w"> </span><span class="o">(</span><span class="nv">g</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>:<span class="w"> </span><span class="nv">rw</span><span class="o">=</span>randrw,<span class="w"> </span><span class="nv">bs</span><span class="o">=(</span>R<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="o">(</span>W<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="o">(</span>T<span class="o">)</span><span class="w"> </span>4096B-4096B,<span class="w"> </span><span class="nv">ioengine</span><span class="o">=</span>libaio,<span class="w"> </span><span class="nv">iodepth</span><span class="o">=</span><span class="m">1</span>
-fio-3.33
-Starting<span class="w"> </span><span class="m">1</span><span class="w"> </span>process
-TEST:<span class="w"> </span>Laying<span class="w"> </span>out<span class="w"> </span>IO<span class="w"> </span>file<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>file<span class="w"> </span>/<span class="w"> </span>500MiB<span class="o">)</span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">11</span>.5%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.7MiB/s,w<span class="o">=</span><span class="m">16</span>.6MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4278</span>,w<span class="o">=</span><span class="m">4241</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:54s<span class="o">]</span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">21</span>.3%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.3MiB/s,w<span class="o">=</span><span class="m">16</span>.6MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4169</span>,w<span class="o">=</span><span class="m">4240</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:48s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">31</span>.1%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.0MiB/s,w<span class="o">=</span><span class="m">16</span>.7MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4364</span>,w<span class="o">=</span><span class="m">4278</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:42s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">41</span>.0%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.5MiB/s,w<span class="o">=</span><span class="m">17</span>.1MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4480</span>,w<span class="o">=</span><span class="m">4365</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:36s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">50</span>.8%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.4MiB/s,w<span class="o">=</span><span class="m">16</span>.7MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4448</span>,w<span class="o">=</span><span class="m">4277</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:30s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">60</span>.7%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.9MiB/s,w<span class="o">=</span><span class="m">17</span>.0MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4320</span>,w<span class="o">=</span><span class="m">4353</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:24s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">70</span>.5%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">16</span>.9MiB/s,w<span class="o">=</span><span class="m">17</span>.3MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4319</span>,w<span class="o">=</span><span class="m">4417</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:18s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">80</span>.3%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.0MiB/s,w<span class="o">=</span><span class="m">17</span>.1MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4345</span>,w<span class="o">=</span><span class="m">4372</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:12s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">90</span>.2%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.5MiB/s,w<span class="o">=</span><span class="m">17</span>.1MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4475</span>,w<span class="o">=</span><span class="m">4379</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:06s<span class="o">]</span><span class="w"> </span>
-Jobs:<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span><span class="nv">f</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="o">[</span>m<span class="o">(</span><span class="m">1</span><span class="o">)][</span><span class="m">100</span>.0%<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">17</span>.3MiB/s,w<span class="o">=</span><span class="m">17</span>.2MiB/s<span class="o">][</span><span class="nv">r</span><span class="o">=</span><span class="m">4418</span>,w<span class="o">=</span><span class="m">4402</span><span class="w"> </span>IOPS<span class="o">][</span>eta<span class="w"> </span>00m:00s<span class="o">]</span>
-TEST:<span class="w"> </span><span class="o">(</span><span class="nv">groupid</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">jobs</span><span class="o">=</span><span class="m">1</span><span class="o">)</span>:<span class="w"> </span><span class="nv">err</span><span class="o">=</span><span class="w"> </span><span class="m">0</span>:<span class="w"> </span><span class="nv">pid</span><span class="o">=</span><span class="m">993</span>:<span class="w"> </span>Fri<span class="w"> </span>Aug<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">10</span>:14:22<span class="w"> </span><span class="m">2025</span>
-<span class="w">  </span>read:<span class="w"> </span><span class="nv">IOPS</span><span class="o">=</span><span class="m">4311</span>,<span class="w"> </span><span class="nv">BW</span><span class="o">=</span><span class="m">16</span>.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7MB/s<span class="o">)(</span>1010MiB/60001msec<span class="o">)</span>
-<span class="w">    </span>slat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">3239</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">182421</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">4854</span>.38,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">962</span>.24
-<span class="w">    </span>clat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">467</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">283200</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">40160</span>.84,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">3875</span>.56
-<span class="w">     </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">29</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">324</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">45</span>.02,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="w"> </span><span class="m">4</span>.07
-<span class="w">    </span>clat<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">34</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">36</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">37</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">38</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">39</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">39</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">40</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">41</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">42</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">43</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">45</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">47</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">50</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">   </span><span class="m">52</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">   </span><span class="m">67</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">   </span><span class="m">79</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">135</span><span class="o">]</span>
-<span class="w">   </span>bw<span class="w"> </span><span class="o">(</span><span class="w">  </span>KiB/s<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">14688</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">18984</span>,<span class="w"> </span><span class="nv">per</span><span class="o">=</span><span class="m">100</span>.00%,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">17251</span>.56,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">637</span>.83,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">   </span>iops<span class="w">        </span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="w"> </span><span class="m">3672</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="w"> </span><span class="m">4746</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">4312</span>.89,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">159</span>.46,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">  </span>write:<span class="w"> </span><span class="nv">IOPS</span><span class="o">=</span><span class="m">4291</span>,<span class="w"> </span><span class="nv">BW</span><span class="o">=</span><span class="m">16</span>.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6MB/s<span class="o">)(</span>1006MiB/60001msec<span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>zone<span class="w"> </span>resets
-<span class="w">    </span>slat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">3</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">181</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="w"> </span><span class="m">5</span>.10,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.01
-<span class="w">    </span>clat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">560</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">301217</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">43405</span>.84,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">4247</span>.83
-<span class="w">     </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">29</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">311</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">48</span>.51,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="w"> </span><span class="m">4</span>.54
-<span class="w">    </span>clat<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">37</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">39</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">40</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">41</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">42</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">42</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">43</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">44</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">45</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">47</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">49</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">50</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">54</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">   </span><span class="m">59</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">   </span><span class="m">77</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">   </span><span class="m">88</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">135</span><span class="o">]</span>
-<span class="w">   </span>bw<span class="w"> </span><span class="o">(</span><span class="w">  </span>KiB/s<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">14720</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">18104</span>,<span class="w"> </span><span class="nv">per</span><span class="o">=</span><span class="m">99</span>.99%,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">17163</span>.90,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">571</span>.15,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">   </span>iops<span class="w">        </span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="w"> </span><span class="m">3680</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="w"> </span><span class="m">4526</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">4290</span>.97,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">142</span>.79,<span class="w"> </span><span class="nv">samples</span><span class="o">=</span><span class="m">119</span>
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>nsec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">500</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">750</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">1000</span><span class="o">=</span><span class="m">0</span>.01%
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">2</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">0</span>.01%,<span class="w"> </span><span class="nv">50</span><span class="o">=</span><span class="m">97</span>.45%,<span class="w"> </span><span class="nv">100</span><span class="o">=</span><span class="m">2</span>.52%,<span class="w"> </span><span class="nv">250</span><span class="o">=</span><span class="m">0</span>.02%
-<span class="w">  </span>lat<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span><span class="w">   </span>:<span class="w"> </span><span class="nv">500</span><span class="o">=</span><span class="m">0</span>.01%
-<span class="w">  </span>fsync/fdatasync/sync_file_range:
-<span class="w">    </span>sync<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:<span class="w"> </span><span class="nv">min</span><span class="o">=</span><span class="m">21</span>,<span class="w"> </span><span class="nv">max</span><span class="o">=</span><span class="m">17239</span>,<span class="w"> </span><span class="nv">avg</span><span class="o">=</span><span class="m">110</span>.97,<span class="w"> </span><span class="nv">stdev</span><span class="o">=</span><span class="m">101</span>.78
-<span class="w">    </span>sync<span class="w"> </span>percentiles<span class="w"> </span><span class="o">(</span>usec<span class="o">)</span>:
-<span class="w">     </span><span class="p">|</span><span class="w">  </span><span class="m">1</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">58</span><span class="o">]</span>,<span class="w">  </span><span class="m">5</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">62</span><span class="o">]</span>,<span class="w"> </span><span class="m">10</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">63</span><span class="o">]</span>,<span class="w"> </span><span class="m">20</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">65</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">30</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">68</span><span class="o">]</span>,<span class="w"> </span><span class="m">40</span>.00th<span class="o">=[</span><span class="w">   </span><span class="m">71</span><span class="o">]</span>,<span class="w"> </span><span class="m">50</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">118</span><span class="o">]</span>,<span class="w"> </span><span class="m">60</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">124</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">70</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">127</span><span class="o">]</span>,<span class="w"> </span><span class="m">80</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">131</span><span class="o">]</span>,<span class="w"> </span><span class="m">90</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">139</span><span class="o">]</span>,<span class="w"> </span><span class="m">95</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">314</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.00th<span class="o">=[</span><span class="w">  </span><span class="m">347</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.50th<span class="o">=[</span><span class="w">  </span><span class="m">355</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.90th<span class="o">=[</span><span class="w">  </span><span class="m">392</span><span class="o">]</span>,<span class="w"> </span><span class="m">99</span>.95th<span class="o">=[</span><span class="w">  </span><span class="m">490</span><span class="o">]</span>,
-<span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">99</span>.99th<span class="o">=[</span><span class="w">  </span><span class="m">635</span><span class="o">]</span>
-<span class="w">  </span>cpu<span class="w">          </span>:<span class="w"> </span><span class="nv">usr</span><span class="o">=</span><span class="m">2</span>.22%,<span class="w"> </span><span class="nv">sys</span><span class="o">=</span><span class="m">9</span>.65%,<span class="w"> </span><span class="nv">ctx</span><span class="o">=</span><span class="m">1518489</span>,<span class="w"> </span><span class="nv">majf</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">minf</span><span class="o">=</span><span class="m">15</span>
-<span class="w">  </span>IO<span class="w"> </span>depths<span class="w">    </span>:<span class="w"> </span><span class="nv">1</span><span class="o">=</span><span class="m">200</span>.0%,<span class="w"> </span><span class="nv">2</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span>submit<span class="w">    </span>:<span class="w"> </span><span class="nv">0</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">100</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span><span class="nb">complete</span><span class="w">  </span>:<span class="w"> </span><span class="nv">0</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">4</span><span class="o">=</span><span class="m">100</span>.0%,<span class="w"> </span><span class="nv">8</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">16</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">32</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%,<span class="w"> </span>&gt;<span class="o">=</span><span class="nv">64</span><span class="o">=</span><span class="m">0</span>.0%
-<span class="w">     </span>issued<span class="w"> </span>rwts:<span class="w"> </span><span class="nv">total</span><span class="o">=</span><span class="m">258665</span>,257474,0,516136<span class="w"> </span><span class="nv">short</span><span class="o">=</span><span class="m">0</span>,0,0,0<span class="w"> </span><span class="nv">dropped</span><span class="o">=</span><span class="m">0</span>,0,0,0
-<span class="w">     </span>latency<span class="w">   </span>:<span class="w"> </span><span class="nv">target</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">window</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">percentile</span><span class="o">=</span><span class="m">100</span>.00%,<span class="w"> </span><span class="nv">depth</span><span class="o">=</span><span class="m">1</span>
-
-Run<span class="w"> </span>status<span class="w"> </span>group<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>all<span class="w"> </span><span class="nb">jobs</span><span class="o">)</span>:
-<span class="w">   </span>READ:<span class="w"> </span><span class="nv">bw</span><span class="o">=</span><span class="m">16</span>.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7MB/s<span class="o">)</span>,<span class="w"> </span><span class="m">16</span>.8MiB/s-16.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7MB/s-17.7MB/s<span class="o">)</span>,<span class="w"> </span><span class="nv">io</span><span class="o">=</span>1010MiB<span class="w"> </span><span class="o">(</span>1059MB<span class="o">)</span>,<span class="w"> </span><span class="nv">run</span><span class="o">=</span><span class="m">60001</span>-60001msec
-<span class="w">  </span>WRITE:<span class="w"> </span><span class="nv">bw</span><span class="o">=</span><span class="m">16</span>.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6MB/s<span class="o">)</span>,<span class="w"> </span><span class="m">16</span>.8MiB/s-16.8MiB/s<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6MB/s-17.6MB/s<span class="o">)</span>,<span class="w"> </span><span class="nv">io</span><span class="o">=</span>1006MiB<span class="w"> </span><span class="o">(</span>1055MB<span class="o">)</span>,<span class="w"> </span><span class="nv">run</span><span class="o">=</span><span class="m">60001</span>-60001msec
-
-Disk<span class="w"> </span>stats<span class="w"> </span><span class="o">(</span>read/write<span class="o">)</span>:
-<span class="w">  </span>sda:<span class="w"> </span><span class="nv">ios</span><span class="o">=</span><span class="m">258488</span>/802964,<span class="w"> </span><span class="nv">merge</span><span class="o">=</span><span class="m">0</span>/29895,<span class="w"> </span><span class="nv">ticks</span><span class="o">=</span><span class="m">10427</span>/43539,<span class="w"> </span><span class="nv">in_queue</span><span class="o">=</span><span class="m">83515</span>,<span class="w"> </span><span class="nv">util</span><span class="o">=</span><span class="m">81</span>.65%
-
-$<span class="w"> </span>sudo<span class="w"> </span>rm<span class="w"> </span>/root/fio-tempfile.dat
+dpkg:<span class="w"> </span>error<span class="w"> </span>processing<span class="w"> </span>package<span class="w"> </span>php-fpm<span class="w"> </span><span class="o">(</span>--configure<span class="o">)</span>:
+<span class="w"> </span>dependency<span class="w"> </span>problems<span class="w"> </span>-<span class="w"> </span>leaving<span class="w"> </span>unconfigured
+Errors<span class="w"> </span>were<span class="w"> </span>encountered<span class="w"> </span><span class="k">while</span><span class="w"> </span>processing:
+<span class="w"> </span>php8.4-fpm
+<span class="w"> </span>php-fpm
+E:<span class="w"> </span>Sub-process<span class="w"> </span>/usr/bin/dpkg<span class="w"> </span>returned<span class="w"> </span>an<span class="w"> </span>error<span class="w"> </span>code<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>
 </code></pre></div>
-<p>We have comparable results on both.</p>
+ Nevertheless, I enabled PHP 8.4 for apache2, just to be sure: <code>a2enmod proxy_fcgi setenvif &amp;&amp; a2enconf php8.4-fpm &amp;&amp; systemctl reload apache2 &amp;&amp; systemctl restart apache2</code>
+ But that didn't work. Tailing <code>/var/log/apache2/off.wiki.en.error.log</code> shows that either the PHP config is wrong, or that permissions needed to be updated:
+ <div class="highlight"><pre><span></span><code>[Mon Sep 14 20:31:12.921556 2026] [proxy:error] [pid 28959:tid 28998] (2)No such file or directory: AH02454: FCGI: attempt to connect to Unix domain socket /var/run/php/php8.3-fpm.sock (localhost:8000) failed
+</code></pre></div><p></p>
+<p>I decided to uninstall and reinstall PHP 8.4 and then copy the 8.3 configs to 8.4:
+ </p><div class="highlight"><pre><span></span><code>apt<span class="w"> </span>remove<span class="w"> </span>php-fpm<span class="w"> </span>php8.4-fpm
+apt<span class="w"> </span>install<span class="w"> </span>php-fpm
+a2enmod<span class="w"> </span>proxy_fcgi<span class="w"> </span>setenvif<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>a2enconf<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>apache2<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+<span class="c1"># cp 8.3/fpm/pool.d/www.conf 8.4/fpm/pool.d/</span>
+<span class="c1"># cp 8.3/fpm/php.ini 8.4/fpm/</span>
+<span class="c1"># cp 8.3/fpm/php-fpm.conf 8.4/fpm/</span>
+</code></pre></div>
+ Finally, the log showed a more useful error message:
+ <div class="highlight"><pre><span></span><code><span class="c1"># journalctl -xeu php8.4-fpm.service</span>
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:56:32<span class="w"> </span>wiki<span class="w"> </span><span class="o">(</span>t-helper<span class="o">)[</span><span class="m">6942</span><span class="o">]</span>:<span class="w"> </span>php8.4-fpm.service:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span><span class="nb">set</span><span class="w"> </span>up<span class="w"> </span>mount<span class="w"> </span>namespacing:<span class="w"> </span>/run/systemd/unit-root/proc:<span class="w"> </span>Permission<span class="w"> </span>denied
+Sep<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">20</span>:56:32<span class="w"> </span>wiki<span class="w"> </span><span class="o">(</span>t-helper<span class="o">)[</span><span class="m">6942</span><span class="o">]</span>:<span class="w"> </span>php8.4-fpm.service:<span class="w"> </span>Failed<span class="w"> </span>at<span class="w"> </span>step<span class="w"> </span>NAMESPACE<span class="w"> </span>spawning<span class="w"> </span>/usr/lib/php/php-fpm-socket-helper:<span class="w"> </span>Permission<span class="w"> </span>denied
+</code></pre></div>
+ That means we need to enable nesting, as already done for other containers: <a href="../../explanation/proxmox/#systemd-needs-nesting-capability">proxmox, systemd needs nesting capability</a>
+ <code>feature: nested=1</code> was added to <code>/etc/pve/lxc/104.conf</code> on ovh1, and the container was restarted.
+ After that, php-fpm finally started.<p></p>
+</li>
+<li>
+<p>For some reason, the PHP package configs at <code>/etc/php/8.4/fpm/</code> weren't created correctly, so I additionally purged PHP 8.4, and reinstalled it:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># apt purge "^php(7\.4|8\.3|8\.5).*"</span>
+<span class="c1"># apt purge php8.4-cli php8.4-common php8.4-curl php8.4-fpm php8.4-gd php8.4-imagick php8.4-imap php8.4-intl php8.4-mbstring php8.4-mysql php8.4-opcache php8.4-readline php8.4-xml php8.4-zip</span>
+<span class="c1"># apt install --reinstall php php-intl php-mbstring php-apcu php-curl php-mysql php-fpm</span>
+<span class="c1"># a2enmod proxy_fcgi setenvif &amp;&amp; a2enconf php8.4-fpm &amp;&amp; systemctl reload apache2 &amp;&amp; systemctl restart apache2</span>
+<span class="c1"># apt install php8.4-common php8.4-curl php8.4-gd php8.4-imagick php8.4-imap php8.4-intl php8.4-mbstring php8.4-mysql php8.4-opcache php8.4-readline php8.4-xml php8.4-zip php8.4-xml php8.4-xml php8.4-mbstring php8.4-ctype php8.4-iconv php8.4-fileinfo php8.4-apcu php8.4-curl</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p>Finally, I noticed that apache2 was still trying to use <code>/var/run/php/php8.3-fpm.sock</code> instead of <code>/var/run/php/php8.4-fpm.sock</code>. It had to be changed in <code>/etc/apache2/sites-enabled/wiki.openfoodfacts.org.conf</code>.</p>
+</li>
+</ol>
+<p>After a final restart of the apache2 service, the wiki was running fine.</p>
 
 
 
