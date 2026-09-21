@@ -15,8 +15,14 @@ echo "Launching datasette..."
 # --load-extension /home/off/mirabelle/regex0.so \ : load SQLite sqlite-regex regexp engine (does not work); see https://github.com/asg017/sqlite-regex
 # --load-extension /home/off/mirabelle/regexp.so \ : load SQLite sqlite-regex regexp engine; see https://github.com/nalgeon/sqlean
 # --load-extension /usr/lib/sqlite3/pcre.so  : load SQLite extension allowing REGEXP
-datasette serve -i products.db -i products_2023_01.db -i products_2021_09.db -i previous.db -i usda.db -i rappelconso_v2_gtin_trie.db \
-    off-stats.db dq-issues.db dq-issues-non-fixable.db dq-issues.previous.db adjusted_nutrition_merged_output.db \
+datasette serve \
+    -i products.db \
+    -i products_2023_01.db -i products_2021_09.db -i previous.db \
+    -i usda.db \
+    -i rappelconso_v2_gtin_trie.db \
+    off-stats.db \
+    dq-issues.db dq-issues-non-fixable.db dq-issues.previous.db \
+    adjusted_nutrition_merged_output.db \
     -h 0.0.0.0 \
     --metadata metadata.yml \
     --setting facet_time_limit_ms 80000 \
@@ -33,3 +39,10 @@ datasette serve -i products.db -i products_2023_01.db -i products_2021_09.db -i 
     --load-extension /home/off/mirabelle/regexp.so
     #--load-extension /home/off/mirabelle/regex0.so
     #--plugins-dir=plugins
+    #-i products.db \
+    #-i products_2023_01.db -i products_2021_09.db -i previous.db \
+    #-i usda.db \
+    #-i rappelconso_v2_gtin_trie.db \
+    #off-stats.db \
+    #dq-issues.db dq-issues-non-fixable.db dq-issues.previous.db \
+    #adjusted_nutrition_merged_output.db \
