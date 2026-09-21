@@ -11,7 +11,7 @@ jobs:
   main:
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: read
     name: Validate PR title
     runs-on: ubuntu-latest
     steps:
