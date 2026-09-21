@@ -1965,6 +1965,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#2026-09-upgrade-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-09 upgrade notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2025-12-upgrade-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7418,6 +7429,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#2026-09-upgrade-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-09 upgrade notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2025-12-upgrade-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7580,9 +7602,9 @@
 <h2 id="key-points">Key points<a class="headerlink" href="#key-points" title="Permanent link">#</a></h2>
 <ul>
 <li>Open Food Facts wiki is based on <a href="https://www.mediawiki.org/">MediaWiki</a> wiki engine.</li>
-<li>It is hosted on a Debian 11 server with Apache2, PHP-FPM (Sury) and MariaDB.</li>
+<li>It is hosted on a Debian 12 server with Apache2, PHP-FPM (Sury) and MariaDB.</li>
 <li>It is installed on a LXC container managed by Proxmox VE: CT 141 on ovh1 server.</li>
-<li>In 2025-12, we upgrated MediaWiki 1.35.2 to 1.43.</li>
+<li>In 2025-12, we upgraded MediaWiki 1.35.2 to 1.43.</li>
 </ul>
 <h2 id="good-practices">Good practices<a class="headerlink" href="#good-practices" title="Permanent link">#</a></h2>
 <ul>
@@ -7635,6 +7657,76 @@ org/wiki/Extension:Interwiki</li>
 </ul>
 <h2 id="staging">Staging<a class="headerlink" href="#staging" title="Permanent link">#</a></h2>
 <p>We put a basic authentication on the staging wiki to avoid being indexed by search engines and accessed by unauthorized users. It can leads to issues with VisualEditor and REST API if not properly configured.</p>
+<h2 id="2026-09-upgrade-notes">2026-09 upgrade notes<a class="headerlink" href="#2026-09-upgrade-notes" title="Permanent link">#</a></h2>
+<ul>
+<li>Debian was upgraded from 11 to 12. See the <a href="../../../reports/2026-09-14-ovh1-104-debian-upgrade/">separate report</a> for more information.</li>
+<li>MediaWiki itself was upgraded from 1.43.5 to 1.43.9. The upgrade steps from <a href="#2025-12-upgrade-notes">2025</a> were followed, and the upgrade was unremarkable (which is a good thing in this case 😉).</li>
+<li>
+<p>Several extensions were heavily outdated, which might introduce security issues or issues when upgrading to the next LTS. Some extensions were moved from a manual setup to <a href="https://www.entropywins.wtf/blog/2013/11/24/upgrading-an-extension-that-now-uses-composer/"><code>composer</code></a> to ease the following upgrades. The following table lists extensions upgraded in this batch.</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Old Version</th>
+<th>New Version</th>
+<th>Migrated to <code>composer</code></th>
+<th>Issues/Remarks for the upgrade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FontAwesome</td>
+<td>1.0</td>
+<td>4.1.0</td>
+<td>✅</td>
+<td>-</td>
+</tr>
+<tr>
+<td>UniversalLanguageSelector</td>
+<td>2024-07-16</td>
+<td>2025.03</td>
+<td>✅</td>
+<td>later versions are not compatible with MediaWiki 1.43</td>
+</tr>
+<tr>
+<td>Matomo</td>
+<td>4.0.1</td>
+<td>5.0.0</td>
+<td>✅</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ExternalData</td>
+<td>3.4</td>
+<td>3.6.1</td>
+<td>✅</td>
+<td>2.4 was installed on test, but not enabled</td>
+</tr>
+<tr>
+<td>FlexDiagrams</td>
+<td>0.5.1</td>
+<td>1.0</td>
+<td>❌</td>
+<td>-</td>
+</tr>
+<tr>
+<td>PluggableAuth</td>
+<td>7.5.0</td>
+<td>7.5.0</td>
+<td>✅</td>
+<td>no update, just moved to <code>composer.local.json</code></td>
+</tr>
+<tr>
+<td>OpenID Connect</td>
+<td>8.3.0</td>
+<td>8.3.0</td>
+<td>✅</td>
+<td>no update, just moved to <code>composer.local.json</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
 <h2 id="2025-12-upgrade-notes">2025-12 upgrade notes<a class="headerlink" href="#2025-12-upgrade-notes" title="Permanent link">#</a></h2>
 <ul>
 <li>MediaWiki 1.35.2 is used in production.</li>
