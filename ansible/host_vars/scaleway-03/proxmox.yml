@@ -45,3 +45,27 @@ proxmox_node__pve_storages:
     type: zfspool
     pool: zfs-hdd
     state: absent
+
+proxmox_containers__containers:
+  - id: 116
+    hostname: scaleway-images-tmp
+    features:
+      - nesting=1
+    cores: 6
+    memory: "{{ 12 * 1024 }}"
+    netif:
+      net0:
+        name: eth0
+        ip: 10.13.1.116/16
+        gw: 10.13.0.3
+        bridge: vmbr10
+    disk:
+      storage: zfs-hdd-pve
+      size: 30
+    # same idmap as off/obf etc. containers
+    #to have > 1000 userid matching the host
+    idmap:
+      - content: "u 0 100000 999"
+      - content: "g 0 100000 999"
+      - content: "u 1000 1000 64536"
+      - content: "g 1000 1000 64536"
