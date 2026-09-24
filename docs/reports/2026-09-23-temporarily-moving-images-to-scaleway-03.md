@@ -113,7 +113,7 @@ I can also test ip6 access:
   ```
   2001:bc8:c025:11:116:: images.openfoodfacts.org
   ```
-and using 
+and using
 `curl -6 https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg`
 
 

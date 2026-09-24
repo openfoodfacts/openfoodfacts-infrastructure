@@ -32,8 +32,9 @@ sudo chown alex:alex $DOM.tar.gz
 
 Transfer the archive from one server to another (eg. using scp)
 
-On the new server:
+On the new server, as root:
 ```bash
+sudo -i
 DOM=<previous-value>
 cd /
 tar xzf /home/alex/$DOM.tar.gz
