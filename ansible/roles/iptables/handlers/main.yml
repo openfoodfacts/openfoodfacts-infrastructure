@@ -13,4 +13,4 @@
     name: docker
     state: restarted
   become: true
-  when: ansible_facts.services['docker.service']['state'] == 'running'
+  when: (ansible_facts.services['docker.service']['state'] | default('stopped')) == 'running'
