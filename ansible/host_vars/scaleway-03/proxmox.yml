@@ -55,9 +55,16 @@ proxmox_containers__containers:
     memory: "{{ 12 * 1024 }}"
     netif:
       net0:
+        # private ipv4
         name: eth0
         ip: 10.13.1.116/16
         gw: 10.13.0.3
+        bridge: vmbr10
+      net1:
+        # public ipv6
+        name: eth1
+        ip6: "2001:bc8:c025:11:116::/48"
+        gw6: "2001:bc8:c025:ffff:ffff:ffff:ffff:ff7f"
         bridge: vmbr10
     disk:
       storage: zfs-hdd-pve

@@ -19,11 +19,14 @@ I created a container for the images reverse-proxy, following [Proxmox / how to 
 
 We need to mount images in the container,
 
-I logged inside the CT to `mkdir /mnt/off-images`
+I logged inside the CT to `mkdir /mnt/off/images`
+
+Note that I must have a folder named `images`
+because the url of images starts with `images/products/...`
 
 and I did edit `/etc/pve/lxc/116.conf` on `scaleway-03` to add the:
 ```ini
-mp0: /zfs-hdd/off-backups/scaleway-01-podata-hdd/images,mp=/mnt/off-images
+mp0: /zfs-hdd/off-backups/scaleway-01-podata-hdd/images,mp=/mnt/off/images
 ```
 then on the host: `pct stop 116 && pct start 116`
 
@@ -33,9 +36,14 @@ then on the host: `pct stop 116 && pct start 116`
 
 I created `confs/scaleway-images-tmp`  and added needed `nginx` and `fail2ban` file and folders.
 
+I added a public ipv6 to the container, for ipv4 we will need NATing through the revers proxy.
+
+Consequently, in the CT variables, I also put `iptables_public_ports: [22, 80, 443]`
+
 ### Running ansible for reverse proxy
 
-After some modifications, I did run:
+
+After some modifications of ansible to verify fail2ban rules, I did run:
 
 ```
 ansible-playbook sites/reverse-proxy.yml -l scaleway-images-tmp
@@ -68,13 +76,26 @@ I fixed that in `/etc/pve/lxc/116.conf` (and in the ansible variables).
 
 I can test on the CT 116 itself:
 
-```
-curl --connect-to images.openfoodfacts.org:443:127.0.0.1:443 \
+```bash
+curl --connect-to images.openfoodfacts.org:443:10.13.1.116:443 \
   https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg \
   -o /tmp/1.400.jpg
+
+# verify
+md5sum /tmp/1.400.jpg /mnt/off-images/products/628/703/571/3790/1.400.jpg
 ```
 
-I can test the service, even before NATing,
+```bash
+curl --connect-to images.openfoodfacts.org:443:[2001:bc8:c025:11:116::1]:443 \
+  https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg \
+  -o /tmp/1.400.jpg
+
+# verify
+md5sum /tmp/1.400.jpg /mnt/off-images/products/628/703/571/3790/1.400.jpg
+```
+
+
+I can test the ip4 service on my machine, even before NATing,
 by:
 * changing my `/etc/hosts` to add:
   ```
@@ -87,3 +108,40 @@ by:
   ```
 and querying https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg
 
+I can also test ip6 access:
+* changing my `/etc/hosts` to add:
+  ```
+  2001:bc8:c025:11:116:: images.openfoodfacts.org
+  ```
+and using 
+`curl -6 https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg`
+
+
+## Setting up the NAT
+
+To setup the NAT, I just added the corresponding values for
+`iptables__enable_ip_forward_v4` and `iptables_extra_rules_nat_v4`
+in `ansible/host_vars/scaleway-03/iptables.yml`
+
+```
+iptables__enable_ip_forward_v4: true
+
+iptables_extra_rules_nat_v4:
+  "001 - Forward http request to scaleway-images-tmp": >-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 80 -j DNAT --to-destination 10.13.1.116:80
+  "002 - Forward https request to scaleway-images-tmp": >-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 443 -j DNAT --to-destination 10.13.1.116:443
+```
+
+And then
+```bash
+ansible-playbook jobs/configure.yml -l scaleway-03 --tags iptables
+```
+
+## Adding ip to product opener configuration
+
+I had to update the rule that redirect images url to images server,
+so that it does an exception for our new server
+(otherwise we can't fetch new images from the source server).
+
+see https://github.com/openfoodfacts/openfoodfacts-server/pull/14697

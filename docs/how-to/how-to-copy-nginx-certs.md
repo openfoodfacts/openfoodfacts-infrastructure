@@ -12,6 +12,9 @@ On the current server:
 # change that to your site config
 CONF=/etc/nginx/sites-enabled/openpetfoodfacts.org
 DOM=$(sed -nr  "s|.*letsencrypt/live/(.*)/privkey.*|\1|p" $CONF)
+# get account name in conf
+# note: final xargs is an easy way of stripping spaces !
+ACCOUNT=$( grep "account = " /etc/letsencrypt/renewal/$DOM.conf|cut -d "=" -f 2|xargs )
 # read if it looks good before continuing
 echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
 
@@ -19,7 +22,8 @@ echo "COPYING CERTS FOR $DOM in $DOM.tar.gz"
 sudo tar -cvzf $DOM.tar.gz \
     /etc/letsencrypt/archive/${DOM} \
     /etc/letsencrypt/renewal/${DOM}.conf \
-    /etc/letsencrypt/live/${DOM}
+    /etc/letsencrypt/live/${DOM} \
+    /etc/letsencrypt/accounts/*/directory/${ACCOUNT}
 
 # eventual owner change to help for transfer
 sudo chmod go-rw $DOM.tar.gz
@@ -30,10 +34,11 @@ Transfer the archive from one server to another (eg. using scp)
 
 On the new server:
 ```bash
+DOM=<previous-value>
 cd /
-tar xzf /home/alex/openpetfoodfacts.org.tar.gz
+tar xzf /home/alex/$DOM.tar.gz
 # verify
-ls -l /etc/letsencrypt/*/openpetfoodfacts.org /etc/letsencrypt/renewal/openpetfoodfacts.org.conf
+ls -l /etc/letsencrypt/*/$DOM /etc/letsencrypt/renewal/$DOM.conf
 ```
 
 Remember to remove copies of the file (possibly using `shred -u`)
