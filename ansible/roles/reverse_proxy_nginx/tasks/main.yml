@@ -25,12 +25,14 @@
   ansible.builtin.file:
     path: /etc/letsencrypt/options-ssl-nginx.conf
     state: link
+    force: true
     src: /usr/lib/python3/dist-packages/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
 
 - name: Ensure /etc/letsencrypt/ssl-dhparams.pem symlink exists
   ansible.builtin.file:
     path: /etc/letsencrypt/ssl-dhparams.pem
     state: link
+    force: true
     src: /usr/lib/python3/dist-packages/certbot/ssl-dhparams.pem
 
 # adopt debian pattern
