@@ -61,6 +61,11 @@ proxmox_containers__containers:
       storage: zfs-hdd-pve
       size: 32
     idmap: &off-containers-idmap
+      # old subuid/subgid settings to remove
+      - content: "u 0 100000 999"
+        state: absent
+      - content: "g 0 100000 999"
+        state: absent
       - content: "u 0 100000 1000"
       - content: "g 0 100000 1000"
       - content: "u 1000 1000 64536"
