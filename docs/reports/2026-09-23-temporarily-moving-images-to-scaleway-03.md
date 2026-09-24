@@ -82,16 +82,16 @@ curl --connect-to images.openfoodfacts.org:443:10.13.1.116:443 \
   -o /tmp/1.400.jpg
 
 # verify
-md5sum /tmp/1.400.jpg /mnt/off-images/products/628/703/571/3790/1.400.jpg
+md5sum /tmp/1.400.jpg /mnt/off/images/products/628/703/571/3790/1.400.jpg
 ```
 
 ```bash
-curl --connect-to images.openfoodfacts.org:443:[2001:bc8:c025:11:116::1]:443 \
+curl --connect-to images.openfoodfacts.org:443:[2001:bc8:c025:11:116::]:443 \
   https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg \
   -o /tmp/1.400.jpg
 
 # verify
-md5sum /tmp/1.400.jpg /mnt/off-images/products/628/703/571/3790/1.400.jpg
+md5sum /tmp/1.400.jpg /mnt/off/images/products/628/703/571/3790/1.400.jpg
 ```
 
 
