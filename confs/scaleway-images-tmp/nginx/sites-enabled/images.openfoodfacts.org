@@ -25,7 +25,7 @@ geo $rate_limit_whitelist {
   # images.openfoodfacts.org
   217.182.132.0/24 1;
   # internal trafic
-  10.1.0.0/16 1;
+  10.0.0.0/8 1;
   # moji
   2a06:c484:5::200 1;
   91.175.166.38 1;
@@ -76,7 +76,7 @@ server {
 	resolver 9.9.9.9 8.8.8.8 valid=300s;
 	resolver_timeout 5s;
 
-	root	/zfs-hdd/off/;
+	root	/mnt/off/;
 
 
 	if ($http_referer ~* (jobothoniel.com) ) {
@@ -106,7 +106,7 @@ server {
 		rewrite ^/images/products/(.)(...)(....)/([^/]*)$ /images/products/000/00$1/$2/$3/$4 break;
 		rewrite ^/images/products/(..)(...)(....)/([^/]*)$ /images/products/000/0$1/$2/$3/$4 break;
 
-		# test en local, puis sur l'original
+		# get the file localy or if not present on product opener
 		try_files		$uri @proxy2;
 		sendfile		on;
 		sendfile_max_chunk	1m;
