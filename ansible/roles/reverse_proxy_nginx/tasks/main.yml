@@ -12,11 +12,26 @@
 
 - name: Install nginx and certbot from distribution
   ansible.builtin.apt:
-    pkg:
-      - nginx
-      - python3-certbot-nginx
+    pkg: "{{ item }}"
     state: present
     update_cache: true
+  # we can't install in one go, because certbot mess up otherwise…
+  loop:
+    - nginx
+    - python3-certbot-nginx
+
+# add useful symlink (might be placed by python3-certbot-nginx, but not present until used)
+- name: Ensure /etc/letsencrypt/options-ssl-nginx.conf symlink exists
+  ansible.builtin.file:
+    path: /etc/letsencrypt/options-ssl-nginx.conf
+    state: link
+    src: /usr/lib/python3/dist-packages/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+
+- name: Ensure /etc/letsencrypt/ssl-dhparams.pem symlink exists
+  ansible.builtin.file:
+    path: /etc/letsencrypt/ssl-dhparams.pem
+    state: link
+    src: /usr/lib/python3/dist-packages/certbot/ssl-dhparams.pem
 
 # adopt debian pattern
 - name: Ensure sites-enabled directory exists
@@ -40,6 +55,19 @@
     mode: "0644"
   notify:
     - Reverse_proxy_nginx__reload_nginx
+
+# this is mainly to avoid to fail on next action
+- name: Ensure some folders exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - /var/cache/nginx
+    - /var/www
+    - /dev/shm
 
 # base debian and nginx mainline does not use the same user
 - name: Ensure permissions swap from www-data to nginx
@@ -73,7 +101,24 @@
 
 - name: Link config files
   git_based_config_symlinks:
-    src: "{{ reverse_proxy_nginx__nginx_git_config_path }}"
+    src: "{{ reverse_proxy_nginx__nginx_git_config_path }}/nginx"
     dst: "/etc/nginx"
   notify:
     - Reverse_proxy_nginx__reload_nginx
+
+- name: Link fail2ban config files
+  git_based_config_symlinks:
+    src: "{{ reverse_proxy_nginx__nginx_git_config_path }}/fail2ban"
+    dst: "/etc/fail2ban"
+  notify:
+    - Reverse_proxy_nginx__restart_fail2ban
+
+- name: Apply configuration now
+  ansible.builtin.meta: flush_handlers
+
+- name: Check expected fail2ban jails are running
+  ansible.builtin.import_tasks:
+    file: fail2ban_jails_check.yml
+  when: |-
+    (reverse_proxy_nginx__fail2ban_jails is defined)
+    and (reverse_proxy_nginx__fail2ban_jails | length > 0)
