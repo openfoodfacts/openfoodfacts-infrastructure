@@ -4,4 +4,7 @@
   gather_facts: false
   become: true
   roles:
-    - pull_pve_configs
+    - role: pull_pve_configs
+      tags: ["pve", "proxmox"]
+    - role: pull_zfs_config
+      tags: ["zfs"]
