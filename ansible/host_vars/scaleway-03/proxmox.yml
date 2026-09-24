@@ -63,9 +63,9 @@ proxmox_containers__containers:
       storage: zfs-hdd-pve
       size: 30
     # same idmap as off/obf etc. containers
-    #to have > 1000 userid matching the host
+    # to have > 1000 userid matching the host
     idmap:
-      - content: "u 0 100000 999"
-      - content: "g 0 100000 999"
+      - content: "u 0 100000 1000"
+      - content: "g 0 100000 1000"
       - content: "u 1000 1000 64536"
       - content: "g 1000 1000 64536"

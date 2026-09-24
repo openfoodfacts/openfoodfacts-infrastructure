@@ -61,8 +61,8 @@ proxmox_containers__containers:
       storage: zfs-hdd-pve
       size: 32
     idmap: &off-containers-idmap
-      - content: "u 0 100000 999"
-      - content: "g 0 100000 999"
+      - content: "u 0 100000 1000"
+      - content: "g 0 100000 1000"
       - content: "u 1000 1000 64536"
       - content: "g 1000 1000 64536"
   - id: 111
