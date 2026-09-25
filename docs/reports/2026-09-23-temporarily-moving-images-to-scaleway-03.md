@@ -138,6 +138,33 @@ And then
 ansible-playbook jobs/configure.yml -l scaleway-03 --tags iptables
 ```
 
+### Testing it
+
+This is as simple adding a line in `/etc/hosts` with:
+```
+151.115.132.13 images.openfoodfacts.org
+```
+
+Or, as contributed by Freso, if you use [Unbound](https://www.nlnetlabs.nl/projects/unbound/about/), you can use this config:
+```
+local-zone: "images.openfoodfacts.org" redirect
+local-data: "images.openfoodfacts.org A 151.115.132.13"
+```
+or, as contributed by Nitro, with chromium (or brave):
+```
+brave-browser --host-resolver-rules="MAP images.openfoodfacts.org 151.115.132.13"
+```
+and then accessing images.
+
+Or with curl:
+```bash
+curl --connect-to images.openfoodfacts.org:443:151.115.132.13:443 \
+  https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg \
+  -o /tmp/1.400.jpg
+# and maybe, on linux:
+xdg-open /tmp/1.400.jpg
+```
+
 ## Adding ip to product opener configuration
 
 I had to update the rule that redirect images url to images server,
@@ -145,3 +172,11 @@ so that it does an exception for our new server
 (otherwise we can't fetch new images from the source server).
 
 see https://github.com/openfoodfacts/openfoodfacts-server/pull/14697
+
+## Changing DNS
+
+Finally I changed the DNS zone using OVH console,
+to have `images.openfoodfacts.org` be a `CNAME` to `scaleway-03.infra.openfoodfacts.org`
+
+I can monitor the impact of the change looking at:
+https://www.computel.fr/munin/openfoodfacts/sc3.openfoodfacts/index.html
