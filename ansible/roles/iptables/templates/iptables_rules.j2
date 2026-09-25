@@ -4,6 +4,7 @@
 {% if iptables_rules_version == "v6" %}
 {% set private_net_set = 'PrivateNet6' %}
 {% set internal_host_set = 'InternalHost6' %}
+{% set container_net_set = 'ContainerNet6' %}
 {% set icmp_name = 'icmpv6' %}
 {% set localhost_name = 'lo' %}
 {% set iptables_extra_rules_filter = iptables_extra_rules_filter_v6 %}
@@ -11,6 +12,7 @@
 {% else %}
 {% set private_net_set = 'PrivateNet4' %}
 {% set internal_host_set = 'InternalHost4' %}
+{% set container_net_set = 'ContainerNet4' %}
 {% set icmp_name = 'icmp' %}
 {% set localhost_name = 'lo' %}
 {% set iptables_extra_rules_filter = iptables_extra_rules_filter_v4 %}
@@ -49,9 +51,9 @@ COMMIT
 -A INPUT -m set --match-set {{ internal_host_set }} src -p tcp -m tcp --dport {{ port }} -j ACCEPT
 {% endfor %}
 # Extra rules
-{% for comment, rule in iptables_extra_rules_filter_v4.items()|sort(attribute='0') %}
+{% for comment, rule in iptables_extra_rules_filter.items()|sort(attribute='0') %}
 # {{ comment }}
-{{ value }}
+{{ rule }}
 {% endfor %}
 # DOCKER-USER rules -----------
 # Established connection
@@ -79,12 +81,12 @@ COMMIT
 {% for name in ["PREROUTING", "INPUT", "OUTPUT", "POSTROUTING"] %}
 :{{ name }} {{ 'ACCEPT' if name|lower in iptables_accept_policy.nat else 'DROP' }} [0:0]
 {% endfor %}
-# masquerading private network
--A POSTROUTING -m set --match-set {{ private_net_set }} src -j MASQUERADE
+# masquerading container / vm networks outgoing traffic
+-A POSTROUTING -m set --match-set {{ container_net_set }} src -j MASQUERADE
 # Extra rules
-{% for comment, rule in iptables_extra_rules_nat_v4.items()|sort(attribute='0') %}
+{% for comment, rule in iptables_extra_rules_nat.items()|sort(attribute='0') %}
 # {{ comment }}
-{{ value }}
+{{ rule }}
 {% endfor %}
 COMMIT
 # NAT END ##############

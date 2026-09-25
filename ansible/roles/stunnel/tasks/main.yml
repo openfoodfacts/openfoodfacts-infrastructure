@@ -4,7 +4,7 @@
 - name: Assert stunnel__config_repository_path is defined
   ansible.builtin.assert:
     that:
-      - stunnel__config_repository_path
+      - stunnel__config_repository_path is truthy
     fail_msg: "stunnel__config_repository_path is not defined"
 
 - name: Assert all stunnel__psk_secrets have a content
@@ -20,7 +20,7 @@
 - name: Assert all stunnel__psk_secrets path are simple files names
   ansible.builtin.assert:
     that:
-      - item.file | regex_search("^[^/]+$")
+      - (item.file | regex_search("^[^/]+$")) is truthy
     fail_msg: >-
       In stunnel__psk_secrets, item with path '{{ item.file }}''
       does not comply to <filename>.psk

@@ -28,6 +28,10 @@ iptables_extra_rules_filter_v4: {}
 iptables_extra_rules_filter_v6: {}
 iptables_extra_rules_nat_v4: {}
 iptables_extra_rules_nat_v6: {}
-# ip forwarding
+# We want to masquerade outgoing traffic from our private networks
+# That is traffic going from vm/containers to the internet (but not the other way around).
+# So we need to identify vm/containers private networks
+iptables_container_networks_v4: []
+iptables_container_networks_v6: []
 iptables__enable_ip_forward_v4: false
 iptables__enable_ip_forward_v6: false

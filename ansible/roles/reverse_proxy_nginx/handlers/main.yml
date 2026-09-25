@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: nginx
     state: reloaded
+
+- name: Reverse_proxy_nginx__restart_fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
