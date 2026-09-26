@@ -116,4 +116,19 @@ the upgrade instructions from [Debian](https://www.debian.org/releases/bookworm/
    root@analytics:/var/www/html/matomo# apt install php7.4-xml
    ```
 
-7. 
+### Debian 11.11 to 12.x
+
+To update the OS to `bookworm`, I essentially followed the same path as for [`bullseye`](#debian-1013-to-1111),
+with the major difference that `bookworm-security` repo was available, and no `--fix-missing` was necessary.
+
+The Debian upgrade comes with a major PHP upgrade (7.4 to 8.2). Therefore, similar steps to configurations and
+setup of additional PHP packages was necessary.
+
+```bash
+apt install php8.2-fpm php8.2-xml php8.2-mysql
+mv /etc/php/8.2/cli/php.ini /etc/php/8.2/cli/php.dist.ini
+mv /etc/php/8.2/fpm/php.ini /etc/php/8.2/fpm/php.dist.ini
+ln -s /opt/openfoodfacts-infrastructure/confs/matomo/php/8.2/cli/php.ini /etc/php/8.2/cli/php.ini
+ln -s /opt/openfoodfacts-infrastructure/confs/matomo/php/8.2/fpm/php.ini /etc/php/8.2/fpm/php.ini
+systemctl restart php8.2-fpm.service nginx.service
+```

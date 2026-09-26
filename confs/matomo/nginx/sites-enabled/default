@@ -53,7 +53,7 @@ server {
                 fastcgi_param HTTP_PROXY ""; # prohibit httpoxy: https://httpoxy.org/
 	#
 	#	# With php-fpm (or other unix sockets):
-		fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+		fastcgi_pass unix:/run/php/php8.2-fpm.sock;
 	#	# With php-cgi (or other tcp sockets):
 	#	fastcgi_pass 127.0.0.1:9000;
 	#	increasing timeout so that API calls to export data do not timeout
