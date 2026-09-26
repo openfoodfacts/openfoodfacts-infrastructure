@@ -36,7 +36,7 @@ the upgrade instructions from [Debian](https://www.debian.org/releases/bookworm/
     * `apt full-upgrade`
       * When asked whether to automatically restart services during setup, I said yes.
       * `/etc/mysql/mariadb.cnf` was replaced during the update: No relevant settings were changed.
-        Overrides from [90-off-configs.cnf](../../confs/matomo/mysql/mariadb.conf.d/90-off-configs.cnf)
+        Overrides from `/etc/mysql/mariadb.conf.d/90-off-configs.cnf`
         override those modified during the upgrade.
       * `/etc/nginx/sites-available/default`: The current version was kept, because it contains the matomo site
       * `/etc/sudoers`: Current version kept due to `NOPASSWD` modifications
