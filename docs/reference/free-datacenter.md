@@ -30,12 +30,14 @@ To have an internal network we use a VLAN.
 
 As mentionned in the [Ansible inventory](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/ansible/inventory.production.ini), here are the public IPs of the Scaleway bay:
 
-| Machine                 | IPv4             | IPv6                  |
-| ----------------------- | ---------------- | --------------------- |
-| Scaleway-proxy (LXC)    | `151.115.132.10` | `2001:bc8:c025:10::0` |
-| Scaleway-01             | `151.115.132.11` | `2001:bc8:c025:10::1` |
-| Scaleway-02             | `151.115.132.12` | `2001:bc8:c025:10::2` |
-| Scaleway-03             | `151.115.132.13` | `2001:bc8:c025:10::3` |
+| Machine              | IPv4             | IPv6                  |
+| -------------------- | ---------------- | --------------------- |
+| Scaleway-proxy (LXC) | `151.115.132.10` | `2001:bc8:c025:10::0` |
+| Scaleway-01          | `151.115.132.11` | `2001:bc8:c025:10::1` |
+| Scaleway-02          | `151.115.132.12` | `2001:bc8:c025:10::2` |
+| Scaleway-03          | `151.115.132.13` | `2001:bc8:c025:10::3` |
+| Scaleway-04          | `151.115.132.14` | `2001:bc8:c025:10::4` |
+| Scaleway-05          | `151.115.132.15` | `2001:bc8:c025:10::5` |
 
 ## Servers
 
@@ -49,9 +51,9 @@ They were installed using ansible playbooks.
 
 Refer to `ansible/` variables and inventories to get more configuration information.
 
-### off1 and off2
+### Scaleway-04 / 05
 
-Those are DELL servers.
+Those are DELL servers, previously named off1 and off2.
 
 On the back side of server cover you find some useful instructions.
 

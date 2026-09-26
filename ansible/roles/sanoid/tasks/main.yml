@@ -3,8 +3,13 @@
   ansible.builtin.assert:
     that:
       - |
-        (not sanoid__link_configuration) or
-        (sanoid__configurations_git_root_path and sanoid__configurations_src_path)
+        (
+          (not sanoid__link_configuration) or
+          (
+            (sanoid__configurations_git_root_path | default('', true) | length > 0) and
+            (sanoid__configurations_src_path | default('', true) | length > 0)
+          )
+        )
 
 - name: Create datasets that will hold some backups
   community.general.zfs:
@@ -96,4 +101,4 @@
     path: /etc/sanoid/syncoid-args.conf
     state: link
     src: "{{ sanoid__configurations_git_root_path }}/{{ sanoid__configurations_src_path }}/sanoid/syncoid-args.conf"
-  when: sanoid__link_configuration and sanoid__syncoid_enabled%
+  when: sanoid__link_configuration and sanoid__syncoid_enabled
