@@ -116,7 +116,7 @@ the upgrade instructions from [Debian](https://www.debian.org/releases/bookworm/
    root@analytics:/var/www/html/matomo# apt install php7.4-xml
    ```
 
-### Debian 11.11 to 12.x
+### Debian 11.11 to 12.15
 
 To update the OS to `bookworm`, I essentially followed the same path as for [`bullseye`](#debian-1013-to-1111),
 with the major difference that `bookworm-security` repo was available, and no `--fix-missing` was necessary.
@@ -132,3 +132,70 @@ ln -s /opt/openfoodfacts-infrastructure/confs/matomo/php/8.2/cli/php.ini /etc/ph
 ln -s /opt/openfoodfacts-infrastructure/confs/matomo/php/8.2/fpm/php.ini /etc/php/8.2/fpm/php.ini
 systemctl restart php8.2-fpm.service nginx.service
 ```
+
+Everything looked great, until I wanted to reboot the LXC container to actually apply kernel upgrades. It didn't start any more
+
+```bash
+hangy@ovh2:~$ sudo lxc-start -n 107 -F -l DEBUG -o /var/log/lxc-107-debug.log
+lxc-start: 107: conf.c: run_buffer: 314 Script exited with status 25
+lxc-start: 107: start.c: lxc_init: 798 Failed to run lxc.hook.pre-start for container "107"
+lxc-start: 107: start.c: __lxc_start: 1945 Failed to initialize container "107"
+lxc-start: 107: tools/lxc_start.c: main: 308 The container failed to start
+lxc-start: 107: tools/lxc_start.c: main: 314 Additional information can be obtained by setting the --logfile and --logpriority options
+hangy@ovh2:~$ sudo cat /var/log/lxc-107-debug.log
+lxc-start 107 20260926083549.851 INFO     confile - confile.c:set_config_idmaps:1985 - Read uid map: type u nsid 0 hostid 100000 range 65536
+lxc-start 107 20260926083549.851 INFO     confile - confile.c:set_config_idmaps:1985 - Read uid map: type g nsid 0 hostid 100000 range 65536
+lxc-start 107 20260926083549.852 INFO     lsm - lsm/lsm.c:lsm_init:40 - Initialized LSM security driver AppArmor
+lxc-start 107 20260926083549.852 INFO     conf - conf.c:run_script_argv:331 - Executing script "/usr/share/lxc/hooks/lxc-pve-prestart-hook" for container "107", config section "lxc"
+lxc-start 107 20260926083550.323 DEBUG    conf - conf.c:run_buffer:303 - Script exec /usr/share/lxc/hooks/lxc-pve-prestart-hook 107 lxc pre-start produced output: unsupported debian version '12.15'
+
+lxc-start 107 20260926083550.333 ERROR    conf - conf.c:run_buffer:314 - Script exited with status 25
+lxc-start 107 20260926083550.333 ERROR    start - start.c:lxc_init:798 - Failed to run lxc.hook.pre-start for container "107"
+lxc-start 107 20260926083550.333 ERROR    start - start.c:__lxc_start:1945 - Failed to initialize container "107"
+lxc-start 107 20260926083550.333 INFO     conf - conf.c:run_script_argv:331 - Executing script "/usr/share/lxc/hooks/lxc-pve-poststop-hook" for container "107", config section "lxc"
+lxc-start 107 20260926083550.847 INFO     conf - conf.c:run_script_argv:331 - Executing script "/usr/share/lxcfs/lxc.reboot.hook" for container "107", config section "lxc"
+lxc-start 107 20260926083551.350 ERROR    lxc_start - tools/lxc_start.c:main:308 - The container failed to start
+lxc-start 107 20260926083551.350 ERROR    lxc_start - tools/lxc_start.c:main:314 - Additional information can be obtained by setting the --logfile and --logpriority options
+```
+
+The issue is that the old Proxmox version does not understand that Debian 12.15 actually is a version of Debian bookworm.
+Excerpt from `/usr/share/perl5/PVE/LXC/Setup/Debian.pm`:
+
+```perl
+sub new {
+    my ($class, $conf, $rootdir) = @_;
+
+    my $version = PVE::Tools::file_read_firstline("$rootdir/etc/debian_version");
+
+    die "unable to read version info\n" if !defined($version);
+
+    # translate testing version and os-release incompat derivates names
+    my $version_map = {
+        'stretch/sid' => 9.1,
+        'buster/sid' => 10,
+        'bullseye/sid' => 11,
+        'bookworm/sid' => 12,
+        'kali-rolling' => 11,
+    };
+    $version = $version_map->{$version} if exists($version_map->{$version});
+
+    die "unable to parse version info '$version'\n"
+        if $version !~ m/^(\d+(\.\d+)?)(\.\d+)?/;
+
+    $version = $1;
+
+    die "unsupported debian version '$version'\n"
+        if !($version >= 4 && $version <= 12);
+
+    my $self = { conf => $conf, rootdir => $rootdir, version => $version };
+
+    $conf->{ostype} = "debian";
+
+    return bless $self, $class;
+}
+```
+
+I applied part of the fix from [`f1bf6748fe3fe3440e19bdafa8105e73590c0f3b`](https://github.com/proxmox/pve-container/commit/f1bf6748fe3fe3440e19bdafa8105e73590c0f3b): 
+`$version = int($1);`
+
+Afterwards, the container started again, and everything looked great.
