@@ -199,3 +199,5 @@ I applied part of the fix from [`f1bf6748fe3fe3440e19bdafa8105e73590c0f3b`](http
 `$version = int($1);`
 
 Afterwards, the container started again, and everything looked great.
+
+@teolemon noticed that some graphs were missing. After looking at the `./console diagnostics:run ` once more, I installed `apt install php8.2-gd`, which fixed that.
