@@ -1,0 +1,47 @@
+---
+name: NGINX checks
+
+on:
+  pull_request:
+    paths:
+      - "confs/**/nginx/**"
+      - "scripts/validate-nginx-config.sh"
+      - ".github/workflows/nginx.yml"
+  push:
+    branches:
+      - develop
+    paths:
+      - "confs/**/nginx/**"
+      - "scripts/validate-nginx-config.sh"
+      - ".github/workflows/nginx.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate NGINX configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Pull NGINX image
+        run: docker pull nginx:mainline
+
+      - name: Validate NGINX configurations
+        shell: bash
+        run: |
+          status=0
+          for config in \
+            confs/off1-reverse-proxy/nginx \
+            confs/off2-reverse-proxy/nginx \
+            confs/ovh1-reverse-proxy/nginx \
+            confs/scaleway-proxy/nginx
+          do
+            echo "::group::Validate $config"
+            scripts/validate-nginx-config.sh "$config" || status=1
+            echo "::endgroup::"
+          done
+          exit "$status"
