@@ -2,15 +2,15 @@
 
 [Matomo](https://matomo.org/) is the web analytics platform.
 
-Available at: https://analytics.openfoodfacts.org/
+Available at: [analytics.openfoodfacts.org](https://analytics.openfoodfacts.org/)
 
-You must have a user account to access it (hopefully !). Ask for an admin to create you an account if you need it (Beware, there are personal information in the sense of GDPR like ip addresses).
+You must have a user account to access it (hopefully!). Ask for an admin to create you an account if you need it (Beware, there are personal information in the sense of GDPR like ip addresses).
 Ask for it to *contact* email.
 
 ## Main running services
 
 * nginx is used as a HTTP frontend
-* php7.3-fpm run the matomo software
+* php8.2-fpm run the matomo software
 * mariadb is the main database for matomo, some configurations are made for performance (see `/etc/mysql/mariadb.conf.d/90-off-configs.cnf` )
 * redis is used to fast track  matomo requests (see [Matomo setup for performance, below](#matomo-setup-for-performance))
 * different systemd timer takes care of putting tracking from redis to mariadb and to consolidate archive reports (see [Matomo setup for performance, below](#matomo-setup-for-performance))
