@@ -1,4 +1,11 @@
 ---
+- name: Ensure ssh.socket is not enabled and not running
+  # because otherwise it gets in the way of ssh.service
+  ansible.builtin.systemd_service:
+    name: ssh.socket
+    enabled: false
+    state: stopped
+
 - name: Execute upstream sshd role
   ansible.builtin.import_role:
     name: willshersystems.sshd

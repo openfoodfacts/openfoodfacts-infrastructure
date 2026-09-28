@@ -17,3 +17,12 @@ create InternalHost6 hash:ip family inet6 hashsize 1024 maxelem 65536 comment
 {% for ip_mask in (iptables_internal_hosts_ips_v6|sort) %}
 add InternalHost6 {{ ip_mask }} comment "internal host"
 {% endfor %}
+# container / vm networks
+create ContainerNet4 hash:net family inet hashsize 1024 maxelem 65536 comment
+{% for ip_mask in (iptables_container_networks_v4|sort) %}
+add ContainerNet4 {{ ip_mask }} comment "container / vm network"
+{% endfor %}
+create ContainerNet6 hash:net family inet6 hashsize 1024 maxelem 65536 comment
+{% for ip_mask in (iptables_container_networks_v6|sort) %}
+add ContainerNet6 {{ ip_mask }} comment "container / vm network"
+{% endfor %}

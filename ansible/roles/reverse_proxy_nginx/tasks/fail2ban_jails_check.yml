@@ -1,0 +1,20 @@
+---
+# Ensure we have the fail2ban jails configured
+- name: Check fail2ban jails expected to run
+  ansible.builtin.command:
+    cmd: fail2ban-client status {{ item }}
+  changed_when: false
+  loop: "{{ reverse_proxy_nginx__fail2ban_jails }}"
+  register: _reverse_proxy_nginx__fail2ban_status
+
+- name: Fail if fail2ban jails are not running
+  ansible.builtin.fail:
+    msg: "Fail2ban jail {{ item }} is not running"
+  loop: "{{ reverse_proxy_nginx__fail2ban_jails }}"
+  loop_control:
+    extended: true
+  when: |-
+    'Currently banned:' not in (
+      _reverse_proxy_nginx__fail2ban_status.results[ansible_loop.index0].stdout
+      | default('')
+    )

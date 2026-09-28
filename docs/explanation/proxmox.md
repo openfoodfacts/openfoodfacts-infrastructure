@@ -17,6 +17,25 @@ On ovh1 and ovh2 we use proxmox to manage VMs.
     * tools to manage Docker and Kubernetes
     * dozens of web apps and services such as Nextcloud, Keycloack, Nginx proxy manager, Grafana, Prometheus, Yunohost (containing itself dozens of apps), VS Code Server, IA tools, etc.
 
+## Proxmox web interface
+
+Proxmox web interface must not be exposed publicly to limit the attack surface.
+
+Instead if you want to access a proxmox web interface, use ssh tunnel.
+
+A nice tip, is to match each cluster to a different port,
+so that you may access different cluster interface at the same time,
+and your browser don't mess up passwords.
+
+You might configure your `.ssh/config` with entries to have tunneling,
+eg:
+```ssh_config
+Host scaleway-02-proxmox-8007
+    Hostname 151.115.132.12
+    LocalForward 8007 127.0.0.1:8006
+    IdentityFile /home/your-name/.ssh/your-identity-file
+```
+(I put the port in the host name so that when I ssh I just remember to which port it is mapped)
 
 ## Proxmox Backups
 
@@ -369,7 +388,7 @@ Read roles documentation to understand what they do.
 * create the container on the host and initialize, by running:
   `ansible-playbook sites/proxmox-node.yml --tags containers -l <host-name>`.
   You can eventually shorten the install a bit by adding `-e proxmox_containers__limit_to_containers=<your_container_id>`
-
+* eventually access your container to validate the fingerprint: `ssh -J <proxmox-host> config_op@<your-container-internalip>`
 * make base setup of container by running:
   `ansible-playbook jobs/configure.yml -l <container-name>`
 
