@@ -6,10 +6,8 @@
       
       
       
-        <link rel="prev" href="../2023-08-31-off2-products-snapshots-clean/">
+        <link rel="prev" href="../2026-09-14-ovh1-104-debian-upgrade/">
       
-      
-        <link rel="next" href="../2023-10-14-mongodb-down/">
       
       
         
@@ -20,7 +18,7 @@
     
     
       
-        <title>2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2 - Open Food Facts Infrastructure documentation</title>
+        <title>2026-09-23 temporarily moving images to scaleway-03 - Open Food Facts Infrastructure documentation</title>
       
     
     
@@ -81,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2" class="md-skip">
+        <a href="#2026-09-23-temporarily-moving-images-to-scaleway-03" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
+              2026-09-23 temporarily moving images to scaleway-03
             
           </span>
         </div>
@@ -4016,37 +4014,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../2023-09-27-expired-ssl-certificate-for-images-on-off2/" class="md-nav__link">
         
   
   
@@ -4062,59 +4033,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#what-happened" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What happened
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Investigation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solving-temporarily" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Solving (temporarily)
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -7232,10 +7150,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../2026-09-23-temporarily-moving-images-to-scaleway-03/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09-23 temporarily moving images to scaleway-03
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -7251,6 +7196,154 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-ct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating the CT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the CT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mounting-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mounting images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reverse-proxy-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxy install
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reverse proxy install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-ansible-for-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running ansible for reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing it
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-nat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the NAT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up the NAT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-it_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing it
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-ip-to-product-opener-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding ip to product opener configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing DNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -7290,10 +7383,116 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#what-happened" class="md-nav__link">
+  <a href="#creating-the-ct" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What happened
+        Creating the CT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the CT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mounting-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mounting images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reverse-proxy-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxy install
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reverse proxy install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-ansible-for-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running ansible for reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing it
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-nat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up the NAT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up the NAT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-it_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing it
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-ip-to-product-opener-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding ip to product opener configuration
       
     </span>
   </a>
@@ -7301,21 +7500,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#investigation" class="md-nav__link">
+  <a href="#changing-dns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Investigation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solving-temporarily" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Solving (temporarily)
+        Changing DNS
       
     </span>
   </a>
@@ -7339,7 +7527,7 @@
 
 
   
-    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2023-09-27-expired-ssl-certificate-for-images-on-off2.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/develop/docs/reports/2026-09-23-temporarily-moving-images-to-scaleway-03.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -7347,28 +7535,135 @@
   
 
 
-<h1 id="2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2">2023-09-27 / Expired SSL certificate for images.openfoodfacts.org on off2<a class="headerlink" href="#2023-09-27-expired-ssl-certificate-for-imagesopenfoodfactsorg-on-off2" title="Permanent link">#</a></h1>
-<h2 id="what-happened">What happened<a class="headerlink" href="#what-happened" title="Permanent link">#</a></h2>
-<p>The SSL certificate expired the day before.</p>
-<h2 id="investigation">Investigation<a class="headerlink" href="#investigation" title="Permanent link">#</a></h2>
-<p>We temporarily moved images.openfoodfacts.org from ovh3 to off2, but not the renewal of the corresponding certificate.</p>
-<h2 id="solving-temporarily">Solving (temporarily)<a class="headerlink" href="#solving-temporarily" title="Permanent link">#</a></h2>
-<p>As we are likely to move back images.openfoodfacts.org to ovh3 soon, we just copied the newer Let's Encrypt files from ovh3 to off2, and restarted nginx.
-The certificate was renewed on Sept 6 2023, it will expire on December 5 2023.</p>
-<div class="highlight"><pre><span></span><code>root@off2:/etc/letsencrypt# ls -lrt
-total 42
--rw-r--r-- 1 root root  121 May 26  2018 cli.ini
-drwxr-xr-x 5 root root    5 Jun 18  2021 renewal-hooks
--rw-r--r-- 1 root root  424 Jun 18  2021 ssl-dhparams.pem
--rw-r--r-- 1 root root 1143 Jun 18  2021 options-ssl-nginx.conf
-drwxr-xr-x 3 root root    3 Jun 18  2021 accounts
-drwx------ 4 root root    5 Jul  5  2021 live
-drwx------ 4 root root    4 Jul  5  2021 archive
-drwx------ 2 root root   52 Sep  6 22:32 keys
-drwxr-xr-x 2 root root   52 Sep  6 22:32 csr
-drwxr-xr-x 2 root root    4 Sep  6 22:32 renewal
-drwxr-xr-x 9 root root   12 Sep 27 09:24 old
+<h1 id="2026-09-23-temporarily-moving-images-to-scaleway-03">2026-09-23 temporarily moving images to scaleway-03<a class="headerlink" href="#2026-09-23-temporarily-moving-images-to-scaleway-03" title="Permanent link">#</a></h1>
+<p>We have very big latency problem on ks1 serving images.openfoodfacts.org.</p>
+<p>Moreover, ks1 images is not up-to-date anymore since end of july,
+due to a bad manipulation that removed snapshots that syncoid was relying upon.
+As the disk space is not enough on ks1, we can't start a new zfs sync along the current one,
+so we are doomed to switch to another server.
+(Also we knew ks1 to be under-sized anyway).</p>
+<p>We want to move images.openfoodfacts.org to scaleway-05 (previously off2, moved to scaleway),
+but we first need to set it up to be in the cluster, and upgrade its proxmox version.</p>
+<h2 id="creating-the-ct">Creating the CT<a class="headerlink" href="#creating-the-ct" title="Permanent link">#</a></h2>
+<p>I created a container for the images reverse-proxy, following <a href="../../explanation/proxmox/#how-to-create-a-new-container-with-ansible">Proxmox / how to create a new container with ansible</a></p>
+<h3 id="mounting-images">mounting images<a class="headerlink" href="#mounting-images" title="Permanent link">#</a></h3>
+<p>We need to mount images in the container,</p>
+<p>I logged inside the CT to <code>mkdir /mnt/off/images</code></p>
+<p>Note that I must have a folder named <code>images</code>
+because the url of images starts with <code>images/products/...</code></p>
+<p>and I did edit <code>/etc/pve/lxc/116.conf</code> on <code>scaleway-03</code> to add the:
+</p><div class="highlight"><pre><span></span><code><span class="na">mp0</span><span class="o">:</span><span class="w"> </span><span class="s">/zfs-hdd/off-backups/scaleway-01-podata-hdd/images,mp=/mnt/off/images</span>
 </code></pre></div>
+then on the host: <code>pct stop 116 &amp;&amp; pct start 116</code><p></p>
+<h2 id="reverse-proxy-install">Reverse proxy install<a class="headerlink" href="#reverse-proxy-install" title="Permanent link">#</a></h2>
+<h3 id="configurations">Configurations<a class="headerlink" href="#configurations" title="Permanent link">#</a></h3>
+<p>I created <code>confs/scaleway-images-tmp</code>  and added needed <code>nginx</code> and <code>fail2ban</code> file and folders.</p>
+<p>I added a public ipv6 to the container, for ipv4 we will need NATing through the revers proxy.</p>
+<p>Consequently, in the CT variables, I also put <code>iptables_public_ports: [22, 80, 443]</code></p>
+<h3 id="running-ansible-for-reverse-proxy">Running ansible for reverse proxy<a class="headerlink" href="#running-ansible-for-reverse-proxy" title="Permanent link">#</a></h3>
+<p>After some modifications of ansible to verify fail2ban rules, I did run:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook sites/reverse-proxy.yml -l scaleway-images-tmp
+</code></pre></div>
+<p>I stumbled on a problem during nginx installation.
+The post-install script was failing on a chown command.
+Looking at the script it was a <code>chown nginx:adm /var/log/nginx/access.log</code>.
+In fact this was the <code>chown nginx</code> which was not working.
+In some way the chown to id 999 was not possible.
+It was due to an error in container idmapping.
+We wrote a mapping with:
+</p><div class="highlight"><pre><span></span><code><span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">u 0 100000 999</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">g 0 100000 999</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">u 1000 1000 64536</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">g 1000 1000 64536</span>
+</code></pre></div>
+but the first two line, don't cover id 999,
+so it should be:
+<div class="highlight"><pre><span></span><code><span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">u 0 100000 1000</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">g 0 100000 1000</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">u 1000 1000 64536</span>
+<span class="na">lxc.idmap</span><span class="o">:</span><span class="w"> </span><span class="s">g 1000 1000 64536</span>
+</code></pre></div>
+I fixed that in <code>/etc/pve/lxc/116.conf</code> (and in the ansible variables).<p></p>
+<h3 id="testing-it">Testing it<a class="headerlink" href="#testing-it" title="Permanent link">#</a></h3>
+<p>I can test on the CT 116 itself:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--connect-to<span class="w"> </span>images.openfoodfacts.org:443:10.13.1.116:443<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>/tmp/1.400.jpg
+
+<span class="c1"># verify</span>
+md5sum<span class="w"> </span>/tmp/1.400.jpg<span class="w"> </span>/mnt/off/images/products/628/703/571/3790/1.400.jpg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--connect-to<span class="w"> </span>images.openfoodfacts.org:443:<span class="o">[</span><span class="m">2001</span>:bc8:c025:11:116::<span class="o">]</span>:443<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>/tmp/1.400.jpg
+
+<span class="c1"># verify</span>
+md5sum<span class="w"> </span>/tmp/1.400.jpg<span class="w"> </span>/mnt/off/images/products/628/703/571/3790/1.400.jpg
+</code></pre></div>
+<p>I can test the ip4 service on my machine, even before NATing,
+by:</p>
+<ul>
+<li>changing my <code>/etc/hosts</code> to add:
+  <div class="highlight"><pre><span></span><code>127.0.0.1 images.openfoodfacts.org
+</code></pre></div></li>
+<li>setting up a stunnel:
+  <div class="highlight"><pre><span></span><code><span class="c1"># sudo + SSH_AUTH_SOCK preserve</span>
+sudo<span class="w"> </span><span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span><span class="si">${</span><span class="nv">SSH_AUTH_SOCK</span><span class="si">}</span><span class="w"> </span>ssh<span class="w"> </span>-J<span class="w"> </span>alex@scaleway-03.infra.openfoodfacts.org<span class="w"> </span>-L<span class="w"> </span><span class="m">443</span>:127.0.0.1:443<span class="w"> </span>alex@10.13.1.116
+</code></pre></div>
+and querying https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg</li>
+</ul>
+<p>I can also test ip6 access:</p>
+<ul>
+<li>changing my <code>/etc/hosts</code> to add:
+  <div class="highlight"><pre><span></span><code>2001:bc8:c025:11:116:: images.openfoodfacts.org
+</code></pre></div>
+and using
+<code>curl -6 https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg</code></li>
+</ul>
+<h2 id="setting-up-the-nat">Setting up the NAT<a class="headerlink" href="#setting-up-the-nat" title="Permanent link">#</a></h2>
+<p>To setup the NAT, I just added the corresponding values for
+<code>iptables__enable_ip_forward_v4</code> and <code>iptables_extra_rules_nat_v4</code>
+in <code>ansible/host_vars/scaleway-03/iptables.yml</code></p>
+<div class="highlight"><pre><span></span><code>iptables__enable_ip_forward_v4: true
+
+iptables_extra_rules_nat_v4:
+  "001 - Forward http request to scaleway-images-tmp": &gt;-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 80 -j DNAT --to-destination 10.13.1.116:80
+  "002 - Forward https request to scaleway-images-tmp": &gt;-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 443 -j DNAT --to-destination 10.13.1.116:443
+</code></pre></div>
+<p>And then
+</p><div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>jobs/configure.yml<span class="w"> </span>-l<span class="w"> </span>scaleway-03<span class="w"> </span>--tags<span class="w"> </span>iptables
+</code></pre></div><p></p>
+<h3 id="testing-it_1">Testing it<a class="headerlink" href="#testing-it_1" title="Permanent link">#</a></h3>
+<p>This is as simple adding a line in <code>/etc/hosts</code> with:
+</p><div class="highlight"><pre><span></span><code>151.115.132.13 images.openfoodfacts.org
+</code></pre></div><p></p>
+<p>Or, as contributed by Freso, if you use <a href="https://www.nlnetlabs.nl/projects/unbound/about/">Unbound</a>, you can use this config:
+</p><div class="highlight"><pre><span></span><code>local-zone: "images.openfoodfacts.org" redirect
+local-data: "images.openfoodfacts.org A 151.115.132.13"
+</code></pre></div>
+or, as contributed by Nitro, with chromium (or brave):
+<div class="highlight"><pre><span></span><code>brave-browser --host-resolver-rules="MAP images.openfoodfacts.org 151.115.132.13"
+</code></pre></div>
+and then accessing images.<p></p>
+<p>Or with curl:
+</p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--connect-to<span class="w"> </span>images.openfoodfacts.org:443:151.115.132.13:443<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://images.openfoodfacts.org/images/products/628/703/571/3790/1.400.jpg<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>/tmp/1.400.jpg
+<span class="c1"># and maybe, on linux:</span>
+xdg-open<span class="w"> </span>/tmp/1.400.jpg
+</code></pre></div><p></p>
+<h2 id="adding-ip-to-product-opener-configuration">Adding ip to product opener configuration<a class="headerlink" href="#adding-ip-to-product-opener-configuration" title="Permanent link">#</a></h2>
+<p>I had to update the rule that redirect images url to images server,
+so that it does an exception for our new server
+(otherwise we can't fetch new images from the source server).</p>
+<p>see https://github.com/openfoodfacts/openfoodfacts-server/pull/14697</p>
+<h2 id="changing-dns">Changing DNS<a class="headerlink" href="#changing-dns" title="Permanent link">#</a></h2>
+<p>Finally I changed the DNS zone using OVH console,
+to have <code>images.openfoodfacts.org</code> be a <code>CNAME</code> to <code>scaleway-03.infra.openfoodfacts.org</code></p>
+<p>I can monitor the impact of the change looking at:
+https://www.computel.fr/munin/openfoodfacts/sc3.openfoodfacts/index.html</p>
 
 
 

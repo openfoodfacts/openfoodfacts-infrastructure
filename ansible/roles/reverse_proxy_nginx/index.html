@@ -2454,6 +2454,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../how-to/how-to-copy-nginx-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to copy nginx certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../how-to/how-to-deploy-a-new-service/" class="md-nav__link">
         
   
@@ -7202,6 +7230,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/2026-09-23-temporarily-moving-images-to-scaleway-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09-23 temporarily moving images to scaleway-03
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7313,7 +7369,14 @@ reverse_proxy_nginx__install_prometheus: true
 # Root folder containing the config files for nginx
 # Each of them will bin linked to corresponding folder in /etc/nginx
 reverse_proxy_nginx__nginx_git_root_path:
-reverse_proxy_nginx__nginx_git_config_path: "{{ reverse_proxy_nginx__nginx_git_root_path }}/confs/{{ inventory_hostname }}/nginx"
+reverse_proxy_nginx__nginx_git_config_path: "{{ reverse_proxy_nginx__nginx_git_root_path }}/confs/{{ inventory_hostname }}"
+
+# List of fail2ban jails to ensure are running
+_reverse_proxy_nginx__default_fail2ban_jails:
+
+  - nginx-bad-codes
+  - nginx-manual-ban
+reverse_proxy_nginx__fail2ban_jails: "{{ _reverse_proxy_nginx__default_fail2ban_jails }}"
 
 # Whether we should install certbot ovh
 reverse_proxy_nginx__certbot_ovh_install: true

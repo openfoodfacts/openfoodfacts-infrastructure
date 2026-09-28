@@ -1469,6 +1469,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxmox-web-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxmox web interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxmox-backups" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2793,6 +2804,34 @@
     
   
     How to add disk space on a Qemu VM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to/how-to-copy-nginx-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to copy nginx certificates
   
 
     
@@ -7561,6 +7600,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/2026-09-23-temporarily-moving-images-to-scaleway-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09-23 temporarily moving images to scaleway-03
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7599,6 +7666,17 @@
     <span class="md-ellipsis">
       
         Proxmox: knowledge, tips, etc.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxmox-web-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxmox web interface
       
     </span>
   </a>
@@ -8035,6 +8113,20 @@
 </ul>
 </li>
 </ul>
+<h2 id="proxmox-web-interface">Proxmox web interface<a class="headerlink" href="#proxmox-web-interface" title="Permanent link">#</a></h2>
+<p>Proxmox web interface must not be exposed publicly to limit the attack surface.</p>
+<p>Instead if you want to access a proxmox web interface, use ssh tunnel.</p>
+<p>A nice tip, is to match each cluster to a different port,
+so that you may access different cluster interface at the same time,
+and your browser don't mess up passwords.</p>
+<p>You might configure your <code>.ssh/config</code> with entries to have tunneling,
+eg:
+</p><div class="highlight"><pre><span></span><code>Host scaleway-02-proxmox-8007
+    Hostname 151.115.132.12
+    LocalForward 8007 127.0.0.1:8006
+    IdentityFile /home/your-name/.ssh/your-identity-file
+</code></pre></div>
+(I put the port in the host name so that when I ssh I just remember to which port it is mapped)<p></p>
 <h2 id="proxmox-backups">Proxmox Backups<a class="headerlink" href="#proxmox-backups" title="Permanent link">#</a></h2>
 <p><strong>IMPORTANT:</strong> We don't use standard proxmox backup<sup id="fnref:previous_backups"><a class="footnote-ref" href="#fn:previous_backups">1</a></sup> (see Datacenter -&gt; backup).</p>
 <p>Instead we use <a href="../software/sanoid/">syncoid / sanoid</a> to snapshot and synchronize data to other servers.</p>
@@ -8277,8 +8369,7 @@ and add specific variables.</p>
 <li>create the container on the host and initialize, by running:
   <code>ansible-playbook sites/proxmox-node.yml --tags containers -l &lt;host-name&gt;</code>.
   You can eventually shorten the install a bit by adding <code>-e proxmox_containers__limit_to_containers=&lt;your_container_id&gt;</code></li>
-</ul>
-<ul>
+<li>eventually access your container to validate the fingerprint: <code>ssh -J &lt;proxmox-host&gt; config_op@&lt;your-container-internalip&gt;</code></li>
 <li>make base setup of container by running:
   <code>ansible-playbook jobs/configure.yml -l &lt;container-name&gt;</code></li>
 </ul>
