@@ -2,8 +2,8 @@
 - name: "Check mandatory variables are defined"
   ansible.builtin.assert:
     that:
-      - git_based_configs__github_token
-      - git_based_configs__repository_dest
+      - (git_based_configs__github_token | default(false)) is truthy
+      - (git_based_configs__repository_dest | default(false)) is truthy
 
 - name: Install git
   ansible.builtin.package:

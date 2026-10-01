@@ -1,0 +1,5 @@
+---
+# containers and vm are in 10.12.1,
+# this is important to have masquerading working only on outgoing requests
+iptables_container_networks_v4:
+  - "10.12.1.0/24"

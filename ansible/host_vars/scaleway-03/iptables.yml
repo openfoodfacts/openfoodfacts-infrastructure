@@ -1,0 +1,12 @@
+---
+# Forwarding http(s) request to scaleway-images-tmp
+# For ip6 we use a public ip directly on the conttainer, so no need to forward it
+iptables__enable_ip_forward_v4: true
+
+# note: the -d 151.115.132.13 is important
+# because we don't want to redirect other requests from internal network
+iptables_extra_rules_nat_v4:
+  "001 - Forward http request to scaleway-images-tmp": >-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 80 -j DNAT --to-destination 10.13.1.116:80
+  "002 - Forward https request to scaleway-images-tmp": >-
+    -A PREROUTING -p tcp -d 151.115.132.13 --dport 443 -j DNAT --to-destination 10.13.1.116:443
