@@ -14,7 +14,31 @@ class FilterModule:
     def filters(self):
         return {
             'zfs_validate_requires_mounts_for': self.zfs_validate_requires_mounts_for,
+            'add_defaults_to_dicts': self.add_defaults_to_dicts,
         }
+
+    def add_defaults_to_dicts(self, zfs_pools, default_values):
+        """Add some defaults to zfs_pools so that aisbergg.zfs role does not fail.
+
+        We don't handle nested values yet…
+
+        :param zfs_pools: the list of zfs pools (dicts) as defined in the inventory
+        :param: default_values: a dict of default values to add to each pool
+        :return: a new list of zfs pools with defaults added
+        """
+        if not isinstance(zfs_pools, list):
+            raise AnsibleFilterError(
+                "zfs_add_defaults_to_pools expects a list of dicts "
+                "(the zfs_pools variable)"
+            )
+
+        return [
+            {
+                **default_values,
+                **pool,
+            }
+            for pool in zfs_pools
+        ]
 
     def zfs_validate_requires_mounts_for(self, zfs_list_stdout):
         """Validate that datasets mounted outside their own zpool hierarchy

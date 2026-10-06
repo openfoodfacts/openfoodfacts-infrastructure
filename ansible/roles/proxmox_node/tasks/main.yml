@@ -13,6 +13,12 @@
     state: present
   tags: host_file
 
+- name: add some defaults to proxmox_node__zfs_pools
+  # because otherwise aisbergg.zfs fails
+  ansible.builtin.set_fact:
+    proxmox_node__zfs_pools: "{{ proxmox_node__zfs_pools | add_defaults_to_dicts(proxmox_node__zfs_pools_defaults) }}"
+  tags: zfs
+
 - name: Prepare zpool and datasets
   ansible.builtin.import_role:
     name: aisbergg.zfs
