@@ -1,0 +1,27 @@
+# Issue #493: preserve the subdomain, path and query when correcting the spelling.
+map $host $openproductfacts_redirect_host {
+    default openproductsfacts.org;
+    ~^(?<opf_redirect_subdomain>[^.]+)\.openproductfacts\.org$ $opf_redirect_subdomain.openproductsfacts.org;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name openproductfacts.org *.openproductfacts.org;
+
+    return 301 https://$openproductfacts_redirect_host$request_uri;
+}
+
+# Issue the certificate before enabling this file; see the deployment guide.
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name openproductfacts.org *.openproductfacts.org;
+
+    ssl_certificate /etc/letsencrypt/live/openproductfacts.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openproductfacts.org/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://$openproductfacts_redirect_host$request_uri;
+}
