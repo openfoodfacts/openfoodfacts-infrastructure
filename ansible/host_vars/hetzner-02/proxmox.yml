@@ -29,12 +29,12 @@ proxmox_node__pve_storages:
     content: rootdir,images
     mountpoint: /rpool/pve
     sparse: 0
-    shared: 0
+    # shared: 0
   - name: local
     type: dir
     path: /var/lib/vz
     content: vztmpl,snippets,iso
-    shared: 0
+    # shared: 0
 
 proxmox_containers__containers:
   - id: 100
