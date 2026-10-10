@@ -2,7 +2,9 @@
 - name: Check if user exists
   ansible.builtin.command: id {{ user.name }}
   become: true
-  ignore_errors: true
+  # a non-zero return code simply means the user does not exist yet,
+  # it is not an error (rc is used below to detect account creation)
+  failed_when: false
   register: _system_users__user_exists_cmd
   changed_when: false
 
