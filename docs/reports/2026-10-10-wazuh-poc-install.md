@@ -53,6 +53,7 @@ root@wazuh:/# apt -y autoremove
 ```
 
 Manually ran some commands adapted from [`ct_postinstall`](https://github.com/openfoodfacts/openfoodfacts-infrastructure/blob/e27503a8b4ded38d9e2cbc103b7d8f6bfe8c6cb3/scripts/proxmox-management/ct_postinstall).
+
 ```bash
 root@wazuh:/# apt install -y sudo curl etckeeper htop fail2ban molly-guard lsb-release vim bsd-mailx tree screen munin-node
 root@wazuh:/# echo 'alias ll="ls -al"' >> /etc/bash.bashrc

@@ -1,0 +1,8 @@
+# Wazuh indexer (OpenSearch) settings
+#
+# The container has 8192 MB of RAM. Upstream computes the indexer JVM heap as
+# `ansible_memtotal_mb // 4` for an all-in-one deployment, which is 2048 MB
+# here. We set it explicitly so that a container recreated without lxcfs
+# virtualisation cannot read the *host* memory instead and request a heap of
+# tens of GB, which would immediately OOM.
+wazuh_indexer_heap_size: 2g

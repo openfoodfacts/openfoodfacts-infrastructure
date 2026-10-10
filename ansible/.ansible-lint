@@ -1,6 +1,8 @@
 ---
 exclude_paths:
   - roles.galaxy
+  # wazuh-ansible is vendored as a submodule, we do not lint upstream code
+  - vendor
   - collections
   - venv
   - .venv

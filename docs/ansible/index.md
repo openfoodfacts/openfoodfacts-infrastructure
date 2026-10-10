@@ -40,7 +40,7 @@ See [Install of git-crypt](git-crypt.md)
 Clone the infrastructure repository and go in the ansible sub-folder:
 
 ```bash
-git clone git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
+git clone --recurse-submodules git@github.com:openfoodfacts/openfoodfacts-infrastructure.git
 cd openfoodfacts-infrastructure/ansible
 ```
 
@@ -51,12 +51,16 @@ python3 -m venv ./venv
 source venv/bin/activate
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 python3 -m pip install -r requirements.pip
-ansible-galaxy install -r requirements.yml
+make -C .. install
 ```
+
+`make install` runs `ansible-galaxy install -r requirements.yml`, fetches the
+git submodules, and installs the collections required by the vendored
+wazuh-ansible (see [Wazuh](../explanation/services/wazuh.md)).
 
 If you want to add [autocompletion](https://docs.ansible.com/ansible/devel/installation_guide/intro_installation.html#adding-ansible-command-shell-completion) for ansible commands:
 

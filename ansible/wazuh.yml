@@ -1,0 +1,13 @@
+# Deployment of Wazuh 5 on a proxmox container
+#
+# The upstream playbook is used verbatim, see
+# docs/explanation/services/wazuh.md
+#
+# It is imported rather than copied so that we do not have to keep a fork in
+# sync with upstream releases.
+#
+# wazuh-aio.yml deploys the indexer, the manager and the dashboard on a single
+# host, with `single_node: true`.
+---
+- name: Wazuh all-in-one deployment
+  import_playbook: vendor/wazuh-ansible/wazuh-aio.yml
