@@ -23,7 +23,14 @@ stack.
 | Address | `10.1.0.160` |
 | Inventory group | `[aio]`, child of `[wazuh_cluster]` |
 | Resources | 4 cores, 8192 MB RAM, 50 GB disk, Debian 12 |
+| **Privileged** | **yes, required** |
 | Playbook | `ansible/wazuh.yml` |
+
+The container must be **privileged**. OpenSearch's systemd unit uses sandboxing directives that make systemd build
+a per-unit mount namespace, and unprivileged LXC cannot grant that; the indexer dies with
+`226/NAMESPACE` and `Failed to set up mount namespacing`. `wazuh-dashboard` is OpenSearch too, so the whole
+container has to be privileged rather than only the indexer. See the
+[install report](../../reports/2026-10-10-wazuh-poc-install.md) for the full error.
 
 The container was created by hand and its setup is recorded in
 [2026-10-10-wazuh-poc-install.md](../../reports/2026-10-10-wazuh-poc-install.md).
@@ -67,20 +74,44 @@ though we only run Linux ones).
 Dependabot keeps the submodule up to date with the `gitsubmodule` ecosystem in
 `.github/dependabot.yml`.
 
+### Release candidates
+
+Wazuh 5.0.0 is still a release candidate, so packages come from the pre-release
+mirror. The `package-urls` role defaults to `source: production`, which serves
+released versions only and answers `403 Forbidden` for
+`artifact_urls_5.0.0.yaml`. We set:
+
+```yaml
+source: prerelease
+```
+
+in `group_vars/wazuh_cluster/wazuh.yml`, which makes the role fetch
+`artifact_urls_5.0.0-rc1.yaml` from
+`packages-staging.xdrsiem.wazuh.info/pre-release/5.x/`. That file is the single
+source of every component package URL, so this one setting covers the indexer,
+the manager and the dashboard alike.
+
+No apt repository is configured: the roles download `.deb` packages directly
+and install them with `apt: deb=...`. Set `source` back to `production` once
+5.0.0 is released.
+
 ### Two consequences of importing
 
-`playbook_dir` is taken from the **top-level** playbook and `import_playbook`
-does not change it. The Wazuh roles read their version from
-`{{ playbook_dir }}/VERSION.json`, so running from `ansible/` would look for
-`ansible/VERSION.json`. We therefore commit that path as a **symlink** to the
-vendored file, which tracks the pinned version and never needs updating by
-hand.
+The Wazuh roles derive their paths from `playbook_dir`. Because
+`import_playbook` makes `playbook_dir` the **imported** playbook's directory,
+running `ansible/wazuh.yml` resolves `playbook_dir` to
+`ansible/vendor/wazuh-ansible/`, which is exactly what upstream expects. Three
+things follow:
 
-Wazuh likewise derives `wazuh_credentials_path` and `local_configs_path` from
-`playbook_dir`, so its generated credentials and certificates land under
-`ansible/` rather than inside the submodule. That is deliberate: it keeps them
-out of vendored code, and lets `.gitignore` handle them like normal repository
-content.
+* `{{ playbook_dir }}/VERSION.json` is the submodule's own file, so no shim is
+  needed in `ansible/`.
+* Generated certificates and credentials land in the submodule, under
+  `deployment-config-files/` and `deployment-credentials/`. Both are already
+  ignored by the submodule's own `.gitignore`, so it stays clean and the parent
+  repository needs no rules for them.
+* The CA directory is derived from a hash of `local_configs_path`, so it is
+  stable as long as the vendored path does not move. Moving the submodule would
+  silently point at a different, empty CA directory.
 
 ## Passwords
 
@@ -121,9 +152,9 @@ deployment CA on the control node. Two things follow:
   backed up separately**. Losing it means issuing a CA that no existing
   component trusts, with no recovery path.
 * Adding a node later is done by deleting
-  `ansible/deployment-config-files/wazuh-certificates/` and re-running, which
-  issues new certificates from the *same* CA. Never delete the CA directory
-  itself.
+  `ansible/vendor/wazuh-ansible/deployment-config-files/wazuh-certificates/` and
+  re-running, which issues new certificates from the *same* CA. Never delete the
+  CA directory itself.
 
 These are separate from the dashboard's TLS certificate, which for now is the
 self-signed one the CA issues, and which is not trusted by browsers.

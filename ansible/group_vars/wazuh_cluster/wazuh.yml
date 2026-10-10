@@ -1,3 +1,11 @@
+# Wazuh 5.0.0 is still a release candidate, so packages come from the
+# pre-release staging mirror. The role defaults to `production`, which serves
+# only released versions and answers 403 for artifact_urls_5.0.0.yaml.
+# Only `package-urls` reads this: it decides which artifact_urls.yaml to
+# download, and every component package URL comes from that file.
+# Set this back to `production` once 5.0.0 is released.
+source: prerelease
+
 # Wazuh indexer (OpenSearch) settings
 #
 # The container has 8192 MB of RAM. Upstream computes the indexer JVM heap as

@@ -6,7 +6,7 @@ in which state and might require maintenance. We set up a proof of concept
 instance of [Wazuh 5.0 RC1](https://wazuh.com/) on OVH2, and added some agents
 on LXC containers to present sample data from our infrastructure.
 
-Create new CT 160 with Debian 11 (newest available template)
+## Create new CT 160 with Debian 11 (newest available template)
 
 ```bash
 hangy@ovh2:~$ sudo pct create 160 local:vztmpl/debian-11-standard_11.3-0_amd64.tar.gz --arch amd64 --cores 4 --hostname wazuh --memory 8192 --net0 name=eth0,bridge=vmbr0,gw=10.0.0.1,ip=10.1.0.160/24,type=veth --rootfs zfs:50 --unprivileged 1
@@ -71,3 +71,41 @@ root@wazuh:/# passwd config-op
 root@wazuh:/# runuser -u config-op -- mkdir /home/config-op/.ssh
 root@wazuh:/# runuser -u config-op -- wget -O /home/config-op/.ssh/authorized_keys https://github.com/$GITHUB_USER_NAME.keys
 ```
+
+## Ansible
+
+The Wazuh ansible setup was described in [services](../explanation/services/wazuh.md). When running, the playbook,
+the `wazuh-indexer` didn't start because OpenSearch requires privileges that are not available on unprivileged containers.
+
+The service failed with:
+
+```bash
+wazuh-indexer.service: Failed to set up mount namespacing: /run/systemd/unit-root/proc: Permission denied
+Failed at step NAMESPACE spawning /usr/share/wazuh-indexer/bin/systemd-entrypoint: Permission denied
+Main process exited, code=exited, status=226/NAMESPACE
+```
+
+OpenSearch's systemd unit relies on systemd sandboxing (`ProtectSystem`, `PrivateTmp`, ...), which makes systemd
+build a per-unit mount namespace. Unprivileged LXC cannot grant that. `wazuh-dashboard` is also OpenSearch and
+needs the same, so the whole container has to be privileged rather than only the indexer.
+
+Converting the container in place is not possible:
+
+```bash
+hangy@ovh2:~$ sudo pct set 160 --unprivileged 0
+unable to modify read-only option: 'unprivileged'
+```
+
+`unprivileged` can only be set at creation time. It has to be **destroyed and recreated**:
+
+```bash
+hangy@ovh2:~$ sudo pct destroy 160
+hangy@ovh2:~$ sudo pct create 160 local:vztmpl/debian-11-standard_11.3-0_amd64.tar.gz --arch amd64 --cores 4 --hostname wazuh --memory 8192 --net0 name=eth0,bridge=vmbr0,gw=10.0.0.1,ip=10.1.0.160/24,type=veth --rootfs zfs:50 --unprivileged 0
+hangy@ovh2:~$ sudo pct start 160
+```
+
+Recreating is cheap here. The Ansible playbook is idempotent, and the deployment CA lives on the control node in
+`/var/lib/wazuh-ansible/<hash>/ca` rather than in the container, so a re-run re-stages certificates from the same
+CA instead of issuing a new one.
+
+So we ran the same steps from the first chapter again, but with a privileged container.
