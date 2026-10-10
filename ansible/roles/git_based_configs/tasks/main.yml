@@ -66,10 +66,27 @@
     state: present
   register: _git_based_configs__github_deploy_key_result
 
+- name: Get local branch name
+  # we clone at the target branch so that a fresh clone does not land on the
+  # repository default branch and immediately need a branch switch (which
+  # asks for confirmation, breaking non-interactive runs on new hosts)
+  ansible.builtin.command:
+    cmd: git rev-parse --abbrev-ref HEAD
+  changed_when: false
+  delegate_to: localhost
+  become: false
+  register: _git_based_configs__local_branch
+
+- name: Set target branch name
+  ansible.builtin.set_fact:
+    _git_based_configs__target_branch_name: >-
+      {{ git_based_configs__branch or _git_based_configs__local_branch.stdout }}
+
 - name: Clone the repository
   ansible.builtin.git: # noqa: latest
     repo: "git@github.com:{{ git_based_configs__repository_owner }}/{{ git_based_configs__repository_name }}.git"
     dest: "{{ git_based_configs__repository_dest }}"
+    version: "{{ _git_based_configs__target_branch_name }}"
     update: false
     accept_newhostkey: true
   # important here to use the right user !

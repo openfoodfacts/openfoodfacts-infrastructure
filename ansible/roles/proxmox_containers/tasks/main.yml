@@ -45,8 +45,11 @@
     executable: /bin/bash
     cmd: |
       set -o pipefail
+      # extract only the first column (the exact template filename),
+      # the rest of the pveam line (version, arch columns...) must not
+      # end up in the download url
       pveam available |
-      grep -o debian-{{ ansible_facts['distribution_major_version'] }}.*standard.*$
+      awk '$1 ~ /^debian-{{ ansible_facts['distribution_major_version'] }}-standard_/ { print $1; exit }'
   changed_when: false
   register: _proxmox_containers__debian_template_name
 
