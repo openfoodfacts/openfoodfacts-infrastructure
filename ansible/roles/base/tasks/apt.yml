@@ -15,10 +15,17 @@
     update_cache: true
 
 - name: "Enable backport repository"
-  ansible.builtin.apt_repository:
-    repo: "deb http://deb.debian.org/debian {{ ansible_facts['distribution_release'] }}-backports main contrib non-free"
-    filename: debian-backports
+  ansible.builtin.deb822_repository:
+    name: debian-backports
+    types: deb
+    uris: http://deb.debian.org/debian
+    suites: "{{ ansible_facts['distribution_release'] }}-backports"
+    components:
+      - main
+      - contrib
+      - non-free
     state: present
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
   tags:
     - system
   # Don't run the task if the distribution is not Debian or the version is bullseye or older

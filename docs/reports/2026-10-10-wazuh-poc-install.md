@@ -86,8 +86,8 @@ Main process exited, code=exited, status=226/NAMESPACE
 ```
 
 OpenSearch's systemd unit relies on systemd sandboxing (`ProtectSystem`, `PrivateTmp`, ...), which makes systemd
-build a per-unit mount namespace. Unprivileged LXC cannot grant that. `wazuh-dashboard` is also OpenSearch and
-needs the same, so the whole container has to be privileged rather than only the indexer.
+build a per-unit mount namespace. The LXC AppArmor profile blocks the mounts systemd needs. `wazuh-dashboard` is
+also OpenSearch and needs the same, so the setting applies to the whole container.
 
 Converting the container in place is not possible:
 
@@ -96,16 +96,39 @@ hangy@ovh2:~$ sudo pct set 160 --unprivileged 0
 unable to modify read-only option: 'unprivileged'
 ```
 
-`unprivileged` can only be set at creation time. It has to be **destroyed and recreated**:
+`unprivileged` can only be set at creation time. I first recreated the container as **privileged**, on the
+assumption that OpenSearch needed root. That was wrong: the error persisted, because it is not a privilege
+problem. See below.
+
+## The container needs `features: nesting=1`, and must stay unprivileged
+
+This is a long-standing [AppArmor bug](https://wiki.debian.org/LXC/SystemdMountsAndAppArmor)
+(lp:1597017), not a privilege problem. `lxc/lxc#4052` reports the same failure in *both* privileged and
+unprivileged containers. The LXC AppArmor profile restricts the mount flags systemd needs in order to build
+a per-unit mount namespace, so the unit exits `226/NAMESPACE`.
+
+The fix is `--features nesting=1`, which makes LXC use the `lxc-container-default-with-nesting` AppArmor
+profile:
 
 ```bash
 hangy@ovh2:~$ sudo pct destroy 160
-hangy@ovh2:~$ sudo pct create 160 local:vztmpl/debian-11-standard_11.3-0_amd64.tar.gz --arch amd64 --cores 4 --hostname wazuh --memory 8192 --net0 name=eth0,bridge=vmbr0,gw=10.0.0.1,ip=10.1.0.160/24,type=veth --rootfs zfs:50 --unprivileged 0
+hangy@ovh2:~$ sudo pct create 160 local:vztmpl/debian-11-standard_11.3-0_amd64.tar.gz --arch amd64 --cores 4 --hostname wazuh --memory 8192 --net0 name=eth0,bridge=vmbr0,gw=10.0.0.1,ip=10.1.0.160/24,type=veth --rootfs zfs:50 --unprivileged 1 --features nesting=1
 hangy@ovh2:~$ sudo pct start 160
 ```
+
+!!! warning "Do not combine privileged with nesting"
+
+    Debian's guidance is that nesting is acceptable for **unprivileged** containers but *risky for privileged
+    ones*: the nesting AppArmor profile effectively permits any mount because of the very parser bug that
+    causes this failure. A privileged container therefore gets the worst of both worlds, with none of the
+    isolation benefit and still not working.
+
+Do not try to convert with a backup either: restoring a backup taken from an unprivileged container into a
+privileged one does not remap ownership, and everything, including `/etc/passwd` and apt's database, would show
+up as `nobody`.
 
 Recreating is cheap here. The Ansible playbook is idempotent, and the deployment CA lives on the control node in
 `/var/lib/wazuh-ansible/<hash>/ca` rather than in the container, so a re-run re-stages certificates from the same
 CA instead of issuing a new one.
 
-So we ran the same steps from the first chapter again, but with a privileged container.
+So we ran the same steps from the first chapter again.

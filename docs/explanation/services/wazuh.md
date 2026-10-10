@@ -23,14 +23,27 @@ stack.
 | Address | `10.1.0.160` |
 | Inventory group | `[aio]`, child of `[wazuh_cluster]` |
 | Resources | 4 cores, 8192 MB RAM, 50 GB disk, Debian 12 |
-| **Privileged** | **yes, required** |
+| LXC features | `nesting=1` |
 | Playbook | `ansible/wazuh.yml` |
 
-The container must be **privileged**. OpenSearch's systemd unit uses sandboxing directives that make systemd build
-a per-unit mount namespace, and unprivileged LXC cannot grant that; the indexer dies with
-`226/NAMESPACE` and `Failed to set up mount namespacing`. `wazuh-dashboard` is OpenSearch too, so the whole
-container has to be privileged rather than only the indexer. See the
-[install report](../../reports/2026-10-10-wazuh-poc-install.md) for the full error.
+The container needs **`features: nesting=1`** and must be **unprivileged**. OpenSearch's systemd unit
+uses sandboxing directives (`ProtectSystem`, `PrivateTmp`, ...) that make systemd build a per-unit mount
+namespace, and the LXC AppArmor profile blocks the mounts it needs. Without nesting the indexer dies with:
+
+```
+wazuh-indexer.service: Failed to set up mount namespacing: Permission denied
+Failed at step NAMESPACE spawning /usr/share/wazuh-indexer/bin/resolve-credentials.sh: Permission denied
+Control process exited, code=exited, status=226/NAMESPACE
+```
+
+This is a long-standing [AppArmor bug (lp:1597017)](https://wiki.debian.org/LXC/SystemdMountsAndAppArmor),
+not a privilege problem: `lxc/lxc#4052` reports it happens in *both* privileged and unprivileged containers.
+Making the container privileged does not help, and is in fact the worse choice, because the `nesting` AppArmor
+profile effectively permits any mount due to that same parser bug. Debian's guidance is that nesting is
+acceptable for unprivileged containers and risky for privileged ones.
+
+`wazuh-dashboard` is also OpenSearch and needs the same, so the setting applies to the whole container.
+See the [install report](../../reports/2026-10-10-wazuh-poc-install.md) for the full error.
 
 The container was created by hand and its setup is recorded in
 [2026-10-10-wazuh-poc-install.md](../../reports/2026-10-10-wazuh-poc-install.md).
