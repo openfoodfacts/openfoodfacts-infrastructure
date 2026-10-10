@@ -61,7 +61,7 @@ root@wazuh:/# cp /etc/skel/.bashrc /root/
 root@wazuh:/# sed -i 's/\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 ```
 
-Then, I followed the [ansible docs](ansible/docs/index.md#prepare-a-new-host-server) to add the `config-op` user with a random password.
+Then, I followed the [ansible docs](../ansible/index.md#prepare-a-new-host-server) to add the `config-op` user with a random password.
 
 ```bash
 root@wazuh:/# GITHUB_USER_NAME=hangy
