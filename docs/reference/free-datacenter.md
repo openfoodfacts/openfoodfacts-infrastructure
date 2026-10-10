@@ -36,8 +36,8 @@ As mentionned in the [Ansible inventory](https://github.com/openfoodfacts/openfo
 | Scaleway-01          | `151.115.132.11` | `2001:bc8:c025:10::1` |
 | Scaleway-02          | `151.115.132.12` | `2001:bc8:c025:10::2` |
 | Scaleway-03          | `151.115.132.13` | `2001:bc8:c025:10::3` |
-| Scaleway-04          | `151.115.132.14` | `2001:bc8:c025:10::4` |
-| Scaleway-05          | `151.115.132.15` | `2001:bc8:c025:10::5` |
+| Scaleway-04          | `151.115.132.14` | Not configured yet    |
+| Scaleway-05          | `151.115.132.15` | Not configured yet    |
 
 ## Servers
 
