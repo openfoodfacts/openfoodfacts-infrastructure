@@ -1,0 +1,90 @@
+---
+- name: Ensure local pulled_confs root exists
+  ansible.builtin.file:
+    path: "{{ pull_zfs_config__pulled_confs_root }}"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+
+- name: Ensure local host directory exists for pulled ZFS config
+  ansible.builtin.file:
+    path: "{{ pull_zfs_config__output_path | dirname }}"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+
+- name: List ZFS pools
+  ansible.builtin.command:
+    argv:
+      - zpool
+      - list
+      - -H
+      - -o
+      - name
+  register: pull_zfs_config__zpool_list
+  changed_when: false
+
+- name: Set sorted ZFS pool names
+  ansible.builtin.set_fact:
+    pull_zfs_config__pool_names: "{{ pull_zfs_config__zpool_list.stdout_lines | default([]) | sort }}"
+
+- name: Get ZFS pool properties
+  ansible.builtin.command:
+    argv:
+      - zpool
+      - get
+      - -H
+      - -p
+      - -o
+      - name,property,value,source
+      - all
+      - "{{ item }}"
+  loop: "{{ pull_zfs_config__pool_names }}"
+  register: pull_zfs_config__zpool_get
+  changed_when: false
+  when: pull_zfs_config__pool_names | length > 0
+
+- name: Get ZFS dataset properties that are not inherited
+  ansible.builtin.command:
+    argv:
+      - zfs
+      - get
+      - -H
+      - -p
+      - -o
+      - name,property,value,source
+      - -s
+      - local,received
+      - -r
+      - -t
+      - filesystem,volume
+      - all
+      - "{{ item }}"
+  loop: "{{ pull_zfs_config__pool_names }}"
+  register: pull_zfs_config__zfs_get
+  changed_when: false
+  when: pull_zfs_config__pool_names | length > 0
+
+- name: Build sorted ZFS export payload
+  ansible.builtin.set_fact:
+    pull_zfs_config__export_payload:
+      pools: >-
+        {{
+          (pull_zfs_config__zpool_get.results | default([]))
+          | pull_zfs_config_properties_by_name(['local'])
+        }}
+      datasets: >-
+        {{
+          (pull_zfs_config__zfs_get.results | default([]))
+          | pull_zfs_config_properties_by_name(['local', 'received'])
+        }}
+
+- name: Write ZFS configuration export as JSON
+  ansible.builtin.copy:
+    dest: "{{ pull_zfs_config__output_path }}"
+    content: "{{ pull_zfs_config__export_payload | to_nice_json }}\n"
+    mode: "0644"
+  delegate_to: localhost
+  become: false

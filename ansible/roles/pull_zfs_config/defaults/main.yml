@@ -1,0 +1,5 @@
+---
+# ansible/roles/<role_name> is always under ansible/, so two dirname() calls resolve ansible/ reliably.
+pull_zfs_config__repository_root: "{{ lookup('ansible.builtin.env', 'OFF_INFRA_REPOSITORY_ROOT') | default((role_path | dirname | dirname), true) }}"
+pull_zfs_config__pulled_confs_root: "{{ pull_zfs_config__repository_root }}/pulled_confs"
+pull_zfs_config__output_path: "{{ pull_zfs_config__pulled_confs_root }}/{{ inventory_hostname }}/zfs_config.json"
