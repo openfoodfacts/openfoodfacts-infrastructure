@@ -1,4 +1,4 @@
-# 2029-10-01 hetzner-03 removal and proxmox cluster split
+# 2026-10-01 hetzner-03 removal and proxmox cluster split
 
 We want to decomission hetzner-03 to save money.
 
@@ -157,6 +157,13 @@ On the server I can run a lsblk,
 and shred the different partitions.
 (using `screen -S shredding` to have a session that stays)
 
+**IMPORTANT:** I'm not sure it's the good method (spotted by rabbitai)
+for SSD, shred is not working correctly.
+From [shred documentation](https://www.gnu.org/software/coreutils/manual/html_node/shred-invocation.html?utm_source=openai):
+> Solid-state storage devices (SSDs) typically do wear leveling to prolong service life, and this means writes are distributed to other blocks by the hardware, so “overwritten” data blocks are still present in the underlying device.
+Still here we write the whole volume (and not a single file) so that might be enough.
+For next time, maybe we should use `nvme` command (from `nvme-cli` package)[^nvme-erase]
+
 ```
 lsblk
 # we see that big volumes ar nvme1n1p5 and nvme0n1p5
@@ -170,6 +177,26 @@ for n in /dev/nvme{0,1}n1p{1..4}; do echo $n; time shred $n; done
 The first two shred took 83m/90m in real time. 
 The other where quite fast.
 
+
+[^nvme-erase]: According to glm-3.5 (to be verified in manpages)
+  **BEWARE:** it erases without asking confirmation !
+  ```bash
+  sudo apt install nvme-cli        # if needed
+  sudo nvme list                   # confirm devices: /dev/nvme1 = controller, /dev/nvme1n1 = disk, ...  p5 = partition
+  
+  # Stop anything using the disk first: umount, swapoff, stop services...
+  
+  # Preferred: Sanitize (supported by most modern drives)
+  sudo nvme sanitize /dev/nvme1 --sanact=4    # crypto erase: instant, if supported
+  # or
+  sudo nvme sanitize /dev/nvme1 --sanact=3    # physical block erase (can take minutes to hours)
+  sudo nvme sanitize-log /dev/nvme1           # check progress/status
+  
+  # If Sanitize isn't supported (older drives), use Format with secure erase:
+  sudo nvme format /dev/nvme1n1 --ses=1       # user-data erase (or --ses=2 for crypto erase))  
+  ```
+  
+  Also glm advocates for using LUKS encryption on hosted servers.
 
 ### stop monitoring
 
