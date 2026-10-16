@@ -7,6 +7,11 @@ proxmox_node__zfs_pools:
   # -name: rpool
   # -name: zfs-hdd
   - name: zfs-nvme
+    # scrub/trim must be set explicitly: the aisbergg.zfs selectattr2 filter
+    # crashes on missing keys under ansible-core 2.19+ (roles.galaxy is not
+    # tracked, so we work around it here). true is the role's default anyway.
+    scrub: true
+    trim: true
     properties:
       ashift: "12"
     vdev: nvme-eui.000000000000000100a0752249f51d6e-part4 nvme-eui.00000000000000007c35485224e769cf-part4

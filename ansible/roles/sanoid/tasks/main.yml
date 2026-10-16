@@ -4,7 +4,10 @@
     that:
       - |
         (not sanoid__link_configuration) or
-        (sanoid__configurations_git_root_path and sanoid__configurations_src_path) is truthy
+        (
+          (sanoid__configurations_git_root_path | default(false)) is truthy and
+          (sanoid__configurations_src_path | default(false)) is truthy
+        )
 
 - name: Create datasets that will hold some backups
   community.general.zfs:

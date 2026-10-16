@@ -3,6 +3,11 @@ proxmox_node__pve_cluster_addr0: 10.12.0.2
 
 proxmox_node__zfs_pools:
   - name: rpool
+    # scrub/trim must be set explicitly: the aisbergg.zfs selectattr2 filter
+    # crashes on missing keys under ansible-core 2.19+ (roles.galaxy is not
+    # tracked, so we work around it here). true is the role's default anyway.
+    scrub: true
+    trim: true
     vdev: raidz1 nvme0n1p5 nvme1n1p5
     properties:
       ashift: "12"
