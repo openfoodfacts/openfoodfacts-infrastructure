@@ -90,10 +90,10 @@ systemctl start pve-cluster
 
 And on hetzner-02:
 ```bash
+# set 1 vote  as enough
+pvecm expected 1
 # remove hetzner-01 from my cluster
 pvecm delnode hetzner-01
-# now vote 1 is enough
-pvecm expected 1
 pvecm nodes
 
     Membership information
