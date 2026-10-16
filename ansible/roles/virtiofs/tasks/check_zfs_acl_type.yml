@@ -46,4 +46,4 @@
 
       Virtiofs needs acltype set to posix.
   when: |
-    (_virtiofs__first_non_inherited_acltype.acltype != 'posix') or _virtiofs__bad_children_acltype
+    (_virtiofs__first_non_inherited_acltype.acltype != 'posix') or (_virtiofs__bad_children_acltype|length > 0)

@@ -3,8 +3,8 @@
 - name: Sanity checks
   ansible.builtin.assert:
     that:
-      - _operator.server
-      - _operator.server_fqdn
+      - _operator.server is truthy
+      - _operator.server_fqdn is truthy
     fail_msg: Some variables are not defined
 
 - name: Create the user on the distant server
