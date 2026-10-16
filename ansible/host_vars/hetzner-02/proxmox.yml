@@ -26,6 +26,10 @@ proxmox_node__zfs_filesystems:
   # datasets for serach-a-licious ES data
   - name: rpool/virtiofs/qm-201/docker-volumes/po_search_esdata01
   - name: rpool/virtiofs/qm-201/docker-volumes/po_search_esdata02
+  - name: rpool/virtiofs/qm-202
+  - name: rpool/virtiofs/qm-202/docker-volumes
+  # data of off-query postgres replication
+  - name: rpool/virtiofs/qm-202/docker-volumes/off-query-replica_dbdata
 
 proxmox_node__pve_storages:
   - name: rpool-pve
@@ -34,12 +38,12 @@ proxmox_node__pve_storages:
     content: rootdir,images
     mountpoint: /rpool/pve
     sparse: 0
-    shared: 0
+    # shared: 0
   - name: local
     type: dir
     path: /var/lib/vz
     content: vztmpl,snippets,iso
-    shared: 0
+    # shared: 0
 
 proxmox_containers__containers:
   - id: 100
