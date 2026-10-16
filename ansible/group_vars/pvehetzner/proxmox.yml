@@ -9,7 +9,7 @@ proxmox_node__pve_cluster_enabled: false
 # group name (in inventory), containing nodes, it must not contains "_" neither "-"
 proxmox_node__pve_cluster_name: "pvehetzner"
 # addr1 is public ip, addr0 is defined per host
-proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
+proxmox_node__pve_cluster_addr1: "{{ ansible_ssh_host }}"
 
 # directory mappings
 virtiofs__dir_mappings:
