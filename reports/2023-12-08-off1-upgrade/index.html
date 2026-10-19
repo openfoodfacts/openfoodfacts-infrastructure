@@ -8432,13 +8432,13 @@ but for off1.</p>
 <p>We had some problem setting up the disks, because they were part of a RAID.</p>
 <p>First boot we saw only 3 disks, but after a reboot we saw 4.</p>
 <p>In main menu, physical disk management, we use "Convert to non RAID Disks" for both disks.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-bios-disk-remove-raid.jpg" data-title="Convert to non RAID Disk" data-desc-position="bottom"><img alt="Convert to non RAID Disk" src="../media/2023-12-18-off1-bios-disk-remove-raid.jpg" title="Bios screen showing convert to non RAID Disks"></a></p>
+<p></p>
 <p>As we start we still have an error:
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-bios-UEFI-error.jpg" data-title="Error on startup" data-desc-position="bottom"><img alt="Error on startup" src="../media/2023-12-18-off1-bios-UEFI-error.jpg" title="Screen showing UEFI Error at startup"></a></p>
+</p>
 <p>Indeed at boot we see there is One virtual drive and two non raid disk (we should have 4).
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-bios-virtual-disk-on-startup-screen.jpg" data-title="Virtual disks on startup screen" data-desc-position="bottom"><img alt="Virtual disks on startup screen" src="../media/2023-12-18-off1-bios-virtual-disk-on-startup-screen.jpg"></a></p>
+</p>
 <p>We had to delete this virtual disk in the BIOS, in virtual disks management.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-bios-remove-virtual-disk.jpg" data-title="Delete virtual disk" data-desc-position="bottom"><img alt="Delete virtual disk" src="../media/2023-12-18-off1-bios-remove-virtual-disk.jpg"></a></p>
+<p></p>
 <p>We then put the disks in HBA mode (in control management)</p>
 <h3 id="firmware-updates-first-try">Firmware updates first try<a class="headerlink" href="#firmware-updates-first-try" title="Permanent link">#</a></h3>
 <p>At this point we were stuck with the same error as before. It suggested to update the PCIe firmware, so we decided to try this.</p>
@@ -8450,18 +8450,18 @@ but for off1.</p>
 <li>we choose FTP Server but it was not the good one, neither was HTTPS server responding</li>
 </ul>
 <p>We also tried to use a program through USB stick, but it did not work.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-firmware-update-usb-stick.jpg" data-title="Firmware update through USB stick failure" data-desc-position="bottom"><img alt="Firmware update through USB stick failure" src="../media/2023-12-18-off1-firmware-update-usb-stick.jpg"></a></p>
+<p></p>
 <p>We saw that disabling SSD card we were able to boot.</p>
 <p>We decided to disable the SSD card and continue installation.</p>
 <h3 id="installing-proxmox">Installing Proxmox<a class="headerlink" href="#installing-proxmox" title="Permanent link">#</a></h3>
 <p>We boot on the USB key that we had brought with proxmox install CD on it.</p>
 <p>For Hard disk options, we choose ZFS - RAID1, ashift 12, compress an checksum on, disk size 64G</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg" data-title="ZFS RAID1 basic setup for system partition" data-desc-position="bottom"><img alt="ZFS RAID1 basic setup for system partition" src="../media/2023-12-18-off1-proxmox-raid1-disks-setup.jpg"></a></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-proxmox-raid1-setup.jpg" data-title="ZFS RAID1 advanced setup for system" data-desc-position="bottom"><img alt="ZFS RAID1 advanced setup for system" src="../media/2023-12-18-off1-proxmox-raid1-setup.jpg"></a></p>
+<p></p>
+<p></p>
 <p>We choose a good password for root.</p>
 <p>We configure eno1 network</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-proxmox-network-setup.jpg" data-title="Network setup" data-desc-position="bottom"><img alt="Network setup" src="../media/2023-12-18-off1-proxmox-network-setup.jpg"></a></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-proxmox-install-summary.jpg" data-title="Install summary screen" data-desc-position="bottom"><img alt="Install summary screen" src="../media/2023-12-18-off1-proxmox-install-summary.jpg"></a></p>
+<p></p>
+<p></p>
 <h3 id="firmware-updates-again">Firmware updates again<a class="headerlink" href="#firmware-updates-again" title="Permanent link">#</a></h3>
 <p>After install and adding openssh-server, we were being able to log as root.</p>
 <p>We found a USB boot disk for HP servers. We mounted it on the server.</p>
@@ -8469,7 +8469,7 @@ but for off1.</p>
 <p>We where able to upgrade the lifecycle controller, but not the bios.</p>
 <p>After a lot of trying, where addresses provided on HP website to upgrade were not working, Stéphane finally found a forum post that gave us the right URL to put in lifecycle manager to get updates.</p>
 <p>We used 143.166.28.19 in place of downloads.dell.com and it worked !</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2023-12-18-off1-bios-upgrade.jpg" data-title="Bios is upgrading (tears of nervous joy)" data-desc-position="bottom"><img alt="Bios is upgrading (tears of nervous joy)" src="../media/2023-12-18-off1-bios-upgrade.jpg"></a></p>
+<p></p>
 <p>We finally get BIOS 2.19.1.</p>
 <h3 id="ssds-again">SSDs again<a class="headerlink" href="#ssds-again" title="Permanent link">#</a></h3>
 <p>Even after upgrading BIOS, SSD is not working. By removing SSDs one by one, we found the culprit.
@@ -8667,7 +8667,7 @@ zfs-nvme     zfspool     active      1885863288              96      1885863192 
 <p>We have a <code>ro_users</code> group for users to have read-only access to the proxmox interface.</p>
 <p>I created the group, going to cluster interface in proxmox and using <code>create</code>.</p>
 <p>I then go to <code>permissions</code> and give the PVEAuditor role to the group on <code>/</code> with <em>propagate</em>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2024-01-proxmox-group-roles-off2.png" data-title="off2 proxmox group roles" data-desc-position="bottom"><img alt="off2 proxmox group roles" src="../media/2024-01-proxmox-group-roles-off2.png" title="off2 proxmox group roles"></a></p>
+<p></p>
 <h2 id="getting-containers-templates">Getting containers templates<a class="headerlink" href="#getting-containers-templates" title="Permanent link">#</a></h2>
 <p>See <a href="https://pve.proxmox.com/wiki/Linux_Container#pct_container_images">proxmox docs on container images</a></p>
 <div class="highlight"><pre><span></span><code>pveam<span class="w"> </span>update
