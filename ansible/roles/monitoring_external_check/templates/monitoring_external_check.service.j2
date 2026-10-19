@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Check monitoring stack is reachable from outside
+Wants=network-online.target
+After=network-online.target
+# email on failure
+OnFailure=email-failures@monitoring_external_check.service
+
+[Service]
+Type=oneshot
+# holds the date of last alert
+StateDirectory=monitoring_external_check
+Environment=ALERT_EVERY_MIN={{ monitoring_external_check__alert_every_minutes }}
+ExecStart=/usr/local/sbin/check_monitoring_stack.sh {{ monitoring_external_check__urls | map('quote') | join(' ') }}
+# place a timeout for bad cases
+# note: we have to use TimeoutStartSec as it's a Type=oneshot service
+TimeoutStartSec=5m
