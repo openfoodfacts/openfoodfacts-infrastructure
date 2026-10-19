@@ -5,6 +5,8 @@ enabled = true
 filter = nginx-bad-codes
 # for heavy website, we only log errors access to limit the work of fail2ban
 logpath = /var/log/nginx/*access*.log 
+# remove referer for explorer (we have a 401 pb)
+ignoreregex = "https://beta\.openfoodfacts\.net/
 port = 80,443
 findtime=1h
 maxretry=12
