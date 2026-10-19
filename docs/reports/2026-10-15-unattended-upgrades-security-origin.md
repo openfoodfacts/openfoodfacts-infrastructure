@@ -37,8 +37,8 @@ and pending security packages appear in "Packages that will be upgraded".
 
 ## Fix
 
-`base__unattended_origins_patterns` now defaults to the same patterns as
-Debian's own `50unattended-upgrades`, using the `${distro_codename}` macro
+`base__unattended_origins_patterns` now defaults to the same security-origin patterns
+as Debian's own `50unattended-upgrades`, using the `${distro_codename}` macro
 expanded by unattended-upgrades on the host (so it stays correct after a dist-upgrade):
 
 ```
