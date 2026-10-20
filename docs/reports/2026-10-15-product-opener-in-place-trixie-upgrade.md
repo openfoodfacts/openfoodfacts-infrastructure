@@ -6,8 +6,9 @@ no blue/green container, no cloned data volumes, no dataset swap.
 The container is upgraded **in place**, during a maintenance window,
 with a **ZFS snapshot of the rootfs** as the rollback.
 
-opff (CT 115) was done first, on 2026-10-15: see the [Log](#log). The procedure
-below already includes everything learned there.
+opff (CT 115) was done first, on 2026-10-15, then off-pro (CT 112) on
+2026-10-20: see the [Log](#log). The procedure below includes everything
+learned on both.
 
 ## Why this is reasonably safe
 
@@ -17,7 +18,7 @@ below already includes everything learned there.
   (pinned `MongoDB 2.2.x` talking to the MongoDB 4.4 server, `Type::Tiny::XS 0.025`, …).
   What remains specific to production is the host config, not the code.
 * **The data is not in the rootfs**: products, images, users, orgs, html_data, cache
-  are separate ZFS datasets mounted into the container (`mp0`…`mp6`).
+  are separate datasets (or NFS mounts) mounted into the container (`mpN`).
   The upgrade only touches the rootfs, so rolling back the rootfs never loses data.
 * **Rollback is one command** (`zfs rollback`) and takes seconds.
 * **scaleway-01 runs proxmox-ve 9.2**, which knows Debian 13 (the trap that bit
@@ -25,19 +26,19 @@ below already includes everything learned there.
 
 ## Containers and order
 
-All on `scaleway-01`, all clones of the same rootfs, so the first one teaches us
-everything about the others:
+All on `scaleway-01`, all clones of the same rootfs, so each one teaches us
+something about the next ones:
 
 | Order | CT | Hostname | Site |
 | --- | --- | --- | --- |
 | 1 (canary) | 115 | `opff` | openpetfoodfacts.org — **done 2026-10-15** |
-| 2 | 114 | `opf` | openproductsfacts.org |
-| 3 | 113 | `obf` | openbeautyfacts.org |
-| 4 | 112 | `off-pro` | pro.openfoodfacts.org |
+| 2 | 112 | `off-pro` | pro.openfoodfacts.org — **done 2026-10-20** |
+| 3 | 114 | `opf` | openproductsfacts.org |
+| 4 | 113 | `obf` | openbeautyfacts.org |
 | 5 | 111 | `off` | openfoodfacts.org (own window, after a few quiet days) |
 
 Write down in the [Log](#log) every surprise met (prompts, clobbered configs,
-failed modules): the following containers then become mechanical.
+failed modules), with rough times.
 
 **Check the starting release first**: the 2026-10-05 inventory says
 `11.10 (bullseye)`. If `cat /etc/debian_version` says `10.x` (buster), add one
@@ -53,11 +54,18 @@ hop (buster → bullseye) with `archive.debian.org` sources, same procedure.
 | apt packages discovered by hand | the apt package list is taken from the `Dockerfile` that staging already runs |
 | dataset rename cutover + rename rollback | `zfs rollback` of one snapshot |
 
-The cost: the site is down for the whole window, instead of ~5 min. On opff the
-bullseye → bookworm hop alone took **about one hour** (most likely because dpkg fsyncs every file on `zfs-hdd`,
-plus many desktop packages nobody uses, see step 0), so count **2–3 hours** of
-downtime unless the speed-ups of step 0 are applied. For opff/opf/obf this is
-an acceptable trade-off; for off, measure it on the others first.
+The cost: the site is down for the whole window, instead of ~5 min.
+
+| | opff (no speed-ups) | off-pro (speed-ups of step 0) |
+| --- | --- | --- |
+| bullseye → bookworm | ~1 h | **10 min** |
+| bookworm → trixie | (not measured) | **16 min** |
+| perl modules, config review, reboot, checks | | 19 min |
+| **downtime** | 2–3 h | **~55 min** |
+
+The speed-ups are purging the unused desktop packages before the window and
+disabling ZFS sync writes during it (step 0 and step 1). Plan about one hour of
+downtime with them.
 
 Keeping the site up during `full-upgrade` is **not** an option: perl, libc,
 libssl and ImageMagick are replaced under the running processes, mod_perl can no
@@ -65,22 +73,55 @@ longer load the 5.32 CPAN modules, and half-done writes would land on the data
 datasets, which a rootfs rollback does not cover. A site that must stay up needs
 the blue/green plan of 2026-10-05.
 
-## Procedure (example: opff, CT 115)
+## Procedure
 
-### 0. Before the window (site still up)
+Set these in every shell, on scaleway-01 and in the container (example: off-pro):
 
 ```bash
-# in the container
+CT=112; I=off-pro; DS=zfs-hdd/pve/subvol-$CT-disk-0; H=world.pro.openfoodfacts.org
+```
+
+(opff: `CT=115; I=opff; H=world.openpetfoodfacts.org`.)
+
+Commands starting with `zfs` or `pct` run **on scaleway-01**, everything else
+**in the container** (`pct enter $CT`). Check the prompt before pasting.
+
+### 0. Before the window (site still up, the day before is fine)
+
+**On scaleway-01:**
+
+```bash
+pct config $CT                       # note the netN: lines and the mpN: mount points
+zfs get refquota,used,available $DS  # ~6G free needed; refquota may be "none" (no quota)
+```
+
+If there is a quota and less than ~6G is available, raise it first
+(`pct resize $CT rootfs 40G`).
+
+**In the container — baselines:**
+
+```bash
 cat /etc/debian_version
+sudo -u off git -C /srv/$I describe --tags         # deployed release; >= v2.112.0 means DateTime::Lite (step 4)
 dpkg-query -W -f='${binary:Package}\t${Version}\n' | sort > /root/dpkg-before.tsv
 apt-mark showmanual | sort > /root/apt-manual-before.txt
-systemctl list-units --failed --no-pager > /root/failed-before.txt   # known: gen_feeds_daily, networking, ifupdown-wait-online
+systemctl list-units --failed --no-pager > /root/failed-before.txt   # opff: gen_feeds_daily, networking, ifupdown-wait-online
 systemctl list-unit-files --state=enabled --no-pager > /root/enabled-before.txt
 ls -l /etc/apache2/ports.conf /etc/apache2/sites-enabled/ /etc/nginx/mime.types \
       /etc/nginx/sites-enabled/ /etc/nginx/snippets/ /etc/systemd/system/*.d/ \
   > /root/conf-symlinks-before.txt
-sudo -u off git -C /srv/opff log -1 --format='%H %s' > /root/git-before.txt   # as off: root gets "dubious ownership"
+sudo -u off git -C /srv/$I log -1 --format='%H %s' > /root/git-before.txt   # as off: root gets "dubious ownership"
+
+# the units of this instance: what step 1 stops and step 5 checks
+systemctl list-units --all --plain --no-legend "*@$I.*" | tee /root/units-$I.txt
+crontab -u off -l 2>/dev/null; ls /etc/cron.d/
+
+# third-party apt repositories: see step 2
+ls /etc/apt/sources.list.d/; cat /etc/apt/sources.list.d/*.list
 ```
+
+off-pro had these units: `minion@`, `redis_listener@`, `cloud_vision_ocr@`
+(running), `producers_import@` and `gen_feeds_daily@` (services + timers).
 
 **Do not try to bring bullseye up to date first.** Since the end of bullseye
 support (2026-08-31), `apt update` still answers but every package from
@@ -89,29 +130,32 @@ aborts without installing anything (harmless, but useless). Everything is
 replaced by the bookworm hop anyway. If it is really wanted, point the security
 line at `http://archive.debian.org/debian-security` first.
 
-**Fix the network config now** (no restart needed, it is only read at boot).
-The rootfs comes from off2 and `/etc/network/interfaces` has a stale `eth10`
-stanza (same address as `eth0`), while the container only has `net0: name=eth0`.
-At boot `ifup` fails on the missing `eth10`, `networking.service` fails (it was
-already in the failed list on bullseye), and on trixie `ifupdown-wait-online`
-then waits for it, holding `network-online.target`, so **nginx, munin-node and
-exim4 do not start**. Same story for `systemd-networkd-wait-online`: networkd is
-enabled but has no `.network` file, so it times out after 2 min.
+**Fix the network config.** At boot, anything ordered after
+`network-online.target` (nginx, munin-node, exim4) waits for the
+`*-wait-online` units. On trixie this blocked nginx on opff:
+
+* opff's `/etc/network/interfaces` had a stale `eth10` stanza (same address as
+  `eth0`, left from off2) while the container only has `net0: name=eth0`:
+  `networking.service` failed (already on bullseye) and `ifupdown-wait-online`
+  waited for it. off-pro did **not** have it.
+* `systemd-networkd` is enabled but has no `.network` file, so
+  `systemd-networkd-wait-online` times out after 2 min (both opff and off-pro).
 
 ```bash
-grep -E '^(auto|iface)' /etc/network/interfaces   # compare with the netN: lines of /etc/pve/lxc/<CT>.conf
-cp /etc/network/interfaces /root/interfaces.before-eth10-fix
-# remove the eth10 stanza (adapt the address to the container)
+grep -E '^(auto|iface)' /etc/network/interfaces   # only lo + the netN of `pct config`
+systemctl is-active networking; grep -E 'networking|wait-online' /root/failed-before.txt
+
+# only if there is a stale stanza (adapt the address):
+cp /etc/network/interfaces /root/interfaces.before-fix
 perl -0pi -e 's/\nauto eth10\niface eth10 inet static\n\taddress 10\.13\.1\.115\/16\n\tgateway 10\.13\.0\.1\n//' /etc/network/interfaces
-cat /etc/network/interfaces                       # lo + eth0 only
 systemctl reset-failed networking; systemctl start networking; systemctl is-active networking
 # (start, not restart: restart would take eth0 down)
 
-ls /etc/systemd/network/ /run/systemd/network/    # no .network file → networkd manages nothing
+ls /etc/systemd/network/ /run/systemd/network/ 2>/dev/null   # no .network file → networkd manages nothing
 systemctl disable systemd-networkd-wait-online.service
 ```
 
-**Fix unattended-upgrades now** (it is also broken on bullseye). The
+**Fix unattended-upgrades** (it is also broken on bullseye). The
 ansible-generated `/etc/apt/apt.conf.d/50unattended-upgrades` contains
 `"origin=Debian,codename=bullseye,label=Debian-Security"`, but since bullseye
 the security archive's codename is `<release>-security`: this pattern matches
@@ -121,43 +165,71 @@ updates**. Use the macro so it also survives the upgrade:
 ```bash
 sed -i 's/"origin=Debian,codename=bullseye,label=Debian-Security";/"origin=Debian,codename=${distro_codename}-security,label=Debian-Security";/' \
   /etc/apt/apt.conf.d/50unattended-upgrades
-unattended-upgrade --dry-run -d 2>&1 | grep -i 'allowed origins'   # …codename=bullseye-security…
+grep -A3 Origins-Pattern /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 
 (The same pattern comes from `ansible/roles/base/defaults/main.yml`
 `base__unattended_origins_patterns`, see [Follow-ups](#follow-ups).)
 
-**Speed-ups** (opff did not have them, its bookworm hop took one hour):
-
-* purge the desktop packages the container carries for no reason (evince, yelp,
-  webkit2gtk, mesa, gstreamer, ghostscript, ansible, aptitude…): hundreds of MB
-  unpacked twice. Check first with `apt-cache rdepends --installed <pkg>` that
-  nothing Product Opener needs depends on them, and read the `apt purge` plan.
-* during the window, disable sync writes on the rootfs (on scaleway-01, see
-  step 1): dpkg fsyncs every file, and the rootfs is on spinning disks. The
-  snapshot is the safety net, so losing the last seconds in a crash only means
-  a rollback.
-
-Silence the monitoring alerts for the container for the duration of the window.
-
-**Run the whole window inside `tmux` on scaleway-01** (`tmux new -s trixie`, then
-`pct enter 115`): a dropped SSH session in the middle of dpkg is the one thing
-that turns this into a recovery. Never interrupt (`^C`) apt while dpkg runs.
+**Purge the unused desktop packages** (speed-up, done on off-pro: ~850 MB less
+to unpack twice). Site still up, so each step is simulated and checked first.
+Keep **`gnumeric`**: its `ssconvert` converts producers' spreadsheets.
 
 ```bash
-# on scaleway-01: enough room in the 30G rootfs quota?
-zfs get quota,refquota,used,available zfs-hdd/pve/subvol-115-disk-0
+apt-get -s purge evince yelp aptitude ansible 2>&1 | grep '^Purg'
+# off-pro: only these + gnumeric-doc. gnumeric, imagemagick*, graphviz, tesseract*,
+# libapache2-mod-perl2 must NOT be in the list
+apt-get purge -y evince yelp aptitude ansible gnumeric-doc
+
+# the real gain is the dependencies left behind (webkit, gstreamer, mesa…)
+apt-get -s autoremove --purge 2>&1 | grep '^Purg' | tee /root/autoremove-sim.txt | wc -l
+grep -iE 'gnumeric|goffice|gsf|magick|graphviz|tesseract|perl|apache|nginx|mod-perl' /root/autoremove-sim.txt   # must print nothing
+
+# apt does not know which system libraries the CPAN XS modules use: check that
+# none of them is in the list (both counts must be well above 0 for this to mean anything)
+LIBS=$(awk '{print $2}' /root/autoremove-sim.txt | sed 's/:.*//' | xargs -r dpkg -L 2>/dev/null | grep -E '\.so(\.[0-9]+)*$' | xargs -r -n1 basename | sort -u)
+echo "$LIBS" | wc -l
+find /usr/local/lib/x86_64-linux-gnu/perl /usr/local/lib/x86_64-linux-gnu/perl5 /usr/local/share/perl -name '*.so' 2>/dev/null | wc -l
+find /usr/local/lib/x86_64-linux-gnu/perl /usr/local/lib/x86_64-linux-gnu/perl5 /usr/local/share/perl -name '*.so' 2>/dev/null \
+  | xargs -r ldd 2>/dev/null | awk '{print $1}' | sort -u | grep -Fxf <(echo "$LIBS")    # must print nothing
+
+apt-get autoremove --purge -y
+
+# still working?
+printf 'code,product_name\n3017620422003,test\n' > /tmp/t.csv
+sudo -u off ssconvert /tmp/t.csv /tmp/t.xlsx && sudo -u off ssconvert /tmp/t.xlsx /tmp/t2.csv && cat /tmp/t2.csv
+curl -sS -o /dev/null -w '%{http_code}\n' -H "Host: $H" http://127.0.0.1/
 ```
 
-If less than ~6G is available, raise it first (`pct resize 115 rootfs 40G`).
+Silence the monitoring alerts for the window; for off-pro, announce it to the
+producers.
+
+**Never interrupt (`^C`) apt while dpkg runs.** The long apt runs of steps 2
+and 3 are launched with `nohup` (see step 2), so a dropped SSH connection does
+not kill them. No need for tmux: on off-pro, leaving tmux with `exit` made the
+shell run the commands still queued from a pasted block (an extra snapshot was
+taken and `sync=disabled` set again after the reboot).
 
 ### 1. Stop the site and snapshot the rootfs
 
+Check that no import or feed generation is running or about to start:
+
+```bash
+systemctl list-timers --all --no-pager "*@$I.timer"
+systemctl is-active $(awk '/\.service/ {print $1}' /root/units-$I.txt)   # the oneshot ones must be "inactive"
+```
+
 ```bash
 # in the container
-systemctl list-timers --all --no-pager | grep -E 'opff|apt'   # stop every opff timer listed
-systemctl stop apache2 nginx minion@opff redis_listener@opff cloud_vision_ocr@opff \
-               gen_feeds_daily@opff.timer gen_feeds@opff.timer cron
+systemctl stop apache2 nginx cron $(awk '{print $1}' /root/units-$I.txt)
+
+# the instance timers must not fire at the step 5 reboot, before the manual tests.
+# Do NOT `systemctl disable` them: they were added with `systemctl link`, and
+# disable also deletes the link to /srv/$I/conf/systemd/ (happened on off-pro,
+# restored from etckeeper). Remove only their boot links:
+ls -l /etc/systemd/system/*.wants/*@$I.timer | tee /root/timer-wants-$I.txt
+rm /etc/systemd/system/*.wants/*@$I.timer
+
 # disabled (not only stopped), otherwise they start again at the step 5 reboot,
 # before validation, with Automatic-Reboot "true"
 systemctl disable --now unattended-upgrades apt-daily.timer apt-daily-upgrade.timer
@@ -169,29 +241,34 @@ systemctl disable --now unattended-upgrades apt-daily.timer apt-daily-upgrade.ti
 printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 ```
 
-```bash
-# on scaleway-01 — the rollback point (non-autosnap name, so sanoid keeps it)
-SNAP=pre-trixie_$(date --utc +%Y-%m-%d_%H%M)
-zfs snapshot zfs-hdd/pve/subvol-115-disk-0@$SNAP
-echo $SNAP
+On scaleway-01, paste this block **on its own**:
 
-# check it really is the untouched system: 11.x, sources.list + mongodb list, no debian.sources
-S=/zfs-hdd/pve/subvol-115-disk-0/.zfs/snapshot/$SNAP
-cat $S/etc/debian_version; ls $S/etc/apt/ $S/etc/apt/sources.list.d/
+```bash
+# the rollback point (non-autosnap name, so sanoid keeps it)
+SNAP=pre-trixie_$(date --utc +%Y-%m-%d_%H%M); zfs snapshot $DS@$SNAP; echo $SNAP
+
+# check it really is the untouched system: 11.x, the old .list files, no debian.sources
+S=/$DS/.zfs/snapshot/$SNAP; cat $S/etc/debian_version; ls $S/etc/apt/sources.list.d/
 
 # faster dpkg for the window (restored in step 5)
-zfs set sync=disabled zfs-hdd/pve/subvol-115-disk-0
+zfs set sync=disabled $DS
 ```
 
-During the window, put up the maintenance page on `scaleway-proxy` if we have
-one, otherwise the proxy will just answer 502.
+Write down the snapshot name. During the window, put up the maintenance page on
+`scaleway-proxy` if we have one, otherwise the proxy will just answer 502.
 
-### 2. bullseye → bookworm (transit only, ~1 hour on opff)
+### 2. bullseye → bookworm (transit only, 10 min on off-pro)
+
+Move away the Debian sources and the repositories that have no bookworm/trixie
+build (`mongodb-org-4.4`: no build, and we stay on 4.4 server side). **Keep**
+third-party repositories whose suite is not a Debian codename: off-pro has
+`google-cloud-sdk.list` (`cloud-sdk main`), needed by the nightly producer
+import (`scripts/imports/carrefour/run_carrefour_import_images.sh` uses
+`gcloud storage cp`).
 
 ```bash
-mkdir -p /root/apt-old && mv /etc/apt/sources.list /etc/apt/sources.list.d/*.list /root/apt-old/
-# (this also drops the mongodb-org-4.4 repo: no bookworm/trixie build, and we stay on 4.4 server side)
-ls /root/apt-old/     # sources.list + mongodb-org-4.4.list
+mkdir -p /root/apt-old && mv /etc/apt/sources.list /etc/apt/sources.list.d/mongodb-org-4.4.list /root/apt-old/
+ls /root/apt-old/ /etc/apt/sources.list.d/
 # if this block is run a second time, mv says "cannot stat": harmless, the files are already there
 
 cat > /etc/apt/sources.list.d/debian.sources <<'EOF'
@@ -207,24 +284,33 @@ Suites: bookworm-security
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
-
-# set again in any new shell (step 3 included), or the prompts come back
-export DEBIAN_FRONTEND=noninteractive UCF_FORCE_CONFFOLD=1
-APT_OPTS='-o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef'
-apt update
-apt $APT_OPTS upgrade --without-new-pkgs -y     # a long "kept back" list is expected
-apt $APT_OPTS full-upgrade -y
 ```
 
-`--force-confold` (and `UCF_FORCE_CONFFOLD` for the files managed by `ucf`) keeps
-our versions of every modified config file (apache,
-nginx, fail2ban, sudoers…) instead of prompting; the `*.dpkg-dist` files it leaves
-are reviewed at step 5. No reboot, no perl rebuild, no test here: the site stays
-down and we go straight on.
+The upgrade itself runs in the background with `nohup`, so it survives a
+dropped SSH connection; everything is non-interactive:
 
-Before step 3, check the hop finished cleanly (**not** from a second terminal
-while apt runs: `dpkg --audit` then lists the packages dpkg is busy with, and
-must not be acted upon):
+```bash
+cat > /root/apt-hop.sh <<'EOF'
+export DEBIAN_FRONTEND=noninteractive UCF_FORCE_CONFFOLD=1
+O='-o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef'
+apt-get update && apt-get $O upgrade -y && apt-get $O dist-upgrade -y
+echo "=== HOP FINISHED, exit code $?"
+EOF
+
+setsid nohup bash /root/apt-hop.sh > /root/apt-bookworm.log 2>&1 &
+tail -f /root/apt-bookworm.log     # ^C only stops tail; after a disconnect: pct enter, tail -f again
+```
+
+`apt-get upgrade` first upgrades what needs no new package (a long "kept back"
+list is expected), `dist-upgrade` does the rest. `--force-confold` (and
+`UCF_FORCE_CONFFOLD` for the files managed by `ucf`) keeps our versions of
+every modified config file instead of prompting; the `*.dpkg-dist` files it
+leaves are reviewed at step 5. No reboot, no perl rebuild, no test here: the
+site stays down and we go straight on.
+
+When the log shows `=== HOP FINISHED, exit code 0`, check the hop finished
+cleanly (**not** while apt runs: `dpkg --audit` then lists the packages dpkg is
+busy with, and must not be acted upon):
 
 ```bash
 cat /etc/debian_version                       # 12.x
@@ -233,24 +319,46 @@ apt list --upgradable 2>/dev/null | wc -l     # 1
 test -x /usr/sbin/policy-rc.d && echo "policy-rc.d still there"
 ```
 
-### 3. bookworm → trixie
+### 3. bookworm → trixie (16 min on off-pro)
 
 ```bash
-# in case this is a new shell
-export DEBIAN_FRONTEND=noninteractive UCF_FORCE_CONFFOLD=1
-APT_OPTS='-o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef'
-
 sed -i 's/bookworm/trixie/g' /etc/apt/sources.list.d/debian.sources
-apt update
-apt $APT_OPTS upgrade --without-new-pkgs -y
-apt $APT_OPTS full-upgrade -y     # scroll the plan: apache2, nginx, libapache2-mod-perl2, perl must not be removed
-apt autoremove --purge          # read the list before confirming
-apt purge mongodb-database-tools   # leftover from the 4.4 repo, dumps are done on the MongoDB host
-dpkg --audit                      # must print nothing
+setsid nohup bash /root/apt-hop.sh > /root/apt-trixie.log 2>&1 &
+tail -f /root/apt-trixie.log
 ```
 
-Expect many removals/renames from the 64-bit time transition (`libssl3t64`,
-`libgeoip1t64`, …).
+Then check that the important packages survived (a `grep` on the "REMOVED"
+section of the log is unreliable, it also catches the "NEW" list):
+
+```bash
+dpkg -l apache2 nginx libapache2-mod-perl2 perl imagemagick libimage-magick-perl gnumeric google-cloud-cli 2>&1 \
+  | grep -vE '^(Desired|\||\+)' | awk '{print $1, $2, $3}'     # all "ii" (google-cloud-cli: off-pro only)
+```
+
+Expected removals: `imagemagick-6-common` (IM6 → IM7), `libapr1`/`libaprutil1`/
+`libapreq2-3` (renamed `…t64`), `libbson-xs-perl` (dropped by Debian; the
+MongoDB driver falls back to pure-perl BSON, as in the Docker images).
+
+```bash
+apt autoremove --purge          # without -y: read the list (gnumeric, google-cloud-cli, imagemagick* must not be in it)
+apt purge mongodb-database-tools   # leftover from the 4.4 repo, dumps are done on the MongoDB host
+cat /etc/debian_version; dpkg --audit   # 13.x, nothing
+```
+
+On off-pro this `autoremove` also removed:
+
+* **`libapache2-request-perl` and `libapache2-mod-apreq2`**, and with them
+  `/etc/apache2/mods-enabled/apreq2.load`: Product Opener needs them
+  (`Apache2::Request`). Step 4's `apt install` of the Dockerfile packages puts
+  them back and re-enables the module — checked there.
+* **the `libnginx-mod-*` modules** (geoip, image-filter, xslt, mail, stream): on
+  trixie `nginx` no longer depends on them. Harmless if the config does not use
+  their directives:
+
+```bash
+grep -rnE 'geoip|image_filter|xslt_|^\s*(mail|stream)\s*\{' /srv/$I/conf/nginx/ /etc/nginx/ 2>/dev/null | grep -v '#'
+nginx -t     # if it fails on a geoip_* directive: apt install libnginx-mod-http-geoip
+```
 
 ### 4. Rebuild the perl dependencies, the way staging does
 
@@ -260,11 +368,15 @@ there anymore, so there is nothing to remove now (delete them at cleanup).
 
 ```bash
 # apt packages: exactly the list the Dockerfile installs (modperl stage)
-cd /srv/opff
+cd /srv/$I
 PKGS=$(perl -ne 'last if /^FROM modperl AS builder/; $in=1 if /apt-get install/;
   if ($in) { print "$1\n" if /^\s+([a-z0-9][a-z0-9.+-]+)\s*\\?\s*$/; $in=0 if !/\\\s*$/ && !/^\s*#/ }' Dockerfile | sort -u)
 echo $PKGS
 apt install -y --no-install-recommends $PKGS
+
+# apreq is back (see step 3)?
+dpkg -l libapache2-request-perl libapache2-mod-apreq2 | grep '^ii' | awk '{print $1, $2, $3}'
+ls -l /etc/apache2/mods-enabled/ | grep -i apreq     # else: apt install libapache2-mod-apreq2 && a2enmod apreq2
 
 # cpm, same pinned commit and checksum as the Dockerfile of main: the deployed
 # release (v2.113.0 on opff) predates the pinning and fetches cpm from its main branch,
@@ -293,6 +405,10 @@ for m in MongoDB Imager Imager::zxing Image::Magick Minion Mojolicious OIDC::Lit
          GS1::SyntaxEngine::FFI; do
   sudo -u off perl -M$m -e "print qq{$m ok\n}" 2>&1 | tail -1
 done
+
+# off-pro: the producers' tools
+which ssconvert && ssconvert --version | head -1
+sudo -u off gcloud --version | head -1
 ```
 
 **Convert the timezone database of `DateTime::Lite`**, like the `Dockerfile`
@@ -305,7 +421,7 @@ every timezone lookup fails with, in the apache error log:
 ```bash
 TZDB=$(find /usr/local -path '*DateTime/Lite/tz.sqlite3'); echo "$TZDB"
 perl -MDBI -e 'for my $f (@ARGV) { my $d = DBI->connect("dbi:SQLite:dbname=$f","","",{RaiseError=>1}); print "$f: ", $d->selectrow_array("PRAGMA journal_mode=DELETE"), "\n"; $d->disconnect }' $TZDB
-# prints "delete"; no tz.sqlite3-wal / -shm must remain next to it
+# prints "delete" (also for the old 5.32.1 copy, harmless); no tz.sqlite3-wal / -shm must remain
 ```
 
 This must be redone whenever cpm reinstalls `DateTime::Lite` (e.g. a deploy
@@ -325,18 +441,28 @@ empty. Nothing is lost: `ipset-persistent`/`iptables-persistent` now ship
 `ipset.conf`/`iptables.conf` in `/usr/lib/systemd/system/netfilter-persistent.service.d/`
 (`systemctl cat netfilter-persistent` shows them).
 
-Review the files dpkg left next to ours, then delete them:
+Review the files dpkg left next to ours, then delete them. The review is saved
+to a file, which is easier to read (or copy) than the terminal scrollback:
 
 ```bash
-for f in $(find /etc -name '*.dpkg-dist' -o -name '*.ucf-dist'); do echo "=== $f"; diff -u "${f%.*}" "$f"; done | less
-for f in $(find /etc -name '*.dpkg-new'); do echo "=== $f"; ls -l "${f%.dpkg-new}"; diff -u "${f%.dpkg-new}" "$f"; done | less
+for f in $(find /etc -name '*.dpkg-dist' -o -name '*.ucf-dist' -o -name '*.dpkg-new'); do
+  echo "=== $f"; ls -l "${f%.*}"; diff -u "${f%.*}" "$f"
+done > /root/conf-review.txt 2>&1
+grep '^===' /root/conf-review.txt                                  # the list
+sed -n '/=== \/etc\/ssh\/sshd_config/,/^===/p' /root/conf-review.txt   # one file's diff
+# whole file to a workstation: on scaleway-01, cp /$DS/root/conf-review.txt ~stephane/
 ```
 
-What opff had, and what was decided:
+The containers kept etckeeper: every apt run commits `/etc`, so
+`cd /etc && git log --stat` shows what each step changed, and
+`git checkout HEAD -- <path>` restores a file.
+
+What opff and off-pro had (the same list, plus fail2ban on off-pro), and what
+was decided:
 
 | File | Decision |
 | --- | --- |
-| `apache2/ports.conf.dpkg-new`, `nginx/mime.types.dpkg-new` | ours are symlinks into `/srv/opff/conf`, keep them (check they still are symlinks). New mime types, if useful, go to the git repo |
+| `apache2/ports.conf.dpkg-new`, `nginx/mime.types.dpkg-new` | ours are symlinks into `/srv/$I/conf`, keep them (check they still are symlinks). New mime types, if useful, go to the git repo |
 | `apache2/mods-available/mpm_prefork.conf.dpkg-new` | keep ours (our tuning, uses the `APACHE_MPM_*` variables) |
 | `logrotate.d/apache2.dpkg-new`, `logrotate.d/nginx.dpkg-new` | keep ours if the diff only shows our changes |
 | `sudoers.dpkg-dist` | keep ours (`NOPASSWD` for group `sudo`), `visudo -c` |
@@ -345,6 +471,7 @@ What opff had, and what was decided:
 | `apt/apt.conf.d/50unattended-upgrades.ucf-dist` | keep ours, with the origin fix of step 0 |
 | `crontab.dpkg-dist`, `perl/XML/SAX/ParserDetails.ini.ucf-dist`, `systemd/timesyncd.conf.dpkg-dist` | keep ours (only times, order or comments differ) |
 | `cron.d/e2scrub_all.dpkg-dist` | take the new one (`/usr/libexec/e2fsprogs` path) |
+| `fail2ban/jail.d/defaults-debian.conf.dpkg-dist` | delete it: ours is absent on purpose, the ansible fail2ban role (`oefenweb.fail2ban`) removes it and defines the jails. Check `fail2ban-client -t` says OK |
 
 The `.dpkg-new` files did **not** mean unconfigured packages: `dpkg --audit` was
 empty and `dpkg -l apache2 nginx…` all `ii`.
@@ -354,10 +481,13 @@ mv /etc/cron.d/e2scrub_all.dpkg-dist /etc/cron.d/e2scrub_all
 find /etc \( -name '*.dpkg-dist' -o -name '*.ucf-dist' -o -name '*.dpkg-new' \) -delete
 
 sshd -t
+visudo -c
+fail2ban-client -t
 # apache's config needs APACHE2_PORT and APACHE_MPM_* from the env file that the
-# systemd drop-in loads: without it configtest fails with "Port must be specified"
+# systemd drop-in loads (EnvironmentFile=/srv/%l/env/env.%l): without it
+# configtest fails with "Port must be specified"
 systemctl cat apache2 | grep -iE 'environment|^# /'
-( set -a; . /srv/opff/env/env.opff; set +a; apache2ctl configtest )
+( set -a; . /srv/$I/env/env.$I; set +a; apache2ctl configtest )
 nginx -t
 systemctl daemon-reload
 
@@ -365,58 +495,71 @@ systemctl daemon-reload
 rm /usr/sbin/policy-rc.d
 ```
 
+If `nginx -t` complains about an unknown directive: trixie folded
+`nginx-full`/`nginx-light` into a single `nginx` package and the
+`libnginx-mod-*` modules may have been autoremoved (step 3).
+
+On scaleway-01, back to normal sync writes, then reboot so that everything
+starts like it will in normal life:
+
 ```bash
-# on scaleway-01: back to normal sync writes
-zfs inherit sync zfs-hdd/pve/subvol-115-disk-0
+zfs inherit sync $DS; zfs get sync $DS     # standard
+pct reboot $CT
 ```
 
-If `nginx -t` complains about an unknown directive: trixie folded
-`nginx-full`/`nginx-light` into a single `nginx` package, some modules may now be
-dynamic, check `/etc/nginx/modules-enabled/`.
-
-Then reboot the container (from scaleway-01: `pct reboot 115`) so that everything
-starts like it will in normal life, and check:
+Then, in the container (`pct enter $CT` again):
 
 ```bash
 systemctl list-jobs --no-pager            # "No jobs running." — if nginx waits behind
                                           # *-wait-online, the step 0 network fix is missing
 cat /etc/debian_version                   # 13.x
 perl -v | head -2                         # 5.40
-systemctl is-active networking nginx apache2 minion@opff redis_listener@opff cloud_vision_ocr@opff
+systemctl is-active networking nginx apache2 $(awk '/running/ {print $1}' /root/units-$I.txt)
 systemctl list-units --failed --no-pager | diff /root/failed-before.txt -
 systemctl list-unit-files --state=enabled --no-pager | diff /root/enabled-before.txt -
-#   (apt-daily*/unattended-upgrades show up here until re-enabled below)
-sudo -u off git -C /srv/opff log -1 --format='%H %s' | diff /root/git-before.txt -
-sudo -u off git -C /srv/opff status --short           # only the known untracked entries
-curl -sS -o /dev/null -w '%{http_code} %{time_total}s\n' -H 'Host: world.openpetfoodfacts.org' http://127.0.0.1/
-curl -sS -o /dev/null -w '%{http_code} %{time_total}s\n' -H 'Host: world.openpetfoodfacts.org' http://127.0.0.1/api/v2/product/3017620422002
-journalctl -u apache2 -u minion@opff -p warning -b --no-pager | tail -50
-tail -50 /srv/opff/logs/*.log /var/log/apache2/error.log
+#   (apt-daily*/unattended-upgrades and the instance timers show up here until re-enabled below)
+sudo -u off git -C /srv/$I log -1 --format='%H %s' | diff /root/git-before.txt -
+sudo -u off git -C /srv/$I status --short           # only the known untracked entries
+curl -sS -o /dev/null -w '%{http_code} %{time_total}s\n' -H "Host: $H" http://127.0.0.1/
+journalctl -u apache2 -u minion@$I -p warning -b --no-pager | tail -50
+grep -iE 'resolve_alias|readonly|Can.t locate|apreq' /var/log/apache2/error.log | tail
 ```
 
-apache takes ~25 s to start on opff (Product Opener's startup at 100% CPU,
-~1.1 GB resident): don't conclude too fast that it is stuck.
+apache takes ~25 s to start (Product Opener's startup at 100% CPU, ~1.1 GB
+resident on opff): don't conclude too fast that it is stuck.
 
-From outside, on <https://world.openpetfoodfacts.org>: front page, search, a
-product page, product images (ImageMagick 7), login, **one product edit** and **one
-image upload** (minion processes it), the API. Then re-enable the timers
-and the monitoring alerts:
+From outside: front page, search, a product page, product images
+(ImageMagick 7), login, **one product edit** and **one image upload** (minion
+processes it), an image crop, the API. On off-pro also: an organisation's
+product list, **a small CSV/XLSX import** (follow `journalctl -u minion@off-pro -f`),
+**an export to the public platform** (a file appears in
+`/mnt/off-pro/cache/export_files`).
+
+Then re-enable the instance timers (this recreates their boot links from their
+`[Install]` section), the apt timers and the monitoring alerts:
 
 ```bash
+cat /root/timer-wants-$I.txt
+systemctl enable --now $(awk '/\.timer/ {print $1}' /root/units-$I.txt)
 systemctl enable --now unattended-upgrades apt-daily.timer apt-daily-upgrade.timer
+systemctl list-timers --no-pager | grep -E "$I|apt"
 apt-cache policy | grep -A1 'debian-security' | grep release   # n=trixie-security, l=Debian-Security
 ```
+
+On off-pro, check the next night's import (`journalctl -u producers_import@off-pro --since yesterday`),
+including the Carrefour `gcloud storage cp` step.
 
 ### Rollback (any time, seconds)
 
 ```bash
 # on scaleway-01
-pct stop 115
-zfs rollback -r zfs-hdd/pve/subvol-115-disk-0@pre-trixie_<date>
-zfs inherit sync zfs-hdd/pve/subvol-115-disk-0
-pct start 115
+pct stop $CT
+zfs rollback -r $DS@pre-trixie_<date>
+zfs inherit sync $DS
+pct start $CT
 # in the container: the snapshot was taken after step 1
 rm -f /usr/sbin/policy-rc.d
+systemctl enable --now $(awk '/\.timer/ {print $1}' /root/units-$I.txt)
 systemctl enable --now unattended-upgrades apt-daily.timer apt-daily-upgrade.timer
 ```
 
@@ -436,7 +579,7 @@ check its next run (`systemctl status syncoid` on those hosts).
 # in the container
 rm -rf /usr/local/share/perl/5.32.1 /usr/local/lib/x86_64-linux-gnu/perl/5.32.1 /root/apt-old
 # on scaleway-01
-zfs destroy zfs-hdd/pve/subvol-115-disk-0@pre-trixie_<date>
+zfs destroy $DS@pre-trixie_<date>
 ```
 
 ## Known points to watch
@@ -444,8 +587,8 @@ zfs destroy zfs-hdd/pve/subvol-115-disk-0@pre-trixie_<date>
 * **ImageMagick 6 → 7**: validated by staging for the perl binding; check the
   shell scripts that call `convert` directly still work (IM7 keeps `convert` as a
   compatibility command).
-* **nginx geoip modules** (`libnginx-mod-http-geoip`): `nginx -t` tells us if a
-  `geoip_*` directive lost its module.
+* **`autoremove` after the trixie hop** removes apreq2 and the nginx modules
+  (step 3): check both before starting apache.
 * **mod_perl startup**: `conf/apache-2.4` is the production config, not the one
   staging uses (docker); this is the most likely place for a surprise — read
   `/var/log/apache2/error.log` first if apache does not answer.
@@ -463,9 +606,9 @@ zfs destroy zfs-hdd/pve/subvol-115-disk-0@pre-trixie_<date>
 * the `tz.sqlite3` conversion of step 4 is lost each time cpm reinstalls
   `DateTime::Lite` on a production container: add it to the production deploy
   procedure (or make Product Opener open the file read-only / in DELETE mode).
-* the stale `eth10` stanza and the networkd wait unit are probably on every
-  container cloned from the off2 rootfs (opf, obf, off-pro, off): fixed by
-  step 0 of this procedure.
+* the network fixes of step 0 (stale interface stanza on opff,
+  `systemd-networkd-wait-online` on both) are probably needed on opf, obf and
+  off too.
 
 ## Log
 
@@ -504,3 +647,47 @@ zfs destroy zfs-hdd/pve/subvol-115-disk-0@pre-trixie_<date>
 * to do: reboot again to check a clean boot (no waiting job), functional checks
   from outside, re-enable apt timers and monitoring, restore `sync` if it was
   disabled.
+
+### off-pro (CT 112), 2026-10-20
+
+Times (CEST):
+
+| Time | Step |
+| --- | --- |
+| 17:30 → 17:34 | purge of the desktop packages + autoremove (site up) |
+| ~17:38 | site stopped (step 1) |
+| 17:40 | snapshot `zfs-hdd/pve/subvol-112-disk-0@pre-trixie_2026-10-20_1540` (`11.11`) |
+| 17:48 → 17:58 | bullseye → bookworm (10 min) |
+| 17:58 → 18:14 | bookworm → trixie (16 min) |
+| 18:14 → 18:33 | perl modules, config review, reboot (18:25), checks: site up |
+
+* no stale `eth10` stanza, `networking` was fine; `systemd-networkd-wait-online`
+  disabled (no `.network` file).
+* rootfs dataset has **no refquota** (the "30G" of the ansible definition does
+  not apply), 20.9T available.
+* purge: `evince yelp aptitude ansible` (+ `gnumeric-doc`) then autoremove of
+  237 packages, ~850 MB in total. CPAN `.so` check (840 libraries, 37 XS
+  modules) found no overlap; `ssconvert` round trip and the site OK after.
+* extra apt repository `google-cloud-sdk.list`, kept (Carrefour image import
+  uses `gcloud`); `google-cloud-cli` upgraded from 565 to 590 by the hops.
+* `systemctl disable` of `producers_import@off-pro.timer` and
+  `gen_feeds_daily@off-pro.timer` also deleted their links to
+  `/srv/off-pro/conf/systemd/` (units added with `systemctl link`); restored from
+  etckeeper with `git checkout HEAD -- systemd/system/<unit>`. Step 1 now only
+  removes the `*.wants/` links.
+* trixie `autoremove` removed `libapache2-request-perl`/`libapache2-mod-apreq2`
+  (and `apreq2.load`) and the `libnginx-mod-*` modules; step 4's `apt install`
+  brought apreq back and re-enabled it, the nginx config does not use the
+  modules (`nginx -t` OK).
+* cpm: all modules OK; `tz.sqlite3` converted.
+* config review: the same files as opff, plus
+  `fail2ban/jail.d/defaults-debian.conf.dpkg-dist` (deleted, see the table).
+* leaving tmux with `exit` ran the commands still queued from a pasted block
+  on scaleway-01 at 18:27, after the reboot: an extra snapshot
+  `pre-trixie_2026-10-20_1627` of the upgraded system (destroyed) and
+  `sync=disabled` again (restored). Hence `nohup` instead of tmux in the
+  procedure.
+* after reboot: no waiting job, all units active, same commit, site `200`, no
+  perl/timezone/apreq error in the apache log.
+* to do: functional tests (import, export, image crop), re-enable the instance
+  timers and the apt timers, monitoring, check the next night's import.
