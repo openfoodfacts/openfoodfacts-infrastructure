@@ -32,6 +32,25 @@ you can use the "Console" of the developers toolbar with this expression:
 $x("//*[starts-with(@id, 'pmgQueueAdministration')]//table[contains(@class, 'x-grid-item')]//td[contains(@class,'x-grid-cell')][4]/*[contains(text(), '@')]/text()").map(x => x.nodeValue).join("\n")
 ```
 
+## monitoring_external_check failure on `<server>` (email)
+
+This is fired by the `check_monitoring_stack.sh` script,
+run every 15 minutes by systemd on scaleway-01
+(see `monitoring_external_check` ansible role).
+It checks that prometheus and grafana, on monitoring-01, answer correctly,
+as alertmanager can't alert about its own outage.
+
+The email is sent at most once a day while the problem lasts,
+and a "monitoring stack is back" email is sent when it is solved.
+
+To diagnose:
+* look at the email content or at `journalctl -u monitoring_external_check` on scaleway-01
+  to see which url is failing (`KO <url> -> <status code>`)
+* connect to monitoring-01 and check the containers are running
+  (`docker compose ps` in `/home/off/monitoring`)
+* check last deployments on [openfoodfacts-monitoring actions](https://github.com/openfoodfacts/openfoodfacts-monitoring/actions)
+  (see [2026-10-19 report](../reports/2026-10-19-monitoring-01-stack-down-after-deploy.md))
+
 ## sanoid_check.sh error on `<server>` (email)
 
 This is fired by the `sanoid_check.sh` script which is regularly run by systemd

@@ -20,6 +20,10 @@
       vars:
         sanoid__configurations_git_root_path: "{{ infrastructure_repository_dest }}"
         sanoid__configurations_src_path: "confs/{{ ansible_hostname }}"
+    - role: monitoring_external_check
+      tags: ["monitoring-check"]
+      # only on one server, to avoid getting one email per server
+      when: monitoring_external_check__enabled | default(false)
     - role: proxmox_containers
       tags: ["proxmox", "containers"]
       vars:

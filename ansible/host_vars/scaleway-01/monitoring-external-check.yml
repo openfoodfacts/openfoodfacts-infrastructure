@@ -1,0 +1,4 @@
+---
+# check the monitoring stack (on monitoring-01) from here,
+# as we will notice if scaleway-01 has a problem (it hosts the main Open Food Facts website)
+monitoring_external_check__enabled: true

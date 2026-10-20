@@ -1,0 +1,15 @@
+---
+# install the check on this server ?
+# (used in the play: enable it on only one server, to avoid one email per server)
+monitoring_external_check__enabled: false
+
+# urls to check, each must return a 200 status code
+monitoring_external_check__urls:
+  - "https://prometheus.openfoodfacts.org/-/healthy"
+  - "https://grafana.openfoodfacts.org/api/health"
+
+# how often to run the check (systemd time span)
+monitoring_external_check__interval: "15min"
+
+# while the stack is down, send an alert at most every n minutes
+monitoring_external_check__alert_every_minutes: 1440
