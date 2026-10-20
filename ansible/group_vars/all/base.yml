@@ -3,7 +3,7 @@
 ansible_managed: >-
   This file is managed by ansible, don't make changes here - they will be overwritten.
 
-base__timezone: Europe/Paris
+base_timezone: Europe/Paris
 
 base_unattended_mail: "{{ secrets_infra_email }}"
 
