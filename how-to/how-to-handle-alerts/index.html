@@ -690,6 +690,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../ansible/roles/monitoring_external_check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring external check role
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../ansible/roles/postgresql/" class="md-nav__link">
         
   
@@ -2548,6 +2576,17 @@
     <span class="md-ellipsis">
       
         Postfix mail messages queue is high (slack)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring_external_check-failure-on-server-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        monitoring_external_check failure on &lt;server&gt; (email)
       
     </span>
   </a>
@@ -7514,6 +7553,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#monitoring_external_check-failure-on-server-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        monitoring_external_check failure on &lt;server&gt; (email)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sanoid_checksh-error-on-server-email" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7630,6 +7680,23 @@
 you can use the "Console" of the developers toolbar with this expression:</p>
 <div class="highlight"><pre><span></span><code><span class="nx">$x</span><span class="p">(</span><span class="s2">"//*[starts-with(@id, 'pmgQueueAdministration')]//table[contains(@class, 'x-grid-item')]//td[contains(@class,'x-grid-cell')][4]/*[contains(text(), '@')]/text()"</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">x</span><span class="p">.</span><span class="nx">nodeValue</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s2">"\n"</span><span class="p">)</span>
 </code></pre></div>
+<h2 id="monitoring_external_check-failure-on-server-email">monitoring_external_check failure on <code>&lt;server&gt;</code> (email)<a class="headerlink" href="#monitoring_external_check-failure-on-server-email" title="Permanent link">#</a></h2>
+<p>This is fired by the <code>check_monitoring_stack.sh</code> script,
+run every 15 minutes by systemd on scaleway-01
+(see <code>monitoring_external_check</code> ansible role).
+It checks that prometheus and grafana, on monitoring-01, answer correctly,
+as alertmanager can't alert about its own outage.</p>
+<p>The email is sent at most once a day while the problem lasts,
+and a "monitoring stack is back" email is sent when it is solved.</p>
+<p>To diagnose:</p>
+<ul>
+<li>look at the email content or at <code>journalctl -u monitoring_external_check</code> on scaleway-01
+  to see which url is failing (<code>KO &lt;url&gt; -&gt; &lt;status code&gt;</code>)</li>
+<li>connect to monitoring-01 and check the containers are running
+  (<code>docker compose ps</code> in <code>/home/off/monitoring</code>)</li>
+<li>check last deployments on <a href="https://github.com/openfoodfacts/openfoodfacts-monitoring/actions">openfoodfacts-monitoring actions</a>
+  (see <a href="../../reports/2026-10-19-monitoring-01-stack-down-after-deploy/">2026-10-19 report</a>)</li>
+</ul>
 <h2 id="sanoid_checksh-error-on-server-email">sanoid_check.sh error on <code>&lt;server&gt;</code> (email)<a class="headerlink" href="#sanoid_checksh-error-on-server-email" title="Permanent link">#</a></h2>
 <p>This is fired by the <code>sanoid_check.sh</code> script which is regularly run by systemd
 on every host using ZFS.</p>
