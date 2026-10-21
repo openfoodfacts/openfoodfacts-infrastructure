@@ -35,7 +35,7 @@ def guess_type(values):
         except ValueError:
             return "TEXT"
 
-    return "REAL" if has_float else "INTEGER"
+    return "FLOAT" if has_float else "INTEGER"
 
 def generate_schema(csv_file, old_schema_file, table_name="all"):
     known_types = load_known_types(old_schema_file)

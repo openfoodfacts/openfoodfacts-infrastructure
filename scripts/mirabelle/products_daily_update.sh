@@ -6,7 +6,8 @@ file=""
 stats=""
 TODAY=$(date "+%Y-%m-%d")
 #csv="en.openfoodfacts.org.products.csv"
-url="https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv"
+# openfoodfacts-exports only publishes the compressed CSV
+url="https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
 
 
 # Read commanline arguments. Try -h to get usage.
@@ -53,8 +54,7 @@ if [[ "${file}" == "" ]]; then
     echo "$(date +'%Y-%m-%dT%H:%M:%S') - Downloading CSV..."
 
     # Get the date of the file to be downloaded. Retry 24 times until the date is not corresponding to today.
-    export_date=$(curl -L -s -v -X HEAD https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv 2>&1 | grep -ioP '.*Last-Modified: \K(.*)$' | tr -d '\r')
-    # We don't use .gz file because it is generated dozens of minutes later
+    export_date=$(curl -s -I -L "${url}" | grep -ioP '^Last-Modified: \K.*' | tr -d '\r')
     counter=1
     # Trying to download the file. Attention: sometimes curl command does not return anything.
     while [[ ${export_date} == "" || "$(date -d "${export_date}" +%Y-%m-%d)" < "${TODAY}" ]]; do
@@ -63,7 +63,7 @@ if [[ "${file}" == "" ]]; then
         ((counter++))
         echo "$(date +'%Y-%m-%dT%H:%M:%S') - CSV export is from ${export_date} and not today (${TODAY}). Retrying ${counter} in 10 minutes"
         sleep 10m
-        export_date=$(curl -L -s -v -X HEAD https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv 2>&1 | grep -ioP '.*Last-Modified: \K(.*)$' | tr -d '\r')
+        export_date=$(curl -s -I -L "${url}" | grep -ioP '^Last-Modified: \K.*' | tr -d '\r')
     done
 
     echo "$(date +'%Y-%m-%dT%H:%M:%S') - Remote CSV is from ${export_date}. Downloading CSV..."
@@ -72,12 +72,9 @@ if [[ "${file}" == "" ]]; then
     #     --server-response \     # Print the headers sent by HTTP servers and responses sent by FTP servers.
     #     --continue \            # Compression does not work with --continue or --start-pos, they will be disabled.
     #     https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv
-    wget -O newdata.csv \
-         --quiet \
-         \ #--server-response \
-         --compression=gzip \
-         \ #--header="accept-encoding: gzip" \
-         https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv
+    set -o pipefail
+    wget -O - --quiet "${url}" | gunzip > newdata.csv || { echo "$(date +'%Y-%m-%dT%H:%M:%S') - Download error"; exit 1; }
+    set +o pipefail
     echo -e "ls -la newdata.csv\n$(ls -la newdata.csv)\n"
     # compare local and remote size to be sure download is ok
     #source_size=$(wget --spider "${url}" 2>&1 | awk '/Length/ {print $2}')
@@ -94,8 +91,13 @@ else
 fi
 
 
-# TODO: verify number of fields is not different from current database
-# nb_of_fields=$(head -n 1 newdata.csv | tr "\t" "\n" | wc -l)
+# The CSV is imported by column position, so a column change would silently shift the data: stop instead
+csv_columns=$(head -n 1 newdata.csv | tr -d '\r')
+schema_columns=$(grep -oP '^\s*\[\K[^\]]+' products.schema | paste -sd '\t')
+if [[ "${csv_columns}" != "${schema_columns}" ]]; then
+  echo "$(date +'%Y-%m-%dT%H:%M:%S') - CSV columns differ from products.schema, regenerate it with generate_schema.py. Exiting..." | tee >(cat >&2)
+  exit 1
+fi
 
 # Display information on source CSV
 [[ $mode == "i" ]] && read -p "Press [Enter] key to compare CSV from today and yesterday..."
@@ -138,7 +140,7 @@ CREATE INDEX ["all_main_category_en"] ON [all]("main_category_en");
 CREATE INDEX ["all_nutriscore_grade"] ON [all]("nutriscore_grade");
 CREATE INDEX ["all_nova_group"] ON [all]("nova_group");
 CREATE INDEX ["all_states_tags"] ON [all]("states_tags");
-CREATE INDEX ["all_ecoscore_grade"] ON [all]("ecoscore_grade");
+CREATE INDEX ["all_environmental_score_grade"] ON [all]("environmental_score_grade");
 CREATE INDEX ["all_data_quality_errors_tags"] ON [all]("data_quality_errors_tags");
 CREATE INDEX ["all_unique_scans_n"] ON [all]("unique_scans_n");
 CREATE INDEX ["all_popularity_tags"] ON [all]("popularity_tags");
@@ -156,12 +158,10 @@ CREATE VIEW simplified AS select rowid, code, url, creator, created_datetime, la
   first_packaging_code_geo, cities, cities_tags, purchase_places, stores, countries_en, ingredients_text,
   ingredients_tags, allergens_en, traces_en, serving_size, serving_quantity, no_nutrition_data, additives_n,
   additives, additives_en, nutriscore_score, nutriscore_grade, nova_group, pnns_groups_1, pnns_groups_2,
-  food_groups_en, states_en, brand_owner, ecoscore_score, ecoscore_grade, main_category_en, image_url,
+  food_groups_en, states_en, brand_owner, environmental_score_score, environmental_score_grade, main_category_en, image_url,
   image_ingredients_url, image_nutrition_url, [energy-kj_100g], [energy-kcal_100g], energy_100g,
   [energy-from-fat_100g], fat_100g, [saturated-fat_100g], carbohydrates_100g, sugars_100g, fiber_100g,
-  proteins_100g, salt_100g, sodium_100g, alcohol_100g, [fruits-vegetables-nuts_100g], [fruits-vegetables-nuts-dried_100g],
-  [fruits-vegetables-nuts-estimate_100g], [fruits-vegetables-nuts-estimate-from-ingredients_100g],
-  [nutrition-score-fr_100g], [nutrition-score-uk_100g] from [all];
+  proteins_100g, salt_100g, sodium_100g, alcohol_100g, [fruits-vegetables-legumes_100g] from [all];
 EOS
 # real    3m2.761s
 else
