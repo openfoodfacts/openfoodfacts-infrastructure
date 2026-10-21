@@ -54,7 +54,7 @@ if [[ "${file}" == "" ]]; then
     echo "$(date +'%Y-%m-%dT%H:%M:%S') - Downloading CSV..."
 
     # Get the date of the file to be downloaded. Retry 24 times until the date is not corresponding to today.
-    export_date=$(curl -s -I -L "${url}" | grep -ioP '^Last-Modified: \K.*' | tr -d '\r')
+    export_date=$(curl --silent --head -L "${url}" | grep -ioP '^Last-Modified: \K.*' | tr -d '\r')
     counter=1
     # Trying to download the file. Attention: sometimes curl command does not return anything.
     while [[ ${export_date} == "" || "$(date -d "${export_date}" +%Y-%m-%d)" < "${TODAY}" ]]; do
@@ -124,7 +124,7 @@ PRAGMA locking_mode=EXCLUSIVE;
 PRAGMA temp_store=MEMORY;
 PRAGMA page_size = 32768;
 $(cat products.schema)
-.mode ascii
+.mode csv
 .separator "\t" "\n"
 .import --skip 1 en.openfoodfacts.org.products.csv all
 SELECT strftime('%Y-%m-%dT%H:%M:%S', 'now') || " - Creating index...";
