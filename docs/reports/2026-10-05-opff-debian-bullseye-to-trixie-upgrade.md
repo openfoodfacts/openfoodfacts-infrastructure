@@ -45,16 +45,17 @@ to `>= 2.2.2, < 2.3`, and that driver only supports MongoDB servers up to
 * the MongoDB **server** (a container on `scaleway-docker-prod`, see
   [2026-01-15-moving-mongodb-to-scaleway.md](./2026-01-15-moving-mongodb-to-scaleway.md))
   stays on 4.4 and is **not** part of this upgrade
-* opff only holds the perl driver (recompiled for perl 5.40) and, incidentally,
-  the `mongodb-database-tools` client (`mongodump`, `mongorestore`) version
-  100.10.0 installed from the mongodb 4.4 apt repo
-* since that repo has **no build for bookworm or trixie** (MongoDB publishes
-  8.0 for the `bookworm` component, and only `mongosh` for `trixie`), the repo is
-  moved away during the upgrade and the tools are **not** replaced by 8.0 ones:
-  staying on 4.4 tooling is the point
-* nobody in this repo runs `mongodump`: MongoDB backups are ZFS dataset backups.
-  If a logical dump is ever needed, run it on the MongoDB host, where the 4.4
-  tools live
+* opff holds the perl driver (recompiled for perl 5.40) and the
+  `mongodb-database-tools` client (`mongoexport`, `mongodump`) version 100.10.0,
+  installed from the mongodb 4.4 apt repo
+* **the tools are required**: `scripts/mongodb_dump.sh` (run every night by
+  `gen_feeds_daily@opff`) uses them to make the public JSONL and MongoDB dumps
+  (`openpetfoodfacts-products.jsonl.gz`, `openpetfoodfacts-mongodbdump.gz`, …)
+* that repo has **no build for bookworm or trixie**, so it is moved away during
+  the upgrade, and the tools are reinstalled from MongoDB's standalone Debian 12
+  package of **the same version 100.10.0** (works on trixie). The database
+  tools are versioned separately from the server; 100.10.0 is what already
+  talks to the 4.4 server, so nothing changes on the MongoDB side
 
 ## Why no ansible
 
@@ -164,7 +165,7 @@ Two consequences:
 | tesseract 4 → 5, graphviz 2.42 → newer | OCR / graph rendering | used through `Image::OCR::Tesseract` and `GraphViz2`; test after the hop |
 | nginx geoip: `libgeoip1` → `libgeoip1t64` in trixie, and `geoip-database` data was reverted to Dec 2019 | `nginx -t` fails if `geoip_*` directives lose their module | check whether `/srv/opff/conf/nginx` uses `geoip` directives (phase 0), then `nginx -t` after each hop |
 | dpkg overwrites config files that are symlinks into `/srv/opff/conf` with package defaults | apache/nginx silently revert to defaults | re-create the symlinks after each hop, then `apache2ctl configtest` and `nginx -t` |
-| `mongodb-org 4.4` repo has no bookworm/trixie build, so `mongodb-database-tools` 100.10.0 is removed | we do **not** want the 8.0 tools either, the perl driver only supports a 4.4 server | purge the tools and leave the repo out, see [MongoDB stays on 4.4](#mongodb-stays-on-44); dumps are done on the MongoDB host |
+| `mongodb-org 4.4` repo has no bookworm/trixie build, so `mongodb-database-tools` 100.10.0 is removed | the nightly JSONL / MongoDB dumps fail; `mongoexport \| gzip` publishes **empty** files | leave the repo out and reinstall 100.10.0 from the Debian 12 `.deb` (phase 5), see [MongoDB stays on 4.4](#mongodb-stays-on-44) |
 | rootfs has a 30G quota, shared between the origin, its snapshots and the clone | ENOSPC in the middle of the upgrade | check `zfs get quota,refquota,used` on the host first, raise the clone quota or enlarge the rootfs if needed |
 | `unattended-upgrades` is enabled with `Automatic-Reboot "true"` | surprise reboot mid-upgrade | stop and disable it for the whole operation, re-enable after |
 | the test instance shares prod MongoDB / PostgreSQL / Redis | test edits change prod data, minion/redis_listener process events twice | keep the test instance read-only, disable `minion`, `cloud_vision_ocr`, `redis_listener`, `gen_feeds*` in it |
@@ -508,18 +509,21 @@ systemctl --failed
 
 ### Phase 5 — post-upgrade repairs
 
-- [ ] **mongodb tools**: `mongodb-database-tools` 100.10.0 was removed during the
-      upgrade (the 4.4 repo has no bookworm/trixie build). We deliberately do
-      **not** put the 8.0 tools in, see
-      [MongoDB stays on 4.4](#mongodb-stays-on-44). Purge the leftovers and leave
-      the repo out:
+- [ ] **mongodb tools**: `mongodb-database-tools` 100.10.0 may have been removed
+      during the upgrade (the 4.4 repo has no bookworm/trixie build). They are
+      needed by the nightly dumps (`mongodb_dump.sh`), see
+      [MongoDB stays on 4.4](#mongodb-stays-on-44). Reinstall the same version
+      from MongoDB's Debian 12 package, and leave the repo out:
       ```bash
-      apt purge mongodb-database-tools
-      apt autoremove --purge
+      cd /root
+      wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-debian12-x86_64-100.10.0.deb
+      apt install ./mongodb-database-tools-debian12-x86_64-100.10.0.deb
+      mongoexport --version | head -1   # 100.10.0
       # no /etc/apt/sources.list.d/mongodb-org-*.list is added back
       ```
-      if somebody really needs a 4.4 logical dump, they run `mongodump` on the
-      MongoDB host (`scaleway-docker-prod`), not here
+      **do not purge them**: this is what happened on 2026-10-15 and left the
+      public JSONL dumps empty for 6 days, see the log of
+      [2026-10-15-product-opener-in-place-trixie-upgrade.md](./2026-10-15-product-opener-in-place-trixie-upgrade.md#log)
 - [ ] **mongodb driver**: the perl driver was recompiled for perl 5.40, check it
       still talks to the 4.4 server:
       ```bash

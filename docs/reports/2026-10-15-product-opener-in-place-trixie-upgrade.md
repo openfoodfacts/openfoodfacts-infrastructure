@@ -341,9 +341,27 @@ MongoDB driver falls back to pure-perl BSON, as in the Docker images).
 
 ```bash
 apt autoremove --purge          # without -y: read the list (gnumeric, google-cloud-cli, imagemagick* must not be in it)
-apt purge mongodb-database-tools   # leftover from the 4.4 repo, dumps are done on the MongoDB host
 cat /etc/debian_version; dpkg --audit   # 13.x, nothing
 ```
+
+**Do not purge `mongodb-database-tools`**: `mongoexport` and `mongodump` are
+run every night by `scripts/mongodb_dump.sh` (called by
+`gen_feeds_daily@$I`) to make the public JSONL and MongoDB dumps. The
+`mongodb-org-4.4` repo has no bookworm/trixie build, so replace the package
+with **the same version, 100.10.0**, from MongoDB's standalone Debian 12
+package (works on trixie). The database tools are versioned separately from
+the server (100.x), and 100.10.0 is what talked to the 4.4 server before the
+upgrade, so nothing changes on the MongoDB side:
+
+```bash
+cd /root
+wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-debian12-x86_64-100.10.0.deb
+apt install ./mongodb-database-tools-debian12-x86_64-100.10.0.deb
+mongoexport --version | head -1; mongodump --version | head -1   # 100.10.0
+```
+
+(off-pro does not need them, `gen_feeds_daily.sh` skips the dumps on the pro
+platform; install them anyway to keep the containers identical.)
 
 On off-pro this `autoremove` also removed:
 
@@ -523,6 +541,7 @@ sudo -u off git -C /srv/$I status --short           # only the known untracked e
 curl -sS -o /dev/null -w '%{http_code} %{time_total}s\n' -H "Host: $H" http://127.0.0.1/
 journalctl -u apache2 -u minion@$I -p warning -b --no-pager | tail -50
 grep -iE 'resolve_alias|readonly|Can.t locate|apreq' /var/log/apache2/error.log | tail
+which mongoexport mongodump               # both present (step 3), or the night's dumps come out empty
 ```
 
 apache takes ~25 s to start (Product Opener's startup at 100% CPU, ~1.1 GB
@@ -548,6 +567,15 @@ apt-cache policy | grep -A1 'debian-security' | grep release   # n=trixie-securi
 
 On off-pro, check the next night's import (`journalctl -u producers_import@off-pro --since yesterday`),
 including the Carrefour `gcloud storage cp` step.
+
+On the public sites, check the next night's dumps: the files must be dated
+from the night and **not 20 bytes** (an empty gzip, what `mongodb_dump.sh`
+writes when `mongoexport` fails):
+
+```bash
+ls -la /srv/$I/html/data/*.jsonl.gz /srv/$I/html/data/*mongodbdump.gz
+journalctl -u gen_feeds_daily@$I --since yesterday --no-pager | grep -E "errors during execution of ./mongodb_dump.sh|FAILED COMMANDS" -A3
+```
 
 ### Rollback (any time, seconds)
 
@@ -593,7 +621,14 @@ zfs destroy $DS@pre-trixie_<date>
   staging uses (docker); this is the most likely place for a surprise — read
   `/var/log/apache2/error.log` first if apache does not answer.
 * `gen_feeds_daily@opff` was **already failing** before the upgrade
-  (`export_database.pl`), don't count it as a regression.
+  (`export_database.pl` refuses to replace a CSV more than 1% smaller than the
+  previous one), don't count it as a regression. CSV exports are removed from
+  `gen_feeds_daily.sh` by openfoodfacts/openfoodfacts-server#15055 (now made by
+  `openfoodfacts-exports`). Because of this pre-existing failure, a new failure
+  in `mongodb_dump.sh` does not change the unit's state: read the list of
+  failed commands, not just "failed".
+* **`mongodb-database-tools` must be reinstalled** (step 3): without them the
+  public JSONL dumps are silently replaced by empty files, see the opff log.
 
 ## Follow-ups
 
@@ -647,6 +682,18 @@ zfs destroy $DS@pre-trixie_<date>
 * to do: reboot again to check a clean boot (no waiting job), functional checks
   from outside, re-enable apt timers and monitoring, restore `sync` if it was
   disabled.
+* **regression found on 2026-10-21** (user report): the plan said to
+  `apt purge mongodb-database-tools` (wrongly assuming nobody ran `mongodump`).
+  From the night of 2026-10-16, `mongodb_dump.sh` failed with
+  `mongoexport: command not found`; with no `pipefail`, `mongoexport | gzip`
+  still "succeeded", so `openpetfoodfacts-products.jsonl.gz`,
+  `…products_obsolete.jsonl.gz` and `…recent_changes.jsonl.gz` were replaced by
+  20-byte empty gzips every night, while `openpetfoodfacts-mongodbdump.gz`
+  stayed at 2026-10-15. Nobody noticed because `gen_feeds_daily@opff` was
+  already failing on `export_database.pl`. Fixed by installing the Debian 12
+  build of `mongodb-database-tools` 100.10.0 (now in step 3) and re-running
+  `gen_feeds_daily@opff`: JSONL back to 18.8 MB. `pipefail` added to
+  `mongodb_dump.sh` in openfoodfacts-server.
 
 ### off-pro (CT 112), 2026-10-20
 
