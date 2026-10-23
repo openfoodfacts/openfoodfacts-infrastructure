@@ -7485,6 +7485,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-10-19-scaleway-04-05-bad-mtu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-19 scaleway-04/05 bad MTU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7659,7 +7687,7 @@ Then I added them to <code>syncoid-args.conf</code>.</p>
 <p>We also decided to remove dump backups on ovh1/2/3.</p>
 <p>Going in proxmox interface, Datacenter, Backup, I disabled backups.</p>
 <h2 id="removing-replication-snapshots">Removing replication snapshots<a class="headerlink" href="#removing-replication-snapshots" title="Permanent link">#</a></h2>
-<p>On ovh1, ovh2, ovh3 I removed the __replicate_ snapshots.</p>
+<p>On ovh1, ovh2, ovh3 I removed the _<em>replicate</em> snapshots.</p>
 <div class="highlight"><pre><span></span><code>zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_
 zfs<span class="w"> </span>list<span class="w"> </span>-r<span class="w"> </span>-t<span class="w"> </span>snap<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span>rpool<span class="p">|</span>grep<span class="w"> </span>__replicate_<span class="p">|</span>xargs<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w">  </span>zfs<span class="w"> </span>destroy
 </code></pre></div>

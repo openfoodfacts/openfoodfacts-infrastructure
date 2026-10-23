@@ -7452,6 +7452,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-10-19-scaleway-04-05-bad-mtu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-19 scaleway-04/05 bad MTU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7624,9 +7652,9 @@ Note: to use a script in <code>/etc/network/if-up.d/</code>, remember to <code>c
 <p>Christian (@cquest) proposes a more radical solution: <strong>remove gateway for eth0, and only keep it for eth1</strong>.</p>
 <p>This has the advantage of being driven from proxmox.</p>
 <p>Before:
-</p>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2022-02-18-two-gateway.png" data-title="two gateway config in proxmox" data-desc-position="bottom"><img alt="two gateway config in proxmox" src="../media/2022-02-18-two-gateway.png"></a></p>
 <p>After:
-</p>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2022-02-18-one-gateway.png" data-title="One gateway config in proxmox" data-desc-position="bottom"><img alt="One gateway config in proxmox" src="../media/2022-02-18-one-gateway.png"></a></p>
 <p>This works but then we cannot use forwarding requests through ovh1 ip + iptables. But that's fine, as this was not a portable configuration however (if we have to move proxy, there would have been no ip failover).</p>
 <p>Still we add the gateway for eth0 with ip route, until we moved all CNAME to the public ip proxy1.openfoodfacts.org.</p>
 <p>So a second action was to move CNAME for all services behind proxy from <code>ovh1.openfoodfacts.org</code> to <code>proxy1.openfoodfacts.org</code></p>

@@ -7480,6 +7480,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-10-19-scaleway-04-05-bad-mtu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-19 scaleway-04/05 bad MTU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7625,7 +7653,7 @@ So I probe memory but indeed this was not the problem.<sup id="fnref:memory-log-
 <h3 id="a-disk-space-problem">A disk space problem<a class="headerlink" href="#a-disk-space-problem" title="Permanent link">#</a></h3>
 <p>Finally looking at more closely at <a href="https://www.computel.fr/munin/openfoodfacts/ovh2.openfoodfacts/index.html">munin schemas for ovh2</a>,
 I saw there was a problem with disk space:</p>
-<p></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2027-07-20-ovh2-disk-usage.png" data-desc-position="bottom"><img alt="" src="../media/2027-07-20-ovh2-disk-usage.png" title="Disk usage on ovh2 showing there is no space left at moments corresponding to crashes" width="50%"></a></p>
 <p>So at this point I knew the culprit.</p>
 <p>Indeed <code>zpool list</code> shows there is really few space left on device.
 And <code>zfs list -r rpool</code> also shows where this space goes.</p>

@@ -7452,6 +7452,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-10-19-scaleway-04-05-bad-mtu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-19 scaleway-04/05 bad MTU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7550,7 +7578,7 @@
 <p>After using IDRAC to reach it, we saw the server was not able to boot. It was booting, but after some time, did shutdown.</p>
 <p>We upgrade the Bios (v 1.4.5 &gt; v 2.17.1), it did not resolved.</p>
 <p>After a looong investigation, thanks to checks we found that NVMe Drive did not seemed to be detected.</p>
-<p></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../img/2023-03-16-off2-test-error-pci-device.png" data-title="No NVMe Drive detected on PCI" data-desc-position="bottom"><img alt="No NVMe Drive detected on PCI" src="../../img/2023-03-16-off2-test-error-pci-device.png" title="No NVMe Drive detected on PCI while testing" width="50%"></a></p>
 <p>We then found that we could boot if we disabled PCI in Bios.</p>
 <p>This means we lost the ssd disk we wanted to use as cache and fast disks at some point on the server.</p>
 <p>Of course we had a message from zpool, at startup, unable to start the pool that was on NVMes.</p>
@@ -7576,7 +7604,7 @@
 </li>
 </ul>
 <p>Got this message:</p>
-<p></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../img/2023-04-14%20error%20PCI%20link%20disabled.png" data-title="PCI link disabled error" data-desc-position="bottom"><img alt="PCI link disabled error" src="../../img/2023-04-14%20error%20PCI%20link%20disabled.png" title="PCI link disabled error on startup"></a></p>
 <p>In IDRAC I did a "System de cycle d'alimentation (cold reboot)"</p>
 <p>It seemed to worked... but after some times the machine shuts down again and show this message.</p>
 <p>I go back in BIOS to disable PCI slot 2 only.</p>

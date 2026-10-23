@@ -7474,6 +7474,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-10-19-scaleway-04-05-bad-mtu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-19 scaleway-04/05 bad MTU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7592,7 +7620,7 @@
 <p>While running the general assembly on 2025-06-30 wiki was no more accessible.</p>
 <p>After checking, we got a "no space left on device".</p>
 <p>Their is a steady augmentation of the disk used space, and the zpool is effectively saturated. (<code>zpool list rpool</code>)</p>
-<p></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../media/2025-06-30-19-04-28-ovh1-graph-disk-full.png" data-title="disk augmentation graph on proxmox interface" data-desc-position="bottom"><img alt="disk augmentation graph on proxmox interface" src="../media/2025-06-30-19-04-28-ovh1-graph-disk-full.png" title="disk augmentation graph on proxmox interface"></a></p>
 <h2 id="remediation-1">Remediation 1<a class="headerlink" href="#remediation-1" title="Permanent link">#</a></h2>
 <p>I decided to remove some snapshots that where already synchronized on vm200 disk, gaining maybe 30G.</p>
 <p>I did new that after this kind of incident, you have to restart everything because otherwise many might be in degraded mode.</p>
