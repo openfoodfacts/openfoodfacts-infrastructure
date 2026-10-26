@@ -65,6 +65,12 @@ server {
         return 403;
     }
 
+    # Reject fake pro platform referrers (no pro platform on this flavor),
+    # see conf.d/fake_pro_referer.conf -- 2026-10-26
+    if ($fake_pro_referer) {
+        return 403;
+    }
+
 
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
