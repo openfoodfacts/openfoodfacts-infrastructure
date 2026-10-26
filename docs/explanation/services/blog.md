@@ -4,7 +4,7 @@
 
 Open Food Facts blog is based on [WordPress](https://wordpress.org/) CMS.
 
-It is hosted on a Debian 11 server with Apache2, PHP-FPM and MariaDB.
+It is hosted on a Debian 12 (bookworm) server with Apache2, PHP-FPM 8.4 (from [Sury](https://deb.sury.org/) repository) and MariaDB.
 
 It is installed on a LXC container managed by Proxmox VE: CT 140 on ovh1 server.
 
@@ -55,6 +55,10 @@ dpkg-reconfigure locales # choose en_US.UTF-8
 
 Installation of Sury repository to get multiple PHP versions and switch between them (2025-11):
 
+**Note:** this setup is obsolete since the [2026-10-22 bookworm upgrade](../../reports/2026-10-22-ovh1-140-blog-bookworm-upgrade.md),
+see [Current PHP setup](#current-php-setup) below.
+It is kept as a reference to switch PHP versions with Apache.
+
 ```bash
 # Install PHP from Sury repository to get multiple PHP versions
 apt install extrepo
@@ -100,6 +104,33 @@ update-alternatives --config php
 # Verify
 php -v
 
+```
+
+### Current PHP setup
+
+Since 2026-10-22 (see [report](../../reports/2026-10-22-ovh1-140-blog-bookworm-upgrade.md)):
+
+* Sury repository is configured in `/etc/apt/sources.list.d/extrepo_sury.list`,
+  with the official keyring `/usr/share/keyrings/debsuryorg-archive-keyring.gpg`
+  (the Sury signing key expires from time to time: if `apt update` shows `EXPKEYSIG`, PHP is not updated anymore!)
+* only PHP 8.4 is installed (`php8.4-*` packages, no generic `php-*` metapackages,
+  as they follow Sury's default version and would install a newer PHP)
+* Apache uses `php8.4-fpm` configuration (`a2enconf php8.4-fpm`), `fpm-generic` is disabled
+* `session.upload_progress` is disabled in `/etc/php/8.4/{fpm,cli}/conf.d/99-off-disable-upload-progress.ini`
+  (mitigation for CVE-2026-109619)
+* the container needs `features: nesting=1` and `lxc.cap.drop: "sys_rawio audit_read"` (in `/etc/pve/lxc/140.conf`)
+  for php-fpm to start
+
+To upgrade to a new PHP version (eg. 8.5):
+
+```bash
+apt install php8.5-{cli,common,curl,fpm,gd,imagick,imap,intl,mbstring,mysql,opcache,readline,xml,zip}
+cp /etc/php/8.4/fpm/conf.d/99-off-*.ini /etc/php/8.5/fpm/conf.d/
+# report php.ini changes (eg. upload_max_filesize)
+a2disconf php8.4-fpm && a2enconf php8.5-fpm && systemctl reload apache2
+systemctl stop php8.4-fpm
+# when everything is ok
+apt purge '^php8\.4.*'
 ```
 
 ## Staging environment
