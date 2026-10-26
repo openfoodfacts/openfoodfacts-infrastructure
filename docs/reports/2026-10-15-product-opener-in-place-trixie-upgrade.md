@@ -7,8 +7,8 @@ The container is upgraded **in place**, during a maintenance window,
 with a **ZFS snapshot of the rootfs** as the rollback.
 
 opff (CT 115) was done first, on 2026-10-15, then off-pro (CT 112) on
-2026-10-20: see the [Log](#log). The procedure below includes everything
-learned on both.
+2026-10-20 and opf (CT 114) on 2026-10-26: see the [Log](#log). The procedure
+below includes everything learned on them.
 
 ## Why this is reasonably safe
 
@@ -33,7 +33,7 @@ something about the next ones:
 | --- | --- | --- | --- |
 | 1 (canary) | 115 | `opff` | openpetfoodfacts.org — **done 2026-10-15** |
 | 2 | 112 | `off-pro` | pro.openfoodfacts.org — **done 2026-10-20** |
-| 3 | 114 | `opf` | openproductsfacts.org |
+| 3 | 114 | `opf` | openproductsfacts.org — **done 2026-10-26** |
 | 4 | 113 | `obf` | openbeautyfacts.org |
 | 5 | 111 | `off` | openfoodfacts.org (own window, after a few quiet days) |
 
@@ -56,16 +56,16 @@ hop (buster → bullseye) with `archive.debian.org` sources, same procedure.
 
 The cost: the site is down for the whole window, instead of ~5 min.
 
-| | opff (no speed-ups) | off-pro (speed-ups of step 0) |
-| --- | --- | --- |
-| bullseye → bookworm | ~1 h | **10 min** |
-| bookworm → trixie | (not measured) | **16 min** |
-| perl modules, config review, reboot, checks | | 19 min |
-| **downtime** | 2–3 h | **~55 min** |
+| | opff (no speed-ups) | off-pro (speed-ups of step 0) | opf (speed-ups) |
+| --- | --- | --- | --- |
+| bullseye → bookworm | ~1 h | **10 min** | **5 min** |
+| bookworm → trixie | (not measured) | **16 min** | **~11 min** |
+| perl modules, config review, reboot, checks | | 19 min | ~8 min |
+| **downtime** | 2–3 h | **~55 min** | **~26 min** |
 
 The speed-ups are purging the unused desktop packages before the window and
 disabling ZFS sync writes during it (step 0 and step 1). Plan about one hour of
-downtime with them.
+downtime with them (opf, the third one, took less than half an hour).
 
 Keeping the site up during `full-upgrade` is **not** an option: perl, libc,
 libssl and ImageMagick are replaced under the running processes, mod_perl can no
@@ -201,8 +201,32 @@ sudo -u off ssconvert /tmp/t.csv /tmp/t.xlsx && sudo -u off ssconvert /tmp/t.xls
 curl -sS -o /dev/null -w '%{http_code}\n' -H "Host: $H" http://127.0.0.1/
 ```
 
-Silence the monitoring alerts for the window; for off-pro, announce it to the
-producers.
+On opf, the autoremove list was longer (261 packages): it also had ~25
+`python3-*` modules pulled in by `ansible` (`yaml`, `jinja2`, `requests-*`…).
+As for the CPAN check, apt does not know which local scripts import them:
+
+```bash
+grep -rlE '^\s*(import|from)\s+(yaml|jinja2|requests|packaging|pyparsing|simplejson|dns|netaddr|xmltodict|markupsafe)\b' \
+  /srv/$I/scripts /srv/$I/lib /srv/$I/conf /usr/local/bin 2>/dev/null | head
+crontab -u off -l 2>/dev/null; ls /etc/cron.d/
+```
+
+On opf it only matched `scripts/packager-codes/*.py`: developer tools run by
+hand, with their own `requirements.txt` (pip virtualenv), not run by any timer
+or cron on the container. Not a reason to keep the packages.
+
+A `500` from that last `curl` is not necessarily the purge: on opf it most likely came from
+nginx running out of connections under crawler load
+(`768 worker_connections are not enough` in `/var/log/nginx/error.log`), a
+second `curl` gave `200` (see [Follow-ups](#follow-ups)).
+
+**Silence the monitoring alerts** for the window: in
+[Alertmanager](https://alertmanager.openfoodfacts.org/), *New Silence* matching
+the site's blackbox probe (e.g. the `world.openproductsfacts.org` target, see
+`configs/prometheus/config.yml` in openfoodfacts-monitoring), for ~2 hours;
+*Expire* it at the end of step 5. For off-pro, announce the window to the
+producers. Run the window during the day: `gen_feeds_daily@` runs at night
+(02:15 on off-pro, 05:00 on opf).
 
 **Never interrupt (`^C`) apt while dpkg runs.** The long apt runs of steps 2
 and 3 are launched with `nohup` (see step 2), so a dropped SSH connection does
@@ -342,6 +366,12 @@ MongoDB driver falls back to pure-perl BSON, as in the Docker images).
 ```bash
 apt autoremove --purge          # without -y: read the list (gnumeric, google-cloud-cli, imagemagick* must not be in it)
 cat /etc/debian_version; dpkg --audit   # 13.x, nothing
+
+# openssh-server disables ssh.service when it is upgraded (it "synchronizes"
+# systemd with the old SysV links): on opf both the bookworm and the trixie
+# hops did it. Turn it back on if /root/enabled-before.txt had it:
+grep -E '^ssh' /root/enabled-before.txt
+systemctl enable ssh; systemctl is-enabled ssh ssh.socket
 ```
 
 **Do not purge `mongodb-database-tools`**: `mongoexport` and `mongodump` are
@@ -532,7 +562,8 @@ systemctl list-jobs --no-pager            # "No jobs running." — if nginx wait
                                           # *-wait-online, the step 0 network fix is missing
 cat /etc/debian_version                   # 13.x
 perl -v | head -2                         # 5.40
-systemctl is-active networking nginx apache2 $(awk '/running/ {print $1}' /root/units-$I.txt)
+systemctl is-active networking nginx apache2 ssh $(awk '/running/ {print $1}' /root/units-$I.txt)
+ss -ltnp | grep ':22 '                    # sshd listening (see step 3)
 systemctl list-units --failed --no-pager | diff /root/failed-before.txt -
 systemctl list-unit-files --state=enabled --no-pager | diff /root/enabled-before.txt -
 #   (apt-daily*/unattended-upgrades and the instance timers show up here until re-enabled below)
@@ -641,9 +672,21 @@ zfs destroy $DS@pre-trixie_<date>
 * the `tz.sqlite3` conversion of step 4 is lost each time cpm reinstalls
   `DateTime::Lite` on a production container: add it to the production deploy
   procedure (or make Product Opener open the file read-only / in DELETE mode).
-* the network fixes of step 0 (stale interface stanza on opff,
-  `systemd-networkd-wait-online` on both) are probably needed on opf, obf and
-  off too.
+* the network fixes of step 0: the stale interface stanza was only on opff,
+  `systemd-networkd-wait-online` had to be disabled on opff, off-pro and opf;
+  probably needed on obf and off too.
+* **check ssh on off-pro**: the `openssh-server` upgrades disabled
+  `ssh.service` on opf (step 3); off-pro was not checked
+  (`systemctl is-enabled ssh`). opf has both `ssh.service` and `ssh.socket`
+  enabled (as before the upgrade); Debian's default is the service only.
+* **nginx `worker_connections 768`** (Debian's default, `/etc/nginx/nginx.conf`
+  replaced by the package's since it was never modified) is too low for opf
+  under crawler load: raise it (e.g. 4096) on every container, after the
+  upgrade.
+* **stale public dumps on opf**: `openproductfacts-*` files (old name, without
+  the "s"), from February / April 2026, three of them 20-byte empty gzips, and
+  a 67 GB `ocr.jsonl.gz` from August 2023, all in `/srv/opf/html/data/`: check
+  nothing links to them and delete them.
 
 ## Log
 
@@ -738,3 +781,53 @@ Times (CEST):
   perl/timezone/apreq error in the apache log.
 * to do: functional tests (import, export, image crop), re-enable the instance
   timers and the apt timers, monitoring, check the next night's import.
+
+### opf (CT 114), 2026-10-26
+
+Times (CET):
+
+| Time | Step |
+| --- | --- |
+| before 09:58 | step 0, purge of the desktop packages + autoremove (site up) |
+| 09:59 | site stopped (step 1) |
+| 10:00 | snapshot `zfs-hdd/pve/subvol-114-disk-0@pre-trixie_2026-10-26_0900` (`11.10`) |
+| ~10:01 → 10:06 | bullseye → bookworm (5 min) |
+| 10:06 → ~10:17 | bookworm → trixie |
+| 10:17 → 10:25 | MongoDB tools check, perl modules, config review, reboot: site up |
+
+* deployed code: v2.116.1; units like opff (`minion@`, `redis_listener@`,
+  `cloud_vision_ocr@`, `gen_feeds_daily@` service + timer); only the
+  `mongodb-org-4.4` third-party repository. Rootfs: no refquota, 30.1G used.
+* no stale interface stanza, `networking` fine; `systemd-networkd-wait-online`
+  disabled (empty `/etc/systemd/network/`).
+* purge: same 5 packages as off-pro, then autoremove of 261 packages / 689 MB
+  (the extra ones: ansible's python modules and aptitude's libraries). CPAN
+  check (883 libraries, 36 XS modules) and python scripts check clean.
+* the `curl` after the purge returned `500`: nginx alerts
+  `768 worker_connections are not enough` at 09:43–09:50 under a distributed
+  crawler (same facet pages from many IPs, fake referrer
+  `world-ca.pro.openproductsfacts.org`); `fr.` and `world.` both `200` right
+  after. Most likely not related to the upgrade.
+* `gen_feeds_daily@opf.timer` has a drop-in
+  (`/etc/systemd/system/gen_feeds_daily@.timer.d/override.conf`), unchanged by
+  the upgrade (step 5 diff).
+* **ssh**: `openssh-server` disabled `ssh.service` during the bookworm hop
+  ("Synchronizing state of ssh.service with SysV service script … disable
+  ssh"), and again during the trixie hop; it was enabled before
+  (`ssh.service` and `ssh.socket` in `enabled-before.txt`). Re-enabled after
+  the trixie hop (now in step 3); sshd listens on 22 after the reboot. rsyslog
+  was only losing its obsolete `/etc/init.d/rsyslog` script, still enabled.
+* trixie autoremove: 90 packages (IM6, perl 5.36, python 3.9/3.11, apreq,
+  `libnginx-mod-*`, `geoip-database`, `usrmerge`…); the nginx config uses none
+  of the modules, `nginx -t` OK. `mongodb-database-tools` 100.10.0 was still
+  installed (no purge any more), `mongoexport`/`mongodump` OK.
+* step 4: apreq reinstalled and enabled (its postinst tried an apache reload
+  without the env file: "Port must be specified", harmless); cpm installed 169
+  distributions, no FAIL; all modules OK; `tz.sqlite3` converted.
+* config review: the same 14 files as off-pro, same decisions.
+* after reboot (10:25): no waiting job, all units active, sshd on 22, same
+  commit, site `200` (3 s for the first request), no perl/timezone/apreq error.
+* timers (`gen_feeds_daily@opf`, next run 05:00) and apt timers re-enabled.
+* to do: functional tests from outside, expire the Alertmanager silence if one
+  was set, check the dumps of the night 2026-10-26 → 27 against
+  `/root/dumps-before.txt` (40 MB JSONL, 46 MB MongoDB dump, not 20 bytes).
