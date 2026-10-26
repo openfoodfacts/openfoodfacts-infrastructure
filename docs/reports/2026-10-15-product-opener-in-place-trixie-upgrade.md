@@ -601,6 +601,27 @@ systemctl list-timers --no-pager | grep -E "$I|apt"
 apt-cache policy | grep -A1 'debian-security' | grep release   # n=trixie-security, l=Debian-Security
 ```
 
+The apt timers run at once to catch up. unattended-upgrades skips nginx: our
+`/etc/nginx/mime.types` and `/etc/logrotate.d/nginx` are symlinks into
+`/srv/$I/conf`, so it sees modified conffiles ("nginx-common has conffile
+prompt and needs to be upgraded manually") and keeps `nginx` back with it.
+Upgrade them by hand, keeping ours, and check the symlinks survived (this
+happens again on every nginx security update, not only after the upgrade):
+
+```bash
+tail /var/log/unattended-upgrades/unattended-upgrades.log
+apt-get install -o Dpkg::Options::=--force-confold nginx nginx-common && nginx -t && systemctl restart nginx
+ls -l /etc/nginx/mime.types /etc/logrotate.d/nginx   # both -> /srv/$I/conf/...
+```
+
+Then check the deployment (as root through `sudo`: the script errors with "only
+one service can be verified at a time" if `SERVICE` is already exported in the
+shell, `sudo` clears it):
+
+```bash
+sudo /srv/$I/scripts/deploy/verify-deployment.sh $I   # no output = OK
+```
+
 On off-pro, check the next night's import (`journalctl -u producers_import@off-pro --since yesterday`),
 including the Carrefour `gcloud storage cp` step.
 
@@ -818,8 +839,28 @@ Times (CEST):
   procedure.
 * after reboot: no waiting job, all units active, same commit, site `200`, no
   perl/timezone/apreq error in the apache log.
-* to do: functional tests (import, export, image crop), re-enable the instance
-  timers and the apt timers, monitoring, check the next night's import.
+* 2026-10-21, deployment of v2.116.1, then the remaining steps:
+  * `verify-deployment.sh` reported `producers_import@off-pro.timer` inactive
+    (stopped in step 1, not yet re-enabled) and
+    `/etc/nginx/conf.d/tagline_cache.conf` as a plain file instead of a symlink
+    (unrelated to the upgrade: copied by hand when openfoodfacts/openfoodfacts-server#14521
+    was deployed). Replaced by the symlink into `/srv/off-pro/conf`, `nginx -t` OK.
+  * timers re-enabled with the step 5 commands: `gen_feeds_daily@off-pro`
+    (02:15) and `producers_import@off-pro` (03:15), plus `unattended-upgrades`
+    and the apt timers. No `/root/timer-wants-off-pro.txt`: off-pro was done
+    with `systemctl disable` in step 1, before that file was added; the links
+    recreated from `[Install]` (`timers.target.wants` for gen_feeds_daily,
+    `multi-user.target.wants` for producers_import) are the expected ones.
+  * the catch-up unattended-upgrades run (origin `trixie-security`, so the
+    step 0 fix works) upgraded `ca-certificates` but kept back
+    `nginx`/`nginx-common` 1.26.3-3+deb13u10 because of the symlinked conffiles
+    (`mime.types`, `logrotate.d/nginx`). Upgraded by hand with
+    `--force-confold` (now in step 5), symlinks intact, no `.dpkg-dist` (the
+    conffiles did not change in that update). `Automatic-Reboot` is not set on
+    off-pro, no `reboot-required`.
+  * `verify-deployment.sh off-pro`: OK.
+* to do: monitoring alerts, check the night of 2026-10-21 → 22 (import incl.
+  the Carrefour `gcloud` step, gen_feeds_daily).
 
 ### opf (CT 114), 2026-10-26
 
