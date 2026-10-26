@@ -59,6 +59,12 @@ server {
     access_log  /var/log/nginx/openbeautyfacts.org.access-errors.log  main buffer=256K flush=1s if=$error_log;
     error_log   /var/log/nginx/openbeautyfacts.org.errors.log;
 
+    # Reject fake pro platform referrers (no pro platform on this flavor),
+    # see conf.d/fake_pro_referer.conf -- 2026-10-26
+    if ($fake_pro_referer) {
+        return 403;
+    }
+
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
