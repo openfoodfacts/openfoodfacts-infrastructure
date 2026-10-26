@@ -7,8 +7,9 @@ The container is upgraded **in place**, during a maintenance window,
 with a **ZFS snapshot of the rootfs** as the rollback.
 
 opff (CT 115) was done first, on 2026-10-15, then off-pro (CT 112) on
-2026-10-20 and opf (CT 114) on 2026-10-26: see the [Log](#log). The procedure
-below includes everything learned on them.
+2026-10-20, opf (CT 114) and obf (CT 113) on 2026-10-26: see the [Log](#log).
+The procedure below includes everything learned on them. Only off (CT 111)
+is left.
 
 ## Why this is reasonably safe
 
@@ -34,7 +35,7 @@ something about the next ones:
 | 1 (canary) | 115 | `opff` | openpetfoodfacts.org — **done 2026-10-15** |
 | 2 | 112 | `off-pro` | pro.openfoodfacts.org — **done 2026-10-20** |
 | 3 | 114 | `opf` | openproductsfacts.org — **done 2026-10-26** |
-| 4 | 113 | `obf` | openbeautyfacts.org |
+| 4 | 113 | `obf` | openbeautyfacts.org — **done 2026-10-26** |
 | 5 | 111 | `off` | openfoodfacts.org (own window, after a few quiet days) |
 
 Write down in the [Log](#log) every surprise met (prompts, clobbered configs,
@@ -56,12 +57,12 @@ hop (buster → bullseye) with `archive.debian.org` sources, same procedure.
 
 The cost: the site is down for the whole window, instead of ~5 min.
 
-| | opff (no speed-ups) | off-pro (speed-ups of step 0) | opf (speed-ups) |
-| --- | --- | --- | --- |
-| bullseye → bookworm | ~1 h | **10 min** | **5 min** |
-| bookworm → trixie | (not measured) | **16 min** | **~11 min** |
-| perl modules, config review, reboot, checks | | 19 min | ~8 min |
-| **downtime** | 2–3 h | **~55 min** | **~26 min** |
+| | opff (no speed-ups) | off-pro (speed-ups of step 0) | opf (speed-ups) | obf (speed-ups) |
+| --- | --- | --- | --- | --- |
+| bullseye → bookworm | ~1 h | **10 min** | **5 min** | **~10 min** |
+| bookworm → trixie | (not measured) | **16 min** | **~11 min** | **~10 min** |
+| perl modules, config review, reboot, checks | | 19 min | ~8 min | ~13 min |
+| **downtime** | 2–3 h | **~55 min** | **~26 min** | **~35 min** |
 
 The speed-ups are purging the unused desktop packages before the window and
 disabling ZFS sync writes during it (step 0 and step 1). Plan about one hour of
@@ -213,7 +214,11 @@ crontab -u off -l 2>/dev/null; ls /etc/cron.d/
 
 On opf it only matched `scripts/packager-codes/*.py`: developer tools run by
 hand, with their own `requirements.txt` (pip virtualenv), not run by any timer
-or cron on the container. Not a reason to keep the packages.
+or cron on the container. Not a reason to keep the packages. On obf it also
+matched `scripts/run_ocr.py` (a manual batch tool, the `cloud_vision_ocr@`
+service runs `run_cloud_vision_ocr.pl`), `scripts/tags_and_languages.py` and
+`scripts/taxonomies/generators/0{1,2}_*.py` (developer tools): none of them is
+run on the container either.
 
 A `500` from that last `curl` is not necessarily the purge: on opf it most likely came from
 nginx running out of connections under crawler load
@@ -660,6 +665,25 @@ zfs destroy $DS@pre-trixie_<date>
   failed commands, not just "failed".
 * **`mongodb-database-tools` must be reinstalled** (step 3): without them the
   public JSONL dumps are silently replaced by empty files, see the opff log.
+* **load after the reboot**: a public site restarted in the middle of a
+  crawler flood comes back with empty caches and all its traffic at once. On
+  obf (see the log) the load stayed at 30–45 on 6 cores: apache had 33–37 of
+  its 40 workers busy, and with `MaxConnectionsPerChild 100` (from
+  `conf/apache-2.4/off-envvars`, `APACHE_MPM_MAX_CONN_PER_CHILD`) at several
+  hundred requests per second it forked new 1.2 GB children several times per
+  second. Diagnose before blaming the upgrade:
+
+  ```bash
+  uptime; free -m
+  P=$(pgrep -o -f 'apache2 -k start'); ps --ppid $P -o pid=,etimes= | sort -k2 -n | head   # children all 0–2 s old = churn
+  grep -cE 'exit signal' /var/log/apache2/error.log                                          # 0 = no crash
+  tail -n 20000 /srv/$I/logs/access_log_8001.log | grep -oE '\[[0-9]{2}/[A-Za-z]{3}/[0-9]{4}:[0-9]{2}:[0-9]{2}' | uniq -c | tail -3   # requests per minute
+  ```
+
+  mod_perl renames apache children after the script they run
+  (`/srv/obf/cgi/disp -k start`), so `ps -C apache2` only finds the parent.
+  The first column of `access_log_8001.log` is an `X-Forwarded-For` list
+  ("IP, IP"), which shifts `awk` fields: parse with `grep -oE` as above.
 
 ## Follow-ups
 
@@ -673,16 +697,31 @@ zfs destroy $DS@pre-trixie_<date>
   `DateTime::Lite` on a production container: add it to the production deploy
   procedure (or make Product Opener open the file read-only / in DELETE mode).
 * the network fixes of step 0: the stale interface stanza was only on opff,
-  `systemd-networkd-wait-online` had to be disabled on opff, off-pro and opf;
-  probably needed on obf and off too.
+  `systemd-networkd-wait-online` had to be disabled on opff, off-pro, opf and
+  obf; probably needed on off too.
 * **check ssh on off-pro**: the `openssh-server` upgrades disabled
   `ssh.service` on opf (step 3); off-pro was not checked
-  (`systemctl is-enabled ssh`). opf has both `ssh.service` and `ssh.socket`
-  enabled (as before the upgrade); Debian's default is the service only.
+  (`systemctl is-enabled ssh`). Same on obf (re-enabled). opf and obf have
+  both `ssh.service` and `ssh.socket` enabled (as before the upgrade); Debian's
+  default is the service only.
 * **nginx `worker_connections 768`** (Debian's default, `/etc/nginx/nginx.conf`
   replaced by the package's since it was never modified) is too low for opf
   under crawler load: raise it (e.g. 4096) on every container, after the
   upgrade.
+* **apache `MaxConnectionsPerChild` on obf**: raised from 100 to 1000 by hand
+  on 2026-10-26 in `/srv/obf/conf/apache-2.4/off-envvars` (backup in
+  `/root/off-envvars.bak`) to stop the worker churn under the crawler flood.
+  It is a local change to a tracked file: the next deploy resets it. Propose
+  a dedicated value for obf (and opf) in `conf/apache-2.4/off-envvars` in
+  openfoodfacts-server, like the existing blocks for off and off-pro.
+* **crawler on the public sites** (2026-10-26, from ~03:00): fake
+  `*.pro.openbeautyfacts.org` / `*.pro.openproductsfacts.org` referrers are
+  rejected by scaleway-proxy since openfoodfacts/openfoodfacts-infrastructure#710;
+  the rest of the flood uses real subdomains as referrers. Product Opener
+  already answers `401` to anonymous 2+ level facet pages (`Display.pm`,
+  `robots_not_served_here`, since 2025-06-01), so those requests are cheap;
+  the cost is the request rate itself. A global `limit_req` on scaleway-proxy
+  is the remaining option if needed.
 * **stale public dumps on opf**: `openproductfacts-*` files (old name, without
   the "s"), from February / April 2026, three of them 20-byte empty gzips, and
   a 67 GB `ocr.jsonl.gz` from August 2023, all in `/srv/opf/html/data/`: check
@@ -831,3 +870,60 @@ Times (CET):
 * to do: functional tests from outside, expire the Alertmanager silence if one
   was set, check the dumps of the night 2026-10-26 → 27 against
   `/root/dumps-before.txt` (40 MB JSONL, 46 MB MongoDB dump, not 20 bytes).
+
+### obf (CT 113), 2026-10-26
+
+Times (CET):
+
+| Time | Step |
+| --- | --- |
+| before 14:47 | step 0, purge of the desktop packages + autoremove (site up) |
+| 14:47 | site stopped (step 1) |
+| 14:47 | snapshot `zfs-hdd/pve/subvol-113-disk-0@pre-trixie_2026-10-26_1347` (`11.10`) |
+| ~14:48 → 14:58 | bullseye → bookworm |
+| 14:58 → 15:08 | bookworm → trixie |
+| 15:08 → 15:21 | autoremove, perl modules, config review, reboot: site up |
+
+* same setup as opf: v2.116.1, units `minion@`, `redis_listener@`,
+  `cloud_vision_ocr@`, `gen_feeds_daily@` (02:15), only the `mongodb-org-4.4`
+  third-party repository, `ssh.service` and `ssh.socket` enabled. Reference
+  dumps: 104 MB JSONL, 123 MB MongoDB dump (`/root/dumps-before.txt`).
+* no stale interface stanza; `systemd-networkd-wait-online` disabled.
+* purge: same 5 packages, autoremove of 261 packages; CPAN check (883
+  libraries, 37 XS modules) clean; the python check matched 4 scripts, none
+  used on the container (see step 0).
+* nginx already logged `768 worker_connections are not enough` at 14:28–14:41,
+  on bullseye, before the window: the crawler was there before the upgrade.
+* both hops as on opf: `ssh.service` disabled by `openssh-server` and
+  re-enabled after the trixie hop; trixie autoremove of 89 packages;
+  `mongodb-database-tools` 100.10.0 still installed; nginx config OK.
+* step 4: `apt install` of the Dockerfile packages also reinstalled
+  `mailutils` (removed by the autoremove on obf, kept on opf); apreq back and
+  enabled; cpm 169 distributions; all modules OK; `tz.sqlite3` converted.
+* config review: the same 14 files as opf and off-pro, same decisions.
+* after reboot (15:21): no waiting job, all units active, sshd on 22, same
+  commit, site `200`, no perl/timezone/apreq error.
+* **timeouts after the restart**: load 30–46 on 6 cores, 33–37 of the 40
+  apache workers busy, children replaced several times per second, no crash
+  (`exit signal`: 0), memory fine (4.4 GB available). The access log showed a
+  distributed crawler: ~300–500 requests per second, 98% on
+  `/cgi/display.pl?/facets…`, thousands of IPs, 5 rotating Chrome/Edge user
+  agents, referrers `world-be.pro.openbeautyfacts.org` (fake) and real
+  `world-xx` / `ca-fr` subdomains. Munin on scaleway-01 shows the host load
+  rising from ~10–15 to 25–37 from ~03:00 that morning, before any upgrade.
+  Not caused by the upgrade.
+  * fake `.pro.` referrers rejected on scaleway-proxy
+    (openfoodfacts/openfoodfacts-infrastructure#710, checked: `403`, and 0 of
+    the next 5,000 requests on obf had them).
+  * the 2+ level facet pages answer `401` to anonymous users (checked with
+    `curl`), quickly.
+  * `MaxConnectionsPerChild` raised from 100 to 1000 in `off-envvars` (local
+    change, see [Follow-ups](#follow-ups)): a minute later the youngest
+    children were 34 s old (no more churn) and the load was going down
+    (30 → 25).
+* timers (`gen_feeds_daily@obf`, next run 02:15) and apt timers re-enabled.
+* to do: functional tests from outside, nginx held back by
+  unattended-upgrades (upgrade by hand with `--force-confold`),
+  `verify-deployment.sh obf` (it may report the modified `off-envvars`),
+  expire the Alertmanager silence, check the dumps of the night 2026-10-26 → 27
+  against `/root/dumps-before.txt`.
