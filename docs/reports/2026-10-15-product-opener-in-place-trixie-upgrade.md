@@ -7,9 +7,9 @@ The container is upgraded **in place**, during a maintenance window,
 with a **ZFS snapshot of the rootfs** as the rollback.
 
 opff (CT 115) was done first, on 2026-10-15, then off-pro (CT 112) on
-2026-10-20, opf (CT 114) and obf (CT 113) on 2026-10-26: see the [Log](#log).
-The procedure below includes everything learned on them. Only off (CT 111)
-is left.
+2026-10-20, opf (CT 114) and obf (CT 113) on 2026-10-26, and off (CT 111) on
+2026-10-27: see the [Log](#log). All five Product Opener containers now run
+trixie; the procedure below includes everything learned on them.
 
 ## Why this is reasonably safe
 
@@ -36,7 +36,7 @@ something about the next ones:
 | 2 | 112 | `off-pro` | pro.openfoodfacts.org — **done 2026-10-20** |
 | 3 | 114 | `opf` | openproductsfacts.org — **done 2026-10-26** |
 | 4 | 113 | `obf` | openbeautyfacts.org — **done 2026-10-26** |
-| 5 | 111 | `off` | openfoodfacts.org (own window, after a few quiet days) |
+| 5 | 111 | `off` | openfoodfacts.org — **done 2026-10-27** |
 
 Write down in the [Log](#log) every surprise met (prompts, clobbered configs,
 failed modules), with rough times.
@@ -57,12 +57,12 @@ hop (buster → bullseye) with `archive.debian.org` sources, same procedure.
 
 The cost: the site is down for the whole window, instead of ~5 min.
 
-| | opff (no speed-ups) | off-pro (speed-ups of step 0) | opf (speed-ups) | obf (speed-ups) |
-| --- | --- | --- | --- | --- |
-| bullseye → bookworm | ~1 h | **10 min** | **5 min** | **~10 min** |
-| bookworm → trixie | (not measured) | **16 min** | **~11 min** | **~10 min** |
-| perl modules, config review, reboot, checks | | 19 min | ~8 min | ~13 min |
-| **downtime** | 2–3 h | **~55 min** | **~26 min** | **~35 min** |
+| | opff (no speed-ups) | off-pro (speed-ups of step 0) | opf (speed-ups) | obf (speed-ups) | off (speed-ups, 50 cores) |
+| --- | --- | --- | --- | --- | --- |
+| bullseye → bookworm | ~1 h | **10 min** | **5 min** | **~10 min** | **~6 min** |
+| bookworm → trixie | (not measured) | **16 min** | **~11 min** | **~10 min** | **~6 min** |
+| perl modules, config review, reboot, checks | | 19 min | ~8 min | ~13 min | ~13 min |
+| **downtime** | 2–3 h | **~55 min** | **~26 min** | **~35 min** | **~26 min** |
 
 The speed-ups are purging the unused desktop packages before the window and
 disabling ZFS sync writes during it (step 0 and step 1). Plan about one hour of
@@ -743,6 +743,23 @@ zfs destroy $DS@pre-trixie_<date>
   `robots_not_served_here`, since 2025-06-01), so those requests are cheap;
   the cost is the request rate itself. A global `limit_req` on scaleway-proxy
   is the remaining option if needed.
+* **local changes to tracked files on off** (2026-10-27), reset by the next
+  deploy (`sudo -u off git -C /srv/off status --short conf/` lists them):
+  `conf/apache-2.4/off-envvars` (`MaxConnectionsPerChild` 1000, as on obf) and
+  `conf/etc-default/prometheus-apache-exporter` /
+  `prometheus-apache-priority-exporter` (trixie's `prometheus-apache-exporter`
+  only accepts `--scrape_uri=` and `--web.listen-address=`, it failed with
+  "unknown short flag '-s'"). To be upstreamed in openfoodfacts-server
+  (pull request being prepared).
+* **no unattended-upgrades on off**: the package is not installed (only the
+  apt timers, which install nothing), so off never got automatic security
+  updates. Decide whether to install it like on the other containers.
+* **`/srv/off/scripts/.run-ocr-venv`** is a python 3.9 virtualenv for the
+  manual `run_ocr.py` tool: broken on trixie (python 3.13), recreate it if
+  someone needs it.
+* **old OCR files on off**: `ocr-2020-07-07.jsonl.gz` (28 GB) and
+  `ocr-2022-10-25.jsonl.gz` (60 GB) in `/srv/off/html/data/`, check whether
+  they are still needed.
 * **stale public dumps on opf**: `openproductfacts-*` files (old name, without
   the "s"), from February / April 2026, three of them 20-byte empty gzips, and
   a 67 GB `ocr.jsonl.gz` from August 2023, all in `/srv/opf/html/data/`: check
@@ -968,3 +985,70 @@ Times (CET):
   `verify-deployment.sh obf` (it may report the modified `off-envvars`),
   expire the Alertmanager silence, check the dumps of the night 2026-10-26 → 27
   against `/root/dumps-before.txt`.
+
+### off (CT 111), 2026-10-27
+
+Times (UTC — the off container is on UTC, the others on CET):
+
+| Time | Step |
+| --- | --- |
+| before 09:25 | step 0, purge (`evince yelp gnumeric-doc` + autoremove of 236 packages, site up) |
+| 09:25 | site stopped (step 1), announced on Slack |
+| 09:26 | snapshot `zfs-hdd/pve/subvol-111-disk-0@pre-trixie_2026-10-27_0926` (`11.8`) |
+| ~09:26 → 09:32 | bullseye → bookworm |
+| 09:32 → 09:38 | bookworm → trixie |
+| 09:38 → ~09:51 | autoremove, perl modules, config review, reboot (09:49), apache startup: site up |
+
+* v2.116.1, Debian 11.8. Load 13 on 50 cores before the window, no crawler
+  flood (a few dozen requests/s, 13% facets). Reference dumps: 7.6 GB JSONL,
+  16.2 GB MongoDB dump. `gen_feeds_daily@off` already failing (known).
+  Access log is `/srv/off/logs/access_8001.log` (not `access_log_8001.log`).
+* **two apache instances**: `apache2` (8001) and `apache2@priority` (8002,
+  most of the traffic: 44k requests vs 4k on the main one in the first
+  minutes). `/etc/apache2-priority` is a **symlink to `/etc/apache2`**: same
+  configuration, only the port differs (`off-envvars` derives it from the
+  `-priority` suffix of `APACHE_CONFDIR`). So the config review of
+  `/etc/apache2` covers both; apreq2 disabled/re-enabled by the package
+  scripts applies to both. Added for off: a second `configtest` with
+  `APACHE_CONFDIR=/etc/apache2-priority`, `apache2@priority` in the stop and
+  checks, and port 8002 after the reboot. A direct request on 8002 answers
+  `403` (vhost restrictions).
+* **no unattended-upgrades installed**, no `50unattended-upgrades`: step 0's
+  fix and the nginx manual upgrade do not apply; step 1 and 5 only disable /
+  enable the apt timers.
+* network: no stale stanza, `systemd-networkd-wait-online` disabled.
+* purge: `aptitude` and `ansible` were not installed on off. The python check
+  only matched files inside `/srv/off/scripts/.run-ocr-venv` (own
+  site-packages, but a python 3.9 venv: broken after the upgrade, see
+  [Follow-ups](#follow-ups)). No crontab for `off`.
+* `mongodb-database-tools` was **100.9.4** (not 100.10.0), still installed
+  after both hops.
+* trixie autoremove (88 packages) also proposed **`postgresql-client-13` and
+  `-15`**: `postgresql-client` is manually installed and the hop had brought
+  `postgresql-client-17`, so only the old versions went; no script on off
+  calls `psql`/`pg_dump`. `psql` 17.11 OK after.
+* ssh disabled by `openssh-server` on the bookworm hop, re-enabled after
+  trixie.
+* step 4: apreq back in both instances, cpm 169 distributions, no FAIL, all
+  modules OK, `tz.sqlite3` converted.
+* config review: no netfilter drop-ins on off. Same files as obf minus
+  `timesyncd.conf`, fail2ban and `50unattended-upgrades`, plus:
+  * **`nginx/nginx.conf.dpkg-dist`**: off's `nginx.conf` is customized
+    (`worker_connections 4096`, unlike the default 768 on opf/obf): kept ours.
+  * **`default/prometheus-apache-exporter.dpkg-new`**: ours is a symlink into
+    `/srv/off/conf/etc-default/`, kept.
+* `MaxConnectionsPerChild` raised to 1000 in `off-envvars` **before the
+  reboot** (lesson from obf).
+* after the reboot (09:49): apache took ~2 min to start (the first `curl`
+  got a `502` after 134 s, the API a `200` in 13 s), then front page `200` in
+  ~0.2 s, API in 0.02 s, load 14, only the usual startup warnings.
+* **`prometheus-apache-exporter` and `@priority` failed** ("unknown short
+  flag '-s'"): trixie's exporter needs `--scrape_uri=` and
+  `--web.listen-address=` (was `-telemetry.address`). Fixed in
+  `/srv/off/conf/etc-default/` (backups in `/root/*.bak`), both active,
+  metrics on :9117 and :9118. `prometheus-nginx-exporter` was fine.
+* timers re-enabled (`gen_feeds_daily@off` at 02:15 UTC, apt timers);
+  `verify-deployment.sh off` OK; functional tests OK.
+* to do: expire the Alertmanager silence, check the dumps of the night
+  2026-10-27 → 28 against `/root/dumps-before.txt`, upstream the three local
+  conf changes, cleanup and snapshot removal a week later.
