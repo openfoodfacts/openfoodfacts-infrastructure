@@ -5,91 +5,1063 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🍊 Service Downtime Notification - Open Food Facts 🍊</title>
+
+    <!-- Matomo Tracking for Error Pages (Site ID: 20) -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['setDocumentTitle', 'Error 502 Planned / ' + document.title]);
+        _paq.push(['setCookieDomain', '*.openfoodfacts.org']);
+        _paq.push(['setDomains', ['*.openfoodfacts.org', '*.openpetfoodfacts.org', '*.openbeautyfacts.org', '*.openproductsfacts.org']]);
+        _paq.push(['setDoNotTrack', true]);
+        _paq.push(['disableCookies']);
+        _paq.push(['enableHeartBeatTimer']);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u = '//analytics.openfoodfacts.org/';
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '20']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <noscript><p><img src="//analytics.openfoodfacts.org/matomo.php?idsite=20&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+
+    <!-- Preconnect to CDNs & Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://static.openfoodfacts.org">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Open Food Facts Web Components -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@openfoodfacts/openfoodfacts-webcomponents": "https://static.openfoodfacts.org/js/dist/off-webcomponents.bundled.js"
+        }
+    }
+    </script>
+    <script type="module" src="https://static.openfoodfacts.org/js/dist/off-webcomponents.bundled.js"></script>
+    <!-- Fallback if static CDN is unreachable -->
+    <script type="module">
+        if (!customElements.get('donation-banner')) {
+            const fallbackScript = document.createElement('script');
+            fallbackScript.type = 'module';
+            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/@openfoodfacts/openfoodfacts-webcomponents/dist/off-webcomponents.bundled.js';
+            document.head.appendChild(fallbackScript);
+        }
+    </script>
+
     <style>
+        :root {
+            --primary-orange: #e36129;
+            --primary-orange-hover: #c94e1b;
+            --primary-orange-light: #fdf1ea;
+            --color-cappuccino-light: #f7f5f0;
+            --color-cappuccino-border: #e8e3d8;
+            --text-dark: #202124;
+            --text-muted: #5f6368;
+            --bg-page: #f6f6f4;
+            --card-bg: #ffffff;
+            --border-light: #e5e3dc;
+            --alert-bg: #fff8e6;
+            --alert-border: #ffd591;
+            --alert-text: #7c3a00;
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.07);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-pill: 9999px;
+            --font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-orange: #ff7438;
+                --primary-orange-hover: #fa6425;
+                --primary-orange-light: #332018;
+                --color-cappuccino-light: #252422;
+                --color-cappuccino-border: #3b3936;
+                --text-dark: #f1f1f1;
+                --text-muted: #b0afab;
+                --bg-page: #191a1b;
+                --card-bg: #232527;
+                --border-light: #36383b;
+                --alert-bg: #2b2518;
+                --alert-border: #5e4a23;
+                --alert-text: #fbd38d;
+                --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.25);
+                --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.35);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: var(--font-family);
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            transition: color 0.15s ease, opacity 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--primary-orange-hover);
+            text-decoration: underline;
+        }
+
+        /* Top Header */
+        .site-header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-light);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .header-container {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .header-logo img {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            background-color: var(--primary-orange-light);
+            color: var(--primary-orange);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--primary-orange);
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 97, 41, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(227, 97, 41, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 97, 41, 0); }
+        }
+
+        .btn-header-donate {
+            background-color: var(--primary-orange);
+            color: #ffffff !important;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.45rem 1.1rem;
+            border-radius: var(--radius-pill);
+            text-decoration: none !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-header-donate:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Main Container */
+        .page-content {
+            flex: 1;
+            max-width: 1040px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background-color: var(--alert-bg);
+            border: 1px solid var(--alert-border);
+            border-left: 5px solid var(--primary-orange);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            color: var(--alert-text);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .alert-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .alert-banner-right {
+            font-size: 0.875rem;
+        }
+
+        .alert-banner-right a {
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Language Switcher */
+        .language-nav {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 0.5rem 0.75rem;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .language-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            padding: 0 0.25rem;
+        }
+
+        .language-nav-title {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .language-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-pill);
+            padding: 0.35rem 0.8rem;
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--color-cappuccino-light);
+            color: var(--text-dark);
+            border-color: var(--border-light);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            font-weight: 600;
+            border-color: var(--primary-orange);
+            box-shadow: 0 2px 6px rgba(227, 97, 41, 0.3);
+        }
+
+        /* Maintenance Hero Card */
+        .hero-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+        }
+
+        .hero-media {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-media img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-subtle);
+            background-color: #ffffff;
+        }
+
+        .media-badge {
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-content h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.25;
+            margin-bottom: 0.85rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .hero-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .downtime-estimate-box {
+            margin-top: 1.25rem;
+            background-color: var(--color-cappuccino-light);
+            border: 1px solid var(--color-cappuccino-border);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.925rem;
+            color: var(--text-dark);
+        }
+
+        .downtime-estimate-box strong {
+            color: var(--primary-orange);
+        }
+
+        /* Language Panels */
+        .lang-section {
+            display: none;
+        }
+
+        .lang-section.active {
+            display: block;
+        }
+
+        /* When JS is disabled, show all languages with clean titles */
+        .no-js .lang-section {
+            display: block;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px dashed var(--border-light);
+        }
+
+        .no-js .lang-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .no-js .language-nav {
+            display: none;
+        }
+
+        /* Donation Section */
+        .donation-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .donation-header-bar {
+            background: linear-gradient(135deg, #e36129 0%, #f77c48 100%);
+            color: #ffffff;
+            padding: 1.25rem 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .donation-header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .donation-header-tagline {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .donation-body {
+            padding: 1.75rem;
+        }
+
+        /* Web component styling */
+        donation-banner {
+            display: block;
+            width: 100%;
+        }
+
+        /* Fallback donation card if web components are loading or unsupported */
+        .donation-fallback-card {
+            background-color: var(--color-cappuccino-light);
+            border: 1px solid var(--color-cappuccino-border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        /* Hide fallback once donation-banner is defined */
+        donation-banner:defined + .donation-fallback-card {
+            display: none;
+        }
+
+        .donation-fallback-desc {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .donation-tiers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .tier-btn {
+            background-color: var(--card-bg);
+            border: 1.5px solid var(--primary-orange);
+            color: var(--primary-orange);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            text-decoration: none !important;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .tier-btn:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .tier-btn.featured {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(227, 97, 41, 0.35);
+        }
+
+        .tier-btn.featured:hover {
+            background-color: var(--primary-orange-hover);
+        }
+
+        .donation-tax-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Secondary Grid: "While You Wait" */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .resource-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-orange);
+        }
+
+        .resource-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .resource-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            flex: 1;
+        }
+
+        .resource-card a.card-action {
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-light);
+            padding: 2rem 1.5rem;
+            margin-top: auto;
+            font-size: 0.85rem;
+            color: var(--text-muted);
             text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
         }
-        .alert {
-            background-color: #ffcc00;
-            color: black;
-            padding: 20px;
-            margin-bottom: 15px;
+
+        .footer-container {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            align-items: center;
         }
-        .main-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-legal {
+            max-width: 720px;
+            font-size: 0.8rem;
+            line-height: 1.5;
         }
     </style>
 </head>
-<body>
-    <div class="alert">
-        🍊🚧 Service Downtime Alert for Open Food Facts 🚧🍊
-    </div>
+<body class="no-js">
+    <script>
+        // Remove no-js class immediately if JS is enabled
+        document.body.classList.remove('no-js');
+    </script>
 
-    <img src="/502.jpg">
+    <!-- Configure Web Components -->
+    <off-webcomponents-configuration
+        language-code="en"
+        country-code="world">
+    </off-webcomponents-configuration>
 
-    <!-- English Section -->
-    <div class="main-content" lang="en">
-        <h1>Open Food Facts Maintenance</h1>
-        <p>We are currently undergoing a major migration, and our services, including the Web platform, mobile app, API, and Producer Platform, are temporarily unavailable.</p>
-        <p>The downtime is expected to last for approximately 1 hour. We apologize for any inconvenience this may cause and appreciate your understanding as we work to improve our services.</p>
-        <p>Thank you for your patience!</p>
-    </div>
+    <!-- Navigation Header with OFF Brand Identity -->
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <a href="https://world.openfoodfacts.org" class="header-logo" title="Open Food Facts Homepage">
+                <img src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" alt="Open Food Facts" width="180" height="38">
+            </a>
+            <div class="header-actions">
+                <div class="status-badge">
+                    <span class="status-pulse"></span>
+                    <span class="status-text">Planned Maintenance</span>
+                </div>
+                <a href="https://donorbox.org/help-open-food-facts-stay-afloat" class="btn-header-donate" target="_blank" rel="noopener" data-track-action="header_donate_click" data-track-label="donorbox_top_button">
+                    <span>❤️</span>
+                    <span>Donate</span>
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <!-- Dutch Section -->
-    <div class="main-content" lang="nl">
-        <h1>Onderhoud Open Food Facts</h1>
-        <p>We zijn momenteel bezig met een grote migratie, en onze diensten, inclusief het webplatform, de mobiele app, API en het producentenplatform, zijn tijdelijk niet beschikbaar.</p>
-        <p>De verwachte downtime is ongeveer 1 uur. Onze excuses voor het ongemak en bedankt voor uw begrip terwijl we werken aan het verbeteren van onze diensten.</p>
-        <p>Bedankt voor uw geduld!</p>
-    </div>
+    <main class="page-content" role="main">
 
-    <!-- German Section -->
-    <div class="main-content" lang="de">
-        <h1>Wartungsarbeiten bei Open Food Facts</h1>
-        <p>Wir führen derzeit eine große Migration durch, und unsere Dienste, einschließlich der Webplattform, der mobilen App, der API und der Produzentenplattform, sind vorübergehend nicht verfügbar.</p>
-        <p>Die Ausfallzeit wird voraussichtlich etwa 1 Stunde betragen. Wir entschuldigen uns für die Unannehmlichkeiten und danken Ihnen für Ihr Verständnis, während wir unsere Dienste verbessern.</p>
-        <p>Vielen Dank für Ihre Geduld!</p>
-    </div>
+        <!-- Top Alert Notification Bar -->
+        <div class="alert-banner" role="alert">
+            <div class="alert-banner-left">
+                <span class="alert-icon">🍊🛠️</span>
+                <span><strong>Service Downtime:</strong> A planned infrastructure upgrade is currently in progress.</span>
+            </div>
+            <div class="alert-banner-right">
+                <a href="https://status.openfoodfacts.org" target="_blank" rel="noopener">View real-time systems status &rarr;</a>
+            </div>
+        </div>
 
-    <!-- French Section -->
-    <div class="main-content" lang="fr">
-        <h1>Maintenance d'Open Food Facts</h1>
-        <p>Nous procédons actuellement à une importante migration, et nos services, y compris la plateforme Web, l'application mobile, l'API et la plateforme des producteurs, sont temporairement indisponibles.</p>
-        <p>La durée de l'interruption est estimée à environ 1 heure. Nous nous excusons pour tout inconvénient que cela pourrait causer et vous remercions de votre compréhension alors que nous travaillons à l'amélioration de nos services.</p>
-        <p>Merci de votre patience !</p>
-    </div>
+        <!-- Language Selector -->
+        <nav class="language-nav" aria-label="Language selector">
+            <div class="language-nav-header">
+                <span class="language-nav-title">
+                    <span>🌐</span>
+                    <span>Select Language / Choisir la langue</span>
+                </span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);" id="current-lang-indicator">English</span>
+            </div>
+            <div class="language-pills" role="tablist">
+                <button class="lang-btn active" data-lang="en" role="tab" aria-selected="true" onclick="switchLanguage('en')">🇬🇧 English</button>
+                <button class="lang-btn" data-lang="fr" role="tab" aria-selected="false" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                <button class="lang-btn" data-lang="de" role="tab" aria-selected="false" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                <button class="lang-btn" data-lang="nl" role="tab" aria-selected="false" onclick="switchLanguage('nl')">🇳🇱 Nederlands</button>
+                <button class="lang-btn" data-lang="es" role="tab" aria-selected="false" onclick="switchLanguage('es')">🇪🇸 Español</button>
+                <button class="lang-btn" data-lang="it" role="tab" aria-selected="false" onclick="switchLanguage('it')">🇮🇹 Italiano</button>
+                <button class="lang-btn" data-lang="pt" role="tab" aria-selected="false" onclick="switchLanguage('pt')">🇵🇹 Português</button>
+            </div>
+        </nav>
 
-    <!-- Italian Section -->
-    <div class="main-content" lang="it">
-        <h1>Manutenzione di Open Food Facts</h1>
-        <p>Stiamo attualmente effettuando una grande migrazione e i nostri servizi, inclusa la piattaforma Web, l'app mobile, l'API e la piattaforma dei produttori, sono temporaneamente non disponibili.</p>
-        <p>Il tempo di inattività previsto è di circa 1 ora. Ci scusiamo per l'inconveniente e apprezziamo la vostra comprensione mentre lavoriamo per migliorare i nostri servizi.</p>
-        <p>Grazie per la vostra pazienza!</p>
-    </div>
+        <!-- Maintenance Notification Hero Card -->
+        <section class="hero-card">
+            <div class="hero-media">
+                <img src="/502.jpg" alt="Open Food Facts Maintenance in progress" onerror="this.src='https://static.openfoodfacts.org/images/illustrations/app-icon-in-the-clouds.svg';">
+                <span class="media-badge">HTTP 502 &bull; Maintenance</span>
+            </div>
 
-    <!-- Spanish Section -->
-    <div class="main-content" lang="es">
-        <h1>Mantenimiento de Open Food Facts</h1>
-        <p>Actualmente estamos realizando una migración importante, y nuestros servicios, incluyendo la plataforma web, la aplicación móvil, la API y la Plataforma de Productores, están temporalmente no disponibles.</p>
-        <p>Se espera que el tiempo de inactividad dure aproximadamente 1 hora. Pedimos disculpas por cualquier inconveniente que esto pueda causar y agradecemos su comprensión mientras trabajamos para mejorar nuestros servicios.</p>
-        <p>¡Gracias por su paciencia!</p>
-    </div>
+            <div class="hero-content">
+                <!-- English Section -->
+                <div class="lang-section active" lang="en" data-lang-code="en">
+                    <h1>Open Food Facts Maintenance</h1>
+                    <p>We are currently undergoing a major migration, and our services, including the Web platform, mobile app, API, and Producer Platform, are temporarily unavailable.</p>
+                    <p>The downtime is expected to last for approximately <strong>1 hour</strong>. We apologize for any inconvenience this may cause and appreciate your understanding as we work to improve our services.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Estimated duration: <strong>~1 hour</strong> &bull; Thank you for your patience!</span>
+                    </div>
+                </div>
 
-    <!-- Portuguese Section -->
-    <div class="main-content" lang="pt">
-        <h1>Manutenção do Open Food Facts</h1>
-        <p>Estamos atualmente em processo de uma grande migração, e nossos serviços, incluindo a plataforma web, aplicativo móvel, API e Plataforma do Produtor, estão temporariamente indisponíveis.</p>
-        <p>O tempo de inatividade previsto é de aproximadamente 1 hora. Pedimos desculpas por qualquer inconveniente e agradecemos sua compreensão enquanto trabalhamos para melhorar nossos serviços.</p>
-        <p>Obrigado pela sua paciência!</p>
-    </div>
+                <!-- French Section -->
+                <div class="lang-section" lang="fr" data-lang-code="fr">
+                    <h1>Maintenance d'Open Food Facts</h1>
+                    <p>Nous procédons actuellement à une importante migration, et nos services, y compris la plateforme Web, l'application mobile, l'API et la plateforme des producteurs, sont temporairement indisponibles.</p>
+                    <p>La durée de l'interruption est estimée à environ <strong>1 heure</strong>. Nous nous excusons pour tout inconvénient que cela pourrait causer et vous remercions de votre compréhension alors que nous travaillons à l'amélioration de nos services.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Durée estimée : <strong>~1 heure</strong> &bull; Merci de votre patience !</span>
+                    </div>
+                </div>
 
+                <!-- German Section -->
+                <div class="lang-section" lang="de" data-lang-code="de">
+                    <h1>Wartungsarbeiten bei Open Food Facts</h1>
+                    <p>Wir führen derzeit eine große Migration durch, und unsere Dienste, einschließlich der Webplattform, der mobilen App, der API und der Produzentenplattform, sind vorübergehend nicht verfügbar.</p>
+                    <p>Die Ausfallzeit wird voraussichtlich etwa <strong>1 Stunde</strong> betragen. Wir entschuldigen uns für die Unannehmlichkeiten und danken Ihnen für Ihr Verständnis, während wir unsere Dienste verbessern.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Voraussichtliche Dauer: <strong>~1 Stunde</strong> &bull; Vielen Dank für Ihre Geduld!</span>
+                    </div>
+                </div>
+
+                <!-- Dutch Section -->
+                <div class="lang-section" lang="nl" data-lang-code="nl">
+                    <h1>Onderhoud Open Food Facts</h1>
+                    <p>We zijn momenteel bezig met een grote migratie, en onze diensten, inclusief het webplatform, de mobiele app, API en het producentenplatform, zijn tijdelijk niet beschikbaar.</p>
+                    <p>De verwachte downtime is ongeveer <strong>1 uur</strong>. Onze excuses voor het ongemak en bedankt voor uw begrip terwijl we werken aan het verbeteren van onze diensten.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Verwachte duur: <strong>~1 uur</strong> &bull; Bedankt voor uw geduld!</span>
+                    </div>
+                </div>
+
+                <!-- Spanish Section -->
+                <div class="lang-section" lang="es" data-lang-code="es">
+                    <h1>Mantenimiento de Open Food Facts</h1>
+                    <p>Actualmente estamos realizando una migración importante, y nuestros servicios, incluyendo la plataforma web, la aplicación móvil, la API y la Plataforma de Productores, están temporalmente no disponibles.</p>
+                    <p>Se espera que el tiempo de inactividad dure aproximadamente <strong>1 hora</strong>. Pedimos disculpas por cualquier inconveniente que esto pueda causar y agradecemos su comprensión mientras trabajamos para mejorar nuestros servicios.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Duración estimada: <strong>~1 hora</strong> &bull; ¡Gracias por su paciencia!</span>
+                    </div>
+                </div>
+
+                <!-- Italian Section -->
+                <div class="lang-section" lang="it" data-lang-code="it">
+                    <h1>Manutenzione di Open Food Facts</h1>
+                    <p>Stiamo attualmente effettuando una grande migrazione e i nostri servizi, inclusa la piattaforma Web, l'app mobile, l'API e la piattaforma dei produttori, sono temporaneamente non disponibili.</p>
+                    <p>Il tempo di inattività previsto è di circa <strong>1 ora</strong>. Ci scusiamo per l'inconveniente e apprezziamo la vostra comprensione mentre lavoriamo per migliorare i nostri servizi.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Durata prevista: <strong>~1 ora</strong> &bull; Grazie per la vostra pazienza!</span>
+                    </div>
+                </div>
+
+                <!-- Portuguese Section -->
+                <div class="lang-section" lang="pt" data-lang-code="pt">
+                    <h1>Manutenção do Open Food Facts</h1>
+                    <p>Estamos atualmente em processo de uma grande migração, e nossos serviços, incluindo a plataforma web, aplicativo móvel, API e Plataforma do Produtor, estão temporariamente indisponíveis.</p>
+                    <p>O tempo de inatividade previsto é de aproximadamente <strong>1 hora</strong>. Pedimos desculpas por qualquer inconveniente e agradecemos sua compreensão enquanto trabalhamos para melhorar nossos serviços.</p>
+                    <div class="downtime-estimate-box">
+                        <span>⏱️</span>
+                        <span>Duração estimada: <strong>~1 hora</strong> &bull; Obrigado pela sua paciência!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call For Donations (Open Food Facts Web Components + Fallback) -->
+        <section class="donation-section" aria-label="Support Open Food Facts">
+            <div class="donation-header-bar">
+                <div class="donation-header-title">
+                    <span>❤️</span>
+                    <span id="donation-title-text">Support Independent Food Transparency</span>
+                </div>
+                <div class="donation-header-tagline" id="donation-subtitle-text">
+                    Open Food Facts is a non-profit project made possible thanks to donors like you.
+                </div>
+            </div>
+
+            <div class="donation-body">
+                <!-- Official Web Component from https://github.com/openfoodfacts/openfoodfacts-webcomponents -->
+                <!-- Linking to external Donorbox so donations succeed even when OFF servers are offline -->
+                <donation-banner
+                    variant="campaign"
+                    amounts="3,5,10"
+                    selected="5"
+                    donate-url="https://donorbox.org/help-open-food-facts-stay-afloat"
+                    news-url="https://raw.githubusercontent.com/openfoodfacts/smooth-app_assets/refs/heads/main/prod/tagline/web/main.json">
+                </donation-banner>
+
+                <!-- High-fidelity Fallback Card in case web component is loading or blocked -->
+                <div class="donation-fallback-card">
+                    <p class="donation-fallback-desc" id="donation-desc-text">
+                        Why are our servers undergoing maintenance? Open Food Facts is an open-source, non-profit database used by millions of citizens, researchers, and developers every day. We receive over 100 million API requests each month with zero commercial ads. Your donations directly fund our server infrastructure, database storage, and bandwidth.
+                    </p>
+
+                    <div class="donation-tiers">
+                        <span style="font-weight: 600; font-size: 0.9rem;" id="donation-tier-label">Give monthly:</span>
+                        <a href="https://donorbox.org/help-open-food-facts-stay-afloat?amount=3" class="tier-btn" target="_blank" rel="noopener" data-track-action="fallback_tier_click" data-track-label="tier_3_donorbox">3 € / mo</a>
+                        <a href="https://donorbox.org/help-open-food-facts-stay-afloat?amount=5" class="tier-btn featured" target="_blank" rel="noopener" data-track-action="fallback_tier_click" data-track-label="tier_5_donorbox">5 € / mo</a>
+                        <a href="https://donorbox.org/help-open-food-facts-stay-afloat?amount=10" class="tier-btn" target="_blank" rel="noopener" data-track-action="fallback_tier_click" data-track-label="tier_10_donorbox">10 € / mo</a>
+                        <a href="https://donorbox.org/help-open-food-facts-stay-afloat" class="tier-btn" target="_blank" rel="noopener" id="donation-other-btn" data-track-action="fallback_tier_click" data-track-label="tier_custom_donorbox">Choose amount &rarr;</a>
+                    </div>
+
+                    <div class="donation-tax-note" id="donation-tax-text">
+                        ✨ Open Food Facts is an acknowledged public-interest non-profit. Donations may be tax-deductible depending on your country of residence (up to 66% in France).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- While You Wait / Helpful Resources Grid -->
+        <section>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <span class="resource-icon">📊</span>
+                    <h3>System Status</h3>
+                    <p>Track real-time maintenance updates and individual service health metrics.</p>
+                    <a href="https://status.openfoodfacts.org" class="card-action" target="_blank" rel="noopener">Check status page &rarr;</a>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-icon">💬</span>
+                    <h3>Community & Slack</h3>
+                    <p>Join the discussion with volunteers and developers in the #infrastructure channel.</p>
+                    <a href="https://slack.openfoodfacts.org" class="card-action" target="_blank" rel="noopener">Join our Slack &rarr;</a>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-icon">📱</span>
+                    <h3>Mobile App</h3>
+                    <p>The Open Food Facts app caches previously scanned food items for offline lookups.</p>
+                    <a href="https://world.openfoodfacts.org/open-food-facts-mobile-app" class="card-action" target="_blank" rel="noopener">Get the mobile app &rarr;</a>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-icon">🐙</span>
+                    <h3>Open Source Code</h3>
+                    <p>Explore our repositories, open database dumps, and infrastructure blueprints on GitHub.</p>
+                    <a href="https://github.com/openfoodfacts" class="card-action" target="_blank" rel="noopener">View GitHub repos &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Site Footer with Non-profit Identity -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener">Open Food Facts</a>
+                <a href="https://world.openpetfoodfacts.org" target="_blank" rel="noopener">Open Pet Food Facts</a>
+                <a href="https://world.openbeautyfacts.org" target="_blank" rel="noopener">Open Beauty Facts</a>
+                <a href="https://world.openproductsfacts.org" target="_blank" rel="noopener">Open Products Facts</a>
+                <a href="https://world.openfoodfacts.org/terms-of-use" target="_blank" rel="noopener">Terms of Use</a>
+                <a href="https://world.openfoodfacts.org/legal" target="_blank" rel="noopener">Legal</a>
+            </div>
+            <p class="footer-legal">
+                Open Food Facts is a non-profit association of general interest (association loi 1901) dedicated to transparency and food information for everyone.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Interactive Language Switcher, Matomo Donation Instrumentation, and Localization Script -->
+    <script>
+        const i18nData = {
+            en: {
+                name: "English",
+                badge: "Planned Maintenance",
+                donationTitle: "Support Independent Food Transparency",
+                donationSubtitle: "Open Food Facts is a non-profit project made possible thanks to donors like you.",
+                donationDesc: "Why are our servers undergoing maintenance? Open Food Facts is an open-source, non-profit database used by millions of citizens, researchers, and developers every day. We receive over 100 million API requests each month with zero commercial ads. Your donations directly fund our server infrastructure, database storage, and bandwidth.",
+                donationTierLabel: "Give monthly:",
+                donationOtherBtn: "Choose amount →",
+                donationTax: "✨ Open Food Facts is an acknowledged public-interest non-profit. Donations may be tax-deductible depending on your country of residence (up to 66% in France)."
+            },
+            fr: {
+                name: "Français",
+                badge: "Maintenance Planifiée",
+                donationTitle: "Soutenez la transparence alimentaire",
+                donationSubtitle: "Open Food Facts est un projet à but non lucratif rendu possible grâce à vos dons.",
+                donationDesc: "Pourquoi nos serveurs sont-ils en maintenance ? Open Food Facts est une base de données ouverte et citoyenne utilisée chaque jour par des millions de personnes, chercheurs et développeurs. Nous recevons plus de 100 millions de requêtes API par mois, sans aucune publicité commerciale. Vos dons financent directement nos serveurs, le stockage et la bande passante.",
+                donationTierLabel: "Donner chaque mois :",
+                donationOtherBtn: "Choisir un montant →",
+                donationTax: "✨ Open Food Facts est une association d'intérêt général à but non lucratif. Vos dons ouvrent droit à une déduction fiscale de 66 % en France."
+            },
+            de: {
+                name: "Deutsch",
+                badge: "Planmäßige Wartung",
+                donationTitle: "Unterstützen Sie unabhängige Lebensmitteltransparenz",
+                donationSubtitle: "Open Food Facts ist ein gemeinnütziges Projekt, das durch Spender wie Sie ermöglicht wird.",
+                donationDesc: "Warum werden unsere Server gewartet? Open Food Facts ist eine freie, gemeinnützige Datenbank, die täglich von Millionen Menschen, Forschern und Entwicklern genutzt wird. Wir verarbeiten monatlich über 100 Millionen API-Anfragen ohne kommerzielle Werbung. Ihre Spenden finanzieren direkt unsere Server-Infrastruktur und Datenbanken.",
+                donationTierLabel: "Monatlich spenden:",
+                donationOtherBtn: "Betrag wählen →",
+                donationTax: "✨ Open Food Facts ist eine anerkannte gemeinnützige Organisation. Spenden können steuerlich absetzbar sein."
+            },
+            nl: {
+                name: "Nederlands",
+                badge: "Gepland Onderhoud",
+                donationTitle: "Steun onafhankelijke voedseltransparantie",
+                donationSubtitle: "Open Food Facts is een non-profit project dat mogelijk wordt gemaakt dankzij donateurs zoals u.",
+                donationDesc: "Waarom zijn onze servers in onderhoud? Open Food Facts is een open-source non-profit database die dagelijks door miljoenen burgers, onderzoekers en ontwikkelaars wordt gebruikt. Wij ontvangen maandelijks meer dan 100 miljoen API-verzoeken zonder advertenties. Uw donaties financieren direct onze serverinfrastructuur en opslag.",
+                donationTierLabel: "Maandelijks doneren:",
+                donationOtherBtn: "Kies bedrag →",
+                donationTax: "✨ Open Food Facts is een erkende non-profit organisatie. Donaties kunnen fiscaal aftrekbaar zijn."
+            },
+            es: {
+                name: "Español",
+                badge: "Mantenimiento Programado",
+                donationTitle: "Apoya la transparencia alimentaria independiente",
+                donationSubtitle: "Open Food Facts es un proyecto sin fines de lucro posible gracias a donantes como tú.",
+                donationDesc: "¿Por qué nuestros servidores están en mantenimiento? Open Food Facts es una base de datos abierta y sin fines de lucro utilizada diariamente por millones de ciudadanos, investigadores y desarrolladores. Recibimos más de 100 millones de solicitudes a la API cada mes sin publicidad. Tus donaciones financian directamente nuestros servidores y ancho de banda.",
+                donationTierLabel: "Donar mensualmente:",
+                donationOtherBtn: "Elegir cantidad →",
+                donationTax: "✨ Open Food Facts es una organización sin fines de lucro de interés público. Las donaciones pueden ser deducibles de impuestos según tu país."
+            },
+            it: {
+                name: "Italiano",
+                badge: "Manutenzione Programmata",
+                donationTitle: "Sostieni la trasparenza alimentare indipendente",
+                donationSubtitle: "Open Food Facts è un progetto no-profit reso possibile grazie a donatori come te.",
+                donationDesc: "Perché i nostri server sono in manutenzione? Open Food Facts è un database open-source e non profit utilizzato ogni giorno da milioni di cittadini, ricercatori e sviluppatori. Gestiamo oltre 100 milioni di richieste API al mese senza pubblicità. Le tue donazioni finanziano direttamente i server, i database e la larghezza di banda.",
+                donationTierLabel: "Dona ogni mese:",
+                donationOtherBtn: "Scegli importo →",
+                donationTax: "✨ Open Food Facts è un'associazione senza scopo di lucro di interesse pubblico. Le donazioni possono essere deducibili fiscalmente."
+            },
+            pt: {
+                name: "Português",
+                badge: "Manutenção Programada",
+                donationTitle: "Apoie a transparência alimentar independente",
+                donationSubtitle: "O Open Food Facts é um projeto sem fins lucrativos que existe graças a doadores como você.",
+                donationDesc: "Por que os nossos servidores estão em manutenção? O Open Food Facts é uma base de dados aberta e sem fins lucrativos utilizada todos os dias por milhões de cidadãos, pesquisadores e desenvolvedores. Recebemos mais de 100 milhões de requisições de API por mês sem anúncios. As suas doações financiam diretamente a infraestrutura de servidores e o armazenamento.",
+                donationTierLabel: "Doar mensalmente:",
+                donationOtherBtn: "Escolher valor →",
+                donationTax: "✨ O Open Food Facts é uma associação sem fins lucrativos de interesse público. As doações podem ser dedutíveis nos impostos."
+            }
+        };
+
+        function switchLanguage(lang) {
+            if (!i18nData[lang]) {
+                lang = 'en';
+            }
+
+            // Track language switch in Matomo
+            if (window._paq) {
+                window._paq.push(['trackEvent', 'interaction', 'switch_language', lang]);
+            }
+
+            // Update language pills
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                const isActive = btn.getAttribute('data-lang') === lang;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            // Update hero content section
+            document.querySelectorAll('.lang-section').forEach(sec => {
+                const isActive = sec.getAttribute('data-lang-code') === lang;
+                sec.classList.toggle('active', isActive);
+            });
+
+            // Update html lang attribute and indicator
+            document.documentElement.lang = lang;
+            const indicator = document.getElementById('current-lang-indicator');
+            if (indicator) {
+                indicator.textContent = i18nData[lang].name;
+            }
+
+            // Update badge text
+            const badgeText = document.querySelector('.status-text');
+            if (badgeText && i18nData[lang].badge) {
+                badgeText.textContent = i18nData[lang].badge;
+            }
+
+            // Update donation copy
+            const titleEl = document.getElementById('donation-title-text');
+            const subEl = document.getElementById('donation-subtitle-text');
+            const descEl = document.getElementById('donation-desc-text');
+            const labelEl = document.getElementById('donation-tier-label');
+            const otherBtnEl = document.getElementById('donation-other-btn');
+            const taxEl = document.getElementById('donation-tax-text');
+
+            if (titleEl) titleEl.textContent = i18nData[lang].donationTitle;
+            if (subEl) subEl.textContent = i18nData[lang].donationSubtitle;
+            if (descEl) descEl.textContent = i18nData[lang].donationDesc;
+            if (labelEl) labelEl.textContent = i18nData[lang].donationTierLabel;
+            if (otherBtnEl) otherBtnEl.textContent = i18nData[lang].donationOtherBtn;
+            if (taxEl) taxEl.textContent = i18nData[lang].donationTax;
+
+            // Update web component configuration if present
+            const offConfig = document.querySelector('off-webcomponents-configuration');
+            if (offConfig) {
+                offConfig.setAttribute('language-code', lang);
+            }
+
+            // Update donation banner country or language if present
+            const donationBanner = document.querySelector('donation-banner');
+            if (donationBanner) {
+                donationBanner.setAttribute('country', lang === 'fr' ? 'fr' : 'world');
+            }
+        }
+
+        // Auto-detect user browser language on first load
+        (function initLanguage() {
+            const browserLangs = navigator.languages || [navigator.language || navigator.userLanguage || 'en'];
+            let detected = 'en';
+
+            for (const l of browserLangs) {
+                const prefix = l.toLowerCase().split('-')[0];
+                if (i18nData[prefix]) {
+                    detected = prefix;
+                    break;
+                }
+            }
+
+            switchLanguage(detected);
+        })();
+
+        // Matomo Donation Instrumentation
+        // 1. Listen for events from <donation-banner> web component
+        document.addEventListener('donation-banner-state', function(event) {
+            const detail = event.detail || {};
+            const action = detail.action || 'interaction';
+            const label = detail.amount ? 'tier_' + detail.amount : (detail.source || 'donation_banner');
+            if (window._paq) {
+                window._paq.push(['trackEvent', 'donation', action, label]);
+            }
+        });
+
+        // 2. Track click on any link pointing to donorbox or donation buttons
+        document.addEventListener('click', function(event) {
+            const target = event.target.closest('a[href*="donorbox.org"], .btn-header-donate, .tier-btn');
+            if (target && window._paq) {
+                const action = target.getAttribute('data-track-action') || 'click_donation';
+                const label = target.getAttribute('data-track-label') || target.textContent.trim() || target.href;
+                window._paq.push(['trackEvent', 'donation', action, label]);
+            }
+        });
+    </script>
 </body>
 </html>
-
