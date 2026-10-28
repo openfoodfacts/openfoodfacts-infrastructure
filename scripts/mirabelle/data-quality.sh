@@ -21,7 +21,7 @@ function ifFailed {
 # Test databases
 NB_OF_PRODUCTS=$(sqlite3 products.db "select count(code) from [all];")
 ifFailed "products.db: database error $?" "2" # Exit if the database is not reachable
-[[ "${NB_OF_PRODUCTS}" -lt "2500000" ]] && { echo "products.db: ${NB_OF_PRODUCTS} products. Number of products is too low"; printf '%s\n' "$1" >&2; exit 4; };
+[[ "${NB_OF_PRODUCTS}" -lt "2000000" ]] && { echo "products.db: ${NB_OF_PRODUCTS} products. Number of products is too low"; printf '%s\n' "$1" >&2; exit 4; };
 
 # Build smaller database to speed-up queries
 #sqlite3 tempo.db <<EOF

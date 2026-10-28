@@ -193,9 +193,9 @@ $path/empty2null.sh products_new.db
 printf "\n\n\n"
 
 
-# If the new DB contains less than 2,500,000 products, there is probably an issue => exit
+# The export has no obsolete products (~2.1M products in 2026-10); fewer than 2,000,000 means something went wrong => exit
 TODAY_DB=$(sqlite3 products_new.db "select count(code) from [all];")
-[[ ${TODAY_DB} -lt 2500000 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - DB issue"; exit 1; }
+[[ ${TODAY_DB} -lt 2000000 ]] && { echo "$(date +'%Y-%m-%dT%H:%M:%S') - DB issue"; exit 1; }
 
 
 # Backup the old DB and replace it by the new one
