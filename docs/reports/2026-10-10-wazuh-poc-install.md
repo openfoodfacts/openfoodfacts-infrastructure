@@ -132,3 +132,17 @@ Recreating is cheap here. The Ansible playbook is idempotent, and the deployment
 CA instead of issuing a new one.
 
 So we ran the same steps from the first chapter again.
+
+## Password
+
+After running the ansible script successfully with
+
+```bash
+(venv) hangy@DESKTOP:~/off/openfoodfacts-infrastructure/ansible$ ansible-playbook wazuh.yml --verbose -K --diff -l wazuh -e '{"ansible_ssh_common_args": "-J ovh1.openfoodfacts.org"}'
+```
+
+the wazuh processes started correctly, and I was able to open the dashboard at `https://localhost/` after connecting with an SSH tunnel.
+
+```powershell
+ssh -L 443:10.1.0.160:443 ovh1.openfoodfacts.org
+```
