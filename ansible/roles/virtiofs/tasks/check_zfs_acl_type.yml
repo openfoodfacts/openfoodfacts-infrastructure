@@ -45,5 +45,8 @@
       {{ "Some children dataset does not have acltype 'posix'" if _virtiofs__bad_children_acltype else "" }}
 
       Virtiofs needs acltype set to posix.
-  when: |
-    (_virtiofs__first_non_inherited_acltype.acltype != 'posix') or _virtiofs__bad_children_acltype
+  # note: the second operand must be a boolean, otherwise ansible-core 2.19+
+  # rejects the conditional (a plain list used to be coerced to a boolean)
+  when: >-
+    (_virtiofs__first_non_inherited_acltype.acltype != 'posix') or
+    (_virtiofs__bad_children_acltype | length > 0)

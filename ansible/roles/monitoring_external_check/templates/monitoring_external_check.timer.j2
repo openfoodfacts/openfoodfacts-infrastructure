@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Check monitoring stack every {{ monitoring_external_check__interval }}
+
+[Timer]
+OnBootSec=10min
+OnUnitInactiveSec={{ monitoring_external_check__interval }}
+
+[Install]
+WantedBy=timers.target

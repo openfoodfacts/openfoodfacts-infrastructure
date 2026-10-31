@@ -1,0 +1,30 @@
+# variables for the Hetzner Proxmox cluster
+---
+# see defaults in https://github.com/lae/ansible-role-proxmox/blob/develop/defaults/main.yml
+# and common vars in proxmox_nodes
+# cluster name
+
+# we are a standalone server for now !
+proxmox_node__pve_cluster_enabled: false
+# group name (in inventory), containing nodes, it must not contains "_" neither "-"
+proxmox_node__pve_cluster_name: "pvehetznerstore"
+# addr1 is public ip, addr0 is defined per host
+proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
+
+# directory mappings
+virtiofs__dir_mappings: []
+
+# FIXME
+# pve_ssl_private_key
+# pve_ssl_certificate
+
+# iso files
+proxmox_node__iso:
+  - url: "https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/debian-12.15.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/SHA256SUMS"
+  - url: "https://cdimage.debian.org/debian-cd/13.7.0/amd64/iso-cd/debian-13.7.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/debian-cd/13.7.0/amd64/iso-cd/SHA256SUMS"
+
+# Access to PVE
+proxmox_api_user: agarel@pve
+proxmox_api_token_id: ansible-token

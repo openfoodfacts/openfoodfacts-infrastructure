@@ -123,8 +123,8 @@ See: https://mirabelle.openfoodfacts.org/products?sql=select+*+from+%5Ball%5D+or
 
 EOF
 )
-while [[ "${lastProductEditedOn}" != "${TODAY}" ]]; do
-  # Exit after 60 tries (900 min = 15 hours)
+while [[ "${lastProductEditedOn}" != "${TODAY}"* ]]; do
+  # Exit after 90 tries (900 min = 15 hours)
   if [[ "${counter}" -gt 90 ]] ; then
     log "Retried ${counter} times, now exit..."
     echo "${email}" | sendmail -t

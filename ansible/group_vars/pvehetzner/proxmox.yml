@@ -3,11 +3,13 @@
 # see defaults in https://github.com/lae/ansible-role-proxmox/blob/develop/defaults/main.yml
 # and common vars in proxmox_nodes
 # cluster name
-proxmox_node__pve_cluster_enabled: true
+
+# we are a standalone server for now !
+proxmox_node__pve_cluster_enabled: false
 # group name (in inventory), containing nodes, it must not contains "_" neither "-"
 proxmox_node__pve_cluster_name: "pvehetzner"
 # addr1 is public ip, addr0 is defined per host
-proxmox_node__pve_cluster_addr1: "{{ ansible_hostname }}"
+proxmox_node__pve_cluster_addr1: "{{ ansible_ssh_host }}"
 
 # directory mappings
 virtiofs__dir_mappings:
@@ -25,7 +27,7 @@ virtiofs__dir_mappings:
     description: "virtiofs dataset for qm-201 docker volumes"
   - id: qm-202-virtiofs-docker-volumes
     map:
-      - node: hetzner-03
+      - node: hetzner-02
         path: /rpool/virtiofs/qm-202/docker-volumes
     description: "virtiofs dataset for qm-202 docker volumes"
 
@@ -35,10 +37,10 @@ virtiofs__dir_mappings:
 
 # iso files
 proxmox_node__iso:
-  - url: "https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
-    checksum: "sha256:https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/SHA256SUMS"
-  - url: "https://cdimage.debian.org/debian-cd/13.1.0/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
-    checksum: "sha256:https://cdimage.debian.org/debian-cd/13.1.0/amd64/iso-cd/SHA256SUMS"
+  - url: "https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/debian-12.15.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/SHA256SUMS"
+  - url: "https://cdimage.debian.org/debian-cd/13.7.0/amd64/iso-cd/debian-13.7.0-amd64-netinst.iso"
+    checksum: "sha256:https://cdimage.debian.org/debian-cd/13.7.0/amd64/iso-cd/SHA256SUMS"
 
 # Access to PVE
 proxmox_api_user: agarel@pve

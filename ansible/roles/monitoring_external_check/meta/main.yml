@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: Open Food Facts
+  description: Check the monitoring stack from another server, and email if it is down
+  license: MIT
+  min_ansible_version: "2.14"
+
+dependencies:
+  # provides email-failures@.service and mailx
+  - role: systemd_email_failures
