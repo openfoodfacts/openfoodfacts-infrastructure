@@ -5,8 +5,8 @@ server {
 
     http2 on;
 
-    access_log  /var/log/nginx/prices.log  main;
-    error_log   /var/log/nginx/prices.err;
+    access_log  /var/log/nginx/prices.log  main buffer=256K flush=1s;
+    error_log   /var/log/nginx/prices.errors.log;
 
     location / {
         proxy_pass http://10.13.1.201:8190$request_uri;

@@ -65,6 +65,11 @@ server {
         return 403;
     }
 
+    # $deny_user_agents is defined in openfoodfacts.org
+    if ($deny_user_agents = 1) {
+        return 403;
+    }
+
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
     	proxy_cache mycache;
