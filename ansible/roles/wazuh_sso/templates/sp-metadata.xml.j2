@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Deployed by the wazuh_sso role. On first setup, diff against the file
+     Keycloak generates (client wazuh-saml -> Action -> Download adaptor
+     config, format mod-auth-mellon): content must match up to whitespace. -->
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="{{ wazuh_sso_sp_entity_id }}">
+  <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="{{ wazuh_sso_dashboard_url }}/_opendistro/_security/saml/acs" index="0" isDefault="true"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="{{ wazuh_sso_dashboard_url }}/_opendistro/_security/saml/acs/idpinitiated" index="1"/>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="{{ wazuh_sso_dashboard_url }}"/>
+  </md:SPSSODescriptor>
+</md:EntityDescriptor>

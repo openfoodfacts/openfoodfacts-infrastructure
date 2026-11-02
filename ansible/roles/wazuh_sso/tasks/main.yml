@@ -1,0 +1,129 @@
+---
+- name: SSO | Require a 64-hex-char exchange key
+  ansible.builtin.assert:
+    that:
+      - wazuh_sso_exchange_key is defined
+      - wazuh_sso_exchange_key is match('^[0-9a-f]{64}$')
+    fail_msg: >-
+      Set wazuh_sso_exchange_key (64 hex chars, `openssl rand -hex 32`) in
+      group_vars/wazuh_cluster/wazuh-secrets.yml.
+  no_log: true
+
+- name: SSO | Fetch IdP metadata from Keycloak
+  ansible.builtin.get_url:
+    url: "{{ wazuh_sso_idp_descriptor_url }}"
+    dest: "{{ wazuh_sso_security_dir }}/idp-metadata.xml"
+    owner: wazuh-indexer
+    group: wazuh-indexer
+    mode: "0640"
+  notify: Reload indexer security configuration
+
+- name: SSO | Deploy SP metadata
+  ansible.builtin.template:
+    src: sp-metadata.xml.j2
+    dest: "{{ wazuh_sso_security_dir }}/sp-metadata.xml"
+    owner: wazuh-indexer
+    group: wazuh-indexer
+    mode: "0640"
+  notify: Reload indexer security configuration
+
+- name: SSO | Demote basic auth domain to order 0 without challenge
+  ansible.builtin.replace:
+    path: "{{ wazuh_sso_security_dir }}/config.yml"
+    regexp: '(?ms)(basic_internal_auth_domain:.*?order:\s*)\d+'
+    replace: '\g<1>0'
+  notify: Reload indexer security configuration
+
+- name: SSO | Demote basic auth domain challenge flag
+  ansible.builtin.replace:
+    path: "{{ wazuh_sso_security_dir }}/config.yml"
+    regexp: '(?ms)(basic_internal_auth_domain:.*?challenge:\s*)\w+'
+    replace: '\g<1>false'
+  notify: Reload indexer security configuration
+
+# config.yml is owned by the package, so only the SAML stanza is managed
+# here (marked block). The anchor is the intern backend of the basic
+# domain, which occurs once in this file.
+- name: SSO | Add saml_auth_domain
+  ansible.builtin.blockinfile:
+    path: "{{ wazuh_sso_security_dir }}/config.yml"
+    marker: "# {mark} WAZUH SSO SAML"
+    insertafter: '(?m)^ {10}type: "?intern"?\s*$'
+    block: |-
+      saml_auth_domain:
+        http_enabled: true
+        transport_enabled: false
+        order: 1
+        http_authenticator:
+          type: saml
+          challenge: true
+          config:
+            idp:
+              metadata_file: '{{ wazuh_sso_security_dir }}/idp-metadata.xml'
+              entity_id: '{{ wazuh_sso_idp_entity_id }}'
+            sp:
+              entity_id: {{ wazuh_sso_sp_entity_id }}
+              metadata_file: '{{ wazuh_sso_security_dir }}/sp-metadata.xml'
+            kibana_url: {{ wazuh_sso_dashboard_url }}
+            roles_key: {{ wazuh_sso_roles_key }}
+            exchange_key: '{{ wazuh_sso_exchange_key }}'
+        authentication_backend:
+          type: noop
+  no_log: true
+  notify: Reload indexer security configuration
+
+# basicauth stays enabled as a fallback, so a broken IdP cannot lock us out.
+- name: SSO | Dashboard auth types
+  ansible.builtin.lineinfile:
+    path: "{{ wazuh_sso_dashboard_conf }}"
+    regexp: '^opensearch_security\.auth\.type:'
+    line: 'opensearch_security.auth.type: ["basicauth","saml"]'
+  notify: Restart wazuh-dashboard
+
+- name: SSO | Dashboard XSRF allowlist for SAML endpoints
+  ansible.builtin.lineinfile:
+    path: "{{ wazuh_sso_dashboard_conf }}"
+    regexp: '^server\.xsrf\.allowlist:'
+    line: >-
+      server.xsrf.allowlist: ["/_opendistro/_security/saml/acs",
+      "/_opendistro/_security/saml/logout",
+      "/_opendistro/_security/saml/acs/idpinitiated"]
+  notify: Restart wazuh-dashboard
+
+- name: SSO | Dashboard run_as stays enabled (backend role mapping needs it)
+  ansible.builtin.replace:
+    path: "{{ wazuh_sso_dashboard_conf }}"
+    regexp: '^(\s*run_as:\s*)false\s*$'
+    replace: '\1true'
+  notify: Restart wazuh-dashboard
+
+- name: SSO | Read current role mappings
+  ansible.builtin.uri:
+    url: "https://{{ private_ip }}:9200/_plugins/_security/api/rolesmapping/{{ item.role }}"
+    method: GET
+    user: admin
+    password: "{{ wazuh_credentials_overrides.WAZUH_INDEXER_ADMIN_PASSWORD }}"
+    validate_certs: false
+    return_content: true
+  loop: "{{ wazuh_sso_role_mappings }}"
+  register: wazuh_sso_mappings_current
+  no_log: true
+  changed_when: false
+
+- name: SSO | Merge Keycloak backend roles into role mappings
+  ansible.builtin.uri:
+    url: "https://{{ private_ip }}:9200/_plugins/_security/api/rolesmapping/{{ item.item.role }}"
+    method: PUT
+    user: admin
+    password: "{{ wazuh_credentials_overrides.WAZUH_INDEXER_ADMIN_PASSWORD }}"
+    validate_certs: false
+    body_format: json
+    body:
+      backend_roles: "{{ ((item.json[item.item.role].backend_roles | default([])) + item.item.backend_roles) | unique }}"
+      hosts: "{{ item.json[item.item.role].hosts | default([]) }}"
+      users: "{{ item.json[item.item.role].users | default([]) }}"
+    status_code: [200, 201]
+  loop: "{{ wazuh_sso_mappings_current.results }}"
+  when: >-
+    (item.item.backend_roles | difference(item.json[item.item.role].backend_roles | default([])) | length) > 0
+  no_log: true

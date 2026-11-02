@@ -1,0 +1,42 @@
+---
+# Keycloak SAML SSO for the Wazuh proof of concept.
+#
+# wazuh-ansible has no SSO support, so this role layers the SAML
+# configuration on top of a deployed stack. Run after ansible/wazuh.yml:
+#   ansible-playbook wazuh-sso.yml -l wazuh
+#
+# The exchange key is a secret and lives in
+# group_vars/wazuh_cluster/wazuh-secrets.yml as wazuh_sso_exchange_key
+# (top-level: wazuh-ansible rejects unknown keys inside
+# wazuh_credentials_overrides). Generate with `openssl rand -hex 32`.
+
+# Canonical browser-facing dashboard URL. For the PoC this is the SSH
+# tunnel, so every SSO user must forward the same local port.
+wazuh_sso_dashboard_url: https://localhost:8443
+
+wazuh_sso_keycloak_base_url: https://auth.openfoodfacts.org
+wazuh_sso_realm: openfoodfacts
+wazuh_sso_idp_entity_id: "{{ wazuh_sso_keycloak_base_url }}/realms/{{ wazuh_sso_realm }}"
+wazuh_sso_idp_descriptor_url: "{{ wazuh_sso_idp_entity_id }}/protocol/saml/descriptor"
+
+wazuh_sso_sp_entity_id: wazuh-saml
+wazuh_sso_roles_key: Roles
+wazuh_sso_admin_backend_role: wazuh-admins
+wazuh_sso_readonly_backend_role: wazuh-viewers
+
+# Backend role -> indexer role. The Keycloak roles must exist in the
+# realm (one-time setup in the admin console, see the role README).
+wazuh_sso_role_mappings:
+  - role: all_access
+    backend_roles:
+      - "{{ wazuh_sso_admin_backend_role }}"
+  - role: readall
+    backend_roles:
+      - "{{ wazuh_sso_readonly_backend_role }}"
+
+wazuh_sso_security_dir: /etc/wazuh-indexer/opensearch-security
+wazuh_sso_dashboard_conf: /etc/wazuh-dashboard/opensearch_dashboards.yml
+
+# Set in wazuh-secrets.yml. Empty default so the precondition task fails
+# with a clear message instead of templating an empty exchange key.
+wazuh_sso_exchange_key: ""

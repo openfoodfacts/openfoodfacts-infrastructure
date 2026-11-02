@@ -1,0 +1,21 @@
+# Keycloak SAML SSO for the Wazuh proof of concept.
+#
+# wazuh-ansible has no SSO support, so this playbook layers the SAML
+# configuration on top of a deployed stack. It runs after ansible/wazuh.yml:
+#
+#   ansible-playbook wazuh.yml -l wazuh
+#   ansible-playbook wazuh-sso.yml -l wazuh
+#
+# Every task is idempotent: re-runs only touch what changed, and the
+# indexer security reload plus dashboard restart fire on change only.
+# The Keycloak side (SAML client wazuh-saml, realm roles, protocol mapper)
+# is a one-time manual setup in the realm admin console, see
+# roles/wazuh_sso/README.md.
+---
+- name: Wazuh SSO via Keycloak SAML
+  hosts: aio
+  gather_facts: false
+  become: true
+  roles:
+    - role: wazuh_sso
+      tags: ["wazuh", "sso"]

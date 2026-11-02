@@ -1,0 +1,12 @@
+---
+# Same command the wazuh-indexer role runs on every deployment
+# (roles/wazuh-indexer/tasks/main.yml): loads the on-disk security
+# configuration, including the SAML stanza, into the cluster.
+- name: Reload indexer security configuration
+  ansible.builtin.command: /usr/share/wazuh-indexer/bin/indexer-security-init.sh
+  changed_when: true
+
+- name: Restart wazuh-dashboard
+  ansible.builtin.service:
+    name: wazuh-dashboard
+    state: restarted
