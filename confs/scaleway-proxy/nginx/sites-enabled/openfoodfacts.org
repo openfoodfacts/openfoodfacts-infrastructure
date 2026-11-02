@@ -42,6 +42,9 @@ map $http_user_agent $deny_user_agents {
     ~*Seekport|Ahrefs|DataForSeo|Seznam|ZoomBot|Mojeek|QRbot|Bytespider|SEOkicks|Searchmetrics|MJ12|SurveyBot|SEOdiver|wotbox|Cliqz|Paracrawl|Scrapy|VelenPublicWebCrawler|Semrush|MegaIndex\.ru|YandexMarket|Amazon|GPTBot|ChatGPT-User|PerplexityBot|ClaudeBot|Claude-Web|cohere-ai|anthropic-ai|ImagesiftBot|Diffbot|Timpibot|meta-webindexer|meta-externalagent|Applebot 1;
     ~*MyOFFScraper 1;
     ~*python-requests 1;
+    # Distributed botnet (2026-10-26): fixed set of outdated Chrome/Edge User-Agents,
+    # ~1 request per IP from residential/cloud proxies, see docs/reports/2026-10-26-botnet-scraping-obf-opf-opff.md
+    "~^Mozilla/5\.0 \((Windows NT 10\.0; Win64; x64|Macintosh; Intel Mac OS X 10_15_7)\) AppleWebKit/537\.36 \(KHTML, like Gecko\) Chrome/14[2-5]\.0\.0\.0 Safari/537\.36( Edg/14[2-5]\.0\.0\.0)?$" 1;
 }
 
 # Allow logged-in users to access facets without being globally

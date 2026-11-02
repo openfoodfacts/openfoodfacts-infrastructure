@@ -60,6 +60,11 @@ server {
     access_log  /var/log/nginx/openpetfoodfacts.org.access-errors.log  main buffer=256K flush=1s if=$error_log;
     error_log   /var/log/nginx/openpetfoodfacts.org.errors.log;
 
+    # $deny_user_agents is defined in openfoodfacts.org
+    if ($deny_user_agents = 1) {
+        return 403;
+    }
+
 
     # Cache small static assets that are frequently requested
     location ~ ^/(css/|js/|fonts/|images/(attributes|favicon|icons|illustrations|lang|logos|misc|panels|svg)/|.well-known/|api/v./(preferences|attribute_groups)|data/i18n) {
