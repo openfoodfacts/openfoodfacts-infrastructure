@@ -27,13 +27,7 @@
     </script>
     <noscript><p><img src="//analytics.openfoodfacts.org/matomo.php?idsite=20&amp;rec=1" style="border:0;" alt="" /></p></noscript>
 
-    <!-- Preconnect to CDNs & Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://static.openfoodfacts.org">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-    <!-- Open Food Facts Web Components -->
+    <!-- Open Food Facts Web Components (First-party CDN) -->
     <script type="importmap">
     {
         "imports": {
@@ -42,21 +36,13 @@
     }
     </script>
     <script type="module" src="https://static.openfoodfacts.org/js/dist/off-webcomponents.bundled.js"></script>
-    <!-- Fallback if static CDN is unreachable -->
-    <script type="module">
-        if (!customElements.get('donation-banner')) {
-            const fallbackScript = document.createElement('script');
-            fallbackScript.type = 'module';
-            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/@openfoodfacts/openfoodfacts-webcomponents/dist/off-webcomponents.bundled.js';
-            document.head.appendChild(fallbackScript);
-        }
-    </script>
 
     <style>
         :root {
-            --primary-orange: #e36129;
-            --primary-orange-hover: #c94e1b;
+            --primary-orange: #c04514;
+            --primary-orange-hover: #a83808;
             --primary-orange-light: #fdf1ea;
+            --btn-primary-text: #ffffff;
             --color-cappuccino-light: #f7f5f0;
             --color-cappuccino-border: #e8e3d8;
             --text-dark: #202124;
@@ -76,14 +62,15 @@
             --radius-md: 12px;
             --radius-lg: 18px;
             --radius-pill: 9999px;
-            --font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --primary-orange: #ff7438;
-                --primary-orange-hover: #fa6425;
+                --primary-orange-hover: #ff8c5a;
                 --primary-orange-light: #332018;
+                --btn-primary-text: #191a1b;
                 --color-cappuccino-light: #252422;
                 --color-cappuccino-border: #3b3936;
                 --text-dark: #f1f1f1;
@@ -197,9 +184,9 @@
 
         .btn-header-donate {
             background-color: var(--primary-orange);
-            color: #ffffff !important;
+            color: var(--btn-primary-text) !important;
             font-size: 0.875rem;
-            font-weight: 600;
+            font-weight: 700;
             padding: 0.45rem 1.1rem;
             border-radius: var(--radius-pill);
             text-decoration: none !important;
@@ -322,10 +309,10 @@
 
         .lang-btn.active {
             background-color: var(--primary-orange);
-            color: #ffffff;
+            color: var(--btn-primary-text);
             font-weight: 600;
             border-color: var(--primary-orange);
-            box-shadow: 0 2px 6px rgba(227, 97, 41, 0.3);
+            box-shadow: 0 2px 6px rgba(192, 69, 20, 0.3);
         }
 
         /* Maintenance Hero Card */
@@ -450,7 +437,7 @@
         }
 
         .donation-header-bar {
-            background: linear-gradient(135deg, #e36129 0%, #f77c48 100%);
+            background: linear-gradient(135deg, #a83808 0%, #c04514 100%);
             color: #ffffff;
             padding: 1.25rem 1.75rem;
             display: flex;
@@ -532,18 +519,19 @@
 
         .tier-btn:hover {
             background-color: var(--primary-orange);
-            color: #ffffff;
+            color: var(--btn-primary-text);
             transform: translateY(-1px);
         }
 
         .tier-btn.featured {
             background-color: var(--primary-orange);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(227, 97, 41, 0.35);
+            color: var(--btn-primary-text);
+            box-shadow: 0 2px 8px rgba(192, 69, 20, 0.35);
         }
 
         .tier-btn.featured:hover {
             background-color: var(--primary-orange-hover);
+            color: var(--btn-primary-text);
         }
 
         .donation-tax-note {
@@ -699,27 +687,27 @@
                 </span>
                 <span style="font-size: 0.75rem; color: var(--text-muted);" id="current-lang-indicator">English</span>
             </div>
-            <div class="language-pills" role="tablist">
-                <button class="lang-btn active" data-lang="en" role="tab" aria-selected="true" onclick="switchLanguage('en')">🇬🇧 English</button>
-                <button class="lang-btn" data-lang="fr" role="tab" aria-selected="false" onclick="switchLanguage('fr')">🇫🇷 Français</button>
-                <button class="lang-btn" data-lang="de" role="tab" aria-selected="false" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
-                <button class="lang-btn" data-lang="nl" role="tab" aria-selected="false" onclick="switchLanguage('nl')">🇳🇱 Nederlands</button>
-                <button class="lang-btn" data-lang="es" role="tab" aria-selected="false" onclick="switchLanguage('es')">🇪🇸 Español</button>
-                <button class="lang-btn" data-lang="it" role="tab" aria-selected="false" onclick="switchLanguage('it')">🇮🇹 Italiano</button>
-                <button class="lang-btn" data-lang="pt" role="tab" aria-selected="false" onclick="switchLanguage('pt')">🇵🇹 Português</button>
+            <div class="language-pills" role="group" aria-label="Languages">
+                <button type="button" class="lang-btn active" data-lang="en" aria-pressed="true" onclick="switchLanguage('en')">🇬🇧 English</button>
+                <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                <button type="button" class="lang-btn" data-lang="de" aria-pressed="false" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                <button type="button" class="lang-btn" data-lang="nl" aria-pressed="false" onclick="switchLanguage('nl')">🇳🇱 Nederlands</button>
+                <button type="button" class="lang-btn" data-lang="es" aria-pressed="false" onclick="switchLanguage('es')">🇪🇸 Español</button>
+                <button type="button" class="lang-btn" data-lang="it" aria-pressed="false" onclick="switchLanguage('it')">🇮🇹 Italiano</button>
+                <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false" onclick="switchLanguage('pt')">🇵🇹 Português</button>
             </div>
         </nav>
 
         <!-- Unscheduled Downtime Hero Card -->
         <section class="hero-card">
             <div class="hero-media">
-                <img src="/502.jpg" alt="Open Food Facts Service Temporarily Unavailable" onerror="this.src='https://static.openfoodfacts.org/images/illustrations/app-icon-in-the-clouds.svg';">
+                <img src="/502.jpg" alt="Open Food Facts Service Temporarily Unavailable" onerror="this.onerror=null; this.src='https://static.openfoodfacts.org/images/illustrations/app-icon-in-the-clouds.svg';">
                 <span class="media-badge">HTTP 502 &bull; Service Unavailable</span>
             </div>
 
             <div class="hero-content">
                 <!-- English Section -->
-                <div class="lang-section active" lang="en" data-lang-code="en">
+                <div class="lang-section active" lang="en">
                     <h1>Open Food Facts Temporarily Unavailable</h1>
                     <p>We are currently experiencing unforeseen technical difficulties. Our services, including the Web platform, mobile app, API, and Producer Platform, are temporarily unavailable.</p>
                     <p>Our engineering team is actively investigating the incident in the <strong>#infrastructure</strong> channel. We apologize for any inconvenience and are working to restore all services as quickly as possible.</p>
@@ -730,7 +718,7 @@
                 </div>
 
                 <!-- French Section -->
-                <div class="lang-section" lang="fr" data-lang-code="fr">
+                <div class="lang-section" lang="fr">
                     <h1>Open Food Facts Temporairement Indisponible</h1>
                     <p>Nous rencontrons actuellement des difficultés techniques imprévues. Nos services, y compris la plateforme Web, l'application mobile, l'API et la plateforme des producteurs, sont temporairement indisponibles.</p>
                     <p>Notre équipe technique enquête activement sur l'incident dans le canal <strong>#infrastructure</strong>. Nous nous excusons pour tout inconvénient et travaillons à rétablir les services dès que possible.</p>
@@ -741,7 +729,7 @@
                 </div>
 
                 <!-- German Section -->
-                <div class="lang-section" lang="de" data-lang-code="de">
+                <div class="lang-section" lang="de">
                     <h1>Open Food Facts Vorübergehend Nicht Verfügbar</h1>
                     <p>Wir erleben derzeit unvorhergesehene technische Schwierigkeiten. Unsere Dienste, einschließlich der Webplattform, der mobilen App, der API und der Produzentenplattform, sind vorübergehend nicht verfügbar.</p>
                     <p>Unser Team untersucht die Störung aktiv im Kanal <strong>#infrastructure</strong>. Wir entschuldigen uns für die Unannehmlichkeiten und arbeiten daran, die Dienste so schnell wie möglich wiederherzustellen.</p>
@@ -752,7 +740,7 @@
                 </div>
 
                 <!-- Dutch Section -->
-                <div class="lang-section" lang="nl" data-lang-code="nl">
+                <div class="lang-section" lang="nl">
                     <h1>Open Food Facts Tijdelijk Niet Beschikbaar</h1>
                     <p>We ondervinden momenteel onvoorziene technische problemen. Onze diensten, inclusief het webplatform, de mobiele app, API en het producentenplatform, zijn tijdelijk niet beschikbaar.</p>
                     <p>Ons team onderzoekt de situatie momenteel in het <strong>#infrastructure</strong>-kanaal. Onze excuses voor het ongemak en we werken eraan om de diensten zo snel mogelijk te herstellen.</p>
@@ -763,10 +751,10 @@
                 </div>
 
                 <!-- Spanish Section -->
-                <div class="lang-section" lang="es" data-lang-code="es">
+                <div class="lang-section" lang="es">
                     <h1>Open Food Facts Temporalmente No Disponible</h1>
                     <p>Actualmente estamos experimentando dificultades técnicas imprevistas. Nuestros servicios, incluyendo la plataforma web, la aplicación móvil, la API y la Plataforma de Productores, están temporalmente no disponibles.</p>
-                    <p>Normalmente investigamos y resolvemos estas incidencias en el canal <strong>#infrastructure</strong>. Nos disculpamos por cualquier inconveniente y estamos trabajando para restaurar los servicios lo antes posible.</p>
+                    <p>Nuestro equipo técnico está investigando activamente la incidencia en el canal <strong>#infrastructure</strong>. Nos disculpamos por cualquier inconveniente y estamos trabajando para restaurar los servicios lo antes posible.</p>
                     <div class="downtime-estimate-box">
                         <span>🚨</span>
                         <span>Estado: <strong>Investigación en curso</strong> &bull; Actualizaciones en #infrastructure</span>
@@ -774,10 +762,10 @@
                 </div>
 
                 <!-- Italian Section -->
-                <div class="lang-section" lang="it" data-lang-code="it">
+                <div class="lang-section" lang="it">
                     <h1>Open Food Facts Temporaneamente Non Disponibile</h1>
                     <p>Attualmente stiamo riscontrando difficoltà tecniche impreviste. I nostri servizi, inclusa la piattaforma Web, l'app mobile, l'API e la piattaforma dei produttori, sono temporaneamente non disponibili.</p>
-                    <p>Di solito indaghiamo su tali errori nel canale <strong>#infrastructure</strong>. Ci scusiamo per l'inconveniente e stiamo lavorando per ripristinare i servizi il prima possibile.</p>
+                    <p>Il nostro team tecnico sta indagando attivamente sull'incidente nel canale <strong>#infrastructure</strong>. Ci scusiamo per l'inconveniente e stiamo lavorando per ripristinare i servizi il prima possibile.</p>
                     <div class="downtime-estimate-box">
                         <span>🚨</span>
                         <span>Stato: <strong>Indagine in corso</strong> &bull; Aggiornamenti nel canale #infrastructure</span>
@@ -785,7 +773,7 @@
                 </div>
 
                 <!-- Portuguese Section -->
-                <div class="lang-section" lang="pt" data-lang-code="pt">
+                <div class="lang-section" lang="pt">
                     <h1>Open Food Facts Temporariamente Indisponível</h1>
                     <p>Estamos atualmente enfrentando dificuldades técnicas imprevistas. Nossos serviços, incluindo a plataforma web, aplicativo móvel, API e Plataforma do Produtor, estão temporariamente indisponíveis.</p>
                     <p>Nossa equipe técnica está investigando ativamente no canal <strong>#infrastructure</strong>. Pedimos desculpas por qualquer inconveniente e estamos trabalhando para restaurar os serviços o mais rápido possível.</p>
@@ -816,8 +804,7 @@
                     variant="campaign"
                     amounts="3,5,10"
                     selected="5"
-                    donate-url="https://donorbox.org/help-open-food-facts-stay-afloat"
-                    news-url="https://raw.githubusercontent.com/openfoodfacts/smooth-app_assets/refs/heads/main/prod/tagline/web/main.json">
+                    donate-url="https://donorbox.org/help-open-food-facts-stay-afloat">
                 </donation-banner>
 
                 <!-- High-fidelity Fallback Card in case web component is loading or blocked -->
@@ -968,26 +955,26 @@
             }
         };
 
-        function switchLanguage(lang) {
+        function switchLanguage(lang, track = true) {
             if (!i18nData[lang]) {
                 lang = 'en';
             }
 
-            // Track language switch in Matomo
-            if (window._paq) {
+            // Track user-initiated language switch in Matomo
+            if (track && window._paq) {
                 window._paq.push(['trackEvent', 'interaction', 'switch_language', lang]);
             }
 
-            // Update language pills
+            // Update language buttons with aria-pressed
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 const isActive = btn.getAttribute('data-lang') === lang;
                 btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
 
-            // Update hero content section
+            // Update hero content section by lang attribute
             document.querySelectorAll('.lang-section').forEach(sec => {
-                const isActive = sec.getAttribute('data-lang-code') === lang;
+                const isActive = sec.getAttribute('lang') === lang;
                 sec.classList.toggle('active', isActive);
             });
 
@@ -1032,7 +1019,7 @@
             }
         }
 
-        // Auto-detect user browser language on first load
+        // Auto-detect user browser language on first load (without logging a user-switch event)
         (function initLanguage() {
             const browserLangs = navigator.languages || [navigator.language || navigator.userLanguage || 'en'];
             let detected = 'en';
@@ -1045,7 +1032,7 @@
                 }
             }
 
-            switchLanguage(detected);
+            switchLanguage(detected, false);
         })();
 
         // Matomo Donation Instrumentation
