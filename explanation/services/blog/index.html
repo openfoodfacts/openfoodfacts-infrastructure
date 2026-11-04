@@ -1850,6 +1850,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-php-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current PHP setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -7535,6 +7552,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../reports/2026-10-22-ovh1-140-blog-bookworm-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10-22 OVH1 140 (blog) Debian Upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../reports/2026-10-26-botnet-scraping-obf-opf-opff/" class="md-nav__link">
         
   
@@ -7657,6 +7702,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-php-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current PHP setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -7699,7 +7761,7 @@
 
 <h2 id="key-points">Key points<a class="headerlink" href="#key-points" title="Permanent link">#</a></h2>
 <p>Open Food Facts blog is based on <a href="https://wordpress.org/">WordPress</a> CMS.</p>
-<p>It is hosted on a Debian 11 server with Apache2, PHP-FPM and MariaDB.</p>
+<p>It is hosted on a Debian 12 (bookworm) server with Apache2, PHP-FPM 8.4 (from <a href="https://deb.sury.org/">Sury</a> repository) and MariaDB.</p>
 <p>It is installed on a LXC container managed by Proxmox VE: CT 140 on ovh1 server.</p>
 <h2 id="good-practices">Good practices<a class="headerlink" href="#good-practices" title="Permanent link">#</a></h2>
 <ul>
@@ -7736,6 +7798,9 @@ systemctl<span class="w"> </span>restart<span class="w"> </span>php7.4-fpm.servi
 dpkg-reconfigure<span class="w"> </span>locales<span class="w"> </span><span class="c1"># choose en_US.UTF-8</span>
 </code></pre></div>
 <p>Installation of Sury repository to get multiple PHP versions and switch between them (2025-11):</p>
+<p><strong>Note:</strong> this setup is obsolete since the <a href="../../../reports/2026-10-22-ovh1-140-blog-bookworm-upgrade/">2026-10-22 bookworm upgrade</a>,
+see <a href="#current-php-setup">Current PHP setup</a> below.
+It is kept as a reference to switch PHP versions with Apache.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Install PHP from Sury repository to get multiple PHP versions</span>
 apt<span class="w"> </span>install<span class="w"> </span>extrepo
 extrepo<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>sury<span class="w"> </span><span class="c1"># we use https://deb.sury.org/ repository to get multiple PHP versions</span>
@@ -7779,6 +7844,29 @@ update-alternatives<span class="w"> </span>--config<span class="w"> </span>php
 
 <span class="c1"># Verify</span>
 php<span class="w"> </span>-v
+</code></pre></div>
+<h3 id="current-php-setup">Current PHP setup<a class="headerlink" href="#current-php-setup" title="Permanent link">#</a></h3>
+<p>Since 2026-10-22 (see <a href="../../../reports/2026-10-22-ovh1-140-blog-bookworm-upgrade/">report</a>):</p>
+<ul>
+<li>Sury repository is configured in <code>/etc/apt/sources.list.d/extrepo_sury.list</code>,
+  with the official keyring <code>/usr/share/keyrings/debsuryorg-archive-keyring.gpg</code>
+  (the Sury signing key expires from time to time: if <code>apt update</code> shows <code>EXPKEYSIG</code>, PHP is not updated anymore!)</li>
+<li>only PHP 8.4 is installed (<code>php8.4-*</code> packages, no generic <code>php-*</code> metapackages,
+  as they follow Sury's default version and would install a newer PHP)</li>
+<li>Apache uses <code>php8.4-fpm</code> configuration (<code>a2enconf php8.4-fpm</code>), <code>fpm-generic</code> is disabled</li>
+<li><code>session.upload_progress</code> is disabled in <code>/etc/php/8.4/{fpm,cli}/conf.d/99-off-disable-upload-progress.ini</code>
+  (mitigation for CVE-2026-109619)</li>
+<li>the container needs <code>features: nesting=1</code> and <code>lxc.cap.drop: "sys_rawio audit_read"</code> (in <code>/etc/pve/lxc/140.conf</code>)
+  for php-fpm to start</li>
+</ul>
+<p>To upgrade to a new PHP version (eg. 8.5):</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>php8.5-<span class="o">{</span>cli,common,curl,fpm,gd,imagick,imap,intl,mbstring,mysql,opcache,readline,xml,zip<span class="o">}</span>
+cp<span class="w"> </span>/etc/php/8.4/fpm/conf.d/99-off-*.ini<span class="w"> </span>/etc/php/8.5/fpm/conf.d/
+<span class="c1"># report php.ini changes (eg. upload_max_filesize)</span>
+a2disconf<span class="w"> </span>php8.4-fpm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>a2enconf<span class="w"> </span>php8.5-fpm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>apache2
+systemctl<span class="w"> </span>stop<span class="w"> </span>php8.4-fpm
+<span class="c1"># when everything is ok</span>
+apt<span class="w"> </span>purge<span class="w"> </span><span class="s1">'^php8\.4.*'</span>
 </code></pre></div>
 <h2 id="staging-environment">Staging environment<a class="headerlink" href="#staging-environment" title="Permanent link">#</a></h2>
 <p>All tests will be made on a staging machine based on proxmox cloning:
