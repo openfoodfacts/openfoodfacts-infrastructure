@@ -49,7 +49,7 @@ In the container, I saved the state and backups:
 
 ```bash
 dpkg -l 'php*' | awk '/^ii/{print $2}' > /root/php-packages-before.txt
-mysqldump --all-databases --single-transaction > /root/all-db-before-bookworm.sql
+mysqldump --all-databases --single-transaction --routines --events > /root/all-db-before-bookworm.sql
 tar czf /root/etc-before-bookworm.tgz /etc
 ```
 
