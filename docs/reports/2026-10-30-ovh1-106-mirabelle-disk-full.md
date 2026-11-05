@@ -101,9 +101,12 @@ usage is ~60-66% and the daily peak stays under 80%.
 
 * `/home/off/mirabelle.bak` (7.7G, a copy from December 2025) could be removed,
   to be checked with Charles.
+  --> removed by Alex
 * `products_daily_update.sh` could store yesterday's CSV line count in a small file
   and remove the CSV files once the import succeeded, to lower the daily peak.
 * add rate limiting (or anubis) for mirabelle on the ovh1 reverse proxy
   to cope with crawlers.
 * other containers on ovh1 running recent Debian may have the same
+* other containers on ovh1 running recent Debian may have the same
   logrotate (`226/NAMESPACE`) problem.
+  
