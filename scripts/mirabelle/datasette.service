@@ -8,6 +8,9 @@ User=off
 Environment=DATASETTE_SECRET=3ffdab10e0919f1760f4cf0e8db999285e860b61ed3294e847e480ab01624148
 WorkingDirectory=/home/off/mirabelle
 ExecStart=/home/off/mirabelle/d-serve.sh
+# uvicorn access log goes to stdout and ends up twice in /var/log (syslog + daemon.log),
+# nginx already logs requests in /var/log/nginx/mirabelle.log; errors still go to stderr
+StandardOutput=null
 Restart=on-failure
 
 [Install]
