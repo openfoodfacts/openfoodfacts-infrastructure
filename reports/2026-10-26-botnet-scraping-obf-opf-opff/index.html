@@ -7555,6 +7555,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#recurrence-2026-11-05-2026-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recurrence: 2026-11-05 / 2026-11-06
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -7686,6 +7697,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#recurrence-2026-11-05-2026-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recurrence: 2026-11-05 / 2026-11-06
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -7779,6 +7801,31 @@ from 1,301 distinct IPs, all GET requests (mostly <code>/cgi</code>, <code>/prod
   (headless browser, ~1,500 requests), and requests coming through
   Cloudflare (<code>2a06:98c0:3600::103</code>, ~1,300 requests).</li>
 </ul>
+<h2 id="recurrence-2026-11-05-2026-11-06">Recurrence: 2026-11-05 / 2026-11-06<a class="headerlink" href="#recurrence-2026-11-05-2026-11-06" title="Permanent link">#</a></h2>
+<p>OBF became unresponsive again. This time the cause was memory, not CPU: the
+obf container (CT 113) kept hitting its 12 GB memory limit. Each apache /
+mod_perl child uses ~1.2 GB, so only ~9 busy children fit.</p>
+<p>On the host:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>c<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">111</span><span class="w"> </span><span class="m">113</span><span class="w"> </span><span class="m">114</span><span class="w"> </span><span class="m">115</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"== </span><span class="nv">$c</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/sys/fs/cgroup/lxc/<span class="nv">$c</span>/memory.pressure<span class="p">;</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"oom|max|high"</span><span class="w"> </span>/sys/fs/cgroup/lxc/<span class="nv">$c</span>/memory.events<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+journalctl<span class="w"> </span>-k<span class="w"> </span>--since<span class="w"> </span><span class="s2">"-10d"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"oom_memcg=/lxc/113"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $1,$2}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>CT 113 had memory <code>full avg300=39%</code> and 2,932 OOM kills (1,791 on Nov 05,
+1,115 on Nov 06, none before), in hour-long bursts. The host itself had
+~80 GB free.</p>
+<p>The botnet had switched to a new fixed set of outdated User-Agents, each
+with ~5,800 of the last 200,000 requests on obf:</p>
+<div class="highlight"><pre><span></span><code>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/(118|119|120).0.0.0 Safari/537.36( Edg/(119|120).0.0.0)?
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/(119|120).0.0.0 Safari/537.36
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:12[01].0) Gecko/20100101 Firefox/12[01].0
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0
+</code></pre></div>
+<p>58% of requests were on <code>/facets/</code>, many with fake referrers on unusual
+language subdomains (<code>world-ku</code>, <code>world-qu</code>, <code>world-km</code>, <code>world-ts</code>...).
+Other heavy crawlers: <code>Amzn-SearchBot</code> (13,570 requests, not matched by the
+existing <code>Amazon</code> pattern), <code>ExaSearchBot</code>, <code>Lightpanda</code> and
+<code>ClearSkinDirectory</code>.</p>
+<p>Resolution: added the new User-Agent set and those crawlers to
+<code>$deny_user_agents</code> in <code>openfoodfacts.org</code>.</p>
 
 
 
