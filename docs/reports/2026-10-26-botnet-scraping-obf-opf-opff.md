@@ -96,3 +96,39 @@ tail -n 5000 /var/log/nginx/openbeautyfacts.org.access-errors.log | awk '{print 
 * Other candidates for `$deny_user_agents` seen on off: `Lightpanda`
   (headless browser, ~1,500 requests), and requests coming through
   Cloudflare (`2a06:98c0:3600::103`, ~1,300 requests).
+
+## Recurrence: 2026-11-05 / 2026-11-06
+
+OBF became unresponsive again. This time the cause was memory, not CPU: the
+obf container (CT 113) kept hitting its 12 GB memory limit. Each apache /
+mod_perl child uses ~1.2 GB, so only ~9 busy children fit.
+
+On the host:
+
+```bash
+for c in 111 113 114 115; do echo "== $c"; cat /sys/fs/cgroup/lxc/$c/memory.pressure; grep -E "oom|max|high" /sys/fs/cgroup/lxc/$c/memory.events; done
+journalctl -k --since "-10d" | grep "oom_memcg=/lxc/113" | awk '{print $1,$2}' | uniq -c
+```
+
+CT 113 had memory `full avg300=39%` and 2,932 OOM kills (1,791 on Nov 05,
+1,115 on Nov 06, none before), in hour-long bursts. The host itself had
+~80 GB free.
+
+The botnet had switched to a new fixed set of outdated User-Agents, each
+with ~5,800 of the last 200,000 requests on obf:
+
+```
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/(118|119|120).0.0.0 Safari/537.36( Edg/(119|120).0.0.0)?
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/(119|120).0.0.0 Safari/537.36
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:12[01].0) Gecko/20100101 Firefox/12[01].0
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0
+```
+
+58% of requests were on `/facets/`, many with fake referrers on unusual
+language subdomains (`world-ku`, `world-qu`, `world-km`, `world-ts`...).
+Other heavy crawlers: `Amzn-SearchBot` (13,570 requests, not matched by the
+existing `Amazon` pattern), `ExaSearchBot`, `Lightpanda` and
+`ClearSkinDirectory`.
+
+Resolution: added the new User-Agent set and those crawlers to
+`$deny_user_agents` in `openfoodfacts.org`.
