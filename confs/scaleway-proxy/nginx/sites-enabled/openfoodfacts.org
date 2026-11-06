@@ -39,12 +39,15 @@ map "$http_user_agent $http_x_user_agent" $whitelist_by_ua {
 # List of User-Agent we forbid access to
 map $http_user_agent $deny_user_agents {
     default 0;
-    ~*Seekport|Ahrefs|DataForSeo|Seznam|ZoomBot|Mojeek|QRbot|Bytespider|SEOkicks|Searchmetrics|MJ12|SurveyBot|SEOdiver|wotbox|Cliqz|Paracrawl|Scrapy|VelenPublicWebCrawler|Semrush|MegaIndex\.ru|YandexMarket|Amazon|GPTBot|ChatGPT-User|PerplexityBot|ClaudeBot|Claude-Web|cohere-ai|anthropic-ai|ImagesiftBot|Diffbot|Timpibot|meta-webindexer|meta-externalagent|Applebot 1;
+    ~*Seekport|Ahrefs|DataForSeo|Seznam|ZoomBot|Mojeek|QRbot|Bytespider|SEOkicks|Searchmetrics|MJ12|SurveyBot|SEOdiver|wotbox|Cliqz|Paracrawl|Scrapy|VelenPublicWebCrawler|Semrush|MegaIndex\.ru|YandexMarket|Amazon|GPTBot|ChatGPT-User|PerplexityBot|ClaudeBot|Claude-Web|cohere-ai|anthropic-ai|ImagesiftBot|Diffbot|Timpibot|meta-webindexer|meta-externalagent|Applebot|Amzn-SearchBot|ExaSearchBot|Lightpanda|ClearSkinDirectory 1;
     ~*MyOFFScraper 1;
     ~*python-requests 1;
     # Distributed botnet (2026-10-26): fixed set of outdated Chrome/Edge User-Agents,
     # ~1 request per IP from residential/cloud proxies, see docs/reports/2026-10-26-botnet-scraping-obf-opf-opff.md
     "~^Mozilla/5\.0 \((Windows NT 10\.0; Win64; x64|Macintosh; Intel Mac OS X 10_15_7)\) AppleWebKit/537\.36 \(KHTML, like Gecko\) Chrome/14[2-5]\.0\.0\.0 Safari/537\.36( Edg/14[2-5]\.0\.0\.0)?$" 1;
+    # 2026-11-05: the same botnet switched to Chrome/Edge 118-120 and Firefox 120-121
+    "~^Mozilla/5\.0 \((Windows NT 10\.0; Win64; x64|Macintosh; Intel Mac OS X 10_15_7)\) AppleWebKit/537\.36 \(KHTML, like Gecko\) Chrome/(11[89]|120)\.0\.0\.0 Safari/537\.36( Edg/(11[89]|120)\.0\.0\.0)?$" 1;
+    "~^Mozilla/5\.0 \((Windows NT 10\.0; Win64; x64|Macintosh; Intel Mac OS X 10\.15); rv:12[01]\.0\) Gecko/20100101 Firefox/12[01]\.0$" 1;
 }
 
 # Allow logged-in users to access facets without being globally
