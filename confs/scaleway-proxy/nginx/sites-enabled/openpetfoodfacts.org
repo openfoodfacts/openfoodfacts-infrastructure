@@ -1,11 +1,3 @@
-# This part allow to create a specific log for errors
-# This will be useful for analysis with fail2ban
-map $status $error_log {
-        default 0;
-        ~^[45]     1;
-}
-
-
 # create zone "opff" for rate limiting 
 limit_req_zone $binary_remote_addr zone=opff:10m rate=240r/m;
 
@@ -66,7 +58,7 @@ server {
         return 403;
     }
 
-    # $deny_user_agents is defined in openfoodfacts.org
+    # $deny_user_agents is defined in conf.d/deny_user_agents.conf
     if ($deny_user_agents = 1) {
         return 403;
     }
