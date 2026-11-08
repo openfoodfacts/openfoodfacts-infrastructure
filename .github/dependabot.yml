@@ -27,3 +27,13 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 30
+  - package-ecosystem: docker-compose
+    directory: "/docker/open-webui"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
+  - package-ecosystem: docker-compose
+    directory: "/docker/padlex"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
