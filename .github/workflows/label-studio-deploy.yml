@@ -32,7 +32,7 @@ jobs:
           echo "SSH_USERNAME=off" >> $GITHUB_ENV
 
       - name: Checkout git repository
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USERNAME }}
@@ -55,7 +55,7 @@ jobs:
             git checkout -qf ${{ github.sha }}
 
       - name: Set environment variables
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USERNAME }}
@@ -85,7 +85,7 @@ jobs:
             echo "LABEL_STUDIO_EXPOSE=9094" >> .env
 
       - name: Create external Docker volumes
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USERNAME }}
@@ -99,7 +99,7 @@ jobs:
             make create_external_volumes
 
       - name: Start services
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USERNAME }}
@@ -114,7 +114,7 @@ jobs:
             make up
 
       - name: Check services are up
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         if: ${{ always() }}
         id: livecheck
         with:
@@ -139,7 +139,7 @@ jobs:
             exit $exit_code;
 
       - name: Cleanup obsolete Docker objects
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         if: ${{ always() }}
         with:
           host: ${{ env.SSH_HOST }}
