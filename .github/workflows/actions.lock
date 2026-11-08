@@ -11,20 +11,20 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'jamesives/github-pages-deploy-action@v4.9.0'
     '.github/workflows/github-projects.yml':
-        - 'actions/add-to-project@main'
+        - 'actions/add-to-project@v2.0.1'
     '.github/workflows/label-studio-deploy.yml':
-        - 'appleboy/ssh-action@master'
+        - 'appleboy/ssh-action@v1.2.5'
     '.github/workflows/label.yml':
         - 'actions/labeler@v7.0.0'
     '.github/workflows/metrics-deploy.yml':
-        - 'appleboy/ssh-action@master'
+        - 'appleboy/ssh-action@v1.2.5'
     '.github/workflows/semantic-pr.yml':
         - 'amannn/action-semantic-pull-request@v6.1.2'
     '.github/workflows/top-issues.yml':
         - 'rickstaa/top-issues-action@v1.3.101'
 dependencies:
-    'actions/add-to-project@main':
-        ref: 'main'
+    'actions/add-to-project@v2.0.1':
+        ref: 'v2.0.1'
         commit: 'sha1-f2c1f1fa649a891be84948ea89b5dfba1526ef05'
         owner_id: 44036562
         repo_id: 454132203
@@ -43,9 +43,9 @@ dependencies:
         commit: 'sha1-2252a14e810aa9b85c2d560bd7070c802206ecf6'
         owner_id: 4038316
         repo_id: 220418983
-    'appleboy/ssh-action@master':
-        ref: 'master'
-        commit: 'sha1-c4f70287fc37c43b14b30b407224bbbc8e8c6327'
+    'appleboy/ssh-action@v1.2.5':
+        ref: 'v1.2.5'
+        commit: 'sha1-0ff4204d59e8e51228ff73bce53f80d53301dee2'
         owner_id: 21979
         repo_id: 186202082
     'jamesives/github-pages-deploy-action@v4.9.0':
