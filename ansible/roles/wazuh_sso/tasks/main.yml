@@ -13,7 +13,9 @@
   ansible.builtin.get_url:
     url: "{{ wazuh_sso_idp_descriptor_url }}"
     dest: "{{ wazuh_sso_security_dir }}/idp-metadata.xml"
-    owner: wazuh-indexer
+    # Root-owned like every other file the package checks: the
+    # pre-start file check refuses anything else as UNSAFE.
+    owner: root
     group: wazuh-indexer
     mode: "0640"
   notify: Reload indexer security configuration
@@ -22,7 +24,8 @@
   ansible.builtin.template:
     src: sp-metadata.xml.j2
     dest: "{{ wazuh_sso_security_dir }}/sp-metadata.xml"
-    owner: wazuh-indexer
+    # See above: root-owned, or the pre-start check fails.
+    owner: root
     group: wazuh-indexer
     mode: "0640"
   notify: Reload indexer security configuration
@@ -49,26 +52,11 @@
     path: "{{ wazuh_sso_security_dir }}/config.yml"
     marker: "# {mark} WAZUH SSO SAML"
     insertafter: '(?m)^ {10}type: "?intern"?\s*$'
-    block: |-
-      saml_auth_domain:
-        http_enabled: true
-        transport_enabled: false
-        order: 1
-        http_authenticator:
-          type: saml
-          challenge: true
-          config:
-            idp:
-              metadata_file: '{{ wazuh_sso_security_dir }}/idp-metadata.xml'
-              entity_id: '{{ wazuh_sso_idp_entity_id }}'
-            sp:
-              entity_id: {{ wazuh_sso_sp_entity_id }}
-              metadata_file: '{{ wazuh_sso_security_dir }}/sp-metadata.xml'
-            kibana_url: {{ wazuh_sso_dashboard_url }}
-            roles_key: {{ wazuh_sso_roles_key }}
-            exchange_key: '{{ wazuh_sso_exchange_key }}'
-        authentication_backend:
-          type: noop
+    # NB: the stanza must sit at 6 spaces, as a sibling of the other auth
+    # domains under authc:. A YAML literal block cannot do that (its first
+    # line always lands on column 0), so the stanza lives in a template and
+    # is indented into place with the indent filter.
+    block: "{{ lookup('ansible.builtin.template', 'saml-auth-domain.yml.j2') | indent(6, true) }}"
   no_log: true
   notify: Reload indexer security configuration
 
@@ -78,6 +66,15 @@
     path: "{{ wazuh_sso_dashboard_conf }}"
     regexp: '^opensearch_security\.auth\.type:'
     line: 'opensearch_security.auth.type: ["basicauth","saml"]'
+  notify: Restart wazuh-dashboard
+
+# Required whenever auth.type lists more than one mode; without it the
+# dashboard refuses to start (FATAL: Multiple Authentication Mode...).
+- name: SSO | Dashboard multiple auth mode
+  ansible.builtin.lineinfile:
+    path: "{{ wazuh_sso_dashboard_conf }}"
+    regexp: '^opensearch_security\.auth\.multiple_auth_enabled:'
+    line: 'opensearch_security.auth.multiple_auth_enabled: true'
   notify: Restart wazuh-dashboard
 
 - name: SSO | Dashboard XSRF allowlist for SAML endpoints
@@ -97,14 +94,47 @@
     replace: '\1true'
   notify: Restart wazuh-dashboard
 
+# The rolesmapping API calls below need the indexer up, and a previous
+# run may have left it stopped (e.g. after an UNSAFE refusal). Starting
+# it here also runs the package pre-start checks against the fixed files.
+- name: SSO | Ensure the indexer is started
+  ansible.builtin.service:
+    name: wazuh-indexer
+    state: started
+
+# The service reports started long before the API answers: OpenSearch
+# returns 503 while the JVM boots. Wait like the indexer role does
+# (roles/wazuh-indexer/tasks/main.yml), single node is yellow by design.
+- name: SSO | Wait for the indexer API
+  ansible.builtin.uri:
+    url: "https://{{ private_ip }}:9200/_cat/health/"
+    user: admin
+    password: "{{ wazuh_credentials_overrides.WAZUH_INDEXER_ADMIN_PASSWORD }}"
+    force_basic_auth: true
+    validate_certs: false
+    return_content: true
+    status_code: [200, 401]
+  register: wazuh_sso_indexer_health
+  until: >-
+    wazuh_sso_indexer_health.content is defined
+    and ('green' in wazuh_sso_indexer_health.content
+         or 'yellow' in wazuh_sso_indexer_health.content)
+  retries: 24
+  delay: 5
+  no_log: true
+
 - name: SSO | Read current role mappings
   ansible.builtin.uri:
     url: "https://{{ private_ip }}:9200/_plugins/_security/api/rolesmapping/{{ item.role }}"
     method: GET
     user: admin
     password: "{{ wazuh_credentials_overrides.WAZUH_INDEXER_ADMIN_PASSWORD }}"
+    force_basic_auth: true
     validate_certs: false
     return_content: true
+    # A missing mapping is not an error: the PUT below creates it.
+    # (Fresh clusters have no readall mapping, for example.)
+    status_code: [200, 404]
   loop: "{{ wazuh_sso_role_mappings }}"
   register: wazuh_sso_mappings_current
   no_log: true
@@ -116,14 +146,17 @@
     method: PUT
     user: admin
     password: "{{ wazuh_credentials_overrides.WAZUH_INDEXER_ADMIN_PASSWORD }}"
+    force_basic_auth: true
     validate_certs: false
     body_format: json
     body:
-      backend_roles: "{{ ((item.json[item.item.role].backend_roles | default([])) + item.item.backend_roles) | unique }}"
-      hosts: "{{ item.json[item.item.role].hosts | default([]) }}"
-      users: "{{ item.json[item.item.role].users | default([]) }}"
+      backend_roles: "{{ ((current.backend_roles | default([])) + item.item.backend_roles) | unique }}"
+      hosts: "{{ current.hosts | default([]) }}"
+      users: "{{ current.users | default([]) }}"
     status_code: [200, 201]
   loop: "{{ wazuh_sso_mappings_current.results }}"
+  vars:
+    current: "{{ item.json[item.item.role] | default({}) }}"
   when: >-
-    (item.item.backend_roles | difference(item.json[item.item.role].backend_roles | default([])) | length) > 0
+    (item.item.backend_roles | difference(current.backend_roles | default([])) | length) > 0
   no_log: true

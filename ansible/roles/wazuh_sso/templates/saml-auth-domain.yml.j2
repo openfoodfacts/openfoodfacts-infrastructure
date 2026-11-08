@@ -1,0 +1,22 @@
+{# SAML auth domain for the Wazuh indexer (config.yml, under authc:).
+   Rendered into place by the "SSO | Add saml_auth_domain" task, which
+   indents it to level 6 via the indent filter. -#}
+saml_auth_domain:
+  http_enabled: true
+  transport_enabled: false
+  order: 1
+  http_authenticator:
+    type: saml
+    challenge: true
+    config:
+      idp:
+        metadata_file: '{{ wazuh_sso_security_dir }}/idp-metadata.xml'
+        entity_id: '{{ wazuh_sso_idp_entity_id }}'
+      sp:
+        entity_id: {{ wazuh_sso_sp_entity_id }}
+        metadata_file: '{{ wazuh_sso_security_dir }}/sp-metadata.xml'
+      kibana_url: {{ wazuh_sso_dashboard_url }}
+      roles_key: {{ wazuh_sso_roles_key }}
+      exchange_key: '{{ wazuh_sso_exchange_key }}'
+  authentication_backend:
+    type: noop
