@@ -12,18 +12,18 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-  - package-ecosystem: docker
+  - package-ecosystem: docker-compose
     directory: "/docker/argilla"
     schedule:
-      interval: weekly
+      interval: "weekly"
     open-pull-requests-limit: 30
-  - package-ecosystem: docker
+  - package-ecosystem: docker-compose
     directory: "/docker/label-studio"
     schedule:
-      interval: weekly
+      interval: "weekly"
     open-pull-requests-limit: 30
-  - package-ecosystem: docker
+  - package-ecosystem: docker-compose
     directory: "/docker/metrics"
     schedule:
-      interval: weekly
+      interval: "weekly"
     open-pull-requests-limit: 30
