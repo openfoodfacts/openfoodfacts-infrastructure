@@ -1,6 +1,6 @@
 services:
   argilla:
-    image: argilla/argilla-server:v1.29.0
+    image: argilla/argilla-server:v2.8.0
     restart: unless-stopped
     ports:
       - "${APP_EXPOSE}:6900"
