@@ -1,7 +1,7 @@
 services:
   openwebui:
     restart: always
-    image: ghcr.io/open-webui/open-webui:0.9.2
+    image: ghcr.io/open-webui/open-webui:v0.13.2
     ports:
       - "6010:8080"
     volumes:
