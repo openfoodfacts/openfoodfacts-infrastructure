@@ -29,7 +29,7 @@ services:
       - argilla_tmp:/tmp
       - argilla_tmp:/var/tmp
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.6
     environment:
       - node.name=elasticsearch
       - cluster.name=es-argilla-local
