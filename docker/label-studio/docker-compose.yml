@@ -3,7 +3,7 @@
 services:
   app:
     restart: $RESTART_POLICY
-    image: heartexlabs/label-studio:1.22.0
+    image: heartexlabs/label-studio:1.23.2
     ports:
       - "${LABEL_STUDIO_EXPOSE:-127.0.0.1:8080}:8080"
     depends_on:
