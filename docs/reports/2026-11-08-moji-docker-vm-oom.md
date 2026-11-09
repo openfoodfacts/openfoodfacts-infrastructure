@@ -42,7 +42,7 @@ root@osm45:~# qm status 200
 status: stopped
 ```
 
-The host journal shows the cause:
+The host journal (osm45 is on UTC) shows the cause:
 
 ```
 Nov 08 00:50:21 osm45 kernel: nfsd invoked oom-killer: gfp_mask=0x100cc0(GFP_USER), order=0, oom_score_adj=0
@@ -72,7 +72,7 @@ the VM's RAM is backed by shared memory (see `shmem-rss` above).
 This memory cannot be reclaimed or ballooned by the host,
 so the whole 100 GB is effectively pinned once the guest has touched it.
 
-The OOM was triggered by nfsd (the backups NFS share served by osm45) around 00:50,
+The OOM was triggered by nfsd (the backups NFS share served by osm45) around 00:50 UTC,
 when the ARC was full and the VM was using its full memory.
 
 ## Resolution
