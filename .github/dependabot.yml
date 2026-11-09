@@ -3,7 +3,6 @@
 version: 2
 
 updates:
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -25,20 +24,32 @@ updates:
       prefix: "chore"
       include: "scope"
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: docker-compose
     directory: "/docker/argilla"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 30
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: docker-compose
     directory: "/docker/label-studio"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 30
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: docker-compose
     directory: "/docker/metrics"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
+
+  - package-ecosystem: docker-compose
+    directory: "/docker/open-webui"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
+
+  - package-ecosystem: docker-compose
+    directory: "/docker/padlex"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 30
