@@ -1,0 +1,24 @@
+---
+- name: Agent groups | Ensure the group directory exists
+  ansible.builtin.file:
+    path: "{{ wazuh_agent_groups_shared_dir }}/{{ item.key }}"
+    state: directory
+    owner: wazuh-manager
+    group: wazuh-manager
+    mode: "0700"
+  loop: "{{ wazuh_agent_groups_config | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Agent groups | Deploy the shared agent.conf
+  ansible.builtin.template:
+    src: agent.conf.j2
+    dest: "{{ wazuh_agent_groups_shared_dir }}/{{ item.key }}/agent.conf"
+    owner: wazuh-manager
+    group: wazuh-manager
+    mode: "0660"
+  loop: "{{ wazuh_agent_groups_config | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    rootcheck_ignores: "{{ item.value.rootcheck_ignores | default([]) }}"

@@ -190,6 +190,64 @@ centres (being replaced by WireGuard), so no additional firewall rules are
 needed for the proof of concept: those addresses fall inside `10.0.0.0/8`,
 which `group_vars/all/common.yml` already whitelists in the `iptables` role.
 
+## Agent groups
+
+Agents inherit shared configuration from agent groups on the manager. Group
+files live in `/etc/wazuh-manager/shared/<group>/agent.conf` and are managed
+as code by the `wazuh_agent_groups` role (`ansible/wazuh-groups.yml`, runs
+after `wazuh.yml`). The manager generates `merged.mg` itself and agents pull
+it automatically; no manager restart is needed after a change. Assigning
+agents *to* groups stays a manager-side state change (dashboard UI or
+`agent_groups` on the manager) and is deliberately not automated.
+
+### `lxc`: LXC container agents
+
+LXC exposes runtime mounts under `/dev/.lxc`, which rootcheck's `check_dev`
+reports as suspicious files. Container agents therefore get:
+
+```xml
+<agent_config>
+  <rootcheck>
+    <ignore type="sregex">^/dev/.lxc/|^/dev/.lxc$</ignore>
+  </rootcheck>
+</agent_config>
+```
+
+Two `sregex` lessons from debugging this rule, both still true because the
+matcher is unchanged since the OSSec era:
+
+* There are no escapes: `^/dev/\.lxc/` never matches, the backslash is taken
+  literally. A `.` is already literal, so just write it.
+* `|` separates alternatives and matching is case-insensitive on Linux. The
+  first branch covers everything *under* the directory, the second (`$`)
+  the directory entry itself.
+
+### `etckeeper`: etckeeper-managed hosts (proposed)
+
+`ct_postinstall` installs etckeeper on every container, and the Proxmox hosts
+run it too — so `/etc/.git` exists (almost) everywhere. Rootcheck's
+`check_sys` flags hidden directories, which makes every etckeeper host noisy.
+The proposed group for those hosts:
+
+```xml
+<agent_config>
+  <rootcheck>
+    <ignore type="sregex">^/etc/.git/|^/etc/.git$</ignore>
+  </rootcheck>
+</agent_config>
+```
+
+Trade-off, stated openly: this blinds rootcheck to the whole etckeeper
+repository, not just its noise. Acceptable for the PoC because `/etc` content
+changes remain covered by FIM and by etckeeper's own git history — but it is a
+conscious weakening, not a free lunch.
+
+PVE hosts need extra care if enrolled: `/etc/pve` is pmxcfs (a shared FUSE
+filesystem, see the [etckeeper-on-PVE discussion](https://forum.proxmox.com/threads/proxmox-and-etckeeper.147040/#post-868198)),
+whose odd permissions and cross-node visibility are rootcheck bait. Do not
+pre-emptively ignore it; enroll one host, look at what actually alerts, then
+decide.
+
 ## Growing beyond a single node
 
 `wazuh-aio.yml` hardcodes `single_node: true`, so moving to a real distributed

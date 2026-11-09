@@ -1,0 +1,28 @@
+---
+# Centralized agent configuration (agent groups) as code.
+#
+# wazuh-ansible does not manage agent groups, so this role owns
+# /etc/wazuh-manager/shared/<group>/agent.conf. The manager generates
+# merged.mg itself and agents pull it automatically; no manager restart
+# is required after a change. Groups not listed here are left alone.
+#
+# Run after ansible/wazuh.yml:
+#   ansible-playbook wazuh-groups.yml -l wazuh
+
+wazuh_agent_groups_shared_dir: /etc/wazuh-manager/shared
+
+# Per group, the rootcheck ignore patterns (sregex: no escapes, a dot is
+# already literal, "|" separates alternatives). Extend the template when a
+# group needs more than rootcheck ignores.
+wazuh_agent_groups_config:
+  # LXC exposes runtime mounts under /dev/.lxc, which check_dev reports.
+  lxc:
+    rootcheck_ignores:
+      - ^/dev/.lxc/|^/dev/.lxc$
+  # etckeeper-managed hosts (our ct_postinstall installs it everywhere,
+  # PVE hosts run it too) get /etc/.git flagged by check_sys.
+  # Trade-off: blinds rootcheck to the etckeeper repo; /etc changes stay
+  # covered by FIM and etckeeper's own history.
+  etckeeper:
+    rootcheck_ignores:
+      - ^/etc/.git/|^/etc/.git$

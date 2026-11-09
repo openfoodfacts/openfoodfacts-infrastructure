@@ -1,0 +1,18 @@
+# Centralized agent configuration (agent groups) for the Wazuh proof of
+# concept. wazuh-ansible does not manage agent groups, so this playbook
+# layers them on top of a deployed stack. It runs after ansible/wazuh.yml:
+#
+#   ansible-playbook wazuh.yml -l wazuh
+#   ansible-playbook wazuh-groups.yml -l wazuh
+#
+# Every task is idempotent. Assigning agents *to* groups stays a manual
+# manager-side step (dashboard UI or agent_groups CLI), see
+# roles/wazuh_agent_groups/README.md.
+---
+- name: Wazuh agent groups
+  hosts: aio
+  gather_facts: false
+  become: true
+  roles:
+    - role: wazuh_agent_groups
+      tags: ["wazuh", "groups"]

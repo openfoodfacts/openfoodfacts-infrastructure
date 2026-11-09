@@ -1,4 +1,4 @@
-# wazuh_sso — Keycloak SAML SSO for Wazuh
+# wazuh_sso role — Keycloak SAML SSO for Wazuh
 
 Layers SAML authentication on top of the stack deployed by `wazuh.yml`.
 wazuh-ansible has no SSO support, so this role manages only the SSO

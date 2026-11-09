@@ -1,0 +1,10 @@
+<agent_config>
+  <!-- Managed by Ansible (wazuh_agent_groups role). Manual edits are overwritten. -->
+{% if rootcheck_ignores %}
+  <rootcheck>
+{% for pattern in rootcheck_ignores %}
+    <ignore type="sregex">{{ pattern }}</ignore>
+{% endfor %}
+  </rootcheck>
+{% endif %}
+</agent_config>
