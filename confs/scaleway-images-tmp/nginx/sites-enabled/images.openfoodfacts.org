@@ -110,6 +110,9 @@ server {
 		try_files		$uri @proxy2;
 		sendfile		on;
 		sendfile_max_chunk	1m;
+		# offload file reads to a thread pool (see thread_pool in nginx.conf)
+		# so that a slow HDD read does not block the whole worker
+		aio			threads;
 		tcp_nopush		on;
 
 	        add_header Link "<http://creativecommons.org/licenses/by-sa/3.0/>; rel='license'; title='CC-BY-SA 3.0'";
