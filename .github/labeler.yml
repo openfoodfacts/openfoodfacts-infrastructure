@@ -1,21 +1,24 @@
-# Add labels to any any pull request with changes to the specified paths
+# Add labels to any pull request with changes to the specified paths
 
 # Pull requests that update GitHub Actions code. If you navigate to the folder, you will have a README of what it does
 GitHub Actions:
 - changed-files:
   - any-glob-to-any-file: '.github/**/*'
 
+"📚 documentation":
+- changed-files:
+  - any-glob-to-any-file: 'docs/**/*'
+  - any-glob-to-any-file: 'mkdocs.yml'
+  - any-glob-to-any-file: 'README.md'
+
 "🪦 postmortems":
 - changed-files:
   - any-glob-to-any-file: 'docs/reports/**/*'
 
-openfoodfacts-query:
+# Hosts, servers, and cloud providers
+off1:
 - changed-files:
-  - any-glob-to-any-file: 'docs/openfoodfacts-query.md'
-
-argilla:
-- changed-files:
-  - any-glob-to-any-file: 'docker/argilla/docker-compose.yml'
+  - any-glob-to-any-file: '**/*off1*'
 
 off2:
 - changed-files:
@@ -24,10 +27,6 @@ off2:
 osm45:
 - changed-files:
   - any-glob-to-any-file: '**/*osm45*'
-
-off1:
-- changed-files:
-  - any-glob-to-any-file: '**/*off1*'
 
 ks1:
 - changed-files:
@@ -49,6 +48,10 @@ moji:
 - changed-files:
   - any-glob-to-any-file: '**/*moji*'
 
+hetzner:
+- changed-files:
+  - any-glob-to-any-file: '**/*[Hh]etzner*'
+
 hetzner-01:
 - changed-files:
   - any-glob-to-any-file: '**/*hetzner-01*'
@@ -57,34 +60,43 @@ hetzner-02:
 - changed-files:
   - any-glob-to-any-file: '**/*hetzner-02*'
 
+scaleway:
+- changed-files:
+  - any-glob-to-any-file: '**/*scaleway*'
+
+scaleway-01:
+- changed-files:
+  - any-glob-to-any-file: '**/*scaleway-01*'
+
+scaleway-04:
+- changed-files:
+  - any-glob-to-any-file: '**/*scaleway-04*'
+
+scaleway-05:
+- changed-files:
+  - any-glob-to-any-file: '**/*scaleway-05*'
+
 monitoring-01:
 - changed-files:
   - any-glob-to-any-file: '**/*monitoring-01*'
 
-google-cloud:
+google cloud:
 - changed-files:
-  - any-glob-to-any-file: '**/*google-cloud.md'
+  - any-glob-to-any-file: 'docs/reference/gcp-servers.md'
+  - any-glob-to-any-file: '**/*gcp*'
 
-"🔒 SSL":
+# Projects and services
+openfoodfacts-query:
 - changed-files:
-  - any-glob-to-any-file: '**/*ssl*'
+  - any-glob-to-any-file: '**/*openfoodfacts-query*'
 
-"🐳 docker":
+argilla:
 - changed-files:
-  - any-glob-to-any-file: '**/*docker*'
-
-"📨 email":
-- changed-files:
-  - any-glob-to-any-file: 'docs/mail.md'
-  - any-glob-to-any-file: 'confs/common/systemd/system/email-failures@.service'
+  - any-glob-to-any-file: 'docker/argilla/**/*'
 
 "📈 Matomo":
 - changed-files:
-  - any-glob-to-any-file: 'docs/matomo.md'
-
-postgres:
-- changed-files:
-  - any-glob-to-any-file: '**/*postgres*'
+  - any-glob-to-any-file: '**/*matomo*'
 
 blog:
 - changed-files:
@@ -93,18 +105,19 @@ blog:
 forum:
 - changed-files:
   - any-glob-to-any-file: '**/*forum*'
+  - any-glob-to-any-file: '**/*discourse*'
 
-proxmox:
+wiki:
 - changed-files:
-  - any-glob-to-any-file: '**/*proxmox*'
+  - any-glob-to-any-file: '**/*wiki*'
+
+zammad:
+- changed-files:
+  - any-glob-to-any-file: '**/*zammad*'
 
 "🧴 Open Beauty Facts":
 - changed-files:
   - any-glob-to-any-file: '**/*obf*'
-
-"🪶 Apache":
-- changed-files:
-  - any-glob-to-any-file: '**/*apache*'
 
 Keycloak:
 - changed-files:
@@ -114,6 +127,15 @@ Odoo:
 - changed-files:
   - any-glob-to-any-file: '**/*odoo*'
 
+Superset:
+- changed-files:
+  - any-glob-to-any-file: '**/*superset*'
+
+datasette:
+- changed-files:
+  - any-glob-to-any-file: '**/*datasette*'
+  - any-glob-to-any-file: 'scripts/mirabelle/**/*'
+
 "🏷️ Folksonomy Project":
 - changed-files:
   - any-glob-to-any-file: '**/*folksonomy*'
@@ -122,8 +144,163 @@ Odoo:
 "📸 Open Products Facts":
 - changed-files:
   - any-glob-to-any-file: '**/*openproductsfacts*'
+  - any-glob-to-any-file: 'ansible/host_vars/opf/**/*'
 
-"🔭 observability":
+"🐾 Open Pet Food Facts":
 - changed-files:
-  - any-glob-to-any-file: 'docs/observability.md'
-  
+  - any-glob-to-any-file: '**/*openpetfoodfacts*'
+  - any-glob-to-any-file: '**/*opff*'
+
+"Product Opener":
+- changed-files:
+  - any-glob-to-any-file: '**/*product-opener*'
+  - any-glob-to-any-file: '**/*product_opener*'
+
+"recipe estimator":
+- changed-files:
+  - any-glob-to-any-file: '**/*recipe-estimator*'
+
+"Slack onboarding":
+- changed-files:
+  - any-glob-to-any-file: '**/*slackin*'
+
+"Producers platform":
+- changed-files:
+  - any-glob-to-any-file: '**/*producers*'
+
+"pro platform":
+- changed-files:
+  - any-glob-to-any-file: 'ansible/host_vars/off-pro/**/*'
+
+# Software, infrastructure, and tooling
+ansible:
+- changed-files:
+  - any-glob-to-any-file: 'ansible/**/*'
+  - any-glob-to-any-file: 'docs/ansible/**/*'
+  - any-glob-to-any-file: '.github/workflows/ansible.yml'
+
+Proxmox:
+- changed-files:
+  - any-glob-to-any-file: '**/*proxmox*'
+  - any-glob-to-any-file: '**/*pve*'
+
+"🔒 SSL":
+- changed-files:
+  - any-glob-to-any-file: '**/*ssl*'
+  - any-glob-to-any-file: '**/*certbot*'
+
+"🐳 docker":
+- changed-files:
+  - any-glob-to-any-file: '**/*docker*'
+
+docker_compose:
+- changed-files:
+  - any-glob-to-any-file: '**/*docker-compose*'
+
+"📨 email":
+- changed-files:
+  - any-glob-to-any-file: 'docs/explanation/mail.md'
+  - any-glob-to-any-file: '**/*email*'
+  - any-glob-to-any-file: 'ansible/roles/nullmailer/**/*'
+
+postgres:
+- changed-files:
+  - any-glob-to-any-file: '**/*postgres*'
+
+redis:
+- changed-files:
+  - any-glob-to-any-file: '**/*redis*'
+
+mongodb:
+- changed-files:
+  - any-glob-to-any-file: '**/*mongo*'
+
+"🪶 Apache":
+- changed-files:
+  - any-glob-to-any-file: '**/*apache*'
+
+NGINX:
+- changed-files:
+  - any-glob-to-any-file: '**/*nginx*'
+
+anubis:
+- changed-files:
+  - any-glob-to-any-file: '**/*anubis*'
+
+stunnel:
+- changed-files:
+  - any-glob-to-any-file: '**/*stunnel*'
+
+"proxy server":
+- changed-files:
+  - any-glob-to-any-file: '**/*proxy*'
+
+systemd:
+- changed-files:
+  - any-glob-to-any-file: '**/*systemd*'
+
+ZFS:
+- changed-files:
+  - any-glob-to-any-file: '**/*zfs*'
+  - any-glob-to-any-file: '**/*sanoid*'
+
+snapshots:
+- changed-files:
+  - any-glob-to-any-file: '**/*sanoid*'
+  - any-glob-to-any-file: '**/*snapshot*'
+
+SFTP:
+- changed-files:
+  - any-glob-to-any-file: '**/*sftp*'
+
+observability:
+- changed-files:
+  - any-glob-to-any-file: 'docs/explanation/observability.md'
+
+monitoring:
+- changed-files:
+  - any-glob-to-any-file: '**/*monitoring*'
+  - any-glob-to-any-file: 'docker/metrics/**/*'
+
+prometheus:
+- changed-files:
+  - any-glob-to-any-file: '**/*prometheus*'
+
+Grafana:
+- changed-files:
+  - any-glob-to-any-file: '**/*grafana*'
+  - any-glob-to-any-file: 'docker/metrics/**/*'
+
+influxdb:
+- changed-files:
+  - any-glob-to-any-file: '**/*influxdb*'
+
+GPU:
+- changed-files:
+  - any-glob-to-any-file: '**/*gpu*'
+
+OCRs:
+- changed-files:
+  - any-glob-to-any-file: 'docker/paddlex/**/*'
+
+backup:
+- changed-files:
+  - any-glob-to-any-file: '**/*backup*'
+
+disks:
+- changed-files:
+  - any-glob-to-any-file: '**/*disk*'
+
+logs:
+- changed-files:
+  - any-glob-to-any-file: 'docs/reference/logs/**/*'
+  - any-glob-to-any-file: '**/*logrotate*'
+
+"downtime experience":
+- changed-files:
+  - any-glob-to-any-file: 'html/**/*'
+
+scripts:
+- changed-files:
+  - any-glob-to-any-file: 'scripts/**/*'
+  - any-glob-to-any-file: 'utils/**/*'
