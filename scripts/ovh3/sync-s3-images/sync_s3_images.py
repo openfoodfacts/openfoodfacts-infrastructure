@@ -81,31 +81,35 @@ def get_sync_filepaths(
     :param ds: product dataset
     """
     for item in ds:
-        barcode = item["code"]
+        barcode = item.get("code")
         if not barcode:
             continue
-        product_path = generate_product_path(barcode)
-        product_dir = Path(product_path)
-        full_product_dir = base_dir / product_dir
-        images = convert_to_legacy_schema(item.get("images", {}))
+        try:
+            product_path = generate_product_path(barcode)
+            product_dir = Path(product_path)
+            full_product_dir = base_dir / product_dir
+            images = convert_to_legacy_schema(item.get("images", {}))
 
-        for image_id in images.keys():
-            if not image_id.isdigit():
-                # Ignore selected image keys
-                continue
-
-            # Only synchronize raw and 400px version of images
-            for image_name in (f"{image_id}.jpg", f"{image_id}.400.jpg"):
-                full_image_path = full_product_dir / image_name
-                if not full_image_path.is_file():
-                    logger.warning("image %s not found", full_image_path)
+            for image_id in images.keys():
+                if not image_id.isdigit():
+                    # Ignore selected image keys
                     continue
-                yield barcode, product_dir / image_name
 
-            # Synchronize OCR JSON if it exists
-            ocr_file_name = f"{image_id}.json.gz"
-            if (full_product_dir / ocr_file_name).is_file():
-                yield barcode, product_dir / ocr_file_name
+                # Only synchronize raw and 400px version of images
+                for image_name in (f"{image_id}.jpg", f"{image_id}.400.jpg"):
+                    full_image_path = full_product_dir / image_name
+                    if not full_image_path.is_file():
+                        logger.warning("image %s not found", full_image_path)
+                        continue
+                    yield barcode, product_dir / image_name
+
+                # Synchronize OCR JSON if it exists
+                ocr_file_name = f"{image_id}.json.gz"
+                if (full_product_dir / ocr_file_name).is_file():
+                    yield barcode, product_dir / ocr_file_name
+        except Exception:
+            # don't fail for a single products
+            log.exception("Error while processing product %s", barcode)
 
 
 def run(
